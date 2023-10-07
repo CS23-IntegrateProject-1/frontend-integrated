@@ -23,7 +23,8 @@ export const Navbar = () => {
       <Box>Harmoni</Box>
       <HamburgerIcon width={"24px"} height={"24px"} onClick={handleOpenNav} />
 
-      <Box position={"absolute"} >
+      <Box position={"absolute"} top={"0"} left={"0"}
+      >
         <NavbarContent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
       </Box>
     </Flex>
