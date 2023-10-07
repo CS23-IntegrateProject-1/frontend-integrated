@@ -1,8 +1,8 @@
-import '@fontsource/poppins';
+import '@fontsource/roboto'
 
 export default {
   fonts: {
-    heading: "Poppins, sans-serif",
-    body: "Poppins, sans-serif",
+    heading: "Matiott Elegant, sans-serif",
+    body: "Roboto, sans-serif",
   },
 };
