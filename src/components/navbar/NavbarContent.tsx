@@ -1,15 +1,15 @@
 import {
   Box,
   IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  // Modal,
+  // ModalBody,
+  // ModalCloseButton,
+  // ModalContent,
+  // ModalFooter,
+  // ModalHeader,
+  // ModalOverlay,
   Stack,
-  useDisclosure,
+  // useDisclosure,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
@@ -22,7 +22,7 @@ interface NavbarContentProps {
 
 export const NavbarContent: FC<NavbarContentProps> = ({
   isOpen,
-  onOpen,
+  // onOpen,
   onClose,
 }) => {
   return (

@@ -5,6 +5,8 @@ import fonts from "./typography/fonts";
 // import components from './components';
 // import typography from './typography';
 
+console.log(defaultTheme);
+
 const theme = extendTheme({
   ...fonts,
   ...foundations,
