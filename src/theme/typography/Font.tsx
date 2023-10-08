@@ -1,5 +1,5 @@
 import { Global } from '@emotion/react'
-import fontPath from 'public\fonts\MatiottElegantFontRegular-7ByXD.ttf'
+// import fontPath from 'public\fonts\MatiottElegantFontRegular-7ByXD.ttf'
 
 const Fonts = () => (
   <Global
