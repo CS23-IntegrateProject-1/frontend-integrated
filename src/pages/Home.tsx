@@ -2,9 +2,13 @@ import { Box, Heading } from "@chakra-ui/react";
 
 export const Home = () => {
   return (
-    <Box textStyle={"h1"}>
-      <Heading color={"white"}>Home Page</Heading>
+    <Box color={"white"}>
+        hello
+      <Heading  color={"white"} textStyle={"h2"}>Home Page</Heading>
       {/* edit anything here jaaaaaaaa */}
+      <Box textStyle={"h3"}>
+        yoooooo
+      </Box>
     </Box>
   );
 };
