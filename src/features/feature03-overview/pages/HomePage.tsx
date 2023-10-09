@@ -1,6 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 
-export const Home = () => {
+export const HomePage = () => {
   return (
     <Box color={"white"}>
         hello

@@ -1,4 +1,4 @@
-import { Home } from "../pages/Home";
+import { HomePage } from "../features/feature03-overview/pages/HomePage";
 // import { Login } from "../pages/Login";
 
 export const PublicRoutes = () => {

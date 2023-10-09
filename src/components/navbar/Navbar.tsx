@@ -50,6 +50,7 @@ export const Navbar = () => {
           <HamburgerIcon
             width={"24px"}
             height={"24px"}
+            color={"white"}
             onClick={handleOpenNav}
           />
         }
