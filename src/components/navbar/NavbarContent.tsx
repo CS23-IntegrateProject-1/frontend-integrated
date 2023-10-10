@@ -1,4 +1,4 @@
-import { Box, Flex, Text, IconButton, Stack, Slide } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
 import { FC } from "react";
 import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
@@ -21,19 +21,19 @@ export const NavbarContent: FC<NavbarContentProps> = ({
     { title: "Home", to: "/" },
     {
       title: "Reservation",
-      to: "/club",
+      to: "/",
     },
     {
       title: "Save Places",
-      to: "/club",
+      to: "/",
     },
     {
       title: "Promotion",
-      to: "/club",
+      to: "/",
     },
     {
       title: "Membership",
-      to: "/club",
+      to: "/",
     },
   ];
   return (
@@ -64,7 +64,7 @@ export const NavbarContent: FC<NavbarContentProps> = ({
           textAlign={"center"}
         >
           {links.map((link, index) => (
-            <NavLink to={link.to} onClick={handleLinkClick}>
+            <NavLink to={link.to} onClick={handleLinkClick} key={index}>
               <Flex align={"center"} p={"16px 32px"} color={"white"}>
                 {link.title}
               </Flex>
