@@ -10,5 +10,12 @@ console.log(defaultTheme);
 const theme = extendTheme({
   ...fonts,
   ...foundations,
+  styles: {
+    global: {
+      body: {
+        color: "white", // Use your custom text color here
+      },
+    },
+  },
 });
 export default theme;
