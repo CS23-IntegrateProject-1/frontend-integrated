@@ -11,6 +11,11 @@ export const Feature02Routes = () => {
     },
     {
       path: "/saved-place",
+      element: "ElementPlaceHolder",
     },
+    {
+      path: "/profile-overview",
+      element: "ElementPlaceHolder",
+    }
   ];
 };
