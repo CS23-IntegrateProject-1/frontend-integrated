@@ -12,7 +12,6 @@ import { useLocation } from "react-router-dom";
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
-  console.log();
 
   const handleOpenNav = () => {
     onOpen();
