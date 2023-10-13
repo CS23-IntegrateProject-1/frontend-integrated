@@ -1,0 +1,49 @@
+import {
+  Card,
+  CardHeader,
+  Heading,
+  CardBody,
+  Stack,
+  StackDivider,
+  Box,
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+
+export const MobileBankingList = () => {
+  return (
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      margin={5}
+      width={"100%"}
+    >
+      <Card width={"70%"} backgroundColor={"#5F0DBB"} color={"#C5C4C7"}>
+        <CardHeader>
+          <Heading size="md">Mobile Banking</Heading>
+        </CardHeader>
+
+        <CardBody>
+          <Stack divider={<StackDivider />} spacing="4">
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                <AddIcon boxSize={3} /> k plus
+              </Heading>
+            </Box>
+            <Box>
+              <Heading size="xs">
+                <AddIcon boxSize={3} /> Krungthai NEXT
+              </Heading>
+            </Box>
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                <AddIcon boxSize={3} /> scb easy
+              </Heading>
+            </Box>
+          </Stack>
+        </CardBody>
+      </Card>
+    </Box>
+  );
+};

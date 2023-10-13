@@ -20,7 +20,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
 }) => {
   return (
     <Button
-      width={"140px"}
+      width={"70%"}
       height={"40px"}
       bg={!bgColor ? "brand.200" : bgColor}
       color={!textColor ? "white" : textColor}
