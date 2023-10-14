@@ -1,7 +1,7 @@
-import { Box, HStack, Button,Text} from "@chakra-ui/react";
+import { Box, HStack, Button,Text, IconButton, Icon, VStack} from "@chakra-ui/react";
 import { useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
-
+import { MenuCard } from "../component/MenuCard";
 export const MenuAll = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
@@ -71,6 +71,10 @@ export const MenuAll = () => {
       <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='142px' height='33px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h2}>{subtitle}</Text>
       </Box>
+      <VStack mt={4}>
+        <MenuCard/>
+      </VStack>
+     
     </Box>
   );
 };
