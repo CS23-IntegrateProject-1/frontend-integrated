@@ -21,23 +21,23 @@ export const MobileBankingList = () => {
     >
       <Card width={"70%"} backgroundColor={"#5F0DBB"} color={"#C5C4C7"}>
         <CardHeader>
-          <Heading size="md">Mobile Banking</Heading>
+          <Heading size="lg">Mobile Banking</Heading>
         </CardHeader>
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
             <Box>
-              <Heading size="xs" textTransform="uppercase">
+              <Heading size="sm" textTransform="uppercase">
                 <AddIcon boxSize={3} /> k plus
               </Heading>
             </Box>
             <Box>
-              <Heading size="xs">
+              <Heading size="sm">
                 <AddIcon boxSize={3} /> Krungthai NEXT
               </Heading>
             </Box>
             <Box>
-              <Heading size="xs" textTransform="uppercase">
+              <Heading size="sm" textTransform="uppercase">
                 <AddIcon boxSize={3} /> scb easy
               </Heading>
             </Box>

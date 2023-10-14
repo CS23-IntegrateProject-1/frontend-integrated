@@ -2,6 +2,7 @@ import { ButtonComponent } from "../../../../components/buttons/ButtonComponent"
 import { Box } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
+import {MdOutlineQrCode2} from "react-icons/md";
 
 export const QrCodeButton = () => {
   return (
@@ -13,7 +14,7 @@ export const QrCodeButton = () => {
       margin={5}
       width={"100%"}
     >
-      <ButtonComponent textColor="#DEBEF6" text="QR PromptPay" />
+      <ButtonComponent leftIcon={<MdOutlineQrCode2 />} textColor="#DEBEF6" text="QR PromptPay" />
       <Card size={"sm"} width={"70%"} backgroundColor={"#DEBEF6"}>
         <CardBody>
           <Text color={"#5F0DBB"}>
