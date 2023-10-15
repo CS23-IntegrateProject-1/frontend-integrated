@@ -1,7 +1,8 @@
 import { Box } from "@chakra-ui/react";
-import { Image, Button, Checkbox, Heading, Input } from "@chakra-ui/react";
+import { Image, Button, Checkbox, Heading, Input, IconButton, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import LogoLoginPage from "../img/LogoLoginPage.png"
+import textStyles from "../../../theme/foundations/textStyles";
 
 export const LoginPage = () => {
   return (
@@ -12,8 +13,8 @@ export const LoginPage = () => {
         margin="auto"
         borderRadius="10px"
         src={LogoLoginPage}
-        alt="Image"
-        marginBottom={"9vh"}
+        alt="Logo"
+        marginBottom={"8vh"}
       />
       {/* Back ground shadow*/}
       <Box w="100%" height="100vh" borderRadius={"125px 0 0 0 "} position="absolute" left="-2px" boxShadow={"0px 0px 20px 10px rgba(95, 13, 187, 1) "}>
@@ -37,10 +38,11 @@ export const LoginPage = () => {
               p="7px 15px"
               boxSizing="border-box"
               mb="5vh"
-              bg="#BD8FF3"
+              bg="brand.100"
               type="text"
               placeholder="Username"
               _placeholder={{ color: 'white' }}
+              style={textStyles.h4}
             />
             {/* Password*/}
             <Input
@@ -49,35 +51,37 @@ export const LoginPage = () => {
               p="7px 15px"
               boxSizing="border-box"
               mb="3vh"
-              bg="#BD8FF3"
+              bg="brand.100"
               type="password"
               placeholder="Password"
               _placeholder={{ color: 'white' }}
+              style={textStyles.h4}
             />
 
-            <Box>
+            <Box textStyle={"h4"}>
               <Checkbox>Remember me</Checkbox>
             </Box>
             {/* Button*/}
             <Button
               type="submit"
-              bg="#763FAF"
+              bg="brand.200"
               color="white"
               width="30vw"
               display="block"
               margin="auto"
               marginTop="5vh"
+              style={textStyles.h2}
             >
               Login
             </Button>
             <br />
-            <p style={{ textAlign: "center" }}>Sign up with</p>
-            <p style={{ textAlign: "center" }}>
+            <Text textAlign="center" style={textStyles.h4} >Sign up with</Text>
+            <Text textAlign="center" style={textStyles.h4}>
               Don't have any account?{" "}
               <a href="#" style={{ textDecoration: "underline" }}>
                 Sign up
               </a>
-            </p>
+            </Text>
           </Box>
           
         </Box>
