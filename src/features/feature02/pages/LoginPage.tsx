@@ -1,8 +1,9 @@
-import { Box } from "@chakra-ui/react";
-import { Image, Button, Checkbox, Heading, Input, IconButton, Text } from "@chakra-ui/react";
+import { Box, Image, Button, Checkbox, Heading, Input, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import LogoLoginPage from "../img/LogoLoginPage.png"
 import textStyles from "../../../theme/foundations/textStyles";
+import google from "../img/google.png";
+
 
 export const LoginPage = () => {
   return (
@@ -76,6 +77,7 @@ export const LoginPage = () => {
             </Button>
             <br />
             <Text textAlign="center" style={textStyles.h4} >Sign up with</Text>
+            <Image src={google} alt="google" boxSize="24px" margin="auto" marginBottom="3vh" marginTop="3vh"/>
             <Text textAlign="center" style={textStyles.h4}>
               Don't have any account?{" "}
               <a href="#" style={{ textDecoration: "underline" }}>
