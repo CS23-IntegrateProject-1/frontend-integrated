@@ -32,33 +32,38 @@ export const MenuCard: FC = () => {
     p={1} 
     borderColor={"brand.100"}>
     <Flex justifyContent="center" >
-      <Image src="/assets/test.jpg" 
+      <Image src="/src/features/feature07/assets/test.jpg"
       alt="integrate" 
       objectFit="cover" 
       marginRight={4} 
-      width="139px" 
-      height="100px"
+      mt={1.5}
+      width="140px" 
+      height="105px"
       borderRadius="5px"
       poaition="absolute"
       />
     </Flex>
-    <VStack>
-    <Box>
-        <Text {...textStyles.h2} color="white">
+   
+    <VStack alignItems="left" mt={2}>
+      
+        <Text {...textStyles.h2} color="white" 
+        lineHeight="1" >
           food Name Integrate
         </Text>
-        <Text {...textStyles.body2} color="white">
+        <Text {...textStyles.body2} color="white"
+         lineHeight="1" >
           Description Integrate
         </Text>
-        <Text {...textStyles.body3} color="white">
+        <Text {...textStyles.body3} color="white"
+         lineHeight="1" >
           Price Integrate
         </Text>
-      </Box>
+      
       <Box border="solid" 
       bgColor="white" 
       width="121px" 
       height="35px"
-      marginLeft={0}
+      ml = '0'
       borderColor="white"
       borderRadius="5px"
       >

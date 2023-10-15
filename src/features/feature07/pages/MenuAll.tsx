@@ -3,6 +3,7 @@ import { useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
+import { CustomCartIcon } from "../component/CartIcon/createIcon";
 export const MenuAll = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
@@ -74,17 +75,31 @@ export const MenuAll = () => {
       </Box>
       <VStack mt={4} overflowY="auto" maxHeight="400px">
         <MenuCard/>
+        {/* <Icon as={CustomFigmaIcon} w={150} h={150}/> */}
       </VStack>
       <Box
         position="fixed"
-        bottom="5"
+        bottom="20"
+        right="4"
+        borderRadius="5px"
+        zIndex="1"
+      >
+        <Icon as={CustomCartIcon}
+          colorScheme="blue"
+          aria-label="Open Cart"
+          boxSize={20}
+        />
+      </Box>
+      <Box
+        position="fixed"
+        bottom="4"
         left="50%"
         transform="translateX(-50%)"
         width="109px"
         height="29px"
         textAlign="center"
         borderRadius="5px">
-
+            
         <ButtonComponent text="Order" />
          
       </Box>
