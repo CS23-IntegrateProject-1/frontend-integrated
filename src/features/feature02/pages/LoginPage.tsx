@@ -1,16 +1,17 @@
 import { Box } from "@chakra-ui/react";
 import { Image, Button, Checkbox, Heading, Input } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
+import LogoLoginPage from "../img/LogoLoginPage.png"
 
 export const LoginPage = () => {
   return (
-    <>
+    <Box>
       <Image
         boxSize="150px"
         display="block"
         margin="auto"
         borderRadius="10px"
-        src="https://bit.ly/dan-abramov"
+        src={LogoLoginPage}
         alt="Image"
         marginBottom={"9vh"}
       />
@@ -81,6 +82,6 @@ export const LoginPage = () => {
           
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
