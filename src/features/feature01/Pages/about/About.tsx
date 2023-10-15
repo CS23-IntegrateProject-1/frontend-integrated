@@ -6,7 +6,7 @@ import { ButtonComponent } from "../../../../components/buttons/ButtonComponent"
 export const About = () => {
   return (
       <Box width={"300px"} height={"150px"} bg={"brand.300"} m={"32px"} color={"white"}>
-          This is example component
+          This is About page.
       </Box>
   )
 }
