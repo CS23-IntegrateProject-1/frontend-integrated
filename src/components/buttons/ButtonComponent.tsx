@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import {FC } from "react";
+import {ReactElement, FC } from "react";
 
 interface ButtonProps {
   text: string;
@@ -7,6 +7,7 @@ interface ButtonProps {
   textColor?: string;
   borderColor?: string;
   bgHover?: string;
+  leftIcon?: ReactElement | null;
 }
 
 // this is a purple button with white text default, you can import this component and pass other prop specify below to change it
@@ -16,7 +17,8 @@ export const ButtonComponent: FC<ButtonProps> = ({
   bgColor,
   textColor,
   borderColor,
-  bgHover
+  bgHover,
+  leftIcon
 }) => {
   return (
     <Button
@@ -26,6 +28,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
       color={!textColor ? "white" : textColor}
       borderColor={!borderColor ? "" : borderColor}
       _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+      leftIcon={leftIcon!}
     >
       {text}
     </Button>

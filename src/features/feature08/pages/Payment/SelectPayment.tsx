@@ -3,6 +3,7 @@ import { QrCodeButton } from "../QrCode/QrCodeButton"
 import { MobileBankingList } from "../MobileBanking/MobileBankingList"
 import { ConfirmButton } from "../Confirm/ConfirmButton";
 import { Box } from "@chakra-ui/react";
+import {MdAttachMoney} from "react-icons/md"
 
 export const SelectPayment = () => {
     return (
@@ -13,7 +14,7 @@ export const SelectPayment = () => {
         alignItems={"center"}
         margin={5}
       >
-        <ButtonComponent textColor="#DEBEF6" text="Cash" />
+        <ButtonComponent leftIcon={<MdAttachMoney />} textColor="#DEBEF6" text="Cash" />
         <QrCodeButton />
         <MobileBankingList />
         <ConfirmButton />
