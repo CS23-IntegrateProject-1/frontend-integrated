@@ -11,6 +11,7 @@ import TableLayout from "../components/DashboardComponents/TableLayout";
 const DashboardPage = () => {
     const isMoblie = window.innerWidth < 768;
     const property: Property = { id: 1, name: "CS SIP" };
+
     const renderMoblie = () => {
         return (
             <>
@@ -32,7 +33,12 @@ const DashboardPage = () => {
             </>
         );
     };
-    return isMoblie ? renderMoblie() : <>this is desktop</>;
+
+    const renderDesktop = () => {
+        return <>this is desktop</>;
+    };
+
+    return isMoblie ? renderMoblie() : renderDesktop();
 };
 
 export default DashboardPage;
