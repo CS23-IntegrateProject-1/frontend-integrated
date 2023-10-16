@@ -1,33 +1,39 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
-// import { ExampleComponent } from "../../exampleFeature/pages/examplePage/ExampleComponent";
-// import { CommonComponent } from "../../exampleFeature/components/CommonComponent";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { ReservationCards } from "../components/ReservationCards";
+import { TableCard } from "../components/TableCard";
 
 export const TablePage = () => {
+  const mapping = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
-    <Box
-      display={"flex"}
+    <Box display={"flex"}
       flexDirection={"column"}
       justifyContent={"space-between"}
       alignItems={"center"}
-      height={"100vh"}
-      position={"relative"}
-    >
-      <Heading style={TextStyle.h1} color={"white"} fontSize="20px">
+      position={"relative"}>
+    <Heading style={TextStyle.h1} color={"white"} fontSize="20px" alignItems={"center"}>
         Choose your tables
       </Heading>
-      
-
-      <Box width="360px" height="1px" backgroundColor="white" position={"absolute"} top={"50px"}/>
-      
-      {/* <ReservationCards/> */}
-      <Box marginBottom="140px">
-      <ButtonComponent text={"Continue"} />
-      </Box>
+    <Box width="360px" height="1px" backgroundColor="white" 
+    position={"absolute"} top={"50px"}/>
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"space-evenly"}
+      columnGap={"20px"}
+      alignItems={"center"}
+      marginTop={"50px"}
+      position={"relative"}
+    >
+      {mapping.map(() => (
+        <Box marginBottom={"20px"}>
+          <TableCard />
+        </Box>
+      ))}
       
     </Box>
-    
+    <Box position={"fixed"} marginTop={"680px"}>
+    <ButtonComponent text={"Continue"}/></Box>
+    </Box>
   );
 };
