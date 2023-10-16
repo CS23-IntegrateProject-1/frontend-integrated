@@ -1,7 +1,6 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { TableCard } from "../components/TableCard";
 
 export const TablePage = () => {
   const mapping = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -16,22 +15,6 @@ export const TablePage = () => {
       </Heading>
     <Box width="360px" height="1px" backgroundColor="white" 
     position={"absolute"} top={"50px"}/>
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"space-evenly"}
-      columnGap={"20px"}
-      alignItems={"center"}
-      marginTop={"50px"}
-      position={"relative"}
-    >
-      {mapping.map(() => (
-        <Box marginBottom={"20px"}>
-          <TableCard />
-        </Box>
-      ))}
-      
-    </Box>
     <Box position={"fixed"} marginTop={"680px"}>
     <ButtonComponent text={"Continue"}/></Box>
     </Box>
