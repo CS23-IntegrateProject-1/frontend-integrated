@@ -1,3 +1,4 @@
+import { MyReservation } from "./pages/MyReservation";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 
@@ -12,5 +13,7 @@ export const Feature06Routes = () => {
     { path: "/my-reservation", element: "ElementPlaceHolder" },
     { path: "/table" , element: <TablePage/> },
     { path: "/tabletype" , element: <TableType/> }
+    { path: "/tabletype" , element: <TableType/> },
+    { path: "/myreservation", element: <MyReservation/>}
   ];
 };
