@@ -1,10 +1,10 @@
-import { AccountSetupPage } from "./pages/AccountSetup/AccountSetupPage";
+import Dashboard from "./admin/dashboard";
 
 export const Feature14Routes = () => {
   return [
-    { path: "/admin/dashboard", element: "ElementPlaceHolder" },
+    { path: "/admin/dashboard", element: <Dashboard /> },
     { path: "/admin/account/edit", element: "ElementPlaceHolder" },
-    { path: "/admin/account/setup", element: <AccountSetupPage/> },
+    { path: "/admin/account/setup", element: "ElementPlaceHolder" },
     { path: "/admin/approval", element: "ElementPlaceHolder" },
     { path: "/admin/approval/:approvalId", element: "ElementPlaceHolder" },
     {
