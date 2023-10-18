@@ -3,7 +3,6 @@ import { TextStyle } from "../../../theme/TextStyle";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 export const TablePage = () => {
-  const mapping = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <Box display={"flex"}
       flexDirection={"column"}

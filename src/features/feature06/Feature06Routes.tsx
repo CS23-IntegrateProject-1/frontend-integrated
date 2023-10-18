@@ -12,7 +12,6 @@ export const Feature06Routes = () => {
     { path: "/check-in", element: "ElementPlaceHolder" },
     { path: "/my-reservation", element: "ElementPlaceHolder" },
     { path: "/table" , element: <TablePage/> },
-    { path: "/tabletype" , element: <TableType/> }
     { path: "/tabletype" , element: <TableType/> },
     { path: "/myreservation", element: <MyReservation/>}
   ];
