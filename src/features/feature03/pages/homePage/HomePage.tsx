@@ -37,7 +37,7 @@ export const HomePage = () => {
     <Box>
       This is Home Page F3_T11
       <br />
-      <ButtonComponent text="Geng maQk" />
+      <ButtonComponent text="Som Geng mak" />
       <br />
       <Flex mb={5}
       justifyContent={"center"}>
@@ -136,7 +136,7 @@ export const HomePage = () => {
       </Text>
       <NavLink to="/IDK_Path">
         <Image
-        src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+        src='https://c4.wallpaperflare.com/wallpaper/210/9/215/anime-fantasy-game-map-wallpaper-preview.jpg'
         alt='Green double couch with wooden legs'
         borderRadius='lg'
         />
@@ -145,10 +145,10 @@ export const HomePage = () => {
       <Text mt={5} fontSize='40px'>
         Recommended Places
       </Text>
-      <Card maxW='sm'>
-  <CardBody>
+      <Card maxW='sm' >
+  <CardBody bg="brand.200" rounded='2xl'>
     <Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      src='https://media.tenor.com/Bv37u6GJKkkAAAAd/bar-feelre.gif'
       alt='Green double couch with wooden legs'
       borderRadius='lg'
     />
@@ -163,9 +163,6 @@ export const HomePage = () => {
         $450
       </Text>
     </Stack>
-  </CardBody>
-  <Divider />
-  <CardFooter>
     <ButtonGroup spacing='2'>
       <Button variant='solid' colorScheme='blue'>
         Buy now
@@ -174,7 +171,7 @@ export const HomePage = () => {
         Add to cart
       </Button>
     </ButtonGroup>
-  </CardFooter>
+  </CardBody>
 </Card>
 
 
@@ -183,35 +180,13 @@ export const HomePage = () => {
         Promotions
       </Text>
       <Card maxW='sm'>
-  <CardBody>
+  <CardBody bg="brand.200" rounded='2xl'>
     <Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      src='https://i.pinimg.com/originals/b8/78/64/b87864c8958161004082c2ea16aee291.jpg'
       alt='Green double couch with wooden legs'
       borderRadius='lg'
     />
-    <Stack mt='6' spacing='3'>
-      <Heading size='md'>Living room Sofa</Heading>
-      <Text>
-        This sofa is perfect for modern tropical spaces, baroque inspired
-        spaces, earthy toned spaces and for people who love a chic design with a
-        sprinkle of vintage design.
-      </Text>
-      <Text color='blue.600' fontSize='2xl'>
-        $450
-      </Text>
-    </Stack>
   </CardBody>
-  <Divider />
-  <CardFooter>
-    <ButtonGroup spacing='2'>
-      <Button variant='solid' colorScheme='blue'>
-        Buy now
-      </Button>
-      <Button variant='ghost' colorScheme='blue'>
-        Add to cart
-      </Button>
-    </ButtonGroup>
-  </CardFooter>
 </Card>
 
 
@@ -220,27 +195,22 @@ export const HomePage = () => {
         Events
       </Text>
       <Card maxW='sm'>
-  <CardBody>
+  <CardBody bg="brand.200" rounded='2xl'>
     <Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-      alt='Green double couch with wooden legs'
+      src='https://media.tenor.com/Bv37u6GJKkkAAAAd/bar-feelre.gif'
+      alt='Event_Pic not load'
       borderRadius='lg'
     />
     <Stack mt='6' spacing='3'>
+      <Text>
+        Date that IDK
+      </Text>
       <Heading size='md'>Living room Sofa</Heading>
       <Text>
-        This sofa is perfect for modern tropical spaces, baroque inspired
-        spaces, earthy toned spaces and for people who love a chic design with a
-        sprinkle of vintage design.
-      </Text>
-      <Text color='blue.600' fontSize='2xl'>
-        $450
+        @ Where IDK
       </Text>
     </Stack>
-  </CardBody>
-  <Divider />
-  <CardFooter>
-    <ButtonGroup spacing='2'>
+    <ButtonGroup mt={2} spacing='2'>
       <Button variant='solid' colorScheme='blue'>
         Buy now
       </Button>
@@ -248,7 +218,7 @@ export const HomePage = () => {
         Add to cart
       </Button>
     </ButtonGroup>
-  </CardFooter>
+  </CardBody>
 </Card>
 
 
