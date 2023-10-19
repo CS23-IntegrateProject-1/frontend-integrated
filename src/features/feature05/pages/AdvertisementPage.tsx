@@ -13,7 +13,13 @@ export const Advertisement = () => {
       alignItems={"center"}
       width="100%"
     >
-      <Box paddingBottom={3}>
+      <Box paddingBottom={3}
+      width={"50%"}
+      minWidth={"250px"}
+      maxWidth={"400px"}
+      display={"flex"}
+      flexDirection={"column"}
+      >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Name *
@@ -27,7 +33,13 @@ export const Advertisement = () => {
         />
       </Box>
 
-      <Box paddingBottom={3}>
+      <Box paddingBottom={3}
+      width={"50%"}
+      minWidth={"250px"}
+      maxWidth={"400px"}
+      display={"flex"}
+      flexDirection={"column"}
+      >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Description *
@@ -40,20 +52,28 @@ export const Advertisement = () => {
         />
       </Box>
 
-      <Box paddingBottom={3}>
+      <Box paddingBottom={3}
+      width={"50%"}
+      minWidth={"250px"}
+      maxWidth={"400px"}
+      display={"flex"}
+      flexDirection={"row"}
+      justifyContent={"center"}
+      >
+      <Box mr={"20px"} flex={"2"}>
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Starting Date *
         </Text>
-        <input type="date"></input>
+        <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
       </Box>
-
-      <Box paddingBottom={3}>
+      <Box flex={"2"}>
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Ending Date *
         </Text>
-        <input type="date"></input>
+        <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+      </Box>
       </Box>
 
       <Box paddingBottom={3}>
@@ -79,6 +99,7 @@ export const Advertisement = () => {
         <Box width={"200"} height={"100"} bg={"white"} />
         </Stack>
       </Box>
+
       <Box paddingBottom={3}>
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
