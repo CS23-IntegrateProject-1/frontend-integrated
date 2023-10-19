@@ -42,103 +42,214 @@ export const HomePage = () => {
       <Flex mb={5}
       justifyContent={"center"}>
         <NavLink to="/IDK_Path">
-          <Card mt={15} mr={5} w={{lg: "220px", base:"160px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
-                <Circle size="60px" bg="brand.200" color="white">
-                  <StarIcon />
+                <Circle size="50px" bg="brand.200" color="white">
+                  <StarIcon color="black" />
                 </Circle>
               </HStack>
-              <Stack mt="6" spacing="3" justifyContent={"center"}>
-                <Heading fontSize='2xl' textAlign={"center"}>
+              <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
                   Restaurant
                 </Heading>
               </Stack>
             </CardBody>
-            <Divider />
           </Card>
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mr={5} w={{lg: "220px", base:"160px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
-                <Circle size="60px" bg="brand.200" color="white">
-                  <StarIcon />
+                <Circle size="50px" bg="brand.200" color="white">
+                  <StarIcon color="black" />
                 </Circle>
               </HStack>
-              <Stack mt="6" spacing="3" justifyContent={"center"}>
-                <Heading fontSize='2xl' textAlign={"center"}>
-                  Restaurant
+              <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                  Clubs
                 </Heading>
               </Stack>
             </CardBody>
-            <Divider />
           </Card>
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mr={5} w={{lg: "220px", base:"160px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
-                <Circle size="60px" bg="brand.200" color="white">
-                  <StarIcon />
+                <Circle size="50px" bg="brand.200" color="white">
+                  <StarIcon color="black" />
                 </Circle>
               </HStack>
-              <Stack mt="6" spacing="3" justifyContent={"center"}>
-                <Heading fontSize='2xl' textAlign={"center"}>
-                  Restaurant
+              <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                  Bars
                 </Heading>
               </Stack>
             </CardBody>
-            <Divider />
           </Card>
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mr={5} w={{lg: "220px", base:"160px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={1} w={{lg: "220px", base:"122px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
-                <Circle size="60px" bg="brand.200" color="white">
-                  <StarIcon />
+                <Circle size="50px" bg="brand.200" color="white">
+                  <StarIcon color="black" />
                 </Circle>
               </HStack>
-              <Stack mt="6" spacing="3" justifyContent={"center"}>
-                <Heading fontSize='2xl' textAlign={"center"}>
-                  Restaurant
+              <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                  Community
                 </Heading>
               </Stack>
             </CardBody>
-            <Divider />
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
-          <Card mt={15} mr={5} w={{lg: "220px", base:"160px"}} _hover={{ bg: "brand.100" }}>
-            <CardBody>
-              <HStack justifyContent={"center"}>
-                <Circle size="60px" bg="brand.200" color="white">
-                  <StarIcon />
-                </Circle>
-              </HStack>
-              <Stack mt="6" spacing="3" justifyContent={"center"}>
-                <Heading fontSize='2xl' textAlign={"center"}>
-                  Restaurant
-                </Heading>
-              </Stack>
-            </CardBody>
-            <Divider />
-          </Card>
-        </NavLink>
-
+        <Card mt={15} mx={1} display={{ base: 'none', lg: 'block' }} w={"220px"} h={"150"} _hover={{ bg: "brand.100" }}>
+          <CardBody>
+            <HStack justifyContent={"center"}>
+              <Circle size="50px" bg="brand.200" color="white">
+                <StarIcon color="black" />
+              </Circle>
+            </HStack>
+            <Stack mt="6" spacing="3" justifyContent={"center"}>
+              <Heading fontSize='2xl' textAlign={"center"}>
+                Chat Bot
+              </Heading>
+            </Stack>
+          </CardBody>
+        </Card>
 
       </Flex>
 
       <Text fontSize='50px'>
         Book Seats
       </Text>
-      <SearchBar/>
+      <SearchBar />
 
+      <Text mt={5} fontSize='40px'>
+        Maps
+      </Text>
+      <NavLink to="/IDK_Path">
+        <Image
+        src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+        alt='Green double couch with wooden legs'
+        borderRadius='lg'
+        />
+      </NavLink>
+
+      <Text mt={5} fontSize='40px'>
+        Recommended Places
+      </Text>
+      <Card maxW='sm'>
+  <CardBody>
+    <Image
+      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Living room Sofa</Heading>
+      <Text>
+        This sofa is perfect for modern tropical spaces, baroque inspired
+        spaces, earthy toned spaces and for people who love a chic design with a
+        sprinkle of vintage design.
+      </Text>
+      <Text color='blue.600' fontSize='2xl'>
+        $450
+      </Text>
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Buy now
+      </Button>
+      <Button variant='ghost' colorScheme='blue'>
+        Add to cart
+      </Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+
+
+
+      <Text mt={5} fontSize='40px'>
+        Promotions
+      </Text>
+      <Card maxW='sm'>
+  <CardBody>
+    <Image
+      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Living room Sofa</Heading>
+      <Text>
+        This sofa is perfect for modern tropical spaces, baroque inspired
+        spaces, earthy toned spaces and for people who love a chic design with a
+        sprinkle of vintage design.
+      </Text>
+      <Text color='blue.600' fontSize='2xl'>
+        $450
+      </Text>
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Buy now
+      </Button>
+      <Button variant='ghost' colorScheme='blue'>
+        Add to cart
+      </Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+
+
+
+      <Text mt={5} fontSize='40px'>
+        Events
+      </Text>
+      <Card maxW='sm'>
+  <CardBody>
+    <Image
+      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'
+    />
+    <Stack mt='6' spacing='3'>
+      <Heading size='md'>Living room Sofa</Heading>
+      <Text>
+        This sofa is perfect for modern tropical spaces, baroque inspired
+        spaces, earthy toned spaces and for people who love a chic design with a
+        sprinkle of vintage design.
+      </Text>
+      <Text color='blue.600' fontSize='2xl'>
+        $450
+      </Text>
+    </Stack>
+  </CardBody>
+  <Divider />
+  <CardFooter>
+    <ButtonGroup spacing='2'>
+      <Button variant='solid' colorScheme='blue'>
+        Buy now
+      </Button>
+      <Button variant='ghost' colorScheme='blue'>
+        Add to cart
+      </Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
 
 
     </Box>
