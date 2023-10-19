@@ -23,15 +23,6 @@ export const HomePage = () => {
   // const [searchFilter, setSearchFilter] = useState<string>("");
   // const [selectedRestaurant, setSelectedRestaurant] =
   //   useState<RestaurantProps | null>(null);
-  const breakpoints = {
-    base: "0em", // 0px
-    sm: "30em", // ~480px. em is a relative unit and is dependant on the font size.
-    md: "48em", // ~768px
-    lg: "62em", // ~992px
-    xl: "80em", // ~1280px
-    "2xl": "96em", // ~1536px
-  };
-
 
   return (
     <Box>
@@ -197,7 +188,7 @@ export const HomePage = () => {
       <Card maxW='sm'>
   <CardBody bg="brand.200" rounded='2xl'>
     <Image
-      src='https://media.tenor.com/Bv37u6GJKkkAAAAd/bar-feelre.gif'
+      src='https://phuketeventcompany.b-cdn.net/wp-content/uploads/2021/06/Expert-Event-Management-Your-Trusted-Event-Planner-and-Organizer-in-Bangkok-1.jpg'
       alt='Event_Pic not load'
       borderRadius='lg'
     />
