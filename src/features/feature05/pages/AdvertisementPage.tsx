@@ -4,6 +4,14 @@ import { Input } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
 
+// const flexBox = {
+//   width: "50%",
+//   minWidth: "250px",
+//   maxWidth: "400px",
+//   display: "flex",
+//   flexDirection: "column",
+// }
+
 export const Advertisement = () => {
   return (
     <Box
@@ -11,14 +19,15 @@ export const Advertisement = () => {
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      width="100%"
+      width={"100%"}
     >
-      <Box paddingBottom={3}
-      width={"50%"}
-      minWidth={"250px"}
-      maxWidth={"400px"}
-      display={"flex"}
-      flexDirection={"column"}
+      <Box
+        paddingBottom={3}
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
       >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
@@ -29,16 +38,16 @@ export const Advertisement = () => {
           placeholder="Filled"
           style={{ width: "auto" }}
           color={"black"}
-          width="50%"
         />
       </Box>
 
-      <Box paddingBottom={3}
-      width={"50%"}
-      minWidth={"250px"}
-      maxWidth={"400px"}
-      display={"flex"}
-      flexDirection={"column"}
+      <Box
+        paddingBottom={3}
+        width={"50%"}
+        minWidth={"250px"}
+        maxWidth={"400px"}
+        display={"flex"}
+        flexDirection={"column"}
       >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
@@ -52,29 +61,34 @@ export const Advertisement = () => {
         />
       </Box>
 
-      <Box paddingBottom={3}
-      width={"50%"}
-      minWidth={"250px"}
-      maxWidth={"400px"}
-      display={"flex"}
-      flexDirection={"row"}
-      justifyContent={"center"}
+      <Box
+        paddingBottom={3}
+        width={"50%"}
+        minWidth={"250px"}
+        maxWidth={"400px"}
+        display={"flex"}
+        flexDirection={"row"}
+        justifyContent={"center"}
       >
-      <Box mr={"20px"} flex={"2"}>
-        <Text style={TextStyle.h2} color={"white"}>
-          {" "}
-          Starting Date *
-        </Text>
-        <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+        <Box mr={"20px"} flex={"1"} >
+          <Text style={TextStyle.h2} color={"white"}>
+            {" "}
+            Starting Date *
+          </Text>
+          <Input 
+           size={"xs"} type="date" color="black" bg={"white"}></Input>
+        </Box>
+        <Box flex={"1"} >
+          <Text style={TextStyle.h2} color={"white"}>
+            {" "}
+            Ending Date *
+          </Text>
+          <Input 
+           size={"xs"} type="date" color="black" bg={"white"}></Input>
+        </Box>
       </Box>
-      <Box flex={"2"}>
-        <Text style={TextStyle.h2} color={"white"}>
-          {" "}
-          Ending Date *
-        </Text>
-        <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
-      </Box>
-      </Box>
+
+      <Box paddingBottom={3}></Box>
 
       <Box paddingBottom={3}>
         <Text style={TextStyle.h2} color={"white"}>
@@ -95,8 +109,8 @@ export const Advertisement = () => {
           Images (mobile & desktop view)
         </Text>
         <Stack spacing={2} direction="column">
-        <Box width={"auto"} height={"100"} bg={"white"} />
-        <Box width={"200"} height={"100"} bg={"white"} />
+          <Box width={"auto"} height={"100"} bg={"white"} />
+          <Box width={"200"} height={"100"} bg={"white"} />
         </Stack>
       </Box>
 
