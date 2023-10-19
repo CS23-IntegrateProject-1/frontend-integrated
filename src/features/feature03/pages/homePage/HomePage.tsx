@@ -42,7 +42,7 @@ export const HomePage = () => {
       <Flex mb={5}
       justifyContent={"center"}>
         <NavLink to="/IDK_Path">
-          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={{lg:"4",base:"1"}} w={{lg: "220px", base:"112px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
@@ -50,7 +50,7 @@ export const HomePage = () => {
                 </Circle>
               </HStack>
               <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
-                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'sm'}} textAlign={"center"}>
                   Restaurant
                 </Heading>
               </Stack>
@@ -59,7 +59,7 @@ export const HomePage = () => {
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={{lg:"4",base:"1"}} w={{lg: "220px", base:"112px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
@@ -67,7 +67,7 @@ export const HomePage = () => {
                 </Circle>
               </HStack>
               <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
-                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'sm'}} textAlign={"center"}>
                   Clubs
                 </Heading>
               </Stack>
@@ -76,7 +76,7 @@ export const HomePage = () => {
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mx={1} w={{lg: "220px", base:"118px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={{lg:"4",base:"1"}} w={{lg: "220px", base:"112px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
@@ -84,7 +84,7 @@ export const HomePage = () => {
                 </Circle>
               </HStack>
               <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
-                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'sm'}} textAlign={"center"}>
                   Bars
                 </Heading>
               </Stack>
@@ -93,7 +93,7 @@ export const HomePage = () => {
         </NavLink>
 
         <NavLink to="/IDK_Path">
-          <Card mt={15} mx={1} w={{lg: "220px", base:"122px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
+          <Card mt={15} mx={{lg:"4",base:"1"}} w={{lg: "220px", base:"112px"}} h={{lg:"150px", base:"115px"}} _hover={{ bg: "brand.100" }}>
             <CardBody>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
@@ -101,7 +101,7 @@ export const HomePage = () => {
                 </Circle>
               </HStack>
               <Stack mt={{lg:'6' , base:"3"}} spacing="3" justifyContent={"center"}>
-                <Heading fontSize={{lg:'2xl', base:'md'}} textAlign={"center"}>
+                <Heading fontSize={{lg:'2xl', base:'sm'}} textAlign={"center"}>
                   Community
                 </Heading>
               </Stack>
@@ -109,7 +109,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <Card mt={15} mx={1} display={{ base: 'none', lg: 'block' }} w={"220px"} h={"150"} _hover={{ bg: "brand.100" }}>
+        <Card mt={15} mx={4} display={{ base: 'none', lg: 'block' }} w={"220px"} h={"150"} _hover={{ bg: "brand.100" }}>
           <CardBody>
             <HStack justifyContent={"center"}>
               <Circle size="50px" bg="brand.200" color="white">
