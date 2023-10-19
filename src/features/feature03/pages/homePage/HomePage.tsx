@@ -4,15 +4,14 @@ import { Center, Square, Circle } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_Components/SearchBar";
+import { Footer_HomePage } from "./Footer_HomePage";
 
 import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Heading,
   Image,
-  Divider,
   ButtonGroup,
   Button,
   HStack,
@@ -173,6 +172,7 @@ export const HomePage = () => {
           </CardBody>
         </Card>
       </Flex>
+      
       <Text fontSize="50px">Book Seats</Text>
       <SearchBar />
       <Text mt={5} fontSize="40px">
@@ -253,6 +253,9 @@ export const HomePage = () => {
           </ButtonGroup>
         </CardBody>
       </Card>
+
+      <Footer_HomePage />
     </Box>
+    
   );
 };

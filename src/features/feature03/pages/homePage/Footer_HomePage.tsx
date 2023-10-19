@@ -1,35 +1,66 @@
 import React from "react";
-import { FaFacebookSquare, FaInstagram, FaGithub, FaLinkedin } from "react-icons/fa";
+import {
+  FaFacebookSquare,
+  FaInstagram,
+  FaLine,
+} from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { Box, Flex, Text, Grid, Icon } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
-function Footer() {
+export const Footer_HomePage = () => {
   return (
-    <Box as="footer" bg="#7E38B7" textAlign="center" justifyContent="center" color="white" p="1rem">
-      <Flex direction="column" alignItems="center">
-        <Text fontWeight="bold" fontSize="4xl">KitsuNe</Text>
-        <Grid templateColumns="repeat(2, 1fr)" gap="2rem" mt="2rem">
-          <Link to="/" className="hover:text-orange-400 text-2xl">Home</Link>
-          <Link to="/ProjectPage" className="hover:text-orange-400 text-2xl">Project</Link>
-        </Grid>
-        <Grid templateColumns="repeat(4, 1fr)" gap="2rem" mt="2rem">
-          <a href="https://www.facebook.com/xXNekoLordXx/" target="_blank" className="text-4xl hover:text-orange-400">
-            <Icon as={FaFacebookSquare} />
-          </a>
-          <a href="https://www.instagram.com/kitsune_ne_cs/" target="_blank" className="text-4xl hover:text-orange-400">
-            <Icon as={FaInstagram} />
-          </a>
-          <a href="https://github.com/xXNeonKitsuneXx" target="_blank" className="text-4xl hover:text-orange-400">
-            <Icon as={FaGithub} />
-          </a>
-          <a href="https://www.linkedin.com/in/nithit-lertcharoensombat-722855264/" target="_blank" className="text-4xl hover:text-orange-400">
-            <Icon as={FaLinkedin} />
-          </a>
-        </Grid>
-        <Text mt="2rem">© Copyright all rights reserved - KitsuNe.com</Text>
+    <Box
+      bg="black"
+      textAlign="center"
+      justifyContent="center"
+      mt={8}
+    >
+        <Flex textAlign="center" justifyContent="center"  pt={5}>
+            <NavLink to="/IDK_Path">
+                <Box px={10}>
+                    <FaFacebookSquare color="black" fontSize="40px" _hover={{color:"tomato"}}/>
+                </Box>
+            </NavLink>
+            <NavLink to="/IDK_Path">
+                <Box px={10}>
+                    <FaInstagram color='tomato' fontSize="40px"/>
+                </Box>
+            </NavLink>
+            <NavLink to="/IDK_Path">
+                <Box px={10} _hover={{ textDecoration: "underline"}}>
+                    <FaLine color="brand.200" fontSize="40px"/>
+                </Box>
+            </NavLink>
+        </Flex>
+      <Flex textAlign="center" justifyContent="center">
+        <NavLink to="/IDK_Path">
+            <Box _hover={{ textDecoration: "underline"}}>
+                <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
+                Privacy Policy
+                </Text>
+            </Box>
+        </NavLink>
+        <NavLink to="/IDK_Path">
+        <Box _hover={{ textDecoration: "underline"}}>
+          <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
+            Terms of Services
+          </Text>
+        </Box>
+        </NavLink>
+        <NavLink to="/IDK_Path">
+        <Box _hover={{ textDecoration: "underline"}}>
+          <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
+            Contact Us
+          </Text>
+        </Box>
+        </NavLink>
       </Flex>
+
+      <Text fontSize="md" fontWeight="bold" pt={4} pb={5} px={4}>
+        Harmoni LTD.
+      </Text>
     </Box>
   );
-}
-
-export default Footer;
+};
