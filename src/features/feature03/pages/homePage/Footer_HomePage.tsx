@@ -12,7 +12,6 @@ import { NavLink } from "react-router-dom";
 export const Footer_HomePage = () => {
   return (
     <Box
-      bg="black"
       textAlign="center"
       justifyContent="center"
       mt={8}
@@ -35,14 +34,14 @@ export const Footer_HomePage = () => {
             </NavLink>
         </Flex>
       <Flex textAlign="center" justifyContent="center">
-        <NavLink to="/IDK_Path">
+        <NavLink to="/privacy-policy">
             <Box _hover={{ textDecoration: "underline"}}>
                 <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
                 Privacy Policy
                 </Text>
             </Box>
         </NavLink>
-        <NavLink to="/IDK_Path">
+        <NavLink to="/term-of-service">
         <Box _hover={{ textDecoration: "underline"}}>
           <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
             Terms of Services

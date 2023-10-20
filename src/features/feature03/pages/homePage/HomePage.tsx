@@ -172,7 +172,7 @@ export const HomePage = () => {
           </CardBody>
         </Card>
       </Flex>
-      
+
       <Text fontSize="50px">Book Seats</Text>
       <SearchBar />
       <Text mt={5} fontSize="40px">
@@ -197,14 +197,14 @@ export const HomePage = () => {
             borderRadius="lg"
           />
           <Stack mt="6" spacing="3">
-            <Heading size="md">Living room Sofa</Heading>
-            <Text>
+            <Heading color="white" size="md">Living room Sofa</Heading>
+            <Text color="grey.200">
               This sofa is perfect for modern tropical spaces, baroque inspired
               spaces, earthy toned spaces and for people who love a chic design
               with a sprinkle of vintage design.
             </Text>
           </Stack>
-          <ButtonGroup spacing="2">
+          <ButtonGroup mt={4} spacing="2">
             <Button variant="solid" colorScheme="blue">
               Buy now
             </Button>
@@ -218,7 +218,7 @@ export const HomePage = () => {
         Promotions
       </Text>
 
-      <Card maxW="sm" borderRadius='2xl' bg="brand.200">
+      <Card maxW="sm" borderRadius='2xl' bg="brand.200" _hover={{ bg: "brand.300" }}>
         <CardBody>
           <Image
             src="https://i.pinimg.com/originals/b8/78/64/b87864c8958161004082c2ea16aee291.jpg"
@@ -239,11 +239,11 @@ export const HomePage = () => {
             borderRadius="lg"
           />
           <Stack mt="6" spacing="3">
-            <Text>Date that IDK</Text>
-            <Heading size="md">Living room Sofa</Heading>
-            <Text>@ Where IDK</Text>
+            <Text color="grey.200">Date that IDK</Text>
+            <Heading color="white" size="md">Living room Sofa</Heading>
+            <Text color="grey.200">@ Where IDK</Text>
           </Stack>
-          <ButtonGroup mt={2} spacing="2">
+          <ButtonGroup mt={4} spacing="2">
             <Button variant="solid" colorScheme="blue">
               Buy now
             </Button>
