@@ -1,4 +1,5 @@
 import { Advertisement } from "./pages/AdvertisementPage";
+import { Recommendation } from "./pages/RecommendationPage";
 
 export const Feature05Routes = () => {
   return [
@@ -8,7 +9,7 @@ export const Feature05Routes = () => {
     },
     {
       path: "/list/recommendation",
-      element: "ElementPlaceHolder",
+      element: <Recommendation />,
     },
   ];
 };

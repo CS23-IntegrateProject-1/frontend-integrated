@@ -1,18 +1,20 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Select, Stack, Text, useDisclosure} from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
-
-// const flexBox = {
-//   width: "50%",
-//   minWidth: "250px",
-//   maxWidth: "400px",
-//   display: "flex",
-//   flexDirection: "column",
-// }
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 
 export const Advertisement = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box
       display={"flex"}
@@ -21,6 +23,8 @@ export const Advertisement = () => {
       alignItems={"center"}
       width={"100%"}
     >
+
+      {/* Name * */}
       <Box
         paddingBottom={3}
         width="50%"
@@ -41,6 +45,7 @@ export const Advertisement = () => {
         />
       </Box>
 
+      {/* Description * */}
       <Box
         paddingBottom={3}
         width={"50%"}
@@ -61,6 +66,7 @@ export const Advertisement = () => {
         />
       </Box>
 
+      {/* Starting Date * & Ending Date * */}
       <Box
         paddingBottom={3}
         width={"50%"}
@@ -70,27 +76,31 @@ export const Advertisement = () => {
         flexDirection={"row"}
         justifyContent={"center"}
       >
-        <Box mr={"20px"} flex={"1"} >
+        <Box mr={"20px"} flex={"1"}>
           <Text style={TextStyle.h2} color={"white"}>
             {" "}
             Starting Date *
           </Text>
-          <Input 
-           size={"xs"} type="date" color="black" bg={"white"}></Input>
+          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
         </Box>
-        <Box flex={"1"} >
+        <Box flex={"1"}>
           <Text style={TextStyle.h2} color={"white"}>
             {" "}
             Ending Date *
           </Text>
-          <Input 
-           size={"xs"} type="date" color="black" bg={"white"}></Input>
+          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
         </Box>
       </Box>
 
-      <Box paddingBottom={3}></Box>
-
-      <Box paddingBottom={3}>
+      {/* Type */}
+      <Box
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={3}
+      >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Type
@@ -103,7 +113,14 @@ export const Advertisement = () => {
         </RadioGroup>
       </Box>
 
-      <Box paddingBottom={10}>
+      <Box
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={10}
+      >
         <Text style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
           Images (mobile & desktop view)
@@ -114,7 +131,14 @@ export const Advertisement = () => {
         </Stack>
       </Box>
 
-      <Box paddingBottom={3}>
+      <Box
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={5}
+      >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
           Advertisement plan
@@ -126,6 +150,63 @@ export const Advertisement = () => {
             <Radio value="3">3,600 Baht/Year</Radio>
           </Stack>
         </RadioGroup>
+      </Box>
+
+      <Box
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={8}
+      >
+        <Select placeholder="Payment method" style={TextStyle.h1}>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </Select>
+      </Box>
+
+      <Box
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"row"}
+        paddingBottom={3}
+        justifyContent={"space-evenly"}
+      >
+        <Button 
+        colorScheme="gray" 
+        variant="solid" 
+        width="40%" 
+        color="#A533C8"
+        >
+          Reject
+        </Button>
+
+        <Button 
+          backgroundColor="#A533C8"
+          variant="solid"
+          width="40%"
+          color="white"
+          onClick={onOpen}
+        >
+          Accept
+        </Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
+          <ModalHeader mt={3}>The request has been approved</ModalHeader>
+          <ModalCloseButton />
+          <ModalFooter>
+            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%">Print</Button>
+            <Button bgColor={"#A533C8"} mr={3} onClick={onClose} color={"white"} width="30%">
+              Send Mail
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       </Box>
     </Box>
   );
