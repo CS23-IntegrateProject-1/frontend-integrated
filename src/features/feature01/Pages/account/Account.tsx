@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom";
 export const Account = () => {
   
   const links = [
-    {title : "Profile", to : "/setting"},
-    {title : "Update Payment Method", to : "/setting"},
-    {title : "Social Media Accounts", to : "/setting"},
+    {title : "Profile", to : "/setting/account/profile"},
+    {title : "PaymentMethodSetting", to : "/setting/account/paymentmethodsetting"},
   ];
 
   return(

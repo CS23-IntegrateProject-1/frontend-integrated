@@ -5,7 +5,8 @@ import { PrivacyPolicy } from './Pages/privacyPolicy/PrivacyPolicy'
 import { TermOfService } from './Pages/termOfService/TermOfService'
 import { Help } from './Pages/help/Help'
 import { About } from './Pages/about/About'
-
+import { Profile } from './Pages/profile/Profile'
+import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
 export const Feature01Routes = () => {
   return [
     {
@@ -15,6 +16,15 @@ export const Feature01Routes = () => {
     {
       path: "/setting/account",
       element: <Account/>,
+    },
+    {
+      path: "/setting/account/profile",
+      element: <Profile/>,
+    },
+    
+    {
+      path: "/setting/account/paymentmethodsetting",
+      element: <PaymentMethodSetting/>,
     },
     {
       path: "/setting/notifications",
