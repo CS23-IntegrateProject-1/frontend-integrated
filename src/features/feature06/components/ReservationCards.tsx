@@ -1,7 +1,7 @@
 import { Box , Card , Image , Stack , CardBody , Heading , Text , CardFooter , Button} from "@chakra-ui/react"
 import { TextStyle } from "../../../theme/TextStyle"
 
-export const ReservationCard = () => {
+export const ReservationCards = () => {
     return (
       
         <Card
