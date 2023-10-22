@@ -1,7 +1,12 @@
 import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
-
+import {useState} from 'react';
+import { ReservationCards } from "../components/ReservationCards";
+import { TableCard } from "../components/TableCard";
 
 export const MyReservation = () => {
+  const [ComShown, setComShown] = useState(false);
+  const [HisShown, setHisShown] = useState(false);
+  const maping = [1,2,3,4];  
   return (
     <Box display={"flex"}
       flexDirection={"column"}
@@ -32,7 +37,7 @@ export const MyReservation = () => {
       }}
       _hover={{
       }}
-      >
+      onClick={()=>(setComShown(true),setHisShown(false))}>
       <Text color={"white"} fontSize="12px" fontWeight={"normal"}>
         Coming Soon
       </Text>
@@ -53,12 +58,23 @@ export const MyReservation = () => {
       }}
       _hover={{
       }}
+      onClick={()=>(setComShown(false),setHisShown(true))}
       >
       <Text color={"white"} fontSize="12px" fontWeight={"normal"}>
         History
       </Text>
     </Button>
     </Box>
+    {ComShown === true && maping.map(() => (
+        <Box marginTop={"20px"}>
+          <ReservationCards />
+        </Box>
+      ))}
+    {HisShown === true && maping.map(() => (
+        <Box marginTop={"20px"}>
+          <TableCard />
+        </Box>
+      ))}
     </Box>
   );
 };
