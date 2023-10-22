@@ -1,4 +1,5 @@
 import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
+import { ReservationCard } from "../components/ReservationCards";
 
 
 export const MyReservation = () => {
@@ -58,6 +59,14 @@ export const MyReservation = () => {
         History
       </Text>
     </Button>
+    </Box>
+    <Box
+    marginTop={5}>
+    <ReservationCard/>
+    </Box>
+    <Box
+    marginTop={5}>
+    <ReservationCard/>
     </Box>
     </Box>
   );
