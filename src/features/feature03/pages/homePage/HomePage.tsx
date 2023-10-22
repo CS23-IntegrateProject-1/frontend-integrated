@@ -164,8 +164,8 @@ export const HomePage = () => {
                 <StarIcon color="black" />
               </Circle>
             </HStack>
-            <Stack mt="6" spacing="3" justifyContent={"center"}>
-              <Heading fontSize="2xl" textAlign={"center"}>
+            <Stack mt={{ lg: "6", base: "3" }} spacing="3" justifyContent={"center"}>
+              <Heading fontSize={{ lg: "2xl", base: "sm" }} textAlign={"center"}>
                 Chat Bot
               </Heading>
             </Stack>
