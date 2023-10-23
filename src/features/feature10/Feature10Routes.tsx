@@ -1,3 +1,4 @@
+import {EventsPage} from "./pages/EventsPage"
 import { NotiBadge } from "./Components/notiBadge";
 export const Feature10Routes = () => {
   return [
@@ -8,7 +9,7 @@ export const Feature10Routes = () => {
     },
     {
       path: "/event",
-      element: "ElementPlaceHolder",
+      element: <EventsPage />,
     },
     { path: "/event/:eventId", element: "ElementPlaceHolder" },
   ];
