@@ -8,10 +8,12 @@ import {
 import { HamburgerIcon,ArrowBackIcon } from "@chakra-ui/icons";
 import { NavbarContent } from "./NavbarContent";
 import { useLocation } from "react-router-dom";
+import { getPageTitle } from "../../functions/getPageTitle";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
+  const pageTitle = getPageTitle(location.pathname);
 
   const handleOpenNav = () => {
     onOpen();
@@ -41,7 +43,7 @@ export const Navbar = () => {
         />
       )}
 
-      <Box color="white">Harmoni</Box>
+      <Box color="white">{pageTitle}</Box>
       <IconButton
         aria-label="Notification Page"
         variant={"unstyled"}
