@@ -11,7 +11,7 @@ import {
      ModalCloseButton,
    } from '@chakra-ui/react'
 
-export const AdvertisementPage = () => {
+export const AdvertisementRequest = () => {
      const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box

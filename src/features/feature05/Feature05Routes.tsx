@@ -1,15 +1,41 @@
-import { Advertisement } from "./pages/AdvertisementPage";
-import { Recommendation } from "./pages/RecommendationPage";
+import { AdvertisementID } from "./pages/AdvertisementID";
+import { AdvertisementPage } from "./pages/AdvertisementPage";
+import { AdvertisementReject } from "./pages/AdvertisementReject";
+import { RecommendationCard } from "./components/RecommendationCard";
+import { AdvertisementCriteria } from "./pages/AdvertisementCriteria";
+import { AdvertisementRequest } from "./pages/AdvertisementRequest";
 
 export const Feature05Routes = () => {
   return [
+
+    // Admin side
     {
       path: "/advertisement",
-      element: <Advertisement />,
+      element: <AdvertisementPage />,
     },
     {
+      path: "/advertisement/:id",
+      element: <AdvertisementID />,
+    },
+    {
+      path: "/advertisement/:id/reject",
+      element: <AdvertisementReject />,
+    },
+
+    // User side
+    {
       path: "/list/recommendation",
-      element: <Recommendation />,
+      element: <RecommendationCard />,
+    },
+
+    // Business
+    {
+      path: "/advertisement/criteria",
+      element: <AdvertisementCriteria />,
+    },
+    {
+      path: "/advertisement/request",
+      element: <AdvertisementRequest />,
     },
   ];
 };
