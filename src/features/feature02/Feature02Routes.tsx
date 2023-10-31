@@ -1,10 +1,8 @@
-import { LoginPage } from "./pages/LoginPage";
-
 export const Feature02Routes = () => {
   return [
     {
       path: "/login",
-      element: <LoginPage/>,
+      element: "ElementPlaceHolder",
     },
     { path: "/signup", element: "ElementPlaceHolder" },
     {
