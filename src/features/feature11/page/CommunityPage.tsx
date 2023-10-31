@@ -13,6 +13,7 @@ export const CommunityPage = () => {
     >
       <EventComponents />
       <ArticlesComponents />
+      <div>Hello I'm editing</div>
       
       
     </Box>
