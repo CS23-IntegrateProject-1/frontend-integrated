@@ -2,11 +2,11 @@ import { Box, Heading } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { Property } from "../model/property.model";
 import DashboardTopStatus from "../components/DashboardComponents/DashboardTopStatus";
-import ConfirmCheckinCard from "../components/DashboardComponents/ConfirmCheckinCard";
-import MenuStockCard from "../components/DashboardComponents/MenuStockCard";
 import ReservationQueues from "../components/DashboardComponents/ReservationQueues";
 import OrderQueues from "../components/DashboardComponents/OrderQueues";
-import TableLayout from "../components/DashboardComponents/TableLayout";
+import ConfirmCheckinCard from "../components/DashboardComponents/ConfirmCheckinCard";
+import MenuCard from "../components/DashboardComponents/MenuCard";
+import TableListCard from "../components/DashboardComponents/TableListCard";
 
 const DashboardPage = () => {
     const isMoblie = window.innerWidth < 768;
@@ -24,11 +24,22 @@ const DashboardPage = () => {
                     justifyContent={"center"}
                     alignItems={"center"}>
                     {DashboardTopStatus(property)}
-                    {ConfirmCheckinCard()}
-                    {MenuStockCard()}
+                    <Box
+                        display={"flex"}
+                        flexDirection={"row"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                    >
+                        {ConfirmCheckinCard()}
+                        <Box
+                            display={"flex"}
+                            flexDirection={"column"}>
+                            {MenuCard()}
+                            {TableListCard()}
+                        </Box>
+                    </Box>
                     {ReservationQueues()}
                     {OrderQueues()}
-                    {TableLayout()}
                 </Box>
             </>
         );

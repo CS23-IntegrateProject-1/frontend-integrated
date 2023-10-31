@@ -22,6 +22,10 @@ const ReservationQueues = () => {
         console.log("Open Reservation Page");
     };
 
+    const handleFinishedQueue = () => {
+        console.log(`Finished Queue ${latestReservation.queueNo}`);
+    };
+
     const fetchLatestReservation = () => {
         const ReservationData: IReservationData = {
             tableNo: 1,
@@ -90,9 +94,26 @@ const ReservationQueues = () => {
         );
     };
 
+    const ConfirmButton = () => {
+        return (
+            <Box
+                onClick={handleFinishedQueue}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                width={"60px"}
+                height={"25px"}
+                bg={"brand.210"}
+                borderRadius={5}
+                marginTop={2}>
+                <Text style={TextStyle.h4}>Done</Text>
+            </Box>
+        );
+    };
+
     return (
-        <Box onClick={handleOpenReservationPage}>
-            {ReservationText()}
+        <Box>
+            <Box onClick={handleOpenReservationPage}>{ReservationText()}</Box>
             <Box
                 display={"flex"}
                 justifyContent={"left"}
@@ -100,14 +121,21 @@ const ReservationQueues = () => {
                 borderRadius={"5px"}
                 width={"319px"}
                 height={"102px"}
-                bg={"brand.300"}
+                bg={"brand.310"}
                 padding={4}
                 marginTop={1}
                 color={"white"}>
                 <Box marginLeft={3}>{QueueBox()}</Box>
-                <Box marginLeft={7}>
+                <Box marginLeft={7} marginRight={2}>
                     {TimeBox()}
                     {TableNoBox()}
+                </Box>
+                <Box
+                    marginLeft={10}
+                    height={"100%"}
+                    display={"flex"}
+                    flexDirection={"column-reverse"}>
+                    {ConfirmButton()}
                 </Box>
             </Box>
         </Box>

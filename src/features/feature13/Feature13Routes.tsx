@@ -1,4 +1,5 @@
 import DashboardPage from "./pages/DashboardPage";
+import MenuStockPage from "./pages/MenuStockPage";
 import OrderPage from "./pages/OrderPage";
 export const Feature13Routes = () => {
     return [
@@ -20,7 +21,7 @@ export const Feature13Routes = () => {
         },
         {
             path: "/business/menu",
-            element: "ElementPlaceHolder",
+            element: <MenuStockPage />,
         },
         {
             path: "/business/queue",
@@ -45,10 +46,6 @@ export const Feature13Routes = () => {
         {
             path: "/business/order",
             element: <OrderPage />,
-        },
-        {
-            path: "/business/menu",
-            element: "ElementPlaceHolder",
         },
         {
             path: "/business/reservation",

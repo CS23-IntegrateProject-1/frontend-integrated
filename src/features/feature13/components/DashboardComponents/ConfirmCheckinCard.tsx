@@ -10,20 +10,23 @@ const ConfirmCheckinCard = () => {
         <Box
             onClick={handleConfirmCheckin}
             display={"flex"}
-            justifyContent={"space-between"}
+            flexDirection={"column"}
+            justifyContent={"space-around"}
             alignItems={"center"}
             borderRadius={"5px"}
-            width={"319px"}
-            height={"47px"}
-            bg={"brand.300"}
+            width={"147px"}
+            height={"209px"}
+            bg={"brand.110"}
             marginTop={5}
+            marginRight={5}
             padding={4}
             color={"white"}>
             <Box>
-                <Text style={TextStyle.h2}>Confirm checkin</Text>
+                <MdQrCodeScanner size={109} />
             </Box>
             <Box>
-                <MdQrCodeScanner size={22} />
+                <Text style={TextStyle.h2}>Confirm</Text>
+                <Text style={TextStyle.h2}>checkin</Text>
             </Box>
         </Box>
     );

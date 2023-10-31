@@ -21,6 +21,10 @@ const OrderQueues = () => {
         console.log("Open Order Page");
     };
 
+    const handleFinishedOrder = () => {
+        console.log(`Finished Order ${latestOrder.queueNo}`);
+    };
+
     const fetchLatestOrder = () => {
         const OrderData: IOrderData = {
             tableNo: 8,
@@ -89,9 +93,26 @@ const OrderQueues = () => {
         );
     };
 
+    const ConfirmButton = () => {
+        return (
+            <Box
+                onClick={handleFinishedOrder}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                width={"60px"}
+                height={"25px"}
+                bg={"brand.210"}
+                borderRadius={5}
+                marginTop={2}>
+                <Text style={TextStyle.h4}>Done</Text>
+            </Box>
+        );
+    };
+
     return (
-        <Box onClick={handleOpenOrderPage}>
-            {OrderText()}
+        <Box>
+            <Box onClick={handleOpenOrderPage}>{OrderText()}</Box>
             <Box
                 display={"flex"}
                 justifyContent={"left"}
@@ -99,14 +120,21 @@ const OrderQueues = () => {
                 borderRadius={"5px"}
                 width={"319px"}
                 height={"102px"}
-                bg={"brand.300"}
+                bg={"brand.310"}
                 padding={4}
                 marginTop={1}
                 color={"white"}>
                 <Box marginLeft={3}>{QueueBox()}</Box>
-                <Box marginLeft={7}>
+                <Box marginLeft={7} marginRight={2}>
                     {TimeBox()}
                     {TableNoBox()}
+                </Box>
+                <Box
+                    marginLeft={10}
+                    height={"100%"}
+                    display={"flex"}
+                    flexDirection={"column-reverse"}>
+                    {ConfirmButton()}
                 </Box>
             </Box>
         </Box>
