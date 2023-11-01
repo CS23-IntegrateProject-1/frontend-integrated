@@ -19,7 +19,11 @@ export const Footer_HomePage = () => {
           }}
         >
           <a href="https://www.facebook.com/xXNekoLordXx/" target="_blank">
-            <FaFacebookSquare color="white" fontSize="40px" />
+            <Box _hover={{ color: "brand.100" }}>
+              <FaFacebookSquare
+                fontSize="40px"
+              />
+            </Box>
           </a>
         </Box>
         <Box
@@ -30,7 +34,11 @@ export const Footer_HomePage = () => {
           }}
         >
           <a href="https://www.instagram.com/kitsune_ne_cs/" target="_blank">
-            <FaInstagram color="white" fontSize="40px" />
+            <Box _hover={{ color: "brand.100" }}>
+              <FaInstagram
+                fontSize="40px"
+              />
+            </Box>
           </a>
         </Box>
         <Box
@@ -41,7 +49,7 @@ export const Footer_HomePage = () => {
           }}
         >
           <a href="https://line.me/th/" target="_blank">
-            <Box _hover={{ color: "black" }}>
+            <Box _hover={{ color: "brand.100" }}>
               <FaLine
                 fontSize="40px"
               />
@@ -51,21 +59,21 @@ export const Footer_HomePage = () => {
       </Flex>
       <Flex textAlign="center" justifyContent="center">
         <NavLink to="/privacy-policy">
-          <Box _hover={{ textDecoration: "underline" }}>
+          <Box _hover={{ color: "brand.100", textDecoration: "underline" }}>
             <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
               Privacy Policy
             </Text>
           </Box>
         </NavLink>
         <NavLink to="/term-of-service">
-          <Box _hover={{ textDecoration: "underline" }}>
+          <Box _hover={{ color: "brand.100", textDecoration: "underline" }}>
             <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
               Terms of Services
             </Text>
           </Box>
         </NavLink>
         <NavLink to="/IDK_Path">
-          <Box _hover={{ textDecoration: "underline" }}>
+          <Box _hover={{ color: "brand.100", textDecoration: "underline" }}>
             <Text fontSize="sm" fontWeight="normal" pt={5} px={4}>
               Contact Us
             </Text>

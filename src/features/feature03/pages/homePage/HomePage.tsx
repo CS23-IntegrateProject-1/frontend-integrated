@@ -57,7 +57,7 @@ export const HomePage = () => {
     <Box width={"100%"}>
       <ButtonComponent text="Som Geng mak" />
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
-      <NavLink to="/IDK_Path">
+        <NavLink to="/IDK_Path">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -178,12 +178,12 @@ export const HomePage = () => {
         </NavLink>
 
         <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "21vw" }}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.100" }}
-            display={{ lg: "block", base: "none" }}
+          mt={15}
+          mx={{ lg: "4", base: "1" }}
+          w={{ lg: "220px", base: "21vw" }}
+          h={{ lg: "150px", base: "100px" }}
+          _hover={{ bg: "brand.100" }}
+          display={{ lg: "block", base: "none" }}
         >
           <CardBody>
             <HStack justifyContent={"center"}>
@@ -267,16 +267,13 @@ export const HomePage = () => {
                 minW={"300px"}
                 maxW="sm"
                 borderRadius="2xl"
-                bg="brand.200"
                 marginRight="5"
               >
-                <CardBody>
-                  <Image
-                    src={P.picP}
-                    alt="Promotion_Pic not load"
-                    borderRadius="lg"
-                  />
-                </CardBody>
+                <Image
+                  src={P.picP}
+                  alt="Promotion_Pic not load"
+                  borderRadius="lg"
+                />
               </Card>
             ))}
           </Box>
