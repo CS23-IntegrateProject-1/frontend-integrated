@@ -2,26 +2,50 @@ import React from "react";
 import { FaFacebookSquare, FaInstagram, FaLine } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
-import { Box, Flex, Text, Grid, Icon } from "@chakra-ui/react";
+import { Box, Flex, Text, Grid, Icon, Center } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import { Divider } from "@chakra-ui/react";
 
 export const Footer_HomePage = () => {
   return (
     <Box textAlign="center" justifyContent="center" mt={8}>
-      <Flex textAlign="center" justifyContent="center" pt={5}>
-        <Box px={10}>
+      <Divider py={2} borderBottomWidth="3px" color="white" />
+      <Flex textAlign="center" justifyContent="center" pt={8}>
+        <Box
+          px={10}
+          _hover={{
+            transform: "scale(1.25) translateY(-2px)",
+            transitionDuration: "0.5s",
+          }}
+        >
           <a href="https://www.facebook.com/xXNekoLordXx/" target="_blank">
             <FaFacebookSquare color="white" fontSize="40px" />
           </a>
         </Box>
-        <Box px={10}>
+        <Box
+          px={10}
+          _hover={{
+            transform: "scale(1.25) translateY(-2px)",
+            transitionDuration: "0.5s",
+          }}
+        >
           <a href="https://www.instagram.com/kitsune_ne_cs/" target="_blank">
             <FaInstagram color="white" fontSize="40px" />
           </a>
         </Box>
-        <Box px={10}>
+        <Box
+          px={10}
+          _hover={{
+            transform: "scale(1.25) translateY(-2px)",
+            transitionDuration: "0.5s",
+          }}
+        >
           <a href="https://line.me/th/" target="_blank">
-            <FaLine color="white" fontSize="40px" />
+            <Box _hover={{ color: "black" }}>
+              <FaLine
+                fontSize="40px"
+              />
+            </Box>
           </a>
         </Box>
       </Flex>
