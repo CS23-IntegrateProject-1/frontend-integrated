@@ -1,4 +1,11 @@
-import { Box, Flex, Heading, Icon, IconButton, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 BiComment;
@@ -8,8 +15,8 @@ import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
 
 export const ArticlePage = () => {
-    const {isOpen,onOpen, onClose} = useDisclosure();
-    return (
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
     <Box>
       <Heading mb={"0.5em"} style={TextStyle.h1}>
         Article Name
@@ -67,14 +74,14 @@ export const ArticlePage = () => {
           </Flex>
         </Flex>
 
-          <IconButton
-            variant={"link"}
-            fontSize={"2xl"}
-            color={"white"}
-            aria-label="unlike"
-            icon={<FiSend />}
-          />
-          {/* <IconButton variant={"link"} fontSize={"3xl"} color={"white"} aria-label="unlike" icon={<AiFillHeart/>} /> */}
+        <IconButton
+          variant={"link"}
+          fontSize={"2xl"}
+          color={"white"}
+          aria-label="unlike"
+          icon={<FiSend />}
+        />
+        {/* <IconButton variant={"link"} fontSize={"3xl"} color={"white"} aria-label="unlike" icon={<AiFillHeart/>} /> */}
       </Flex>
       <ArticleFooter />
       <CommentModal isOpen={isOpen} onClose={onClose} />
