@@ -57,22 +57,22 @@ export const HomePage = () => {
     <Box width={"100%"}>
       <ButtonComponent text="Som Geng mak" />
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/IDK_Path">
+      <NavLink to="/IDK_Path">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "21vw" }}
+            w={"21vw"}
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.100" }}
           >
-            <CardBody py={"3"} px={"0"}>
+            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
                   <StarIcon color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "2" }}
+                mt={{ base: "2", lg: "6" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -80,7 +80,7 @@ export const HomePage = () => {
                   fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
                 >
-                  Resaurant
+                  Restaurant
                 </Heading>
               </Stack>
             </CardBody>
@@ -243,11 +243,17 @@ export const HomePage = () => {
                 <Text color="grey.200">{R.description}</Text>
               </Stack>
               <ButtonGroup mt={4} spacing="2">
-                <Button variant="solid" colorScheme="blue">
-                  Buy now
+                <Button 
+                variant="outline" 
+                colorScheme="gray" 
+                textColor="white">
+                  More Info
                 </Button>
-                <Button variant="ghost" colorScheme="blue">
-                  Add to cart
+                <Button 
+                variant="solid" 
+                colorScheme="pink" 
+                textColor="white">
+                  Reserve Now
                 </Button>
               </ButtonGroup>
             </CardBody>
