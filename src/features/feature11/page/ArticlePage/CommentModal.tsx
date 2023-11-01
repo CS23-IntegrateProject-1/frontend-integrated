@@ -14,12 +14,25 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { CommentInput } from "./CommentInput";
 import { CommentItem } from "./CommentItem";
 
+interface ArticleCommentProps {
+  commentId: string;
+  commentContent: string;
+  commentDate: string;
+  likedByCreator: boolean;
+  commentWriterUsername: string;
+}
+
 interface ModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
+  comments: ArticleCommentProps[];
 }
 
-export const CommentModal: FC<ModalComponentProps> = ({ isOpen, onClose }) => {
+export const CommentModal: FC<ModalComponentProps> = ({
+  isOpen,
+  onClose,
+  comments,
+}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -43,7 +56,7 @@ export const CommentModal: FC<ModalComponentProps> = ({ isOpen, onClose }) => {
           mb={"0.5em"}
         >
           <Heading style={TextStyle.h1} color={"black"}>
-            Comments (1)
+            Comments ({comments.length})
           </Heading>
           <IconButton
             variant={"link"}
@@ -54,9 +67,11 @@ export const CommentModal: FC<ModalComponentProps> = ({ isOpen, onClose }) => {
             onClick={onClose}
           />
         </Flex>
-        <CommentInput />
+        <CommentInput/>
         <Box>
-          <CommentItem />
+          {comments.map((comment) => (
+            <CommentItem comment={comment} key={comment.commentId} />
+          ))}
         </Box>
       </ModalContent>
     </Modal>

@@ -1,8 +1,15 @@
 import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { BiGame } from "react-icons/bi";
+import { FC, useState } from "react";
 
 export const CommentInput = () => {
+  const [content, setContent] = useState("");
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  }
+
   return (
     <Flex
       flexDir={"column"}
@@ -15,21 +22,26 @@ export const CommentInput = () => {
       borderRadius={"20px"}
     >
       <Box>
-        <Flex alignItems={"center"}>
+        <Flex alignItems={"center"} mb={"0.25em"}>
           <Box w={"30px"} h={"30px"} mr={"0.5em"} bg={"red"}></Box>
           <Heading style={TextStyle.h4} color={"black"}>
             username
           </Heading>
         </Flex>
-        <Box my={"1em"}>
+        {/* <Box my={"1em"}> */}
           <Textarea
             p={"0.5em"}
             style={TextStyle.body3}
             variant={"unstyled"}
             rows={2}
             placeholder={"Write a comment..."}
+            value={content}
+            onChange={handleContentChange}
+            color={"black"}
+            resize={"none"}
+            // bg={"red"}
           />
-        </Box>
+        {/* </Box> */}
       </Box>
 
       <Flex justifyContent={"flex-end"}>
