@@ -7,6 +7,8 @@ import { Help } from './Pages/help/Help'
 import { About } from './Pages/about/About'
 import { Profile } from './Pages/profile/Profile'
 import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
+import { EmailNoti } from './Pages/notifications/EmailNoti'
+import { PushNoti } from './Pages/notifications/PushNoti'
 export const Feature01Routes = () => {
   return [
     {
@@ -29,6 +31,14 @@ export const Feature01Routes = () => {
     {
       path: "/setting/notifications",
       element: <Notifications/>,
+    },
+    {
+      path: "/setting/notifications/EmailNoti",
+      element: <EmailNoti/>,
+    },
+    {
+      path: "/setting/notifications/PushNoti",
+      element: <PushNoti/>,
     },
     {
       path: "/setting/privacy-policy",
