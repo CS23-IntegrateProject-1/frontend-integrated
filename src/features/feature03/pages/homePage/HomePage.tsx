@@ -16,15 +16,19 @@ import {
   HStack,
   Flex,
   Circle,
+  Center,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
-import { BiRestaurant, BiSolidDrink,  } from "react-icons/Bi";
-import { SiHomebrew } from "react-icons/Si"
-import { BsFillPeopleFill } from "react-icons/Bs"
-import { FaRobot } from "react-icons/fa";
+import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
+import { SiHomebrew } from "react-icons/Si";
+import { BsFillPeopleFill } from "react-icons/Bs";
+import { FaRobot, FaMapMarkerAlt, FaFilter } from "react-icons/fa";
 
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
 import mockE from "../EF3mock.json";
+import colors from "../../../../theme/foundations/colors";
 
 interface RProps {
   id: number;
@@ -58,21 +62,25 @@ export const HomePage = () => {
 
   return (
     <Box width={"100%"}>
-      <ButtonComponent text="Som Geng mak" />
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
-      <NavLink to="/IDK_Path">
+        <NavLink to="/IDK_Path">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
             w={"21vw"}
             maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.100" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
           >
-            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
-                  <BiRestaurant fontSize= {{base:"26px" , lg:"300px"}} color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={BiRestaurant}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
@@ -83,6 +91,7 @@ export const HomePage = () => {
                 <Heading
                   fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Restaurant
                 </Heading>
@@ -98,12 +107,17 @@ export const HomePage = () => {
             w={"21vw"}
             maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.100" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
           >
-            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
-                  <BiSolidDrink fontSize= "28px"  color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={BiSolidDrink}
+                    fontSize={{ base: "28px", lg: "35px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
@@ -114,6 +128,7 @@ export const HomePage = () => {
                 <Heading
                   fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Clubs
                 </Heading>
@@ -129,12 +144,17 @@ export const HomePage = () => {
             w={"21vw"}
             maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.100" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
           >
-            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
-                  <SiHomebrew fontSize= "30px"  color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={SiHomebrew}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
@@ -145,6 +165,7 @@ export const HomePage = () => {
                 <Heading
                   fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Bars
                 </Heading>
@@ -160,12 +181,17 @@ export const HomePage = () => {
             w={"21vw"}
             maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.100" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
           >
-            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
-                  <BsFillPeopleFill fontSize= "26px"  color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={BsFillPeopleFill}
+                    fontSize={{ base: "26px", lg: "33px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
@@ -176,6 +202,7 @@ export const HomePage = () => {
                 <Heading
                   fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Community
                 </Heading>
@@ -191,13 +218,14 @@ export const HomePage = () => {
           minW={"230px"}
           maxW={"230px"}
           h={{ lg: "150px", base: "100px" }}
-          _hover={{ bg: "brand.100" }}
+          _hover={{ bg: "brand.200", textColor: "white" }}
+          bgColor={"brand.100"}
           display={{ lg: "block", base: "none" }}
         >
           <CardBody>
             <HStack justifyContent={"center"}>
-              <Circle size={{base:"50px", lg:"60px"}} bg="brand.200" >
-                <FaRobot fontSize= "28px"  color="black" />
+              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                <Icon as={FaRobot} fontSize={{ base: "28px", lg: "35px" }} color={"black"} />
               </Circle>
             </HStack>
             <Stack
@@ -208,6 +236,7 @@ export const HomePage = () => {
               <Heading
                 fontSize={{ lg: "2xl", base: "sm" }}
                 textAlign={"center"}
+                fontWeight="bold"
               >
                 Chat Bot
               </Heading>
@@ -216,27 +245,60 @@ export const HomePage = () => {
         </Card>
       </Flex>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Text fontSize="50px">Book Seats</Text>
-      {/* <SearchBar /> */}
-      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Text mt={5} fontSize="40px">
-        Maps
+      <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
+        Book Seats
       </Text>
-      <NavLink to="/IDK_Path">
-        <Image
-          src="https://c4.wallpaperflare.com/wallpaper/210/9/215/anime-fantasy-game-map-wallpaper-preview.jpg"
-          alt="Map_Pic not load"
-          borderRadius="lg"
-        />
-      </NavLink>
+      <Box display="flex">
+        <SearchBar />
+        <NavLink to="/IDK_Path">
+          <Box
+            _hover={{ color: "brand.100" }}
+            pl="15px"
+            display={{ base: "block", lg: "none" }}
+          >
+            <FaMapMarkerAlt fontSize="25px" />
+            <Text fontSize="15px" fontWeight="bold">
+              Map
+            </Text>
+          </Box>
+        </NavLink>
+      </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Text mt={5} fontSize="40px">
-        Recommended Places
-      </Text>
-      <Box overflow={"scroll"} display={"flex"} w={"100%"}>
+      <Box pt="10px" display={{ base: "none", lg: "block" }}>
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
+          Maps
+        </Text>
+        <NavLink to="/IDK_Path">
+          <Image
+            src="https://c4.wallpaperflare.com/wallpaper/210/9/215/anime-fantasy-game-map-wallpaper-preview.jpg"
+            alt="Map_Pic not load"
+            borderRadius="xl"
+            w="100%"
+            h="300px"
+          />
+        </NavLink>
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Flex pt={5} align="center">
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
+          Recommended Places
+        </Text>
+        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
+            <Text
+              fontSize={{ base: "15px", lg: "20px" }}
+              color="grey.100"
+              textDecorationLine="underline"
+              _hover={{ textColor: "white" }}
+            >
+              See all
+            </Text>
+        </NavLink>
+      </Flex>
+
+      <Box overflow={"scroll"} display={"flex"} w={"100%"} pt={1}>
         {R.filter((R) => R).map((R, index) => (
           <Card
-            minW={"300px"}
+            minW={{ base: "300px", lg: "350px" }}
             width="sm"
             borderRadius="2xl"
             bg="brand.200"
@@ -244,36 +306,72 @@ export const HomePage = () => {
             marginRight="5"
           >
             <CardBody>
-              <Image src={R.picR} alt="BarButPic not load" borderRadius="lg" />
-              <Stack mt="6" spacing="3">
+              <Image src={R.picR} 
+              alt="BarButPic not load" 
+              borderRadius="lg"
+              w="100%"
+              h= "160px"
+               />
+              <Stack mt="4" spacing="3">
                 <Heading color="white" size="md">
                   {R.name}
                 </Heading>
                 <Text color="grey.200">{R.description}</Text>
               </Stack>
-              <ButtonGroup mt={4} spacing="2">
-                <Button 
-                variant="outline" 
-                colorScheme="gray" 
-                textColor="white">
+            </CardBody>
+            <Flex
+              bottom="0"
+              left="0"
+              width="100%"
+              pb="5"
+              justify="center"
+              align="center"
+            >
+              <ButtonGroup spacing="4">
+                <Button
+                  variant="outline"
+                  textColor="white"
+                  _hover={{
+                    textColor: "black",
+                    borderColor: "black",
+                    bgColor: "brand.100",
+                  }}
+                  w={{ base: "120px", lg: "140px" }}
+                >
                   More Info
                 </Button>
-                <Button 
-                variant="solid" 
-                colorScheme="pink" 
-                textColor="white">
+                <Button
+                  variant="solid"
+                  textColor="white"
+                  bgColor="brand.300"
+                  _hover={{ bgColor: "brand.100" }}
+                  w={{ base: "120px", lg: "140px" }}
+                >
                   Reserve Now
                 </Button>
               </ButtonGroup>
-            </CardBody>
+            </Flex>
           </Card>
         ))}
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Text mt={5} fontSize="40px">
-        Promotions
-      </Text>
-      <Box width={"100%"}>
+      <Flex pt={5} align="center">
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
+          Promotions
+        </Text>
+        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
+            <Text
+              fontSize={{ base: "15px", lg: "20px" }}
+              color="grey.100"
+              textDecorationLine="underline"
+              _hover={{ textColor: "white" }}
+            >
+              See all
+            </Text>
+        </NavLink>
+      </Flex>
+
+      <Box width={"100%"} pt={1}>
         <Box overflowX="auto">
           <Box display="flex">
             {P.map((P, index) => (
@@ -281,33 +379,53 @@ export const HomePage = () => {
                 key={index}
                 minW={"300px"}
                 maxW="sm"
+                minH={"150px"}
+                maxH="sm"
                 borderRadius="2xl"
                 marginRight="5"
               >
-                <Image
-                  src={P.picP}
-                  alt="Promotion_Pic not load"
-                  borderRadius="lg"
-                />
+                <NavLink to="/IDK_PathAAAAA">
+                  <Image
+                    src={P.picP}
+                    alt="Promotion_Pic not load"
+                    borderRadius="lg"
+                    w="100%"
+                    maxW="300px"
+                    h="200px"
+                  />
+                </NavLink>
               </Card>
             ))}
           </Box>
         </Box>
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Text mt={5} fontSize="40px">
-        Events
-      </Text>
-      <Box width={"100%"}>
+      <Flex pt={5} align="center">
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
+          Events
+        </Text>
+        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
+            <Text
+              fontSize={{ base: "15px", lg: "20px" }}
+              color="grey.100"
+              textDecorationLine="underline"
+              _hover={{ textColor: "white" }}
+            >
+              See all
+            </Text>
+        </NavLink>
+      </Flex>
+
+      <Box width={"100%"} pt={1}>
         <Box overflowX="auto">
           <Box display="flex">
             {E.map((E, index) => (
               <Card
-                key={index}
-                minW={"300px"}
-                maxW="sm"
+                minW={{ base: "300px", lg: "350px" }}
+                width="sm"
                 borderRadius="2xl"
                 bg="brand.200"
+                key={index}
                 marginRight="5"
               >
                 <CardBody>
@@ -315,23 +433,57 @@ export const HomePage = () => {
                     src={E.picE}
                     alt="Event_Pic not load"
                     borderRadius="lg"
+                    w="100%"
+                    h="150px"
                   />
-                  <Stack mt="6" spacing="3">
+                  <Stack mt="4" spacing="3">
                     <Text color="grey.200">{E.date}</Text>
                     <Heading color="white" size="md">
                       {E.name}
                     </Heading>
-                    <Text color="grey.200">{E.location}</Text>
+                    <Box display={"flex"}>
+                      <FaMapMarkerAlt
+                        color={colors.grey[200]}
+                        fontSize="25px"
+                      />
+                      <Text paddingLeft={2} color="grey.200">
+                        {E.location}
+                      </Text>
+                    </Box>
                   </Stack>
-                  <ButtonGroup mt={4} spacing="2">
-                    <Button variant="solid" colorScheme="blue">
-                      Buy now
+                </CardBody>
+                <Flex
+                  bottom="0"
+                  left="0"
+                  width="100%"
+                  pb="5"
+                  justify="center"
+                  align="center"
+                >
+                  <ButtonGroup spacing="4">
+                    <Button
+                      variant="outline"
+                      textColor="white"
+                      _hover={{
+                        textColor: "black",
+                        borderColor: "black",
+                        bgColor: "brand.100",
+                      }}
+                      w={{ base: "120px", lg: "140px" }}
+                    >
+                      More Info
                     </Button>
-                    <Button variant="ghost" colorScheme="blue">
-                      Add to cart
+                    <Button
+                      variant="solid"
+                      textColor="white"
+                      bgColor="brand.300"
+                      _hover={{ bgColor: "brand.100" }}
+                      w={{ base: "120px", lg: "140px" }}
+                    >
+                      Reserve Now
                     </Button>
                   </ButtonGroup>
-                </CardBody>
+                </Flex>
               </Card>
             ))}
           </Box>

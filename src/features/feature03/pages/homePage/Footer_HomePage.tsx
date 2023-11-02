@@ -9,7 +9,7 @@ import { Divider } from "@chakra-ui/react";
 export const Footer_HomePage = () => {
   return (
     <Box textAlign="center" justifyContent="center" mt={8}>
-      <Divider py={2} borderBottomWidth="3px" color="white" />
+      <Divider py={2} borderBottomWidth="1.5px" borderColor={"white"} opacity={"100%"} />
       <Flex textAlign="center" justifyContent="center" pt={8}>
         <Box
           px={10}
