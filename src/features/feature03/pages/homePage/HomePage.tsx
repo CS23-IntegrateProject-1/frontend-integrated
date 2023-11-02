@@ -344,7 +344,7 @@ export const HomePage = () => {
                   variant="solid"
                   textColor="white"
                   bgColor="brand.300"
-                  _hover={{ bgColor: "brand.100" }}
+                  _hover={{ bgColor: "brand.100", textColor: "black" }}
                   w={{ base: "120px", lg: "140px" }}
                 >
                   Reserve Now
@@ -477,7 +477,7 @@ export const HomePage = () => {
                       variant="solid"
                       textColor="white"
                       bgColor="brand.300"
-                      _hover={{ bgColor: "brand.100" }}
+                      _hover={{ bgColor: "brand.100", textColor: "black" }}
                       w={{ base: "120px", lg: "140px" }}
                     >
                       Reserve Now
