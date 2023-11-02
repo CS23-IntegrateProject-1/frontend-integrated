@@ -4,8 +4,8 @@ import { ArticlesPage } from "./page/ArticlesPage";
 
 export const Feature11Routes = () => {
   return [
-    { path: "/article", element: <ArticlesPage /> },
-    { path: "/article/:articleId", element: <ArticlePage/> },
+    { path: "/article", element: "ElementPlaceHolder" },
+    { path: "/article/:articleId", element: "ElementPlaceHolder" },
     { path: "/community", element: <CommunityPage /> },
   ];
 };
