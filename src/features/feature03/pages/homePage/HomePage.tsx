@@ -62,6 +62,7 @@ export const HomePage = () => {
             mt={15}
             mx={{ lg: "4", base: "1" }}
             w={"21vw"}
+            maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.100" }}
           >
@@ -91,18 +92,19 @@ export const HomePage = () => {
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "21vw" }}
+            w={"21vw"}
+            maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.100" }}
           >
-            <CardBody py={"3"} px={"0"}>
+            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
                   <StarIcon color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "2" }}
+                mt={{ base: "2", lg: "6" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -121,18 +123,19 @@ export const HomePage = () => {
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "21vw" }}
+            w={"21vw"}
+            maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.100" }}
           >
-            <CardBody py={"3"} px={"0"}>
+            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
                   <StarIcon color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "2" }}
+                mt={{ base: "2", lg: "6" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -151,18 +154,19 @@ export const HomePage = () => {
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "21vw" }}
+            w={"21vw"}
+            maxW={"230px"}
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.100" }}
           >
-            <CardBody py={"3"} px={"0"}>
+            <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
                   <StarIcon color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "2" }}
+                mt={{ base: "2", lg: "6" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -180,7 +184,8 @@ export const HomePage = () => {
         <Card
           mt={15}
           mx={{ lg: "4", base: "1" }}
-          w={{ lg: "220px", base: "21vw" }}
+          w={"21vw"}
+          maxW={"230px"}
           h={{ lg: "150px", base: "100px" }}
           _hover={{ bg: "brand.100" }}
           display={{ lg: "block", base: "none" }}
