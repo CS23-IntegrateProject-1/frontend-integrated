@@ -25,7 +25,7 @@ export const ExamplePage = () => {
         {" "}
         This is example of using textstyle "h2" with Text or Heading component{" "}
       </Text>
-      <ButtonComponent text={"yoooo"} />
+      <ButtonComponent text={"yoooo"} />  
       <ExampleComponent />
       <CommonComponent />
     </Box>
