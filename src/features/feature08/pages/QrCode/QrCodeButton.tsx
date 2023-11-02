@@ -1,10 +1,22 @@
-import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {MdOutlineQrCode2} from "react-icons/md";
+import { FC } from "react";
 
-export const QrCodeButton = () => {
+interface ButtonProps {
+  bgColor?: string;
+  textColor?: string;
+  borderColor?: string;
+  bgHover?: string;
+}
+
+export const QrCodeButton: FC<ButtonProps> = ({
+  bgColor,
+  textColor,
+  borderColor,
+  bgHover,
+}) => {
   return (
     <Box
       display={"flex"}
@@ -13,8 +25,19 @@ export const QrCodeButton = () => {
       alignItems={"center"}
       margin={5}
       width={"100%"}
+    > 
+    <Button
+      width={"70%"}
+      height={"40px"}
+      bg={!bgColor ? "brand.200" : bgColor}
+      color={!textColor ? "white" : textColor}
+      borderColor={!borderColor ? "" : borderColor}
+      _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+      textColor={"#DEBEF6"}
+      leftIcon={<MdOutlineQrCode2 />}
     >
-      <ButtonComponent leftIcon={<MdOutlineQrCode2 />} textColor="#DEBEF6" text="QR PromptPay" />
+      QR PromptPay
+    </Button>
       <Card size={"sm"} width={"70%"} backgroundColor={"#DEBEF6"}>
         <CardBody>
           <Text color={"#5F0DBB"}>
