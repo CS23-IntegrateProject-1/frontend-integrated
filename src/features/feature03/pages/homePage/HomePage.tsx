@@ -1,9 +1,11 @@
-import { Box, Stack, StackDivider, Text } from "@chakra-ui/react";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_Components/SearchBar";
 import { Footer_HomePage } from "./Footer_HomePage";
 import {
+  Box,
+  Stack,
+  Text,
   Card,
   CardHeader,
   CardBody,
@@ -13,11 +15,12 @@ import {
   Button,
   HStack,
   Flex,
-  Center,
-  Square,
   Circle,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import { BiRestaurant, BiSolidDrink,  } from "react-icons/Bi";
+import { SiHomebrew } from "react-icons/Si"
+import { BsFillPeopleFill } from "react-icons/Bs"
+import { FaRobot } from "react-icons/fa";
 
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
@@ -69,7 +72,7 @@ export const HomePage = () => {
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                  <BiRestaurant fontSize= {{base:"26px" , lg:"300px"}} color="black" />
                 </Circle>
               </HStack>
               <Stack
@@ -100,7 +103,7 @@ export const HomePage = () => {
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                  <BiSolidDrink fontSize= "28px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
@@ -131,7 +134,7 @@ export const HomePage = () => {
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                  <SiHomebrew fontSize= "30px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
@@ -162,7 +165,7 @@ export const HomePage = () => {
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
                 <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                  <BsFillPeopleFill fontSize= "26px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
@@ -193,7 +196,7 @@ export const HomePage = () => {
           <CardBody>
             <HStack justifyContent={"center"}>
               <Circle size="50px" bg="brand.200" color="white">
-                <StarIcon color="black" />
+                <FaRobot fontSize= "28px"  color="black" />
               </Circle>
             </HStack>
             <Stack
