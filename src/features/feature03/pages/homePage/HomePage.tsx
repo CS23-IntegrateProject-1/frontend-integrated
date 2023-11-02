@@ -71,12 +71,12 @@ export const HomePage = () => {
           >
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
+                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
                   <BiRestaurant fontSize= {{base:"26px" , lg:"300px"}} color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ base: "2", lg: "6" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -102,12 +102,12 @@ export const HomePage = () => {
           >
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
+                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
                   <BiSolidDrink fontSize= "28px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ base: "2", lg: "6" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -133,12 +133,12 @@ export const HomePage = () => {
           >
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
+                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
                   <SiHomebrew fontSize= "30px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ base: "2", lg: "6" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -164,12 +164,12 @@ export const HomePage = () => {
           >
             <CardBody py={{base:"3", lg:"6"}} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
+                <Circle size={{base:"50px", lg:"60px"}} bg="brand.200">
                   <BsFillPeopleFill fontSize= "26px"  color="black" />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ base: "2", lg: "6" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
@@ -188,6 +188,7 @@ export const HomePage = () => {
           mt={15}
           mx={{ lg: "4", base: "1" }}
           w={"21vw"}
+          minW={"230px"}
           maxW={"230px"}
           h={{ lg: "150px", base: "100px" }}
           _hover={{ bg: "brand.100" }}
@@ -195,12 +196,12 @@ export const HomePage = () => {
         >
           <CardBody>
             <HStack justifyContent={"center"}>
-              <Circle size="50px" bg="brand.200" color="white">
+              <Circle size={{base:"50px", lg:"60px"}} bg="brand.200" >
                 <FaRobot fontSize= "28px"  color="black" />
               </Circle>
             </HStack>
             <Stack
-              mt={{ lg: "6", base: "3" }}
+              mt={{ lg: "5", base: "3" }}
               spacing="3"
               justifyContent={"center"}
             >
