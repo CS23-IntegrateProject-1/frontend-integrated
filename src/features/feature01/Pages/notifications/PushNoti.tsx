@@ -1,12 +1,32 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
-import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-
+import { Box, Flex, Text, Spacer, Switch, Divider} from "@chakra-ui/react";
 
 export const PushNoti = () => {
   return (
-      <Box width={"300px"} height={"150px"} bg={"brand.300"} m={"32px"} color={"white"}>
-          This is Push Noti page.
+      <Box>
+        <Flex>
+            <Text>Push Notifications</Text>
+            <Spacer/>
+            <Switch id='pushNoti'/>
+        </Flex>
+        <Divider py={2}/>
+        <Flex pt={4}>
+            <Text>Updates</Text>
+            <Spacer/>
+            <Switch id='pushUpdates'/>
+        </Flex>
+        <Divider py={2}/>
+        <Flex pt={4}>
+            <Text>Offers</Text>
+            <Spacer/>
+            <Switch id='pushOffers'/>
+        </Flex>
+        <Divider py={2}/>
+        <Flex pt={4}>
+            <Text>Feedback</Text>
+            <Spacer/>
+            <Switch id='pushFeedback'/>
+        </Flex>
+        <Divider py={2}/>
       </Box>
   )
 }
