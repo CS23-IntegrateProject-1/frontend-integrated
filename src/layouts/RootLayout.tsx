@@ -6,7 +6,7 @@ export const RootLayout = () => {
   return (
     <Box>
       <Navbar />
-      <Box padding={{base:"16px", md:"32px"}}>
+      <Box padding={{base:"16px", md:"32px"}} pt={{base:"76px", md:"102px"}}>
         <Outlet />
       </Box>
     </Box>
