@@ -15,7 +15,6 @@ export const CommunityPage = () => {
       <ArticlesComponents />
       <div>Hello I'm editing</div>
       
-      
     </Box>
   );
 };
