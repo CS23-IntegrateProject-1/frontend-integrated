@@ -30,7 +30,7 @@ export const TermOfService = () => {
           </Text>
           {/* --------------------------------------- */}
           {/* to ask about opacity & bg color */}
-            <Text style={TextStyle.body1}  bgColor="#6B37BC22" p={5}>
+            <Text style={TextStyle.body1}  bgColor="#6B37BC22" p={5} m={-4}>
               <UnorderedList spacing={2} color="brand.200">
                 <ListItem><Link to={""} onClick={() => scrollToSection("firstPart")}><Text as='b'>Accpetance of Terms</Text></Link></ListItem>
                 <ListItem><Link to={""} onClick={() => scrollToSection("secondPart")}><Text as='b'>User Eligibility</Text></Link></ListItem>

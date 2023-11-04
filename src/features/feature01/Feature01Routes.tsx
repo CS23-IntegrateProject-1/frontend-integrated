@@ -9,6 +9,7 @@ import { Profile } from './Pages/profile/Profile'
 import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
 import { EmailNoti } from './Pages/notifications/EmailNoti'
 import { PushNoti } from './Pages/notifications/PushNoti'
+import { BusiProfile } from './Pages/busiProfile'
 export const Feature01Routes = () => {
   return [
     {
@@ -56,5 +57,11 @@ export const Feature01Routes = () => {
       path: "/setting/about",
       element: <About/>,
     },
+    //business
+    {
+      path: "/business/busiProfile",
+      element: <BusiProfile/>,
+    },
+  
   ];
 };

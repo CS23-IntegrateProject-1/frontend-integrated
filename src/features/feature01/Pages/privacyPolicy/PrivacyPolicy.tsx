@@ -35,7 +35,7 @@ export const PrivacyPolicy = () => {
       </Text>
       {/* --------------------------------------- */}
       {/* to ask about opacity & bg color & padding default 16px*/}
-      <Box bgColor="#6B37BC22" m={0} p={0}>
+      <Box bgColor="#6B37BC22" m={-4}>
         <Text style={TextStyle.body1} p={5}>
           <UnorderedList spacing={2} color="brand.200">
             <ListItem><Link to={""} onClick={() => scrollToSection("firstPart")}><Text as='b'>What information we collect</Text></Link></ListItem>
