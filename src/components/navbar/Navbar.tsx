@@ -26,6 +26,10 @@ export const Navbar = () => {
       padding={"1em"}
       bg={"brand.400"}
       shadow={"md"}
+      position={"fixed"}
+      top={"0"}
+      zIndex={"100"}
+      width={"100%"}
     >
       {location.pathname === "/" ? (
         <Box width={"40px"} height={"40px"} visibility={"hidden"}></Box>
