@@ -1,12 +1,15 @@
+import {EventsPage} from "./pages/EventsPage"
+import { NotiBadge } from "./Components/notiBadge";
 export const Feature10Routes = () => {
   return [
     {
       path: "/notification",
-      element: "ElementPlaceHolder",
+      element: <NotiBadge />,
+      
     },
     {
       path: "/event",
-      element: "ElementPlaceHolder",
+      element: <EventsPage />,
     },
     { path: "/event/:eventId", element: "ElementPlaceHolder" },
   ];
