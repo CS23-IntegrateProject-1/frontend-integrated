@@ -62,6 +62,17 @@ export const HomePage = () => {
 
   return (
     <Box width={"100%"}>
+      <Box bgColor={"black"} overflow={"hidden"} maxH="100px">
+        <Image
+          src="https://media.istockphoto.com/id/163196980/photo/sunset-panorama.jpg?s=612x612&w=0&k=20&c=kHv1TLoxBv5D2wZVnFUvyrU4KFbvJ9tEiXoG7h9y6ig="
+          // src="kuy"
+          alt="Advitisment not load"
+          borderRadius="xl"
+          w="100%"
+          h="100px"
+          overflow={"hidden"}
+        />
+      </Box>
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
         <NavLink to="/IDK_Path">
           <Card
@@ -72,6 +83,7 @@ export const HomePage = () => {
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.200", textColor: "white" }}
             bgColor={"brand.100"}
+            borderRadius="xl"
           >
             <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
@@ -109,6 +121,7 @@ export const HomePage = () => {
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.200", textColor: "white" }}
             bgColor={"brand.100"}
+            borderRadius="xl"
           >
             <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
@@ -146,6 +159,7 @@ export const HomePage = () => {
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.200", textColor: "white" }}
             bgColor={"brand.100"}
+            borderRadius="xl"
           >
             <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
@@ -183,6 +197,7 @@ export const HomePage = () => {
             h={{ lg: "150px", base: "100px" }}
             _hover={{ bg: "brand.200", textColor: "white" }}
             bgColor={"brand.100"}
+            borderRadius="xl"
           >
             <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
@@ -225,7 +240,11 @@ export const HomePage = () => {
           <CardBody>
             <HStack justifyContent={"center"}>
               <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon as={FaRobot} fontSize={{ base: "28px", lg: "35px" }} color={"black"} />
+                <Icon
+                  as={FaRobot}
+                  fontSize={{ base: "28px", lg: "35px" }}
+                  color={"black"}
+                />
               </Circle>
             </HStack>
             <Stack
@@ -283,15 +302,15 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Recommended Places
         </Text>
-        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
-            <Text
-              fontSize={{ base: "15px", lg: "20px" }}
-              color="grey.100"
-              textDecorationLine="underline"
-              _hover={{ textColor: "white" }}
-            >
-              See all
-            </Text>
+        <NavLink to="/IDK_Path" style={{ marginLeft: "auto" }}>
+          <Text
+            fontSize={{ base: "15px", lg: "20px" }}
+            color="grey.100"
+            textDecorationLine="underline"
+            _hover={{ textColor: "white" }}
+          >
+            See all
+          </Text>
         </NavLink>
       </Flex>
 
@@ -306,12 +325,13 @@ export const HomePage = () => {
             marginRight="5"
           >
             <CardBody>
-              <Image src={R.picR} 
-              alt="BarButPic not load" 
-              borderRadius="lg"
-              w="100%"
-              h= "160px"
-               />
+              <Image
+                src={R.picR}
+                alt="BarButPic not load"
+                borderRadius="lg"
+                w="100%"
+                h="160px"
+              />
               <Stack mt="4" spacing="3">
                 <Heading color="white" size="md">
                   {R.name}
@@ -359,15 +379,15 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Promotions
         </Text>
-        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
-            <Text
-              fontSize={{ base: "15px", lg: "20px" }}
-              color="grey.100"
-              textDecorationLine="underline"
-              _hover={{ textColor: "white" }}
-            >
-              See all
-            </Text>
+        <NavLink to="/IDK_Path" style={{ marginLeft: "auto" }}>
+          <Text
+            fontSize={{ base: "15px", lg: "20px" }}
+            color="grey.100"
+            textDecorationLine="underline"
+            _hover={{ textColor: "white" }}
+          >
+            See all
+          </Text>
         </NavLink>
       </Flex>
 
@@ -404,15 +424,15 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Events
         </Text>
-        <NavLink to="/IDK_Path" style={{marginLeft: "auto"}}>
-            <Text
-              fontSize={{ base: "15px", lg: "20px" }}
-              color="grey.100"
-              textDecorationLine="underline"
-              _hover={{ textColor: "white" }}
-            >
-              See all
-            </Text>
+        <NavLink to="/IDK_Path" style={{ marginLeft: "auto" }}>
+          <Text
+            fontSize={{ base: "15px", lg: "20px" }}
+            color="grey.100"
+            textDecorationLine="underline"
+            _hover={{ textColor: "white" }}
+          >
+            See all
+          </Text>
         </NavLink>
       </Flex>
 
