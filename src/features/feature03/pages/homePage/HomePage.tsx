@@ -1,7 +1,8 @@
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_Components/SearchBar";
-import { Footer_HomePage } from "./Footer_HomePage";
+import SliderAdvertisement from "./F3_Components/Advertisement/SliderAdvertisement";
+import { Footer_HomePage } from "./F3_Components/Footer_HomePage";
 import {
   Box,
   Stack,
@@ -62,17 +63,10 @@ export const HomePage = () => {
 
   return (
     <Box width={"100%"}>
-      <Box bgColor={"black"} overflow={"hidden"} maxH="100px">
-        <Image
-          src="https://media.istockphoto.com/id/163196980/photo/sunset-panorama.jpg?s=612x612&w=0&k=20&c=kHv1TLoxBv5D2wZVnFUvyrU4KFbvJ9tEiXoG7h9y6ig="
-          // src="kuy"
-          alt="Advitisment not load"
-          borderRadius="xl"
-          w="100%"
-          h="100px"
-          overflow={"hidden"}
-        />
+      <Box pb={5}>
+        <SliderAdvertisement />
       </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
         <NavLink to="/IDK_Path">
           <Card
