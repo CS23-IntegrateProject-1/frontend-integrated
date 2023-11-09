@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react"
 import React, { useState } from "react";
 
 export const EventComponents = () => {
-  const [isHovered, setIsHovered] = useState(false);
+   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = () => {
     setIsHovered(true);
