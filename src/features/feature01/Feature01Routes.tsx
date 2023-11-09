@@ -9,7 +9,8 @@ import { Profile } from './Pages/profile/Profile'
 import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
 import { EmailNoti } from './Pages/notifications/EmailNoti'
 import { PushNoti } from './Pages/notifications/PushNoti'
-import { BusiProfile } from './Pages/busiProfile'
+import { BusiProfile } from './Pages/BusiProfile'
+import { BusiProfileEdit } from './Pages/BusiProfileEdit'
 export const Feature01Routes = () => {
   return [
     {
@@ -61,6 +62,10 @@ export const Feature01Routes = () => {
     {
       path: "/business/busiProfile",
       element: <BusiProfile/>,
+    },
+    {
+      path: "/business/busiProfileEdit",
+      element: <BusiProfileEdit/>,
     },
   
   ];

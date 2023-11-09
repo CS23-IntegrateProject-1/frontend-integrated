@@ -3,6 +3,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { AddIcon } from '@chakra-ui/icons'
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
 export const PaymentMethodSetting = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [flexBoxId, setFlexBoxId] = useState("");
@@ -27,7 +28,10 @@ export const PaymentMethodSetting = () => {
       document.getElementById("KplusDef")!.hidden=true;
       document.getElementById("KthaiDef")!.hidden=true;
     }
-
+    //store at local storage after getting success response from backend
+    localStorage.setItem("primaryPayment", buttonId);
+    //data to send to the backend
+    //final buttonID here
   }
   const handleOpen = (event : any) => {
     const buttonId = event.currentTarget.id;
@@ -73,7 +77,7 @@ export const PaymentMethodSetting = () => {
           </Box>
           {/* Drawer */}
           <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
-          <DrawerContent bg={'brand.100'} px={4} pt={4} pb={5}>
+          <DrawerContent bg={'brand.100'} px={4} pt={4} pb={5} transition="all 0.1s ease">
             <Center color={"black"}fontWeight={TextStyle.h1.fontWeight} fontSize={TextStyle.h1.fontSize}>Set as Primary Payment</Center>
             <Center pt={1} color={"black"} fontSize={TextStyle.body2.fontSize}>Tap "Confirm" to set this as a parimary payment method</Center>
             <Center>

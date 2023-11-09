@@ -10,7 +10,7 @@ export const BusiProfile = () => {
                 <Box pl={8}>
                     <Avatar src='https://bit.ly/broken-link' size={'xl'}/>
                 </Box>
-                <NavLink to="/business/profileEdit">
+                <NavLink to="/business/busiProfileEdit">
                     <Box>
                         <ChevronRightIcon fontSize={"xx-large"}/>
                     </Box>
