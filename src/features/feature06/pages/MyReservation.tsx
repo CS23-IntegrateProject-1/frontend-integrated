@@ -8,28 +8,32 @@ export const MyReservation = () => {
   const [HisShown, setHisShown] = useState(false);
   const maping = [1,2,3,4];  
   return (
-    <Box display={"flex"}
+    <Box 
+      display={"flex"}
       flexDirection={"column"}
-      justifyContent={"space-between"}
       alignItems={"center"}
       position={"relative"}>
-    <Box className="ComingHisButton"
+    <Box className="ButtonBar"
+      maxWidth={"90%"}
+      overflowX={"auto"}
+      // overflowY={"hidden"}
+      whiteSpace={"nowrap"}
       display={"flex"}
+      height={"50px"}
       flexDirection={"row"}
-      justifyContent={"center"}
-      alignItems={"center"}
+      justifyContent={"flex-start"}
       position={"relative"}
-      overflow='hidden'>
-    <Button className="ComingSoon" 
+      >
+    <Button className="Pending" 
       variant='outline'
       background={"none"}
-      width={"110px"}
-      height={"32px"}
+      minWidth={"110px"}
+      height={"30px"}
       display={"fixed"}
       justifyContent={"center"}
       alignItems={"center"}
       borderRadius={"15px"}
-      marginRight={"53px"}
+      marginRight={"20px"}
       _focus={{
         background: "#A533C8",
         borderColor: "none",
@@ -38,15 +42,60 @@ export const MyReservation = () => {
       _hover={{
       }}
       onClick={()=>(setComShown(true),setHisShown(false))}>
-      <Text color={"white"} fontSize="12px" fontWeight={"normal"}>
-        Coming Soon
+      <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
+        Pending
       </Text>
     </Button>
-    <Button className="History" 
+    <Button className="Checkin" 
       variant='outline'
       background={"none"}
-      width={"110px"}
-      height={"32px"}
+      minWidth={"110px"}
+      height={"30px"}
+      display={"fixed"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      borderRadius={"15px"}
+      marginRight={"20px"}
+      _focus={{
+        background: "#A533C8",
+        borderColor: "none",
+        transitionDuration: "1s",
+      }}
+      _hover={{
+      }}
+      onClick={()=>(setComShown(false),setHisShown(true))}
+      >
+      <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
+        Checkin
+      </Text>
+    </Button>
+    <Button className="Completed" 
+     variant='outline'
+      background={"none"}
+      minWidth={"110px"}
+      height={"30px"}
+      display={"fixed"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      borderRadius={"15px"}
+      marginRight={"20px"}
+      _focus={{
+        background: "#A533C8",
+        borderColor: "none",
+        transitionDuration: "1s",
+      }}
+      _hover={{
+      }}
+      onClick={()=>(setComShown(true),setHisShown(false))}>
+      <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
+        Completed
+      </Text>
+    </Button>
+    <Button className="Cancelled" 
+      variant='outline'
+      background={"none"}
+      minWidth={"110px"}
+      height={"30px"}
       display={"fixed"}
       justifyContent={"center"}
       alignItems={"center"}
@@ -60,21 +109,23 @@ export const MyReservation = () => {
       }}
       onClick={()=>(setComShown(false),setHisShown(true))}
       >
-      <Text color={"white"} fontSize="12px" fontWeight={"normal"}>
-        History
+      <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
+        Cancelled
       </Text>
     </Button>
     </Box>
+    <Box className="ReservationList" marginTop={"10px"}>
     {ComShown === true && maping.map(() => (
-        <Box marginTop={"20px"}>
+        <Box marginBottom={"20px"}>
           <ReservationCards />
         </Box>
       ))}
     {HisShown === true && maping.map(() => (
-        <Box marginTop={"20px"}>
+        <Box marginBottom={"20px"}>
           <TableCard />
         </Box>
       ))}
+      </Box>
     </Box>
   );
 };
