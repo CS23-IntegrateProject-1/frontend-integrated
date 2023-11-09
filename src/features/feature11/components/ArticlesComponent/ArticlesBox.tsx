@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Text } from '@chakra-ui/react';
 import { AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/bi";
+import { BiComment } from "react-icons/Bi";
 import { MdOutlineSend } from "react-icons/md";
 
 // Component for an article box
