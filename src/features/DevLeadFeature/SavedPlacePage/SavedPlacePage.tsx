@@ -1,8 +1,20 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
+import { useUserContext } from "../../../contexts/UserContext";
+import { useEffect } from "react";
 
 export const SavedPlacePage = () => {
-  return <Box>
+  const { user,setUser } = useUserContext();
 
-    
-  </Box>;
+  useEffect(()=> {
+    console.log(user)
+  },[]);
+  return (
+    <div>
+      <h2>User Profile</h2>
+      <p>User ID: {user?.userId}</p>
+      <p>Username: {user?.username}</p>
+      <p>User Role: {user?.userRole}</p>
+    <Button onClick={()=>setUser(null)}>Logout</Button>
+    </div>
+  );
 };
