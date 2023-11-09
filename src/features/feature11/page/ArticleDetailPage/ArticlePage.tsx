@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 BiComment;
-import { BiComment } from "react-icons/bi";
+import { BiComment } from "react-icons/Bi";
 import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
