@@ -17,16 +17,12 @@ import { Feature13Routes } from "./features/feature13/Feature13Routes";
 import { Feature14Routes } from "./features/feature14/Feature14Routes";
 import { ExampleFeatureRoutes } from "./features/exampleFeature/ExampleFeatureRoutes";
 import { NotFoundPage } from "./pages/fallbackPages/NotFoundPage";
-import { UserProvider } from "./contexts/UserContext";
-import { DevLeadFeatureRoutes } from "./features/DevLeadFeature/DevLeadFeatureRoutes";
-// import { useState } from "react";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
-      ...DevLeadFeatureRoutes(),
       ...Feature01Routes(),
       ...Feature02Routes(),
       ...Feature03Routes(),
@@ -45,16 +41,11 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/*", element: <NotFoundPage /> },
+
 ]);
 
 function App() {
-  // const [user, setUser] = useState(null);
-
-  return (
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
