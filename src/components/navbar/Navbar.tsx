@@ -5,15 +5,17 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon,ArrowBackIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { NavbarContent } from "./NavbarContent";
 import { useLocation } from "react-router-dom";
 import { getPageTitle } from "../../functions/getPageTitle";
+// import { useHistory } from "react-router-dom";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
+  // const history = useHistory();
 
   const handleOpenNav = () => {
     onOpen();
@@ -41,7 +43,9 @@ export const Navbar = () => {
             <ArrowBackIcon
               width={"24px"}
               height={"24px"}
-              // onClick={handleOpenNav}
+              onClick={() => {
+                window.history.back();
+              }}
             />
           }
         />
