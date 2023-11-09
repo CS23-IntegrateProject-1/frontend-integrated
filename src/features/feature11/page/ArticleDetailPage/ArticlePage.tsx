@@ -33,7 +33,7 @@ interface ArticlePageProps {
   writerProfilePicture: string;
   articlePicture: string[];
   articleLikes: number;
-  articleComments:ArticleComment[];
+  articleComments: ArticleComment[];
   dateCreated: string;
 }
 
@@ -116,7 +116,11 @@ export const ArticlePage = () => {
         />
       </Flex>
       <ArticleFooter />
-      <CommentModal isOpen={isOpen} onClose={onClose} comments={article.data?.articleComments||[]}/>
+      <CommentModal
+        isOpen={isOpen}
+        onClose={onClose}
+        comments={article.data?.articleComments || []}
+      />
     </Box>
   );
 };
