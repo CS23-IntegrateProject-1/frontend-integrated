@@ -1,5 +1,6 @@
 import { QrCodeButton } from "../QrCode/QrCodeButton"
 import { MobileBankingList } from "../MobileBanking/MobileBankingList"
+import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
 import { Box, Button } from "@chakra-ui/react";
 import {MdAttachMoney} from "react-icons/md"
@@ -40,6 +41,7 @@ export const SelectPayment: FC<ButtonProps>= ({
     </Button>
         <QrCodeButton />
         <MobileBankingList />
+        <CreditCardList />
         <ConfirmButton />
         </Box>
     )

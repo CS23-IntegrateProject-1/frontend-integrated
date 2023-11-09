@@ -6,7 +6,8 @@ import { OrderUpdateNoti } from "./pages/Notification (Business side)/OrderUpdat
 import { UpdateNoti } from "./pages/Notification (Business side)/UpdateNoti";
 import { SelectPayment } from "./pages/Payment/SelectPayment";
 import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
-import { AddCard } from "./pages/Notification (Business side)/AddCard";
+import { AddCardNoti } from "./pages/Notification (Business side)/AddCardNoti";
+import { AddCard } from "./pages/AddCard/AddCard";
 import { EnterCode } from "./pages/Notification (Business side)/EnterCode";
 import { PromotionNoti } from "./pages/Notification (Business side)/PromotionNoti";
 
@@ -16,6 +17,7 @@ export const Feature08Routes = () => {
     { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
     { path: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:venueId/waiting", element: "ElementPlaceHolder" },
+    { path: "/venue/:venueId/addcard", element: <AddCard /> },
     { path: "/Notification/BusinessNoti", element: <Notification /> },
     { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
@@ -23,7 +25,7 @@ export const Feature08Routes = () => {
     { path: "/Notification/NewReservation", element: <NewReserveNoti /> }, 
     { path: "/Notification/OrderUpdate", element: <OrderUpdateNoti /> }, 
     { path: "/Notification/Update", element: <UpdateNoti /> },
-    { path: "/Notification/addcard", element: <AddCard /> },
+    { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
   ];
 };
