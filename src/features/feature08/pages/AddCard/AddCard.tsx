@@ -12,7 +12,6 @@ import {
   Input,
   Divider,
   AbsoluteCenter,
-  Text
 } from "@chakra-ui/react";
 import { FC } from "react";
 

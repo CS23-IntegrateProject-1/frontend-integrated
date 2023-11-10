@@ -4,12 +4,16 @@ import { NewReserveNoti } from "./pages/Notification (Business side)/NewReserveN
 import { Notification } from "./pages/Notification (Business side)/Notification";
 import { OrderUpdateNoti } from "./pages/Notification (Business side)/OrderUpdateNoti";
 import { UpdateNoti } from "./pages/Notification (Business side)/UpdateNoti";
-import { SelectPayment } from "./pages/Payment/SelectPayment";
+import { SelectPayment } from "./pages/Customer/SelectPayment";
 import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
 import { AddCardNoti } from "./pages/Notification (Business side)/AddCardNoti";
 import { AddCard } from "./pages/AddCard/AddCard";
 import { EnterCode } from "./pages/Notification (Business side)/EnterCode";
 import { PromotionNoti } from "./pages/Notification (Business side)/PromotionNoti";
+import { PaymentHistory } from "./pages/Payment/PaymentHistory";
+import { DeliveryPayment } from "./pages/Customer/DeliveryPayment";
+import { DeliveryAddCard } from "./pages/Customer/DeliveryAddCard";
+import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
 
 export const Feature08Routes = () => {
   return [
@@ -17,7 +21,17 @@ export const Feature08Routes = () => {
     { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
     { path: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:venueId/waiting", element: "ElementPlaceHolder" },
+    { path: "/venue/:venueId/history", element: <PaymentHistory/> },
     { path: "/venue/:venueId/addcard", element: <AddCard /> },
+    { path: "/venue/:venueId/delivery_payment", element: <DeliveryPayment /> },
+    { path: "/venue/:venueId/delivery_addcard", element: <DeliveryAddCard /> },
+    { path: "/venue/:venueId/business/checkout", element: <SelectPaymentForCheckout /> },
+    { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
+    { path: "/venue/:venueId/business/delivery_addcard", element: <DeliveryAddCard /> },
+    { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
+    { path: "/venue/:venueId/admin/checkout", element: <SelectPaymentForCheckout /> },
+    { path: "/venue/:venueId/admin/qr-payment", element: <QrCodeScan /> },
+    { path: "/venue/:venueId/admin/delivery_addcard", element: <DeliveryAddCard /> },
     { path: "/Notification/BusinessNoti", element: <Notification /> },
     { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
