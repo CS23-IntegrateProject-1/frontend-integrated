@@ -14,10 +14,6 @@ import { PaymentHistory } from "./pages/Payment/PaymentHistory";
 import { DeliveryPayment } from "./pages/Customer/DeliveryPayment";
 import { DeliveryAddCard } from "./pages/Customer/DeliveryAddCard";
 import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
-
-
-
-
 import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
 
