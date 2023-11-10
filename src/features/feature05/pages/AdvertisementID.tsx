@@ -12,9 +12,14 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
 export const AdvertisementID = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/advertisement/:id/reject");
+  };
   return (
     <Box
       display={"flex"}
@@ -181,6 +186,7 @@ export const AdvertisementID = () => {
         variant="solid" 
         width="40%" 
         color="#A533C8"
+        onClick={handleClick}
         >
           Reject
         </Button>

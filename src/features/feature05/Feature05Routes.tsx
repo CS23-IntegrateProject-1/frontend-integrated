@@ -1,9 +1,10 @@
 import { AdvertisementID } from "./pages/AdvertisementID";
 import { AdvertisementPage } from "./pages/AdvertisementPage";
 import { AdvertisementReject } from "./pages/AdvertisementReject";
-import { RecommendationCard } from "./components/RecommendationCard";
+import { RecommendationPage } from "./pages/RecommendationPage";
 import { AdvertisementCriteria } from "./pages/AdvertisementCriteria";
 import { AdvertisementRequest } from "./pages/AdvertisementRequest";
+import { AdvertisementStatus } from "./pages/advertisementStatus";
 
 export const Feature05Routes = () => {
   return [
@@ -25,7 +26,7 @@ export const Feature05Routes = () => {
     // User side
     {
       path: "/list/recommendation",
-      element: <RecommendationCard />,
+      element: <RecommendationPage />,
     },
 
     // Business
@@ -36,6 +37,10 @@ export const Feature05Routes = () => {
     {
       path: "/advertisement/request",
       element: <AdvertisementRequest />,
+    },
+    {
+      path: "/advertisement/status",
+      element: <AdvertisementStatus />,
     },
   ];
 };

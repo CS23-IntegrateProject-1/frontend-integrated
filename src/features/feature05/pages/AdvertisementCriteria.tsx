@@ -22,7 +22,7 @@ export const AdvertisementCriteria = () => {
       <Box
         width={{base:"90%" ,md:"70%" ,lg:"50%"}}
         minWidth="250px"
-        maxWidth="1000px"
+        maxWidth="700px"
         display="flex"
         flexDirection={"column"}
       >
