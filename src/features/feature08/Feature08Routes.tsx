@@ -10,6 +10,9 @@ import { AddCardNoti } from "./pages/Notification (Business side)/AddCardNoti";
 import { AddCard } from "./pages/AddCard/AddCard";
 import { EnterCode } from "./pages/Notification (Business side)/EnterCode";
 import { PromotionNoti } from "./pages/Notification (Business side)/PromotionNoti";
+import { Accounting } from "./pages/Account/Accounting";
+import { Checkbill } from "./pages/Account/Checkbill";
+
 
 export const Feature08Routes = () => {
   return [
@@ -27,5 +30,7 @@ export const Feature08Routes = () => {
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
+    { path: "/venue/Account/Accounting", element: <Accounting/>},
+    { path: "/venue/Accounting/Checkbill", element: <Checkbill/>},
   ];
 };
