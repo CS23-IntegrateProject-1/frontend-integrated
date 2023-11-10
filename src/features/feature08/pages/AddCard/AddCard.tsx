@@ -88,7 +88,7 @@ export const AddCard: FC<ButtonProps> = ({
         </CardFooter>
       </Card>
 
-      <FormControl mb={4} margin={10}>
+      <FormControl mb={4} marginTop={5} width={"70%"}>
         <Input
           type="text"
           placeholder="**** **** **** ****"
@@ -98,7 +98,7 @@ export const AddCard: FC<ButtonProps> = ({
         />
       </FormControl>
 
-      <FormControl mb={4}>
+      <FormControl mb={4} marginTop={5} width={"70%"}>
         <Input
           type="text"
           placeholder="John Doe"
@@ -108,24 +108,25 @@ export const AddCard: FC<ButtonProps> = ({
         />
       </FormControl>
 
-      <Flex justify="space-between" mb={4}>
-        <FormControl flex="1" marginRight={2}>
+      <Flex justify="space-between" mb={4} marginTop={5}>
+        <FormControl flex="1" marginRight={2} width="45%">
           <Input
             type="text"
             placeholder="MM/YY"
             color="white"
             borderRadius="md"
-            borderColor="white"
+            size={"md"}
           />
         </FormControl>
 
-        <FormControl flex="1" marginLeft={2}>
+        <FormControl flex="1" marginLeft={2} width="45%">
           <Input
             type="text"
             placeholder="123"
             color="white"
             borderRadius="md"
             borderColor="white"
+            size={"md"}
           />
         </FormControl>
       </Flex>
