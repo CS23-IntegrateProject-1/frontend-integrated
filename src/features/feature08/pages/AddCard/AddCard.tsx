@@ -8,9 +8,8 @@ import {
   Heading,
   Image,
   Flex,
-  Text,
-  Divider,
-  AbsoluteCenter,
+  FormControl,
+  Input,
 } from "@chakra-ui/react";
 import { FC } from "react";
 
@@ -28,19 +27,20 @@ export const AddCard: FC<ButtonProps> = ({
   bgHover,
 }) => {
   return (
-    <div>
-         <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
       margin={5}
+      padding={5}
     >
       <Card
-        width={"70%"}
-        backgroundColor={"#5F0DBB"}
-        color={"#C5C4C7"}
-        rounded={50}
+        width="70%"
+        backgroundColor="#5F0DBB"
+        color="#C5C4C7"
+        rounded="lg"
+        padding={6}
       >
         <CardHeader
           display="flex"
@@ -51,8 +51,6 @@ export const AddCard: FC<ButtonProps> = ({
             <Heading size="sm" textTransform="uppercase"></Heading>
           </Box>
           <Box paddingRight="10px">
-            {" "}
-            {/* Added paddingRight to create space between card and logo */}
             <Image
               objectFit="cover"
               maxW={{ base: "100%", sm: "100px" }}
@@ -65,7 +63,7 @@ export const AddCard: FC<ButtonProps> = ({
 
         <CardBody>
           <Box>
-            <Heading size="lg" textTransform="uppercase" color={"white"}>
+            <Heading size="lg" textTransform="uppercase" color="white">
               P.CHAMCHOY
             </Heading>
           </Box>
@@ -78,30 +76,72 @@ export const AddCard: FC<ButtonProps> = ({
           padding={4}
         >
           <Box>
-            <Heading size="md" color={"white"}>
+            <Heading size="md" color="white">
               5282 3456 7890 1289
             </Heading>
           </Box>
           <Box>
-            <Heading size="md" color={"white"}>
+            <Heading size="md" color="white">
               09/25
             </Heading>
           </Box>
         </CardFooter>
       </Card>
+
+      <FormControl mb={4} margin={10}>
+        <Input
+          type="text"
+          placeholder="**** **** **** ****"
+          color="white"
+          borderRadius="md"
+          borderColor="white"
+        />
+      </FormControl>
+
+      <FormControl mb={4}>
+        <Input
+          type="text"
+          placeholder="John Doe"
+          color="white"
+          borderRadius="md"
+          borderColor="white"
+        />
+      </FormControl>
+
+      <Flex justify="space-between" mb={4}>
+        <FormControl flex="1" marginRight={2}>
+          <Input
+            type="text"
+            placeholder="MM/YY"
+            color="white"
+            borderRadius="md"
+            borderColor="white"
+          />
+        </FormControl>
+
+        <FormControl flex="1" marginLeft={2}>
+          <Input
+            type="text"
+            placeholder="123"
+            color="white"
+            borderRadius="md"
+            borderColor="white"
+          />
+        </FormControl>
+      </Flex>
+
       <Button
-        width={"70%"}
-        height={"40px"}
+        width="70%"
+        height="40px"
         bg={!bgColor ? "brand.200" : bgColor}
         color={!textColor ? "white" : textColor}
         borderColor={!borderColor ? "" : borderColor}
         _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-        textColor={"#DEBEF6"}
-        //   marginTop={50}
+        textColor="#DEBEF6"
+        marginTop={10}
       >
         Apply
       </Button>
     </Box>
-    </div>
   );
 };
