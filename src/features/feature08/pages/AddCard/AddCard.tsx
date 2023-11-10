@@ -10,6 +10,9 @@ import {
   Flex,
   FormControl,
   Input,
+  Divider,
+  AbsoluteCenter,
+  Text
 } from "@chakra-ui/react";
 import { FC } from "react";
 
@@ -33,7 +36,8 @@ export const AddCard: FC<ButtonProps> = ({
       justifyContent="center"
       alignItems="center"
       margin={5}
-      padding={5}
+      padding={10}
+      position={"relative"}
     >
       <Card
         width="70%"
@@ -87,6 +91,12 @@ export const AddCard: FC<ButtonProps> = ({
           </Box>
         </CardFooter>
       </Card>
+
+      <Divider marginTop={10} />
+
+      <AbsoluteCenter px='4'>
+        Card details
+      </AbsoluteCenter>
 
       <FormControl mb={4} marginTop={5} width={"70%"}>
         <Input
