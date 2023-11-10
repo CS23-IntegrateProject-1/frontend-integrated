@@ -1,8 +1,8 @@
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { NavLink } from "react-router-dom";
-import { SearchBar } from "./F3_Components/SearchBar";
-import { SliderAdvertisement } from "./F3_Components/SliderAdvertisement";
-import { Footer_HomePage } from "./F3_Components/Footer_HomePage";
+import { SearchBar } from "./F3_HPCs/SearchBar";
+import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
+import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
 import {
   Box,
   Stack,
