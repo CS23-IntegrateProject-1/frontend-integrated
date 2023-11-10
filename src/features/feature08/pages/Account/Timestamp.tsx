@@ -13,7 +13,7 @@ import {
     Text
   } from "@chakra-ui/react";
   
-  export const Accounting = () => {
+  export const Timestamp = () => {
     return (
       <Center>
         <Box
@@ -37,7 +37,7 @@ import {
                     <Table variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none">
-                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="white">Date</Th>
+                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="white">Time</Th>
                           <Th textAlign="center" fontSize="lg" color="white">Amount</Th>
                         </Tr>
                       </Thead>
@@ -57,13 +57,16 @@ import {
                     <Table variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none">
-                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">01 Nov 2023</Th>
+                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">10:22:54</Th>
                           <Th textAlign="center" fontSize={"2xl"} color="black">
-                            5000
+                            22000
                             <Text textAlign="center" display="inline-block" marginLeft={2} fontSize="lg" color="black">
                               Baht
                             </Text>
                           </Th>
+                        </Tr>
+                        <Tr borderBottom="none" padding={3}>
+                            <Th textAlign={"center"} borderRight="1px solid white" fontSize={"lg"} color={"#0000004D"}>01 Nov 2023</Th>
                         </Tr>
                       </Thead>
                     </Table>
@@ -82,13 +85,16 @@ import {
                     <Table width="100%" variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">02 Nov 2023</Th>
+                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">10:52:54</Th>
                           <Th textAlign="center" fontSize="2xl" color="black">
-                            7000
+                            800
                             <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
                               Baht
                             </Text>
                           </Th>
+                        </Tr>
+                        <Tr borderBottom="none" padding={3}>
+                            <Th textAlign={"center"} borderRight="1px solid white" fontSize={"lg"} color={"#0000004D"}>01 Nov 2023</Th>
                         </Tr>
                       </Thead>
                     </Table>
@@ -106,39 +112,17 @@ import {
                   <TableContainer>
                     <Table width="100%" variant="unstyled">
                       <Thead>
-                        <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">03 Nov 2023</Th>
+                        <Tr borderBottom="none" padding={3}>
+                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">11:22:54</Th>
                           <Th textAlign="center" fontSize="2xl" color="black">
-                            4000
+                            1000
                             <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
                               Baht
                             </Text>
                           </Th>
                         </Tr>
-                      </Thead>
-                    </Table>
-                  </TableContainer>
-                </Box>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          {/* Card four */}
-          <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"} >
-            <CardBody textAlign="center">
-              <Stack divider={<StackDivider />} color={"#C5C4C7"} spacing={[2, 4]}>
-                <Box>
-                  <TableContainer>
-                    <Table width="100%" variant="unstyled">
-                      <Thead>
-                        <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">04 Nov 2023</Th>
-                          <Th textAlign="center" fontSize="2xl" color="black">
-                            5000
-                            <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
-                              Baht
-                            </Text>
-                          </Th>
+                        <Tr borderBottom="none" padding={3}>
+                            <Th textAlign={"center"} borderRight="1px solid white" fontSize={"lg"} color={"#0000004D"}>01 Nov 2023</Th>
                         </Tr>
                       </Thead>
                     </Table>

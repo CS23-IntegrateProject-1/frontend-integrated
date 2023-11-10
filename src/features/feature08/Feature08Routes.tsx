@@ -16,8 +16,8 @@ import { DeliveryAddCard } from "./pages/Customer/DeliveryAddCard";
 import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
 import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
-
-
+import { Timestamp } from "./pages/Account/Timestamp";
+import { AccountingMain } from "./pages/Account/AccountingMain";
 
 export const Feature08Routes = () => {
   return [
@@ -45,7 +45,9 @@ export const Feature08Routes = () => {
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
+    { path: "/venue/Account/main", element: <AccountingMain/>},
     { path: "/venue/Account/Accounting", element: <Accounting/>},
+    { path: "/venue/Account/timestamp", element: <Timestamp/>},
     { path: "/venue/Accounting/Checkbill", element: <Checkbill/>},
   ];
 };
