@@ -68,7 +68,7 @@ export const HomePage = () => {
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Flex mb={5} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Restaurants">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -99,14 +99,14 @@ export const HomePage = () => {
                   textAlign={"center"}
                   fontWeight="bold"
                 >
-                  Restaurant
+                  Restaurants
                 </Heading>
               </Stack>
             </CardBody>
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Clubs">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -144,7 +144,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Bars">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -182,7 +182,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Community">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
