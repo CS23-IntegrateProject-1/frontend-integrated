@@ -1,8 +1,18 @@
+import { Search2Icon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Card,
   CardBody,
+  CardHeader,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightAddon,
+  Radio,
+  RadioGroup,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 
@@ -15,34 +25,40 @@ export const AdvertisementCard = () => {
       alignItems={"center"}
       width={"100%"}
     >
-      <Card>
+
+      {/* AdvertisementCard */}
+      <Card
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        variant="outline"
+      >     
         <CardBody>
           <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Summary
-            </Heading>
-            <Text pt="2" fontSize="sm">
-              View a summary of all your clients over the last month.
-            </Text>
-          </Box>
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Overview
-            </Heading>
-            <Text pt="2" fontSize="sm">
-              Check out the overview of your clients.
-            </Text>
-          </Box>
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Analysis
-            </Heading>
-            <Text pt="2" fontSize="sm">
-              See a detailed analysis of all your business clients.
+            <Text pt="2" fontSize="md">
+              Name: Product 'z' launch
+              <br />
+              Description:
             </Text>
           </Box>
         </CardBody>
       </Card>
+
+      <Stack spacing='4'>
+  {['elevated', 'outline', 'filled', 'unstyled'].map((variant) => (
+    <Card key={variant} variant={variant}>
+      <CardHeader>
+        <Heading size='md'> {variant}</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>variant = {variant}</Text>
+      </CardBody>
+    </Card>
+  ))}
+</Stack>
+
     </Box>
   );
 };

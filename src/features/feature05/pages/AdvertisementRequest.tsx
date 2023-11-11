@@ -73,29 +73,33 @@ export const AdvertisementRequest = () => {
       </FormControl>
 
       {/* Description * */}
-      <Box
+      <FormControl
+        isRequired
         paddingBottom={3}
-        width={"50%"}
-        minWidth={"250px"}
-        maxWidth={"400px"}
-        display={"flex"}
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
         flexDirection={"column"}
       >
-        <Text style={TextStyle.h2} color={"white"}>
+        <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
-          Description *
-        </Text>
-        <Textarea
+          Description 
+        </FormLabel>
+        <Input
           variant="name"
-          width="auto"
+          style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
+          type="email" 
+          // ทำไมเป็น email !!
         />
-      </Box>
+      </FormControl>
 
       {/* Starting Date * & Ending Date * */}
-      <Box
+      <FormControl
+        isRequired
         paddingBottom={3}
         width={"50%"}
         minWidth={"250px"}
@@ -105,36 +109,38 @@ export const AdvertisementRequest = () => {
         justifyContent={"center"}
       >
         <Box mr={"20px"} flex={"1"}>
-          <Text style={TextStyle.h2} color={"white"}>
-            {" "}
-            Starting Date *
-          </Text>
+        <FormLabel style={TextStyle.h2} color={"white"}>
+          {" "}
+          Starting Date 
+        </FormLabel>
           <Input
             size={"xs"}
             type="date"
             color="white"
             bgColor={"#5F0DBB"}
             borderColor={"#5F0DBB"}
-          ></Input>
+          />
         </Box>
 
         <Box flex={"1"}>
-          <Text style={TextStyle.h2} color={"white"}>
-            {" "}
-            Ending Date *
-          </Text>
+        <FormLabel style={TextStyle.h2} color={"white"}>
+          {" "}
+          Ending Date 
+        </FormLabel>
           <Input
             size={"xs"}
             type="date"
             color="white"
             bgColor={"#5F0DBB"}
             borderColor={"#5F0DBB"}
-          ></Input>
+          />
         </Box>
-      </Box>
+      </FormControl>
 
+      {/* ทำไม * ไม่ขึ้น */}
       {/* Type */}
-      <Box
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
@@ -144,7 +150,7 @@ export const AdvertisementRequest = () => {
       >
         <Text style={TextStyle.h2} color={"white"}>
           {" "}
-          Type
+          Type 
         </Text>
         <RadioGroup defaultValue="2">
           <Stack spacing={1} direction="column">
@@ -152,9 +158,11 @@ export const AdvertisementRequest = () => {
             <Radio value="2">Special events</Radio>
           </Stack>
         </RadioGroup>
-      </Box>
+      </FormControl>
 
-      <Box
+      {/* Image */}
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
@@ -169,9 +177,11 @@ export const AdvertisementRequest = () => {
         <Stack spacing={2} direction="column">
           <Box width={"auto"} height={"100"} bg={"#5F0DBB"} />
         </Stack>
-      </Box>
+      </FormControl>
 
-      <Box
+      {/* Target customer */}
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
@@ -181,15 +191,17 @@ export const AdvertisementRequest = () => {
       >
         <Text style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
-          Target customer *
+          Target customer
         </Text>
         <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
           <option value="option1">All</option>
           <option value="option2">Member</option>
         </Select>
-      </Box>
+      </FormControl>
 
-      <Box
+      {/* Target group */}
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
@@ -199,7 +211,7 @@ export const AdvertisementRequest = () => {
       >
         <Text style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
-          Target group *
+          Target group
         </Text>
         <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
           <option value="option1">Teen</option>
@@ -207,8 +219,9 @@ export const AdvertisementRequest = () => {
           <option value="option3">adult</option>
           <option value="option4">elder</option>
         </Select>
-      </Box>
+      </FormControl>
 
+      {/* Submit */}
       <Box
         width="50%"
         minWidth="250px"
