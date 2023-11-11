@@ -1,9 +1,10 @@
 import { Box } from "@chakra-ui/react"
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const EventComponents = () => {
-   const [isHovered, setIsHovered] = useState(false);
-
+export const ArticlesComponents = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
   const handleMouseMove = () => {
     setIsHovered(true);
   };
@@ -19,10 +20,11 @@ export const EventComponents = () => {
       bg={"brand.300"}
       m={"32px"}
       color={"white"}
+      onClick={() => navigate("/article")}
       borderRadius={"10px"}
     >
       <img
-        src={isHovered ? "/src/features/feature11/img/EventNew.png" : "/src/features/feature11/img/EventDefault.png"}
+        src={isHovered ? "/src/features/feature11/img/ArticlesNew.png" : "/src/features/feature11/img/ArticlesDefault.png"}
         alt=""
         onMouseMove={handleMouseMove}
         onMouseOut={handleMouseOut}
