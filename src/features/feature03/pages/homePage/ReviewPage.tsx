@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { Box, Flex, Text, Grid, Icon, Center } from "@chakra-ui/react";
+import { Ratings } from "./F3_RPCs/Ratings";
+import { Reviews } from "./F3_RPCs/Reviews";
 
 export const ReviewPage = () => {
-  
-    return (
-      <Box width={"100%"}>
-        I sus Fame zon teen
-      </Box>
-    );
-  };
+  return (
+    <Box width={"100%"}>
+      <Ratings />
+      <Reviews />
+    </Box>
+  );
+};
