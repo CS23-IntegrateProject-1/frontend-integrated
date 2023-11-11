@@ -15,6 +15,8 @@ import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
 import { mockArticle } from "./mockArticle";
+import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 
 interface ArticleComment {
   commentId: string;
@@ -40,7 +42,16 @@ interface ArticlePageProps {
 const fetchArticle = async (): Promise<ArticlePageProps> => {
   // const response: AxiosResponse<User[]> = await Axios.get("/users");
   // return response.data;
-  return mockArticle;
+  try {
+    // const id = useParams();
+    // const comments = await Axios.post("/getArticleComment", {
+    //   articleId: id,
+    // });
+    return mockArticle;
+  } catch (error) {
+    console.error("Error fetching article:", error);
+    throw new Error("Failed to fetch article");
+  }
 };
 
 export const ArticlePage = () => {
@@ -57,7 +68,7 @@ export const ArticlePage = () => {
   }
 
   return (
-    <Box >
+    <Box>
       {article.data?.articleName}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
