@@ -17,13 +17,16 @@ export const SliderAdvertisement: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? A.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? A.length - 1 : prevIndex - 1
+    );
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === A.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === A.length - 1 ? 0 : prevIndex + 1
+    );
   };
-
 
   return (
     <Box width="100%" pos={"relative"}>
@@ -50,8 +53,15 @@ export const SliderAdvertisement: React.FC = () => {
           position="absolute"
           fontSize="2xl"
           cursor="pointer"
+          rounded="full"
         >
-        <Icon as={BsChevronCompactLeft} color={"red"} fontSize={100} onClick={prevSlide}/>
+          <Icon
+            as={BsChevronCompactLeft}
+            color={"grey.100"}
+            fontSize={80}
+            onClick={prevSlide}
+            rounded="full"
+          />
         </Box>
         {/* Right Arrow */}
         <Box
@@ -60,10 +70,18 @@ export const SliderAdvertisement: React.FC = () => {
           transform="translate(50%, -50%)"
           right={6}
           position="absolute"
-          fontSize="2xl"
           cursor="pointer"
+          rounded="full"
         >
-          <Icon as={BsChevronCompactRight} color={"red"} boxSize={100} onClick={nextSlide}/>
+          <Box opacity={1}>
+            <Icon
+              as={BsChevronCompactRight}
+              color={"grey.100"}
+              fontSize={80}
+              onClick={nextSlide}
+              rounded="full"
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
