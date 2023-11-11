@@ -12,9 +12,7 @@ export const CommunityPage = () => {
       alignItems={"center"}
     >
       <EventComponents />
-      <ArticlesComponents />
-      <div>Hello I'm editing</div>
-      
+      <ArticlesComponents />      
     </Box>
   );
 };
