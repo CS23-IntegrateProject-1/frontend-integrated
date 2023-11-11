@@ -5,7 +5,7 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon,ArrowBackIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { NavbarContent } from "./NavbarContent";
 import { useLocation } from "react-router-dom";
 import { getPageTitle } from "../../functions/getPageTitle";
@@ -41,7 +41,9 @@ export const Navbar = () => {
             <ArrowBackIcon
               width={"24px"}
               height={"24px"}
-              // onClick={handleOpenNav}
+              onClick={() => {
+                window.history.back();
+              }}
             />
           }
         />
