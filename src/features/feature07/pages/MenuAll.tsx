@@ -1,81 +1,69 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack} from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex} from "@chakra-ui/react";
+import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { CustomCartIcon } from "../component/CartIcon/createIcon";
+import { useNavigate } from "react-router-dom";
+import {MenuDetail}  from "./MenuDetail";
 export const MenuAll = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
-  const [subtitle, setSubtitle] = useState<string>("Subtitle");
+  const [subtitle, setSubtitle] = useState<string>("Substitle");
+  const navigate= useNavigate();
 
   const handleButtonClick = (newSubtitle : string) => {
     setSubtitle(newSubtitle);
     if (buttonColor === "brand.100") {
       setButtonColor("brand.200");
     } else {
-      setButtonColor("button.100");
+      setButtonColor("brand.100");
     }
   };
-
+  const handleMenuClick = () => {
+    navigate("/venue/yourVenueId/menudetail");
+  }  
+  useEffect(() => {
+    handleButtonClick("All Menu");
+  }, []);
   return (
     <Box>
+    <Flex direction="column" align="center" justify="center">
       <HStack spacing={4}>
         <Button
           colorScheme={buttonColor}
           size="xs"
           height="28px"
-          width="87px"
+          width="100px"
           border="1px"
           variant="outline"
+          borderRadius="full"
           _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("All")}
+          onClick={() => handleButtonClick("All Menu")}
         >
-          <Text {...textStyles.h3}>All</Text>
+          <Text {...textStyles.h3}>All Menu</Text>
         </Button>
         <Button
           colorScheme={buttonColor}
           size="xs"
           height="28px"
-          width="87px"
+          width="100px"
           border="1px"
           variant="outline"
+          borderRadius="full"
+          
           _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("Food")}
+          onClick={() => handleButtonClick("Set Menu")}
         >
-          <Text {...textStyles.h3}>Food</Text>
-        </Button>
-        <Button
-          colorScheme={buttonColor}
-          size="xs"
-          height="28px"
-          width="87px"
-          border="1px"
-          variant="outline"
-          _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("Drink")}
-        >
-          <Text {...textStyles.h3}>Drink</Text>
-        </Button>
-        <Button
-          colorScheme={buttonColor}
-          size="xs"
-          height="28px"
-          width="87px"
-          border="1px"
-          variant="outline"
-          _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("Dessert")}
-        >
-          <Text {...textStyles.h3}>Dessert</Text>
+          <Text {...textStyles.h3}>Set Menu</Text>
         </Button>
       </HStack>
-      <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='142px' height='33px' rounded="md" textAlign="center" bgColor="brand.200">
-       <Text {...textStyles.h2}>{subtitle}</Text>
+      </Flex>
+      <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
+       <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
       <VStack mt={4} overflowY="auto" maxHeight="400px">
-        <MenuCard/>
-        {/* <Icon as={CustomFigmaIcon} w={150} h={150}/> */}
+      <MenuCard onClick={handleMenuClick}/>
       </VStack>
       <Box
         position="fixed"
@@ -85,24 +73,26 @@ export const MenuAll = () => {
         zIndex="1"
       >
         <Icon as={CustomCartIcon}
-          colorScheme="blue"
+          color="currentColor"
           aria-label="Open Cart"
           boxSize={20}
         />
       </Box>
+      <Flex align="center" justify="center" >
       <Box
         position="fixed"
         bottom="4"
-        left="50%"
-        transform="translateX(-50%)"
+        left="32%"
         width="109px"
         height="29px"
         textAlign="center"
         borderRadius="5px">
             
-        <ButtonComponent text="Order" />
+        <ButtonComponent text="Order Status" />
          
       </Box>
-    </Box>
+      </Flex>
+      </Box>
+   
   );
 };
