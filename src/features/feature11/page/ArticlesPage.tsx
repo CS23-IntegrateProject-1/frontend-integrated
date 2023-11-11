@@ -10,8 +10,9 @@ export const ArticlesPage = () => {
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
+      w={"100%"}
     >
-      <Box width={"393px"} height={"56px"} bg={"#5F0DBB"} mt={"-15px"}>
+      <Box width={{base:"100%", md:"80%", lg:"50%"}} height={"56px"} bg={"#5F0DBB"} mt={{base:"-1em", md:"-2em"}} >
         <Text
           fontSize={"16px"}
           color={"#DEBEF6"}
