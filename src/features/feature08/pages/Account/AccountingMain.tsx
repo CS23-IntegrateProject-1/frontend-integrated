@@ -19,8 +19,6 @@ export const AccountingMain = () => {
       <Box
         display={"flex"}
         flexDirection={"column"}
-        justifyContent={"center"}
-        alignItems={"center"}
         margin={[3, 5, 7]}
         width={["100%", "80%", "70%"]}
         gap={4}
@@ -31,6 +29,7 @@ export const AccountingMain = () => {
           color="#C5C4C7"
           rounded="lg"
           padding={6}
+          marginBottom={5}
         >
           <Text fontSize="lg" fontWeight={"bold"} color={"#FFFFFF"}>
             Latest transfer amount

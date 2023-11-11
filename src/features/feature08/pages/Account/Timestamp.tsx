@@ -19,8 +19,6 @@ import {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          justifyContent={"center"}
-          alignItems={"center"}
           margin={[3, 5, 7]}
           width={["100%", "80%", "70%"]}
           gap={4}
