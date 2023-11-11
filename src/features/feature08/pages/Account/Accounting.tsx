@@ -12,6 +12,7 @@ import {
     Center,
     Text
   } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
   
   export const Accounting = () => {
     return (
@@ -47,29 +48,31 @@ import {
           </Card>
   
           {/* Card one */}
-          <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"} >
-            <CardBody textAlign="center">
-              <Stack divider={<StackDivider />} color={"#C5C4C7"}>
-                <Box>
-                  <TableContainer>
-                    <Table variant="unstyled">
-                      <Thead>
-                        <Tr borderBottom="none">
-                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">01 Nov 2023</Th>
-                          <Th textAlign="center" fontSize={"2xl"} color="black">
-                            5000
-                            <Text textAlign="center" display="inline-block" marginLeft={2} fontSize="lg" color="black">
-                              Baht
-                            </Text>
-                          </Th>
-                        </Tr>
-                      </Thead>
-                    </Table>
-                  </TableContainer>
-                </Box>
-              </Stack>
-            </CardBody>
-          </Card>
+          <Link to={"/venue/Account/timestamp"}>
+            <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"} >
+              <CardBody textAlign="center">
+                <Stack divider={<StackDivider />} color={"#C5C4C7"}>
+                  <Box>
+                    <TableContainer>
+                      <Table variant="unstyled">
+                        <Thead>
+                          <Tr borderBottom="none">
+                            <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">01 Nov 2023</Th>
+                            <Th textAlign="center" fontSize={"2xl"} color="black">
+                              5000
+                              <Text textAlign="center" display="inline-block" marginLeft={2} fontSize="lg" color="black">
+                                Baht
+                              </Text>
+                            </Th>
+                          </Tr>
+                        </Thead>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+                </Stack>
+              </CardBody>
+            </Card>
+          </Link>
   
           {/* Card two */}
           <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"} >

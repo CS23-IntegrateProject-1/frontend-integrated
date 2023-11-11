@@ -1,4 +1,6 @@
 import {
+  Box,
+  Text,
   Table,
   Thead,
   Th,
@@ -6,17 +8,11 @@ import {
   Tr,
   Td,
   TableContainer,
-  Card,
-  Heading,
-  CardBody,
-  Stack,
-  StackDivider,
-  Box,
-  Text,
   Divider,
   Center,
   HStack,
 } from "@chakra-ui/react";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
 export const Checkbill = () => {

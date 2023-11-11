@@ -3,6 +3,7 @@ import { Card, CardBody } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import {MdOutlineQrCode2} from "react-icons/md";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface ButtonProps {
   bgColor?: string;
@@ -36,7 +37,9 @@ export const QrCodeButton: FC<ButtonProps> = ({
       textColor={"#DEBEF6"}
       leftIcon={<MdOutlineQrCode2 />}
     >
-      QR PromptPay
+      <Link to={'/venue/:venueId/qr-payment'}>
+        QR PromptPay
+      </Link>
     </Button>
       <Card size={"sm"} width={"70%"} backgroundColor={"#DEBEF6"}>
         <CardBody>

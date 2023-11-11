@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const CreditCardList = () => {
 const [value, setValue] = React.useState('1')
@@ -88,19 +89,21 @@ const [value, setValue] = React.useState('1')
               </Box>
           </RadioGroup>
           <Box margin={5}>
-                <Card
-                  direction={{ base: "column", sm: "row" }}
-                  overflow="hidden"
-                  variant="outline"
-                  backgroundColor={""}
-                  padding={5}
-                >
-                  <CardBody>
-                    <Heading size="sm" color={"white"}>
-                      <AddIcon boxSize={3} /> Add Card
-                    </Heading>
-                  </CardBody>
-                </Card>
+            <Link to={"/venue/:venueId/addcard"}>
+              <Card
+                    direction={{ base: "column", sm: "row" }}
+                    overflow="hidden"
+                    variant="outline"
+                    backgroundColor={""}
+                    padding={5}
+                  >
+                    <CardBody>
+                      <Heading size="sm" color={"white"}>
+                        <AddIcon boxSize={3} /> Add Card
+                      </Heading>
+                    </CardBody>
+                  </Card>
+            </Link>           
               </Box>
         </CardBody>
       </Card>

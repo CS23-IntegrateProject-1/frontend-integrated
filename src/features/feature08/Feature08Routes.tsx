@@ -12,7 +12,6 @@ import { EnterCode } from "./pages/Notification (Business side)/EnterCode";
 import { PromotionNoti } from "./pages/Notification (Business side)/PromotionNoti";
 import { PaymentHistory } from "./pages/Payment/PaymentHistory";
 import { DeliveryPayment } from "./pages/Customer/DeliveryPayment";
-import { DeliveryAddCard } from "./pages/Customer/DeliveryAddCard";
 import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
 import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
@@ -28,14 +27,11 @@ export const Feature08Routes = () => {
     { path: "/venue/:venueId/history", element: <PaymentHistory/> },
     { path: "/venue/:venueId/addcard", element: <AddCard /> },
     { path: "/venue/:venueId/delivery_payment", element: <DeliveryPayment /> },
-    { path: "/venue/:venueId/delivery_addcard", element: <DeliveryAddCard /> },
     { path: "/venue/:venueId/business/checkout", element: <SelectPaymentForCheckout /> },
     { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
-    { path: "/venue/:venueId/business/delivery_addcard", element: <DeliveryAddCard /> },
     { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
     { path: "/venue/:venueId/admin/checkout", element: <SelectPaymentForCheckout /> },
     { path: "/venue/:venueId/admin/qr-payment", element: <QrCodeScan /> },
-    { path: "/venue/:venueId/admin/delivery_addcard", element: <DeliveryAddCard /> },
     { path: "/Notification/BusinessNoti", element: <Notification /> },
     { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
