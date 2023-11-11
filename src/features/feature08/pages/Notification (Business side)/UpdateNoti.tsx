@@ -18,11 +18,11 @@ export const UpdateNoti = () => {
       margin={[3, 5, 7]} // Responsive margin for different screen sizes
       width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
     >
-      <Card width={"70%"} backgroundColor={"#5F0DBB"} color={"#C5C4C7"}>
+      <Card width={"70%"} backgroundColor={""} color={"white"} border={"1px solid #DEBEF6"}>
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
             <Box>
-              <Heading size="md">
+              <Heading size="md" marginBottom={3}>
                 Update
               </Heading>
               <Text>

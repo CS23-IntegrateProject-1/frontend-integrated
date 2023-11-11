@@ -22,48 +22,46 @@ export const AdvertiseNoti = () => {
       <Box
         display={"flex"}
         flexDirection={"column"}
-        justifyContent={"center"}
-        alignItems={"center"}
         margin={[3, 5, 7]} // Responsive margin for different screen sizes
         width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
       >
-        <Card width={"100%"} backgroundColor={"#5F0DBB"} color={"#C5C4C7"}>
+        <Card width={"100%"} backgroundColor={""} color={"white"} border={"1px solid #DEBEF6"}> 
           <CardBody>
             <Stack divider={<StackDivider />} spacing={[2, 4]}>
               <Box>
-                <Heading size="md" textAlign="center">
+                <Heading size="md" marginBottom={3}>
                   Title: Advertisement approved
                 </Heading>
-                <Text textAlign="center">
+                <Text marginBottom={5}>
                   This email is to notify you that your advertisement has been improved,
                   and this is the total amount that you have to pay.
                 </Text>
-                <Heading size="md" textAlign="center">
+                <Heading size="md" marginBottom={2}>
                   Payment Information
                 </Heading>
                 <TableContainer>
                   <Table
                     className="striped-table"
                     variant={'striped'}
-                    colorScheme="pink"
+                    colorScheme=""
                     width="100%"
                   >
                     <Tbody>
-                      <Tr>
+                      <Tr backgroundColor={"#A533C8"}>
                         <Td>Discription</Td>
-                        <Td>Amount</Td>
+                        <Td textAlign={"right"}>Amount</Td>
                       </Tr>
                       <Tr>
                         <Td>Advertisement</Td>
-                        <Td>1000 baht</Td>
+                        <Td textAlign={"right"}>1000 baht</Td>
                       </Tr>
                     </Tbody>
                   </Table>
                 </TableContainer>
-                <Text textAlign="right">
+                <Text marginTop={2} textAlign={"right"}>
                   Total cost: 1000 baht
                 </Text>
-                <Text textAlign="center">
+                <Text marginTop={5} textAlign={"center"}>
                   <ButtonComponent text="Pay now" />
                 </Text>
               </Box>
