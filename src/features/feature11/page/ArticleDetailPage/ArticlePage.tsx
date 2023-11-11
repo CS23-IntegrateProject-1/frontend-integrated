@@ -14,7 +14,7 @@ import { BiComment } from "react-icons/Bi";
 import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
-import mockArticle from "./mockAritcle.json";
+import { mockArticle } from "./mockArticle";
 
 interface ArticleComment {
   commentId: string;
@@ -57,7 +57,7 @@ export const ArticlePage = () => {
   }
 
   return (
-    <Box>
+    <Box >
       {article.data?.articleName}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
@@ -77,7 +77,7 @@ export const ArticlePage = () => {
       <Box minH={"80px"} mb={"2em"}>
         <Text style={TextStyle.body2}>{article.data?.articleContent}</Text>
       </Box>
-      <Flex mb={"2em"} justifyContent={"space-between"}>
+      <Flex mb={"2em"} justifyContent={"space-between"} h={"100px"}>
         <Flex>
           <Flex alignItems={"center"} mr={"2em"}>
             <IconButton
