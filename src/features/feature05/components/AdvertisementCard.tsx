@@ -1,18 +1,7 @@
-import { Search2Icon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Card,
   CardBody,
-  CardHeader,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightAddon,
-  Radio,
-  RadioGroup,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 
@@ -25,7 +14,6 @@ export const AdvertisementCard = () => {
       alignItems={"center"}
       width={"100%"}
     >
-
       {/* AdvertisementCard */}
       <Card
         width="50%"
@@ -33,31 +21,21 @@ export const AdvertisementCard = () => {
         maxWidth="400px"
         display="flex"
         flexDirection={"column"}
-        variant="outline"
-      >     
+        border={"1px solid"}
+        borderColor={"brand.100"}
+        bg={"rgba(0, 0, 0, 0)"}
+        color={"white"}
+      >
         <CardBody>
           <Box>
             <Text pt="2" fontSize="md">
               Name: Product 'z' launch
               <br />
-              Description:
+              Description: Loremipsum dolor sit amet, consectetur adipiscing elit.
             </Text>
           </Box>
         </CardBody>
       </Card>
-
-      <Stack spacing='4'>
-  {['elevated', 'outline', 'filled', 'unstyled'].map((variant) => (
-    <Card key={variant} variant={variant}>
-      <CardHeader>
-        <Heading size='md'> {variant}</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text>variant = {variant}</Text>
-      </CardBody>
-    </Card>
-  ))}
-</Stack>
 
     </Box>
   );
