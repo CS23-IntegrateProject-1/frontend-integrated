@@ -296,7 +296,7 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Recommended Places
         </Text>
-        <NavLink to="/IDK_Path" style={{ marginLeft: "auto" }}>
+        <NavLink to="/RecommendedPlaces" style={{ marginLeft: "auto" }}>
           <Text
             fontSize={{ base: "15px", lg: "20px" }}
             color="grey.100"
@@ -373,7 +373,7 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Promotions
         </Text>
-        <NavLink to="/IDK_Path" style={{ marginLeft: "auto" }}>
+        <NavLink to="/Promotions" style={{ marginLeft: "auto" }}>
           <Text
             fontSize={{ base: "15px", lg: "20px" }}
             color="grey.100"
