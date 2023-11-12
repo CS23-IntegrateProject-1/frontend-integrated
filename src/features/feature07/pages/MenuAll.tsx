@@ -2,6 +2,7 @@ import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex} from "@chakra-
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
+import { SetMenuCard } from "../component/SetMenuCard";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { CustomCartIcon } from "../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +42,7 @@ export const MenuAll = () => {
     } else if (subtitle === "Set Menu") {
       return (
         <VStack mt={4} overflowY="auto" maxHeight="400px">
-          <MenuCard onClick={handleMenuClick} />
+          <SetMenuCard onClick={handleMenuClick} />
         </VStack>
       );
     }
