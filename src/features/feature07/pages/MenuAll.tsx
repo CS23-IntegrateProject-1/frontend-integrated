@@ -5,7 +5,7 @@ import { MenuCard } from "../component/MenuCard";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { CustomCartIcon } from "../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
-import {MenuDetail}  from "./MenuDetail";
+
 export const MenuAll = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
@@ -26,6 +26,22 @@ export const MenuAll = () => {
   useEffect(() => {
     handleButtonClick("All Menu");
   }, []);
+
+  const renderMenuCards = () => {
+    if (subtitle === "All Menu") {
+      return (
+        <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <MenuCard onClick={handleMenuClick} />
+        </VStack>
+      );
+    } else if (subtitle === "Set Menu") {
+      return (
+        <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <MenuCard onClick={handleMenuClick} />
+        </VStack>
+      );
+    }
+  };
   return (
     <Box>
     <Flex direction="column" align="center" justify="center">
@@ -62,9 +78,7 @@ export const MenuAll = () => {
       <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
-      <VStack mt={4} overflowY="auto" maxHeight="400px">
-      <MenuCard onClick={handleMenuClick}/>
-      </VStack>
+      {renderMenuCards()}
       <Box
         position="fixed"
         bottom="20"

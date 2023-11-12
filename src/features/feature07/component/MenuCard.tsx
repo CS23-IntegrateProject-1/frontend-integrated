@@ -6,7 +6,7 @@ import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 interface MenuCardProps {
   foodName: string;
   description: string;
-  price: 900;
+  price: number;
   imageUrl: string;
   onClick?: () => void;
 };
