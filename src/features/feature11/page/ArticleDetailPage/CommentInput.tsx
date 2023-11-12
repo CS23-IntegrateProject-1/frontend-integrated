@@ -1,14 +1,28 @@
 import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { BiGame } from "react-icons/bi";
 import { FC, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 
 export const CommentInput = () => {
   const [content, setContent] = useState("");
-
+  const id = useParams();
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
-  }
+  };
+
+  const handleCreateComment = () => {
+    Axios.post("/api/comment", {
+      content: content,
+      articleId: id,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   return (
     <Flex
@@ -29,18 +43,18 @@ export const CommentInput = () => {
           </Heading>
         </Flex>
         {/* <Box my={"1em"}> */}
-          <Textarea
-            p={"0.5em"}
-            style={TextStyle.body3}
-            variant={"unstyled"}
-            rows={2}
-            placeholder={"Write a comment..."}
-            value={content}
-            onChange={handleContentChange}
-            color={"black"}
-            resize={"none"}
-            // bg={"red"}
-          />
+        <Textarea
+          p={"0.5em"}
+          style={TextStyle.body3}
+          variant={"unstyled"}
+          rows={2}
+          placeholder={"Write a comment..."}
+          value={content}
+          onChange={handleContentChange}
+          color={"black"}
+          resize={"none"}
+          // bg={"red"}
+        />
         {/* </Box> */}
       </Box>
 
@@ -63,6 +77,7 @@ export const CommentInput = () => {
           color={"white"}
           _hover={{ bg: "brand.300" }}
           style={TextStyle.h5}
+          onClick={handleCreateComment}
         >
           Comment
         </Button>
