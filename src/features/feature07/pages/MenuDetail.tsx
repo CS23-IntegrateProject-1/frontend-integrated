@@ -5,7 +5,7 @@ import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 interface MenuDetailProps {
-    id:string;
+    id:number;
     name:string;
     price:number;
     description:string;
@@ -38,7 +38,7 @@ export const MenuDetail: FC = () => {
                 </HStack>
                 <Text {...textStyles.body2}>description hlsajfakjfklajflaflasjdf</Text>
             </VStack>
-            <HStack  p={2} position="absolute" bottom="0" width="100%" spacing={16}>
+            <HStack  p={2} position="absolute" bottom="0" width="100%" spacing={15}>
             <HStack>
             <Box border="solid" 
             bgColor="white" 
@@ -77,7 +77,7 @@ export const MenuDetail: FC = () => {
             width="200px"
             text="Add To Cart" 
             bgColor={buttonBgColor}
-            isDisabled={amount===0}/>
+            isDisabled={amount === 0}/>
             </HStack>
         </Box>
     )

@@ -5,6 +5,7 @@ import { MenuCard } from "../component/MenuCard";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { CustomCartIcon } from "../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
+import { RButton } from "../component/RButton";
 
 export const MenuAll = () => {
   
@@ -23,6 +24,9 @@ export const MenuAll = () => {
   const handleMenuClick = () => {
     navigate("/venue/yourVenueId/menudetail");
   }  
+  const handleCartClick = () => {
+    navigate("/venue/yourVenueId/cart"); 
+  };
   useEffect(() => {
     handleButtonClick("All Menu");
   }, []);
@@ -46,33 +50,20 @@ export const MenuAll = () => {
     <Box>
     <Flex direction="column" align="center" justify="center">
       <HStack spacing={4}>
-        <Button
-          colorScheme={buttonColor}
-          size="xs"
-          height="28px"
-          width="100px"
-          border="1px"
-          variant="outline"
-          borderRadius="full"
-          _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("All Menu")}
-        >
-          <Text {...textStyles.h3}>All Menu</Text>
-        </Button>
-        <Button
-          colorScheme={buttonColor}
-          size="xs"
-          height="28px"
-          width="100px"
-          border="1px"
-          variant="outline"
-          borderRadius="full"
-          
-          _hover={{ bg: "brand.200", borderColor:"brand.200" }}
-          onClick={() => handleButtonClick("Set Menu")}
-        >
-          <Text {...textStyles.h3}>Set Menu</Text>
-        </Button>
+      <RButton 
+        text={"All Menu"}
+        textStyle={"h3"}
+        width={"110px"}
+        height={"32px"}
+        onClick={() => handleButtonClick("All Menu")}
+         />
+         <RButton 
+        text={"Set Menu"}
+        textStyle={"h3"}
+        width={"110px"}
+        height={"32px"}
+        onClick={() => handleButtonClick("Set Menu")}
+         />
       </HStack>
       </Flex>
       <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
@@ -90,6 +81,7 @@ export const MenuAll = () => {
           color="currentColor"
           aria-label="Open Cart"
           boxSize={20}
+          onClick={handleCartClick}
         />
       </Box>
       <Flex align="center" justify="center" >

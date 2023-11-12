@@ -4,6 +4,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 
 interface MenuCardProps {
+  id:number;
   foodName: string;
   description: string;
   price: number;
@@ -12,17 +13,6 @@ interface MenuCardProps {
 };
 
 export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
-//   const [amount, setAmount] = useState(0);
-
-//   const increaseAmount = () => {
-//     setAmount(amount + 1);
-//   };
-
-//   const decreaseAmount = () => {
-//     if (amount > 0) {
-//       setAmount(amount - 1);
-//     }
-//   };
 
   return (
     <Flex 
@@ -55,14 +45,14 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
           {/* {foodName} */}
         </Text>
         <Text {...textStyles.body2} color="white"
-         lineHeight="1.5" >
+         lineHeight="1.8" >
           Description Integrate kasjfakldf
           asflkajsflk 
           dkASJDH
           {/* {description} */}
         </Text>
         <Text {...textStyles.body3} color="white"
-         lineHeight="1.5" >
+         lineHeight="2" >
           Price Integrate
           {/* {{`${price.toFixed(2)} baht`}} */}
         </Text>
