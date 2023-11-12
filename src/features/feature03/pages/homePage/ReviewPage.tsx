@@ -1,5 +1,4 @@
-import { NavLink } from "react-router-dom";
-import { Box, Flex, Text, Grid, Icon, Center } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Ratings } from "./F3_RPCs/Ratings";
 import { Reviews } from "./F3_RPCs/Reviews";
 
