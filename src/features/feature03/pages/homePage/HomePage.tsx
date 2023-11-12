@@ -270,7 +270,7 @@ export const HomePage = () => {
             display={{ base: "block", lg: "none" }}
           >
             <FaMapMarkerAlt fontSize="25px" />
-            <Text fontSize="15px" fontWeight="bold">
+            <Text fontSize="15px" transform="translateX(-3px)">
               Map
             </Text>
           </Box>
@@ -415,7 +415,6 @@ export const HomePage = () => {
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
-      
       <Footer_HomePage />
     </Box>
   );

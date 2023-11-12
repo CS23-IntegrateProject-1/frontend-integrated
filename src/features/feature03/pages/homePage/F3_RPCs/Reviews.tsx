@@ -26,13 +26,15 @@ export const Reviews = () => {
       <StarSort />
       <Divider sx={divide} />
       <Flex direction="column">
-        <Flex direction="row" justify="space-between" mt="5">
-          <Flex direction="column" backgroundColor="brand.200">
-            <Flex direction="column">
+        <Flex direction="row" justify="space-between" mt="5" height="100px">
+          <Flex direction="column" align="stretch">
+            <Flex direction="column" backgroundColor="brand.200">
               <Box>Review user</Box>
               <Box>Stars</Box>
             </Flex>
-            <Flex>Review desc</Flex>
+            <Flex opacity="0.8" backgroundColor="brand.300">
+              Review desc
+            </Flex>
           </Flex>
           <Box backgroundColor="brand.100">Review time</Box>
         </Flex>
