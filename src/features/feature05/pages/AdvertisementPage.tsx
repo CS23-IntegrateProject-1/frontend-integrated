@@ -57,18 +57,19 @@ export const AdvertisementPage = () => {
             color={"black"}
             borderRadius={10}
           />
-          <InputRightElement p={0} borderRadius={10}></InputRightElement>
+          {/* <InputRightElement p={0} borderRadius={10}></InputRightElement> */}
 
           {/* Filter  and Sort */}
           <RadioGroup defaultValue="2" paddingLeft={3} paddingTop={2}>
             <Stack spacing={5} direction="row">
               <Box onClick={onOpen}>
-                <Radio colorScheme="red" value="1">
+                <Radio colorScheme="purple" value="1">
                   Filter
                 </Radio>
               </Box>
+
               <Box onClick={onOpen}>
-                <Radio colorScheme="green" value="2">
+                <Radio colorScheme="purple" value="2">
                   Sort
                 </Radio>
               </Box>
@@ -151,6 +152,8 @@ export const AdvertisementPage = () => {
       </Box>
 
       <AdvertisementCard />
+      
     </Box>
   );
 };
+

@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Tabs, TabList, TabPanels, Tab, TabPanel, Box } from '@chakra-ui/react';
+import React, { useState, useEffect } from "react";
+import {
+  ChakraProvider,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Box,
+  Stack,
+} from "@chakra-ui/react";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -14,7 +23,7 @@ export const AdvertisementStatus: React.FC = () => {
 
   useEffect(() => {
     const fetchTabData = async () => {
-      const statusOptions = ['pending', 'success', 'canceled'];
+      const statusOptions = ["pending", "complete"];
       const selectedStatus = statusOptions[currentTab];
 
       // const result = await fetchData(selectedStatus);
@@ -36,22 +45,43 @@ export const AdvertisementStatus: React.FC = () => {
       alignItems={"center"}
       width={"100%"}
     >
-    <Tabs variant={"soft-rounded"} colorScheme={"brand"} index={currentTab} onChange={handleTabChange}>
-      <TabList>
-        <Tab>Pending</Tab>
-        <Tab mx={"16px"}>Success</Tab>
-        <Tab>Canceled</Tab>
-      </TabList>
+      <Tabs
+        variant={"soft-rounded"}
+        colorScheme={"brand"}
+        index={currentTab}
+        onChange={handleTabChange}
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"center"}
+      >
+        <TabList>
+          <Stack spacing={10} flexDirection={"row"}>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              _selected={{ color: "#FFFFFF", borderColor: "#A533C8", bgColor: "#A533C8" }}
+            >
+              On going
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              _selected={{ color: "#FFFFFF", borderColor: "#A533C8", bgColor: "#A533C8" }}
+            >
+              Complete
+            </Tab>
+          </Stack>
+        </TabList>
 
-      <TabPanels>
-        {data.map((item, index) => (
-          <TabPanel key={index}>
-            {/* Render your data here */}
-            <p>{item}</p>
-          </TabPanel>
-        ))}
-      </TabPanels>
-    </Tabs>
+        <TabPanels>
+          {data.map((item, index) => (
+            <TabPanel key={index}>
+              {/* Render your data here */}
+              <p>{item}</p>
+            </TabPanel>
+          ))}
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 };
