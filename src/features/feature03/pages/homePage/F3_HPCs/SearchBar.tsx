@@ -21,7 +21,7 @@ export const SearchBar: FC<SearchBarProps> = ({
       borderColor={"black"}
       background={"white"}
       textColor={"black"}
-      placeholder="search restaurant here"
+      placeholder="search"
       value={searchFilter}
       onChange={handleInputChange}
     />

@@ -4,14 +4,14 @@ import { CommunityPage } from "./pages/homePage/CommunityPage";
 import { HomePage } from "./pages/homePage/HomePage";
 import { PromotionsPage } from "./pages/homePage/PromotionsPage";
 import { RecommendedPlacesPage } from "./pages/homePage/RecommendedPlacesPage";
-import { RestaurantsPage } from "./pages/homePage/RestaurantPage";
+import { RestaurantPage } from "./pages/homePage/RestaurantPage";
 import { ReviewPage } from "./pages/homePage/ReviewPage";
 
 export const Feature03Routes = () => {
   return [
     { path: "/", element: <HomePage /> },
     { path: "/review", element: <ReviewPage /> },
-    { path: "/Restaurants", element: <RestaurantsPage /> },
+    { path: "/Restaurants", element: <RestaurantPage /> },
     { path: "/Clubs", element: <ClubsPage /> },
     { path: "/Bars", element: <BarsPage /> },
     { path: "/Community", element: <CommunityPage /> },

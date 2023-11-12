@@ -36,7 +36,7 @@ export const Reviews = () => {
               Review desc
             </Flex>
           </Flex>
-          <Box backgroundColor="brand.100">Review time</Box>
+          <Box backgroundColor="brand.100">12h</Box>
         </Flex>
         <Divider sx={divide} />
       </Flex>

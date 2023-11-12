@@ -10,8 +10,6 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { SearchBar } from "./F3_HPCs/SearchBar";
-import { FaFilter } from "react-icons/fa";
 import mockR from "../RF3mock.json";
 import { StarIcon } from "@chakra-ui/icons";
 
@@ -26,15 +24,6 @@ export const RecommendedPlacesPage = () => {
   const R: RProps[] = mockR;
   return (
     <Box width={"100%"}>
-      <Flex direction="row">
-        <SearchBar />
-        <Flex direction="column" ml="3">
-          <FaFilter fontSize="25px" />
-          <Text fontSize="15px" transform="translateX(-3px)">
-            Filter
-          </Text>
-        </Flex>
-      </Flex>
       <Box
         display="grid"
         width="100%"
@@ -93,7 +82,7 @@ export const RecommendedPlacesPage = () => {
                   borderColor: "black",
                   bgColor: "brand.100",
                 }}
-                w={{ base: "160px", lg: "140px" }}
+                w="155px"
               >
                 More Info
               </Button>
@@ -102,7 +91,7 @@ export const RecommendedPlacesPage = () => {
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w={{ base: "160px", lg: "140px" }}
+                w="155px"
               >
                 Reserve Now
               </Button>

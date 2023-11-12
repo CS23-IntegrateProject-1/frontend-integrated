@@ -313,7 +313,7 @@ export const HomePage = () => {
           <Card
             minW={{ base: "300px", lg: "350px" }}
             width="sm"
-            borderRadius="2xl"
+            borderRadius="xl"
             bg="brand.200"
             key={index}
             marginRight="5"
@@ -322,7 +322,7 @@ export const HomePage = () => {
               <Image
                 src={R.picR}
                 alt="BarButPic not load"
-                borderRadius="lg"
+                borderRadius="xl"
                 w="100%"
                 h="160px"
               />
@@ -334,36 +334,34 @@ export const HomePage = () => {
               </Stack>
             </CardBody>
             <Flex
-              bottom="0"
-              left="0"
+              direction="row"
+              justify="space-between"
               width="100%"
+              pl="5"
+              pr="5"
               pb="5"
-              justify="center"
-              align="center"
             >
-              <ButtonGroup spacing="4">
-                <Button
-                  variant="outline"
-                  textColor="white"
-                  _hover={{
-                    textColor: "black",
-                    borderColor: "black",
-                    bgColor: "brand.100",
-                  }}
-                  w={{ base: "120px", lg: "140px" }}
-                >
-                  More Info
-                </Button>
-                <Button
-                  variant="solid"
-                  textColor="white"
-                  bgColor="brand.300"
-                  _hover={{ bgColor: "brand.100", textColor: "black" }}
-                  w={{ base: "120px", lg: "140px" }}
-                >
-                  Reserve Now
-                </Button>
-              </ButtonGroup>
+              <Button
+                variant="outline"
+                textColor="white"
+                _hover={{
+                  textColor: "black",
+                  borderColor: "black",
+                  bgColor: "brand.100",
+                }}
+                w={{ base: "120px", lg: "140px" }}
+              >
+                More Info
+              </Button>
+              <Button
+                variant="solid"
+                textColor="white"
+                bgColor="brand.300"
+                _hover={{ bgColor: "brand.100", textColor: "black" }}
+                w={{ base: "120px", lg: "140px" }}
+              >
+                Reserve Now
+              </Button>
             </Flex>
           </Card>
         ))}
@@ -395,14 +393,14 @@ export const HomePage = () => {
                 maxW="sm"
                 minH={"150px"}
                 maxH="sm"
-                borderRadius="2xl"
+                borderRadius="xl"
                 marginRight="5"
               >
                 <NavLink to="/IDK_PathAAAAA">
                   <Image
                     src={P.picP}
                     alt="Promotion_Pic not load"
-                    borderRadius="lg"
+                    borderRadius="xl"
                     w="100%"
                     maxW="300px"
                     h="200px"
