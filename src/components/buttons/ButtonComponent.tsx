@@ -7,6 +7,8 @@ interface ButtonProps {
   textColor?: string;
   borderColor?: string;
   bgHover?: string;
+  width?: string;
+  height?: string;
 }
 
 // this is a purple button with white text default, you can import this component and pass other prop specify below to change it
@@ -17,11 +19,13 @@ export const ButtonComponent: FC<ButtonProps> = ({
   textColor,
   borderColor,
   bgHover,
+  width,
+  height,
 }) => {
   return (
     <Button
-      width={"140px"}
-      height={"40px"}
+      width={!width ? "140px" : width}
+      height={!height ? "40px" : height}
       bg={!bgColor ? "brand.200" : bgColor}
       color={!textColor ? "white" : textColor}
       borderColor={!borderColor ? "" : borderColor}
