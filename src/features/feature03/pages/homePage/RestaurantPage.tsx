@@ -25,7 +25,7 @@ interface RProps {
 export const RestaurantPage = () => {
   const R: RProps[] = mockR;
   return (
-    <Box width={"100%"}>
+    <Box width={"100%"} px={{base:"none", lg:"30px"}}>
       <Flex direction="row">
         <SearchBar />
         <Flex direction="column" ml="3">
@@ -38,9 +38,11 @@ export const RestaurantPage = () => {
       <Box
         display="grid"
         width="100%"
-        gridTemplateColumns={{ lg: "repeat(4, 1fr)", base: "repeat(1, 1fr)" }}
+        gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
         overflow="hidden"
-        mt="3"
+        mt={8}
+        px={{base: "none", lg: "10px"}}
+        justifyItems={"center"}
       >
         {R.filter((R) => R).map((R, index) => (
           <Card
@@ -49,7 +51,7 @@ export const RestaurantPage = () => {
             borderRadius="2xl"
             bg="brand.200"
             key={index}
-            mb="5"
+            mb={8}
           >
             <CardBody>
               <Image
@@ -93,7 +95,7 @@ export const RestaurantPage = () => {
                   borderColor: "black",
                   bgColor: "brand.100",
                 }}
-                w={{ base: "160px", lg: "140px" }}
+                w="160px"
               >
                 More Info
               </Button>
@@ -102,7 +104,7 @@ export const RestaurantPage = () => {
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w={{ base: "160px", lg: "140px" }}
+                w="160px"
               >
                 Reserve Now
               </Button>

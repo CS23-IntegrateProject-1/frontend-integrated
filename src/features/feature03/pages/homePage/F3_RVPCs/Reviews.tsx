@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Box, Flex, Text, Grid, Icon, Center, Divider } from "@chakra-ui/react";
 import { StarSort } from "./StarSort";
-import reviewsData from "../../ReviewsMock.json";
+import RVF3 from "../../RVF3mock.json";
 
 interface reviewProps {
   id: number;
@@ -19,7 +19,7 @@ const divide = {
 };
 
 export const Reviews = () => {
-  const reviews: reviewProps[] = reviewsData;
+  const reviews: reviewProps[] = RVF3 ;
   return (
     <Box width={"100%"}>
       Reviews

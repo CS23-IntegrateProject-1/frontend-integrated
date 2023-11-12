@@ -62,7 +62,7 @@ export const HomePage = () => {
   const E: EProps[] = mockE;
 
   return (
-    <Box width={"100%"}>
+    <Box width={"100%"} px={{base:"none", lg:"100px"}}>
       <Box pb={2}>
         <SliderAdvertisement />
       </Box>
@@ -283,11 +283,12 @@ export const HomePage = () => {
         </Text>
         <NavLink to="/IDK_Path">
           <Image
-            src="https://c4.wallpaperflare.com/wallpaper/210/9/215/anime-fantasy-game-map-wallpaper-preview.jpg"
+            src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
             h="300px"
+            objectFit={"cover"}
           />
         </NavLink>
       </Box>
@@ -349,7 +350,7 @@ export const HomePage = () => {
                   borderColor: "black",
                   bgColor: "brand.100",
                 }}
-                w={{ base: "120px", lg: "140px" }}
+                w={{ base: "120px", lg: "145px" }}
               >
                 More Info
               </Button>
@@ -358,7 +359,7 @@ export const HomePage = () => {
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w={{ base: "120px", lg: "140px" }}
+                w={{ base: "120px", lg: "145px" }}
               >
                 Reserve Now
               </Button>
