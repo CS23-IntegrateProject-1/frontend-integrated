@@ -6,6 +6,7 @@ export const BusiProfileEdit = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+  
     return (
         <Box>
             <Flex mt={8} alignItems={'center'} justifyContent={'center'}>

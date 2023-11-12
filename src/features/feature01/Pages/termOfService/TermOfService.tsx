@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, Text, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, Stack,Button, Show, Checkbox, UnorderedList, ListItem, Spacer, Flex, Divider, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
 //function to scroll to the section
@@ -10,6 +10,25 @@ function scrollToSection(sectionId : string) {
 }
 
 export const TermOfService = () => {
+   //function to handle continue button
+   const handleContinue = () =>   {
+    const check = document.querySelector('.check input') as HTMLInputElement;
+    const text = document.querySelector('.checkText') as HTMLInputElement;
+
+    if(check.checked){
+      console.log("checked");
+      text.hidden=true;
+      //go back to home
+      window.history.replaceState({}, '', '/');
+      window.history.go(0);
+      //set local storage
+      localStorage.setItem("terms&service", "true");
+
+    }else{
+      text.hidden=false;
+    }
+  
+  }
   return(
     <Box>
         <Heading style={TextStyle.h1}>Terms of Services</Heading>
@@ -107,7 +126,28 @@ export const TermOfService = () => {
               reservations. We appreciate your trust in us and are committed to safeguarding
               your privacy.
             </Text>
+            <Divider/>
+            {/* for xs screen size */}
+            <Show below='sm'>
+                <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the terms of service</Checkbox>
+                <Box>
+                  <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
+                </Box>
+                <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Register</Button>
+            </Show>
         </Stack>
+        {/* for lg md screen size */}
+        <Show above='sm'>
+          <Flex>
+            <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
+            </Checkbox>
+            <Box mt={5} ml={3}>
+              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
+            </Box>
+            <Spacer/>
+            <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Register</Button>
+          </Flex>
+        </Show>
     </Box>
   );
 }

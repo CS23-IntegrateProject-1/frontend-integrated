@@ -1,6 +1,7 @@
-import { Box, Heading, Text, Stack, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, UnorderedList, ListItem, Divider , Show,Spacer, Flex, Checkbox,Button} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {
   const element = document.getElementById(sectionId);
@@ -8,8 +9,30 @@ function scrollToSection(sectionId : string) {
     element.scrollIntoView({ behavior: "smooth" });
   }
 }
+ 
+export const PrivacyPolicy = ()  => {
+  //function to handle continue button
+  const handleContinue = () =>   {
+    const check = document.querySelector('.check input') as HTMLInputElement;
+    const text = document.querySelector('.checkText') as HTMLInputElement;
 
-export const PrivacyPolicy = () => {
+    if(check.checked){
+      console.log("checked");
+      text.hidden=true;
+      //go back to home
+      window.history.replaceState({}, '', '/');
+      window.history.go(0);
+      //set local storage
+      //send a get request to backend
+      
+      localStorage.setItem("privacyPolicy", "true");
+
+    }else{
+      text.hidden=false;
+    }
+  
+  }
+
   return(
     <Box>
      <Heading style={TextStyle.h1}>{" "}Privacy Policy</Heading>
@@ -229,7 +252,28 @@ export const PrivacyPolicy = () => {
           reservations. We appreciate your trust in us and are committed to safeguarding
           your privacy.
         </Text>
+        <Divider/>
+        {/* for xs screen size */}
+        <Show below='sm'>
+            <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the privacy and policy</Checkbox>
+            <Box>
+              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
+            </Box>
+            <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
+        </Show>
     </Stack>
+        {/* for lg md screen size */}
+        <Show above='sm'>
+          <Flex>
+            <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the privacy and policy
+            </Checkbox>
+            <Box mt={5} ml={3}>
+              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
+            </Box>
+            <Spacer/>
+            <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Continue</Button>
+          </Flex>
+        </Show>
     </Box>
   );
 };
