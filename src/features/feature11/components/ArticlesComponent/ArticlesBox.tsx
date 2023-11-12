@@ -6,22 +6,7 @@ import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Component for an article box
-
-interface ArticlesPageProps {
-  articleId: string;
-  articleName: string;
-  //articleContent: string;
-  writerUsername: string;
-  //writerName: string;
-  writerProfilePicture: string;
-  articlePicture: string[];
-  articleLikes: number;
-  // articleComments: ArticleComment[];
-  articleCommentsNumber: number;
-  dateCreated: string;
-}
+import { ArticlesPageProps } from "../../page/ArticleDetailPage/ArticleTypes";
 
 export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
@@ -49,10 +34,10 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
             height="32px"
           />
           <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
-            {props.writerUsername}
+            {props.author_name}
           </Text>
           <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
-            {props.dateCreated}
+            {props.created_date}
           </Text>
         </Box>
       </Box>
@@ -64,7 +49,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         justifyContent={"space-around"}
       >
         <Text color={"#C5C4C7"} style={TextStyle.h2}>
-          {props.articleName}
+          {props.topic}
         </Text>
         <Image
           src="/src/features/feature11/img/Rectangle 186.png"
@@ -77,7 +62,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         <Box className="Like" display="flex" mr={"1em"}>
           <AiOutlineHeart />
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
-            {props.articleLikes}
+            {props.Like}
           </Text>
         </Box>
 
@@ -85,7 +70,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         <Box className="comment" display="flex" mr={"1em"}>
           <BiComment />
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
-            {props.articleCommentsNumber}
+            {/* {props.articleCommentsNumber} */}
           </Text>
         </Box>
 

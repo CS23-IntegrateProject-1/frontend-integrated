@@ -17,27 +17,7 @@ import { CommentModal } from "./CommentModal";
 import { mockArticle } from "./mockArticle";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-
-interface ArticleComment {
-  commentId: string;
-  commentContent: string;
-  commentDate: string;
-  likedByCreator: boolean;
-  commentWriterUsername: string;
-}
-
-interface ArticlePageProps {
-  articleId: string;
-  articleName: string;
-  articleContent: string;
-  writerUsername: string;
-  writerName: string;
-  writerProfilePicture: string;
-  articlePicture: string[];
-  articleLikes: number;
-  articleComments: ArticleComment[];
-  dateCreated: string;
-}
+import { ArticlePageProps } from "./ArticleTypes";
 
 const fetchArticle = async (): Promise<ArticlePageProps> => {
   // const response: AxiosResponse<User[]> = await Axios.get("/users");

@@ -6,30 +6,19 @@ import { mockArticles } from "./ArticleDetailPage/mockArticles";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../components/Loader/FullPageLoader";
 import { Axios } from "../../../AxiosInstance";
-
-interface ArticlesPageProps {
-  articleId: string;
-  articleName: string;
-  //articleContent: string;
-  writerUsername: string;
-  //writerName: string;
-  writerProfilePicture: string;
-  articlePicture: string[];
-  articleLikes: number;
-  // articleComments: ArticleComment[];
-  articleCommentsNumber: number;
-  dateCreated: string;
-}
+import { useNavigate } from "react-router-dom";
+import { ArticlesPageProps } from "./ArticleDetailPage/ArticleTypes";
 
 const fetchArticles = async (): Promise<ArticlesPageProps[]> => {
-  // const res = await Axios.get("/getAllArticle");
-  // return res.data;
-  console.log(mockArticles);
-  return mockArticles;
+  const res = await Axios.get("/feature11/fetchAllArticle");
+  return res.data;
+  // console.log(mockArticles);
+  // return mockArticles;
 };
 
 export const ArticlesPage = () => {
   // const result = useQuery(fetchArticle);
+  const navigate = useNavigate();
   const articles = useQuery({ queryKey: ["articles"], queryFn: fetchArticles });
   if (articles.status == "loading") {
     return <FullPageLoader />;
@@ -72,20 +61,26 @@ export const ArticlesPage = () => {
         variant="unstyled"
         aria-label="add"
         icon={<MdAddCircle size={"72px"} color={"#A533C8"} />}
+        onClick={() => {
+          navigate("/article/create");
+        }}
       />
 
       {articles.data?.map((article) => {
         return (
           <ArticlesBox
             articleId={article.articleId}
-            articleName={article.articleName}
-            writerUsername={article.writerUsername}
-            writerProfilePicture={article.writerProfilePicture}
-            articlePicture={article.articlePicture}
-            articleLikes={article.articleLikes}
-            articleCommentsNumber={article.articleCommentsNumber}
-            dateCreated={article.dateCreated}
+            topic={article.topic}
+            author_name={article.author_name}
+            // writerProfilePicture={article.writerProfilePicture}
+            Image={article.Image}
+            Like={article.Like}
+            // articleCommentsNumber={article.articleCommentsNumber}
+            created_date={article.created_date}
             key={article.articleId}
+            content={""}
+            category={""}
+            userId={0}
           />
         );
       })}
