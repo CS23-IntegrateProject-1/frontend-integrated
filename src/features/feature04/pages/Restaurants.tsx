@@ -10,6 +10,7 @@ export const Maps = () => {
 
   return (
     <Box>
+      <Header />
        <Text
         fontSize={index.textStyles.h1.fontSize}
         fontWeight={index.textStyles.h1.fontWeight}
