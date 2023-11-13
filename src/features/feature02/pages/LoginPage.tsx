@@ -13,12 +13,20 @@ import textStyles from "../../../theme/foundations/textStyles";
 import google from "../img/google.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { login } from "../../../api/Auth/Login";
 
 export const LoginPage = () => {
 	const navigate = useNavigate();
 	const [rememberMe, setRememberMe] = useState(false);
+	rememberMe;
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const handleSignUp = () => {
 		navigate("/signup");
+	};
+	const handleLogin = async () => {
+		const response = login(username, password);
+		console.log(response);
 	};
 	return (
 		<Box>
@@ -34,7 +42,7 @@ export const LoginPage = () => {
 			{/* Back ground shadow*/}
 			<Box
 				w="100%"
-				height="100vh"
+				h="65%"
 				borderRadius={"125px 0 0 0 "}
 				position="absolute"
 				left="-2px"
@@ -61,6 +69,9 @@ export const LoginPage = () => {
 							bg="brand.100"
 							type="text"
 							placeholder="Username"
+							onChange={(e) => {
+								setUsername(e.target.value);
+							}}
 							_placeholder={{ color: "white" }}
 							style={textStyles.h4}
 						/>
@@ -74,6 +85,9 @@ export const LoginPage = () => {
 							bg="brand.100"
 							type="password"
 							placeholder="Password"
+							onChange={(e) => {
+								setPassword(e.target.value);
+							}}
 							_placeholder={{ color: "white" }}
 							style={textStyles.h4}
 						/>
@@ -88,14 +102,15 @@ export const LoginPage = () => {
 						</Box>
 						{/* Button*/}
 						<Button
-							type="submit"
+							// type="submit"
 							bg="brand.200"
 							color="white"
 							width="30vw"
 							display="block"
 							margin="auto"
 							marginTop="5vh"
-							style={textStyles.h2}>
+							style={textStyles.h2}
+							onClick={handleLogin}>
 							Login
 						</Button>
 						<br />
