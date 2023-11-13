@@ -8,7 +8,7 @@ import { CustomCartIcon } from "../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
 import { RButton } from "../component/RButton";
 
-export const MenuAll = () => {
+export const MenuAllDeli = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
