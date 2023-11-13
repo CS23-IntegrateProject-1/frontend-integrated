@@ -23,10 +23,11 @@ interface Credit_cardProps{
   exp: Date;
   UserId: Int16Array;
 
+} 
+interface Credit_CardItem {   
+  card:Credit_cardProps;    
 }
-interface Credit_CardItem{
-  card:Credit_cardProps;
-}
+// Can it call function like this?
 
 
 
