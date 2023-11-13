@@ -68,7 +68,7 @@ export const CommentModal: FC<ModalComponentProps> = ({
             onClick={onClose}
           />
         </Flex>
-        <CommentInput/>
+        <CommentInput />
         <Box mt={"1em"} maxH={"70%"} overflow={"scroll"}>
           {comments.map((comment) => (
             <CommentItem comment={comment} key={comment.commentId} />

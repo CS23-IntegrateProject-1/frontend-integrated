@@ -23,11 +23,13 @@ const fetchArticle = async (): Promise<ArticlePageProps> => {
   // const response: AxiosResponse<User[]> = await Axios.get("/users");
   // return response.data;
   try {
-    // const id = useParams();
-    // const comments = await Axios.post("/getArticleComment", {
-    //   articleId: id,
-    // });
-    return mockArticle;
+    const articleId = useParams();
+    console.log(articleId)
+    const article = await Axios.post(
+      `/feature11/fetchArticleDetail/${articleId}`
+    );
+    return article.data;
+    // return mockArticle;
   } catch (error) {
     console.error("Error fetching article:", error);
     throw new Error("Failed to fetch article");

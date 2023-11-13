@@ -6,7 +6,7 @@ import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../../page/ArticleDetailPage/ArticleTypes";
+import { ArticlesPageProps } from "../ArticleDetailPage/ArticleTypes";
 
 export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width={{ base: "100%", md: "80%", lg: "50%" }}
       border="1px"
       borderColor="#A533C8"
       p={"1em"}
@@ -70,7 +69,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         <Box className="comment" display="flex" mr={"1em"}>
           <BiComment />
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
-            {/* {props.articleCommentsNumber} */}
+            {props.Comment}
           </Text>
         </Box>
 
