@@ -1,6 +1,8 @@
 import { MyReservation } from "./pages/MyReservation";
+import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
+
 
 export const Feature06Routes = () => {
   return [
@@ -13,6 +15,7 @@ export const Feature06Routes = () => {
     { path: "/my-reservation", element: "ElementPlaceHolder" },
     { path: "/table" , element: <TablePage/> },
     { path: "/tabletype" , element: <TableType/> },
-    { path: "/myreservation", element: <MyReservation/>}
+    { path: "/myreservation", element: <MyReservation/>},
+    { path: "/reservation-detail", element: <ReservationDetail/>}
   ];
 };
