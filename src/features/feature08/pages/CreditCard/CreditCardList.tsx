@@ -13,6 +13,23 @@ import { AddIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 
+interface Credit_cardProps{
+  creditCardId: Int16Array;
+  card_no: string;
+  name: string;
+  country: string;
+  bank: string;
+  cvc: Int16Array;
+  exp: Date;
+  UserId: Int16Array;
+
+}
+interface Credit_CardItem{
+  card:Credit_cardProps;
+}
+
+
+
 export const CreditCardList = () => {
 const [value, setValue] = React.useState('1')
   return (

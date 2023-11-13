@@ -8,13 +8,9 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-
 
 export const MobileBankingList = () => {
-  //hold data for list of mobileBanking?
-  const [mobileBankingData, setMobileBankingData] = useState([]);
-  const [loading, setLoading] = useState(true);
+
 
 
 
