@@ -1,6 +1,7 @@
 import { Box, Heading, Text, Stack, UnorderedList, ListItem, Divider , Show,Spacer, Flex, Checkbox,Button} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {
@@ -9,28 +10,49 @@ function scrollToSection(sectionId : string) {
     element.scrollIntoView({ behavior: "smooth" });
   }
 }
- 
+
 export const PrivacyPolicy = ()  => {
+ 
   //function to handle continue button
   const handleContinue = () =>   {
-    const check = document.querySelector('.check input') as HTMLInputElement;
-    const text = document.querySelector('.checkText') as HTMLInputElement;
-
-    if(check.checked){
-      console.log("checked");
-      text.hidden=true;
-      //go back to home
-      window.history.replaceState({}, '', '/');
-      window.history.go(0);
-      //set local storage
-      //send a get request to backend
-      
-      localStorage.setItem("privacyPolicy", "true");
-
-    }else{
-      text.hidden=false;
-    }
-  
+      const check = document.querySelector('.check input') as HTMLInputElement;
+      const text = document.querySelector('.checkText') as HTMLInputElement; 
+        console.log("checked");
+          text.hidden=true;
+          if(check.checked){
+          //go back to home
+          window.history.replaceState({}, '', '/');
+          window.history.go(0);
+          //set local storage for mock testing , have to del real integration
+          localStorage.setItem("privacyPolicy", "true");
+          //send a get request to backend
+          //get user token from other team
+          useEffect(() => {
+               if ("userToken") {
+                 const url = 'feature01/privacyPolicy?consent=true';
+                 const config = {
+                   headers: {
+                     'Authorization': `Bearer ${"userToken"}`,
+                   },
+                 };
+                 //send a get request to the backend
+                 Axios.get(url, config)
+                   .then((response) => {
+                     if (response.status === 200) {
+                       //store consent in local storage
+                       localStorage.setItem("privacyPolicy", "true");
+                       console.log("consent saved");
+                     }
+                   })
+                   .catch((error) => {
+                     console.error('Error saving consent:', error);
+                   });
+               }
+            }, ["userToken"]);
+    
+        }else{
+          text.hidden=false;
+        }
   }
 
   return(
@@ -253,27 +275,36 @@ export const PrivacyPolicy = ()  => {
           your privacy.
         </Text>
         <Divider/>
-        {/* for xs screen size */}
-        <Show below='sm'>
-            <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the privacy and policy</Checkbox>
-            <Box>
-              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
-            </Box>
-            <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
-        </Show>
+        {(localStorage.getItem("privacyPolicy") === null) && (
+            <Show below='sm'>
+              <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the privacy and policy</Checkbox>
+              <Box>
+                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
+              </Box>
+              <Button className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
+            </Show>
+         )}
+         {(localStorage.getItem("privacyPolicy") != null) && (
+            <Text className="already">
+            You already accepted the privacy and policy
+          </Text>
+         )}
+        
     </Stack>
-        {/* for lg md screen size */}
-        <Show above='sm'>
-          <Flex>
-            <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the privacy and policy
-            </Checkbox>
-            <Box mt={5} ml={3}>
-              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
-            </Box>
-            <Spacer/>
-            <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Continue</Button>
-          </Flex>
-        </Show>
+    {(localStorage.getItem("privacyPolicy") === null) && (
+            <Show above='sm'>
+            <Flex>
+              <Checkbox  className='check' checked={false}  size='md' colorScheme='green' >You have read & accepted the privacy and policy
+              </Checkbox>
+              <Box mt={5} ml={3}>
+                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
+              </Box>
+              <Spacer/>
+              <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Continue</Button>
+            </Flex>
+          </Show>
+         )}
     </Box>
+        
   );
 };

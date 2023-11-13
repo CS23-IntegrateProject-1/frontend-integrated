@@ -1,6 +1,8 @@
 import { Box, Heading, Stack,Button, Show, Checkbox, UnorderedList, ListItem, Spacer, Flex, Divider, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {
   const element = document.getElementById(sectionId);
@@ -21,8 +23,30 @@ export const TermOfService = () => {
       //go back to home
       window.history.replaceState({}, '', '/');
       window.history.go(0);
-      //set local storage
+      //set local storage for mock have to delete later***
       localStorage.setItem("terms&service", "true");
+      useEffect(() => {
+        if ("userToken") {
+          const url = 'feature01/terms&service?consent=true';
+          const config = {
+            headers: {
+              'Authorization': `Bearer ${"userToken"}`,
+            },
+          };
+          //send a get request to the backend
+          Axios.get(url, config)
+            .then((response) => {
+              if (response.status === 200) {
+                //store consent in local storage
+                localStorage.setItem("terms&service", "true");
+                console.log("consent saved");
+              }
+            })
+            .catch((error) => {
+              console.error('Error saving consent:', error);
+            });
+        }
+     }, ["userToken"]);
 
     }else{
       text.hidden=false;
@@ -127,27 +151,35 @@ export const TermOfService = () => {
               your privacy.
             </Text>
             <Divider/>
-            {/* for xs screen size */}
-            <Show below='sm'>
+            {(localStorage.getItem("terms&service") === null) && (
+              <Show below='sm'>
                 <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the terms of service</Checkbox>
                 <Box>
                   <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
                 </Box>
                 <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Register</Button>
-            </Show>
+              </Show>
+            )}
+              {(localStorage.getItem("terms&service") != null) && (
+                <Text className="already">
+                You already accepted Terms of Services
+                </Text>
+              )}
         </Stack>
-        {/* for lg md screen size */}
-        <Show above='sm'>
-          <Flex>
-            <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
-            </Checkbox>
-            <Box mt={5} ml={3}>
-              <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
-            </Box>
-            <Spacer/>
-            <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Register</Button>
-          </Flex>
-        </Show>
+        {(localStorage.getItem("terms&service") === null) && (
+            <Show above='sm'>
+            <Flex>
+              <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
+              </Checkbox>
+              <Box mt={5} ml={3}>
+                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
+              </Box>
+              <Spacer/>
+              <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Register</Button>
+            </Flex>
+          </Show>
+        )}
+        
     </Box>
   );
 }
