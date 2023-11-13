@@ -5,15 +5,12 @@ import Search from "../components/Search";
 import GoogleMapComponent from "../components/GoogleMapComponent"; // Correct import statement
 
 export const Maps = () => {
+
   return (
     <Box>
       <PlaceTypes />
       {/* Include the Map component with the required props */}
-      <GoogleMapComponent
-        center={{ lat: 14.6513, lng: 100.4964 }}
-        zoom={15}
-        locations={[{ lat: 14.6513, lng: 100.4964, name: "KMUTT" }]}
-      />
+      <GoogleMapComponent />
 
       {/* Correct component name */}
       <Search />
