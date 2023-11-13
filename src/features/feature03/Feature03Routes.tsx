@@ -17,7 +17,7 @@ export const Feature03Routes = () => {
     { path: "/RecommendedPlaces", element: <RecommendedPlacesPage /> },
     { path: "/Promotions", element: <PromotionsPage /> },
 
-    { path: "/Temp_ResturantDetail", element: <Temp_ResturantDetail /> },
+    { path: "/Temp_RestaurantDetail", element: <Temp_ResturantDetail /> },
 
     { path: "/venue-list", element: "ElementPlaceHolder" },
     { path: "/venue-list/:venueId", element: "ElementPlaceHolder" },
