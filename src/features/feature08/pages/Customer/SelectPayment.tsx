@@ -41,7 +41,7 @@ export const SelectPayment: FC<ButtonProps>= ({
     </Button>
         <QrCodeButton />
         <MobileBankingList />
-        <CreditCardList />
+        <CreditCardList card={[]} />
         <ConfirmButton />
         </Box>
     )

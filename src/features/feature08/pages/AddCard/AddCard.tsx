@@ -129,6 +129,7 @@ export const AddCard: FC<ButtonProps> = ({
       >
         <Card
           width="70%"
+          height={"100%"}
           backgroundColor="#5F0DBB"
           color="#C5C4C7"
           rounded="lg"
@@ -164,8 +165,8 @@ export const AddCard: FC<ButtonProps> = ({
           <CardFooter
             display="flex"
             justifyContent="space-between"
-            alignItems="flex-end"
-            padding={4}
+            alignItems="center"
+            padding={2}
           >
             <Box>
               <Heading size="md" color="white">
@@ -182,7 +183,7 @@ export const AddCard: FC<ButtonProps> = ({
 
         <Divider marginTop={20} />
 
-        <AbsoluteCenter px="4">Card details</AbsoluteCenter>
+        <AbsoluteCenter textColor={"white"} px="4">Card details</AbsoluteCenter>
 
         <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
           <Input
@@ -209,8 +210,8 @@ export const AddCard: FC<ButtonProps> = ({
           />
         </FormControl>
 
-        <Flex justify="space-between" mb={4} marginTop={5}>
-          <FormControl flex="1" marginRight={2} width="45%">
+        <Flex>
+          <FormControl flex="1" marginRight={2}>
             <Input
               type="text"
               placeholder="MM/YY"
@@ -227,7 +228,7 @@ export const AddCard: FC<ButtonProps> = ({
             </Text>
           </FormControl>
 
-          <FormControl flex="1" marginLeft={2} width="45%">
+          <FormControl flex="1" marginLeft={2}>
             <Input
               type="text"
               placeholder="123"

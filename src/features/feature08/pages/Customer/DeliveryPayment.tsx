@@ -41,7 +41,7 @@ export const DeliveryPayment: FC<ButtonProps>= ({
     </Button>
         <QrCodeButton />
         <MobileBankingList />
-        <CreditCardList />
+        <CreditCardList card={[]} />
         <ConfirmButton />
         </Box>
     )
