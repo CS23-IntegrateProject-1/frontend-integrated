@@ -162,6 +162,36 @@ export const PaymentMethodSetting = () => {
                 <Divider py={2}/>
             </Box>
           )}
+          {/* Primary Method haven't set */}
+          <Box mt={7} fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h3.fontWeight}>
+              <Flex id="Kplus" onClick={handleOpen} cursor={'pointer'}>
+                  <Box pl={3}>
+                    <AddIcon border='1.2px solid white' borderRadius='50%' padding={0.5}/>
+                  </Box>
+                  <Text pl={6}>K PLUS</Text>
+                  <Spacer/>
+                  <Text id="KplusDef" hidden={true} color={'brand.100'}>Default</Text>
+              </Flex>
+              <Divider py={2}/>
+              <Flex mt={4} id="Kthai" onClick={handleOpen} cursor={'pointer'}>
+                  <Box pl={3}>
+                    <AddIcon border='1.2px solid white' borderRadius='50%' padding={0.5}/>
+                  </Box>
+                  <Text pl={6}>Krungthai NEXT</Text>
+                  <Spacer/>
+                  <Text id="KthaiDef" hidden={true} color={'brand.100'}>Default</Text>
+              </Flex>
+              <Divider py={2}/>
+              <Flex mt={4} id="SCB" onClick={handleOpen} cursor={'pointer'}>
+                  <Box pl={3}>
+                    <AddIcon border='1.2px solid white' borderRadius='50%' padding={0.5}/>
+                  </Box>
+                  <Text pl={6}>SCB EASY</Text>
+                  <Spacer/>
+                  <Text id="SCBDef" hidden={true} color={'brand.100'}>Default</Text>
+              </Flex>
+              <Divider py={2}/>
+          </Box>
           {/* Drawer */}
           <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
           <DrawerContent bg={'brand.100'} px={4} pt={4} pb={5} transition="all 0.1s ease">
