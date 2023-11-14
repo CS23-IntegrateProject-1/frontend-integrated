@@ -19,6 +19,43 @@ import { FC } from "react";
     borderColor,
     bgHover,
   }) => {
+
+    //simulate only krub fetch data later when we can idk for now
+    interface Credit_cardProps {
+      creditCardId: number;
+      card_no: string;
+      name: string;
+      country: string;
+      bank: string;
+      cvc: number;
+      exp: Date;
+      UserId: number;
+    }
+    //simulate only krub fetch data later when we can idk for now
+    const simulatedData: Credit_cardProps[] = [
+      {
+        creditCardId: 1,
+        card_no: "****1319",
+        name: "Visa",
+        country: "USA",
+        bank: "Bank of America",
+        cvc: 123,
+        exp: new Date("2023-12-31"),
+        UserId: 101,
+      },
+      {
+        creditCardId: 2,
+        card_no: "****1319",
+        name: "Mastercard",
+        country: "USA",
+        bank: "Chase",
+        cvc: 456,
+        exp: new Date("2024-05-31"),
+        UserId: 102,
+      },
+    ];
+
+
     return (
         <Box
         display={"flex"}
@@ -41,7 +78,7 @@ import { FC } from "react";
     </Button>
         <QrCodeButton />
         <MobileBankingList />
-        <CreditCardList />
+        <CreditCardList card={simulatedData} />
         <ConfirmButton />
         </Box>
     )

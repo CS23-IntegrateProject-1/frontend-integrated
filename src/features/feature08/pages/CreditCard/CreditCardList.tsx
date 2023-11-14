@@ -10,29 +10,31 @@ import {
   RadioGroup,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
-interface Credit_cardProps{
-  creditCardId: Int16Array;
+interface Credit_cardProps {
+  creditCardId: number;
   card_no: string;
   name: string;
   country: string;
   bank: string;
-  cvc: Int16Array;
+  cvc: number;
   exp: Date;
-  UserId: Int16Array;
-
-} 
-interface Credit_CardItem {   
-  card:Credit_cardProps;    
+  UserId: number;
 }
-// Can it call function like this?
 
+// interface Credit_CardItem {
+//   card: Credit_cardProps[];
+// }
 
+interface CreditCardListProps {
+  card: Credit_cardProps[];
+}
 
-export const CreditCardList = () => {
-const [value, setValue] = React.useState('1')
+export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
+  const [value, setValue] = React.useState("");
+
   return (
     <Box
       display={"flex"}
@@ -49,8 +51,9 @@ const [value, setValue] = React.useState('1')
 
         <CardBody>
           <RadioGroup onChange={setValue} value={value} maxWidth={"100%"}>
-            
+            {card.map((cardItem) => (
               <Card
+                key={cardItem.creditCardId}
                 direction={{ base: "column", sm: "row" }}
                 overflow="hidden"
                 variant="outline"
@@ -62,67 +65,43 @@ const [value, setValue] = React.useState('1')
                 <Image
                   objectFit="cover"
                   maxW={{ base: "100%", sm: "200px" }}
-                  src="https://usa.visa.com/dam/VCOM/regional/ve/romania/blogs/hero-image/visa-logo-800x450.jpg"
-                  alt="Visa"
+                  src={cardItem.name.toLowerCase() === 'visa'
+                    ? 'https://usa.visa.com/dam/VCOM/regional/ve/romania/blogs/hero-image/visa-logo-800x450.jpg' // Replace with the actual URL for the Visa image
+                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/2560px-Mastercard_2019_logo.svg.png'} // Mastercard image URL
+                  alt={cardItem.name}
+                  backgroundColor={"white"}
                 />
 
                 <CardBody>
                   <Heading size="md" color={"white"}>
-                    Visa
+                    {cardItem.name}
                   </Heading>
 
                   <Text py="2" color={"white"}>
-                    ****1319
+                    {cardItem.card_no}
                   </Text>
                 </CardBody>
-                <Radio value="1" />
+                <Radio value={cardItem.creditCardId.toString()} />
               </Card>
-              <Box margin={5}>
-                <Card
-                  direction={{ base: "column", sm: "row" }}
-                  overflow="hidden"
-                  variant="outline"
-                  backgroundColor={""}
-                  padding={5}
-                >
-                  <Image
-                    objectFit="cover"
-                    maxW={{ base: "100%", sm: "200px" }}
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/2560px-Mastercard_2019_logo.svg.png"
-                    alt="Mastercard"
-                    backgroundColor={"white"}
-                  />
-
-                  <CardBody>
-                    <Heading size="md" color={"white"}>
-                      Master
-                    </Heading>
-
-                    <Text py="2" color={"white"}>
-                      ****1319
-                    </Text>
-                  </CardBody>
-                  <Radio value="2" />
-                </Card>
-              </Box>
+            ))}
           </RadioGroup>
           <Box margin={5}>
-            <Link to={"/venue/:venueId/addcard"}>
+            <Link to={`/venue/:venueId/addcard`}>
               <Card
-                    direction={{ base: "column", sm: "row" }}
-                    overflow="hidden"
-                    variant="outline"
-                    backgroundColor={""}
-                    padding={5}
-                  >
-                    <CardBody>
-                      <Heading size="sm" color={"white"}>
-                        <AddIcon boxSize={3} /> Add Card
-                      </Heading>
-                    </CardBody>
-                  </Card>
-            </Link>           
-              </Box>
+                direction={{ base: "column", sm: "row" }}
+                overflow="hidden"
+                variant="outline"
+                backgroundColor={""}
+                padding={5}
+              >
+                <CardBody>
+                  <Heading size="sm" color={"white"}>
+                    <AddIcon boxSize={3} /> Add Card
+                  </Heading>
+                </CardBody>
+              </Card>
+            </Link>
+          </Box>
         </CardBody>
       </Card>
     </Box>
