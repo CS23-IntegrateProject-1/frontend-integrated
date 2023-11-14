@@ -47,6 +47,7 @@ export const CommentModal: FC<ModalComponentProps> = ({
         borderRadius={{ base: "2em 2em 0 0" }}
         maxW={{ base: "480px", sm: "768px" }}
         p={"1.5em"}
+        maxH={"80%"}
         // pr={"1em"}
         bg={"brand.100"}
       >
@@ -68,7 +69,7 @@ export const CommentModal: FC<ModalComponentProps> = ({
           />
         </Flex>
         <CommentInput/>
-        <Box>
+        <Box mt={"1em"} maxH={"70%"} overflow={"scroll"}>
           {comments.map((comment) => (
             <CommentItem comment={comment} key={comment.commentId} />
           ))}

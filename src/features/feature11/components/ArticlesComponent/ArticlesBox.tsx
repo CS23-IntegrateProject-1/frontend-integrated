@@ -1,67 +1,98 @@
 import { Box } from "@chakra-ui/react";
-import { Text } from '@chakra-ui/react';
+import { Text, Image } from "@chakra-ui/react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/bi";
+import { BiComment } from "react-icons/Bi";
 import { MdOutlineSend } from "react-icons/md";
+import { TextStyle } from "../../../../theme/TextStyle";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Component for an article box
-export const ArticlesBox = () => {
+
+interface ArticlesPageProps {
+  articleId: string;
+  articleName: string;
+  //articleContent: string;
+  writerUsername: string;
+  //writerName: string;
+  writerProfilePicture: string;
+  articlePicture: string[];
+  articleLikes: number;
+  // articleComments: ArticleComment[];
+  articleCommentsNumber: number;
+  dateCreated: string;
+}
+
+export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width="393px"
-      height="130px"
+      width={{ base: "100%", md: "80%", lg: "50%" }}
       border="1px"
       borderColor="#A533C8"
+      p={"1em"}
+      onClick={() => {
+        navigate(`/article/${props.articleId}`);
+      }}
     >
       {/* Profile Info */}
-      <Box className="ProfileBox" 
-        display="flex" 
-        alignItems="center" 
-        mt="18px" 
-        ml="-200px" 
-        width="150px" 
-        height="32px">
-        <img src="/src/features/feature11/img/Profile.png" alt="Profile" width="32px" height="32px" />
-        <Text className="username" fontSize="xs" ml="10px" color={"#C5C4C7"}>
-          username
+      <Box display="flex" alignItems="center" w={"100%"} height="32px">
+        <Box display="flex" alignItems={"center"}>
+          <img
+            src="/src/features/feature11/img/Profile.png"
+            alt="Profile"
+            width="32px"
+            height="32px"
+          />
+          <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
+            {props.writerUsername}
+          </Text>
+          <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
+            {props.dateCreated}
+          </Text>
+        </Box>
+      </Box>
+
+      <Box
+        w={"100%"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"space-around"}
+      >
+        <Text color={"#C5C4C7"} style={TextStyle.h2}>
+          {props.articleName}
         </Text>
-        <Text className="time" fontSize="xs" ml="25px" color={"#C5C4C7"}>
-          <ul><li>10 m</li></ul>
-        </Text>
+        <Image
+          src="/src/features/feature11/img/Rectangle 186.png"
+          alt="Article"
+          w={"200px"}
+          h={"100px"}
+        />
       </Box>
+      <Box display={"flex"} alignSelf={"flex-start"}>
+        <Box className="Like" display="flex" mr={"1em"}>
+          <AiOutlineHeart />
+          <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
+            {props.articleLikes}
+          </Text>
+        </Box>
 
-      {/* Article Name */}
-      <Box display="flex" alignItems="center" width="100px" height="30px" ml="-150px" >
-        <Text color={"#C5C4C7"} as={"b"} lineHeight={"18.75"}>Article Name</Text>
-      </Box>
+        {/* Comment section */}
+        <Box className="comment" display="flex" mr={"1em"}>
+          <BiComment />
+          <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
+            {props.articleCommentsNumber}
+          </Text>
+        </Box>
 
-      {/* Article Image */}
-      <Box width="114px" height="78px" mt="-55px" ml="225px">
-        <img src="/src/features/feature11/img/Rectangle 186.png" alt="Article" />
-      </Box>
-
-      {/* Like section */}
-      <Box className="Like" display="flex" ml="-280px">
-        <AiOutlineHeart />
-        <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
-          30
-        </Text>
-      </Box>
-
-      {/* Comment section */}
-      <Box className="comment" display="flex" mt="-17px" ml="-180px">
-        <BiComment />
-        <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
-          2
-        </Text>
-      </Box>
-
-      {/* Share section */}
-      <Box display="flex" mt="-21px" ml="-80px" transform="rotate(315deg)">
-        <MdOutlineSend />
+        {/* Share section */}
+        <Box display="flex" transform="rotate(315deg)">
+          <MdOutlineSend />
+        </Box>
       </Box>
     </Box>
   );

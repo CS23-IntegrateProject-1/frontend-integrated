@@ -1,31 +1,62 @@
 import { Button } from "@chakra-ui/react";
 import { FC } from "react";
+import textStyles from "../../theme/foundations/textStyles";
 
 interface ButtonProps {
   text: string;
+  colorScheme?: string;
   bgColor?: string;
   textColor?: string;
   borderColor?: string;
-  bgHover?: string;
+  bgColorHover?: string;
+  borderColorHover?: string;
+  textColorHover?: string;
+  border?: string;
+  textStyle?: keyof typeof textStyles;
+  variant?: string;
+  width?: string;
+  height?: string;
+  borderRadius?: string;
+  onClick?: () => void;
 }
 
 // this is a purple button with white text default, you can import this component and pass other prop specify below to change it
 
 export const ButtonComponent: FC<ButtonProps> = ({
   text,
+  colorScheme,
   bgColor,
   textColor,
   borderColor,
-  bgHover,
+  bgColorHover,
+  borderColorHover,
+  textColorHover,
+  border,
+  textStyle,
+  variant,
+  width,
+  height,
+  borderRadius,
+  onClick,
 }) => {
   return (
     <Button
-      width={"140px"}
-      height={"40px"}
-      bg={!bgColor ? "brand.200" : bgColor}
-      color={!textColor ? "white" : textColor}
-      borderColor={!borderColor ? "" : borderColor}
-      _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+      colorScheme={colorScheme ? colorScheme : ""}
+      bgColor={bgColor ? bgColor : "brand.200"}
+      textColor={textColor ? textColor : "white"}
+      borderColor={borderColor ? borderColor : ""}
+      border={border ? border : ""}
+      textStyle={textStyle ? textStyle : ""}
+      variant={variant ? variant : ""}
+      width={width ? width : "140px"}
+      height={height ? height : "40px"}
+      borderRadius={borderRadius}
+      _hover={{
+        bg: bgColorHover || "brand.300",
+        borderColor: borderColorHover || "",
+        color: textColorHover || "",
+      }}
+      onClick={onClick}
     >
       {text}
     </Button>
