@@ -14,8 +14,57 @@ import {
 } from "@chakra-ui/react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { FC, useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+// interface CheckBillProp {
+//   transactionDetailId: string,
+//   detail: string,
+//   timestamp: Date,
+//   status: string,
+//   total_amount: string,
+//   transactionId: string,
+// }
+
+// interface CBP {
+//   check: CheckBillProp;
+// }
+
 
 export const Checkbill = () => {
+
+  const [transactionDetails, setTransactionDetails] = useState([]);
+  const { transactionId } = useParams();
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [detail,setDetail] =useState<String | null>(null);
+  const [timeStamp, setTimeStamp] = useState<Date | null>(null);
+
+
+
+  useEffect(() => {
+    // Fetch a specific transaction detail based on the URL parameter
+    axios.get(`http://localhost:8080/feature8/transaction_details/${transactionId}`)
+      .then((response) => {
+        const { data, total_amount: fetchedTA, detail:fetchedDT
+                ,timestamp:fetchedTS } = response.data;
+        
+        setTransactionDetails(data);
+        setTotalAmount(fetchedTA);
+        setDetail(fetchedDT);
+        setTimeStamp(fetchedTS);
+
+
+      })
+      .catch((error) => console.error(`Error fetching transaction detail for ID ${transactionId}:`, error));
+  }, [transactionId]);
+
+  console.log(transactionId);
+  console.log(totalAmount);
+  console.log(detail);
+  console.log(timeStamp);
+
+
   return (
     <Center>
       <Box
@@ -26,10 +75,11 @@ export const Checkbill = () => {
         fontWeight={"bold"}
       >
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={3}>
-          Order #0001
+          Order #{transactionId}
         </Text>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={2}>
-          Thursday, November 1, 2023
+          {/* Thursday, November 1, 2023 */}
+          {timeStamp !== null && timeStamp.toLocaleString()}
         </Text>
         <Divider variant={"dashed"} />
 
@@ -56,7 +106,7 @@ export const Checkbill = () => {
                     {index + 1}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    Beef Steak
+                    {detail}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
                     2
@@ -87,7 +137,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  24
+                  {totalAmount}
                 </Td>
               </Tr>
               <Tr borderBottom="none">
