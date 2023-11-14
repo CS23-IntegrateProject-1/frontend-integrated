@@ -14,7 +14,9 @@ import { BiComment } from "react-icons/Bi";
 import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
-import mockArticle from "./mockAritcle.json";
+import { mockArticle } from "./mockArticle";
+import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 
 interface ArticleComment {
   commentId: string;
@@ -40,7 +42,16 @@ interface ArticlePageProps {
 const fetchArticle = async (): Promise<ArticlePageProps> => {
   // const response: AxiosResponse<User[]> = await Axios.get("/users");
   // return response.data;
-  return mockArticle;
+  try {
+    // const id = useParams();
+    // const comments = await Axios.post("/getArticleComment", {
+    //   articleId: id,
+    // });
+    return mockArticle;
+  } catch (error) {
+    console.error("Error fetching article:", error);
+    throw new Error("Failed to fetch article");
+  }
 };
 
 export const ArticlePage = () => {
@@ -77,7 +88,7 @@ export const ArticlePage = () => {
       <Box minH={"80px"} mb={"2em"}>
         <Text style={TextStyle.body2}>{article.data?.articleContent}</Text>
       </Box>
-      <Flex mb={"2em"} justifyContent={"space-between"}>
+      <Flex mb={"2em"} justifyContent={"space-between"} h={"100px"}>
         <Flex>
           <Flex alignItems={"center"} mr={"2em"}>
             <IconButton

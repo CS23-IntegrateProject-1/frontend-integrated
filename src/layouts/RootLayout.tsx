@@ -8,7 +8,7 @@ export const RootLayout = () => {
       <Navbar />
       <Box
         padding={{ base: "16px", md: "32px" }}
-        pt={{ base: "76px", md: "102px" }}
+        pt={{ base: "86px", md: "102px" }}
         h={"100vh"}
       >
         <Outlet />
