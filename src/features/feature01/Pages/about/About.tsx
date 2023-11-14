@@ -1,12 +1,24 @@
-import { Box, Divider, Flex, Grid, GridItem, Heading, Text, VStack, HStack, Container } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
-import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
+import { Divider, Grid, GridItem, Heading, Text, HStack} from "@chakra-ui/react";
 import harmoni_logo from "../../../../assets/logo/harmoni_logo.png";
 import textStyles from "../../../../theme/foundations/textStyles";
-import colors from "../../../../theme/foundations/colors";
-
+import { Axios } from "../../../../AxiosInstance";
 
 export const About = () => {
+  //integration edit
+  //const url = '/feature1/about';
+  //send a post request to create 
+  // Axios.post(url, {
+  //   //data to be sent
+  // }, {withCredentials: true})
+  // .then((response) => {
+  //   //handle response
+  //   if (response.status === 200) {
+  //       console.log("Success");
+  //   }
+  // })  
+  //get response to assign the value below design
+  //const response = Axios.get(url, {withCredentials: true});
+
   return (
 
     <Grid>
@@ -14,7 +26,7 @@ export const About = () => {
            <img src = {harmoni_logo} alt = {"logo"}/>
       </GridItem>
       <GridItem style={{textAlign: "center"}}>
-      <Text
+      <Text py={4}
       fontSize={[textStyles.h2.fontSize]}
       fontWeight={[textStyles.h2.fontWeight]}
       color={"brand.100"}>
@@ -23,7 +35,7 @@ export const About = () => {
       </Text>
       </GridItem>
       <GridItem>     
-      <HStack>
+      <HStack pb={4}>
         <Heading 
         fontSize={[textStyles.h1.fontSize]}
         fontWeight={[textStyles.h1.fontWeight]}>

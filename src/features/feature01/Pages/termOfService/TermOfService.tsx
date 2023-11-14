@@ -16,38 +16,37 @@ export const TermOfService = () => {
    const handleContinue = () =>   {
     const check = document.querySelector('.check input') as HTMLInputElement;
     const text = document.querySelector('.checkText') as HTMLInputElement;
-
     if(check.checked){
       console.log("checked");
+      document.querySelector('.checkText')?.setAttribute("hidden", "true");
       text.hidden=true;
       //go back to home
       window.history.replaceState({}, '', '/');
       window.history.go(0);
       //set local storage for mock have to delete later***
-      localStorage.setItem("terms&service", "true");
-      useEffect(() => {
-        if ("userToken") {
-          const url = 'feature01/terms&service?consent=true';
-          const config = {
-            headers: {
-              'Authorization': `Bearer ${"userToken"}`,
-            },
-          };
-          //send a get request to the backend
-          Axios.get(url, config)
+      //localStorage.setItem("terms&service", "true");
+      //create user consent
+      if(localStorage.getItem("terms&service") === null){
+      const url = `/feature1/term-of-services`;
+          //send a post request to the backend to consent
+          Axios.post(url, {
+            consent : true,
+          }, {withCredentials: true}) //already contains user id here via cookie
             .then((response) => {
               if (response.status === 200) {
                 //store consent in local storage
                 localStorage.setItem("terms&service", "true");
-                console.log("consent saved");
+                 console.log("terms and service set in the localstorage");
+              }
+              if(response.status === 409){
+                console.log("consent already exists");
+                localStorage.setItem("terms&service", "true");
               }
             })
             .catch((error) => {
               console.error('Error saving consent:', error);
-            });
-        }
-     }, ["userToken"]);
-
+            });  
+      }
     }else{
       text.hidden=false;
     }
@@ -157,11 +156,11 @@ export const TermOfService = () => {
                 <Box>
                   <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
                 </Box>
-                <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Register</Button>
+                <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
               </Show>
             )}
               {(localStorage.getItem("terms&service") != null) && (
-                <Text className="already">
+                <Text className="already" pb={5}>
                 You already accepted Terms of Services
                 </Text>
               )}
@@ -169,7 +168,7 @@ export const TermOfService = () => {
         {(localStorage.getItem("terms&service") === null) && (
             <Show above='sm'>
             <Flex>
-              <Checkbox className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
+              <Checkbox id="checkBox" className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
               </Checkbox>
               <Box mt={5} ml={3}>
                 <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>

@@ -24,31 +24,31 @@ export const PrivacyPolicy = ()  => {
           window.history.replaceState({}, '', '/');
           window.history.go(0);
           //set local storage for mock testing , have to del real integration
-          localStorage.setItem("privacyPolicy", "true");
+          // localStorage.setItem("privacyPolicy", "true");
           //send a get request to backend
-          //get user token from other team
-          useEffect(() => {
-               if ("userToken") {
-                 const url = 'feature01/privacyPolicy?consent=true';
-                 const config = {
-                   headers: {
-                     'Authorization': `Bearer ${"userToken"}`,
-                   },
-                 };
-                 //send a get request to the backend
-                 Axios.get(url, config)
-                   .then((response) => {
-                     if (response.status === 200) {
-                       //store consent in local storage
-                       localStorage.setItem("privacyPolicy", "true");
-                       console.log("consent saved");
-                     }
-                   })
-                   .catch((error) => {
-                     console.error('Error saving consent:', error);
-                   });
-               }
-            }, ["userToken"]);
+          if(localStorage.getItem("privacyPolicy") === null){
+          const url = `/feature1/privacy-policy`;
+          //send a put request to the backend to update a new payment method
+          Axios.post(url, {
+            "privacy_consent": true,
+            "cookie_consent": true
+          }, {withCredentials: true}) //already contains user id here via cookie
+            .then((response) => {
+              if (response.status === 200) {
+                //store consent in local storage
+                localStorage.setItem("privacyPolicy", "true");
+                console.log("privacy plicy set in the localstorage");
+              }
+              else if (response.status === 409) {
+                //store consent in local storage
+                localStorage.setItem("privacyPolicy", "true");
+                console.log("privacy plicy already exist");
+              }
+            })
+            .catch((error) => {
+              console.error('Error saving consent:', error);
+            });
+          }    
     
         }else{
           text.hidden=false;

@@ -3,7 +3,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { AddIcon } from '@chakra-ui/icons'
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState, useEffect } from "react";
-import { Axios } from "../../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance"
 export const PaymentMethodSetting = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [flexBoxId, setFlexBoxId] = useState("");
@@ -29,19 +29,14 @@ export const PaymentMethodSetting = () => {
       document.getElementById("KthaiDef")!.hidden=true;
     }
     //**have to delete store at local storage after getting success response from backend
-    localStorage.setItem("primaryPayment", buttonId);
+    //localStorage.setItem("primaryPayment", buttonId);
     //data to send to the backend
     if(localStorage.getItem("primaryPayment") == null){
-      useEffect(() => {
-        if ("userToken") {
-          const url = `feature01/primaryPayment=${buttonId}`;
-          const config = {
-            headers: {
-              'Authorization': `Bearer ${"userToken"}`,
-            },
-          };
-          //send a get request to the backend
-          Axios.get(url, config)
+          const url = `/feature1/payment-method`;
+          //send a post request to the backend to create a new payment method
+          Axios.post(url, {
+              method : 'Mobilebanking',
+          }, {withCredentials: true})
             .then((response) => {
               if (response.status === 200) {
                 //store consent in local storage
@@ -51,9 +46,26 @@ export const PaymentMethodSetting = () => {
             })
             .catch((error) => {
               console.error('Error saving consent:', error);
+            }); 
+    }
+    //update primary payment method
+    else if(localStorage.getItem("primaryPayment") != buttonId){
+      console.log("update");
+      const url = `/feature1/payment-method`;
+          //send a put request to the backend to update a new payment method
+          Axios.put(url, {
+              method : 'Mobilebanking',
+          }, {withCredentials: true})
+            .then((response) => {
+              if (response.status === 200) {
+                //store consent in local storage
+                localStorage.setItem("primaryPayment", buttonId);
+                console.log("consent updated");
+              }
+            })
+            .catch((error) => {
+              console.error('Error saving consent:', error);
             });
-        }
-     }, ["userToken"]);
     }
     //final buttonID here
   }
@@ -163,6 +175,7 @@ export const PaymentMethodSetting = () => {
             </Box>
           )}
           {/* Primary Method haven't set */}
+          {(localStorage.getItem("primaryPayment") === null) && (
           <Box mt={7} fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h3.fontWeight}>
               <Flex id="Kplus" onClick={handleOpen} cursor={'pointer'}>
                   <Box pl={3}>
@@ -192,6 +205,7 @@ export const PaymentMethodSetting = () => {
               </Flex>
               <Divider py={2}/>
           </Box>
+          )}
           {/* Drawer */}
           <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
           <DrawerContent bg={'brand.100'} px={4} pt={4} pb={5} transition="all 0.1s ease">
