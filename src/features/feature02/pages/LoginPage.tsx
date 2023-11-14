@@ -21,12 +21,17 @@ export const LoginPage = () => {
 	rememberMe;
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isValid, setIsValid] = useState(true);
 	const handleSignUp = () => {
 		navigate("/signup");
 	};
 	const handleLogin = async () => {
-		const response = login(username, password);
-		console.log(response);
+		const response = await login(username, password);
+		if (response?.status === 200) {
+			navigate("/");
+		} else if (response?.status === 401) {
+			setIsValid(false);
+		}
 	};
 	return (
 		<Box>
@@ -91,13 +96,21 @@ export const LoginPage = () => {
 							_placeholder={{ color: "white" }}
 							style={textStyles.h4}
 						/>
+						{!isValid && (
+							<Text
+								style={textStyles.h4}
+								color="red"
+								marginTop="5px">
+								Password does not match
+							</Text>
+						)}
 
 						<Box textStyle={"h4"}>
 							<Checkbox
 								onChange={(e) => {
 									setRememberMe(e.target.checked);
 								}}>
-								Remember me
+								Remember me Not working rn
 							</Checkbox>
 						</Box>
 						{/* Button*/}

@@ -8,6 +8,8 @@ export const login = async (username: string, password: string) => {
 			password
 		});
 	} catch (e) {
-		console.log(e);
+		return {
+			status: 401
+		};
 	}
 };
