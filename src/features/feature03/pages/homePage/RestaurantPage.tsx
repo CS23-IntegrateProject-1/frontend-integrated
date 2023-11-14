@@ -26,7 +26,7 @@ export const RestaurantPage = () => {
   const R: RProps[] = mockR;
   return (
     <Box width={"100%"} px={{base:"none", lg:"30px"}}>
-      <Flex direction="row">
+      <Flex direction="row" pt={{base:"2", lg:"0"}}>
         <SearchBar />
         <Flex direction="column" ml="3">
           <FaFilter fontSize="25px" />
@@ -40,7 +40,7 @@ export const RestaurantPage = () => {
         width="100%"
         gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
         overflow="hidden"
-        mt={8}
+        mt={{base:"3", lg:"8"}}
         px={{base: "none", lg: "10px"}}
         justifyItems={"center"}
       >
@@ -87,6 +87,7 @@ export const RestaurantPage = () => {
               pr="5"
               pb="5"
             >
+              <NavLink to="/IDK_PathMMMMMMM">
               <Button
                 variant="outline"
                 textColor="white"
@@ -99,6 +100,8 @@ export const RestaurantPage = () => {
               >
                 More Info
               </Button>
+              </NavLink>
+              <NavLink to="/IDK_PathRRRRRRR">
               <Button
                 variant="solid"
                 textColor="white"
@@ -108,6 +111,7 @@ export const RestaurantPage = () => {
               >
                 Reserve Now
               </Button>
+              </NavLink>
             </Flex>
           </Card>
         ))}

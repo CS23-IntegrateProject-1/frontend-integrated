@@ -10,6 +10,8 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
+import { SearchBar } from "./F3_HPCs/SearchBar";
+import { FaFilter } from "react-icons/fa";
 import mockR from "../RF3mock.json";
 import { StarIcon } from "@chakra-ui/icons";
 
@@ -23,13 +25,24 @@ interface RProps {
 export const RecommendedPlacesPage = () => {
   const R: RProps[] = mockR;
   return (
-    <Box width={"100%"}>
+    <Box width={"100%"} px={{base:"none", lg:"30px"}}>
+      <Flex direction="row" pt={{base:"2", lg:"0"}}>
+        <SearchBar />
+        <Flex direction="column" ml="3">
+          <FaFilter fontSize="25px" />
+          <Text fontSize="15px" transform="translateX(-3px)">
+            Filter
+          </Text>
+        </Flex>
+      </Flex>
       <Box
         display="grid"
         width="100%"
-        gridTemplateColumns={{ lg: "repeat(4, 1fr)", base: "repeat(1, 1fr)" }}
+        gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
         overflow="hidden"
-        mt="3"
+        mt={{base:"3", lg:"8"}}
+        px={{base: "none", lg: "10px"}}
+        justifyItems={"center"}
       >
         {R.filter((R) => R).map((R, index) => (
           <Card
@@ -38,7 +51,7 @@ export const RecommendedPlacesPage = () => {
             borderRadius="2xl"
             bg="brand.200"
             key={index}
-            mb="5"
+            mb={8}
           >
             <CardBody>
               <Image
@@ -74,6 +87,7 @@ export const RecommendedPlacesPage = () => {
               pr="5"
               pb="5"
             >
+              <NavLink to="/IDK_PathMMMMMMM">
               <Button
                 variant="outline"
                 textColor="white"
@@ -82,19 +96,22 @@ export const RecommendedPlacesPage = () => {
                   borderColor: "black",
                   bgColor: "brand.100",
                 }}
-                w="155px"
+                w="160px"
               >
                 More Info
               </Button>
+              </NavLink>
+              <NavLink to="/IDK_PathRRRRRRR">
               <Button
                 variant="solid"
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="155px"
+                w="160px"
               >
                 Reserve Now
               </Button>
+              </NavLink>
             </Flex>
           </Card>
         ))}

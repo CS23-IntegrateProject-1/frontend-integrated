@@ -24,7 +24,9 @@ import {
 import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
 import { SiHomebrew } from "react-icons/Si";
 import { BsFillPeopleFill } from "react-icons/Bs";
-import { FaRobot, FaMapMarkerAlt, FaFilter } from "react-icons/fa";
+import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt, FaFilter } from "react-icons/fa";
+import { MdMovie } from "react-icons/md";
+import { IoMdChatboxes } from "react-icons/io";
 
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
@@ -63,11 +65,11 @@ export const HomePage = () => {
 
   return (
     <Box width={"100%"}>
-      <Box pb={2}>
+      <Box pb={3}>
         <SliderAdvertisement />
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Flex mb={5} justifyContent={"center"} width={"100%"}>
+      <Flex pb={{base:0, lg:2}} justifyContent={"center"} width={"100%"}>
         <NavLink to="/Restaurants">
           <Card
             mt={15}
@@ -182,7 +184,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/Community">
+        <NavLink to="/Cinemas">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -197,7 +199,46 @@ export const HomePage = () => {
               <HStack justifyContent={"center"}>
                 <Circle size={{ base: "50px", lg: "60px" }} bg="white">
                   <Icon
-                    as={BsFillPeopleFill}
+                    as={MdMovie}
+                    fontSize={{ base: "30px", lg: "35px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Cinemas
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
+        <NavLink to="/Chatbot">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+            display={{base:"none", lg:"block"}}
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaRobot}
                     fontSize={{ base: "26px", lg: "33px" }}
                     color={"black"}
                   />
@@ -213,53 +254,17 @@ export const HomePage = () => {
                   textAlign={"center"}
                   fontWeight="bold"
                 >
-                  Community
+                  Chatbot
                 </Heading>
               </Stack>
             </CardBody>
           </Card>
         </NavLink>
 
-        <Card
-          mt={15}
-          mx={{ lg: "4", base: "1" }}
-          w={"21vw"}
-          minW={"230px"}
-          maxW={"230px"}
-          h={{ lg: "150px", base: "100px" }}
-          _hover={{ bg: "brand.200", textColor: "white" }}
-          bgColor={"brand.100"}
-          display={{ lg: "block", base: "none" }}
-        >
-          <CardBody>
-            <HStack justifyContent={"center"}>
-              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon
-                  as={FaRobot}
-                  fontSize={{ base: "28px", lg: "35px" }}
-                  color={"black"}
-                />
-              </Circle>
-            </HStack>
-            <Stack
-              mt={{ lg: "5", base: "3" }}
-              spacing="3"
-              justifyContent={"center"}
-            >
-              <Heading
-                fontSize={{ lg: "2xl", base: "sm" }}
-                textAlign={"center"}
-                fontWeight="bold"
-              >
-                Chat Bot
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
       </Flex>
-      {/* /////////////////////////////////////////////////////////// */}
-      <Flex mb={5} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/Restaurants">
+      {/* ---------------------------------------------------------- */}
+      <Flex mb={6} justifyContent={"center"} width={"100%"}>
+        <NavLink to="/Articles">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -274,7 +279,7 @@ export const HomePage = () => {
               <HStack justifyContent={"center"}>
                 <Circle size={{ base: "50px", lg: "60px" }} bg="white">
                   <Icon
-                    as={BiRestaurant}
+                    as={FaRegNewspaper}
                     fontSize={{ base: "30px", lg: "37px" }}
                     color={"black"}
                   />
@@ -290,14 +295,14 @@ export const HomePage = () => {
                   textAlign={"center"}
                   fontWeight="bold"
                 >
-                  Restaurants
+                  Articles
                 </Heading>
               </Stack>
             </CardBody>
           </Card>
         </NavLink>
 
-        <NavLink to="/Clubs">
+        <NavLink to="/Friends">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -312,7 +317,7 @@ export const HomePage = () => {
               <HStack justifyContent={"center"}>
                 <Circle size={{ base: "50px", lg: "60px" }} bg="white">
                   <Icon
-                    as={BiSolidDrink}
+                    as={FaUserFriends}
                     fontSize={{ base: "28px", lg: "35px" }}
                     color={"black"}
                   />
@@ -328,45 +333,7 @@ export const HomePage = () => {
                   textAlign={"center"}
                   fontWeight="bold"
                 >
-                  Clubs
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/Bars">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={SiHomebrew}
-                    fontSize={{ base: "30px", lg: "37px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Bars
+                  Friends
                 </Heading>
               </Stack>
             </CardBody>
@@ -388,8 +355,8 @@ export const HomePage = () => {
               <HStack justifyContent={"center"}>
                 <Circle size={{ base: "50px", lg: "60px" }} bg="white">
                   <Icon
-                    as={BsFillPeopleFill}
-                    fontSize={{ base: "26px", lg: "33px" }}
+                    as={IoMdChatboxes}
+                    fontSize={{ base: "30px", lg: "37px" }}
                     color={"black"}
                   />
                 </Circle>
@@ -411,42 +378,44 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <Card
-          mt={15}
-          mx={{ lg: "4", base: "1" }}
-          w={"21vw"}
-          minW={"230px"}
-          maxW={"230px"}
-          h={{ lg: "150px", base: "100px" }}
-          _hover={{ bg: "brand.200", textColor: "white" }}
-          bgColor={"brand.100"}
-          display={{ lg: "block", base: "none" }}
-        >
-          <CardBody>
-            <HStack justifyContent={"center"}>
-              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon
-                  as={FaRobot}
-                  fontSize={{ base: "28px", lg: "35px" }}
-                  color={"black"}
-                />
-              </Circle>
-            </HStack>
-            <Stack
-              mt={{ lg: "5", base: "3" }}
-              spacing="3"
-              justifyContent={"center"}
-            >
-              <Heading
-                fontSize={{ lg: "2xl", base: "sm" }}
-                textAlign={"center"}
-                fontWeight="bold"
+        <NavLink to="/Ticket">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaTicketAlt}
+                    fontSize={{ base: "26px", lg: "33px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
               >
-                Chat Bot
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Ticket
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
       </Flex>
 
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
@@ -534,6 +503,7 @@ export const HomePage = () => {
               pr="5"
               pb="5"
             >
+              <NavLink to="/IDK_PathMMMMMM">
               <Button
                 variant="outline"
                 textColor="white"
@@ -546,6 +516,9 @@ export const HomePage = () => {
               >
                 More Info
               </Button>
+              </NavLink>
+
+              <NavLink to="/IDK_PathRRRRR">
               <Button
                 variant="solid"
                 textColor="white"
@@ -555,6 +528,7 @@ export const HomePage = () => {
               >
                 Reserve Now
               </Button>
+              </NavLink>
             </Flex>
           </Card>
         ))}
