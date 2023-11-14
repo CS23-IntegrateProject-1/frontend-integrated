@@ -1,5 +1,5 @@
 import { LoginPage } from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
+import { SignupPage } from "./pages/SignupPage";
 
 export const Feature02Routes = () => {
 	return [
