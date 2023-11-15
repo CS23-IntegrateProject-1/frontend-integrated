@@ -17,6 +17,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { TextStyle } from "../../../../theme/TextStyle";
 
 // interface CheckBillProp {
 //   transactionDetailId: string,
@@ -74,7 +75,7 @@ export const Checkbill = () => {
         width={["100%", "80%", "70%"]}
         fontWeight={"bold"}
       >
-        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={3}>
+        <Text style={TextStyle.h1} fontSize={"lg"} fontWeight={"bold"} marginBottom={3}>
           Order #{transactionId}
         </Text>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={2}>
