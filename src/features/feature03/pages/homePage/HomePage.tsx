@@ -27,6 +27,7 @@ import { BsFillPeopleFill } from "react-icons/Bs";
 import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoMdChatboxes } from "react-icons/io";
+import { StarIcon } from "@chakra-ui/icons";
 
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
@@ -489,9 +490,13 @@ export const HomePage = () => {
                 h="160px"
               />
               <Stack mt="4" spacing="3">
-                <Heading color="white" size="md">
+                <Heading display={"flex"} color="white" size="md">
                   {R.name}
+
+                <Text ml={"auto"}>5</Text>
+                <StarIcon display={"flex"} ml="1" />
                 </Heading>
+                
                 <Text color="grey.200">{R.description}</Text>
               </Stack>
             </CardBody>
