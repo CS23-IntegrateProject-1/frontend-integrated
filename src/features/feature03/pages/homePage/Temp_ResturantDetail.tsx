@@ -83,12 +83,12 @@ export const Temp_ResturantDetail = () => {
 
       <Divider
         py={4}
-        borderBottomWidth="5px"
+        borderBottomWidth="3px"
         borderColor={"brand.100"}
         opacity={"100%"}
       />
 
-      <Box display={"flex"} pt={4}>
+      <Box display={"flex"} pt={6}>
         <Text fontSize={"2xl"} fontWeight={"bold"}>
           Avaliable Vouchers
         </Text>
