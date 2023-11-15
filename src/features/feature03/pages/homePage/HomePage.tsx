@@ -508,7 +508,7 @@ export const HomePage = () => {
               pr="5"
               pb="5"
             >
-              <NavLink to="/IDK_PathMMMMMM">
+              <NavLink to="/Temp_RestaurantDetail">
               <Button
                 variant="outline"
                 textColor="white"

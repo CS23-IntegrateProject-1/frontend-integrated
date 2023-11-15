@@ -87,7 +87,7 @@ export const BarsPage = () => {
               pr="5"
               pb="5"
             >
-              <NavLink to="/IDK_PathMMMMMMM">
+              <NavLink to="/Temp_RestaurantDetail">
               <Button
                 variant="outline"
                 textColor="white"
