@@ -63,7 +63,7 @@ import GoogleMapComponent from "../components/GoogleMapComponent";
         <br/>
         <Search />
         <PlaceTypes />
-        <GoogleMapComponent />
+        <GoogleMapComponent type="bar" />
         <br />
         <Cards
         // id={1}

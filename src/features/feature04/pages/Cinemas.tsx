@@ -65,7 +65,7 @@ import GoogleMapComponent from "../components/GoogleMapComponent";
         <br/>
         <Search />
         <PlaceTypes />
-        <GoogleMapComponent/>
+        <GoogleMapComponent type="cinema"/>
         <br />
         <CinemasCard placename="awd" distance={2}/>
       </Box>

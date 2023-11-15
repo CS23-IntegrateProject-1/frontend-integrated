@@ -51,7 +51,7 @@ export const Maps = () => {
       <Search />
       <PlaceTypes />
       {/* Include the Map component with the required props */}
-      <GoogleMapComponent />
+      <GoogleMapComponent type="restaurant"/>
 
       {/* Correct component name */}
       <Search />
