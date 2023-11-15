@@ -24,7 +24,7 @@ import {
 import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
 import { SiHomebrew } from "react-icons/Si";
 import { BsFillPeopleFill } from "react-icons/Bs";
-import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt, FaFilter } from "react-icons/fa";
+import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoMdChatboxes } from "react-icons/io";
 
