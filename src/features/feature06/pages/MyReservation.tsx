@@ -1,95 +1,87 @@
 import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { ReservationCards } from "../components/ReservationCards";
-import { Axios } from "../../../AxiosInstance";
+import { ReservationCards } from "../components/ReservationCards";  
+import { getMyReservation } from "../../../api/Reservation/getMyReservation";
+
+interface IData {
+  venueId: number;
+  guest_amount: number;
+  reserved_time: string;
+  status: string;
+  userId: number;
+  entry_time: string;
+  isReview: boolean;
+  reservationId: number;
+  depositId: number;
+  isPaidDeposit: string;
+  venue: {
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    chatRoomId: number;
+    locationId: number;
+    score: string;
+    venueId: number;
+    website_url: string;
+    Venue_photo: string;
+    Menu: [
+      {
+        price: number;
+      }
+    ];
+  };
+}
 
 export const MyReservation = () => {
-  // const [PendShown, setPendShown] = useState(false);
-  // const [CheckShown, setCheckShown] = useState(false);
-  // const [ComShown, setComShown] = useState(false);
-  // const [CanShown, setCanShown] = useState(false);
   const [status, setStatus] = useState("");
-  const [data, setData] = useState<
-    Array<{
-      venueId: number;
-      guest_amount: number;
-      reserved_time: string;
-      status: string;
-      userId: number;
-      entry_time: string;
-      isReview: boolean;
-      reservationId: number;
-      depositId: number;
-      isPaidDeposit: string;
-      venue: {
-        name: string;
-        description: string;
-        category: string;
-        capacity: number;
-        chatRoomId: number;
-        locationId: number;
-        score: string;
-        venueId: number;
-        website_url: string;
-        Venue_photo: string;
-        Menu: [
-          {
-            price: number;
-          }
-        ];
-      };
-    }>
-  >([]);
+  const [data, setData] = useState<IData[]>([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    Axios.get("/feature6/MyReservation")
-      .then((res) => {
-        setData(res.data);
-        // console.log(res.data);
-        // console.log("success");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchData = async () => {
+    const response: IData[] = await getMyReservation();
+    setData(response);
   };
 
-  const filterDataByStatus = () => {
-    switch (status) {
-      case "Pending":
-        return data.filter((item) => item.status === "Pending");
-      case "Check_in":
-        return data.filter((item) => item.status === "Check_in");
-      case "Check_out":
-        return data.filter((item) => item.status === "Check_out");
-      case "Cancelled":
-        return data.filter((item) => item.status === "Cancelled");
-      default:
-        return data;
-    }
-  };
+  // const filterDataByStatus = () => {
+  //   switch (status) {
+  //     case "Pending":
+  //       return data.filter((item) => item.status === "Pending");
+  //     case "Check_in":
+  //       return data.filter((item) => item.status === "Check_in");
+  //     case "Check_out":
+  //       return data.filter((item) => item.status === "Check_out");
+  //     case "Cancelled":
+  //       return data.filter((item) => item.status === "Cancelled");
+  //     default:
+  //       return data;
+  //   }
+  // };
 
   const renderCards = () => {
-    const filteredData = filterDataByStatus();
+    // const filteredData = filterDataByStatus();
 
-    return filteredData.map((data, index: number) => {
+    // return filteredData.map((data, index: number) => {
+    return data.map((data, index: number) => {
       return (
-        <Box key={index} marginBottom={"20px"}>
-          <ReservationCards
-            src={data.venue.Venue_photo}
-            text={data.venue.description}
-            name={data.status}
-            star={data.venue.score}
-            startPrice={
-              data.venue.Menu.length > 0
-                ? data.venue.Menu[0].price ?? undefined
-                : undefined
-            }
-          />
-        </Box>
+        (status === "" || data.status === status) && (
+          <Box key={index} marginBottom={"20px"}>
+            <ReservationCards
+              src={data.venue.Venue_photo}
+              text={data.venue.description}
+              name={data.venue.name}
+              star={data.venue.score}
+              startPrice={
+                data.venue.Menu.length > 0
+                  ? data.venue.Menu[0].price ?? undefined
+                  : undefined
+              }
+            />
+          </Box>
+        )
       );
     });
   };
