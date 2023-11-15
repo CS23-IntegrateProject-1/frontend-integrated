@@ -13,6 +13,7 @@ import {
     Text
   } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { TextStyle } from "../../../../theme/TextStyle";
   
   export const Accounting = () => {
     return (
@@ -24,7 +25,7 @@ import { Link } from "react-router-dom";
           width={["100%", "80%", "70%"]}
           gap={4}
         >
-          <Text fontSize="xx-large" fontWeight={"bold"}>
+          <Text style={TextStyle.h1} fontWeight={"bold"}>
               Accounting information 
           </Text>
           {/* Card header */}
@@ -36,8 +37,8 @@ import { Link } from "react-router-dom";
                     <Table variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none">
-                          <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="white">Date</Th>
-                          <Th textAlign="center" fontSize="lg" color="white">Amount</Th>
+                          <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="white">Date</Th>
+                          <Th textAlign="center" style={TextStyle.h4} color="white">Amount</Th>
                         </Tr>
                       </Thead>
                     </Table>
@@ -57,10 +58,10 @@ import { Link } from "react-router-dom";
                       <Table variant="unstyled">
                         <Thead>
                           <Tr borderBottom="none">
-                            <Th textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">01 Nov 2023</Th>
-                            <Th textAlign="center" fontSize={"2xl"} color="black">
+                            <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">01 Nov 2023</Th>
+                            <Th textAlign="center" style={TextStyle.h1} color="black">
                               5000
-                              <Text textAlign="center" display="inline-block" marginLeft={2} fontSize="lg" color="black">
+                              <Text textAlign="center" display="inline-block" marginLeft={2} style={TextStyle.h4} color="black">
                                 Baht
                               </Text>
                             </Th>
@@ -83,10 +84,10 @@ import { Link } from "react-router-dom";
                     <Table width="100%" variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">02 Nov 2023</Th>
-                          <Th textAlign="center" fontSize="2xl" color="black">
+                          <Th  textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">02 Nov 2023</Th>
+                          <Th textAlign="center" style={TextStyle.h1} color="black">
                             7000
-                            <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
+                            <Text display="inline-block" marginLeft={2} style={TextStyle.h4} color="black">
                               Baht
                             </Text>
                           </Th>
@@ -108,10 +109,10 @@ import { Link } from "react-router-dom";
                     <Table width="100%" variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">03 Nov 2023</Th>
-                          <Th textAlign="center" fontSize="2xl" color="black">
+                          <Th  textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">03 Nov 2023</Th>
+                          <Th textAlign="center" style={TextStyle.h1} color="black">
                             4000
-                            <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
+                            <Text display="inline-block" marginLeft={2} style={TextStyle.h4} color="black">
                               Baht
                             </Text>
                           </Th>
@@ -133,10 +134,10 @@ import { Link } from "react-router-dom";
                     <Table width="100%" variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none" >
-                          <Th  textAlign="center" borderRight="1px solid white" fontSize="lg" color="black">04 Nov 2023</Th>
-                          <Th textAlign="center" fontSize="2xl" color="black">
+                          <Th  textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">04 Nov 2023</Th>
+                          <Th textAlign="center" style={TextStyle.h1} color="black">
                             5000
-                            <Text display="inline-block" marginLeft={2} fontSize="lg" color="black">
+                            <Text display="inline-block" marginLeft={2} style={TextStyle.h4} color="black">
                               Baht
                             </Text>
                           </Th>

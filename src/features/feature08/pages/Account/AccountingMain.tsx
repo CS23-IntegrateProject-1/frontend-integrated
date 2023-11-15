@@ -13,6 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { TextStyle } from "../../../../theme/TextStyle";
 
 export const AccountingMain = () => {
   return (
@@ -25,14 +26,14 @@ export const AccountingMain = () => {
         gap={4}
       >
         <Card
-          width="70%"
+          width="337px"
           backgroundColor="#5F0DBB66"
           color="#C5C4C7"
           rounded="lg"
           padding={6}
           marginBottom={5}
         >
-          <Text fontSize="lg" fontWeight={"bold"} color={"#FFFFFF"}>
+          <Text style={TextStyle.h3} fontWeight={"bold"} color={"#FFFFFF"}>
             Latest transfer amount
           </Text>
           <Text fontSize="sm" fontWeight={"bold"} color={"#CC0000"}>
@@ -41,11 +42,11 @@ export const AccountingMain = () => {
           <Text fontSize="2xl" fontWeight={"bold"} color={"#FFFFFF"}>
             THB 80000
           </Text>
-          <Text fontSize={"md"} fontWeight={"bold"} color={"#C5C4C7"}>
+          <Text style={TextStyle.h5} fontWeight={"bold"} color={"#C5C4C7"}>
             01 Nov 2023
           </Text>
         </Card>
-        <Text fontSize="xx-large" fontWeight={"bold"}>
+        <Text style={TextStyle.h1} fontWeight={"bold"}>
           Accounting information
         </Text>
         {/* Card header */}
@@ -69,12 +70,12 @@ export const AccountingMain = () => {
                         <Th
                           textAlign="center"
                           borderRight="1px solid white"
-                          fontSize="lg"
+                          style={TextStyle.h4}
                           color="white"
                         >
                           Date
                         </Th>
-                        <Th textAlign="center" fontSize="lg" color="white">
+                        <Th textAlign="center" style={TextStyle.h4} color="white">
                           Amount
                         </Th>
                       </Tr>
@@ -99,18 +100,18 @@ export const AccountingMain = () => {
                           <Th
                             textAlign="center"
                             borderRight="1px solid white"
-                            fontSize="lg"
+                            style={TextStyle.h4}
                             color="black"
                           >
                             01 Nov 2023
                           </Th>
-                          <Th textAlign="center" fontSize={"2xl"} color="black">
+                          <Th textAlign="center" style={TextStyle.h1} color="black">
                             5000
                             <Text
                               textAlign="center"
                               display="inline-block"
                               marginLeft={2}
-                              fontSize="lg"
+                              style={TextStyle.h4}
                               color="black"
                             >
                               Baht
@@ -142,17 +143,17 @@ export const AccountingMain = () => {
                         <Th
                           textAlign="center"
                           borderRight="1px solid white"
-                          fontSize="lg"
+                          style={TextStyle.h4}
                           color="black"
                         >
                           01 Oct 2023
                         </Th>
-                        <Th textAlign="center" fontSize="2xl" color="black">
+                        <Th textAlign="center" style={TextStyle.h1} color="black">
                           7000
                           <Text
                             display="inline-block"
                             marginLeft={2}
-                            fontSize="lg"
+                            style={TextStyle.h4}
                             color="black"
                           >
                             Baht
@@ -183,17 +184,17 @@ export const AccountingMain = () => {
                         <Th
                           textAlign="center"
                           borderRight="1px solid white"
-                          fontSize="lg"
+                          style={TextStyle.h4}
                           color="black"
                         >
                           01 Sep 2023
                         </Th>
-                        <Th textAlign="center" fontSize="2xl" color="black">
+                        <Th textAlign="center" style={TextStyle.h1} color="black">
                           4000
                           <Text
                             display="inline-block"
                             marginLeft={2}
-                            fontSize="lg"
+                            style={TextStyle.h4}
                             color="black"
                           >
                             Baht
@@ -224,17 +225,17 @@ export const AccountingMain = () => {
                         <Th
                           textAlign="center"
                           borderRight="1px solid white"
-                          fontSize="lg"
+                          style={TextStyle.h4}
                           color="black"
                         >
                           01 Aug 2023
                         </Th>
-                        <Th textAlign="center" fontSize="2xl" color="black">
+                        <Th textAlign="center" style={TextStyle.h1} color="black">
                           5000
                           <Text
                             display="inline-block"
                             marginLeft={2}
-                            fontSize="lg"
+                            style={TextStyle.h4}
                             color="black"
                           >
                             Baht
