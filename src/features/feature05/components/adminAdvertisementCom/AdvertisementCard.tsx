@@ -4,8 +4,13 @@ import {
   CardBody,
   Text,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export const AdvertisementCard = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/advertisement/:id");
+  };
   return (
     <Box
       display={"flex"}
@@ -13,6 +18,7 @@ export const AdvertisementCard = () => {
       justifyContent={"center"}
       alignItems={"center"}
       width={"100%"}
+      paddingBottom={4}
     >
       {/* AdvertisementCard */}
       <Card
@@ -25,7 +31,8 @@ export const AdvertisementCard = () => {
         borderColor={"brand.100"}
         bg={"rgba(0, 0, 0, 0)"}
         color={"white"}
-      >
+        onClick={handleClick}
+      > 
         <CardBody>
           <Box>
             <Text pt="2" fontSize="md">

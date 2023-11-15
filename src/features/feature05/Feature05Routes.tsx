@@ -1,26 +1,33 @@
-import { AdvertisementID } from "./pages/AdvertisementID";
-import { AdvertisementPage } from "./pages/AdvertisementPage";
-import { AdvertisementReject } from "./pages/AdvertisementReject";
-import { RecommendationPage } from "./pages/RecommendationPage";
-import { AdvertisementCriteria } from "./pages/AdvertisementCriteria";
-import { AdvertisementRequest } from "./pages/AdvertisementRequest";
-import { AdvertisementStatus } from "./pages/advertisementStatus";
+import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
+import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementListPage";
+import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
 
+import { AdvertisementCriteriaPage } from "./pages/businessAdvertisement/AdvertisementCriteriaPage";
+import { AdvertisementIDEditPage } from "./pages/businessAdvertisement/AdvertisementIDEditPage";
+import { AdvertisementRequestPage } from "./pages/businessAdvertisement/AdvertisementRequestPage";
+import { AdvertisementStatusPage } from "./pages/businessAdvertisement/AdvertisementStatusPage";
+
+import { VoucherCreatePage } from "./pages/businessVoucher/VoucherCreatePage";
+import { VoucherEditPage } from "./pages/businessVoucher/VoucherEditPage";
+import { VoucherStatusPage } from "./pages/businessVoucher/VoucherStatusPage";
+
+import { RecommendationPage } from "./pages/RecommendationPage";
+ 
 export const Feature05Routes = () => {
   return [
 
     // Admin side
     {
       path: "/advertisement",
-      element: <AdvertisementPage />,
+      element: <AdvertisementListPage />,
     },
     {
       path: "/advertisement/:id",
-      element: <AdvertisementID />,
+      element: <AdvertisementIDPage />,
     },
     {
       path: "/advertisement/:id/reject",
-      element: <AdvertisementReject />,
+      element: <AdvertisementRejectPage />,
     },
 
     // User side
@@ -32,15 +39,33 @@ export const Feature05Routes = () => {
     // Business
     {
       path: "/advertisement/criteria",
-      element: <AdvertisementCriteria />,
+      element: <AdvertisementCriteriaPage />,
     },
     {
       path: "/advertisement/request",
-      element: <AdvertisementRequest />,
+      element: <AdvertisementRequestPage />,
     },
     {
       path: "/advertisement/status",
-      element: <AdvertisementStatus />,
+      element: <AdvertisementStatusPage/>,
+    },
+    {
+      path: "/advertisement/edit/:id",
+      element: <AdvertisementIDEditPage />,
+    },
+
+    // Business (voucher)
+    {
+      path: "/voucher/create",
+      element: <VoucherCreatePage />,
+    },
+    {
+      path: "/voucher/edit/:voucherId",
+      element: <VoucherEditPage />,
+    },
+    {
+      path: "/voucher",
+      element: <VoucherStatusPage />,
     },
   ];
 };

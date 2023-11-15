@@ -9,6 +9,9 @@ import {
   Box,
   Stack,
 } from "@chakra-ui/react";
+import { AdvertisementStatusCard } from "../../components/businessAdvertisementCom/AdvertisementStatusCard";
+import { AdvertisementStatusCardIPG } from "../../components/businessAdvertisementCom/AdvertisementStatusCardIPG";
+import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -17,7 +20,7 @@ import {
 //   return data;
 // };
 
-export const AdvertisementStatus: React.FC = () => {
+export const AdvertisementStatusPage: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [data, setData] = useState<string[]>([]);
 
@@ -59,29 +62,41 @@ export const AdvertisementStatus: React.FC = () => {
             <Tab
               border="1px solid white"
               color="#FFFFFF"
-              _selected={{ color: "#FFFFFF", borderColor: "#A533C8", bgColor: "#A533C8" }}
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
             >
               On going
             </Tab>
             <Tab
               border="1px solid white"
               color="#FFFFFF"
-              _selected={{ color: "#FFFFFF", borderColor: "#A533C8", bgColor: "#A533C8" }}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
             >
               Complete
             </Tab>
           </Stack>
         </TabList>
 
-        <TabPanels>
+        {/* <TabPanels>
           {data.map((item, index) => (
             <TabPanel key={index}>
-              {/* Render your data here */}
               <p>{item}</p>
             </TabPanel>
           ))}
-        </TabPanels>
+        </TabPanels> */}
+
       </Tabs>
+      <AdvertisementStatusCard />
+      <AdvertisementStatusCardIPG />
+      <AdvertisementStatusCardCom />
     </Box>
   );
 };

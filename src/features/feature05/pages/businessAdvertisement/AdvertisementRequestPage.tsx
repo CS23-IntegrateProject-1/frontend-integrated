@@ -1,43 +1,83 @@
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormLabel,
+  Icon,
   Select,
   Stack,
-  Text,
+  Image,
+  IconButton,
+  useDisclosure,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
+import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { BiImageAdd } from "@react-icons/bi";
-
+import { ChangeEvent, useEffect, useState } from "react";
+import { BiImageAdd } from "react-icons/Bi";
+import { AiOutlineClose } from "react-icons/Ai";
+import { Axios } from "../../../../AxiosInstance";
+  
 interface AdvertisementProps {
   name: string;
   description: string;
-  startingDate: Date;
-  endingDate: Date;
-  type: string;
+  startingDate: Date | null;
+  endingDate: Date | null;
   images: string;
   targetCustomer: string;
   targetGroup: string;
+  advertisementPlan: number;
 }
-export const AdvertisementRequest = () => {
+export const AdvertisementRequestPage = () => {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
     name: "",
     description: "",
+    images: "",
     startingDate: null,
     endingDate: null,
-    type: "",
-    images: "",
     targetCustomer: "",
     targetGroup: "",
+    advertisementPlan: 0,
   });
   const handleClick = () => {
     navigate("/advertisement/status");
+  };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+    }
+  };
+  const handleCloseImage = () => {
+    setImagePreview(null);
+  };
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
+  const handleSubmit = async () => {
+    try {
+      await Axios.post;
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -84,7 +124,7 @@ export const AdvertisementRequest = () => {
       >
         <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
-          Description 
+          Description
         </FormLabel>
         <Input
           variant="name"
@@ -92,7 +132,7 @@ export const AdvertisementRequest = () => {
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          type="email" 
+          type="email"
         />
       </FormControl>
 
@@ -108,10 +148,10 @@ export const AdvertisementRequest = () => {
         justifyContent={"center"}
       >
         <Box mr={"20px"} flex={"1"}>
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Starting Date 
-        </FormLabel>
+          <FormLabel style={TextStyle.h2} color={"white"}>
+            {" "}
+            Starting Date
+          </FormLabel>
           <Input
             size={"xs"}
             type="date"
@@ -123,11 +163,12 @@ export const AdvertisementRequest = () => {
         </Box>
 
         <Box flex={"1"}>
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Ending Date 
-        </FormLabel>
+          <FormLabel style={TextStyle.h2} color={"white"}>
+            {" "}
+            Ending Date
+          </FormLabel>
           <Input
+            id="fileInput"
             size={"xs"}
             type="date"
             color="white"
@@ -150,12 +191,56 @@ export const AdvertisementRequest = () => {
       >
         <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
-          Images (mobile & desktop view)
+          Images
         </FormLabel>
         <Stack spacing={2} direction="column">
-          <Box width={"auto"} height={"100"} bg={"#5F0DBB"} />
+          <Center
+            width={"auto"}
+            height={"100"}
+            bg={"#5F0DBB"}
+            borderRadius={5}
+            cursor={"pointer"}
+          >
+            <Input
+              onChange={handleFileChange}
+              type="file"
+              opacity={0}
+              height={"100%"}
+              w={"100%"}
+              pos={"absolute"}
+            ></Input>
+            <Icon
+              as={BiImageAdd}
+              color={"#FFFFFF"}
+              width={"auto"}
+              height={"8"}
+            ></Icon>
+          </Center>
         </Stack>
       </FormControl>
+      {imagePreview ? (
+        <Box
+          position={"relative"}
+          overflow={"hidden"}
+          minWidth={"50%"}
+          maxWidth={"50%"}
+          height={"auto"}
+        >
+          <IconButton
+            aria-label="close"
+            minWidth={"15px"}
+            height={"15px"}
+            position={"absolute"}
+            top={0}
+            right={0}
+            as={AiOutlineClose}
+            onClick={handleCloseImage}
+          ></IconButton>
+          <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+        </Box>
+      ) : (
+        <></>
+      )}
 
       {/* Target customer */}
       <FormControl
@@ -211,8 +296,8 @@ export const AdvertisementRequest = () => {
       >
         <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
-          Advertisement plan 
-        </FormLabel >
+          Advertisement plan
+        </FormLabel>
         <RadioGroup defaultValue="2">
           <Stack spacing={1} direction="column">
             <Radio value="1">100 Baht/Week</Radio>
@@ -238,10 +323,23 @@ export const AdvertisementRequest = () => {
           variant="solid"
           width="40%"
           color="white"
-          onClick={handleClick}
+          onClick={onOpen}
         >
           Submit
         </Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
+          <ModalHeader mt={3}>The request has been approved</ModalHeader>
+          <ModalCloseButton />
+          <ModalFooter>
+            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>
+            <Button bgColor={"#A533C8"} mr={3} onClick={handleClick} color={"white"} width="30%">
+              Confirm
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       </Box>
     </Box>
   );

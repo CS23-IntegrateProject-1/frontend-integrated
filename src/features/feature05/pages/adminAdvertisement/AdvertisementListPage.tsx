@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   Divider,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -16,13 +17,15 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Tab,
+  Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AdvertisementCard } from "../components/AdvertisementCard";
+import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-export const AdvertisementPage = () => {
+export const AdvertisementListPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   return (
@@ -59,17 +62,11 @@ export const AdvertisementPage = () => {
           />
           {/* <InputRightElement p={0} borderRadius={10}></InputRightElement> */}
 
-          {/* Filter  and Sort */}
+          {/* Sort */}
           <RadioGroup defaultValue="2" paddingLeft={3} paddingTop={2}>
             <Stack spacing={5} direction="row">
               <Box onClick={onOpen}>
                 <Radio colorScheme="purple" value="1">
-                  Filter
-                </Radio>
-              </Box>
-
-              <Box onClick={onOpen}>
-                <Radio colorScheme="purple" value="2">
                   Sort
                 </Radio>
               </Box>
@@ -78,7 +75,7 @@ export const AdvertisementPage = () => {
         </InputGroup>
       </Box>
 
-      {/* Filter */}
+      {/* Sort */}
       <Box>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -94,12 +91,12 @@ export const AdvertisementPage = () => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              Filter By
+             Sort By
             </ModalHeader>
             <ModalCloseButton />
             <Divider />
 
-            {/* Filter-checkbox */}
+            {/* Sort-checkbox */}
             <Box
               width="50%"
               minWidth="250px"
@@ -110,26 +107,24 @@ export const AdvertisementPage = () => {
               paddingTop={5}
               paddingBottom={8}
             >
-              <Checkbox
-                borderColor="#5F0DBB"
+              <Tabs
                 fontWeight="bold"
-                color="#5F0DBB"
-                colorScheme="purple"
+                color="black"
                 paddingBottom={2}
+                _selected={{color: "#5F0DBB"}}
               >
-                Special Offers/ Promotions
-              </Checkbox>
-              <Checkbox
-                borderColor="#5F0DBB"
+                A to Z
+              </Tabs>
+              <Box
                 fontWeight="bold"
-                color="#5F0DBB"
-                colorScheme="purple"
+                color="black"
               >
-                SpecialEvents
-              </Checkbox>
+                Z to A
+              </Box>
+
             </Box>
 
-            {/* Filter-Button */}
+            {/* Sort-Button */}
             <ModalFooter
               display={"flex"}
               justifyContent={"center"}
@@ -137,23 +132,25 @@ export const AdvertisementPage = () => {
             >
               <Button
                 border="1px solid "
-                borderColor={"#5F0DBB"}
+                borderColor={"Red"}
                 bgColor={"#FFFFFF"}
-                color={"#5F0DBB"}
+                color={"red"}
                 width="30%"
                 _hover={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }} // Add shadow on hover
                 boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)" // Add initial shadow
               >
-                Done
+                Reset
               </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       </Box>
 
-      <AdvertisementCard />
-      
+        <AdvertisementCard />
+        <AdvertisementCard />
+        <AdvertisementCard />
+
+
     </Box>
   );
 };
-
