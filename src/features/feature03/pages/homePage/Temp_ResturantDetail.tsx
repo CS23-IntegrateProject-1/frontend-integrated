@@ -51,16 +51,20 @@ export const Temp_ResturantDetail = () => {
           4.7 (2934 ratings)
         </Text>
 
-        <Text
-          textDecoration={"underline"}
-          fontSize="12.5px"
-          ml={"auto"}
-          mt={"3px"}
-          color={"grey.200"}
-          _hover={{ color: "white" }}
-        >
-          View all ratings & reviews
-        </Text>
+        <Box ml={"auto"}>
+          <NavLink to="/Reviews">
+            <Text
+              textDecoration={"underline"}
+              fontSize="12.5px"
+              ml={"auto"}
+              mt={"3px"}
+              color={"grey.200"}
+              _hover={{ color: "white" }}
+            >
+              View all ratings & reviews
+            </Text>
+          </NavLink>
+        </Box>
       </Box>
 
       <Box bgColor={"brand.200"} borderRadius="xl">
