@@ -23,8 +23,11 @@ const DateSelection = () => {
 
   return (
     <Box p={4}>
-      
+      <Text as="h5" fontSize="10px" fontWeight="bold" color='#DEBEF6' marginLeft='8px'>
+        Nov
+      </Text>
       <Flex overflowX="auto" pb={4} align="flex-start">
+        
         {dates.map((date) => (
           <Button
           key={date}          
