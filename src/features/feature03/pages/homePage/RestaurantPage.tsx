@@ -9,7 +9,12 @@ import {
   Image,
   Button,
   Flex,
+  Modal,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Filter_Modal } from "./F3_Cs/Filter_Modal";
+import { FC, useState } from "react";
+
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
 import mockR from "../RF3mock.json";
@@ -22,13 +27,21 @@ interface RProps {
   picR: string;
 }
 
-export const RestaurantPage = () => {
+export const RestaurantPage:FC = () => {
   const R: RProps[] = mockR;
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const Filter_Model = useDisclosure()
+
+  const handleFilterClick = () => {
+    onOpen(); // Open the modal when the filter icon is clicked
+  };
+
+  
   return (
     <Box width={"100%"} px={{base:"none", lg:"30px"}}>
       <Flex direction="row" pt={{base:"2", lg:"0"}}>
         <SearchBar />
-        <Flex direction="column" ml="3">
+        <Flex direction="column" ml="3" _hover={{color:"brand.100"}} onClick={handleFilterClick}>
           <FaFilter fontSize="25px" />
           <Text fontSize="15px" transform="translateX(-3px)">
             Filter

@@ -101,7 +101,7 @@ export const Temp_ResturantDetail = () => {
           display={"flex"}
         >
           <Image
-            src="https://inwfile.com/s-dk/xrbk5b.gif"
+            src="https://pione.co.th/wp-content/uploads/2017/07/slider-bg-black.jpg"
             alt="Pic not load"
             borderRadius="full"
             w="40px"
