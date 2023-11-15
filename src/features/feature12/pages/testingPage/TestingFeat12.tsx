@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import * as io from "socket.io-client";
 //import css
 import "./index.css";
+import { ServerToClientEvents, ClientToServerEvents } from "../../../../typing";
 
 export const TestingFeat12 = () => {
-  //  interface ServerToClientEvents {
-  //   serverMsg: (data: { msg: string; room: string }) => void;
-  // }
-
-  //  interface ClientToServerEvents {
-  //   clientMsg: (data: { msg: string; room: string }) => void;
-  // }
- const socket = io.connect("http://localhost:8080");
+  const socket: io.Socket<ServerToClientEvents, ClientToServerEvents> =
+	io.connect("http://localhost:8080");  
   
   const [msg, setMsg] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
@@ -48,7 +43,7 @@ export const TestingFeat12 = () => {
           placeholder="Enter Room Key"
           style={{ color: "black" }}
         />
-
+        
         <input
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
