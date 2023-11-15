@@ -30,7 +30,7 @@ export type MarkerType ={
 const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY" //API KEY
+    googleMapsApiKey: "" //API KEY
   })
 
   //save map in ref if we want to access the map
