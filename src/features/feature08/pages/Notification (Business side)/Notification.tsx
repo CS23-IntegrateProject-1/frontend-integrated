@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -60,8 +60,10 @@ export const Notification = () => {
             <Box ml="3">
               <Text fontWeight="bold">{notification.title}</Text>
               <Text fontSize="sm">{notification.message}</Text>
-              <Text fontSize="md">{formatDate(notification.sendOn)}</Text>
-              
+            </Box>
+            <Spacer />
+            <Box>
+              <Text fontSize="md" textAlign={"right"} paddingRight={3}>{formatDate(notification.sendOn)}</Text>          
             </Box>
           </Flex>
         </Link>
