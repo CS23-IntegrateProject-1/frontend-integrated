@@ -34,24 +34,24 @@ export interface ArticlesPageProps {
 }
 
 export interface ArticleComment {
-  commentId: string;
-  commentContent: string;
-  commentDate: string;
-  likedByCreator: boolean;
-  commentWriterUsername: string;
+  commentId: number;
+  content: string;
+  create_date: string;
+  articleId: number;
+  userId: number;
 }
 
 export interface ArticlePageProps {
-  articleId: string;
-  articleName: string;
-  articleContent: string;
-  writerUsername: string;
-  writerName: string;
-  writerProfilePicture: string;
-  articlePicture: string[];
-  articleLikes: number;
-  articleComments: ArticleComment[];
-  dateCreated: string;
+  articleId: number;
+  topic: string;
+  content: string;
+  created_date: string;
+  category: string;
+  userId: number;
+  author_name: string;
+  Image: { url: string; description: string }[];
+  Like: number;
+  CommentCount: number;
 }
 
 export interface ImageProps {}

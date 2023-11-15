@@ -1,7 +1,15 @@
+import React from "react";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 
-export const ArticleFooter = () => {
+interface ArticleFooterProps {
+  author_name: string;
+}
+
+export const ArticleFooter: React.FC<ArticleFooterProps> = ({
+  author_name,
+}) => {
+  
   return (
     <Box
       p={{ base: "1em", md: "2em" }}
@@ -10,12 +18,11 @@ export const ArticleFooter = () => {
       bottom={"0"}
       // left={"0"}
       // w={"100vw"}
-      mx={{base:"-1em", md:"-2em"}}
-    
+      mx={{ base: "-1em", md: "-2em" }}
     >
       <Box w={"60px"} h={"60px"} mb={"1em"} bg={"red"} rounded={"50%"}></Box>
       <Heading style={TextStyle.h1} mb={"1em"}>
-        Written by username
+        Written by {author_name}
       </Heading>
       <Text mb={"1em"} style={TextStyle.body2}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia autem

@@ -19,6 +19,7 @@ import { AutoResizeTextarea } from "../../components/AutoResizeTextArea";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { TextStyle } from "../../../../theme/TextStyle";
 
 interface ImageProps {
   url: string;
@@ -119,7 +120,7 @@ export const CreateArticlePage = () => {
       topic: topic,
       content: content,
       // category: category,
-      category: "test",
+      category: "Blog",
       // author_name: authorName,
       author_name: "mink",
       venueIds: selectedVenueIds,
@@ -134,7 +135,7 @@ export const CreateArticlePage = () => {
     })
       .then((res) => {
         console.log(res);
-        alert("Article created");
+        // alert("Article created");
       })
       .catch((err) => {
         console.log("error", err);
@@ -165,6 +166,24 @@ export const CreateArticlePage = () => {
       </FormControl>
       <FormControl id="title" w={"95%"} isRequired></FormControl>
       <Divider />
+      <FormControl
+        display={"flex"}
+        flexDirection={"row"}
+        alignItems={"center"}
+        my={"0.25em"}
+        justifyContent={"center"}
+      >
+        <FormLabel style={TextStyle.h3} m={"0"} w={"120px"}>
+          Author Name:
+        </FormLabel>
+        <Input
+          variant={"flushed"}
+          type="text"
+          placeholder="author name, if empty will be username"
+          maxW={"500px"}
+          borderColor={"whiteAlpha.600"}
+        />
+      </FormControl>
       <Box mt={"10px"} w={"95%"} display={"flex"}>
         <HStack>
           {tags.map((value) => (
@@ -191,9 +210,10 @@ export const CreateArticlePage = () => {
           aria-label="add tag"
           icon={<IoAddCircleSharp />}
         />
+        {/* <Input type="text"/> */}
       </Box>
 
-      <FormControl display={"flex"}>
+      <FormControl display={"flex"} justifyContent={"center"}>
         <Box w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
             Select Venue Names
