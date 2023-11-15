@@ -21,19 +21,19 @@ export const NavbarContent: FC<NavbarContentProps> = ({
     { title: "Home", to: "/" },
     {
       title: "Reservation",
-      to: "/",
+      to: "/my-reservation",
     },
     {
       title: "Save Places",
-      to: "/",
+      to: "/saved-place",
     },
     {
       title: "Promotion",
-      to: "/",
+      to: "/promotion",
     },
     {
       title: "Membership",
-      to: "/",
+      to: "/membership",
     },
   ];
   return (
