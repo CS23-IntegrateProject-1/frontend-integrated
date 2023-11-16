@@ -40,7 +40,7 @@ export const MenuDetail: FC = () => {
 
     const handleAddToCart = async () => {
         try {
-            const response = await Axios.post(`/feature7/add${type}ToCookie/:userId/${menuid}`, { 
+            const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
                 quantity : amount,
             });
             console.log(response.data);

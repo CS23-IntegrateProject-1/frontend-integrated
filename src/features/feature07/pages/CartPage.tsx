@@ -8,39 +8,56 @@ import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
+// const fetchCartItems = async () => {
+//   const userId = 4;
+//   const response = await Axios.get(`/feature7/showCart?userId=${userId}`); 
+//   return response.data.data;
+// };
 const fetchCartItems = async () => {
-  const response = await Axios.get('/feature7/showCart/:userId'); 
-  return response.data;
+  const userId = 4;
+  try {
+    // const response = await Axios.get(`/feature7/showCart?userId=${userId}`);
+    const response = await Axios.get('/feature7/showCart');
+    // console.log('Response:', response.data); // Log the response data for debugging
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cart items:', error); // Log any errors for debugging
+    console.log('Error response:'); // Log the error response for debugging
+  }
 };
+
 
 export const CartPage = () => {
 
     const navigate = useNavigate();
 
-    // const { data: cartItems, isLoading, isError } = useQuery(["cartItem"], () => fetchCartItems);
+    const { data: cartItems, isLoading, isError } = useQuery(["cartItem"], () => fetchCartItems());
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
-    // if (isError) {
-    //     return <div>Error</div>;
-    // }
+    if (isError) {
+        return <div>Error</div>;
+    }
 
+    // console.log("new cartItems");
+    // console.log(cartItems);
    return(
     <Flex direction="column" align="center" justify="center">
     <VStack mt={4} overflowY="auto" maxHeight="500px">
-      {/* {Array.isArray(cartItems) &&
-          cartItems.map((item) => (
+      {Array.isArray(cartItems) &&
+          cartItems.map((item, index)=> (
             <SecondCartCard
-              key={item.id}
-              foodName={item.foodName}
+              key={index}
+              foodName={item.name}
               description={item.description}
               price={item.price}
               imageUrl={item.imageUrl}
+              amount={item.quantity}
             />
-          ))} */}
-          <SecondCartCard />
+          ))}
+          {/* <SecondCartCard /> */}
     </VStack>
     <Flex align="center" justify="center" mt={4}>
       <Box

@@ -40,18 +40,18 @@ export const SecondCartCard: FC<SecondCardProps>= ({foodName,description,price,i
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >
-           Prepare food Name 
-          {/* {foodName} */}
+           {/* Prepare food Name  */}
+          {foodName}
         </Text>
         <Text {...textStyles.body3} color="white"
          lineHeight="2" >
-          Price Integrate
-          {/* {{`${price.toFixed(2)} baht`}} */}
+          {/* Price Integrate */}
+          {`${price*amount} baht`}
         </Text>
         <HStack justifyContent="space-between" alignItems="center" width="100%" mt={5}>
         <ButtonComponent text="Edit" width={"100px"} height={"30px"} onClick={() => navigate("/venue/:venueId/")}/>
         <Text {...textStyles.h2} color="white" lineHeight="1" justifyContent="flex-end" ml={6} >
-              x1
+              x{amount}
         </Text>
         </HStack>
       </Box>
