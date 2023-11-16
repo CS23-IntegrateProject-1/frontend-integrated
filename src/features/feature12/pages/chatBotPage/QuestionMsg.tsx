@@ -6,7 +6,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useEffect, useState, Fragment, useRef } from "react";
+import { FC, useEffect, useState, useCallback } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { ClientMsg } from "./ClientMsg";
 import { AnswerMsg } from "./AnswerMsg";
@@ -17,10 +17,8 @@ interface IUser{
     img: string;
 }
 interface IquestionProps {
-    question: string;
     data: any;
 }
-
 
 export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
     const [questions, setQuestions] = useState<string[]>([]);
@@ -49,6 +47,7 @@ export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
         }
     }
     
+    //To get the answers for general questions
     useEffect(() => {
         if (GenQid !== null) {
             Axios.get(`/feature12/printAnswer/${GenQid}`)
@@ -58,8 +57,9 @@ export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
                 console.error("Error fetching data: ", error);
         });
     }
-    }, [GenQid]);
+    }, [questions]);
     
+    //To get the answers for venue's questions
     useEffect(() => {
         if (VenQid !== null) {
             Axios.get(`/feature12/displayAnswer/${VenQid}`)
@@ -69,8 +69,9 @@ export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
                 console.error("Error fetching data: ", error);
             });
         }
-    }, [VenQid]);
+    }, [questions]);
 
+    //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -79,27 +80,43 @@ export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
     return () => clearTimeout(timer); // Clean up the timer
     }, []);
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [answers]);
+    //To scroll to the bottom of the page
+    const setRef = useCallback((node: HTMLElement | null) => {
+        if (node) {
+        node.scrollIntoView({ behavior: "smooth" });
+        }
+    }, []);
 
     return isVisible ? (
             <>
-            <Flex gap='4' justifyContent="start">
+            <Flex gap={"4"}
+                justifyContent={"start"}
+                >
                 <Avatar name={user.name} src={user.img} />
-                <VStack alignItems="start" maxW="60%">
-                    {data.map((data : any, index : number) => (
-                        <Box    key={index} 
+                <VStack 
+                        alignItems={"start"}
+                        maxW={"60%"}
+                        overflow={"auto"}
+                        >
+                    {/* Mapping to get all Questions */}
+                    {data.map((item : any, index : number) => (
+                        <Box    key={index}
+                                ref={ index === data.length - 1 ? setRef : null}
                                 borderRadius='10px' 
                                 bg="grey.100" 
                                 style={{ cursor: 'pointer' }} 
                                 onClick={forAnswer} 
-                                data-value={data.g_question || data.question} 
-                                genqid-value={data.generalQuestionId} 
-                                venqid-value={data.venueQuestionId}>
-                            <Text style={TextStyle.body2} color="brand.200" p="3">
-                                {data.g_question || data.question}
+                                data-value={item.g_question || item.question} 
+                                genqid-value={item.generalQuestionId} 
+                                venqid-value={item.venueQuestionId}
+                                >
+                            <Text 
+                                style={TextStyle.body2} 
+                                color={"brand.200"} 
+                                p={"3"}
+                                >
+                                {/* Question Msg */}
+                                {item.g_question || item.question}
                             </Text>
                         </Box>
                     ))}
@@ -107,12 +124,13 @@ export const QuestionMsg : FC<IquestionProps> = ({ data }) => {
             </Flex>
 
             {questions.map((question, index) => (
-                <Fragment key={index}>
+                <div 
+                    key={index}
+                    >
                     <ClientMsg msg={question} />
                     {answers[index] && <AnswerMsg data={answers[index]} />}
-                </Fragment>
+                </div>
             ))}
-            <div ref={messagesEndRef} />
             </>
         ): null;
 };

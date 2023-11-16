@@ -6,7 +6,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useEffect, useState, useRef, Fragment } from "react";
+import { FC, useEffect, useState, useCallback } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { ClientMsg } from "./ClientMsg";
 import { QuestionMsg } from "./QuestionMsg";
@@ -21,9 +21,10 @@ interface IvenueProps {
 
 
 export const ShowingVenuesMsg : FC<IvenueProps> = ({ data }) => {
-    const [askedQMsgs, setAskedQMsgs] = useState<string[]>([]);
-    const [questions, setQuestions] = useState<string[]>([]);
+    const [askedMsgs, setAskedMsgs] = useState<string[]>([]);
+    const [questions, setQuestions] = useState<{ [key: string]: string[] }>({});
     const [venueId, setVenueId] = useState<string | null>(null);
+
     const user: IUser = {
         id: 1,
         name: "John",
@@ -35,23 +36,32 @@ export const ShowingVenuesMsg : FC<IvenueProps> = ({ data }) => {
         const id = event.currentTarget.getAttribute('id-value');
 
         if (value !== null) {
-            setAskedQMsgs([...askedQMsgs, value]);
+            setAskedMsgs([...askedMsgs, value]);
         }
         if (id !== null) {
         setVenueId(id);
         }
     }
     
+    //To get the questions of a venue
     useEffect(() => {
         if(venueId !== null){
             Axios.get(`/feature12/displayQuestion/${venueId}`).then((res) => {
-                setQuestions(res.data);
+                if(Array.isArray(res.data) && res.data.length > 0){
+                    let venueName = res.data[0].venue.name;
+                    setQuestions((prevQuestions) => ({
+                        ...prevQuestions,
+                        [venueName]: res.data
+                    }));
+                }
             }).catch((error) => {
                 console.error("Error fetching data: ", error);
             });
         }
-    }, [askedQMsgs]);
+    }, [askedMsgs]);
+    console.log(questions);
 
+    //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -60,32 +70,54 @@ export const ShowingVenuesMsg : FC<IvenueProps> = ({ data }) => {
         return () => clearTimeout(timer); // Clean up the timer
     }, []);
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    //To scroll to the bottom of the chat
+    const setRef = useCallback((node: HTMLElement | null) => {
+        if (node) {
+        node.scrollIntoView({ behavior: "smooth" });
+        }
     }, []);
 
     return isVisible ? (
         <>
-        <Flex gap='4' justifyContent="start">
+        <Flex 
+            gap={"4"} 
+            justifyContent={"start"}
+            >
             <Avatar name={user.name} src={user.img} />
-            <VStack alignItems="start" maxW="60%">
-                {data.map((data : any, index : number) => (
-                    <Box key={index} borderRadius='10px' bg="grey.100" style={{ cursor: 'pointer' }} onClick = {forQuestion} data-value={data.name} id-value={data.venueId}>
-                        <Text style={TextStyle.body2} color="brand.200" p="3">
-                            {data.name}
+            <VStack 
+                alignItems={"start"} 
+                maxW={"60%"}
+                >
+                {/*  Mapping to get Venues' names based on a specific category  */}
+                {data.map((item : any, index : number) => (
+                    <Box 
+                        key={index} 
+                        ref={ index === data.length - 1 ? setRef : null} 
+                        borderRadius={"10px"} 
+                        bg={"grey.100"}
+                        style={{ cursor: 'pointer' }} 
+                        onClick = {forQuestion} 
+                        data-value={item.name} 
+                        id-value={item.venueId}
+                        >
+                        <Text 
+                            style={TextStyle.body2} 
+                            color={"brand.200"} 
+                            p={"3"}>
+                            {/* Showing Venue's Name */}
+                            {item.name}
                         </Text>
                  </Box>
                 ))}
             </VStack>
         </Flex>
-        {askedQMsgs.map((category : string, index : number) => (
-            <Fragment key={index}>
-                <ClientMsg msg={category} />
-                <QuestionMsg question={category} data={questions} />
-            </Fragment>
+        {/* Mapping to call ClientMsg & questions which are related to that ClientMSg */}
+        {askedMsgs.map((venue : string, index : number) => (
+            <Box key={index}>
+                <ClientMsg msg={venue} />
+                { questions[venue] && <QuestionMsg data={questions[venue]} />}
+            </Box>
         ))}
-        <div ref={messagesEndRef} />
         </>
     ): null;
 };
