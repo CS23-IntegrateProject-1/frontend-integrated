@@ -17,7 +17,7 @@ import {
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { AdvertisementID } from "../../../feature05/pages/AdvertisementID";
+// import { AdvertisementID } from "../../../feature05/pages/AdvertisementID";
 
 type AdvertiseNoti = {
   advertisementId: string;

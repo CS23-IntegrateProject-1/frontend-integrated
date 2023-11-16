@@ -17,12 +17,24 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
+import axios from "axios";
 
 interface ButtonProps {
   bgColor?: string;
   textColor?: string;
   borderColor?: string;
   bgHover?: string;
+}
+
+type AddCard = {
+  creditCardId : string,
+  card_no : string,
+  name : string,
+  country : string,
+  bank : string,
+  cvc : string,
+  exp : string,
+  userId : string,
 }
 
 export const AddCard: FC<ButtonProps> = ({
@@ -32,9 +44,18 @@ export const AddCard: FC<ButtonProps> = ({
   bgHover,
 }) => {
   const [cardNumber, setCardNumber] = useState("");
+  const [name, setName] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [addCardData, setAddCardData] = useState<AddCard[]>([]);
+
+  const handleNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let name = event.target.value;
+    setName(name);
+  }
 
   const handleCardNumberChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -115,6 +136,22 @@ export const AddCard: FC<ButtonProps> = ({
       }
     };
 
+    const handleFormSubmit = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/feature8/creditcard/venue"
+        );
+  
+        // Handle the response data as needed
+        console.log("GET response:", response.data);
+  
+        // Assuming the response data is an array of AddCard items
+        setAddCardData(response.data);
+      } catch (error) {
+        console.error("GET error:", error);
+      }
+    }
+    
     const buttonColor = useColorModeValue("blue.500", "blue.200");
   return (
     <ChakraProvider>
@@ -157,7 +194,7 @@ export const AddCard: FC<ButtonProps> = ({
           <CardBody>
             <Box>
               <Heading size="lg" textTransform="uppercase" color="white">
-                P.CHAMCHOY
+                {name}
               </Heading>
             </Box>
           </CardBody>
@@ -170,12 +207,12 @@ export const AddCard: FC<ButtonProps> = ({
           >
             <Box>
               <Heading size="md" color="white">
-                5282 3456 7890 1289
+                {cardNumber}
               </Heading>
             </Box>
             <Box>
               <Heading size="md" color="white">
-                09/25
+                {expiryDate}
               </Heading>
             </Box>
           </CardFooter>
@@ -185,78 +222,83 @@ export const AddCard: FC<ButtonProps> = ({
 
         <AbsoluteCenter textColor={"white"} px="4">Card details</AbsoluteCenter>
 
-        <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
-          <Input
-            type="text"
-            placeholder="**** **** **** ****"
-            color="white"
-            borderRadius="md"
-            borderColor="white"
-            value={cardNumber}
-            onChange={handleCardNumberChange}
-          />
-          <Text color={isValid ? "green.500" : "red.500"} fontSize="sm">
-            {isValid ? "Card is valid" : "Card is not valid"}
-          </Text>
-        </FormControl>
-
-        <FormControl mb={4} marginTop={5} width={"70%"}>
-          <Input
-            type="text"
-            placeholder="John Doe"
-            color="white"
-            borderRadius="md"
-            borderColor="white"
-          />
-        </FormControl>
-
-        <Flex>
-          <FormControl flex="1" marginRight={2}>
+        <form onSubmit={handleFormSubmit}>
+          <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
             <Input
               type="text"
-              placeholder="MM/YY"
-              color="white"
-              borderRadius="md"
-              size={"md"}
-              value={expiryDate}
-              onChange={handleExpiryDateChange}
-            />
-            <Text color={isValid ? "green.500" : "red.500"} fontSize="sm">
-              {isValid
-                ? "Card and expiry date are valid"
-                : "Card or expiry date is not valid"}
-            </Text>
-          </FormControl>
-
-          <FormControl flex="1" marginLeft={2}>
-            <Input
-              type="text"
-              placeholder="123"
+              placeholder="**** **** **** ****"
               color="white"
               borderRadius="md"
               borderColor="white"
-              size={"md"}
-              value={cvc}
-              onChange={handleCvcChange}
+              value={cardNumber}
+              onChange={handleCardNumberChange}
+            />
+            <Text color={isValid ? "green.500" : "red.500"} fontSize="sm">
+              {isValid ? "Card is valid" : "Card is not valid"}
+            </Text>
+          </FormControl>
+
+          <FormControl mb={4} marginTop={5} width={"70%"}>
+            <Input
+              type="text"
+              placeholder="John Doe"
+              color="white"
+              borderRadius="md"
+              borderColor="white"
+              value={name}
+              onChange={handleNameChange}
             />
           </FormControl>
-        </Flex>
 
-        <Button
-          width="70%"
-          height="40px"
-          backgroundColor={buttonColor}
-          bg={!bgColor ? "brand.200" : bgColor}
-          color={!textColor ? "white" : textColor}
-          borderColor={!borderColor ? "" : borderColor}
-          _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-          textColor="#DEBEF6"
-          marginTop={10}
-          onClick={handleSubmit}
-          disabled={!isValid}
-        >
-          Apply
-        </Button>
+          <Flex>
+            <FormControl flex="1" marginRight={2}>
+              <Input
+                type="text"
+                placeholder="MM/YY"
+                color="white"
+                borderRadius="md"
+                size={"md"}
+                value={expiryDate}
+                onChange={handleExpiryDateChange}
+              />
+              <Text color={isValid ? "green.500" : "red.500"} fontSize="sm">
+                {isValid
+                  ? "Card and expiry date are valid"
+                  : "Card or expiry date is not valid"}
+              </Text>
+            </FormControl>
+
+            <FormControl flex="1" marginLeft={2}>
+              <Input
+                type="text"
+                placeholder="123"
+                color="white"
+                borderRadius="md"
+                borderColor="white"
+                size={"md"}
+                value={cvc}
+                onChange={handleCvcChange}
+              />
+            </FormControl>
+          </Flex>
+
+          <Button
+            width="70%"
+            height="40px"
+            backgroundColor={buttonColor}
+            bg={!bgColor ? "brand.200" : bgColor}
+            color={!textColor ? "white" : textColor}
+            borderColor={!borderColor ? "" : borderColor}
+            _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+            textColor="#DEBEF6"
+            marginTop={10}
+            onClick={handleSubmit}
+            disabled={!isValid}
+            type="submit"
+          >
+            Apply
+          </Button>
+        </form>
       </Box>
     </ChakraProvider>
   );

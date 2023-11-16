@@ -33,7 +33,7 @@ export const Notification = () => {
     axios
       .get(`http://localhost:8080/feature8/notifications`)
       .then((response) => {
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
         setNotificationData(response.data);
       })
       .catch((error) => console.error(error));

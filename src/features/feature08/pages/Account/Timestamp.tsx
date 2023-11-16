@@ -112,7 +112,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
                     <Table width="100%" variant="unstyled">
                       <Thead>
                         <Tr borderBottom="none" padding={3}>
-                          <Th  textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">11:22:54</Th>
+                          <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">11:22:54</Th>
                           <Th textAlign="center" style={TextStyle.h1} color="black">
                             1000
                             <Text display="inline-block" marginLeft={2} style={TextStyle.h4} color="black">
