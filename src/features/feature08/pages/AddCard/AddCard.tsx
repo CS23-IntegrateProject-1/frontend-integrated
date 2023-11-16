@@ -34,8 +34,7 @@ type AddCard = {
   bank : string,
   cvc : string,
   exp : string,
-  userId? : string,
-  venueId? : string
+  userId : string,
 }
 
 export const AddCard: FC<ButtonProps> = ({
@@ -136,32 +135,22 @@ export const AddCard: FC<ButtonProps> = ({
         console.log("card is not valid");
       }
     };
-    // creditCardId : string,
-    // card_no : string,
-    // name : string,
-    // country : string,
-    // bank : string,
-    // cvc : string,
-    // exp : string,
-    // userId? : string,
-    // venueId? : string
-    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault(); // Prevent default form submission behavior
-    
+
+    const handleFormSubmit = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8080/feature8/creditcardU/1"
         );
-    
+  
         // Handle the response data as needed
-        console.log("POST response:", response.data);
-    
+        console.log("GET response:", response.data);
+  
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
       } catch (error) {
-        console.error("POST error:", error);
+        console.error("GET error:", error);
       }
-    };
+    }
     
     const buttonColor = useColorModeValue("blue.500", "blue.200");
   return (
@@ -233,7 +222,7 @@ export const AddCard: FC<ButtonProps> = ({
 
         <AbsoluteCenter textColor={"white"} px="4">Card details</AbsoluteCenter>
 
-        <form onSubmit={handleFormSubmit} >
+        <form onSubmit={handleFormSubmit}>
           <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
             <Input
               type="text"

@@ -4,9 +4,7 @@ import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
 import { Box, Button } from "@chakra-ui/react";
 import {MdAttachMoney} from "react-icons/md"
-import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { FC } from "react";
   
   interface ButtonProps {
     bgColor?: string;
@@ -23,35 +21,40 @@ import axios from "axios";
   }) => {
 
     //simulate only krub fetch data later when we can idk for now
+    interface Credit_cardProps {
+      creditCardId: number;
+      card_no: string;
+      name: string;
+      country: string;
+      bank: string;
+      cvc: number;
+      exp: Date;
+      UserId: number;
+    }
+    //simulate only krub fetch data later when we can idk for now
+    const simulatedData: Credit_cardProps[] = [
+      {
+        creditCardId: 1,
+        card_no: "****1319",
+        name: "Visa",
+        country: "USA",
+        bank: "Bank of America",
+        cvc: 123,
+        exp: new Date("2023-12-31"),
+        UserId: 101,
+      },
+      {
+        creditCardId: 2,
+        card_no: "****1319",
+        name: "Mastercard",
+        country: "USA",
+        bank: "Chase",
+        cvc: 456,
+        exp: new Date("2024-05-31"),
+        UserId: 102,
+      },
+    ];
 
-    type creditCardVen = {
-      creditCardId:string;
-      card_no:string;
-      name:string;
-      country:string;
-      bank:string;
-      cvc:string;
-      exp:Date;
-      venueId:string;
-    
-    }
-    const [creditCardVenue, setCreditCardVenue] = useState<creditCardVen[]>([]);
-  const { venueId } = useParams();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/feature8/venuecreditcard/${venueId}`);
-        setCreditCardVenue(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error('Error fetching credit card data:', error);
-      }
-    };
-  
-    if (venueId) {
-      fetchData();
-    }
-  }, [venueId]);
 
     return (
         <Box
@@ -75,7 +78,7 @@ import axios from "axios";
     </Button>
         <QrCodeButton />
         <MobileBankingList />
-        <CreditCardList card={creditCardVenue} />
+        <CreditCardList card={simulatedData} />
         <ConfirmButton />
         </Box>
     )
