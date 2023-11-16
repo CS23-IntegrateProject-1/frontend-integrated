@@ -48,6 +48,8 @@ export const AddCard: FC<ButtonProps> = ({
   const [name, setName] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
+  const [country, setCountry] = useState("");
+  const [bank, setBank] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addCardData, setAddCardData] = useState<AddCard[]>([]);
 
@@ -56,6 +58,20 @@ export const AddCard: FC<ButtonProps> = ({
   ) => {
     let name = event.target.value;
     setName(name);
+  }
+
+  const handleCountryChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let country = event.target.value;
+    setCountry(country);
+  }
+
+  const handleBankChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let bank = event.target.value;
+    setBank(bank);
   }
 
   const handleCardNumberChange = (
@@ -153,14 +169,14 @@ export const AddCard: FC<ButtonProps> = ({
           "http://localhost:8080/feature8/add_creditcard",
           {
             // Need to add extra information 
-            // 1. Make more input field for country , bank, 
+            // 1. Make more input field for country , bank, (done)
             // 2. Pull userId or venueId from somewhere?
             card_no: cardNumber,
             name: name,
             exp: expiryDate,
             cvc: cvc,
-            // country: country,
-            // bank: bank,
+            country: country,
+            bank: bank,
             // userId?: ,
             // venueId?: 
           }
@@ -247,7 +263,7 @@ export const AddCard: FC<ButtonProps> = ({
         <AbsoluteCenter textColor={"white"} px="4">Card details</AbsoluteCenter>
 
         <form onSubmit={handleFormSubmit} >
-          <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
+          <FormControl isRequired mb={4} marginTop={10} width={"100%"}>
             <Input
               type="text"
               placeholder="**** **** **** ****"
@@ -262,7 +278,7 @@ export const AddCard: FC<ButtonProps> = ({
             </Text>
           </FormControl>
 
-          <FormControl mb={4} marginTop={5} width={"70%"}>
+          <FormControl mb={4} width={"100%"}>
             <Input
               type="text"
               placeholder="John Doe"
@@ -302,6 +318,32 @@ export const AddCard: FC<ButtonProps> = ({
                 size={"md"}
                 value={cvc}
                 onChange={handleCvcChange}
+              />
+            </FormControl>
+          </Flex>
+          
+          <Flex>
+            <FormControl flex="1" marginRight={2}>
+              <Input
+                type="text"
+                placeholder="Country"
+                color="white"
+                borderRadius="md"
+                size={"md"}
+                value={country}
+                onChange={handleCountryChange}
+              />
+            </FormControl>
+
+            <FormControl flex="1" marginLeft={2}>
+              <Input
+                type="text"
+                placeholder="Bank"
+                color="white"
+                borderRadius="md"
+                borderColor="white"
+                value={bank}
+                onChange={handleBankChange}
               />
             </FormControl>
           </Flex>
