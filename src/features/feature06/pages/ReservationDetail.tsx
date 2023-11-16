@@ -7,9 +7,71 @@ import {
   Button,
   Highlight,
 } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
+import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
+
+interface IData {
+  venue: {
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    chatRoomId: number;
+    locationId: number;
+    score: string;
+    venueId: number;
+    website_url: string;
+    Venue_photo: string;
+  };
+  location: {
+    address: string;
+  };
+  reservations: [
+    {
+      venueId: number;
+      guest_amount: number;
+      reserved_time: string;
+      status: string;
+      userId: number;
+      entry_time: string;
+      isReview: boolean;
+      reservationId: number;
+      depositId: number;
+      isPaidDeposit: string;
+      user: {
+        username: string;
+        hashed_password: string;
+        fname: string;
+        lname: string;
+        email: string;
+        profile_picture: string;
+        addId: string;
+        phone: string;
+        tierId: number;
+        userId: number;
+        User_bio: string;
+      };
+      deposit: {
+        deposit_amount: string;
+        depositId: number;
+        venueId: number;
+      };
+    }
+  ];
+}
 
 export const ReservationDetail = () => {
+  const [data, setData] = useState<IData[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response: IData[] = await getReservationDetail();
+    setData(response);
+  };
   return (
     <Box
       display="flex"
@@ -17,14 +79,12 @@ export const ReservationDetail = () => {
       alignItems="center" // Center the content horizontally
       justifyContent="center"
     >
-      <RDetailCard/>
-
-      
+      <RDetailCard />
 
       {/* This will push the reservation detail to the bottom */}
       <Box
         width="393px"
-        height="440px"
+        height="480px"
         flexShrink={0}
         borderRadius="20px 20px 0px 0px"
         background="var(--Dark-background, #200944)"
@@ -175,6 +235,18 @@ export const ReservationDetail = () => {
           >
             Date :
           </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11/11/23
+          </Text>
           <Icon
             width="24px"
             height="24px"
@@ -295,6 +367,18 @@ export const ReservationDetail = () => {
           >
             Time :
           </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11.11 pm
+          </Text>
           <Icon
             width="24px"
             height="24px"
@@ -370,6 +454,18 @@ export const ReservationDetail = () => {
           >
             Seats :
           </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11 seats
+          </Text>
           {/* Additional content goes here */}
         </Box>
         <Box
@@ -421,7 +517,7 @@ export const ReservationDetail = () => {
           fontStyle="normal"
           fontWeight="600"
           lineHeight="24px"
-          marginTop="10px"
+          marginTop="15px"
           marginLeft="133px"
         >
           Review
