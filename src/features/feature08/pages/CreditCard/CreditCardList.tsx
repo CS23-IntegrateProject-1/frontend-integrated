@@ -11,20 +11,22 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import React, { FC } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Credit_cardProps {
-  creditCardId:string;
-  card_no:string;
-  name:string;
-  country:string;
-  bank:string;
-  cvc:string;
-  exp:Date;
-  userId?:string;
-  venueId?: string;
+  creditCardId: number;
+  card_no: string;
+  name: string;
+  country: string;
+  bank: string;
+  cvc: number;
+  exp: Date;
+  UserId: number;
 }
 
+// interface Credit_CardItem {
+//   card: Credit_cardProps[];
+// }
 
 interface CreditCardListProps {
   card: Credit_cardProps[];
@@ -32,10 +34,6 @@ interface CreditCardListProps {
 
 export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
   const [value, setValue] = React.useState("");
-  const { userId, venueId } = useParams<{ userId: string; venueId: string }>();
-
-
-  const cardArray = Array.isArray(card) ? card : [card];
 
   return (
     <Box
@@ -53,7 +51,7 @@ export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
 
         <CardBody>
           <RadioGroup onChange={setValue} value={value} maxWidth={"100%"}>
-            {cardArray.map((cardItem) => (
+            {card.map((cardItem) => (
               <Card
                 key={cardItem.creditCardId}
                 direction={{ base: "column", sm: "row" }}
@@ -85,11 +83,10 @@ export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
                 </CardBody>
                 <Radio value={cardItem.creditCardId.toString()} />
               </Card>
-            ))} 
-            {/* /venue/:venueId/business/addcard || /customer/:userId/addcard */}
+            ))}
           </RadioGroup>
           <Box margin={5}>
-          <Link to={userId ? `/customer/${userId}/addcard` : venueId ? `/venue/${venueId}/business/addcard` : userId&&venueId? `/customer/${userId}/addcard` :"/"}>
+            <Link to={`/venue/:venueId/addcard`}>
               <Card
                 direction={{ base: "column", sm: "row" }}
                 overflow="hidden"
@@ -99,7 +96,7 @@ export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
               >
                 <CardBody>
                   <Heading size="sm" color={"white"}>
-                    <AddIcon boxSize={3} /> Add Card 
+                    <AddIcon boxSize={3} /> Add Card
                   </Heading>
                 </CardBody>
               </Card>
