@@ -33,6 +33,7 @@ interface CardProps {
   image: string;
   name: string;
   description: string;
+  distance: number;
 }
 
 const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
@@ -96,9 +97,15 @@ const Cards = (props: CardProps) => {
     return (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1); // Generates a number with two decimal places
   };
 
+  // const descriptionToShow = showFullDescription
+  //   ? props.description
+  //   : `${props.description.slice(0, 50)}...`;
+
   const descriptionToShow = showFullDescription
     ? props.description
-    : `${props.description.slice(0, 50)}...`;
+    : typeof props.description === "string"
+    ? `${props.description.slice(0, 50)}...`
+    : ""; // Handle the case where props.description is not a string
 
   const handleLikeClick = () => {
     setLiked(!liked);
@@ -167,7 +174,7 @@ const Cards = (props: CardProps) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    10.3 km
+                    {props.distance}
                   </Text>
                 </Box>
 

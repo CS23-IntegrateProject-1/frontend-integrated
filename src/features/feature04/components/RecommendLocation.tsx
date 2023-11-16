@@ -90,14 +90,20 @@ const StarIcon: React.FC = () => {
   );
 };
 
-const RecommendLocation= (props: RecommendLocationCard) => {
+const RecommendLocation = (props: RecommendLocationCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  // const descriptionToShow = showFullDescription
+  //   ? props.description
+  //   : `${props.description.slice(0, 50)}...`;
+
   const descriptionToShow = showFullDescription
     ? props.description
-    : `${props.description.slice(0, 50)}...`;
+    : typeof props.description === "string"
+    ? `${props.description.slice(0, 50)}...`
+    : ""; // Handle the case where props.description is not a string
 
   const handleLikeClick = () => {
     setLiked(!liked);
@@ -108,9 +114,7 @@ const RecommendLocation= (props: RecommendLocationCard) => {
     }
   };
   return (
-    
-    
-    <Box gap="20px"display={"flex"} flexDirection={"row"} m={2} width={"auto"} >
+    <Box gap="20px" display={"flex"} flexDirection={"row"} m={2} width={"auto"}>
       <Card backgroundColor={colors.brand[200]} pl={2} pr={2}>
         <CardBody>
           <Center>

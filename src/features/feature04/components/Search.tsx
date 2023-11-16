@@ -1,75 +1,56 @@
+import React, { useState } from "react";
 import {
-  Box,
-  Text,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
-  Button,
+  IconButton,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
-import colors from "../../../theme/foundations/colors";
 import { SearchIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-import textStyles from "../../../theme/foundations/textStyles";
-const Search = () => {
-  const [isInput, setIsInput] = useState(false);
-  const [inputValue, setInputValue] = useState("");
 
-  const handleIsFocused = () => {
-    setIsInput(true);
-  };
-  const handleIsBlured = () => {
-    setIsInput(false);
+interface SearchBarProps {
+  onSearch: (term: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = () => {
+    onSearch(searchTerm);
   };
 
-  const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
-    <Box mb={10} display={"flex"} flexDirection={"column"}>
-      <Text
-        fontSize={TextStyle.h1.fontSize}
-        fontWeight={TextStyle.h1.fontWeight}
-        color={colors.white}
-        mb={2}
-      >
-        Where do you want to go?
-      </Text>
-      <Box display={"flex"} flexDirection={"row"}>
-        <InputGroup size={"md"}>
-          <InputLeftElement pointerEvents="none">
-            {inputValue === "" ? <SearchIcon color="#A0AEC0" /> : null}
-          </InputLeftElement>
-          <Input
-            type="text"
-            placeholder="Search"
-            border="1px solid "
-            borderRadius={"30px"}
-            variant="unstyled"
-            backgroundColor={"White"}
-            color={colors.black}
-            p={2}
-            pl={8}
-            
-            onFocus={handleIsFocused}
-            onBlur={handleIsBlured}
-            value={inputValue}
-            onChange={handleInputValue}
-          />
-        </InputGroup>
-        <Box>
-          <Button variant={"unstyle"} >
-            <Box
-              borderRadius={"100%"}
-              height="20px"
-              width="20px"
-              backgroundColor={colors.grey[100]}
-            />
-            <Text m={2} fontSize={textStyles.body3.fontSize} fontWeight={textStyles.body3.fontWeight}>Filter</Text>
-          </Button>
-        </Box>
-      </Box>
-    </Box>
+    <InputGroup width="100%" mb={4}>
+      <InputLeftElement
+        pointerEvents="none"
+        children={<SearchIcon color="gray.300" />}
+      />
+      <Input
+        type="text"
+        placeholder="Search locations..."
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        paddingRight="2rem"
+      />
+      <IconButton
+        aria-label="Search"
+        icon={<SearchIcon />}
+        onClick={handleSearch}
+        variant="outline"
+        borderColor="gray.300"
+      />
+    </InputGroup>
   );
 };
-export default Search;
+
+export default SearchBar;
