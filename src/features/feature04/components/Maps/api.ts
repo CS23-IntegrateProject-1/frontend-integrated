@@ -7,7 +7,7 @@ export const fetchNearbyPlaces = async (lat: number, lng: number, type : string)
       {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '', //Place API Key from RapidAPI
+          'x-rapidapi-key': '56163eff12msh71ad6d88cbc4ce6p17a2dbjsn4ae0b41f38d3', //Place API Key from RapidAPI
           'x-rapidapi-host': 'trueway-places.p.rapidapi.com'
         }
       }

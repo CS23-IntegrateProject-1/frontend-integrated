@@ -14,14 +14,10 @@ import {
   import SavedLocationCard from "../components/SavedLocationCard";
   import RecommendLocation from "../components/RecommendLocation";
 import CinemasCard from "../components/CinemasCard";
-import GoogleMapComponent from "../components/GoogleMapComponent";
+import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
   
   export const Cinemas = () => {
-    const apiKey = "";
-  
-    const center = { lat: 13.6513, lng: 100.4964 };
-    const zoom = 12;
-  
+
     return (
       <Box>
         <Header />

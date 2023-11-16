@@ -12,14 +12,9 @@ import {
   import index from "../../../theme/foundations/index";
   import SavedLocationCard from "../components/SavedLocationCard";
   import RecommendLocation from "../components/RecommendLocation";
-import GoogleMapComponent from "../components/GoogleMapComponent";
+import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
   
   export const Bars = () => {
-    const apiKey = "";
-  
-    const center = { lat: 13.6513, lng: 100.4964 };
-    const zoom = 12;
-  
     return (
       <Box>
         <Header />

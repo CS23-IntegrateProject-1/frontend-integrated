@@ -11,15 +11,16 @@ import CurrentLocation from './CurrentLocation.tsx';
 import { fetchNearbyPlaces } from './api.ts';
 
 //image
-import fork from '../images/forkspoon.svg';
-import cinema from '../images/cinema.svg';
-import beer from '../images/beer.svg';
+import fork from '../../images/forkspoon.svg';
+import cinema from '../../images/cinema.svg';
+import beer from '../../images/beer.svg';
 // Styles 
 import { Wrapper, LoadingView } from './map.styles.ts';
 
 
 export type MarkerType ={
   id: string;
+  address: string;
   location: google.maps.LatLngLiteral;
   name: string;
   phone_number:string;
@@ -30,7 +31,7 @@ export type MarkerType ={
 const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "" //API KEY
+    googleMapsApiKey: "AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY" //API KEY
   })
 
   //save map in ref if we want to access the map

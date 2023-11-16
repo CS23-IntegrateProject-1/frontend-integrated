@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import PlaceTypes from "../components/PlaceTypes";
 import Cards from "../components/Card";
 import Search from "../components/Search";
-import GoogleMapComponent from "../components/GoogleMapComponent"; // Correct import statement
+import GoogleMapComponent from "../components/Maps/GoogleMapComponent"; // Correct import statement
 import Header from "../components/Header";
 import RecommendLocation from "../components/RecommendLocation";
 import index from "../../../theme/foundations/index";
