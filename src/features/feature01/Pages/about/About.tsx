@@ -32,7 +32,7 @@ export const About = () => {
   useEffect(() => {
     Axios.get("/feature1/about?latest").then((res) => {
       if (res.status === 200) {
-        setAbout(res.data as unknown as About);
+        setAbout(res.data as About);
       }
     });
   }, []);
