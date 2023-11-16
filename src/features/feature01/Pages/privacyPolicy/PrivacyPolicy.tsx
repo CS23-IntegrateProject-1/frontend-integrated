@@ -15,14 +15,15 @@ export const PrivacyPolicy = ()  => {
  
   //function to handle continue button
   const handleContinue = () =>   {
-      const check = document.querySelector('.check input') as HTMLInputElement;
-      const text = document.querySelector('.checkText') as HTMLInputElement; 
-        console.log("checked");
-          text.hidden=true;
-          if(check.checked){
+      // const check = document.querySelector('.check input') as HTMLInputElement;
+      // const text = document.querySelector('.checkText') as HTMLInputElement; 
+      //   console.log("checked");
+      //     text.hidden=true;
+      //     if(check.checked){
           //go back to home
-          window.history.replaceState({}, '', '/');
-          window.history.go(0);
+          //hide the checkid button
+          const checkbtn = document.getElementById("checkbtn") as HTMLInputElement;
+          checkbtn.hidden=true;
           //set local storage for mock testing , have to del real integration
           // localStorage.setItem("privacyPolicy", "true");
           //send a get request to backend
@@ -48,11 +49,16 @@ export const PrivacyPolicy = ()  => {
             .catch((error) => {
               console.error('Error saving consent:', error);
             });
-          }    
+          }
+          else{
+            //hide the button if already consent
+            checkbtn.hidden=true;
+            
+          }   
     
-        }else{
-          text.hidden=false;
-        }
+        // }else{
+        //   text.hidden=false;
+        // }
   }
 
   return(
@@ -274,36 +280,10 @@ export const PrivacyPolicy = ()  => {
           reservations. We appreciate your trust in us and are committed to safeguarding
           your privacy.
         </Text>
-        <Divider/>
-        {(localStorage.getItem("privacyPolicy") === null) && (
-            <Show below='sm'>
-              <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the privacy and policy</Checkbox>
-              <Box>
-                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
-              </Box>
-              <Button className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
-            </Show>
-         )}
-         {(localStorage.getItem("privacyPolicy") != null) && (
-            <Text className="already">
-            You already accepted the privacy and policy
-          </Text>
-         )}
-        
-    </Stack>
-    {(localStorage.getItem("privacyPolicy") === null) && (
-            <Show above='sm'>
-            <Flex>
-              <Checkbox  className='check' checked={false}  size='md' colorScheme='green' >You have read & accepted the privacy and policy
-              </Checkbox>
-              <Box mt={5} ml={3}>
-                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Privacy and Policy</Text>
-              </Box>
-              <Spacer/>
-              <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Continue</Button>
-            </Flex>
-          </Show>
-         )}
+        <Divider mb={2}/>
+      </Stack>
+      <Button mt={5} mx={{base:'0', lg:'25%'}} width={{base:'100%', lg:'50%'}} id="checkbtn" className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Understood</Button>
+
     </Box>
         
   );

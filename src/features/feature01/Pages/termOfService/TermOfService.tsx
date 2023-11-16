@@ -14,15 +14,17 @@ function scrollToSection(sectionId : string) {
 export const TermOfService = () => {
    //function to handle continue button
    const handleContinue = () =>   {
-    const check = document.querySelector('.check input') as HTMLInputElement;
-    const text = document.querySelector('.checkText') as HTMLInputElement;
-    if(check.checked){
-      console.log("checked");
-      document.querySelector('.checkText')?.setAttribute("hidden", "true");
-      text.hidden=true;
-      //go back to home
-      window.history.replaceState({}, '', '/');
-      window.history.go(0);
+    //hide the checkid button
+    const checkbtn = document.getElementById("checkbtn") as HTMLInputElement;
+    checkbtn.hidden=true;
+    // const check = document.querySelector('.check input') as HTMLInputElement;
+    // const text = document.querySelector('.checkText') as HTMLInputElement;
+    // if(check.checked){
+      // console.log("checked");
+      // document.querySelector('.checkText')?.setAttribute("hidden", "true");
+      // text.hidden=true;
+      //go back to previous page
+      
       //set local storage for mock have to delete later***
       //localStorage.setItem("terms&service", "true");
       //create user consent
@@ -47,9 +49,9 @@ export const TermOfService = () => {
               console.error('Error saving consent:', error);
             });  
       }
-    }else{
-      text.hidden=false;
-    }
+    // }else{
+    //   text.hidden=false;
+    // }
   
   }
   return(
@@ -150,35 +152,8 @@ export const TermOfService = () => {
               your privacy.
             </Text>
             <Divider/>
-            {(localStorage.getItem("terms&service") === null) && (
-              <Show below='sm'>
-                <Checkbox className='check' size='sm'checked={false}  colorScheme='green'>You have read & accepted the terms of service</Checkbox>
-                <Box>
-                  <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
-                </Box>
-                <Button bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Continue</Button>
-              </Show>
-            )}
-              {(localStorage.getItem("terms&service") != null) && (
-                <Text className="already" pb={5}>
-                You already accepted Terms of Services
-                </Text>
-              )}
+              <Button mt={5} mx={{base:'0', lg:'25%'}} width={{base:'100%', lg:'50%'}} id="checkbtn" className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Understood</Button>
         </Stack>
-        {(localStorage.getItem("terms&service") === null) && (
-            <Show above='sm'>
-            <Flex>
-              <Checkbox id="checkBox" className='check' checked={false}  size='md' colorScheme='green'>You have read & accepted the terms of service
-              </Checkbox>
-              <Box mt={5} ml={3}>
-                <Text size={'sm'} color={'red'} className="checkText" hidden={true}> You must agree Terms of Service</Text>
-              </Box>
-              <Spacer/>
-              <Button px={20} mt={5} bg={"brand.200"} color={'white'} _hover={{bg:"brand.300"}} onClick={handleContinue}>Register</Button>
-            </Flex>
-          </Show>
-        )}
-        
     </Box>
   );
 }
