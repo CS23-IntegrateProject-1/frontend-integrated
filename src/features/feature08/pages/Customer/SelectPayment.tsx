@@ -1,10 +1,12 @@
-import { QrCodeButton } from "../QrCode/QrCodeButton"
+import { QrCodeButton } from "../QrCode/QrCodeButton";
 import { MobileBankingList } from "../MobileBanking/MobileBankingList"
 import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
 import { Box, Button } from "@chakra-ui/react";
 import {MdAttachMoney} from "react-icons/md"
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 interface ButtonProps {
   bgColor?: string;
@@ -13,12 +15,44 @@ interface ButtonProps {
   bgHover?: string;
 }
 
+type creditCardUser = {
+  creditCardId:string;
+  card_no:string;
+  name:string;
+  country:string;
+  bank:string;
+  cvc:string;
+  exp:Date;
+  userId:string;
+
+}
 export const SelectPayment: FC<ButtonProps>= ({
   bgColor,
   textColor,
   borderColor,
   bgHover,
 }) => {
+  const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
+  const { userId } = useParams();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/feature8/creditcardU/${userId}`);
+        setCreditCardUser(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching credit card data:', error);
+      }
+    };
+  
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
+  
+
+
+
     return (
         <Box
         display={"flex"}
@@ -41,7 +75,7 @@ export const SelectPayment: FC<ButtonProps>= ({
     </Button>
         <QrCodeButton />
         <MobileBankingList />
-        <CreditCardList card={[]} />
+        <CreditCardList card={creditCardUser} />
         <ConfirmButton />
         </Box>
     )

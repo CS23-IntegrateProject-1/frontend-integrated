@@ -22,7 +22,7 @@ export const Feature08Routes = () => {
   return [
 
     //customer side
-    { path: "/venue/:venueId/payment", element: <SelectPayment /> },
+    { path: ":userId/venue/:venueId/payment", element: <SelectPayment /> },
     { path: "/customer/history", element: <PaymentHistory/> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
       //payment to venue by using venueId?
@@ -52,9 +52,9 @@ export const Feature08Routes = () => {
 
 
     // admin side
-    { path: "/venue/:venueId/admin/checkout", element: <SelectPaymentForCheckout /> },
-    { path: "/venue/:venueId/admin/qr-payment", element: <QrCodeScan /> },
-    { path: "/venue/:venueId/admin/addcard", element: <AddCard /> },
+    { path: "/venue/:userId/admin/checkout", element: <SelectPaymentForCheckout /> },
+    { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
+    { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
 
 
 
