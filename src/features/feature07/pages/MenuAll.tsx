@@ -52,7 +52,8 @@ const fetchMenuAndSetData = async (venueId: string) => {
 
 export const MenuAll = () => {
   
-  const [buttonColor, setButtonColor] = useState("brand.200");
+  const [allMenuButtonColor, setAllMenuButtonColor] = useState("brand.200");
+  const [setMenuButtonColor, setSetMenuButtonColor] = useState("brand.400");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
   const { venueId } = useParams();
@@ -60,12 +61,21 @@ export const MenuAll = () => {
 
   const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
 
-  const handleButtonClick = (newSubtitle : string) => {
-    setSubtitle(newSubtitle);
-    if (buttonColor === "brand.100") {
-      setButtonColor("brand.200");
-    } else {
-      setButtonColor("brand.100");
+  const handleAllMenuClick = () => {
+    if (subtitle !== "All Menu") {
+      setSubtitle("All Menu");
+      setAllMenuButtonColor("brand.200");
+      setSetMenuButtonColor("brand.400");
+      
+    }
+  };
+
+  const handleSetMenuClick = () => {
+    if (subtitle !== "Set Menu") {
+      setSubtitle("Set Menu");
+      setAllMenuButtonColor("brand.400");
+      setSetMenuButtonColor("brand.200");
+      
     }
   };
   const handleMenuClick = (type: string, menuid: string) => {
@@ -76,7 +86,7 @@ export const MenuAll = () => {
     navigate(`/venue/${venueId}/cart`); 
   };
   useEffect(() => {
-    handleButtonClick("All Menu");
+    handleAllMenuClick();
   }, []);
 
   const renderMenuCards = () => {
@@ -153,18 +163,20 @@ export const MenuAll = () => {
     <Flex direction="column" align="center" justify="center">
       <HStack spacing={4}>
       <RButton 
+        bgColor={allMenuButtonColor}
         text={"All Menu"}
         textStyle={"h3"}
         width={"110px"}
         height={"32px"}
-        onClick={() => handleButtonClick("All Menu")}
+        onClick={handleAllMenuClick}
          />
          <RButton 
+        bgColor={setMenuButtonColor}
         text={"Set Menu"}
         textStyle={"h3"}
         width={"110px"}
         height={"32px"}
-        onClick={() => handleButtonClick("Set Menu")}
+        onClick={handleSetMenuClick}
          />
       </HStack>
       </Flex>

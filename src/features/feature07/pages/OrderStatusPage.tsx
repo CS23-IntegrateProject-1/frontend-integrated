@@ -9,12 +9,14 @@ import { useNavigate } from 'react-router-dom';
 type OrderStatus = 'Preparing' | 'Completed';
 
 export const OrderStatusPage: React.FC = () => {
-  const [buttonColor, setButtonColor] = useState<'brand.100' | 'brand.200'>('brand.200');
+  const [preparingButtonColor, setPreparingButtonColor] = useState<'brand.400' | 'brand.200'>('brand.200');
+  const [completedButtonColor, setCompletedButtonColor] = useState<'brand.400' | 'brand.200'>('brand.400');
   const [status, setStatus] = useState<OrderStatus>('Preparing');
   const navigate = useNavigate();
   const handleButtonClick = (newStatus: OrderStatus) => {
     setStatus(newStatus);
-    setButtonColor((prevColor) => (prevColor === 'brand.100' ? 'brand.200' : 'brand.100'));
+    setPreparingButtonColor(newStatus === 'Preparing' ? 'brand.200' : 'brand.400');
+    setCompletedButtonColor(newStatus === 'Completed' ? 'brand.200' : 'brand.400');
   };
 
   const renderCard = () => {
@@ -37,7 +39,7 @@ export const OrderStatusPage: React.FC = () => {
           width={'110px'}
           height={'32px'}
           onClick={() => handleButtonClick('Preparing')}
-          bgColor={buttonColor === 'brand.200' ? 'brand.200' : 'brand.100'}
+          bgColor={preparingButtonColor}
         />
         <RButton
           text={'Completed'}
@@ -45,7 +47,7 @@ export const OrderStatusPage: React.FC = () => {
           width={'110px'}
           height={'32px'}
           onClick={() => handleButtonClick('Completed')}
-          bgColor={buttonColor === 'brand.200' ? 'brand.200' : 'brand.100'}
+          bgColor={completedButtonColor}
         />
       </HStack>
       <VStack mt={4} overflowY="auto" maxHeight="400px">
