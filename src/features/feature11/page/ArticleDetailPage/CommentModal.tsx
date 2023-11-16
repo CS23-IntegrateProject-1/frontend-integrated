@@ -13,26 +13,44 @@ import { FC } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { CommentInput } from "./CommentInput";
 import { CommentItem } from "./CommentItem";
-
-interface ArticleCommentProps {
-  commentId: string;
-  commentContent: string;
-  commentDate: string;
-  likedByCreator: boolean;
-  commentWriterUsername: string;
-}
+import { ArticleComment } from "./ArticleTypes";
+import { useParams } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
 interface ModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
-  comments: ArticleCommentProps[];
+  // comments: ArticleCommentProps[];
 }
 
 export const CommentModal: FC<ModalComponentProps> = ({
   isOpen,
   onClose,
-  comments,
+  // comments,
 }) => {
+  const { articleId } = useParams();
+  const fetchComments = async (): Promise<ArticleComment[]> => {
+    try {
+      console.log(articleId);
+      const comments = await Axios.get(
+        `/feature11/fetchArticleComment/${articleId}`
+      );
+      return comments.data;
+      // return mockArticle;
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      throw new Error("Failed to fetch article");
+    }
+  };
+  const comments = useQuery({ queryKey: ["comments"], queryFn: fetchComments });
+  if (comments.status == "loading") {
+    return <span>Loading...</span>;
+  }
+
+  if (comments.error instanceof Error) {
+    return <div>An error occurred: {comments.error.message}</div>;
+  }
   return (
     <Modal
       isOpen={isOpen}
@@ -47,6 +65,7 @@ export const CommentModal: FC<ModalComponentProps> = ({
         borderRadius={{ base: "2em 2em 0 0" }}
         maxW={{ base: "480px", sm: "768px" }}
         p={"1.5em"}
+        maxH={"80%"}
         // pr={"1em"}
         bg={"brand.100"}
       >
@@ -56,20 +75,19 @@ export const CommentModal: FC<ModalComponentProps> = ({
           mb={"0.5em"}
         >
           <Heading style={TextStyle.h1} color={"black"}>
-            Comments ({comments.length})
+            Comments ({comments.data?.length})
           </Heading>
-          <IconButton
+          <CloseButton
             variant={"link"}
             color={"black"}
             aria-label="close"
             mr={"-1em"}
-            icon={<CloseButton />}
             onClick={onClose}
           />
         </Flex>
-        <CommentInput/>
-        <Box>
-          {comments.map((comment) => (
+        <CommentInput />
+        <Box mt={"1em"} maxH={"70%"} overflow={"scroll"}>
+          {comments.data?.map((comment) => (
             <CommentItem comment={comment} key={comment.commentId} />
           ))}
         </Box>

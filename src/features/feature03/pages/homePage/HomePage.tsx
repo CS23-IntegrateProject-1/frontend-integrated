@@ -1,12 +1,12 @@
-import { Box, Stack, StackDivider, Text } from "@chakra-ui/react";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { Center, Square, Circle } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
-import { SearchBar } from "./F3_Components/SearchBar";
-import { Footer_HomePage } from "./Footer_HomePage";
-
+import { SearchBar } from "./F3_HPCs/SearchBar";
+import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
+import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
 import {
+  Box,
+  Stack,
+  Text,
   Card,
   CardHeader,
   CardBody,
@@ -16,72 +16,129 @@ import {
   Button,
   HStack,
   Flex,
+  Circle,
+  Center,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
+import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
+import { SiHomebrew } from "react-icons/Si";
+import { BsFillPeopleFill } from "react-icons/Bs";
+import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
+import { MdMovie } from "react-icons/md";
+import { IoMdChatboxes } from "react-icons/io";
+import { StarIcon } from "@chakra-ui/icons";
+
+import mockR from "../RF3mock.json";
+import mockP from "../PF3mock.json";
+import mockE from "../EF3mock.json";
+import colors from "../../../../theme/foundations/colors";
+
+interface RProps {
+  id: number;
+  name: string;
+  description: string;
+  picR: string;
+}
+
+interface PProps {
+  id: number;
+  name: string;
+  picP: string;
+}
+
+interface EProps {
+  id: number;
+  name: string;
+  date: string;
+  location: string;
+  picE: string;
+}
 
 export const HomePage = () => {
   // const [searchFilter, setSearchFilter] = useState<string>("");
   // const [selectedRestaurant, setSelectedRestaurant] =
   //   useState<RestaurantProps | null>(null);
 
+  const R: RProps[] = mockR;
+  const P: PProps[] = mockP;
+  const E: EProps[] = mockE;
+
   return (
-    <Box>
-      This is Home Page F3_T11
-      <br />
-      <ButtonComponent text="Som Geng mak" />
-      <br />
-      <Flex mb={5} justifyContent={"center"}>
-        <NavLink to="/IDK_Path">
+    <Box width={"100%"}>
+      <Box pb={3}>
+        <SliderAdvertisement />
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Flex pb={{base:0, lg:2}} justifyContent={"center"} width={"100%"}>
+        <NavLink to="/Restaurants">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "112px" }}
-            h={{ lg: "150px", base: "115px" }}
-            _hover={{ bg: "brand.100" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
           >
-            <CardBody>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={BiRestaurant}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "3" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
                 <Heading
-                  fontSize={{ lg: "2xl", base: "sm" }}
+                  fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
-                  Restaurant
+                  Restaurants
                 </Heading>
               </Stack>
             </CardBody>
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Clubs">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "112px" }}
-            h={{ lg: "150px", base: "115px" }}
-            _hover={{ bg: "brand.100" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
           >
-            <CardBody>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={BiSolidDrink}
+                    fontSize={{ base: "28px", lg: "35px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "3" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
                 <Heading
-                  fontSize={{ lg: "2xl", base: "sm" }}
+                  fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Clubs
                 </Heading>
@@ -90,28 +147,36 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Bars">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "112px" }}
-            h={{ lg: "150px", base: "115px" }}
-            _hover={{ bg: "brand.100" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
           >
-            <CardBody>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={SiHomebrew}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "3" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
                 <Heading
-                  fontSize={{ lg: "2xl", base: "sm" }}
+                  fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Bars
                 </Heading>
@@ -120,28 +185,192 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/IDK_Path">
+        <NavLink to="/Cinemas">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
-            w={{ lg: "220px", base: "112px" }}
-            h={{ lg: "150px", base: "115px" }}
-            _hover={{ bg: "brand.100" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
           >
-            <CardBody>
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
               <HStack justifyContent={"center"}>
-                <Circle size="50px" bg="brand.200" color="white">
-                  <StarIcon color="black" />
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={MdMovie}
+                    fontSize={{ base: "30px", lg: "35px" }}
+                    color={"black"}
+                  />
                 </Circle>
               </HStack>
               <Stack
-                mt={{ lg: "6", base: "3" }}
+                mt={{ base: "2", lg: "4" }}
                 spacing="3"
                 justifyContent={"center"}
               >
                 <Heading
-                  fontSize={{ lg: "2xl", base: "sm" }}
+                  fontSize={{ lg: "2xl", base: "xs" }}
                   textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Cinemas
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
+        <NavLink to="/Chatbot">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+            display={{base:"none", lg:"block"}}
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaRobot}
+                    fontSize={{ base: "26px", lg: "33px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Chatbot
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
+      </Flex>
+      {/* ---------------------------------------------------------- */}
+      <Flex mb={6} justifyContent={"center"} width={"100%"}>
+        <NavLink to="/Articles">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaRegNewspaper}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Articles
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
+        <NavLink to="/Friends">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaUserFriends}
+                    fontSize={{ base: "28px", lg: "35px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Friends
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
+        <NavLink to="/Community">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={IoMdChatboxes}
+                    fontSize={{ base: "30px", lg: "37px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
                 >
                   Community
                 </Heading>
@@ -150,112 +379,213 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <Card
-          mt={15}
-          mx={4}
-          display={{ base: "none", lg: "block" }}
-          w={"220px"}
-          h={"150"}
-          _hover={{ bg: "brand.100" }}
-        >
-          <CardBody>
-            <HStack justifyContent={"center"}>
-              <Circle size="50px" bg="brand.200" color="white">
-                <StarIcon color="black" />
-              </Circle>
-            </HStack>
-            <Stack mt={{ lg: "6", base: "3" }} spacing="3" justifyContent={"center"}>
-              <Heading fontSize={{ lg: "2xl", base: "sm" }} textAlign={"center"}>
-                Chat Bot
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
+        <NavLink to="/Ticket">
+          <Card
+            mt={15}
+            mx={{ lg: "4", base: "1" }}
+            w={"21vw"}
+            maxW={"230px"}
+            h={{ lg: "150px", base: "100px" }}
+            _hover={{ bg: "brand.200", textColor: "white" }}
+            bgColor={"brand.100"}
+            borderRadius="xl"
+          >
+            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+              <HStack justifyContent={"center"}>
+                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                  <Icon
+                    as={FaTicketAlt}
+                    fontSize={{ base: "26px", lg: "33px" }}
+                    color={"black"}
+                  />
+                </Circle>
+              </HStack>
+              <Stack
+                mt={{ base: "2", lg: "4" }}
+                spacing="3"
+                justifyContent={"center"}
+              >
+                <Heading
+                  fontSize={{ lg: "2xl", base: "xs" }}
+                  textAlign={"center"}
+                  fontWeight="bold"
+                >
+                  Ticket
+                </Heading>
+              </Stack>
+            </CardBody>
+          </Card>
+        </NavLink>
+
       </Flex>
 
-      <Text fontSize="50px">Book Seats</Text>
-      <SearchBar />
-      <Text mt={5} fontSize="40px">
-        Maps
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
+        Book Seats
       </Text>
-      <NavLink to="/IDK_Path">
-        <Image
-          src="https://c4.wallpaperflare.com/wallpaper/210/9/215/anime-fantasy-game-map-wallpaper-preview.jpg"
-          alt="Map_Pic not load"
-          borderRadius="lg"
-        />
-      </NavLink>
-      <Text mt={5} fontSize="40px">
-        Recommended Places
-      </Text>
-      
-      <Card maxW="sm" borderRadius='2xl' bg="brand.200">
-        <CardBody>
-          <Image
-            src="https://media.tenor.com/Bv37u6GJKkkAAAAd/bar-feelre.gif"
-            alt="BarButPic not load"
-            borderRadius="lg"
-          />
-          <Stack mt="6" spacing="3">
-            <Heading color="white" size="md">Living room Sofa</Heading>
-            <Text color="grey.200">
-              This sofa is perfect for modern tropical spaces, baroque inspired
-              spaces, earthy toned spaces and for people who love a chic design
-              with a sprinkle of vintage design.
+      <Box display="flex">
+        <SearchBar />
+        <NavLink to="/IDK_Path">
+          <Box
+            _hover={{ color: "brand.100" }}
+            pl="15px"
+            display={{ base: "block", lg: "none" }}
+          >
+            <FaMapMarkerAlt fontSize="25px" />
+            <Text fontSize="15px" transform="translateX(-3px)">
+              Map
             </Text>
-          </Stack>
-          <ButtonGroup mt={4} spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Buy now
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardBody>
-      </Card>
-      <Text mt={5} fontSize="40px">
-        Promotions
-      </Text>
-
-      <Card maxW="sm" borderRadius='2xl' bg="brand.200" _hover={{ bg: "brand.300" }}>
-        <CardBody>
+          </Box>
+        </NavLink>
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Box pt="10px" display={{ base: "none", lg: "block" }}>
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
+          Maps
+        </Text>
+        <NavLink to="/IDK_Path">
           <Image
-            src="https://i.pinimg.com/originals/b8/78/64/b87864c8958161004082c2ea16aee291.jpg"
-            alt="Promotion_Pic not load"
-            borderRadius="lg"
+            src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
+            alt="Map_Pic not load"
+            borderRadius="xl"
+            w="100%"
+            h="300px"
+            objectFit={"cover"}
           />
-        </CardBody>
-      </Card>
-      <Text mt={5} fontSize="40px">
-        Events
-      </Text>
+        </NavLink>
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Flex pt={5} align="center">
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
+          Recommended Places
+        </Text>
+        <NavLink to="/RecommendedPlaces" style={{ marginLeft: "auto" }}>
+          <Text
+            fontSize={{ base: "15px", lg: "20px" }}
+            color="grey.100"
+            textDecorationLine="underline"
+            _hover={{ textColor: "white" }}
+          >
+            See all
+          </Text>
+        </NavLink>
+      </Flex>
 
-      <Card maxW="sm" borderRadius='2xl' bg="brand.200">
-        <CardBody>
-          <Image
-            src="https://phuketeventcompany.b-cdn.net/wp-content/uploads/2021/06/Expert-Event-Management-Your-Trusted-Event-Planner-and-Organizer-in-Bangkok-1.jpg"
-            alt="Event_Pic not load"
-            borderRadius="lg"
-          />
-          <Stack mt="6" spacing="3">
-            <Text color="grey.200">Date that IDK</Text>
-            <Heading color="white" size="md">Living room Sofa</Heading>
-            <Text color="grey.200">@ Where IDK</Text>
-          </Stack>
-          <ButtonGroup mt={4} spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Buy now
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardBody>
-      </Card>
+      <Box overflow={"scroll"} display={"flex"} w={"100%"} pt={1}>
+        {R.filter((R) => R).map((R, index) => (
+          <Card
+            minW={{ base: "300px", lg: "350px" }}
+            width="sm"
+            borderRadius="xl"
+            bg="brand.200"
+            key={index}
+            marginRight="5"
+          >
+            <CardBody>
+              <Image
+                src={R.picR}
+                alt="BarButPic not load"
+                borderRadius="xl"
+                w="100%"
+                h="160px"
+              />
+              <Stack mt="4" spacing="3">
+                <Heading display={"flex"} color="white" size="md">
+                  {R.name}
+
+                <Text ml={"auto"}>5</Text>
+                <StarIcon display={"flex"} ml="1" />
+                </Heading>
+                
+                <Text color="grey.200">{R.description}</Text>
+              </Stack>
+            </CardBody>
+            <Flex
+              direction="row"
+              justify="space-between"
+              width="100%"
+              pl="5"
+              pr="5"
+              pb="5"
+            >
+              <NavLink to="/Temp_RestaurantDetail">
+              <Button
+                variant="outline"
+                textColor="white"
+                _hover={{
+                  textColor: "black",
+                  borderColor: "black",
+                  bgColor: "brand.100",
+                }}
+                w={{ base: "120px", lg: "145px" }}
+              >
+                More Info
+              </Button>
+              </NavLink>
+
+              <NavLink to="/IDK_PathRRRRR">
+              <Button
+                variant="solid"
+                textColor="white"
+                bgColor="brand.300"
+                _hover={{ bgColor: "brand.100", textColor: "black" }}
+                w={{ base: "120px", lg: "145px" }}
+              >
+                Reserve Now
+              </Button>
+              </NavLink>
+            </Flex>
+          </Card>
+        ))}
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <Flex pt={5} align="center">
+        <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
+          Promotions
+        </Text>
+        <NavLink to="/Promotions" style={{ marginLeft: "auto" }}>
+          <Text
+            fontSize={{ base: "15px", lg: "20px" }}
+            color="grey.100"
+            textDecorationLine="underline"
+            _hover={{ textColor: "white" }}
+          >
+            See all
+          </Text>
+        </NavLink>
+      </Flex>
+
+      <Box width={"100%"} pt={1}>
+        <Box overflowX="auto">
+          <Box display="flex">
+            {P.map((P, index) => (
+              <Card
+                key={index}
+                minW={"300px"}
+                maxW="sm"
+                minH={"150px"}
+                maxH="sm"
+                borderRadius="xl"
+                marginRight="5"
+              >
+                <NavLink to="/IDK_PathAAAAA">
+                  <Image
+                    src={P.picP}
+                    alt="Promotion_Pic not load"
+                    borderRadius="xl"
+                    w="100%"
+                    maxW="300px"
+                    h="200px"
+                  />
+                </NavLink>
+              </Card>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
       <Footer_HomePage />
     </Box>
-    
   );
 };
