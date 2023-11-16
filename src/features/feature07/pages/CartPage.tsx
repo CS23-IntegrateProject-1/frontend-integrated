@@ -1,18 +1,13 @@
 import React from 'react';
 import { useState,useEffect } from 'react';
 import { Box,HStack,Flex, VStack} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
-// const fetchCartItems = async () => {
-//   const userId = 4;
-//   const response = await Axios.get(`/feature7/showCart?userId=${userId}`); 
-//   return response.data.data;
-// };
 const fetchCartItems = async () => {
   const userId = 4;
   try {
@@ -30,6 +25,8 @@ const fetchCartItems = async () => {
 export const CartPage = () => {
 
     const navigate = useNavigate();
+    const { venueId } = useParams();
+    console.log(venueId);
 
     const { data: cartItems, isLoading, isError } = useQuery(["cartItem"], () => fetchCartItems());
 
@@ -50,11 +47,13 @@ export const CartPage = () => {
           cartItems.map((item, index)=> (
             <SecondCartCard
               key={index}
+              id={item.menuId !== null ? item.menuId : item.setId}
               foodName={item.name}
               description={item.description}
               price={item.price}
               imageUrl={item.imageUrl}
               amount={item.quantity}
+              type={item.menuId !== null ? 'Menu' : 'Set'}
             />
           ))}
           {/* <SecondCartCard /> */}
@@ -71,7 +70,7 @@ export const CartPage = () => {
             
         <ButtonComponent 
         text="Order"
-        onClick={() => navigate("/venue/:venueId/receipt")}
+        onClick={() => navigate(`/venue/${venueId}/order`)}
          />
          
       </Box>
