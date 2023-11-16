@@ -18,6 +18,7 @@ import { BiImageAdd } from "react-icons/Bi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { VoucherType } from "../../components/businessVoucherCom/VoucherType";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface VoucherType {
   voucherName: string;
@@ -63,6 +64,11 @@ export const VoucherCreatePage = () => {
       minimum: 0,
     },
   });
+
+  const navigate = useNavigate();
+  const handleClickSubmit = () => {
+    navigate("/voucher/status");
+  };
 
   const handleTypeChange = (tab: string) => {
     setVoucher((prevVoucher) => ({
@@ -243,6 +249,7 @@ export const VoucherCreatePage = () => {
             color={"white"}
             borderColor={""}
             _hover={{ bgColor: "brand.300" }}
+            onClick={handleClickSubmit}
           >
             Submit
           </Button>

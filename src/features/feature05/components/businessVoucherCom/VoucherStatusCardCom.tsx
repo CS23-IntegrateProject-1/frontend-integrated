@@ -1,7 +1,7 @@
 import { Box, Image } from "@chakra-ui/react";
 import { FC } from "react";
 
-export const AdvertisementStatusCardIPG: FC = () => {
+export const VoucherStatusCardCom: FC = () => {
   return (
     <Box
       display={"flex"}
@@ -20,17 +20,17 @@ export const AdvertisementStatusCardIPG: FC = () => {
       >
         <Image
           objectFit={"cover"}
-          src="https://cms.dmpcdn.com/travel/2020/03/12/7b5fa580-6418-11ea-8884-dfd81909e81a_original.jpg"
+          src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-food-voucher-template-design-3f760e8c846b211d1f48bbbdc1364386_screen.jpg?ts=1588142046"
         />
         <Box
           pos={"absolute"}
-          bg={"blue"}
+          bg={"green"}
           bottom={2}
           right={2}
           borderRadius={10}
           px={"10px"}
         >
-          In progess
+          Complete
         </Box>
       </Box>
     </Box>

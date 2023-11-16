@@ -9,14 +9,13 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/Bi";
-import { AiOutlineClose } from "react-icons/Ai";
+import { AiOutlineClose } from "react-icons/ai";
 
 export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()

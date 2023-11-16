@@ -23,7 +23,7 @@ import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/Bi";
-import { AiOutlineClose } from "react-icons/Ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
   
 interface AdvertisementProps {
@@ -330,7 +330,7 @@ export const AdvertisementRequestPage = () => {
         <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
-          <ModalHeader mt={3}>The request has been approved</ModalHeader>
+          <ModalHeader mt={3}>Submit advertisement</ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
             <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>

@@ -8,10 +8,14 @@ import {
   TabPanel,
   Box,
   Stack,
+  IconButton,
+  Icon,
 } from "@chakra-ui/react";
 import { AdvertisementStatusCard } from "../../components/businessAdvertisementCom/AdvertisementStatusCard";
 import { AdvertisementStatusCardIPG } from "../../components/businessAdvertisementCom/AdvertisementStatusCardIPG";
 import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
+import { FaPlusCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -23,6 +27,10 @@ import { AdvertisementStatusCardCom } from "../../components/businessAdvertiseme
 export const AdvertisementStatusPage: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [data, setData] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const handleClickCreate = () => {
+    navigate("/advertisement/request");
+  };
 
   useEffect(() => {
     const fetchTabData = async () => {
@@ -92,11 +100,20 @@ export const AdvertisementStatusPage: React.FC = () => {
             </TabPanel>
           ))}
         </TabPanels> */}
-
       </Tabs>
       <AdvertisementStatusCard />
       <AdvertisementStatusCardIPG />
       <AdvertisementStatusCardCom />
+
+      <Box pos={"absolute"} top={680} bottom={10} right={5}>
+        <Icon
+          as={FaPlusCircle}
+          w={"50px"}
+          h={"50px"}
+          color={"#5F0DBB"}
+          onClick={handleClickCreate}
+        ></Icon>
+      </Box>
     </Box>
   );
 };
