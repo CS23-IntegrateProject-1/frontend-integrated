@@ -1,13 +1,7 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
-import { RootLayout } from "../layouts/RootLayout";
-import { AuthRoutes } from "../features/feature02/AuthRoutes";
+// import { Login } from "../pages/Login";
 
-export const PublicRoutes = createBrowserRouter([
-	{ path: "/", element: <Navigate to={"/login"} /> },
-	{
-		path: "/",
-		element: <RootLayout />,
-		children: [...AuthRoutes()]
-	},
-	{ path: "/*", element: <Navigate to={"/login"} /> }
-]);
+export const PublicRoutes = () => {
+    return [
+        // { path: "/", element: <Home /> },
+      ];
+}
