@@ -118,7 +118,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
       <Card backgroundColor={colors.brand[200]} pl={2} pr={2}>
         <CardBody>
           <Center>
-            <IconButton
+            {/* <IconButton
               isRound
               variant="unstyled"
               aria-label="Done"
@@ -133,7 +133,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <HeartIcon isLiked={liked} />
               </Box>
-            </IconButton>
+            </IconButton> */}
             <Image
               src={props.image}
               minWidth={320}

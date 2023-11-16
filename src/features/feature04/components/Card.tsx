@@ -94,7 +94,7 @@ const Cards = (props: CardProps) => {
   const [liked, setLiked] = useState(false);
 
   const generateRandomNumber = () => {
-    return (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1); // Generates a number with two decimal places
+    return (Math.random() * (5.0 - 4.0) + 3.0).toFixed(1); // Generates a number with two decimal places
   };
 
   // const descriptionToShow = showFullDescription
@@ -121,7 +121,7 @@ const Cards = (props: CardProps) => {
       <Card maxW="sm" backgroundColor={colors.brand[200]} pl={4} pr={4}>
         <CardBody>
           <Center>
-            <IconButton
+            {/* <IconButton
               isRound
               variant="unstyled"
               aria-label="Done"
@@ -136,7 +136,7 @@ const Cards = (props: CardProps) => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <HeartIcon isLiked={liked} />
               </Box>
-            </IconButton>
+            </IconButton> */}
             <Image
               src={props.image}
               minWidth={320}
