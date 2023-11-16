@@ -1,0 +1,32 @@
+import React from 'react';
+import { FC} from "react";
+
+interface Cart {
+  width: number;
+  height: number;
+  color: string;
+}
+
+const Cart: FC = ( ) => (
+    <svg  viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: '50%' }}>
+    <g filter="url(#filter0_d_535_11627)">
+    <circle cx="47.5" cy="43.5" r="43.5" fill="#A533C8"/>
+    </g>
+    <path d="M37.7084 55.2501C35.5542 55.2501 33.8113 57.0126 33.8113 59.1667C33.8113 61.3209 35.5542 63.0834 37.7084 63.0834C39.8625 63.0834 41.625 61.3209 41.625 59.1667C41.625 57.0126 39.8625 55.2501 37.7084 55.2501ZM57.2917 55.2501C55.1375 55.2501 53.3946 57.0126 53.3946 59.1667C53.3946 61.3209 55.1375 63.0834 57.2917 63.0834C59.4459 63.0834 61.2084 61.3209 61.2084 59.1667C61.2084 57.0126 59.4459 55.2501 57.2917 55.2501ZM54.4521 45.4584C55.9209 45.4584 57.2134 44.6555 57.8792 43.4413L64.89 30.7317C65.0551 30.4349 65.1398 30.1001 65.1357 29.7605C65.1316 29.4209 65.0389 29.0883 64.8668 28.7955C64.6947 28.5027 64.4491 28.2599 64.1544 28.0912C63.8596 27.9224 63.5259 27.8336 63.1863 27.8334H34.203L32.3621 23.9167H25.9584V27.8334H29.875L36.925 42.6972L34.2813 47.4755C32.8517 50.0997 34.7317 53.2917 37.7084 53.2917H61.2084V49.3751H37.7084L39.8625 45.4584H54.4521ZM36.0634 31.7501H59.8571L54.4521 41.5417H40.7046L36.0634 31.7501Z" fill="#DEBEF6"/>
+    <defs>
+    <filter id="filter0_d_535_11627" x="0" y="0" width="95" height="95" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+    <feOffset dy="4"/>
+    <feGaussianBlur stdDeviation="2"/>
+    <feComposite in2="hardAlpha" operator="out"/>
+    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_535_11627"/>
+    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_535_11627" result="shape"/>
+    </filter>
+    </defs>
+    </svg>
+    
+);
+
+export default Cart;
