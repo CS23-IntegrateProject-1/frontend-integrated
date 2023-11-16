@@ -27,7 +27,6 @@ export const ArticlePage = () => {
     // const response: AxiosResponse<User[]> = await Axios.get("/users");
     // return response.data;
     try {
-      console.log(articleId);
       const article = await Axios.get(
         `/feature11/fetchArticleDetail/${articleId}`
       );

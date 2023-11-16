@@ -6,15 +6,16 @@ import { useParams } from "react-router-dom";
 
 export const CommentInput = () => {
   const [content, setContent] = useState("");
-  const id = useParams();
+  // const { articleId } = useParams();
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
   const handleCreateComment = () => {
-    Axios.post("/api/comment", {
+    // console.log(articleId)
+    Axios.post("/feature11/addComment", {
       content: content,
-      articleId: id,
+      articleId: 1,
     })
       .then((res) => {
         console.log(res);

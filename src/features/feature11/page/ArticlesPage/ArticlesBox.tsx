@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import { Text, Image } from "@chakra-ui/react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiComment } from "react-icons/Bi";
@@ -59,7 +59,13 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       </Box>
       <Box display={"flex"} alignSelf={"flex-start"}>
         <Box className="Like" display="flex" mr={"1em"}>
-          <AiOutlineHeart />
+          <IconButton
+            variant={"link"}
+            fontSize={"2xl"}
+            color={"white"}
+            aria-label="unlike"
+            icon={<AiOutlineHeart />}
+          />{" "}
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
             {props.Like}
           </Text>

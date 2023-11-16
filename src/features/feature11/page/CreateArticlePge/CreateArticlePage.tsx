@@ -210,16 +210,16 @@ export const CreateArticlePage = () => {
           aria-label="add tag"
           icon={<IoAddCircleSharp />}
         />
-        {/* <Input type="text"/> */}
+        <Input type="text" size={"sm"}/>
       </Box>
 
-      <FormControl display={"flex"} justifyContent={"center"}>
-        <Box w={"150px"} mr={"0.5em"}>
+      <FormControl display={"flex"} justifyContent={"center"} >
+        <Box  w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
             Select Venue Names
           </FormLabel>
           <Select
-            size={"xs"}
+            size={"sm"}
             placeholder="Select Venue"
             onChange={(e) => handleSelectVenue(e.target.value)}
           >
@@ -237,6 +237,7 @@ export const CreateArticlePage = () => {
           overflowX={"auto"} // Enable horizontal scrolling
           maxW={"calc(100% - 150px)"} // Limit maximum width
           alignSelf={"flex-end"}
+          
         >
           {selectedVenues.map((venue) => (
             <Tag
