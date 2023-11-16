@@ -26,8 +26,11 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
     onClick={onClick} >
       
     <Flex justifyContent="center" >
-      <Image src="/src/features/feature07/assets/test.jpg"
-      alt="integrate" 
+      <Image 
+      src="/src/features/feature07/assets/test.jpg"
+      // alt="integrate" 
+      // src = {imageUrl}
+      alt = {foodName}
       objectFit="cover" 
       mt={0.5}
       width="140px" 
@@ -41,20 +44,20 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >
-          food Name Integrate
-          {/* {foodName} */}
+          {/* food Name Integrate */}
+          {foodName}
         </Text>
         <Text {...textStyles.body2} color="white"
          lineHeight="1.8" >
-          Description Integrate kasjfakldf
+          {/* Description Integrate kasjfakldf
           asflkajsflk 
-          dkASJDH
-          {/* {description} */}
+          dkASJDH */}
+          {description}
         </Text>
         <Text {...textStyles.body3} color="white"
          lineHeight="2" >
-          Price Integrate
-          {/* {{`${price.toFixed(2)} baht`}} */}
+          {/* Price Integrate */}
+          {`${price} baht`}
         </Text>
       </Box>
     </VStack>

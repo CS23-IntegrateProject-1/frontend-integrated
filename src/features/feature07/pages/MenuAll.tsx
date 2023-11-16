@@ -8,11 +8,57 @@ import { CustomCartIcon } from "../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
 import { RButton } from "../component/RButton";
 
+import { Axios } from "../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+
+interface Menu {
+  menuId: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  onClick?: () => void;
+}
+interface SetMenu {
+  setId: number;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  onClick?: () => void;
+}
+
+// const fetchMenuData =async (venueId: string) => {
+//   try {
+//     const response = await Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`);
+//     return response.data;
+//   } catch (error) {
+//     throw new Error(`Error fetching menu data: ${error.message}`);
+//   }
+// }
+
+const fetchMenuAndSetData = async (venueId: string) => {
+    const [menuResponse, setResponse] = await Promise.all([
+      Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
+      Axios.get<SetMenu[]>(`/feature7/getSetsByVenueId/${venueId}`),
+    ]);
+
+    const menuData = menuResponse.data;
+    const setMenuData = setResponse.data;
+
+    return { menuData, setMenuData };
+};
+
 export const MenuAll = () => {
   
   const [buttonColor, setButtonColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
+  const { venueId } = useParams();
+  //console.log(venueId);
+
+  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
 
   const handleButtonClick = (newSubtitle : string) => {
     setSubtitle(newSubtitle);
@@ -22,31 +68,86 @@ export const MenuAll = () => {
       setButtonColor("brand.100");
     }
   };
-  const handleMenuClick = () => {
-    navigate("/venue/yourVenueId/menudetail");
+  const handleMenuClick = (type: string, menuid: string) => {
+    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
+    console.log("Clicked menu. Menu ID:", menuid);
   }  
   const handleCartClick = () => {
-    navigate("/venue/yourVenueId/cart"); 
+    navigate(`/venue/${venueId}/cart`); 
   };
   useEffect(() => {
     handleButtonClick("All Menu");
   }, []);
 
   const renderMenuCards = () => {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+
+    if (isError) {
+      return <p>Error loading data</p>;
+    }
+
+    const { menuData, setMenuData } = data;
+
     if (subtitle === "All Menu") {
-      return (
-        <VStack mt={4} overflowY="auto" maxHeight="400px">
-          <MenuCard onClick={handleMenuClick} />
-        </VStack>
-      );
+      if (menuData && menuData.length > 0) {
+        return (
+          <VStack mt={4} overflowY="auto" maxHeight="400px">
+            {menuData.map((menu) => (
+              <MenuCard
+              key={menu.menuId}
+              id={menu.menuId}
+              foodName={menu.name}
+              description={menu.description}
+              price={menu.price}
+              imageUrl={menu.image}
+              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
+            />
+            ))}
+            {/* {menuData.map((menu) => {
+          console.log("Rendering menu item:", menu);
+          
+          if (!menu.menuId) {
+            console.error("Menu ID is undefined or null for the following menu item:", menu);
+          }
+
+          return (
+            <MenuCard
+              key={menu.menuId}
+              id={menu.menuId}
+              foodName={menu.name}
+              description={menu.description}
+              price={menu.price}
+              imageUrl={menu.image}
+              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
+            />
+          );
+        })} */}
+          </VStack>
+        );
+      }
     } else if (subtitle === "Set Menu") {
-      return (
-        <VStack mt={4} overflowY="auto" maxHeight="400px">
-          <SetMenuCard onClick={handleMenuClick} />
-        </VStack>
-      );
+      if (setMenuData && setMenuData.length > 0) {
+        return (
+          <VStack mt={4} overflowY="auto" maxHeight="400px">
+            {setMenuData.map((set) => (
+              <SetMenuCard
+              key={set.setId}
+              id={set.setId}
+              foodName={set.name}
+              description={set.description}
+              price={set.price}
+              imageUrl={set.image_url}
+              onClick={() => handleMenuClick("Set", `${set.setId}`)}
+            />
+            ))}
+          </VStack>
+        );
+      }
     }
   };
+  
   return (
     <Box>
     <Flex direction="column" align="center" justify="center">
@@ -96,7 +197,7 @@ export const MenuAll = () => {
         borderRadius="5px">
             
         <ButtonComponent text="Order Status"
-        onClick={() => navigate("/venue/:venueId/order")} />
+        onClick={() => navigate(`/venue/${venueId}/order`)} />
          
       </Box>
       </Flex>

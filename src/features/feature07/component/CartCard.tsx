@@ -40,7 +40,7 @@ export const CartCard: FC = () => {
       width="140px" 
       height="110px"
       borderRadius="5px"
-      poaition="absolute"
+      position="relative"
       />
     </Flex>
    
