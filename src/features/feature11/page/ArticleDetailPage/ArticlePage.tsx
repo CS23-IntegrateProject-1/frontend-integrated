@@ -17,45 +17,26 @@ import { CommentModal } from "./CommentModal";
 import { mockArticle } from "./mockArticle";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-
-interface ArticleComment {
-  commentId: string;
-  commentContent: string;
-  commentDate: string;
-  likedByCreator: boolean;
-  commentWriterUsername: string;
-}
-
-interface ArticlePageProps {
-  articleId: string;
-  articleName: string;
-  articleContent: string;
-  writerUsername: string;
-  writerName: string;
-  writerProfilePicture: string;
-  articlePicture: string[];
-  articleLikes: number;
-  articleComments: ArticleComment[];
-  dateCreated: string;
-}
-
-const fetchArticle = async (): Promise<ArticlePageProps> => {
-  // const response: AxiosResponse<User[]> = await Axios.get("/users");
-  // return response.data;
-  try {
-    // const id = useParams();
-    // const comments = await Axios.post("/getArticleComment", {
-    //   articleId: id,
-    // });
-    return mockArticle;
-  } catch (error) {
-    console.error("Error fetching article:", error);
-    throw new Error("Failed to fetch article");
-  }
-};
+import { ArticlePageProps } from "./ArticleTypes";
 
 export const ArticlePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {articleId} = useParams();
+
+  const fetchArticle = async (): Promise<ArticlePageProps> => {
+    // const response: AxiosResponse<User[]> = await Axios.get("/users");
+    // return response.data;
+    try {
+      const article = await Axios.get(
+        `/feature11/fetchArticleDetail/${articleId}`
+      );
+      return article.data;
+      // return mockArticle;
+    } catch (error) {
+      console.error("Error fetching article:", error);
+      throw new Error("Failed to fetch article");
+    }
+  };
 
   // const result = useQuery(fetchArticle);
   const article = useQuery({ queryKey: ["article"], queryFn: fetchArticle });
@@ -69,13 +50,13 @@ export const ArticlePage = () => {
 
   return (
     <Box>
-      {article.data?.articleName}
+      {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
         <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box>
         <Box>
-          <Text style={TextStyle.h3}>{article.data?.writerUsername}</Text>
-          <Text style={TextStyle.body3}>{article.data?.dateCreated}</Text>
+          <Text style={TextStyle.h3}>{article.data?.author_name}</Text>
+          <Text style={TextStyle.body3}>{article.data?.created_date}</Text>
         </Box>
       </Box>
       <Box
@@ -86,7 +67,7 @@ export const ArticlePage = () => {
         bg={"red"}
       ></Box>
       <Box minH={"80px"} mb={"2em"}>
-        <Text style={TextStyle.body2}>{article.data?.articleContent}</Text>
+        <Text style={TextStyle.body2}>{article.data?.content}</Text>
       </Box>
       <Flex mb={"2em"} justifyContent={"space-between"} h={"100px"}>
         <Flex>
@@ -100,7 +81,7 @@ export const ArticlePage = () => {
             />
             {/* <IconButton variant={"link"} fontSize={"3xl"} color={"white"} aria-label="unlike" icon={<AiFillHeart/>} /> */}
             <Text display={"inline"} style={TextStyle.body3}>
-              {article.data?.articleLikes}
+              {article.data?.Like}
             </Text>
           </Flex>
           <Flex alignItems={"center"}>
@@ -113,7 +94,7 @@ export const ArticlePage = () => {
               onClick={onOpen}
             />
             <Text display={"inline"} style={TextStyle.body3}>
-              {article.data?.articleComments.length}
+              {article.data?.CommentCount}
             </Text>
           </Flex>
         </Flex>
@@ -126,11 +107,14 @@ export const ArticlePage = () => {
           icon={<FiSend />}
         />
       </Flex>
-      <ArticleFooter />
+      <ArticleFooter author_name={article.data?.author_name || ""}/>
       <CommentModal
         isOpen={isOpen}
         onClose={onClose}
-        comments={article.data?.articleComments || []}
+        // comments={
+        //   // article.data?.articleComments
+        //   0
+        //    || []}
       />
     </Box>
   );
