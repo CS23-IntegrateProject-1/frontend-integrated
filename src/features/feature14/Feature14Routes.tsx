@@ -1,10 +1,13 @@
 import Dashboard from "./admin/dashboard";
+import AccountEditPage from "./admin/account/editaccount";
+import AccountSetupPage from "./admin/account/setupaccount";
+import RequestPage from "./admin/account/requestapproval";
 export const Feature14Routes = () => {
   return [
     { path: "/admin/dashboard", element: <Dashboard />},
-    { path: "/admin/account/edit", element: "ElementPlaceHolder" },
-    { path: "/admin/account/setup", element: "ElementPlaceHolder" },
-    { path: "/admin/approval", element: "ElementPlaceHolder" },
+    { path: "/admin/account/edit", element: <AccountEditPage /> },
+    { path: "/admin/account/setup", element: <AccountSetupPage /> },
+    { path: "/admin/approval", element: <RequestPage /> },
     { path: "/admin/approval/:approvalId", element: "ElementPlaceHolder" },
     {
       path: "/admin/approval/:approvalId/reject",
