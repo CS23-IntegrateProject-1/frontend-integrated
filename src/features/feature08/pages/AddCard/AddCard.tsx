@@ -34,7 +34,8 @@ type AddCard = {
   bank : string,
   cvc : string,
   exp : string,
-  userId : string,
+  userId? : string,
+  venueId? : string
 }
 
 export const AddCard: FC<ButtonProps> = ({
@@ -135,22 +136,45 @@ export const AddCard: FC<ButtonProps> = ({
         console.log("card is not valid");
       }
     };
-
-    const handleFormSubmit = async () => {
+    // creditCardId : string,
+    // card_no : string,
+    // name : string,
+    // country : string,
+    // bank : string,
+    // cvc : string,
+    // exp : string,
+    // userId? : string,
+    // venueId? : string
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault(); // Prevent default form submission behavior
+    
       try {
-        const response = await axios.get(
-          "http://localhost:8080/feature8/creditcard/venue"
+        const response = await axios.post(
+          "http://localhost:8080/feature8/add_creditcard",
+          {
+            // Need to add extra information 
+            // 1. Make more input field for country , bank, 
+            // 2. Pull userId or venueId from somewhere?
+            card_no: cardNumber,
+            name: name,
+            exp: expiryDate,
+            cvc: cvc,
+            country: country,
+            bank: bank,
+            userId?: ,
+            venueId?: 
+          }
         );
-  
+    
         // Handle the response data as needed
-        console.log("GET response:", response.data);
-  
+        console.log("POST response:", response.data);
+    
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
       } catch (error) {
-        console.error("GET error:", error);
+        console.error("POST error:", error);
       }
-    }
+    };
     
     const buttonColor = useColorModeValue("blue.500", "blue.200");
   return (
@@ -222,7 +246,7 @@ export const AddCard: FC<ButtonProps> = ({
 
         <AbsoluteCenter textColor={"white"} px="4">Card details</AbsoluteCenter>
 
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} >
           <FormControl isRequired mb={4} marginTop={10} width={"70%"}>
             <Input
               type="text"
