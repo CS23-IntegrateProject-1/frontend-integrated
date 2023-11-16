@@ -54,6 +54,7 @@ export const MenuAll = () => {
   
   const [allMenuButtonColor, setAllMenuButtonColor] = useState("brand.200");
   const [setMenuButtonColor, setSetMenuButtonColor] = useState("brand.400");
+  const [borderColor, setBorderColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
   const { venueId } = useParams();
@@ -66,7 +67,7 @@ export const MenuAll = () => {
       setSubtitle("All Menu");
       setAllMenuButtonColor("brand.200");
       setSetMenuButtonColor("brand.400");
-      
+      setBorderColor("brand.200");
     }
   };
 
@@ -75,7 +76,7 @@ export const MenuAll = () => {
       setSubtitle("Set Menu");
       setAllMenuButtonColor("brand.400");
       setSetMenuButtonColor("brand.200");
-      
+      setBorderColor("brand.200");
     }
   };
   const handleMenuClick = (type: string, menuid: string) => {
@@ -164,6 +165,7 @@ export const MenuAll = () => {
       <HStack spacing={4}>
       <RButton 
         bgColor={allMenuButtonColor}
+        borderColor={borderColor}
         text={"All Menu"}
         textStyle={"h3"}
         width={"110px"}
@@ -172,6 +174,7 @@ export const MenuAll = () => {
          />
          <RButton 
         bgColor={setMenuButtonColor}
+        borderColor={borderColor}
         text={"Set Menu"}
         textStyle={"h3"}
         width={"110px"}

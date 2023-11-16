@@ -4,6 +4,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 
 interface BProps {
   text: string;
+  bgColor?: string;
   colorScheme?: string;
   textColor?: string;
   borderColor?: string;
@@ -22,6 +23,7 @@ interface BProps {
 
 export const RButton: FC<BProps> = ({
   text,
+  bgColor,
   colorScheme="brand",
   textColor,
   borderColor,
@@ -39,11 +41,12 @@ export const RButton: FC<BProps> = ({
   return (
     <Button
       colorScheme={colorScheme}
+      bgColor={bgColor ? bgColor : "brand.200"}
       width={!width ? "140px" : width}
       height={!height ? "40px" : height}
       variant={variant}
       color={!textColor ? "white" : textColor}
-      borderColor={!borderColor ? "" : borderColor}
+      borderColor={borderColor ? borderColor: "brand.200"}
       borderRadius={borderRadius}
       border={border}
       _hover={{ bg: hoverBgColor, borderColor: hoverBorderColor }}
