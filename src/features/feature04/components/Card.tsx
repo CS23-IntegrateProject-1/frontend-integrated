@@ -33,6 +33,7 @@ interface CardProps {
   image: string;
   name: string;
   description: string;
+  distance: number;
 }
 
 const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
@@ -93,12 +94,18 @@ const Cards = (props: CardProps) => {
   const [liked, setLiked] = useState(false);
 
   const generateRandomNumber = () => {
-    return (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1); // Generates a number with two decimal places
+    return (Math.random() * (5.0 - 4.0) + 3.0).toFixed(1); // Generates a number with two decimal places
   };
+
+  // const descriptionToShow = showFullDescription
+  //   ? props.description
+  //   : `${props.description.slice(0, 50)}...`;
 
   const descriptionToShow = showFullDescription
     ? props.description
-    : `${props.description.slice(0, 50)}...`;
+    : typeof props.description === "string"
+    ? `${props.description.slice(0, 50)}...`
+    : ""; // Handle the case where props.description is not a string
 
   const handleLikeClick = () => {
     setLiked(!liked);
@@ -114,7 +121,7 @@ const Cards = (props: CardProps) => {
       <Card maxW="sm" backgroundColor={colors.brand[200]} pl={4} pr={4}>
         <CardBody>
           <Center>
-            <IconButton
+            {/* <IconButton
               isRound
               variant="unstyled"
               aria-label="Done"
@@ -129,7 +136,7 @@ const Cards = (props: CardProps) => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <HeartIcon isLiked={liked} />
               </Box>
-            </IconButton>
+            </IconButton> */}
             <Image
               src={props.image}
               minWidth={320}
@@ -167,7 +174,7 @@ const Cards = (props: CardProps) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    10.3 km
+                    {props.distance}
                   </Text>
                 </Box>
 

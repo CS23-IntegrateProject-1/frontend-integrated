@@ -1,70 +1,92 @@
-import React from 'react';
-import { GoogleMap, Marker, InfoWindow, useJsApiLoader} from '@react-google-maps/api';
-import { useQuery } from '@tanstack/react-query';
-//map settings
-import { containerStyle,center,options } from './setting.ts';
+import React, { useEffect, useState } from "react";
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  useJsApiLoader,
+} from "@react-google-maps/api";
+import { useQuery } from "@tanstack/react-query";
 
-//currentLocation
-import CurrentLocation from './CurrentLocation.tsx';
+// map settings
+import { containerStyle, center, options } from "./setting.ts";
 
-//API calss
-import { fetchNearbyPlaces } from './api.ts';
+// currentLocation
+import CurrentLocation from "./CurrentLocation.tsx";
 
-//image
-import plate from '../../images/Plate.svg';
-import cinema from '../../images/cinema.svg';
-import beer from '../../images/beer.svg';
-// Styles 
-import { Wrapper, LoadingView } from './map.styles.ts';
+// API class
+import { fetchNearbyPlaces } from "./api.ts";
 
+// image
+import plate from "../../images/Plate.svg";
+import cinema from "../../images/cinema.svg";
+import beer from "../../images/beer.svg";
 
-export type MarkerType ={
+// Styles
+import { Wrapper, LoadingView } from "./map.styles.ts";
+
+export type MarkerType = {
   id: string;
   address: string;
   location: google.maps.LatLngLiteral;
   name: string;
-  phone_number:string;
+  phone_number: string;
   website: string;
-}
-
+  distance: number;
+};
 
 const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY" //API KEY
-  })
-
-  //save map in ref if we want to access the map
-  const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
-  
-  const[clickedPos,setClickedPos] = React.useState<google.maps.LatLngLiteral>({} as google.maps.LatLngLiteral)
-  const [selectedMarker, setSelectedMarker] = React.useState<MarkerType>({} as MarkerType);
-
-  const {
-    data: nearbyPositions,
-  } = useQuery([clickedPos.lat, clickedPos.lng, type], () => fetchNearbyPlaces(clickedPos.lat, clickedPos.lng, type), {
-    enabled: !!clickedPos.lat,
-    refetchOnWindowFocus: false
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyABaN7gdphOHIg6xnrYtPAtyChroRZlyRs", // replace with your API key
   });
 
-  const moveTo = (position: google.maps.LatLngLiteral) => {
-    if(mapRef.current){
-      mapRef.current.panTo({lat: position.lat, lng: position.lng});
-      mapRef.current.setZoom(16.5);
-      setClickedPos(position)
+  const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
+  const [clickedPos, setClickedPos] = React.useState<google.maps.LatLngLiteral>(
+    {} as google.maps.LatLngLiteral
+  );
+  const [selectedMarker, setSelectedMarker] = React.useState<MarkerType>(
+    {} as MarkerType
+  );
+  const [savedData, setSavedData] = useState<string | null>(null);
+
+  // Retrieve data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("nearbyPositions");
+    setSavedData(storedData);
+  }, []);
+
+  const { data: nearbyPositions } = useQuery(
+    [clickedPos.lat, clickedPos.lng, type],
+    () => fetchNearbyPlaces(clickedPos.lat, clickedPos.lng, type),
+    {
+      enabled: !!clickedPos.lat,
+      refetchOnWindowFocus: false,
     }
-  } 
+  );
 
+  // Save the JSON data to localStorage whenever nearbyPositions changes
+  useEffect(() => {
+    if (nearbyPositions) {
+      localStorage.setItem("nearbyPositions", JSON.stringify(nearbyPositions));
+    }
+    window.dispatchEvent(new Event("storage"));
+  }, [nearbyPositions]);
   console.log(nearbyPositions);
+  const moveTo = (position: google.maps.LatLngLiteral) => {
+    if (mapRef.current) {
+      mapRef.current.panTo({ lat: position.lat, lng: position.lng });
+      mapRef.current.setZoom(16.5);
+      setClickedPos(position);
+    }
+  };
 
-
-  const onLoad = (map: google.maps.Map<Element> | null):void => {
+  const onLoad = (map: google.maps.Map<Element> | null): void => {
     mapRef.current = map;
-  }
+  };
 
-  const onUnMount= ():void => {
+  const onUnMount = (): void => {
     mapRef.current = null;
-  }
+  };
 
   const onMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
@@ -73,14 +95,52 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
     }
   };
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      console.log("Storage changed");
+      window.location.reload();
+    };
+
+    // Trigger storage event manually for testing
+    window.dispatchEvent(new Event("storage"));
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const onMarkerClick = (marker: MarkerType) => {
-    console.log('Marker clicked:', marker);
     setSelectedMarker(marker);
   };
 
   if (!isLoaded) return <LoadingView>Loading...</LoadingView>;
 
-  const iconUrl = type === 'restaurant' ? plate : type === 'bar' ? beer : type === 'cinema' ? cinema : cinema;
+  const iconUrl =
+    type === "restaurant"
+      ? plate
+      : type === "bar"
+      ? beer
+      : type === "cinema"
+      ? cinema
+      : cinema;
+
+  const markers = savedData
+    ? JSON.parse(savedData).map((marker: MarkerType) => (
+        <Marker
+          key={marker.id}
+          position={marker.location}
+          onClick={() => onMarkerClick(marker)}
+          icon={{
+            url: iconUrl,
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(15, 15),
+            scaledSize: new window.google.maps.Size(35, 35),
+          }}
+        />
+      ))
+    : [];
 
   return (
     <Wrapper>
@@ -93,29 +153,20 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
         onLoad={onLoad}
         onUnmount={onUnMount}
         onClick={onMapClick}
-        >
-           {clickedPos.lat ? <Marker position={clickedPos} /> : null}
-           {nearbyPositions?.map(marker => (
-            <Marker
-              key={marker.id}
-              position={marker.location}
-              onClick={() => onMarkerClick(marker)}
-              icon={{
-                url: iconUrl,
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(35, 35)
-              }}
-            />
-        ))}
-         {selectedMarker.location && (
-          <InfoWindow position={selectedMarker.location} onCloseClick={() => setSelectedMarker({} as MarkerType)}>
-            <div style={{ color: 'black' }}>
+      >
+        {clickedPos.lat ? <Marker position={clickedPos} /> : null}
+        {markers}
+        {selectedMarker.location && (
+          <InfoWindow
+            position={selectedMarker.location}
+            onCloseClick={() => setSelectedMarker({} as MarkerType)}
+          >
+            <div style={{ color: "black" }}>
               <h3>{selectedMarker.name}</h3>
             </div>
           </InfoWindow>
         )}
-        </GoogleMap>
+      </GoogleMap>
     </Wrapper>
   );
 };
