@@ -120,6 +120,7 @@ export const MyReservation = () => {
             background: "#A533C8",
             borderColor: "none",
             transitionDuration: "1s",
+            border: "none",
           }}
           _hover={{}}
           onClick={() => setStatus("Pending")}
@@ -143,6 +144,7 @@ export const MyReservation = () => {
             background: "#A533C8",
             borderColor: "none",
             transitionDuration: "1s",
+            border: "none",
           }}
           _hover={{}}
           onClick={() => setStatus("Check_in")}
@@ -166,6 +168,7 @@ export const MyReservation = () => {
             background: "#A533C8",
             borderColor: "none",
             transitionDuration: "1s",
+            border: "none",
           }}
           _hover={{}}
           onClick={() => setStatus("Check_out")}
@@ -188,6 +191,7 @@ export const MyReservation = () => {
             background: "#A533C8",
             borderColor: "none",
             transitionDuration: "1s",
+            border: "none",
           }}
           _hover={{}}
           onClick={() => setStatus("Cancelled")}
