@@ -1,58 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, useMediaQuery, Input, Checkbox } from '@chakra-ui/react';
+import { Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react';
 import Chart from 'chart.js/auto';
-import { FaAngleRight } from 'react-icons/fa';
+import { Input, Button, useMediaQuery } from '@chakra-ui/react';
 import SortingModal from '../components/SortingModal';
 import FilteringModal from '../components/FilteringModal';
+import RestaurantCard from '../components/RestaurantCard';
 
 const buttonWidthPercentage = '90%';
 const chartWidthPercentage = '30%';
 const cutoutPercentage = 25;
 const chartMarginPercentage = '15%';
 
-const bulletStyle = {
-  listStyle: 'none',
-};
-
-const RestaurantCard = ({ name, type }) => {
-  return (
-    <Box
-      backgroundColor="#200944"
-      color="white"
-      padding="20px"
-      margin="10px 0"
-      borderRadius="8px"
-      border="1px solid #763FAF"
-      display="flex"
-      alignItems="center"
-    >
-      <img
-        src="url_to_your_image"
-        alt="Restaurant Image"
-        style={{ width: '100px', height: '100px', marginRight: '20px' }}
-      />
-      <div>
-        <h2>{name}</h2>
-        <p>{type}</p>
-      </div>
-      <FaAngleRight style={{ marginLeft: 'auto' }} />
-    </Box>
-  );
-};
-
 const Dashboard: React.FC = () => {
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Dummy restaurant data
+  const restaurants = [
+    { name: 'Restaurant1', businessType: 'Type1', monthlyRevenue: 10000, commission: 1000 },
+    { name: 'Restaurant2', businessType: 'Type2', monthlyRevenue: 8000, commission: 800 },
+    // Add more restaurant data as needed
+  ];
+
+  const openModal = (restaurant) => {
+    setSelectedRestaurant(restaurant);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedRestaurant(null);
+    setIsModalOpen(false);
+  };
+
   const [isSmallerScreen] = useMediaQuery('(max-width: 767px)');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('');
   const [showLoyalCustomers, setShowLoyalCustomers] = useState<boolean>(true);
   const [showNormalCustomers, setShowNormalCustomers] = useState<boolean>(true);
+  const [date1, setDate1] = useState('2023-01-01'); // Replace with your start date
+  const [date2, setDate2] = useState('2023-01-31'); // Replace with your end date
   const [showSortingModal, setShowSortingModal] = useState<boolean>(false);
   const [showFilteringModal, setShowFilteringModal] = useState<boolean>(false); 
 
   const baseFontSize = isSmallerScreen ? 16 : 10;
   const fontSize = `calc(${buttonWidthPercentage} / ${baseFontSize})`;
 
-  const RestaurantCard = ({ name, type }) => {
+  const RestaurantCard = ({ name, businessType, monthlyRevenue, commission }) => {
+    const cardFontSize = isSmallerScreen ? '14px' : '16px';
+
     return (
       <Box
         backgroundColor="#200944"
@@ -63,6 +58,7 @@ const Dashboard: React.FC = () => {
         border="1px solid #763FAF"
         display="flex"
         alignItems="center"
+        fontSize={cardFontSize}
       >
         <img
           src="url_to_your_image"  
@@ -71,7 +67,9 @@ const Dashboard: React.FC = () => {
         />
         <div>
           <h2>{name}</h2>
-          <p>{type}</p>  
+          <p>Business - {businessType}</p>
+          <p>Monthly Revenue - {monthlyRevenue} Baht</p>
+          <p>Commission (10%) - {commission} Baht</p>
         </div>
       </Box>
     );
@@ -145,7 +143,7 @@ const Dashboard: React.FC = () => {
       alignItems="center"
       height="100vh"
     >
-      <Box
+      {/* <Box
         width={buttonWidthPercentage}
         display="flex"
         justifyContent="space-between"
@@ -210,7 +208,7 @@ const Dashboard: React.FC = () => {
         >
           Reservation
         </Button>
-      </Box>
+      </Box> */}
 
       <Box
         color="#D9D9D9"
@@ -355,7 +353,40 @@ const Dashboard: React.FC = () => {
           </span>
         </Box>
       </Box>
-
+      {/* Static information and filter button */}
+      <Box
+        backgroundColor="#763FAF"
+        color="white"
+        padding="20px"
+        margin="10px 0"
+        borderRadius="8px"
+        border="1px solid #763FAF"
+        display="flex"
+        flexDirection="column"
+        width={buttonWidthPercentage}
+      >
+        <p style={{ fontSize: `calc(${baseFontSize} * 2)` }}>{`Static from ${date1} to ${date2}`}</p>
+        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Number of Receipts</p>
+        </div>
+        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Revenue</p>
+        </div>
+        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Harmony to Partners</p>
+        </div>
+        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Net Profit</p>
+        </div>
+        <Button
+          variant="link"
+          colorScheme="white"
+          fontSize={fontSize}
+          onClick={() => setShowFilteringModal(!showFilteringModal)}
+        >
+          Filter
+        </Button>
+      </Box>    
       <Box
         width={buttonWidthPercentage}
         mb="20px"
@@ -399,12 +430,16 @@ const Dashboard: React.FC = () => {
 
       <RestaurantCard
         name="Restaurant Name 1"
-        type="Restaurant"
+        businessType="Restaurant"
+        monthlyRevenue={50000}
+        commission={5000}
       />
 
       <RestaurantCard
         name="Restaurant Name 2"
-        type="Bar"
+        businessType="Bar"
+        monthlyRevenue={30000}
+        commission={3000}
       />
     </Box>
   );
