@@ -29,6 +29,7 @@ export const LoginPage = () => {
 		const response = await login(username, password);
 		if (response?.status === 200) {
 			navigate("/");
+			location.reload();
 		} else if (response?.status === 401) {
 			setIsValid(false);
 		}
