@@ -71,7 +71,9 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
     }
     window.dispatchEvent(new Event("storage"));
   }, [nearbyPositions]);
+
   console.log(nearbyPositions);
+
   const moveTo = (position: google.maps.LatLngLiteral) => {
     if (mapRef.current) {
       mapRef.current.panTo({ lat: position.lat, lng: position.lng });
@@ -98,13 +100,9 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       console.log("Storage changed");
-      window.location.reload();
+      // window.location.reload();
     };
 
-    // Trigger storage event manually for testing
-    window.dispatchEvent(new Event("storage"));
-
-    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
@@ -126,21 +124,21 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
       ? cinema
       : cinema;
 
-  const markers = savedData
-    ? JSON.parse(savedData).map((marker: MarkerType) => (
-        <Marker
-          key={marker.id}
-          position={marker.location}
-          onClick={() => onMarkerClick(marker)}
-          icon={{
-            url: iconUrl,
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(15, 15),
-            scaledSize: new window.google.maps.Size(35, 35),
-          }}
-        />
-      ))
-    : [];
+  // const markers = savedData
+  //   ? JSON.parse(savedData).map((marker: MarkerType) => (
+  //       <Marker
+  //         key={marker.id}
+  //         position={marker.location}
+  //         onClick={() => onMarkerClick(marker)}
+  //         icon={{
+  //           url: iconUrl,
+  //           origin: new window.google.maps.Point(0, 0),
+  //           anchor: new window.google.maps.Point(15, 15),
+  //           scaledSize: new window.google.maps.Size(35, 35),
+  //         }}
+  //       />
+  //     ))
+  //   : [];
 
   return (
     <Wrapper>
@@ -153,15 +151,24 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
         onLoad={onLoad}
         onUnmount={onUnMount}
         onClick={onMapClick}
-      >
+        >
         {clickedPos.lat ? <Marker position={clickedPos} /> : null}
-        {markers}
-        {selectedMarker.location && (
-          <InfoWindow
-            position={selectedMarker.location}
-            onCloseClick={() => setSelectedMarker({} as MarkerType)}
-          >
-            <div style={{ color: "black" }}>
+        {nearbyPositions?.map(marker => (
+         <Marker
+           key={marker.id}
+           position={marker.location}
+           onClick={() => onMarkerClick(marker)}
+           icon={{
+             url: iconUrl,
+             origin: new window.google.maps.Point(0, 0),
+             anchor: new window.google.maps.Point(15, 15),
+             scaledSize: new window.google.maps.Size(35, 35)
+           }}
+         />
+     ))}
+      {selectedMarker.location && (
+       <InfoWindow position={selectedMarker.location} onCloseClick={() => setSelectedMarker({} as MarkerType)}>
+         <div style={{ color: 'black' }}>
               <h3>{selectedMarker.name}</h3>
             </div>
           </InfoWindow>

@@ -91,7 +91,7 @@ const StarIcon: React.FC = () => {
 const Cards = (props: CardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
 
   const generateRandomNumber = () => {
     return (Math.random() * (5.0 - 4.0) + 3.0).toFixed(1); // Generates a number with two decimal places
@@ -107,14 +107,14 @@ const Cards = (props: CardProps) => {
     ? `${props.description.slice(0, 50)}...`
     : ""; // Handle the case where props.description is not a string
 
-  const handleLikeClick = () => {
-    setLiked(!liked);
-    if (liked) {
-      alert("Remove From Your Favourite location");
-    } else if (!liked) {
-      alert("Add to Your Favourite location");
-    }
-  };
+  // const handleLikeClick = () => {
+  //   setLiked(!liked);
+  //   if (liked) {
+  //     alert("Remove From Your Favourite location");
+  //   } else if (!liked) {
+  //     alert("Add to Your Favourite location");
+  //   }
+  // };
 
   return (
     <Box mt={2}>
