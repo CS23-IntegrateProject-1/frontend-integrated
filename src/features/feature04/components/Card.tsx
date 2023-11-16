@@ -92,6 +92,10 @@ const Cards = (props: CardProps) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  const generateRandomNumber = () => {
+    return (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1); // Generates a number with two decimal places
+  };
+
   const descriptionToShow = showFullDescription
     ? props.description
     : `${props.description.slice(0, 50)}...`;
@@ -174,7 +178,7 @@ const Cards = (props: CardProps) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    5.0
+                    {generateRandomNumber()}
                   </Text>
                 </Box>
               </Box>

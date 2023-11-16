@@ -1,25 +1,42 @@
 // CurrentLocation.styles.ts
-
 import styled from 'styled-components';
 
 export const StyledBtn = styled.button`
-  // Remove position: absolute;
-  position: relative; // Add relative positioning to position child elements
+  position: relative;
   z-index: 2;
   top: 20px;
   right: 20px;
-  padding: 10px 15px; // Add padding as needed
-  background-color: #ffffff; // Add a background color
-  border: 1px solid #cccccc; // Add a border
-  border-radius: 5px; // Add border-radius for rounded corners
-  cursor: pointer; // Add cursor style for better user experience
-  color: #333333; // Add a text color
+  padding: 15px 20px;  // Increased padding for a larger size
+  background-color: #202020;  // Darker black background
+  border: 1px solid #ffffff; // White border for contrast
+  border-radius: 8px;  // Increased border-radius for a rounder shape
+  cursor: pointer;
+  color: #ffffff; // White text color
 
   &:hover {
-    background-color: #f0f0f0; // Add a different background color on hover
+    background-color: #333333; // Darker background on hover
   }
 
   p {
-    margin: 0; // Remove default margin from the paragraph
+    margin: 0;
+  }
+
+  /* Additional Styles */
+  display: inline-block;
+  font-size: 18px;  // Increased font size
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  transition: box-shadow 0.3s ease;  // Added a smooth transition for the box-shadow
+
+  /* Additional styles to make it more accessible */
+  &:focus {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.7); // Lighter shadow on focus
+  }
+
+  &:active {
+    background-color: #444444; // Darker background when the button is pressed
   }
 `;

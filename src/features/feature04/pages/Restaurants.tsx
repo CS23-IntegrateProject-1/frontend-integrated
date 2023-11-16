@@ -6,6 +6,7 @@ import GoogleMapComponent from "../components/Maps/GoogleMapComponent"; // Corre
 import Header from "../components/Header";
 import RecommendLocation from "../components/RecommendLocation";
 import index from "../../../theme/foundations/index";
+
 export const Maps = () => {
 
   return (

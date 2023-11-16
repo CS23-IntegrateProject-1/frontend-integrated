@@ -11,7 +11,7 @@ import CurrentLocation from './CurrentLocation.tsx';
 import { fetchNearbyPlaces } from './api.ts';
 
 //image
-import fork from '../../images/forkspoon.svg';
+import plate from '../../images/Plate.svg';
 import cinema from '../../images/cinema.svg';
 import beer from '../../images/beer.svg';
 // Styles 
@@ -40,11 +40,8 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
   const[clickedPos,setClickedPos] = React.useState<google.maps.LatLngLiteral>({} as google.maps.LatLngLiteral)
   const [selectedMarker, setSelectedMarker] = React.useState<MarkerType>({} as MarkerType);
 
-
   const {
     data: nearbyPositions,
-    isLoading,
-    isError
   } = useQuery([clickedPos.lat, clickedPos.lng, type], () => fetchNearbyPlaces(clickedPos.lat, clickedPos.lng, type), {
     enabled: !!clickedPos.lat,
     refetchOnWindowFocus: false
@@ -83,7 +80,7 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
 
   if (!isLoaded) return <LoadingView>Loading...</LoadingView>;
 
-  const iconUrl = type === 'restaurant' ? fork : type === 'bar' ? beer : type === 'cinema' ? cinema : cinema;
+  const iconUrl = type === 'restaurant' ? plate : type === 'bar' ? beer : type === 'cinema' ? cinema : cinema;
 
   return (
     <Wrapper>
