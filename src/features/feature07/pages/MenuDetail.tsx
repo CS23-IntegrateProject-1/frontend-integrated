@@ -77,8 +77,8 @@ export const MenuDetail: FC = () => {
     return(
         <Box>
             <Image 
-                // src="/src/features/feature07/assets/test.jpg" 
-                src={type == "Set" ? menuItem.image_url: menuItem.image}
+                src="/src/features/feature07/assets/test.jpg" 
+                // src={type == "Set" ? menuItem.image_url: menuItem.image}
                 width="350px" 
                 height="250px" 
                 objectFit="cover"/>
