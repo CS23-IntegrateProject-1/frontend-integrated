@@ -21,24 +21,40 @@ import { AccountingMain } from "./pages/Account/AccountingMain";
 export const Feature08Routes = () => {
   return [
 
-    //venue side
+    //customer side
     { path: "/venue/:venueId/payment", element: <SelectPayment /> },
-    { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
+    { path: "/customer/history", element: <PaymentHistory/> },
+    { path: "/customer/:userId/addcard", element: <AddCard /> },
+      //payment to venue by using venueId?
     { path: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
-    { path: "/venue/:venueId/waiting", element: "ElementPlaceHolder" },
-    { path: "/venue/:venueId/history", element: <PaymentHistory/> },
-    { path: "/venue/:venueId/addcard", element: <AddCard /> },
-    { path: "/venue/:venueId/delivery_payment", element: <DeliveryPayment /> },
+      //Action
+    { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
+    { path: "/waiting", element: "ElementPlaceHolder" },
+
+
+    //venue ?
+    // { path: "/venue/:venueId/payment", element: <SelectPayment /> },
+    // { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
+    // { pathh: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
+    // { path: "/venue/:venueId/waiting", element: "ElementPlaceHolder" },
+    // { path: "/venue/:venueId/history", element: <PaymentHistory/> },
+
+    //delivery side
+    { path: "/venue/:userId/delivery_addcard", element: <AddCard /> },
+    { path: "/venue/:userId/delivery_payment", element: <DeliveryPayment /> },
 
     //Business side
     { path: "/venue/:venueId/business/checkout", element: <SelectPaymentForCheckout /> },
     { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
+    { path: "/venue/:venueId/business/addcard", element: <AddCard /> },
     { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
+    
 
 
     // admin side
     { path: "/venue/:venueId/admin/checkout", element: <SelectPaymentForCheckout /> },
     { path: "/venue/:venueId/admin/qr-payment", element: <QrCodeScan /> },
+    { path: "/venue/:venueId/admin/addcard", element: <AddCard /> },
 
 
 
