@@ -11,8 +11,8 @@ import { useEffect } from "react";
 
 const getCartMenuItem = async (type: string, menuid: string) => {
     const response = await Axios.get(`/feature7/show${type}DetailFromCart/${menuid}`);
-    console.log(response.data[0]); //debugging response
-    return response.data[0];
+    console.log(response.data); //debugging response
+    return response.data;
   };
 
 interface MenuDetailProps {
