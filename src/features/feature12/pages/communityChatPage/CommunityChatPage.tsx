@@ -1,19 +1,27 @@
-import { Box, Heading } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import React, {} from "react";
+import {
+  Box,
+} from "@chakra-ui/react";
 
-export const CommunityChatPage = () => {
+// import { TextStyle } from "../../../../theme/TextStyle";
+
+import SendMessage from "./SendMessage";
+import MessageLog from "./MessageLog";
+import Messages from "./Messages";
+
+interface CommunityChatPageProps {}
+
+export const CommunityChatPage: React.FC<CommunityChatPageProps> = () => {
+
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-    >
-      <Heading style={TextStyle.h1} color={"white"}>
-        {" "}
-        Hello, This is Community Chat Page
-      </Heading>
-
+    <Box display="flex">
+      <MessageLog />
+      <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
+        <Box flexGrow="1" overflow="auto">
+          <Messages />
+        </Box>
+        <SendMessage />
+      </Box>
     </Box>
   );
 };

@@ -1,5 +1,6 @@
 import { ChatBotPage } from "./pages/chatBotPage/ChatBotPage";
 import { CommunityChatPage } from "./pages/communityChatPage/CommunityChatPage";
+import { ConversationsProvider } from "./pages/communityChatPage/ConversationsProvider";
 import {TestingFeat12} from "./pages/testingPage/TestingFeat12";
 export const Feature12Routes = () => {
   return [
@@ -13,7 +14,10 @@ export const Feature12Routes = () => {
     },
     {
       path: "/feature12Testing",
-      element: <TestingFeat12 />,
+      element:
+        <ConversationsProvider id="id">
+          <TestingFeat12 />,
+        </ConversationsProvider>
     },
   ];
 };
