@@ -145,6 +145,17 @@ useEffect(() => {
 
   
 
+  const formattedOrderDate = orderDate
+  ? new Date(orderDate).toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    })
+  : '';
+
 
   return (
     <Center>
@@ -159,7 +170,7 @@ useEffect(() => {
           Order #{orderId}
         </Text>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={2}>
-          {orderDate}
+          {formattedOrderDate}
         </Text>
         <Divider variant={"dashed"} />
 
