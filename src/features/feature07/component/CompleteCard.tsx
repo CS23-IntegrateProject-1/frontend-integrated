@@ -40,23 +40,23 @@ export const CompleteCard: FC<CompleteMenuCardProps>= ({foodName,description,pri
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >
-           Set food Name Integrate
-          {/* {foodName} */}
+           {/* Set food Name Integrate */}
+          {foodName}
         </Text>
         <Text {...textStyles.body2} color="white"
          lineHeight="1.8" >
-          Description Integrate kasjfakldf
+          {/* Description Integrate kasjfakldf
           asflkajsflk 
-          dkASJDH
-          {/* {description} */}
+          dkASJDH */}
+          {description}
         </Text>
         <Text {...textStyles.body3} color="white"
          lineHeight="1.5" >
-          Price Integrate
-          {/* {{`${price.toFixed(2)} baht`}} */}
+          {/* Price Integrate */}
+          {`${price} baht`}
         </Text>
         <Text {...textStyles.h3} color="white" lineHeight="1" justifyContent="flex-end" ml={40} >
-              x1
+              x{amount}
         </Text>
       </Box>
     </VStack>
