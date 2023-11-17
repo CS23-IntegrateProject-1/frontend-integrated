@@ -17,11 +17,11 @@ export const SearchBar: FC<SearchBarProps> = ({
 
   return (
     <Input
-      w={{ base: "100%", sm: "50%", lg: "30%" }}
+      w={"100%"}
       borderColor={"black"}
       background={"white"}
       textColor={"black"}
-      placeholder="search restaurant here"
+      placeholder="search"
       value={searchFilter}
       onChange={handleInputChange}
     />
