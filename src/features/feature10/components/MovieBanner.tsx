@@ -6,6 +6,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 interface Movie {
   title: string;
   genre: string;
+  id: string;
   rate: string;
   imageUrl: string;  
 }

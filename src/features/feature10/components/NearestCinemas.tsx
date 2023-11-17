@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text, Button } from '@chakra-ui/react';
+import { Box, Text, Button, Flex } from '@chakra-ui/react';
 
 interface NearestCinemasProps {
   cinemas: {
@@ -21,15 +21,15 @@ const NearestCinemas: React.FC<NearestCinemasProps> = ({ cinemas }) => {
   return (
     <>
       <Box backgroundColor={"grey.400"}>
-        <Text fontSize="16px" fontWeight="bold" color={"brand.100"} ml={"5px"}>
+        <Text fontSize="16px" fontWeight="bold" color={"brand.100"} padding={"7px"}>
           Nearest Cinemas
         </Text>
       </Box>
       <Box boxShadow="md" backgroundColor={"#D9D9D9"}>
         {cinemas.map((cinema, index) => (
-          <Box key={index} mb={4} maxWidth="427px" maxHeight="256px">
-            <Box backgroundColor={"brand.200"} alignItems="center" >
-              <Text fontSize="14px" fontWeight="bold" mb={2} ml={"5px"} >
+          <Box key={index} mb={4} maxWidth="100%" maxHeight="256px">
+            <Box backgroundColor={"brand.200"} alignItems="center" padding={"7px"} justifyContent={"center"}>
+              <Text fontSize="14px" fontWeight="bold" >
                 {cinema.name}
               </Text>
             </Box>
@@ -39,6 +39,7 @@ const NearestCinemas: React.FC<NearestCinemasProps> = ({ cinemas }) => {
             <Text fontSize="10px" fontWeight='normal' ml={"5px"} color={"#000000"}>
               Type {cinema.type}
             </Text>
+            <Flex overflowX="auto">
             {cinema.showtimes.map((showtime, showtimeIndex) => (
               <Button
               key={showtimeIndex}
@@ -46,10 +47,13 @@ const NearestCinemas: React.FC<NearestCinemasProps> = ({ cinemas }) => {
               color={clickedShowtime === showtime ? 'white' : '#200944'}
               borderColor="#200944"
               borderWidth={1}
-              borderRadius="md"
+              borderRadius="2px"
               fontSize="10px"
               fontWeight="bold"
-              m={1} 
+              mt={2}
+              ml={2}
+              mr={2}
+              mb={4} 
               p="1" 
               width="81px"
               height="22px" 
@@ -58,6 +62,8 @@ const NearestCinemas: React.FC<NearestCinemasProps> = ({ cinemas }) => {
               {showtime}
             </Button>
             ))}
+            </Flex>
+
           </Box>
         ))}
       </Box>

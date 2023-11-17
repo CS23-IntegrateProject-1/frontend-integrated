@@ -1,17 +1,58 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import DateSelection from '../components/DateSelection'
+import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
 import MovieBanner from '../components/MovieBanner'
 import poster1 from '../assets/img/poster1.jpg'
 import SearchBar from '../components/SearchBar'
 import NearestCinemas from '../components/NearestCinemas'
 
+interface Movie {
+  title: string;
+  imageUrl: string;
+  id: number; // Adjust the data type based on your API response
+  rate: string;
+  // Add other properties as needed
+}
+
 export const ShowTime = () => {
-  const movie = {
-    title: 'Shawshank redemption',
-    genre: 'Genre : Sci-Fi',
-    rate : 'Rate : PG-13 | 169 mins',
-    imageUrl: poster1,
-  };
+  const { movieId } = useParams<{ movieId: string }>();
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [isDesktop] = useMediaQuery('(min-width: 768px)');
+    
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/feature10//getFilmsById/${movieId}`);
+        setMovie({
+          title: response.data.name,
+          imageUrl: response.data.poster_img,
+          id: response.data.filmId,
+          rate: response.data.rate,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+      }
+      
+      
+    };
+    
+    fetchMovieDetails();
+    
+  }, [movieId]);
+
+
+
+
+  if (!movie) {
+    return <div>Loading...</div>;
+  }
+
+
 
   const handleSearch = (query: string) => {  
     console.log(`Searching for: ${query}`);
@@ -26,10 +67,35 @@ export const ShowTime = () => {
     },  
   ];
 
+
+ 
+
   return (
     <>
-    <DateSelection/>
-    <MovieBanner movie={movie}/>
+    <DateSelection></DateSelection>
+      {/* Display movie details */}
+      <Box p={4} boxShadow="md"
+        borderRadius="md"
+        backgroundColor="black"
+        h={isDesktop ? '300px' : 'auto'}
+        
+        >
+        <Box display="flex">
+          <Image src={movie.imageUrl} alt={movie.title} 
+            h={isDesktop ? '270px' : '80px'}
+            w={isDesktop ? '180px' : '54px'}
+          />
+          <Box ml={{ md: 4 }}>            
+            <Text fontSize={isDesktop ? '40px' : '10px'} fontWeight="bold" mb={2} m="5px">
+              {movie.title}
+            </Text>
+            <Text fontSize={isDesktop ? '20px' : '6px'} fontWeight="bold" mb={2} m="5px">
+              {movie.rate}
+            </Text>
+            
+          </Box>
+        </Box>
+      </Box>
     <SearchBar onSearch={handleSearch} />
     <NearestCinemas cinemas={cinemasData}/>
     </>

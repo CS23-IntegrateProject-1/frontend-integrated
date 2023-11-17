@@ -1,7 +1,7 @@
 // SearchBar.tsx
 
 import React, { useState } from 'react';
-import { Box, Input, Button } from '@chakra-ui/react';
+import { Box, Input, Button ,useMediaQuery } from '@chakra-ui/react';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -9,6 +9,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDesktop] = useMediaQuery('(min-width: 768px)');
 
   const handleSearch = () => {
     // You can perform additional actions before calling the onSearch callback if needed
@@ -23,10 +24,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         mb={7}
-        mt={5}
+        mt={7}
         backgroundColor={"white"}
         borderRadius={"35px"}
-        color={"black"}       
+        color={"black"}
+        w={isDesktop ? "30%" : "100%"}       
       />     
     
   );
