@@ -59,7 +59,6 @@ export const ShowingVenuesMsg : FC<IvenueProps> = ({ data }) => {
             });
         }
     }, [askedMsgs]);
-    console.log(questions);
 
     //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);

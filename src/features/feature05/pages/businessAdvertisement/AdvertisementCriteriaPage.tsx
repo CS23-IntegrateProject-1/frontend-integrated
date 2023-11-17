@@ -3,10 +3,10 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
+import { TextStyle } from "../../../../theme/TextStyle";
 import { useNavigate } from "react-router-dom";
 
-export const AdvertisementCriteria = () => {
+export const AdvertisementCriteriaPage = () => {
   const navigate = useNavigate();
   const handleClick=()=> { navigate("/advertisement/request");}
   
@@ -22,7 +22,7 @@ export const AdvertisementCriteria = () => {
       <Box
         width={{base:"90%" ,md:"70%" ,lg:"50%"}}
         minWidth="250px"
-        maxWidth="1000px"
+        maxWidth="700px"
         display="flex"
         flexDirection={"column"}
       >
@@ -159,7 +159,7 @@ export const AdvertisementCriteria = () => {
         </Box>
 
         {/* 10 */}
-        <Box paddingBottom={3} display="flex" flexDirection={"column"}>
+        <Box paddingBottom={10} display="flex" flexDirection={"column"}>
           <Text style={TextStyle.h2} color={"white"}>
             {" "}
             Monitor User-Generated Content:
@@ -175,18 +175,18 @@ export const AdvertisementCriteria = () => {
         <Box
           display="flex"
           flexDirection={"row"}
-          paddingBottom={3}
+          paddingBottom={10}
           justifyContent={"space-evenly"}
         >
           <Button 
             backgroundColor="#A533C8"
             variant="solid"
-            width="40%"
-            maxWidth={"200px"}
+            width="60%"
+            maxWidth={"500px"}
             color="white"
             onClick={handleClick}
           >
-            Create
+            Create Advertisement
           </Button>
 
         </Box>
