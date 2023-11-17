@@ -21,9 +21,9 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
-import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
-import { SiHomebrew } from "react-icons/Si";
-import { BsFillPeopleFill } from "react-icons/Bs";
+import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
+import { SiHomebrew } from "react-icons/si";
+import { BsFillPeopleFill } from "react-icons/bs";
 import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoMdChatboxes } from "react-icons/io";
