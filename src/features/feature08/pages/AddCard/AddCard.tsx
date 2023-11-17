@@ -5,7 +5,7 @@ import {
   CardFooter,
   Box,
   Button,
-  Heading,
+  Heading,   
   Image,
   Flex,
   FormControl,
