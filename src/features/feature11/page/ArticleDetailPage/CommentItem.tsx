@@ -1,16 +1,11 @@
 import { Box, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
+import { ArticleComment } from "./ArticleTypes";
 
-interface ArticleCommentProps {
-  commentId: string;
-  commentContent: string;
-  commentDate: string;
-  likedByCreator: boolean;
-  commentWriterUsername: string;
-}
+
 interface CommentItemProps {
-  comment: ArticleCommentProps;
+  comment: ArticleComment;
 }
 
 export const CommentItem: FC<CommentItemProps> = ({ comment }) => {
@@ -20,15 +15,15 @@ export const CommentItem: FC<CommentItemProps> = ({ comment }) => {
         <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box>
         <Box>
           <Text color={"black"} style={TextStyle.h5}>
-            {comment.commentWriterUsername}
+            {comment.userId}
           </Text>
           <Text color={"black"} style={TextStyle.body3}>
-            {comment.commentDate}
+            {comment.create_date}
           </Text>
         </Box>
       </Box>
       <Text style={TextStyle.body2} mb={"1em"} color={"black"}>
-        {comment.commentContent}
+        {comment.content}
       </Text>
     </Box>
   );

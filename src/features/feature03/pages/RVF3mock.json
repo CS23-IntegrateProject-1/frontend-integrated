@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today dasdsadsad qdqwqdwqweq AAA ddddd eqwewqewqe eqwdasdsad  qedqd",
+    "time": "12h"
+  },
+  {
+    "id": 2,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 3,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 4,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 5,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 6,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 7,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 8,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 9,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  },
+  {
+    "id": 10,
+    "name": "Pazzo Limonia",
+    "star": 5,
+    "description": "Lorem ipsum bruh moment review text I am very happy today",
+    "time": "12h"
+  }
+]

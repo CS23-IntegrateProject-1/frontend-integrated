@@ -7,7 +7,14 @@ import {
   Flex,
   Button,
   useDisclosure,
-  Modal,ModalOverlay,ModalContent,ModalBody,ModalHeader,ModalCloseButton,Divider, Stack
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalHeader,
+  ModalCloseButton,
+  Divider,
+  Stack,
 } from "@chakra-ui/react";
 import SavedLocationCard from "../components/SavedLocationCard";
 import Header from "../components/Header";
@@ -34,6 +41,9 @@ export const SavedLocation = () => {
       city: "Lorem ipsum dolor",
     },
     {
+      address: "Lorem ipsum dolor sit amet consectetur",
+      city: "Lorem ipsum dolor",
+    }, {
       address: "Lorem ipsum dolor sit amet consectetur",
       city: "Lorem ipsum dolor",
     },
@@ -65,7 +75,13 @@ export const SavedLocation = () => {
   return (
     <Box>
       <Header />
-      <Flex flexDir={"column"}>{savedLocation}</Flex>
+
+      <Flex flexDir={"column"} alignItems="center">
+        <Flex flexWrap="wrap" justifyContent="center" maxW="800px">
+          {savedLocation}
+        </Flex>
+      </Flex>
+
       <br />
       <Flex flexDir={"row"} justifyContent={"center"}>
         <Button
