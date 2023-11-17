@@ -99,7 +99,7 @@ export const ChatBotPage: FC = () => {
 
     return (
     <>
-    <Box height={"72vh"}  /* IMPT need adjustment to be responsive */
+    <Box height={"70vh"}  /* IMPT need adjustment to be responsive */
         overflow={"scroll"}
         >
     <Flex gap='4'>
