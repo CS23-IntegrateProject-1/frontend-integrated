@@ -1,18 +1,18 @@
-import { Box, Flex, Image, Text, IconButton, VStack } from "@chakra-ui/react";
+import { Box, Flex, Image, Text,  VStack } from "@chakra-ui/react";
 import { FC,useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
-import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 
-interface MenuCardProps {
+
+interface CompleteMenuCardProps {
   id:number;
   foodName: string;
   description: string;
   price: number;
   imageUrl: string;
-  onClick?: () => void;
+  amount: number;
 };
 
-export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
+export const CompleteCard: FC<CompleteMenuCardProps>= ({foodName,description,price,imageUrl,amount}) => {
 
   return (
     <Flex 
@@ -22,15 +22,11 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
     height="120px" 
     p={1} 
     borderColor={"brand.100"}
-    cursor={onClick ? "pointer" : "default"} 
-    onClick={onClick} >
+     >
       
     <Flex justifyContent="center" >
-      <Image 
-      src="/src/features/feature07/assets/test.jpg"
-      // alt="integrate" 
-      // src = {imageUrl}
-      alt = {foodName}
+      <Image src="/src/features/feature07/assets/test.jpg"
+      alt="integrate" 
       objectFit="cover" 
       mt={0.5}
       width="140px" 
@@ -44,20 +40,23 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >
-          {/* food Name Integrate */}
-          {foodName}
+           Set food Name Integrate
+          {/* {foodName} */}
         </Text>
         <Text {...textStyles.body2} color="white"
          lineHeight="1.8" >
-          {/* Description Integrate kasjfakldf
+          Description Integrate kasjfakldf
           asflkajsflk 
-          dkASJDH */}
-          {description}
+          dkASJDH
+          {/* {description} */}
         </Text>
         <Text {...textStyles.body3} color="white"
-         lineHeight="2" >
-          {/* Price Integrate */}
-          {`${price} baht`}
+         lineHeight="1.5" >
+          Price Integrate
+          {/* {{`${price.toFixed(2)} baht`}} */}
+        </Text>
+        <Text {...textStyles.h3} color="white" lineHeight="1" justifyContent="flex-end" ml={40} >
+              x1
         </Text>
       </Box>
     </VStack>

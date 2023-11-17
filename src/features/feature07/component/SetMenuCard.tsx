@@ -1,9 +1,9 @@
 import { Box, Flex, Image, Text, IconButton, VStack } from "@chakra-ui/react";
 import { FC,useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
-import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 
-interface MenuCardProps {
+
+interface SetMenuCardProps {
   id:number;
   foodName: string;
   description: string;
@@ -12,7 +12,7 @@ interface MenuCardProps {
   onClick?: () => void;
 };
 
-export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
+export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
 
   return (
     <Flex 
@@ -29,8 +29,8 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       <Image 
       src="/src/features/feature07/assets/test.jpg"
       // alt="integrate" 
-      // src = {imageUrl}
-      alt = {foodName}
+      // src={imageUrl}
+      alt={foodName}
       objectFit="cover" 
       mt={0.5}
       width="140px" 
@@ -44,7 +44,7 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >
-          {/* food Name Integrate */}
+           {/* Set food Name Integrate */}
           {foodName}
         </Text>
         <Text {...textStyles.body2} color="white"
