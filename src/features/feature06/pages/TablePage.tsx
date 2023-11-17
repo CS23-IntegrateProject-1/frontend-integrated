@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 export const TablePage = () => {
   const [count, setCount] = useState(0);
-  const navigate = useNavigate();
   useEffect(() => {
     sessionStorage.setItem("guestAmount", count.toString());
   }, [count]);
@@ -198,7 +197,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to='/reservation-detail/$'>
+      <Link to='/reservation-detail'>
       <Button
         width={"140px"}
         height={"40px"}

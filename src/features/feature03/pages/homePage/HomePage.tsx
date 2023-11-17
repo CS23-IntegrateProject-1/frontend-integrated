@@ -425,7 +425,7 @@ export const HomePage = () => {
       </Text>
       <Box display="flex">
         <SearchBar />
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Box
             _hover={{ color: "brand.100" }}
             pl="15px"
@@ -523,7 +523,7 @@ export const HomePage = () => {
               </Button>
               </NavLink>
 
-              <NavLink to="/IDK_PathRRRRR">
+              <NavLink to="/table">
               <Button
                 variant="solid"
                 textColor="white"
