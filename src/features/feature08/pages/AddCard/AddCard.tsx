@@ -17,7 +17,7 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
-import axios from "axios";
+import axios from "axios"
 
 interface ButtonProps {
   bgColor?: string;
@@ -151,6 +151,7 @@ export const AddCard: FC<ButtonProps> = ({
       } else {
         console.log("card is not valid");
       }
+      window.location.href = `/:userId/venue/:venueId/payment`;
     };
     // creditCardId : string,
     // card_no : string,
@@ -349,7 +350,7 @@ export const AddCard: FC<ButtonProps> = ({
           </Flex>
 
           <Button
-            width="70%"
+            width="100%"
             height="40px"
             backgroundColor={buttonColor}
             bg={!bgColor ? "brand.200" : bgColor}
@@ -359,7 +360,6 @@ export const AddCard: FC<ButtonProps> = ({
             textColor="#DEBEF6"
             marginTop={10}
             onClick={handleSubmit}
-            disabled={!isValid}
             type="submit"
           >
             Apply
