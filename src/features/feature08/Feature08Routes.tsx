@@ -70,6 +70,6 @@ export const Feature08Routes = () => {
     { path: "/venue/Account/main", element: <AccountingMain/>},
     { path: "/venue/Account/Accounting", element: <Accounting/>},
     { path: "/venue/Account/timestamp", element: <Timestamp/>},
-    { path: "/venue/Accounting/Checkbill/:transactionId", element: <Checkbill/>},
+    { path: "/venue/Accounting/Checkbill/:orderId", element: <Checkbill/>},
   ];
 };

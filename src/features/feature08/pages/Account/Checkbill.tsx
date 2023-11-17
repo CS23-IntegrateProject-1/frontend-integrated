@@ -19,51 +19,131 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 
-// interface CheckBillProp {
-//   transactionDetailId: string,
-//   detail: string,
-//   timestamp: Date,
-//   status: string,
-//   total_amount: string,
-//   transactionId: string,
+// type order = {
+//   userId  :  string; 
+//   venueId  :  string; 
+//   order_date : string; 
+//   total_amount: string; 
+//   addressId : string;
+//   branchId  :  string; 
+//   driverId   : string; 
+//   isDelivery : string;        
+//   orderId : string;            
+//   status : string; 
+//   reservedId :  string;          
 // }
-
-// interface CBP {
-//   check: CheckBillProp;
+// type orderDetail = {
+//   orderDetailId: string;
+//   unit_price: string;
+//   order_time: string;
+//   additional_req: string;
+//   orderId: string;
+//   menuId: string;
+//   quantity: string;
+//   setId: string;
+//   status: string;
 // }
 
 
 export const Checkbill = () => {
+  const { orderId } = useParams();
+  //orderDetail axios.get(`http://localhost:8080/feature8/orderdetail/${orderDetailId}`);
+  const [unitPrice, setUnitPrice] = useState<string>('');
+  const [orderTime, setOrderTime] = useState<string>('');
+  const [additionalReq, setAdditionalReq] = useState<string>('');
+  const [menuId, setMenuId] = useState<string>('');
+  const [quantity, setQuantity] = useState<string>('');
+  const [setId, setSetId] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
 
-  const [transactionDetails, setTransactionDetails] = useState([]);
-  const { transactionId } = useParams();
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [detail,setDetail] =useState<String | null>(null);
-  const [timeStamp, setTimeStamp] = useState<Date | null>(null);
+  //order axios.get(`http://localhost:8080/feature8/order/${orderId}`);
+  const [userId, setUserId] = useState<string>('');
+  const [venueId, setVenueId] = useState<string>('');
+  const [orderDate, setOrderDate] = useState<string>('');
+  const [totalAmount, setTotalAmount] = useState<string>('');
+  const [addressId, setAddressId] = useState<string>('');
+  const [branchId, setBranchId] = useState<string>('');
+  const [driverId, setDriverId] = useState<string>('');
+  const [isDelivery, setIsDelivery] = useState<string>('');
+  const [reservedId, setReservedId] = useState<string>('');
 
+  //Menu
+  const [name,setName] = useState<string>('');
+
+
+// Fetch orderDetail data based on orderId
+useEffect(() => {
+  if (orderId) {
+    // Make a request to get orderDetailId based on orderId
+    axios.get(`http://localhost:8080/feature8/order/${orderId}`)
+      .then((response) => {
+        const data = response.data;
+
+        // Extract orderDetailId from the response
+        // Fetch orderDetail data based on the obtained orderDetailId
+        axios.get(`http://localhost:8080/feature8/orderdetail/${orderId}`)
+          .then((orderDetailResponse) => {
+            const orderDetailData = orderDetailResponse.data;
+
+            // Update state for orderDetail properties
+            setUnitPrice(orderDetailData.unit_price);
+            setOrderTime(orderDetailData.order_time);
+            setAdditionalReq(orderDetailData.additional_req);
+            setMenuId(orderDetailData.menuId);
+            setQuantity(orderDetailData.quantity);
+            setSetId(orderDetailData.setId);
+            setStatus(orderDetailData.status);
+          })
+          .catch((orderDetailError) => {
+            console.error('Error fetching orderDetail:', orderDetailError);
+          });
+      })
+      .catch((error) => {
+        console.error('Error fetching order:', error);
+      });
+  }
+}, [orderId]);
 
 
   useEffect(() => {
-    // Fetch a specific transaction detail based on the URL parameter
-    axios.get(`http://localhost:8080/feature8/transaction_details/${transactionId}`)
-      .then((response) => {
-        const { data, total_amount: fetchedTA, detail:fetchedDT
-                ,timestamp:fetchedTS } = response.data;
-        
-        setTransactionDetails(data);
-        setTotalAmount(fetchedTA);
-        setDetail(fetchedDT);
-        setTimeStamp(fetchedTS);
+    // Fetch order data
+    if (orderId) {
+      axios.get(`http://localhost:8080/feature8/order/${orderId}`)
+        .then((response) => {
+          const data = response.data;
 
+          // Update state for order properties
+          setUserId(data.userId);
+          setVenueId(data.venueId);
+          setOrderDate(data.order_date);
+          setTotalAmount(data.total_amount);
+          setAddressId(data.addressId);
+          setBranchId(data.branchId);
+          setDriverId(data.driverId);
+          setIsDelivery(data.isDelivery);
+          setReservedId(data.reservedId);
+          // ... update other state variables as needed
+        })
+        .catch((error) => {
+          console.error('Error fetching order:', error);
+        });
+    }
+  }, [orderId]);
 
+  useEffect(() => {
+    if(menuId){
+      axios.get(`http://localhost:8080/feature8/menu/${menuId}`)
+      .then((res) =>{
+        setName(res.data.name);
+        console.log(name)
       })
-      .catch((error) => console.error(`Error fetching transaction detail for ID ${transactionId}:`, error));
-  }, [transactionId]);
+      .catch((error) => {
+        console.error('Error fetching Menu', error);
+      });
+    }
+  }, [menuId]);
 
-  console.log(transactionId);
-  console.log(totalAmount);
-  console.log(detail);
-  console.log(timeStamp);
+  
 
 
   return (
@@ -76,11 +156,10 @@ export const Checkbill = () => {
         fontWeight={"bold"}
       >
         <Text style={TextStyle.h1} fontSize={"lg"} fontWeight={"bold"} marginBottom={3}>
-          Order #{transactionId}
+          Order #{orderId}
         </Text>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={2}>
-          {/* Thursday, November 1, 2023 */}
-          {timeStamp !== null && timeStamp.toLocaleString()}
+          {orderDate}
         </Text>
         <Divider variant={"dashed"} />
 
@@ -99,21 +178,22 @@ export const Checkbill = () => {
                 </Th>
               </Tr>
             </Thead>
-            <Divider variant={"dashed"} width={"365%"}/>
+            <Divider variant={"dashed"} width={"365%"} />
             <Tbody>
-              {[...Array(12)].map((_, index) => (
-                <Tr key={index}>
+              
+                <Tr>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    {index + 1}
+                    1
+                    {/* not integrate yet */}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    {detail}
+                    {name}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    2
+                    {quantity}
                   </Td>
                 </Tr>
-              ))}
+              
             </Tbody>
           </Table>
         </TableContainer>
@@ -129,7 +209,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  12
+                  1{/* Your item count value */}
                 </Td>
               </Tr>
               <Tr borderBottom="none">
@@ -138,7 +218,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  {totalAmount}
+                  {quantity}{/* Your total amount value */}
                 </Td>
               </Tr>
               <Tr borderBottom="none">
@@ -147,7 +227,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  2200
+                  {totalAmount}
                 </Td>
               </Tr>
               <Divider width={"300%"} variant={"dashed"} marginTop={3} />
