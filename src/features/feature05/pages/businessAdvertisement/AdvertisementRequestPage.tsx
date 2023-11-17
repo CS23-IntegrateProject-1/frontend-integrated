@@ -22,7 +22,7 @@ import { Input } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/Bi";
+import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
   
