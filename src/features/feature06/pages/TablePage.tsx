@@ -1,22 +1,17 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { useState } from "react";
-import { Axios } from "../../../AxiosInstance";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export const TablePage = () => {
   const [count, setCount] = useState(0);
-  function handleSubmit() {
-    Axios.post("/table", {
-      guestAmount: count,
-    })
-      .then((response) => {
-        console.log(response)
-        console.log("success");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    sessionStorage.setItem("guestAmount", count.toString());
+  }, [count]);
+
   function increment() {
     if (count < 10) {
       setCount(count + 1);
@@ -203,16 +198,17 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
+      <Link to='/reservation-detail/$'>
       <Button
         width={"140px"}
         height={"40px"}
         bg={"brand.200"}
         color={"white"}
         _hover={{ bg: "brand.300"}}
-        onClick={handleSubmit}
       >
         Continue
       </Button>
+      </Link>
     </Box>
   );
 };

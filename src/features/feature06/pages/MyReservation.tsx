@@ -36,13 +36,12 @@ interface IData {
 export const MyReservation = () => {
   const [status, setStatus] = useState("");
   const [data, setData] = useState<IData[]>([]);
-
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getMyReservation();
+    const response: IData[] = await getMyReservation(1, status);
     setData(response);
   };
 
@@ -63,7 +62,6 @@ export const MyReservation = () => {
 
   const renderCards = () => {
     // const filteredData = filterDataByStatus();
-
     // return filteredData.map((data, index: number) => {
     return data.map((data, index: number) => {
       return (

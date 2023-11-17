@@ -1,6 +1,8 @@
-import { Box, Heading, Text, Stack, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, UnorderedList, ListItem, Divider , Show,Spacer, Flex, Checkbox,Button} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {
   const element = document.getElementById(sectionId);
@@ -9,7 +11,56 @@ function scrollToSection(sectionId : string) {
   }
 }
 
-export const PrivacyPolicy = () => {
+export const PrivacyPolicy = ()  => {
+ 
+  //function to handle continue button
+  const handleContinue = () =>   {
+      // const check = document.querySelector('.check input') as HTMLInputElement;
+      // const text = document.querySelector('.checkText') as HTMLInputElement; 
+      //   console.log("checked");
+      //     text.hidden=true;
+      //     if(check.checked){
+          //go back to home
+          //hide the checkid button
+          const checkbtn = document.getElementById("checkbtn") as HTMLInputElement;
+          checkbtn.hidden=true;
+          //set local storage for mock testing , have to del real integration
+          // localStorage.setItem("privacyPolicy", "true");
+          //send a get request to backend
+          if(localStorage.getItem("privacyPolicy") === null){
+          const url = `/feature1/privacy-policy`;
+          //send a put request to the backend to update a new payment method
+          Axios.post(url, {
+            "privacy_consent": true,
+            "cookie_consent": true
+          }, {withCredentials: true}) //already contains user id here via cookie
+            .then((response) => {
+              if (response.status === 200) {
+                //store consent in local storage
+                localStorage.setItem("privacyPolicy", "true");
+                console.log("privacy plicy set in the localstorage");
+              }
+              else if (response.status === 409) {
+                //store consent in local storage
+                localStorage.setItem("privacyPolicy", "true");
+                console.log("privacy plicy already exist");
+              }
+            })
+            .catch((error) => {
+              console.error('Error saving consent:', error);
+            });
+          }
+          else{
+            //hide the button if already consent
+            checkbtn.hidden=true;
+            
+          }   
+    
+        // }else{
+        //   text.hidden=false;
+        // }
+  }
+
   return(
     <Box>
      <Heading style={TextStyle.h1}>{" "}Privacy Policy</Heading>
@@ -35,7 +86,7 @@ export const PrivacyPolicy = () => {
       </Text>
       {/* --------------------------------------- */}
       {/* to ask about opacity & bg color & padding default 16px*/}
-      <Box bgColor="#6B37BC22" m={0} p={0}>
+      <Box bgColor="#6B37BC22" m={-4}>
         <Text style={TextStyle.body1} p={5}>
           <UnorderedList spacing={2} color="brand.200">
             <ListItem><Link to={""} onClick={() => scrollToSection("firstPart")}><Text as='b'>What information we collect</Text></Link></ListItem>
@@ -229,7 +280,11 @@ export const PrivacyPolicy = () => {
           reservations. We appreciate your trust in us and are committed to safeguarding
           your privacy.
         </Text>
-    </Stack>
+        <Divider mb={2}/>
+      </Stack>
+      <Button mt={5} mx={{base:'0', lg:'25%'}} width={{base:'100%', lg:'50%'}} id="checkbtn" className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Understood</Button>
+
     </Box>
+        
   );
 };
