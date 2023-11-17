@@ -62,14 +62,14 @@ interface IData {
 }
 
 export const ReservationDetail = () => {
-  const [data, setData] = useState<IData[]>([]);
+  const [data, setData] = useState<IData>({} as IData);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getReservationDetail(1, 2);
+    const response: IData = await getReservationDetail(1, 2);
     console.log(response);
 
     setData(response);
@@ -136,7 +136,7 @@ export const ReservationDetail = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            Sunflowers Vanilla Sky
+            {data.venue.name}
           </Text>
           <Text
             color="#000"
