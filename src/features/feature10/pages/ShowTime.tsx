@@ -14,6 +14,8 @@ interface Movie {
   imageUrl: string;
   id: number; // Adjust the data type based on your API response
   rate: string;
+  genre: string;
+  duration: number;
   // Add other properties as needed
 }
 
@@ -32,6 +34,8 @@ export const ShowTime = () => {
           imageUrl: response.data.film.poster_img,
           id: response.data.film.filmId,
           rate: response.data.film.rate,
+          genre: response.data.film.genre,
+          duration: response.data.film.duration,
         });
         console.log(response.data);
       } catch (error) {
@@ -76,7 +80,8 @@ export const ShowTime = () => {
       {/* Display movie details */}
       <Box p={4} boxShadow="md"
         borderRadius="md"
-        backgroundColor="black"
+        backgroundColor="rgba(0, 0, 0, 0.3)"
+        backdropBlur="50px"
         h={isDesktop ? '300px' : 'auto'}
         
         >
@@ -89,8 +94,11 @@ export const ShowTime = () => {
             <Text fontSize={isDesktop ? '40px' : '10px'} fontWeight="bold" mb={2} m="5px">
               {movie.title}
             </Text>
-            <Text fontSize={isDesktop ? '20px' : '6px'} fontWeight="bold" mb={2} m="5px">
-              Rating {movie.rate} / 10
+            <Text fontSize={isDesktop ? '20px' : '6px'} fontWeight="light" mb={2} m="5px">
+              Genre : {movie.genre}
+            </Text>
+            <Text fontSize={isDesktop ? '20px' : '6px'} fontWeight="light" mb={2} m="5px">
+              Rated : {movie.rate} | {movie.duration} min
             </Text>
             
           </Box>

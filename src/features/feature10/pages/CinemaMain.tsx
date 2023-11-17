@@ -87,8 +87,8 @@ export const CinemaMain = () => {
                 <Image
                   src={movie.imageUrl}
                   alt={movie.title}
-                  h={isDesktop ? '300px' : '171px'}
-                  w={isDesktop ? '100%' : '127px'}
+                  h={isDesktop ? '300px' : '100%'}
+                  w={isDesktop ? '200px' : 'auto'}
                   objectFit="cover"
                   cursor="pointer"
                 />
@@ -115,8 +115,8 @@ export const CinemaMain = () => {
                 <Image
                   src={movie.imageUrl}
                   alt={movie.title}
-                  h={isDesktop ? '300px' : '171px'}
-                  w={isDesktop ? '100%' : '127px'}
+                  h={isDesktop ? '300px' : '100%'}
+                  w={isDesktop ? '200px' : 'auto'}
                   objectFit="cover"
                   cursor="pointer"
                 />
