@@ -104,7 +104,10 @@ const DelIcon: React.FC = () => {
 };
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [showFullAddress, setShowFullAddress] = useState(false);
+  const AddressToShow = showFullAddress
+    ? props.address
+    : `${props.address.slice(0, 10)}...`;
   return (
     <Box margin={2}>
       <Box
@@ -130,7 +133,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
             fontSize={textStyles.h3.fontSize}
             fontWeight={textStyles.h3.fontWeight}
           >
-            {props.address}
+            {AddressToShow}
           </Box>
           <Box
             fontSize={textStyles.h4.fontSize}
