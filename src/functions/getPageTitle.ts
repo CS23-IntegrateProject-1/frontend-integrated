@@ -22,6 +22,8 @@ export const getPageTitle = (pathname: string) => {
     //feature 4
 
     //feature 5
+    case "/list/recommendation":
+    return "Recommendations"
 
     //feature 6
     //feature 7
@@ -37,6 +39,7 @@ export const getPageTitle = (pathname: string) => {
     //feature 11
     case "/article":
       return "Article"
+  
     //feature 12
     //feature 13
     // more later...
