@@ -9,6 +9,7 @@ export const Feature10Routes = () => {
     {
       path: "/showtimes/:movieId",
       element: <ShowTime />,
+
     },
     { path: "/event/:eventId", element: "ElementPlaceHolder" },
   ];

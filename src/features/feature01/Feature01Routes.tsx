@@ -7,6 +7,11 @@ import { Help } from './Pages/help/Help'
 import { About } from './Pages/about/About'
 import { Profile } from './Pages/profile/Profile'
 import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
+import { EmailNoti } from './Pages/notifications/EmailNoti'
+import { PushNoti } from './Pages/notifications/PushNoti'
+import { BusiProfile } from './Pages/BusiProfile'
+import { BusiProfileEdit } from './Pages/BusiProfileEdit'
+import { AddCard } from './Pages/AddCard'
 export const Feature01Routes = () => {
   return [
     {
@@ -31,6 +36,14 @@ export const Feature01Routes = () => {
       element: <Notifications/>,
     },
     {
+      path: "/setting/notifications/EmailNoti",
+      element: <EmailNoti/>,
+    },
+    {
+      path: "/setting/notifications/PushNoti",
+      element: <PushNoti/>,
+    },
+    {
       path: "/setting/privacy-policy",
       element: <PrivacyPolicy/>,
     },
@@ -46,5 +59,18 @@ export const Feature01Routes = () => {
       path: "/setting/about",
       element: <About/>,
     },
+    //business
+    {
+      path: "/business/busiProfile",
+      element: <BusiProfile/>,
+    },
+    {
+      path: "/business/busiProfileEdit",
+      element: <BusiProfileEdit/>,
+    },
+    {
+      path: "/setting/account/paymentmethodsetting/AddCard",
+      element: <AddCard/>,
+    }
   ];
 };

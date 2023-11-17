@@ -1,13 +1,34 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, VStack, StackDivider } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-
+import { NavLink } from "react-router-dom";
 
 export const Notifications = () => {
+
+  const links = [
+    {title : "Push Notifications", to : "/setting/notifications/PushNoti"},
+    {title : "Email Notifications", to : "/setting/notifications/EmailNoti"},
+  ];
+
   return(
-    <Heading style={TextStyle.h1} color={"white"}>
-        {" "}
-        Hello, This is Notification Page
-      </Heading>
+    <VStack 
+      textStyle={TextStyle.h1.fontSize} 
+      fontWeight={TextStyle.h1.fontWeight}
+      divider={<StackDivider/>}
+      spacing={4}
+      align={"stretch"}
+    > 
+    {/* Generating link for each item in the array */}
+      {links.map((link) => (
+        <Box>
+            <Box  key={link.title} as={NavLink} to={link.to} pl={6}>
+            {link.title}
+            </Box>
+        </Box>
+        
+      ))}
+
+      {/* Adding blank Box to make the last item at the bottom */}
+      <Box></Box>
+    </VStack>
   );
 };
