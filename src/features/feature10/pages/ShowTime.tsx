@@ -28,10 +28,10 @@ export const ShowTime = () => {
       try {
         const response = await axios.get(`http://localhost:8080/feature10//getFilmsById/${movieId}`);
         setMovie({
-          title: response.data.name,
-          imageUrl: response.data.poster_img,
-          id: response.data.filmId,
-          rate: response.data.rate,
+          title: response.data.film.name,
+          imageUrl: response.data.film.poster_img,
+          id: response.data.film.filmId,
+          rate: response.data.film.rate,
         });
         console.log(response.data);
       } catch (error) {
@@ -90,7 +90,7 @@ export const ShowTime = () => {
               {movie.title}
             </Text>
             <Text fontSize={isDesktop ? '20px' : '6px'} fontWeight="bold" mb={2} m="5px">
-              {movie.rate}
+              Rating {movie.rate} / 10
             </Text>
             
           </Box>
