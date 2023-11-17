@@ -8,7 +8,7 @@ export const Dashboard = () => {
         position={"relative"}
       >
         <Text
-          fontSize={"20px"}
+          fontSize={"20px"} 
           fontWeight={"700"}
           fontStyle={"normal"}
           lineHeight={"normal"}
