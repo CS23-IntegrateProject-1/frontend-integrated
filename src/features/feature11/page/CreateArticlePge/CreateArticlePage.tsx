@@ -7,6 +7,8 @@ import {
   HStack,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Select,
   Tag,
   TagCloseButton,
@@ -41,7 +43,8 @@ interface VenueProps {
 // };
 
 export const CreateArticlePage = () => {
-  const [tags, setTags] = useState<string[]>(["hello", "Heoo"]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [selectedVenues, setSelectedVenues] = useState<VenueProps[]>([]);
   const [topic, setTopic] = useState<string>("");
@@ -73,7 +76,6 @@ export const CreateArticlePage = () => {
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTopic(e.target.value);
-    console.log(topic);
   };
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -98,15 +100,22 @@ export const CreateArticlePage = () => {
       setSelectedVenues(updatedVenues);
     }
   };
+  const handleAddTag = (tag: string) => {
+    if (tagInput != "") {
+      setTags([...tags, tag]);
+    }
+  };
+  const handleRemoveTag = (tag: string) => {
+    const updatedTags = tags.filter((t) => t !== tag);
+    setTags(updatedTags);
+  };
 
   const handleCreateArticle = () => {
     if (
-      topic === ""
-      // ||
-      // content === "" ||
-      // selectedVenues.length === 0 ||
-      // authorName === ""
-      // ||
+      topic === "" ||
+      content === "" ||
+      selectedVenues.length === 0 ||
+      authorName === "" 
       // images.length === 0
     ) {
       alert("Please fill in all the fields");
@@ -120,12 +129,11 @@ export const CreateArticlePage = () => {
       topic: topic,
       content: content,
       // category: category,
-      category: "Blog",
+      category: category,
       // author_name: authorName,
-      author_name: "mink",
+      author_name: authorName,
       venueIds: selectedVenueIds,
       tags: tags,
-      // images: images,
       images: [
         {
           url: "/test.jpg",
@@ -171,7 +179,6 @@ export const CreateArticlePage = () => {
         flexDirection={"row"}
         alignItems={"center"}
         my={"0.25em"}
-        justifyContent={"center"}
       >
         <FormLabel style={TextStyle.h3} m={"0"} w={"120px"}>
           Author Name:
@@ -182,9 +189,63 @@ export const CreateArticlePage = () => {
           placeholder="author name, if empty will be username"
           maxW={"500px"}
           borderColor={"whiteAlpha.600"}
+          value={authorName}
+          onChange={(e) => setAuthorName(e.target.value)}
         />
       </FormControl>
-      <Box mt={"10px"} w={"95%"} display={"flex"}>
+      <FormControl
+        display={"flex"}
+        flexDirection={"row"}
+        alignItems={"center"}
+        my={"0.25em"}
+      >
+        <FormLabel style={TextStyle.h3} m={"0"} w={"120px"}>
+          Category
+        </FormLabel>
+        <Select
+          maxW={"250px"}
+          variant={"flushed"}
+          borderColor={"whiteAlpha.600"}
+          size={"sm"}
+          // value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="Blog">Blog</option>
+          <option value="Review">Review</option>
+          <option value="Question">Question</option>
+        </Select>
+      </FormControl>
+
+      <Box mt={"10px"} w={"100%"} display={"flex"}>
+        <InputGroup
+          justifyContent="center"
+          alignItems="center"
+          mr={"0.5em"}
+          w={"40%"}
+          maxW={"250px"}
+        >
+          <Input
+            type="text"
+            size="sm"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            placeholder="add tag"
+          />
+          <InputRightElement>
+            <IconButton
+              textColor={"white"}
+              variant={"link"}
+              fontSize={"20px"}
+              isRound={true}
+              aria-label="add tag"
+              icon={<IoAddCircleSharp />}
+              size={"xs"}
+              onClick={() => {
+                handleAddTag(tagInput);
+              }}
+            />
+          </InputRightElement>
+        </InputGroup>
         <HStack>
           {tags.map((value) => (
             <Tag
@@ -195,26 +256,14 @@ export const CreateArticlePage = () => {
               bgColor={"brand.200"}
             >
               <TagLabel>{value}</TagLabel>
-              <TagCloseButton />
+              <TagCloseButton onClick={() => handleRemoveTag(value)} />
             </Tag>
           ))}
         </HStack>
-        <IconButton
-          mx={"5px"}
-          textColor={"white"}
-          variant={"unstyled"}
-          height={"20px"}
-          w={"20px"}
-          fontSize={"20px"}
-          borderRadius={"50%"}
-          aria-label="add tag"
-          icon={<IoAddCircleSharp />}
-        />
-        <Input type="text" size={"sm"}/>
       </Box>
 
-      <FormControl display={"flex"} justifyContent={"center"} >
-        <Box  w={"150px"} mr={"0.5em"}>
+      <FormControl display={"flex"}>
+        <Box w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
             Select Venue Names
           </FormLabel>
@@ -237,11 +286,10 @@ export const CreateArticlePage = () => {
           overflowX={"auto"} // Enable horizontal scrolling
           maxW={"calc(100% - 150px)"} // Limit maximum width
           alignSelf={"flex-end"}
-          
         >
-          {selectedVenues.map((venue) => (
+          {selectedVenues.map((venue, index) => (
             <Tag
-              key={venue.venueId}
+              key={index}
               size="md"
               borderRadius="full"
               variant="subtle"

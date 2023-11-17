@@ -1,6 +1,8 @@
-import { Box, Heading, Stack, Text, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, Stack,Button, Show, Checkbox, UnorderedList, ListItem, Spacer, Flex, Divider, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {
   const element = document.getElementById(sectionId);
@@ -10,6 +12,48 @@ function scrollToSection(sectionId : string) {
 }
 
 export const TermOfService = () => {
+   //function to handle continue button
+   const handleContinue = () =>   {
+    //hide the checkid button
+    const checkbtn = document.getElementById("checkbtn") as HTMLInputElement;
+    checkbtn.hidden=true;
+    // const check = document.querySelector('.check input') as HTMLInputElement;
+    // const text = document.querySelector('.checkText') as HTMLInputElement;
+    // if(check.checked){
+      // console.log("checked");
+      // document.querySelector('.checkText')?.setAttribute("hidden", "true");
+      // text.hidden=true;
+      //go back to previous page
+      
+      //set local storage for mock have to delete later***
+      //localStorage.setItem("terms&service", "true");
+      //create user consent
+      if(localStorage.getItem("terms&service") === null){
+      const url = `/feature1/term-of-services`;
+          //send a post request to the backend to consent
+          Axios.post(url, {
+            consent : true,
+          }, {withCredentials: true}) //already contains user id here via cookie
+            .then((response) => {
+              if (response.status === 200) {
+                //store consent in local storage
+                localStorage.setItem("terms&service", "true");
+                 console.log("terms and service set in the localstorage");
+              }
+              if(response.status === 409){
+                console.log("consent already exists");
+                localStorage.setItem("terms&service", "true");
+              }
+            })
+            .catch((error) => {
+              console.error('Error saving consent:', error);
+            });  
+      }
+    // }else{
+    //   text.hidden=false;
+    // }
+  
+  }
   return(
     <Box>
         <Heading style={TextStyle.h1}>Terms of Services</Heading>
@@ -30,7 +74,7 @@ export const TermOfService = () => {
           </Text>
           {/* --------------------------------------- */}
           {/* to ask about opacity & bg color */}
-            <Text style={TextStyle.body1}  bgColor="#6B37BC22" p={5}>
+            <Text style={TextStyle.body1}  bgColor="#6B37BC22" p={5} m={-4}>
               <UnorderedList spacing={2} color="brand.200">
                 <ListItem><Link to={""} onClick={() => scrollToSection("firstPart")}><Text as='b'>Accpetance of Terms</Text></Link></ListItem>
                 <ListItem><Link to={""} onClick={() => scrollToSection("secondPart")}><Text as='b'>User Eligibility</Text></Link></ListItem>
@@ -107,6 +151,8 @@ export const TermOfService = () => {
               reservations. We appreciate your trust in us and are committed to safeguarding
               your privacy.
             </Text>
+            <Divider/>
+              <Button mt={5} mx={{base:'0', lg:'25%'}} width={{base:'100%', lg:'50%'}} id="checkbtn" className="button" bg={"brand.200"} onClick={handleContinue} color={'white'} _hover={{bg:"brand.300"}}>Understood</Button>
         </Stack>
     </Box>
   );

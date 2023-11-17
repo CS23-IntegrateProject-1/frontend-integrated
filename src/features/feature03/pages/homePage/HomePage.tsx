@@ -185,7 +185,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/Cinemas">
+        <NavLink to="/cinemaMainPage">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -223,7 +223,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/Chatbot">
+        <NavLink to="/chatbot">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -265,7 +265,7 @@ export const HomePage = () => {
       </Flex>
       {/* ---------------------------------------------------------- */}
       <Flex mb={6} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/Articles">
+        <NavLink to="/article">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -341,7 +341,7 @@ export const HomePage = () => {
           </Card>
         </NavLink>
 
-        <NavLink to="/Community">
+        <NavLink to="/communitychat">
           <Card
             mt={15}
             mx={{ lg: "4", base: "1" }}
@@ -425,7 +425,7 @@ export const HomePage = () => {
       </Text>
       <Box display="flex">
         <SearchBar />
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Box
             _hover={{ color: "brand.100" }}
             pl="15px"
@@ -443,7 +443,7 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
           Maps
         </Text>
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Image
             src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
             alt="Map_Pic not load"
@@ -523,7 +523,7 @@ export const HomePage = () => {
               </Button>
               </NavLink>
 
-              <NavLink to="/IDK_PathRRRRR">
+              <NavLink to="/table">
               <Button
                 variant="solid"
                 textColor="white"
