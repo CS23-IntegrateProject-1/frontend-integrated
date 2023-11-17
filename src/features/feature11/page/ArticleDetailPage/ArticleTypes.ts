@@ -20,6 +20,7 @@ export interface ArticlesPageProps {
   Image: { url: string; description: string }[];
   Like: number;
   Comment: number;
+  isLike: boolean;
 
   // "topic": "Sample Topic",
   //   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -52,6 +53,7 @@ export interface ArticlePageProps {
   Image: { url: string; description: string }[];
   Like: number;
   CommentCount: number;
+  isLike: boolean;
 }
 
 export interface ImageProps {}
