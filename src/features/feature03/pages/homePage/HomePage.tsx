@@ -21,9 +21,8 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
-import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
-import { SiHomebrew } from "react-icons/Si";
-import { BsFillPeopleFill } from "react-icons/Bs";
+import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
+import { SiHomebrew } from "react-icons/si";
 import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoMdChatboxes } from "react-icons/io";
@@ -32,7 +31,6 @@ import { StarIcon } from "@chakra-ui/icons";
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
 import mockE from "../EF3mock.json";
-import colors from "../../../../theme/foundations/colors";
 
 interface RProps {
   id: number;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Icon, Image } from "@chakra-ui/react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/Bs";
-import { RxDotFilled } from "react-icons/rx";
+import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 
 import mockA from "../../AF3mock.json";
 
