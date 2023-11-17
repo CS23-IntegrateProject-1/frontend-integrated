@@ -10,6 +10,10 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 
 export const MobileBankingList = () => {
+
+
+
+
   return (
     <Box
       display={"flex"}

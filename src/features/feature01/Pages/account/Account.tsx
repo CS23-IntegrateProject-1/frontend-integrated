@@ -5,7 +5,7 @@ export const Account = () => {
   
   const links = [
     {title : "Profile", to : "/setting/account/profile"},
-    {title : "PaymentMethodSetting", to : "/setting/account/paymentmethodsetting"},
+    {title : "Update Payment Method", to : "/setting/account/paymentmethodsetting"},
   ];
 
   return(
