@@ -131,6 +131,7 @@ export const ArticlesPage = () => {
                       content={""}
                       category={""}
                       userId={0}
+                      isLike={article.isLike}
                     />
                   );
                 })}
@@ -152,6 +153,7 @@ export const ArticlesPage = () => {
                       content={""}
                       category={""}
                       userId={0}
+                      isLike={article.isLike}
                     />
                   );
                 })}
