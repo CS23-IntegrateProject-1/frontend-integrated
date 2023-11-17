@@ -134,7 +134,7 @@ export const ReservationDetail = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            Sunflowers Vanilla Sky
+            {data[0].venue.name}
           </Text>
           <Text
             color="#000"
