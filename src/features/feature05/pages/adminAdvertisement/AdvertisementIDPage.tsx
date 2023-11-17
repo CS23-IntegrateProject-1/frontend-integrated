@@ -1,20 +1,52 @@
-import { Box, Button, Select, Stack, Text, useDisclosure} from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
+import { Box, Button, Center, FormControl, FormLabel, Icon, IconButton, Select, Stack, Text, useDisclosure} from "@chakra-ui/react";
+import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
+import { Radio, RadioGroup, Image } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
-export const AdvertisementID = () => {
+import { ChangeEvent, useEffect, useState } from "react";
+import { BiImageAdd } from "react-icons/Bi";
+import { AiOutlineClose } from "react-icons/ai";
+
+export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate = useNavigate();
+  const handleClickReject = () => {
+    navigate("/advertisement/:id/reject");
+  };
+  const handleClickConfirm = () => {
+    navigate("/advertisement");
+  };
+
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+    }
+  };
+  const handleCloseImage = () => {
+    setImagePreview(null);
+  };
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+  
   return (
     <Box
       display={"flex"}
@@ -92,8 +124,9 @@ export const AdvertisementID = () => {
         </Box>
       </Box>
 
-      {/* Type */}
-      <Box
+      {/* Image */}
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
@@ -101,35 +134,100 @@ export const AdvertisementID = () => {
         flexDirection={"column"}
         paddingBottom={3}
       >
-        <Text style={TextStyle.h2} color={"white"}>
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
-          Type
-        </Text>
-        <RadioGroup defaultValue="2">
-          <Stack spacing={1} direction="column">
-            <Radio value="1">Special offers/ promotions</Radio>
-            <Radio value="2">Special events</Radio>
-          </Stack>
-        </RadioGroup>
-      </Box>
+          Images
+        </FormLabel>
+        <Stack spacing={2} direction="column">
+          <Center
+            width={"auto"}
+            height={"100"}
+            bg={"#FFFFFF"}
+            borderRadius={5}
+            cursor={"pointer"}
+          >
+            <Input
+              onChange={handleFileChange}
+              type="file"
+              opacity={0}
+              height={"100%"}
+              w={"100%"}
+              pos={"absolute"}
+            ></Input>
+            <Icon
+              as={BiImageAdd}
+              color={"#000000"}
+              width={"auto"}
+              height={"8"}
+            ></Icon>
+          </Center>
+        </Stack>
+      </FormControl>
+      {imagePreview ? (
+        <Box
+          position={"relative"}
+          overflow={"hidden"}
+          minWidth={"50%"}
+          maxWidth={"50%"}
+          height={"auto"}
+        >
+          <IconButton
+            aria-label="close"
+            minWidth={"15px"}
+            height={"15px"}
+            position={"absolute"}
+            top={0}
+            right={0}
+            as={AiOutlineClose}
+            onClick={handleCloseImage}
+          ></IconButton>
+          <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+        </Box>
+      ) : (
+        <></>
+      )}
 
-      <Box
+      {/* Target customer */}
+      <FormControl
+        isRequired
         width="50%"
         minWidth="250px"
         maxWidth="400px"
         display="flex"
         flexDirection={"column"}
-        paddingBottom={10}
+        paddingBottom={3}
       >
-        <Text style={TextStyle.h2} color={"white"} paddingBottom={1}>
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
-          Images (mobile & desktop view)
-        </Text>
-        <Stack spacing={2} direction="column">
-          <Box width={"auto"} height={"100"} bg={"white"} />
-          <Box width={"200"} height={"100"} bg={"white"} />
-        </Stack>
-      </Box>
+          Target customer
+        </FormLabel>
+        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+          <option value="option1">All</option>
+          <option value="option2">Member</option>
+        </Select>
+      </FormControl>
+
+      {/* Target group */}
+      <FormControl
+        isRequired
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={3}
+      >
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+          {" "}
+          Target group
+        </FormLabel>
+        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+          <option value="option1">Teen</option>
+          <option value="option2">young Adult</option>
+          <option value="option3">adult</option>
+          <option value="option4">elder</option>
+        </Select>
+      </FormControl>
 
       <Box
         width="50%"
@@ -181,6 +279,7 @@ export const AdvertisementID = () => {
         variant="solid" 
         width="40%" 
         color="#A533C8"
+        onClick={handleClickReject}
         >
           Reject
         </Button>
@@ -200,9 +299,9 @@ export const AdvertisementID = () => {
           <ModalHeader mt={3}>The request has been approved</ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
-            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%">Print</Button>
-            <Button bgColor={"#A533C8"} mr={3} onClick={onClose} color={"white"} width="30%">
-              Send Mail
+            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>
+            <Button bgColor={"#A533C8"} mr={3} onClick={handleClickConfirm} color={"white"} width="30%">
+              Confirm
             </Button>
           </ModalFooter>
         </ModalContent>
