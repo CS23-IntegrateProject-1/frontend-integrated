@@ -20,6 +20,16 @@ import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { NavLink } from "react-router-dom";
 import { AddCard } from "../../Components/TextSlider/AddCard";
+interface CreditCard {
+  creditCardId: number;
+  card_no: string;
+  name: string;
+  country: string;
+  bank: string;
+  cvc: number;
+  exp: string;
+  userId: number;
+}
 export const PaymentMethodSetting = () => {
   var userId;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,6 +38,8 @@ export const PaymentMethodSetting = () => {
   const [phNo, setphNo] = useState("");
   const [promptNo, setpromptNo] = useState<string>("");
   const [cardInfo, setcardInfo] = useState<string>("");
+  const [userid, setuserid] = useState<string>("");
+  const [cardData, setcardData] = useState<CreditCard[]>([]);
   const onClosePromptPay = () => setIsShowDrawerPromptPay(false);
   //get updated data of promtpay from the backend
   // useEffect(() => {
@@ -39,10 +51,24 @@ export const PaymentMethodSetting = () => {
             const data = response.data;
             setphNo(data.phone_number);
             setpromptNo(data.promptpay_number);
+            setuserid(data.user_id);
+            console.log(data.user_id);
           }
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
+        });
+
+        const cardurl = `http://localhost:8080/feature8/creditcardU/${userid}`;
+        Axios.get(cardurl, { withCredentials: true })
+        .then((response) => {
+          if (response.status == 200) {
+            setcardData(response.data);
+            console.log(cardData);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching f user data:", error);
         });
     }, []); // Run once on component mount
   
@@ -467,7 +493,7 @@ export const PaymentMethodSetting = () => {
         mx={-4}
         mt={15}
       >
-        Credit Cards
+        Choose your Credit Cards to Update
       </Box>
       {/* {cardInfo} */}
       <Box 
@@ -483,10 +509,23 @@ export const PaymentMethodSetting = () => {
         {/* radio group */}
         <RadioGroup>
           {/* Visa */}
-          <AddCard cardType="visa" cardId="visa" cardNo="" setType= {setcardInfo}/>
-        {/* Master */}
-          <AddCard cardType="master" cardId="master" cardNo="" setType={setcardInfo}/>
-        </RadioGroup>
+          {/* loop credit card info here */}
+          {/* setType willl store Credit Card user ID */}
+          {cardData.map((card) => (
+            <AddCard
+              key={card.creditCardId}
+              cardType="master"
+              setType ={setcardInfo}
+              bank={card.bank}
+              card_no={card.card_no}
+              country={card.country}
+              creditCardId={card.creditCardId}
+              cvc={card.cvc}
+              exp={card.exp}
+              name={card.name}
+              userId={card.userId}              
+            />
+          ))} </RadioGroup>
         <NavLink to={"/setting/account/paymentmethodsetting/AddCard"} state={cardInfo}>
           <Flex
             py={5}
@@ -503,7 +542,7 @@ export const PaymentMethodSetting = () => {
                 padding={0.5}
               />
             </Box>
-            <Text pl={35}>Add Card</Text>
+            <Text pl={35}>Update Card</Text>
           </Flex>
         </NavLink>
       </Box>

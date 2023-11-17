@@ -2,13 +2,153 @@ import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
 import { useDisclosure } from "@chakra-ui/hooks";
+import { useEffect, useState } from "react";
+import { Axios } from "../../../AxiosInstance";
 export const AddCard = () => { 
     const location = useLocation();
-     const cardInfo = location.state;
+     const cardInfo = location.state; //will be creditcardid
      const { isOpen, onOpen, onClose } = useDisclosure();
+     const [cardName, setCardName] = useState('');
+     const [cardNumber, setCardNumber] = useState('');
+     const [cardExpDate, setCardExpDate] = useState('');
+     const [cardCVC, setCardCVC] = useState('');
+     const [isValid, setIsValid] = useState(false);
+     const [country, setCountry] = useState('');
+        const [bank, setBank] = useState('');
+     console.log(cardInfo);
+     const handleCardNumberChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+      ) => {
+        let inputCardNumber = event.target.value;
+    
+        // Remove non-digit characters
+        inputCardNumber = inputCardNumber.replace(/\D/g, "");
+    
+        // Limit to 16 digits
+        inputCardNumber = inputCardNumber.slice(0, 16);
+    
+        // Separate every 4 digits
+        inputCardNumber = inputCardNumber.replace(/(\d{4})/g, "$1 ");
+    
+        setCardNumber(inputCardNumber.trim());
+    
+    
+        validateCardDetails(inputCardNumber.trim(), cardExpDate, cardCVC);
+    
+        // Perform simple card number validation
+        const isValidCard = /^\d{16}$/.test(inputCardNumber.replace(/\s/g, ""));
+        setIsValid(isValidCard);
+      };
+      const handleCvcChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let inputCvc = event.target.value;
+    
+        // Remove non-digit characters
+        inputCvc = inputCvc.replace(/\D/g, "");
+    
+        // Limit to 3 digits
+        inputCvc = inputCvc.slice(0, 3);
+    
+        setCardCVC(inputCvc);
+    
+        validateCardDetails(cardNumber, cardExpDate, inputCvc);
+      };
+
+      const validateCardDetails = (number: string, date: string, cvc: string) => {
+        // Perform simple card details validation
+        const isValidCard = /^\d{16}$/.test(number.replace(/\s/g, ""));
+        const isValidExpiryDate = /^(0[1-9]|1[0-2])\/\d{2}$/.test(date);
+        const isValidCvc = /^\d{3}$/.test(cvc);
+    
+        setIsValid(isValidCard && isValidExpiryDate && isValidCvc);
+      };
+
+      const handleExpiryDateChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+      ) => {
+        let inputExpiryDate = event.target.value;
+    
+        // Remove non-digit characters
+        inputExpiryDate = inputExpiryDate.replace(/\D/g, "");
+    
+        // Limit to 4 characters
+        inputExpiryDate = inputExpiryDate.slice(0, 4);
+    
+        // Separate MM/YY format
+        if (inputExpiryDate.length >= 2) {
+          inputExpiryDate = `${inputExpiryDate.slice(0, 2)}/${inputExpiryDate.slice(
+            2
+          )}`;
+        }
+        setCardExpDate(inputExpiryDate);
+
+    // Perform simple expiry date validation
+    const isValidExpiryDate = /^(0[1-9]|1[0-2])\/\d{2}$/.test(inputExpiryDate);
+    setIsValid(isValidExpiryDate);
+  };
+
+   const handleCardNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+    let inputCardName = event.target.value;
+    // Remove non-letter characters
+    inputCardName = inputCardName.replace(/[^A-Za-z\s]/g, "");
+    setCardName(inputCardName);
+    };
+
+     useEffect(() => {
+        const url = `http://localhost:8080/feature8/creditcardU/${cardInfo}`;        ;
+        Axios.get(url, {withCredentials: true})
+        .then((res) => {
+            if(res.status === 200){
+                setCardName(res.data[0].name);
+                setCardNumber(res.data[0].card_no);
+                setCardExpDate(res.data[0].exp);
+                setCardCVC(res.data[0].cvc);
+                setCountry(res.data[0].country);
+                setBank(res.data[0].bank);
+                console.log(res.data[0]);
+                console.log(cardName);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+        
+        },[]);
      const handleUpdate = () => {
-        onClose();
+        const url = `http://localhost:8080/feature8/update_creditcard/${cardInfo}`;
+        Axios.patch(url, {
+            card_no: cardNumber,
+            name: cardName,
+            country: country,
+            bank: bank,
+            cvc: Number(cardCVC),
+            exp: cardExpDate,
+            userId: Number(cardInfo)
+        }, {withCredentials: true})
+        .then((res) => {
+            if(res.status === 200){
+                console.log(res.data);
+                onClose();
+            }
+        }).catch((err) => {
+            console.log(err);
+            onClose();
+        });
+        // onClose();
       }
+      //change date format
+      const dateString = cardExpDate;
+      const [year, month] = dateString.split("-");
+      const formattedDate = year + "-" + month;
+      console.log(formattedDate);
+      function maskCardNumber(cardNumber: string): string {
+        const regex = /\d{4}$/; // Regular expression to match the last four digits
+        const maskedCardNumber = cardNumber.replace(regex, (match) => '****' + match);
+        return maskedCardNumber;
+      }
+      const cardNumberU = cardNumber;
+      const maskedCardNumber = maskCardNumber(cardNumberU);
+      
     return (
         <Box>
             {/* card background */}
@@ -19,11 +159,11 @@ export const AddCard = () => {
             {/* circle2 */}
             <Box position={'absolute'} top={{base:'-115px'}} left={{base:'130px', lg:'80%'}} bg={'black'} width={300} height={200} opacity={0.1} borderRadius={'50%'}></Box>
             {/* Card Holder Name */}
-            <Box position={'absolute'} top={{base:'100px', lg:'70px'}} left={{base:'30px', lg:'4%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>Card Holder Name</Box>
+            <Box position={'absolute'} top={{base:'100px', lg:'70px'}} left={{base:'30px', lg:'4%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>{cardName}</Box>
             {/* card number */}
-            <Box position={'absolute'} top={{base:'140px', lg:'160px'}} left={{base:'30px', lg:'4%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>5282 3456 7890 1289</Box>
+            <Box position={'absolute'} top={{base:'140px', lg:'160px'}} left={{base:'30px', lg:'4%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>{maskedCardNumber}</Box>
             {/* card expire date */}
-            <Box position={'absolute'} top={{base:'140px', lg:'160px'}} left={{base:'260px', lg:'88%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>Exp. Date</Box>
+            <Box position={'absolute'} top={{base:'140px', lg:'160px'}} left={{base:'260px', lg:'88%'}} color={'white'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>{formattedDate}</Box>
             {/* master img*/}
             {(cardInfo === 'master') ? (
             <Box position={'absolute'}  top={{base:'30px'}} left={{base:'280px', lg:'90%'}}>
@@ -53,16 +193,16 @@ export const AddCard = () => {
               <Box position='relative' padding='10'>
                 <Divider />
                 <AbsoluteCenter fontSize={TextStyle.body3} bg={'brand.400'} px='4'>
-                   Card Details
+                   Card Details 
                 </AbsoluteCenter>
               </Box>
                 {/* card number */}
                 <Box>
-                    <Input my={2} id="card_number" placeholder='5282 3456 7890 1289' size='md' borderColor={'brand.100'}/>
-                    <Input my={2} id="card_holderName" placeholder='Card Holder Name' size='md' borderColor={'brand.100'} />
+                    <Input value={cardNumber} onChange={handleCardNumberChange} type="text" my={2} id="card_number" placeholder='5282 3456 7890 1289' size='md' borderColor={'brand.100'}/>
+                    <Input value={cardName} onChange={handleCardNameChange} my={2} id="card_holderName" placeholder='Card Holder Name' size='md' borderColor={'brand.100'} />
                     <Stack direction={'row'} mt={2}>
-                        <Input id="exp_date" placeholder='Exp. Date' size='md' borderColor={'brand.100'}/>
-                        <Input id="cvc" placeholder='CVC' size='md' borderColor={'brand.100'}/>  
+                        <Input onChange={handleExpiryDateChange} id="exp_date" value={formattedDate} placeholder='Exp. Date' size='md' borderColor={'brand.100'}/>
+                        <Input id="cvc" onChange={handleCvcChange} value={cardCVC} placeholder='CVC' size='md' borderColor={'brand.100'}/>  
                     </Stack>
                 </Box>
                 <Center mt={{base:'150', lg:'50'}} onClick={onOpen}>
