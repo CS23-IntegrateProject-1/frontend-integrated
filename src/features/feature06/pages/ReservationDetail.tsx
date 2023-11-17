@@ -69,7 +69,7 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getReservationDetail();
+    const response: IData[] = await getReservationDetail(1);
     setData(response);
   };
   return (
