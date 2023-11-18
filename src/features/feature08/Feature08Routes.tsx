@@ -17,21 +17,19 @@ import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
 import { Timestamp } from "./pages/Account/Timestamp";
 import { AccountingMain } from "./pages/Account/AccountingMain";
-import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
+// import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
 export const Feature08Routes = () => {
   return [
-
     //customer side
     { path: ":userId/venue/:venueId/payment", element: <SelectPayment /> },
-    { path: "/customer/history", element: <PaymentHistory/> },
+    { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
-      //payment to venue by using venueId?
+    //payment to venue by using venueId?
     { path: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
-      //Action
+    //Action
     { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
     { path: "/waiting", element: "ElementPlaceHolder" },
-
 
     //venue ?
     // { path: "/venue/:venueId/payment", element: <SelectPayment /> },
@@ -45,33 +43,37 @@ export const Feature08Routes = () => {
     { path: "/venue/:userId/delivery_payment", element: <DeliveryPayment /> },
 
     //Business side
-    { path: "/venue/:venueId/business/checkout", element: <SelectPaymentForCheckout /> },
+    {
+      path: "/venue/:venueId/business/checkout",
+      element: <SelectPaymentForCheckout />,
+    },
     { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:venueId/business/addcard", element: <AddCard /> },
     { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
-    
-
 
     // admin side
-    { path: "/venue/:userId/admin/checkout", element: <SelectPaymentForCheckout /> },
+    {
+      path: "/venue/:userId/admin/checkout",
+      element: <SelectPaymentForCheckout />,
+    },
     { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
-
-
 
     { path: "/Notification/BusinessNoti", element: <Notification /> },
     { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
-    { path: "/Notification/Checkout", element: <CheckOutNoti /> }, 
-    { path: "/Notification/NewReservation", element: <NewReserveNoti /> }, 
-    { path: "/Notification/OrderUpdate", element: <OrderUpdateNoti /> }, 
+    { path: "/Notification/Checkout", element: <CheckOutNoti /> },
+    { path: "/Notification/NewReservation", element: <NewReserveNoti /> },
+    { path: "/Notification/OrderUpdate", element: <OrderUpdateNoti /> },
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
-    { path: "/Notification/payment", element: <SelectPaymentForPromotionOrAdvertisement /> },
-    { path: "/venue/Account/main", element: <AccountingMain/>},
-    { path: "/venue/Account/Accounting", element: <Accounting/>},
-    { path: "/venue/Account/timestamp", element: <Timestamp/>},
-    { path: "/venue/Accounting/Checkbill/:orderId", element: <Checkbill/>},
+    { path: "/venue/Account/main", element: <AccountingMain /> },
+    { path: "/venue/Account/Accounting", element: <Accounting /> },
+    { path: "/venue/Account/timestamp", element: <Timestamp /> },
+    {
+      path: "/venue/Accounting/Checkbill/:transactionId",
+      element: <Checkbill />,
+    },
   ];
 };

@@ -17,7 +17,6 @@ export const SettingHomepage = () => {
 
   const links = [
     {title : "Account & Security", to : "/setting/account"},
-    {title : "Notification", to : "/setting/notifications"},
     {title : "Privacy & Policy", to : "/setting/privacy-policy"},
     {title : "Terms of Service", to : "/setting/term-of-service"},
     {title : "Help & Support", to : "/setting/help"},

@@ -1,15 +1,15 @@
-import {EventsPage} from "./pages/EventsPage"
-import { NotiBadge } from "./Components/notiBadge";
+import { CinemaMain } from "./pages/CinemaMain";
+import { ShowTime } from "./pages/ShowTime";
 export const Feature10Routes = () => {
   return [
     {
-      path: "/notification",
-      element: <NotiBadge />,
-      
+      path: "/cinemaMainPage",
+      element: <CinemaMain />,
     },
     {
-      path: "/event",
-      element: <EventsPage />,
+      path: "/showtimes/:movieId",
+      element: <ShowTime />,
+
     },
     { path: "/event/:eventId", element: "ElementPlaceHolder" },
   ];

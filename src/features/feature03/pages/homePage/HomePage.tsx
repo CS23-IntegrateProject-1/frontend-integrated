@@ -21,9 +21,8 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
-import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
-import { SiHomebrew } from "react-icons/Si";
-import { BsFillPeopleFill } from "react-icons/Bs";
+import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
+import { SiHomebrew } from "react-icons/si";
 import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoMdChatboxes } from "react-icons/io";
@@ -32,7 +31,6 @@ import { StarIcon } from "@chakra-ui/icons";
 import mockR from "../RF3mock.json";
 import mockP from "../PF3mock.json";
 import mockE from "../EF3mock.json";
-import colors from "../../../../theme/foundations/colors";
 
 interface RProps {
   id: number;
@@ -425,7 +423,7 @@ export const HomePage = () => {
       </Text>
       <Box display="flex">
         <SearchBar />
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Box
             _hover={{ color: "brand.100" }}
             pl="15px"
@@ -523,7 +521,7 @@ export const HomePage = () => {
               </Button>
               </NavLink>
 
-              <NavLink to="/IDK_PathRRRRR">
+              <NavLink to="/table">
               <Button
                 variant="solid"
                 textColor="white"

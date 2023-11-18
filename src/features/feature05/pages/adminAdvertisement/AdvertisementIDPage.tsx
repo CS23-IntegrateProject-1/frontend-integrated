@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/Bi";
+import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 
 export const AdvertisementIDPage = () => {

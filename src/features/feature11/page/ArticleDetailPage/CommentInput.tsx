@@ -3,26 +3,33 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { FC, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const CommentInput = () => {
   const [content, setContent] = useState("");
-  // const { articleId } = useParams();
+  const queryClient = useQueryClient();
+  const { articleId } = useParams<{ articleId: string }>();
+  const articleIdAsNumber = parseInt(articleId || "0", 10); // or use Number(articleId || "0");
+
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
   const handleCreateComment = () => {
-    // console.log(articleId)
-    Axios.post("/feature11/addComment", {
+    console.log(articleId);
+    Axios.post("/feature11/writeComment", {
       content: content,
-      articleId: 1,
+      articleId: articleIdAsNumber,
     })
       .then((res) => {
         console.log(res);
+        queryClient.invalidateQueries({ queryKey: ["comments"] });
+        setContent("");
       })
       .catch((err) => {
         console.log("error", err);
       });
+      
   };
 
   return (

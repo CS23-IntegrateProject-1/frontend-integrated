@@ -14,7 +14,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { BiImageAdd } from "react-icons/Bi";
+import { BiImageAdd } from "react-icons/bi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { VoucherType } from "../../components/businessVoucherCom/VoucherType";
 import { useState } from "react";
