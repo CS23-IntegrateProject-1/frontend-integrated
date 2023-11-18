@@ -18,6 +18,7 @@ import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { ArticlePageProps } from "../../ArticleTypes";
 import { ShareModal } from "../../components/ShareModal";
+import { formatDate } from "../../../../functions/formatDatetime";
 
 export const ArticlePage = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,12 +28,11 @@ export const ArticlePage = () => {
   const queryClient = useQueryClient();
 
   const fetchArticle = async (): Promise<ArticlePageProps> => {
-    // const response: AxiosResponse<User[]> = await Axios.get("/users");
-    // return response.data;
     try {
       const article = await Axios.get(
         `/feature11/fetchArticleDetail/${articleId}`
       );
+      article.data.created_date = formatDate(article.data.created_date)
       return article.data;
       // return mockArticle;
     } catch (error) {
