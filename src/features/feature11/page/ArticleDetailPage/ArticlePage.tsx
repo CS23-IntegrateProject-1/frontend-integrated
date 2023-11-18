@@ -16,7 +16,7 @@ import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-import { ArticlePageProps } from "./ArticleTypes";
+import { ArticlePageProps } from "../../ArticleTypes";
 import { ShareModal } from "../../components/ShareModal";
 
 export const ArticlePage = () => {
