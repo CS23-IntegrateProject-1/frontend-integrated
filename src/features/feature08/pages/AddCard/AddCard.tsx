@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
 import axios from "axios"
+import { useParams } from "react-router-dom";
 
 interface ButtonProps {
   bgColor?: string;
@@ -52,7 +53,7 @@ export const AddCard: FC<ButtonProps> = ({
   const [bank, setBank] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addCardData, setAddCardData] = useState<AddCard[]>([]);
-
+  const {userId, venueId} = useParams();
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -151,7 +152,7 @@ export const AddCard: FC<ButtonProps> = ({
       } else {
         console.log("card is not valid");
       }
-      window.location.href = `/:userId/venue/:venueId/payment`;
+      // window.location.href = `/:userId/venue/:venueId/payment`;
     };
     // creditCardId : string,
     // card_no : string,
@@ -178,8 +179,8 @@ export const AddCard: FC<ButtonProps> = ({
             cvc: cvc,
             country: country,
             bank: bank,
-            // userId?: ,
-            // venueId?:  
+            userId: userId,
+            venueId: venueId,
           }
         );
     
@@ -188,6 +189,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
+        window.location.href = `/:userId/venue/:venueId/payment`;
       } catch (error) {
         console.error("POST error:", error);
       }
