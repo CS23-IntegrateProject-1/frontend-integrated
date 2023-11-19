@@ -12,6 +12,7 @@ import {
   import RecommendLocation from "../components/RecommendLocation";
 import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
 import SearchBar from "../components/Search";
+import { Axios } from "../../../AxiosInstance";
   
 interface LocationData {
   id: string;
@@ -22,10 +23,37 @@ interface LocationData {
   // Add other properties as needed
 }
 
+interface RegisteredData{
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  score: number;
+  website: string;
+}
+
+
   export const Bars = () => {
     const [savedData, setSavedData] = useState<LocationData[] | null>(null);
     const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+
+    const fetchRestaurantData = async () => {
+      try {
+        const response = await Axios.get("/feature4/bars"); 
+        setRegistered(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching restaurant data:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchRestaurantData();
+      console.log(registered)
+      console.log("hello")
+    }, []);
   
     // Retrieve data from localStorage on component mount
     useEffect(() => {
@@ -75,32 +103,25 @@ interface LocationData {
           Recommended Locations
         </Text>
         <Box
-    display="flex"
-    overflowX="auto"
-    whiteSpace="nowrap"
-    paddingRight={4}
-    maxWidth="1500px"
-  >
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
+          display="flex"
+          overflowX="auto"
+          whiteSpace="nowrap"
+          paddingRight={4}
+          maxWidth="1500px"
+        >
+          {/* Render RecommendLocation components based on savedData */}
+          {Array.isArray(registered) &&
+            registered.map((loc) => (
+              <RecommendLocation
+                key={loc.name}
+                name={loc.name}
+                description={loc.description}
+                category={loc.category}
+                capacity={loc.capacity}
+                score={loc.score}
+                website={loc.website}
+              />
+            ))}
         </Box>
   
         <br/>

@@ -7,6 +7,8 @@ import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
 import Header from "../components/Header";
 import RecommendLocation from "../components/RecommendLocation";
 import index from "../../../theme/foundations/index";
+import { Axios } from "../../../AxiosInstance";
+
 
 interface LocationData {
   id: string;
@@ -17,11 +19,36 @@ interface LocationData {
   // Add other properties as needed
 }
 
+interface RegisteredData{
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  score: number;
+  website: string;
+}
+
 export const Maps = () => {
   const [savedData, setSavedData] = useState<LocationData[] | null>(null);
   const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
 
+  const fetchRestaurantData = async () => {
+    try {
+      const response = await Axios.get("/feature4/restaurants");
+      setRegistered(response.data);
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRestaurantData();
+    console.log(registered)
+    console.log("hello")
+  }, []);
+  
   // Retrieve data from localStorage on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("nearbyPositions");
@@ -76,13 +103,16 @@ export const Maps = () => {
         maxWidth="1500px"
       >
         {/* Render RecommendLocation components based on savedData */}
-        {savedData &&
-          savedData.map((location) => (
+        {Array.isArray(registered) &&
+          registered.map((loc) => (
             <RecommendLocation
-              key={location.id}
-              image={location.image}
-              name={location.name}
-              description={location.address}
+              key={loc.name}
+              name={loc.name}
+              description={loc.description}
+              category={loc.category}
+              capacity={loc.capacity}
+              score={loc.score}
+              website={loc.website}
             />
           ))}
       </Box>

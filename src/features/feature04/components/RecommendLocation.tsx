@@ -33,9 +33,12 @@ import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 
 interface RecommendLocationCard {
-  image: string;
-  name: string;
-  description: string;
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    score: number;
+    website: string;
 }
 
 const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
@@ -134,13 +137,13 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                 <HeartIcon isLiked={liked} />
               </Box>
             </IconButton> */}
-            <Image
+            {/* <Image
               src={props.image}
               minWidth={320}
               maxHeight={136.25}
               objectFit="cover"
               borderRadius="5px"
-            />
+            /> */}
           </Center>
           <Stack mt="6" spacing="3">
             <Box
@@ -166,13 +169,13 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                   justifyContent={"space-between"}
                 >
                   <PinIcon />
-                  <Text
+                  {/* <Text
                     fontSize={textStyles.h3.fontSize}
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
                     10.3 km
-                  </Text>
+                  </Text> */}
                 </Box>
 
                 <Box display={"flex"} flexDir={"row"}>
@@ -182,7 +185,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    5.0
+                    {props.score}
                   </Text>
                 </Box>
               </Box>
