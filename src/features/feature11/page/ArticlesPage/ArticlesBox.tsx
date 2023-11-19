@@ -17,7 +17,6 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDeleteLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
       data: { articleId: props.articleId },
@@ -32,7 +31,6 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   };
 
   const handleAddLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.post(`/feature11/addLike`, { articleId: props.articleId })
       .then((res) => {

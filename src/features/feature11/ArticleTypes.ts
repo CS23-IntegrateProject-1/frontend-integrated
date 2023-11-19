@@ -1,5 +1,4 @@
 export interface ArticlesPageProps {
-  
   articleId: number;
   topic: string;
   content: string;
@@ -11,7 +10,15 @@ export interface ArticlesPageProps {
   Like: number;
   Comment: number;
   isLike: boolean;
+  Article_tags: {
+    articleId: number;
+    tag: {
+      tagId: number;
+      tag_name: string;
+    };
+  }[];
 
+  Article_venue: number[];
   // "topic": "Sample Topic",
   //   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   //   "created_date": "2023-11-12T00:00:00.000Z",
@@ -44,6 +51,26 @@ export interface ArticlePageProps {
   Like: number;
   CommentCount: number;
   isLike: boolean;
+  Article_tags: {
+    articleId: number;
+    tag: {
+      tagId: number;
+      tag_name: string;
+    };
+  }[];
+}
+
+export interface ArticleTagProps {
+  articleId: number;
+  tag: {
+    tagId: number;
+    tag_name: string;
+  };
+}
+
+export interface ArticleFooterProps {
+  author_name: string;
+  Article_tags: ArticleTagProps[];
 }
 
 export interface ImageProps {}
