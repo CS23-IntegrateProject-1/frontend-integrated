@@ -17,6 +17,7 @@ import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
 import { Timestamp } from "./pages/Account/Timestamp";
 import { AccountingMain } from "./pages/Account/AccountingMain";
+import { AddCardVenue } from "./pages/AddCard/AddCardVenue";
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
 export const Feature08Routes = () => {
@@ -48,7 +49,7 @@ export const Feature08Routes = () => {
       element: <SelectPaymentForCheckout />,
     },
     { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
-    { path: "/venue/:venueId/business/addcard", element: <AddCard /> },
+    { path: "/venue/:venueId/business/addcard", element: <AddCardVenue /> },
     { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
 
     // admin side
