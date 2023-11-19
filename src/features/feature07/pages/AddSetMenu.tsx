@@ -1,13 +1,22 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRightElement } from '@chakra-ui/react'; 
+import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack} from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 import { Image } from "../component/ImageUpload/Image";
 import { useRef,useState } from 'react';
+import { AddIcon} from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom';
 
-export const AddMenu = () => {
+interface Menu {
+    name: string;
+  }
+
+  export const AddSetMenu: React.FC = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedMenus, setSelectedMenus] = useState<Menu[]>([]);
+  const [inputFieldValue, setInputFieldValue] = useState('');
+  const navigate = useNavigate();
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -17,6 +26,15 @@ export const AddMenu = () => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
+  };
+
+  const handleAddMenuClick = () => {
+    navigate('/venue/:venueId/choosemenu');
+  };
+ 
+  const handleMenuSelect = (selectedMenu: Menu) => {
+    setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
+    setInputFieldValue('');
   };
 
   return (
@@ -54,7 +72,27 @@ export const AddMenu = () => {
             />
           </Box>
         </Center>
-
+        <Center>
+        <Box>
+      <FormLabel>Selected Food in set:</FormLabel>
+      <VStack align="start" spacing={2}>
+              {selectedMenus.map((menu, index) => (
+                <Box key={index}>{menu.name}</Box>
+              ))}
+      </VStack>
+      <InputGroup>
+        <InputLeftElement>
+          <AddIcon boxSize={4} onClick={handleAddMenuClick} />
+        </InputLeftElement>
+        <Input
+          variant="flushed"
+          width="307px"
+          value={inputFieldValue}
+          onChange={(e) => setInputFieldValue(e.target.value)}
+        />
+      </InputGroup>
+    </Box>
+        </Center>
         <Center>
           <Box>
             <FormLabel>Price</FormLabel>
@@ -128,7 +166,7 @@ export const AddMenu = () => {
         borderRadius="5px">
         <ButtonComponent 
         width={"330px"}
-        text= "Add Menu"
+        text= "Add Set Menu"
         />
         </Box>
         </Center>

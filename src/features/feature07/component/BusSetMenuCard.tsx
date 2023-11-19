@@ -71,10 +71,11 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
         </Text>
         <ButtonComponent 
         text={isAvailable ? "Available" : "Out of Stock"}
-        textStyle={"body2"}
-        width={isAvailable ? "70px" : "80px"}
+        textStyle="body2"
+        width={isAvailable ? "70px" : "90px"}
         height={"30px"} 
         bgColor={isAvailable ? "green" : "red"} 
+        bgColorHover={isAvailable ? "green" : "red"}
         />
       </Box>
     </VStack>

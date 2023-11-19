@@ -3,7 +3,7 @@ import { FC,useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 
-interface CartCardProps {
+interface AddCardProps {
   id:number;
   foodName: string;
   description: string;
@@ -11,7 +11,7 @@ interface CartCardProps {
   imageUrl: string;
 };
 
-export const CartCard: FC = () => {
+export const AddCard: FC = () => {
   const [amount, setAmount] = useState(1);
 
   const increaseAmount = () => {

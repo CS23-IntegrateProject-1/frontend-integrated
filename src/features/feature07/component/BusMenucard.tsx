@@ -40,7 +40,7 @@ export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,
       objectFit="cover" 
       mt={1}
       width="140px" 
-      height="108px"
+      height="105px"
       borderRadius="5px"
       position="relative"
       />
@@ -71,10 +71,11 @@ export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,
         </Text>
         <ButtonComponent 
         text={isAvailable ? "Available" : "Out of Stock"}
-        textStyle={"body2"}
-        width={isAvailable ? "70px" : "80px"}
+        textStyle="body2"
+        width={isAvailable ? "70px" : "90px"}
         height={"30px"} 
         bgColor={isAvailable ? "green" : "red"} 
+        bgColorHover={isAvailable ? "green" : "red"}
         />
       </Box>
     </VStack>

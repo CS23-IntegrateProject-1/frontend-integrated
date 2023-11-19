@@ -7,6 +7,8 @@ import { CartMenuDetail } from "./pages/CartMenuDetail";
 import { MenuAllBusiness } from "./pages/MenuAllBusiness";
 import { EditMenu } from "./pages/EditMenu";
 import { AddMenu } from "./pages/AddMenu";
+import { AddSetMenu } from "./pages/AddSetMenu";
+import { ChooseMenu } from "./pages/ChooseMenu";
 export const Feature07Routes = () => {
   return [
     { path: "/venue/:venueId/menu", element: <MenuAll /> },
@@ -18,5 +20,7 @@ export const Feature07Routes = () => {
     { path: "/venue/:venueId/menubusiness", element: <MenuAllBusiness /> },
     { path: "/venue/:venueId/editmenu", element: <EditMenu /> },
     { path: "/venue/:venueId/addmenu", element: <AddMenu /> },
+    { path: "/venue/:venueId/addsetmenu", element: <AddSetMenu /> },
+    { path: "/venue/:venueId/choosemenu", element: <ChooseMenu /> },
   ];
 };

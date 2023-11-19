@@ -1,4 +1,4 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex} from "@chakra-ui/react";
+import { Box, HStack, Button,Text, Center, Icon, VStack,Flex} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { BusMenucard } from "../component/BusMenucard";
@@ -78,12 +78,9 @@ export const MenuAllBusiness = () => {
       setBorderColor("brand.200");
     }
   };
-  const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
-    console.log("Clicked menu. Menu ID:", menuid);
-  }  
-  const handleCartClick = () => {
-    navigate(`/venue/${venueId}/cart`); 
+  const handleAddMenuClick = () => {
+    const route = subtitle === "All Menu" ? "addmenu" : "addsetmenu";
+    navigate(`/venue/${venueId}/${route}`);
   };
   useEffect(() => {
     handleAllMenuClick();
@@ -115,25 +112,6 @@ export const MenuAllBusiness = () => {
               onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
             />
             ))}
-            {/* {menuData.map((menu) => {
-          console.log("Rendering menu item:", menu);
-          
-          if (!menu.menuId) {
-            console.error("Menu ID is undefined or null for the following menu item:", menu);
-          }
-
-          return (
-            <MenuCard
-              key={menu.menuId}
-              id={menu.menuId}
-              foodName={menu.name}
-              description={menu.description}
-              price={menu.price}
-              imageUrl={menu.image}
-              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
-            />
-          );
-        })} */}
           </VStack>
         );
       }
@@ -161,6 +139,7 @@ export const MenuAllBusiness = () => {
   return (
     <Box>
     <Flex direction="column" align="center" justify="center">
+    <Center>
       <HStack spacing={4}>
       <RButton 
         bgColor={allMenuButtonColor}
@@ -181,40 +160,31 @@ export const MenuAllBusiness = () => {
         onClick={handleSetMenuClick}
          />
       </HStack>
+      </Center>
       </Flex>
+      
       <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
+      <Center >
       {renderMenuCards()}
-      <Box
-        position="fixed"
-        bottom="20"
-        right="4"
-        borderRadius="5px"
-        zIndex="1"
-      >
-        <Icon as={CustomCartIcon}
-          color="currentColor"
-          aria-label="Open Cart"
-          boxSize={20}
-          onClick={handleCartClick}
-        />
-      </Box>
-      <Flex align="center" justify="center" >
+      </Center>
+      
+      <Center>
       <Box
         position="fixed"
         bottom="4"
-        left="32%"
         width="109px"
         height="29px"
         textAlign="center"
         borderRadius="5px">
             
         <ButtonComponent text="Add"
-        onClick={() => navigate(`/venue/${venueId}/addmenu`)} />
+        onClick={handleAddMenuClick} />
          
       </Box>
-      </Flex>
+      </Center>
+    
       </Box>
    
   );
