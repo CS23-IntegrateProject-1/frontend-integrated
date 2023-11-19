@@ -38,7 +38,7 @@ export const MyReservation = () => {
   const [data, setData] = useState<IData[]>([]);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); 
 
   const fetchData = async () => {
     const response: IData[] = await getMyReservation(1, status);
@@ -172,7 +172,7 @@ export const MyReservation = () => {
           onClick={() => setStatus("Check_out")}
         >
           <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Check_out
+            Completed
           </Text>
         </Button>
         <Button
@@ -192,10 +192,10 @@ export const MyReservation = () => {
             border: "none",
           }}
           _hover={{}}
-          onClick={() => setStatus("Cancelled")}
+          onClick={() => setStatus("Cancel")}
         >
           <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Cancelled
+            Canceled
           </Text>
         </Button>
       </Box>
