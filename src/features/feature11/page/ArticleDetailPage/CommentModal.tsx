@@ -13,7 +13,7 @@ import { FC } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { CommentInput } from "./CommentInput";
 import { CommentItem } from "./CommentItem";
-import { ArticleComment } from "./ArticleTypes";
+import { ArticleComment } from "../../ArticleTypes";
 import { useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";

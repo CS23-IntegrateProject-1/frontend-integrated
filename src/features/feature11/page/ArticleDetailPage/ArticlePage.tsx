@@ -10,15 +10,15 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 BiComment;
-import { BiComment } from "react-icons/Bi";
+import { BiComment } from "react-icons/bi";
 import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
-import { mockArticle } from "./mockArticle";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-import { ArticlePageProps } from "./ArticleTypes";
+import { ArticlePageProps } from "../../ArticleTypes";
 import { ShareModal } from "../../components/ShareModal";
+import { formatDate1 } from "../../../../functions/formatDatetime";
 
 export const ArticlePage = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,12 +28,11 @@ export const ArticlePage = () => {
   const queryClient = useQueryClient();
 
   const fetchArticle = async (): Promise<ArticlePageProps> => {
-    // const response: AxiosResponse<User[]> = await Axios.get("/users");
-    // return response.data;
     try {
       const article = await Axios.get(
         `/feature11/fetchArticleDetail/${articleId}`
       );
+      article.data.created_date = formatDate1(article.data.created_date)
       return article.data;
       // return mockArticle;
     } catch (error) {

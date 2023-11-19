@@ -13,8 +13,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FC, useRef } from "react";
-import { BiLogoCreativeCommons } from "react-icons/Bi";
-import { Link } from "react-router-dom";
 
 interface ShareModalProps {
   isOpen: boolean;
