@@ -66,9 +66,9 @@ console.log(data1);
         <TabPanels>
           <TabPanel>
             <VStack>
-              {conversations.map((conversation) => (
+              {conversations.map((conversation,index:number) => (
                 <Box
-                  key={conversation.id}
+                  key={index}
                   width="100%"
                   borderBottom="0.5px solid white"
                   padding="2"

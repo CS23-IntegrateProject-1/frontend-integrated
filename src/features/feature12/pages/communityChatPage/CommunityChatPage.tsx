@@ -13,13 +13,8 @@ interface CommunityChatPageProps {}
 export const CommunityChatPage = () => {
   return (
     <Box display="flex">
-      <MessageLog />
-      <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
-        <Box flexGrow="1" overflow="auto">
-          <Messages />
-        </Box>
-        <SendMessage />
-      </Box>
+      <TestMessageLog />
+      <OpenConversations />
     </Box>
   );
 };
