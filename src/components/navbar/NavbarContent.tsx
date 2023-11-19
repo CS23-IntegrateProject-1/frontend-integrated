@@ -1,7 +1,8 @@
 import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
 import { FC } from "react";
 import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface NavbarContentProps {
   isOpen: boolean;
@@ -16,24 +17,25 @@ export const NavbarContent: FC<NavbarContentProps> = ({
 }) => {
   const handleLinkClick = () => {
     onClose();
-  };
+  }
+  const navigate = useNavigate();
   const links = [
     { title: "Home", to: "/" },
     {
       title: "Reservation",
-      to: "/",
+      to: "/my-reservation",
     },
     {
       title: "Save Places",
-      to: "/",
+      to: "/saved-place",
     },
     {
       title: "Promotion",
-      to: "/",
+      to: "/promotion",
     },
     {
       title: "Membership",
-      to: "/",
+      to: "/membership",
     },
   ];
   return (
@@ -83,6 +85,7 @@ export const NavbarContent: FC<NavbarContentProps> = ({
           icon={
             <SettingsIcon alignSelf={"flex-end"} boxSize={6} color={"white"} />
           }
+          onClick={()=>{navigate("/setting"); onClose()}}
         />
       </Box>
     </Slide>

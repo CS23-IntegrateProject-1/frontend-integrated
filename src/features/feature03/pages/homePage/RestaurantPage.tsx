@@ -111,16 +111,16 @@ export const RestaurantPage = () => {
                   More Info
                 </Button>
               </NavLink>
-              <NavLink to="/IDK_PathRRRRRRR">
-                <Button
-                  variant="solid"
-                  textColor="white"
-                  bgColor="brand.300"
-                  _hover={{ bgColor: "brand.100", textColor: "black" }}
-                  w="160px"
-                >
-                  Reserve Now
-                </Button>
+              <NavLink to="/table">
+              <Button
+                variant="solid"
+                textColor="white"
+                bgColor="brand.300"
+                _hover={{ bgColor: "brand.100", textColor: "black" }}
+                w="160px"
+              >
+                Reserve Now
+              </Button>
               </NavLink>
             </Flex>
           </Card>

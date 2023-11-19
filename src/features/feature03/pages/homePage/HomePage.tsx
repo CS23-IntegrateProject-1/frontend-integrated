@@ -2,12 +2,14 @@ import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
 import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
+
 import { ButtonPenta } from "./F3_HPCs/ButtonPenta";
 import { ButtonQuad } from "./F3_HPCs/ButtonQuad";
 import { RecommendSlide } from "./F3_HPCs/RecommendSlide";
 import { PromoSlide } from "./F3_HPCs/PromoSlide";
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+        
 
 export const HomePage = () => {
   // const [searchFilter, setSearchFilter] = useState<string>("");
@@ -28,7 +30,7 @@ export const HomePage = () => {
       </Text>
       <Box display="flex">
         <SearchBar />
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Box
             _hover={{ color: "brand.100" }}
             pl="15px"
@@ -46,7 +48,7 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
           Maps
         </Text>
-        <NavLink to="/IDK_Path">
+        <NavLink to="/map">
           <Image
             src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
             alt="Map_Pic not load"
