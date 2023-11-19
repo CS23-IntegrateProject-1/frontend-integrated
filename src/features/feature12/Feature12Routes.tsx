@@ -1,3 +1,4 @@
+import { ConversationsProvider } from "./context/ConversationProvider";
 import { ChatBotPage } from "./pages/chatBotPage/ChatBotPage";
 import { CommunityChatPage } from "./pages/communityChatPage/CommunityChatPage";
 import {TestingFeat12} from "./pages/testingPage/TestingFeat12";
