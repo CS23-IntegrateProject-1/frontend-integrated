@@ -2,6 +2,7 @@ import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { ReservationCards } from "../components/ReservationCards";  
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
+import { ButtonMyReservation } from "../components/ButtonMyReservation";
 
 interface IData {
   venueId: number;
@@ -38,31 +39,14 @@ export const MyReservation = () => {
   const [data, setData] = useState<IData[]>([]);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); 
 
   const fetchData = async () => {
     const response: IData[] = await getMyReservation(1, status);
     setData(response);
   };
 
-  // const filterDataByStatus = () => {
-  //   switch (status) {
-  //     case "Pending":
-  //       return data.filter((item) => item.status === "Pending");
-  //     case "Check_in":
-  //       return data.filter((item) => item.status === "Check_in");
-  //     case "Check_out":
-  //       return data.filter((item) => item.status === "Check_out");
-  //     case "Cancelled":
-  //       return data.filter((item) => item.status === "Cancelled");
-  //     default:
-  //       return data;
-  //   }
-  // };
-
   const renderCards = () => {
-    // const filteredData = filterDataByStatus();
-    // return filteredData.map((data, index: number) => {
     return data.map((data, index: number) => {
       return (
         (status === "" || data.status === status) && (
@@ -95,7 +79,6 @@ export const MyReservation = () => {
         className="ButtonBar"
         maxWidth={"90%"}
         overflowX={"auto"}
-        // overflowY={"hidden"}
         whiteSpace={"nowrap"}
         display={"flex"}
         height={"50px"}
@@ -103,101 +86,10 @@ export const MyReservation = () => {
         justifyContent={"flex-start"}
         position={"relative"}
       >
-        <Button
-          className="Pending"
-          variant="outline"
-          background={"none"}
-          minWidth={"110px"}
-          height={"30px"}
-          display={"fixed"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          borderRadius={"15px"}
-          marginRight={"20px"}
-          _focus={{
-            background: "#A533C8",
-            borderColor: "none",
-            transitionDuration: "1s",
-            border: "none",
-          }}
-          _hover={{}}
-          onClick={() => setStatus("Pending")}
-        >
-          <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Pending
-          </Text>
-        </Button>
-        <Button
-          className="Checkin"
-          variant="outline"
-          background={"none"}
-          minWidth={"110px"}
-          height={"30px"}
-          display={"fixed"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          borderRadius={"15px"}
-          marginRight={"20px"}
-          _focus={{
-            background: "#A533C8",
-            borderColor: "none",
-            transitionDuration: "1s",
-            border: "none",
-          }}
-          _hover={{}}
-          onClick={() => setStatus("Check_in")}
-        >
-          <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Checkin
-          </Text>
-        </Button>
-        <Button
-          className="Check_out"
-          variant="outline"
-          background={"none"}
-          minWidth={"110px"}
-          height={"30px"}
-          display={"fixed"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          borderRadius={"15px"}
-          marginRight={"20px"}
-          _focus={{
-            background: "#A533C8",
-            borderColor: "none",
-            transitionDuration: "1s",
-            border: "none",
-          }}
-          _hover={{}}
-          onClick={() => setStatus("Check_out")}
-        >
-          <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Check_out
-          </Text>
-        </Button>
-        <Button
-          className="Cancelled"
-          variant="outline"
-          background={"none"}
-          minWidth={"110px"}
-          height={"30px"}
-          display={"fixed"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          borderRadius={"15px"}
-          _focus={{
-            background: "#A533C8",
-            borderColor: "none",
-            transitionDuration: "1s",
-            border: "none",
-          }}
-          _hover={{}}
-          onClick={() => setStatus("Cancelled")}
-        >
-          <Text color={"white"} fontSize="16px" fontWeight={"normal"}>
-            Cancelled
-          </Text>
-        </Button>
+        <ButtonMyReservation onClick={()=>setStatus("Pending")} text="Pending"></ButtonMyReservation>
+        <ButtonMyReservation onClick={()=>setStatus("Check_in")} text="Check_in"></ButtonMyReservation>
+        <ButtonMyReservation onClick={()=>setStatus("Check_out")} text="Check_out"></ButtonMyReservation>
+        <ButtonMyReservation onClick={()=>setStatus("Cancel")} text="Canceled"></ButtonMyReservation>
       </Box>
       <Box className="ReservationList" marginTop={"10px"}>
         {renderCards()}
