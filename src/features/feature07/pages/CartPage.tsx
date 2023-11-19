@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState,useEffect } from 'react';
-import { Box,HStack,Flex, VStack} from '@chakra-ui/react';
+import { Box,HStack,Flex, VStack, Text} from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
+import textStyles from '../../../theme/foundations/textStyles';
 
 const fetchCartItems = async () => {
   const userId = 4;
@@ -30,6 +31,17 @@ export const CartPage = () => {
 
     const { data: cartItems, isLoading, isError } = useQuery(["cartItem"], () => fetchCartItems());
 
+    const handleOrder = async () => {
+      try {
+        const response = await Axios.post(`/feature7/addCartToOrderDetailsOfDineIn/${venueId}/`);
+        console.log('Response:', response.data); // Log the response data for debugging
+        navigate(`/venue/${venueId}/order`);
+      } catch (error) {
+        console.error('Error confirming order:', error); // Log any errors for debugging
+        console.log('Error response:'); // Log the error response for debugging
+      }
+    }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -38,12 +50,15 @@ export const CartPage = () => {
         return <div>Error</div>;
     }
 
+    const buttonBgColor=(cartItems.length===0)? "gray.300":"brand.200";
     // console.log("new cartItems");
     // console.log(cartItems);
    return(
     <Flex direction="column" align="center" justify="center">
     <VStack mt={4} overflowY="auto" maxHeight="500px">
-      {Array.isArray(cartItems) &&
+      {cartItems.length===0 ? (
+        <Box><Text {...textStyles.h2}>No iterms in cart</Text></Box>
+      ) : (
           cartItems.map((item, index)=> (
             <SecondCartCard
               key={index}
@@ -55,7 +70,8 @@ export const CartPage = () => {
               amount={item.quantity}
               type={item.menuId !== null ? 'Menu' : 'Set'}
             />
-          ))}
+          ))
+        )}
           {/* <SecondCartCard /> */}
     </VStack>
     <Flex align="center" justify="center" mt={4}>
@@ -70,7 +86,9 @@ export const CartPage = () => {
             
         <ButtonComponent 
         text="Order"
-        onClick={() => navigate(`/venue/${venueId}/order`)}
+        onClick={() => handleOrder()}
+        isDisabled={cartItems.length===0}
+        bgColor={buttonBgColor}
          />
          
       </Box>
