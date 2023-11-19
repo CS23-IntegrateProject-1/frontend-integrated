@@ -1,15 +1,5 @@
 export interface ArticlesPageProps {
-  // articleId: string;
-  // articleName: string;
-  // //articleContent: string;
-  // writerUsername: string;
-  // //writerName: string;
-  // writerProfilePicture: string;
-  // articlePicture: string[];
-  // articleLikes: number;
-  // // articleComments: ArticleComment[];
-  // articleCommentsNumber: number;
-  // dateCreated: string;
+  
   articleId: number;
   topic: string;
   content: string;
