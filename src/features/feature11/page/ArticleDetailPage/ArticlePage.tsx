@@ -159,7 +159,7 @@ export const ArticlePage = () => {
             h={"20px"}
           ></Icon> */}
       </Flex>
-      <ArticleFooter author_name={article.data?.author_name || ""} />
+      <ArticleFooter author_name={article.data?.author_name || ""} Article_tags={article.data?.Article_tags || []} />
       <CommentModal
         isOpen={commentDisclosure.isOpen}
         onClose={commentDisclosure.onClose}

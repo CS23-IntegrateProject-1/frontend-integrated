@@ -45,7 +45,7 @@ interface VenueProps {
 export const CreateArticlePage = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string>("Blog");
   const [selectedVenues, setSelectedVenues] = useState<VenueProps[]>([]);
   const [topic, setTopic] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -115,7 +115,7 @@ export const CreateArticlePage = () => {
       topic === "" ||
       content === "" ||
       selectedVenues.length === 0 ||
-      authorName === "" 
+      authorName === ""
       // images.length === 0
     ) {
       alert("Please fill in all the fields");
@@ -216,56 +216,69 @@ export const CreateArticlePage = () => {
         </Select>
       </FormControl>
 
-      <Box mt={"10px"} w={"100%"} display={"flex"}>
-        <InputGroup
-          justifyContent="center"
-          alignItems="center"
-          mr={"0.5em"}
-          w={"40%"}
-          maxW={"250px"}
-        >
-          <Input
-            type="text"
-            size="sm"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            placeholder="add tag"
-          />
-          <InputRightElement>
-            <IconButton
-              textColor={"white"}
-              variant={"link"}
-              fontSize={"20px"}
-              isRound={true}
-              aria-label="add tag"
-              icon={<IoAddCircleSharp />}
-              size={"xs"}
-              onClick={() => {
-                handleAddTag(tagInput);
-              }}
+      {/* ============= TAG===========  */}
+      <FormControl display={"flex"} alignItems={"flex-end"}>
+        <Box>
+          <FormLabel display={"inline"} fontSize={"xs"}>
+            Add tag
+          </FormLabel>
+          <InputGroup
+            justifyContent="center"
+            alignItems="center"
+            mr={"0.5em"}
+            w={"150px"}
+            size={"sm"}
+          >
+            <Input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="add tag"
             />
-          </InputRightElement>
-        </InputGroup>
-        <HStack>
-          {tags.map((value) => (
+            <InputRightElement>
+              <IconButton
+                textColor={"white"}
+                variant={"unstyled"}
+                // isRound={true}
+                aria-label="add tag"
+                icon={<IoAddCircleSharp />}
+                size={"xs"}
+                fontSize={"xl"}
+                onClick={() => {
+                  handleAddTag(tagInput);
+                }}
+              />
+            </InputRightElement>
+          </InputGroup>
+        </Box>
+        <HStack
+          spacing={2}
+          // overflow={"scroll"}
+          overflowX={"auto"} // Enable horizontal scrolling
+          maxW={"calc(100% - 150px)"} // Limit maximum width
+        >
+          {tags.map((value, index) => (
             <Tag
-              size={"sm"}
-              key={value}
+              key={index}
+              size="md"
               borderRadius="full"
-              variant="solid"
+              variant="subtle"
+              minWidth={"fit-content"}
               bgColor={"brand.200"}
+              color={"white"}
             >
               <TagLabel>{value}</TagLabel>
               <TagCloseButton onClick={() => handleRemoveTag(value)} />
             </Tag>
           ))}
         </HStack>
-      </Box>
+      </FormControl>
+      {/* ============= SELECT VENUE ===========  */}
 
       <FormControl display={"flex"}>
         <Box w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
-            Select Venue Names
+            Select Venue
           </FormLabel>
           <Select
             size={"sm"}
