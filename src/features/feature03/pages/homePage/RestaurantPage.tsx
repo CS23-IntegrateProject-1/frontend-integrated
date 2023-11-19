@@ -14,19 +14,41 @@ import {
 import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
-import mockR from "../RF3mock.json";
 import { StarIcon } from "@chakra-ui/icons";
+import { useQuery } from '@tanstack/react-query';
+import { Axios } from "../../../../AxiosInstance";
 
-interface RProps {
-  id: number;
-  name: string;
-  description: string;
-  picR: string;
+
+interface VenueType {
+  id: number
+  venueId: number
+  name: string
+  description: string
+  category: string
+  capacity: string
+  location: string
+  score: string
+  website_url: string
 }
 
 export const RestaurantPage = () => {
-  const R: RProps[] = mockR;
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { isLoading, isError, data: venueData } = useQuery<VenueType[]>({
+    queryKey: ['getVenues'],
+    queryFn: async () => {
+      const { data } = await Axios.get('/feature3/venues')
+      return data
+    },
+  })
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: </span>
+  }
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
@@ -54,19 +76,19 @@ export const RestaurantPage = () => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {R.filter((R) => R).map((R, index) => (
+        {venueData.map((venue) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
             borderRadius="2xl"
             bg="brand.200"
-            key={index}
+            key={venue.id}
             mb={8}
           >
             <CardBody>
               <Image
-                src={R.picR}
-                alt="BarButPic not load"
+                src={venue.pic}
+                alt="Restaurant_Pic not load"
                 borderRadius="lg"
                 w="100%"
                 h="160px"
@@ -74,7 +96,7 @@ export const RestaurantPage = () => {
               <Stack mt="4" spacing="3">
                 <Flex direction="row" justify="space-between" align="center">
                   <Heading color="white" size="md">
-                    {R.name}
+                    {venue.name}
                   </Heading>
                   <Flex
                     direction="row"
@@ -83,10 +105,10 @@ export const RestaurantPage = () => {
                     borderRadius="14"
                     color="white"
                   >
-                    5<StarIcon ml="1" transform="translateY(2px)" />
+                    {venue.score}<StarIcon ml="1" transform="translateY(2px)" />
                   </Flex>
                 </Flex>
-                <Text color="grey.200">{R.description}</Text>
+                <Text color="grey.200">{venue.description}</Text>
               </Stack>
             </CardBody>
             <Flex

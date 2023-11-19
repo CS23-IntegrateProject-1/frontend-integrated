@@ -29,7 +29,7 @@ export const SliderAdvertisement: React.FC = () => {
 
   return (
     <Box width="100%" pos={"relative"}>
-      <Box bgColor="black" overflow="none" maxH="100px">
+      <Box bgColor="black" overflow="none" maxH="120px">
         {A.map((item, index) => (
           <Image
             key={index}
@@ -38,7 +38,7 @@ export const SliderAdvertisement: React.FC = () => {
             objectFit={"cover"}
             borderRadius="xl"
             w="100%"
-            h="100px"
+            h="120px"
             display={index === currentIndex ? "block" : "none"}
             zIndex={index === currentIndex ? 1 : 0}
           />

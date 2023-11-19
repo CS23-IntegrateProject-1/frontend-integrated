@@ -26,7 +26,7 @@ export const HomePage = () => {
       <ButtonQuad />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
-        Book Seats
+        Explore Venues
       </Text>
       <Box display="flex">
         <SearchBar />
@@ -50,7 +50,7 @@ export const HomePage = () => {
         </Text>
         <NavLink to="/map">
           <Image
-            src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
+            src="https://www.localguidesconnect.com/t5/image/serverpage/image-id/577026iC349F71B836713F5/image-size/large?v=v2&px=999"
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
