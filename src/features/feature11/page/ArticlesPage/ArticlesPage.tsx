@@ -19,7 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { Axios } from "../../../../AxiosInstance";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../ArticleDetailPage/ArticleTypes";
+import { ArticlesPageProps } from "../../ArticleTypes";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { AuthorBox } from "./AuthorBox";
@@ -131,6 +131,7 @@ export const ArticlesPage = () => {
                       content={""}
                       category={""}
                       userId={0}
+                      isLike={article.isLike}
                     />
                   );
                 })}
@@ -152,6 +153,7 @@ export const ArticlesPage = () => {
                       content={""}
                       category={""}
                       userId={0}
+                      isLike={article.isLike}
                     />
                   );
                 })}

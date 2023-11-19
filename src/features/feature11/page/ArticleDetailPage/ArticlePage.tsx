@@ -6,30 +6,33 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 BiComment;
-import { BiComment } from "react-icons/Bi";
+import { BiComment } from "react-icons/bi";
 import { FiSend } from "react-icons/fi";
 import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
-import { mockArticle } from "./mockArticle";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-import { ArticlePageProps } from "./ArticleTypes";
+import { ArticlePageProps } from "../../ArticleTypes";
+import { ShareModal } from "../../components/ShareModal";
+import { formatDate1 } from "../../../../functions/formatDatetime";
 
 export const ArticlePage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const {articleId} = useParams();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const commentDisclosure = useDisclosure();
+  const shareDisclosure = useDisclosure();
+  const { articleId } = useParams();
+  const queryClient = useQueryClient();
 
   const fetchArticle = async (): Promise<ArticlePageProps> => {
-    // const response: AxiosResponse<User[]> = await Axios.get("/users");
-    // return response.data;
     try {
       const article = await Axios.get(
         `/feature11/fetchArticleDetail/${articleId}`
       );
+      article.data.created_date = formatDate1(article.data.created_date)
       return article.data;
       // return mockArticle;
     } catch (error) {
@@ -48,6 +51,37 @@ export const ArticlePage = () => {
     return <div>An error occurred: {article.error.message}</div>;
   }
 
+  const handleDeleteLike = (event: React.MouseEvent) => {
+    // event.preventDefault();
+    event.stopPropagation(); // Stop the click event from propagating
+    Axios.delete(`/feature11/deleteLike`, {
+      data: { articleId: article.data?.articleId },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error("Error deleting like:", err);
+      });
+    queryClient.invalidateQueries(["article"]); // Invalidate and refetch the article query
+  };
+
+  const handleAddLike = (event: React.MouseEvent) => {
+    // event.preventDefault();
+    event.stopPropagation(); // Stop the click event from propagating
+    Axios.post(`/feature11/addLike`, { articleId: article.data?.articleId })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error("Error adding like:", err);
+      });
+    queryClient.invalidateQueries(["article"]); // Invalidate and refetch the article query
+  };
+  const handleShare = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    shareDisclosure.onOpen();
+  };
   return (
     <Box>
       {article.data?.topic}
@@ -72,13 +106,25 @@ export const ArticlePage = () => {
       <Flex mb={"2em"} justifyContent={"space-between"} h={"100px"}>
         <Flex>
           <Flex alignItems={"center"} mr={"2em"}>
-            <IconButton
-              variant={"link"}
-              fontSize={"2xl"}
-              color={"white"}
-              aria-label="unlike"
-              icon={<AiOutlineHeart />}
-            />
+            {article.data?.isLike ? (
+              <IconButton
+                variant={"link"}
+                fontSize={"2xl"}
+                color={"white"}
+                aria-label="unlike"
+                icon={<AiFillHeart />}
+                onClick={handleDeleteLike}
+              />
+            ) : (
+              <IconButton
+                variant={"link"}
+                fontSize={"2xl"}
+                color={"white"}
+                aria-label="unlike"
+                icon={<AiOutlineHeart />}
+                onClick={handleAddLike}
+              />
+            )}
             {/* <IconButton variant={"link"} fontSize={"3xl"} color={"white"} aria-label="unlike" icon={<AiFillHeart/>} /> */}
             <Text display={"inline"} style={TextStyle.body3}>
               {article.data?.Like}
@@ -91,7 +137,7 @@ export const ArticlePage = () => {
               color={"white"}
               aria-label="unlike"
               icon={<BiComment />}
-              onClick={onOpen}
+              onClick={commentDisclosure.onOpen}
             />
             <Text display={"inline"} style={TextStyle.body3}>
               {article.data?.CommentCount}
@@ -105,16 +151,23 @@ export const ArticlePage = () => {
           color={"white"}
           aria-label="unlike"
           icon={<FiSend />}
+          onClick={handleShare}
         />
+        {/* <Icon
+            as={MdOutlineSend}
+            w={"20px"}
+            h={"20px"}
+          ></Icon> */}
       </Flex>
-      <ArticleFooter author_name={article.data?.author_name || ""}/>
+      <ArticleFooter author_name={article.data?.author_name || ""} />
       <CommentModal
-        isOpen={isOpen}
-        onClose={onClose}
-        // comments={
-        //   // article.data?.articleComments
-        //   0
-        //    || []}
+        isOpen={commentDisclosure.isOpen}
+        onClose={commentDisclosure.onClose}
+      />
+      <ShareModal
+        isOpen={shareDisclosure.isOpen}
+        onClose={shareDisclosure.onClose}
+        url={`${window.location.href}/${article.data?.articleId}`}
       />
     </Box>
   );

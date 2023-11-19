@@ -1,15 +1,5 @@
 export interface ArticlesPageProps {
-  // articleId: string;
-  // articleName: string;
-  // //articleContent: string;
-  // writerUsername: string;
-  // //writerName: string;
-  // writerProfilePicture: string;
-  // articlePicture: string[];
-  // articleLikes: number;
-  // // articleComments: ArticleComment[];
-  // articleCommentsNumber: number;
-  // dateCreated: string;
+  
   articleId: number;
   topic: string;
   content: string;
@@ -20,6 +10,7 @@ export interface ArticlesPageProps {
   Image: { url: string; description: string }[];
   Like: number;
   Comment: number;
+  isLike: boolean;
 
   // "topic": "Sample Topic",
   //   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -52,6 +43,7 @@ export interface ArticlePageProps {
   Image: { url: string; description: string }[];
   Like: number;
   CommentCount: number;
+  isLike: boolean;
 }
 
 export interface ImageProps {}
