@@ -17,7 +17,7 @@ interface LocationData {
   id: string;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
   // Add other properties as needed
 }
@@ -106,7 +106,7 @@ interface LocationData {
         <br/>
         <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="restaurant" />
+        <GoogleMapComponent type="bar" />
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}
@@ -122,7 +122,7 @@ interface LocationData {
                 key={location.id}
                 image={location.image}
                 name={location.name}
-                description={location.description}
+                address={location.address}
                 distance={location.distance}
               />
             ))}

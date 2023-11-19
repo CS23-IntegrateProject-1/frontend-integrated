@@ -12,7 +12,7 @@ interface LocationData {
   id: string;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
   // Add other properties as needed
 }
@@ -82,7 +82,7 @@ export const Maps = () => {
               key={location.id}
               image={location.image}
               name={location.name}
-              description={location.description}
+              description={location.address}
             />
           ))}
       </Box>
@@ -105,7 +105,7 @@ export const Maps = () => {
                 key={location.id}
                 image={location.image}
                 name={location.name}
-                description={location.description}
+                address={location.address}
                 distance={location.distance}
               />
             ))}
