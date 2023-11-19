@@ -189,7 +189,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
-        window.location.href = `/:userId/venue/:venueId/payment`;
+        window.location.href = `/${userId}/venue/${venueId}/payment`;
       } catch (error) {
         console.error("POST error:", error);
       }
