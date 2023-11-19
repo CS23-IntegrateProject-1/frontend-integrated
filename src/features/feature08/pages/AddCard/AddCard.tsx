@@ -33,10 +33,10 @@ type AddCard = {
   name : string,
   country : string,
   bank : string,
-  cvc : string,
-  exp : string,
-  userId? : string,
-  venueId? : string
+  cvc : number,
+  exp : Date,
+  userId? : number,
+  venueId? : number
 }
 
 export const AddCard: FC<ButtonProps> = ({
@@ -175,8 +175,8 @@ export const AddCard: FC<ButtonProps> = ({
             // 2. Pull userId or venueId from somewhere?
             card_no: cardNumber,
             name: name,
-            exp: expiryDate,
-            cvc: cvc,
+            exp: new Date(expiryDate).toISOString(),
+            cvc: parseInt(cvc),
             country: country,
             bank: bank,
             userId: userId,
