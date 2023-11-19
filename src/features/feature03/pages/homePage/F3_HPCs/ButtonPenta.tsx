@@ -9,7 +9,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { BiRestaurant, BiSolidDrink } from "react-icons/Bi";
+import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
 import { SiHomebrew } from "react-icons/Si";
 import { FaRobot } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
