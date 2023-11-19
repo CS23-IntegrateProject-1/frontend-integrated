@@ -163,6 +163,30 @@ export const AddCard: FC<ButtonProps> = ({
     // exp : string,
     // userId? : string,
     // venueId? : string
+
+    // Assuming expiryDate is in the format "MM/YY"
+    const [month, year] = expiryDate.split('/');
+
+    console.log("Parsed month and year:", month, year);
+    
+    // Creating a new Date object with the parsed month and year
+    const expirationDate = new Date(parseInt(`20${year}`, 10), parseInt(month, 10) - 1);
+    
+    if (isNaN(expirationDate.getTime())) {
+      console.error("Invalid expirationDate:", expiryDate);
+    }
+    
+    // Formatting the date as an ISO 8601 string
+    let iso8601Date: string;
+    try {
+      iso8601Date = expirationDate.toISOString();
+    } catch (error) {
+      console.error("Error converting expirationDate to ISO:", error);
+    }
+    
+    
+
+
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault(); // Prevent default form submission behavior
     
@@ -175,12 +199,12 @@ export const AddCard: FC<ButtonProps> = ({
             // 2. Pull userId or venueId from somewhere?
             card_no: cardNumber,
             name: name,
-            exp: new Date(expiryDate).toISOString(),
+            exp: iso8601Date,
             cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            userId: userId,
-            venueId: venueId,
+            userId: parseInt(userId),
+            venueId: parseInt(venueId),
           }
         );
     
