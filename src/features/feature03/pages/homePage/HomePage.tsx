@@ -9,29 +9,10 @@ import { PromoSlide } from "./F3_HPCs/PromoSlide";
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-import mockR from "../RF3mock.json";
-import mockP from "../PF3mock.json";
-
-interface RProps {
-  id: number;
-  name: string;
-  description: string;
-  picR: string;
-}
-
-interface PProps {
-  id: number;
-  name: string;
-  picP: string;
-}
-
 export const HomePage = () => {
   // const [searchFilter, setSearchFilter] = useState<string>("");
   // const [selectedRestaurant, setSelectedRestaurant] =
   //   useState<RestaurantProps | null>(null);
-
-  const R: RProps[] = mockR;
-  const P: PProps[] = mockP;
 
   return (
     <Box width={"100%"}>
@@ -93,7 +74,6 @@ export const HomePage = () => {
         </NavLink>
       </Flex>
       <RecommendSlide />
-
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Flex pt={5} align="center">
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
@@ -112,7 +92,6 @@ export const HomePage = () => {
       </Flex>
       <PromoSlide />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-
       <Footer_HomePage />
     </Box>
   );
