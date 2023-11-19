@@ -9,7 +9,9 @@ import {
   Image,
   Button,
   Flex,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
 import mockR from "../RF3mock.json";
@@ -24,15 +26,23 @@ interface RProps {
 
 export const ClubsPage = () => {
   const R: RProps[] = mockR;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Box width={"100%"} px={{base:"none", lg:"30px"}}>
-      <Flex direction="row" pt={{base:"2", lg:"0"}}>
+    <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
+      <Flex direction="row" pt={{ base: "2", lg: "0" }}>
         <SearchBar />
-        <Flex direction="column" ml="3">
+        <Flex
+          direction="column"
+          ml="3"
+          _hover={{ color: "brand.100" }}
+          onClick={onOpen}
+        >
           <FaFilter fontSize="25px" />
           <Text fontSize="15px" transform="translateX(-3px)">
             Filter
           </Text>
+          <Filter_Modal isOpen={isOpen} onClose={onClose} />
         </Flex>
       </Flex>
       <Box
@@ -40,8 +50,8 @@ export const ClubsPage = () => {
         width="100%"
         gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
         overflow="hidden"
-        mt={{base:"3", lg:"8"}}
-        px={{base: "none", lg: "10px"}}
+        mt={{ base: "3", lg: "8" }}
+        px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
         {R.filter((R) => R).map((R, index) => (
@@ -88,29 +98,29 @@ export const ClubsPage = () => {
               pb="5"
             >
               <NavLink to="/Temp_RestaurantDetail">
-              <Button
-                variant="outline"
-                textColor="white"
-                _hover={{
-                  textColor: "black",
-                  borderColor: "black",
-                  bgColor: "brand.100",
-                }}
-                w="160px"
-              >
-                More Info
-              </Button>
+                <Button
+                  variant="outline"
+                  textColor="white"
+                  _hover={{
+                    textColor: "black",
+                    borderColor: "black",
+                    bgColor: "brand.100",
+                  }}
+                  w="160px"
+                >
+                  More Info
+                </Button>
               </NavLink>
               <NavLink to="/IDK_PathRRRRRRR">
-              <Button
-                variant="solid"
-                textColor="white"
-                bgColor="brand.300"
-                _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="160px"
-              >
-                Reserve Now
-              </Button>
+                <Button
+                  variant="solid"
+                  textColor="white"
+                  bgColor="brand.300"
+                  _hover={{ bgColor: "brand.100", textColor: "black" }}
+                  w="160px"
+                >
+                  Reserve Now
+                </Button>
               </NavLink>
             </Flex>
           </Card>

@@ -9,12 +9,9 @@ import {
   Image,
   Button,
   Flex,
-  Modal,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
-import { FC, useState } from "react";
-
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
 import mockR from "../RF3mock.json";
@@ -27,7 +24,7 @@ interface RProps {
   picR: string;
 }
 
-export const RestaurantPage: FC = () => {
+export const RestaurantPage = () => {
   const R: RProps[] = mockR;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
