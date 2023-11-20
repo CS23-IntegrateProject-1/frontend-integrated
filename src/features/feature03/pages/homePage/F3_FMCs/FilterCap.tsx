@@ -4,12 +4,13 @@ const buttonStyle = {
   bgColor: "brand.200",
   textColor: "white",
   _hover: { bgColor: "brand.100", textColor: "black" },
+  fontSize: "sm",
 };
 
 export const FilterCap = () => {
   return (
-    <Flex direction="column" mb="4">
-      <Text mb="3">Capacity</Text>
+    <Flex direction="column" mb="1">
+      <Text fontWeight={"semibold"} mb="3">Capacity</Text>
       <Box display="grid" gridTemplateColumns="repeat(2, 1fr)">
         <Button sx={buttonStyle} mb="2" mr="2">
           1 - 4 people

@@ -17,13 +17,13 @@ const sliderLabel = {
 export const FilterPrice = () => {
   return (
     <Flex direction="column" mb="4">
-      <Text mb="3">Price range</Text>
+      <Text fontWeight={"semibold"} mb="3">Price range</Text>
       <Slider mb="5">
         <SliderMark value={4} {...sliderLabel}>
           THB 0
         </SliderMark>
         <SliderMark value={77} {...sliderLabel}>
-          THB 1000+
+          THB 1000
         </SliderMark>
         <SliderTrack>
           <SliderFilledTrack bg="brand.200" />

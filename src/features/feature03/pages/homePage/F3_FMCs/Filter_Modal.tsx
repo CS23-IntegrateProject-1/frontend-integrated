@@ -30,7 +30,7 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size={{ base: "xs", sm: "md", md: "lg" }}
+      size={{ base: "xs", sm: "md"}}
       isCentered
     >
       <ModalOverlay />
@@ -39,10 +39,13 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        pb={{base:"2", lg:"8"}}
+        pt={{base:"4", lg:"10"}}
+        rounded={"2xl"}
       >
-        <ModalHeader>Filter By</ModalHeader>
+        <ModalHeader fontWeight={"bold"} fontSize={{base:"20px", lg:"25px"}}>Filter By</ModalHeader>
         <ModalCloseButton />
-        <ModalBody p={"2"}>
+        <ModalBody>
           <FilterType />
           <FilterPrice />
           <FilterDistance />

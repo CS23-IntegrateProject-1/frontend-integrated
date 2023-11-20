@@ -17,7 +17,7 @@ const sliderLabel = {
 export const FilterDistance = () => {
   return (
     <Flex direction="column" mb="4">
-      <Text mb="3">Distance</Text>
+      <Text fontWeight={"semibold"} mb="3">Distance</Text>
       <Slider mb="5">
         <SliderMark value={4} {...sliderLabel}>
           x km

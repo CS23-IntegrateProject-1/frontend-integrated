@@ -17,6 +17,7 @@ import { FaFilter } from "react-icons/fa";
 import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from '@tanstack/react-query';
 import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 
 interface VenueType {
@@ -43,11 +44,11 @@ export const RestaurantPage = () => {
   })
 
   if (isLoading) {
-    return <span>Loading...</span>
+    return <span><FullPageLoader /></span>
   }
 
   if (isError) {
-    return <span>Error: </span>
+    return <span>An error occurred: </span>
   }
 
   return (
@@ -82,7 +83,7 @@ export const RestaurantPage = () => {
             width="sm"
             borderRadius="2xl"
             bg="brand.200"
-            key={venue.id}
+            key={venue.venueId}
             mb={8}
           >
             <CardBody>
