@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+
 export const QrCodeScan = () => {
   const [accessToken, setAccessToken] = useState('');
   const [expireAt, setExpireAt] = useState<number>(0); // Specify the type as number
@@ -50,7 +51,7 @@ export const QrCodeScan = () => {
       try {
         const qrGenHeaders = {
           "Content-Type": "application/json",
-          "authorization": `Bearer ${accessToken}`,
+          "authorization": "Bearer "+accessToken,
           "resourceOwnerId": "l7197996523b07499dbc0ad067c9933636",
           "requestUId": "{{$guid}}",
           "accept-language": "EN"

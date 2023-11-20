@@ -28,6 +28,7 @@ const formatDate = (dateString: string) => {
 
 export const Notification = () => {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
+  const [userData,setUserData] = useState('');
 
   useEffect(() => {
     axios
@@ -39,8 +40,19 @@ export const Notification = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  
+  // localhost:8080/feature8/users/4
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/feature8/user')
+      .then((response) => {
+        // console.log("API Response:", response.data);
+        setUserData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
+  
 
 
   return (
