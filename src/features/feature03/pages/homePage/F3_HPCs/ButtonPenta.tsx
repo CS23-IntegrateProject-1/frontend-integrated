@@ -11,14 +11,14 @@ import {
 import { NavLink } from "react-router-dom";
 import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
 import { SiHomebrew } from "react-icons/Si";
-import { FaRobot } from "react-icons/fa";
+import { FaRobot, FaRegNewspaper } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 
 const cardStyle = {
   mt: "15",
   mx: { lg: "4", base: "1" },
   w: "21vw",
-  maxW: "230px",
+  maxW: "300px",
   h: { lg: "150px", base: "100px" },
   _hover: { bg: "brand.200", textColor: "white" },
   bgColor: "brand.100",
@@ -50,65 +50,7 @@ export const ButtonPenta = () => {
                 textAlign={"center"}
                 fontWeight="bold"
               >
-                Restaurants
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
-      </NavLink>
-
-      <NavLink to="/Clubs">
-        <Card sx={cardStyle}>
-          <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-            <HStack justifyContent={"center"}>
-              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon
-                  as={BiSolidDrink}
-                  fontSize={{ base: "28px", lg: "35px" }}
-                  color={"black"}
-                />
-              </Circle>
-            </HStack>
-            <Stack
-              mt={{ base: "2", lg: "4" }}
-              spacing="3"
-              justifyContent={"center"}
-            >
-              <Heading
-                fontSize={{ lg: "2xl", base: "xs" }}
-                textAlign={"center"}
-                fontWeight="bold"
-              >
-                Clubs
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
-      </NavLink>
-
-      <NavLink to="/Bars">
-        <Card sx={cardStyle}>
-          <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-            <HStack justifyContent={"center"}>
-              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon
-                  as={SiHomebrew}
-                  fontSize={{ base: "30px", lg: "37px" }}
-                  color={"black"}
-                />
-              </Circle>
-            </HStack>
-            <Stack
-              mt={{ base: "2", lg: "4" }}
-              spacing="3"
-              justifyContent={"center"}
-            >
-              <Heading
-                fontSize={{ lg: "2xl", base: "xs" }}
-                textAlign={"center"}
-                fontWeight="bold"
-              >
-                Bars
+                Venue
               </Heading>
             </Stack>
           </CardBody>
@@ -145,7 +87,7 @@ export const ButtonPenta = () => {
       </NavLink>
 
       <NavLink to="/Chatbot">
-        <Card sx={cardStyle} display={{ base: "none", lg: "block" }}>
+        <Card sx={cardStyle}>
           <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
             <HStack justifyContent={"center"}>
               <Circle size={{ base: "50px", lg: "60px" }} bg="white">
@@ -167,6 +109,35 @@ export const ButtonPenta = () => {
                 fontWeight="bold"
               >
                 Chatbot
+              </Heading>
+            </Stack>
+          </CardBody>
+        </Card>
+      </NavLink>
+
+      <NavLink to="/Articles">
+        <Card sx={cardStyle}>
+          <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
+            <HStack justifyContent={"center"}>
+              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
+                <Icon
+                  as={FaRegNewspaper}
+                  fontSize={{ base: "30px", lg: "37px" }}
+                  color={"black"}
+                />
+              </Circle>
+            </HStack>
+            <Stack
+              mt={{ base: "2", lg: "4" }}
+              spacing="3"
+              justifyContent={"center"}
+            >
+              <Heading
+                fontSize={{ lg: "2xl", base: "xs" }}
+                textAlign={"center"}
+                fontWeight="bold"
+              >
+                Articles
               </Heading>
             </Stack>
           </CardBody>

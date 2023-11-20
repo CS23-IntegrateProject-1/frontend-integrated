@@ -93,6 +93,7 @@ export const RestaurantPage = () => {
                 borderRadius="lg"
                 w="100%"
                 h="160px"
+                bgColor={"white"}
               />
               <Stack mt="4" spacing="3">
                 <Flex direction="row" justify="space-between" align="center">
