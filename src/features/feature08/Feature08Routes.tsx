@@ -60,11 +60,11 @@ export const Feature08Routes = () => {
     { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
 
-    { path: "/Notification/BusinessNoti", element: <Notification /> },
+    { path: "/Notification/BusinessNoti/:venueId", element: <Notification /> },
     { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
     { path: "/Notification/Checkout", element: <CheckOutNoti /> },
-    { path: "/Notification/NewReservation", element: <NewReserveNoti /> },
+    { path: "/Notification/NewReservation/:venueId/:reservationId", element: <NewReserveNoti /> },
     { path: "/Notification/OrderUpdate", element: <OrderUpdateNoti /> },
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
