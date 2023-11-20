@@ -1,10 +1,12 @@
-import { Box, Text, Flex, Avatar, Input, useDisclosure} from "@chakra-ui/react";
+import { Box, Text, Flex, Avatar, Input, useDisclosure,Grid,GridItem, FormControl, FormLabel, Select} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 
 export const Profile = () => {
  
   return (
+    <Grid>
+      <GridItem>
       <Box>
           {/* white bg box */}
           <Box  zIndex={-2} bg={'white'} w={'200'} h={'120'}></Box>
@@ -22,8 +24,53 @@ export const Profile = () => {
                 </Box>
                 
             </Flex>
-            
-            
       </Box>
+      </GridItem>
+      <GridItem>
+      <Box mt={5}>
+          <Text {...TextStyle}>Name</Text>
+          <Input placeholder="Name" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+        </Box>
+      </GridItem>
+      <GridItem>
+      <Box mt={5}>
+          <Text {...TextStyle}>Phone Number</Text>
+          <Input placeholder="080-*******" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+        </Box>
+      </GridItem>
+      <GridItem>
+      <Box mt={5}>
+          <Text {...TextStyle}>Email</Text>
+          <Input placeholder="***@gmail.com" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+        </Box>
+      </GridItem>
+      <GridItem>
+        <Box mt={5}>
+        <label >Birthday</label>
+        <Input
+          placeholder="DD/MM/YYYY"
+          size="md"
+          type="date"
+          borderColor={"#DEBEF6"}
+          variant={'flushed'}
+          />
+          </Box>
+      </GridItem> 
+      <GridItem>
+        <Box mt={5}>
+        <FormControl >
+          <FormLabel >Gender</FormLabel>
+          <Select placeholder='Gender' borderColor={"#DEBEF6"} variant={'flushed'}>
+            <option style={{ color: 'black' }}>Male</option>
+            <option style={{ color: 'black' }}>Female</option>
+            <option style={{ color: 'black' }}>Others</option>
+          </Select>
+        </FormControl>
+        </Box>
+      </GridItem>  
+      <GridItem>
+      
+      </GridItem>
+      </Grid>
   )
 }
