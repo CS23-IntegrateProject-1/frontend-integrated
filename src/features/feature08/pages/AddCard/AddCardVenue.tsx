@@ -212,7 +212,7 @@ export const AddCardVenue: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
-        window.location.href = `/${userId}/venue/${venueId}/payment`;
+        window.location.href = `http://localhost:4000/venue/${venueId}/business/checkout`;
       } catch (error) {
         console.error("POST error:", error);
       }
