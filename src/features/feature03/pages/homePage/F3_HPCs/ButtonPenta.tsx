@@ -9,16 +9,15 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
-import { SiHomebrew } from "react-icons/Si";
+import { BiRestaurant } from "react-icons/bi";
 import { FaRobot, FaRegNewspaper } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 
 const cardStyle = {
   mt: "15",
   mx: { lg: "4", base: "1" },
-  w: "21vw",
-  maxW: "300px",
+  w: "22vw",
+  maxW: "330px",
   h: { lg: "150px", base: "100px" },
   _hover: { bg: "brand.200", textColor: "white" },
   bgColor: "brand.100",

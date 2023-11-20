@@ -98,7 +98,7 @@ export const SliderAdvertisement: React.FC = () => {
               cursor="pointer"
               mx={1}
             >
-              <Icon as={RxDotFilled} boxSize={5} color={index === currentIndex ? "white" : "gray.300"} />
+              <Icon as={RxDotFilled} boxSize={{base:"5", lg:"6"}} color={index === currentIndex ? "white" : "gray.300"} />
             </Box>
           ))}
         </Box>

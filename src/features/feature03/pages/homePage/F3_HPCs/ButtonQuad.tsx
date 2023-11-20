@@ -15,8 +15,8 @@ import { IoMdChatboxes } from "react-icons/io";
 const cardStyle = {
   mt: "15",
   mx: { lg: "4", base: "1" },
-  w: "21vw",
-  maxW: "300px",
+  w: "22vw",
+  maxW: "330px",
   h: { lg: "150px", base: "100px" },
   _hover: { bg: "brand.200", textColor: "white" },
   bgColor: "brand.100",
