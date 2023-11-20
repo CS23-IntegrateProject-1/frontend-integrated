@@ -30,27 +30,12 @@ export const Notification = () => {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
   const [userData,setUserData] = useState('');
   const [userId, setUserId] = useState('');
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/feature8/notifications`)
-      .then((response) => {
-        // console.log("API Response:", response.data);
-        setNotificationData(response.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
-
-
-
-  // localhost:8080/feature8/users/4
+  
   //  
 // const fetchData = async () => {
 //   try {
 //     const response = await axios.get('http://localhost:8080/feature8/user');
 //     const userData = response.data; // Extract userData from response
-
 //     // Check if userData exists before calling setUserData
 //     if (userData) {
 //       console.log("API Response:", userData);
@@ -62,9 +47,7 @@ export const Notification = () => {
 //     console.error("Error fetching user data:", error);
 //   }
 // };
-
 // fetchData();
-
 const fetchData = async () => {
   try {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -72,11 +55,9 @@ const fetchData = async () => {
     const response = await fetch(backendUrl+'/feature8/user', {
       credentials: 'include'
     });
-
     // Check if the request was successful (status code in the range 200-299)
     if (response.ok) {
       const userData = await response.json(); // Extract userData from response
-
       // Check if userData exists before calling setUserData
       if (userData) {
         console.log("API Response:", userData);
@@ -96,14 +77,9 @@ const fetchData = async () => {
 useEffect(() => {
    fetchData();
 }, []);
-
 useEffect(() => {
   console.log(userId)
 }, [userData]);
-
-  
-  
-  
 
   
 
