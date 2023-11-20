@@ -27,7 +27,7 @@ export const Feature08Routes = () => {
     { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
     //payment to venue by using venueId?
-    { path: "/venue/:venueId/qr-payment", element: <QrCodeScan /> },
+    { path: ":userId/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     //Action
     { path: "/venue/:venueId/receipt", element: "ElementPlaceHolder" },
     { path: "/waiting", element: "ElementPlaceHolder" },
