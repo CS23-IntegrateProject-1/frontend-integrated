@@ -39,6 +39,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
   borderRadius,
   onClick,
 }) => {
+  const textStyleObject = textStyle ? textStyles[textStyle] : {};
   return (
     <Button
       colorScheme={colorScheme ? colorScheme : ""}
@@ -46,6 +47,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
       textColor={textColor ? textColor : "white"}
       borderColor={borderColor ? borderColor : ""}
       border={border ? border : ""}
+      {...textStyleObject}
       textStyle={textStyle ? textStyle : ""}
       variant={variant ? variant : ""}
       width={width ? width : "140px"}
