@@ -1,4 +1,5 @@
 import {
+  Flex,
   Button,
   Modal,
   ModalOverlay,
@@ -7,6 +8,8 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
+  Image,
+  Text,
 } from "@chakra-ui/react";
 
 interface ModalProps {
@@ -38,20 +41,43 @@ export function Advertisement({ isOpen = false, onClose = () => {} }) {
       >
         <ModalHeader>Advertisement</ModalHeader>
         <ModalCloseButton />
-        <ModalBody p={"2"}>Placeholder text</ModalBody>
+        <ModalBody p={"2"}>
+          <Image
+            src="https://www.localguidesconnect.com/t5/image/serverpage/image-id/577026iC349F71B836713F5/image-size/large?v=v2&px=999"
+            alt="Map_Pic not load"
+            borderRadius="xl"
+            w="100%"
+            h="300px"
+            objectFit={"cover"}
+          />
+          <Text>Placeholder text</Text>
+        </ModalBody>
         <ModalFooter>
-          <Button
-            variant="outline"
-            borderColor="red"
-            textColor="red"
-            _hover={{
-              textColor: "white",
-              borderColor: "red",
-              bgColor: "red",
-            }}
-          >
-            Click
-          </Button>
+          <Flex direction="row" justify="space-between">
+            <Button
+              variant="outline"
+              borderColor="red"
+              textColor="red"
+              _hover={{
+                textColor: "white",
+                borderColor: "red",
+                bgColor: "red",
+              }}
+            >
+              Dismiss
+            </Button>
+            <Button
+              variant="solid"
+              textColor="white"
+              bgColor="brand.300"
+              _hover={{
+                textColor: "black",
+                bgColor: "brand.100",
+              }}
+            >
+              Go!
+            </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>
