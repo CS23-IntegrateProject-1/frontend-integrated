@@ -138,7 +138,7 @@ useEffect(() => {
 // };
 <div>
       
-        <Link to="">
+        <Link to="/Notification/NewReservation">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -160,7 +160,7 @@ useEffect(() => {
             
           </Flex>
         </Link>
-        <Link to="">
+        <Link to="/Notification/OrderUpdate">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -182,7 +182,7 @@ useEffect(() => {
             
           </Flex>
         </Link>
-        <Link to="">
+        <Link to="/Notification/Checkout">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -204,7 +204,7 @@ useEffect(() => {
             
           </Flex>
         </Link>
-        <Link to="">
+        <Link to="/Notification/Update">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -226,7 +226,7 @@ useEffect(() => {
             
           </Flex>
         </Link>
-        <Link to="">
+        <Link to="/Notification/Advertisement">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -245,7 +245,29 @@ useEffect(() => {
             <Box>
               <Text fontSize="md" textAlign={"right"} paddingRight={3}>12hr ago</Text>          
             </Box>
-            
+
+          </Flex>
+        </Link>
+        <Link to="/Notification/Promotion">
+          <Flex
+            bg={"blackAlpha.300"}
+            h={"75px"}
+            align={"center"}
+            borderRadius={"10px"}
+            transition={"background-color 0.3s ease-in-out"}
+            _hover={{ bg: "blackAlpha.400" }}
+            _active={{ bg: "blackAlpha.200" }}
+            marginBottom={"10px"}
+          >
+            <Box ml="3">
+              <Text fontWeight="bold">Promotion approved</Text>
+              <Text fontSize="sm">Report to business</Text>
+            </Box>
+            <Spacer />
+            <Box>
+              <Text fontSize="md" textAlign={"right"} paddingRight={3}>12hr ago</Text>          
+            </Box>
+
           </Flex>
         </Link>
       
