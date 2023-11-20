@@ -83,7 +83,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         alignItems={"center"}
         justifyContent={"space-around"}
       >
-        <Text color={"#C5C4C7"} style={TextStyle.h2}>
+        <Text color={"#C5C4C7"} style={TextStyle.h2} w={"50%"} textAlign={"center"}>
           {props.topic}
         </Text>
         <Image
@@ -93,20 +93,28 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
           h={"100px"}
         />
       </Box>
-      <Box display={"flex"} alignSelf={"flex-start"} mt={"0.5em"}>
-        <Box className="Like" display="flex" mr={"1em"}>
+      <Box
+        display={"flex"}
+        alignSelf={"flex-start"}
+        mt={"0.5em"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <Box className="Like" display="flex" mr={"1em"} alignItems={"center"}>
           {props.isLike ? (
             <IconButton
-              variant={"link"}
+              variant={"unstyled"}
+              size={"xs"}
               fontSize={"2xl"}
               color={"white"}
-              aria-label="unlike"
+              aria-label="liked"
               icon={<AiFillHeart />}
               onClick={handleDeleteLike}
             />
           ) : (
             <IconButton
-              variant={"link"}
+              variant={"unstyled"}
+              size={"xs"}
               fontSize={"2xl"}
               color={"white"}
               aria-label="unlike"
@@ -121,22 +129,30 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         </Box>
 
         {/* Comment section */}
-        <Box className="comment" display="flex" mr={"1em"}>
-          <Icon as={BiComment} w={"24px"} h={"24px"}></Icon>
+        <Box
+          className="comment"
+          display="flex"
+          mr={"1em"}
+          alignItems={"center"}
+        >
+          <Icon as={BiComment} fontSize={"2xl"} />
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
             {props.Comment}
           </Text>
         </Box>
 
         {/* Share section */}
-        <Box display="flex" transform="rotate(315deg)">
-          <Icon
-            as={MdOutlineSend}
-            w={"20px"}
-            h={"20px"}
-            onClick={handleShare}
-          ></Icon>
-        </Box>
+        <IconButton
+          variant={"unstyled"}
+          size={"xs"}
+          mt={"-5px"}
+          fontSize={"xl"}
+          color={"white"}
+          aria-label="share"
+          icon={<MdOutlineSend />}
+          onClick={handleShare}
+          transform="rotate(315deg)"
+        />
       </Box>
       <ShareModal
         isOpen={isOpen}

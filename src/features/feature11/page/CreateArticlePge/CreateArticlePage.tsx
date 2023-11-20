@@ -3,11 +3,14 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
+  ImageProps,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
   Select,
   Tag,
@@ -22,15 +25,8 @@ import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
-
-interface ImageProps {
-  url: string;
-  description: string;
-}
-interface VenueProps {
-  venueId: number;
-  name: string;
-}
+import textStyles from "../../../../theme/foundations/textStyles";
+import { VenueProps } from "../../ArticleTypes";
 
 // const fetchVenues = async (): Promise<VenueProps[]> => {
 //   try {
@@ -50,7 +46,8 @@ export const CreateArticlePage = () => {
   const [topic, setTopic] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
-  const [images, setImages] = useState<ImageProps[]>([]);
+  const [images, setImages] = useState<File[] | null>([]);
+
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
     Axios.get("/feature11/fetchAllVenueName")
@@ -64,15 +61,6 @@ export const CreateArticlePage = () => {
   if (venues.length === 0) {
     return <FullPageLoader />;
   }
-
-  // const venues = useQuery({ queryKey: ["veueNames"], queryFn: fetchVenues });
-  // if (venues.status == "loading") {
-  //   return <span>Loading...</span>;
-  // }
-
-  // if (venues.error instanceof Error) {
-  //   return <div>An error occurred: {venues.error.message}</div>;
-  // }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTopic(e.target.value);
@@ -110,6 +98,29 @@ export const CreateArticlePage = () => {
     setTags(updatedTags);
   };
 
+  // const handleImageUpload = async (e: { target: { files: any; }; }) => {
+  //   const files = e.target.files;
+  //   if (files && files.length > 0) {
+  //     const formData = new FormData();
+
+  //     Array.from(files).forEach((file) => {
+  //       formData.append("images", file);
+  //     });
+
+  //     try {
+  //       const response = await Axios.post("/api/images/upload", formData, {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       });
+
+  //       const uploadedFilesData = response.data.uploadedFiles;
+  //       setUploadedFiles(uploadedFilesData);
+  //     } catch (error) {
+  //       console.error("Error uploading images:", error);
+  //     }
+  //   }
+  // };
   const handleCreateArticle = () => {
     if (
       topic === "" ||
@@ -174,6 +185,19 @@ export const CreateArticlePage = () => {
       </FormControl>
       <FormControl id="title" w={"95%"} isRequired></FormControl>
       <Divider />
+      {/* =============== Image ================== */}
+      <FormControl>
+        <FormLabel style={TextStyle.h3}>Images</FormLabel>
+        <Input
+          variant={"unstyled"}
+          type="file"
+          multiple
+          // onChange={handleImageUpload}
+          // value={images.map((image) => image.url)}
+        />
+      </FormControl>
+
+      {/* =============== Author Name ================== */}
       <FormControl
         display={"flex"}
         flexDirection={"row"}
@@ -193,6 +217,8 @@ export const CreateArticlePage = () => {
           onChange={(e) => setAuthorName(e.target.value)}
         />
       </FormControl>
+
+      {/* =============== Category ==================*/}
       <FormControl
         display={"flex"}
         flexDirection={"row"}

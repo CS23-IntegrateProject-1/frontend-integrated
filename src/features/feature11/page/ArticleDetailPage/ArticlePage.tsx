@@ -32,7 +32,7 @@ export const ArticlePage = () => {
       const article = await Axios.get(
         `/feature11/fetchArticleDetail/${articleId}`
       );
-      article.data.created_date = formatDate1(article.data.created_date)
+      article.data.created_date = formatDate1(article.data.created_date);
       return article.data;
       // return mockArticle;
     } catch (error) {
@@ -159,7 +159,10 @@ export const ArticlePage = () => {
             h={"20px"}
           ></Icon> */}
       </Flex>
-      <ArticleFooter author_name={article.data?.author_name || ""} Article_tags={article.data?.Article_tags || []} />
+      <ArticleFooter
+        author_name={article.data?.author_name || ""}
+        Article_tags={article.data?.Article_tags || []}
+      />
       <CommentModal
         isOpen={commentDisclosure.isOpen}
         onClose={commentDisclosure.onClose}

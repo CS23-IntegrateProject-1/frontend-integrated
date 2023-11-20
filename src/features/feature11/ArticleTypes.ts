@@ -73,4 +73,11 @@ export interface ArticleFooterProps {
   Article_tags: ArticleTagProps[];
 }
 
-export interface ImageProps {}
+export interface ImageProps {
+  url: string;
+  description: string;
+}
+export interface VenueProps {
+  venueId: number;
+  name: string;
+}
