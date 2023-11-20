@@ -47,6 +47,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
 
 export const Checkbill = () => {
   const { orderId } = useParams();
+
   //orderDetail axios.get(`http://localhost:8080/feature8/orderdetail/${orderDetailId}`);
   const [unitPrice, setUnitPrice] = useState<string>('');
   const [orderTime, setOrderTime] = useState<string>('');
@@ -78,6 +79,8 @@ useEffect(() => {
     axios.get(`http://localhost:8080/feature8/order/${orderId}`)
       .then((response) => {
         const data = response.data;
+        console.log(data);
+        
 
         // Extract orderDetailId from the response
         // Fetch orderDetail data based on the obtained orderDetailId
@@ -242,21 +245,11 @@ useEffect(() => {
                 </Td>
               </Tr>
               <Divider width={"300%"} variant={"dashed"} marginTop={3} />
-              <Tr borderBottom="none">
-                <Td fontSize="lg" color="white">
-                  Payment method
-                </Td>
-                <Td></Td>
-                <Td textAlign="center" fontSize="lg" color="white">
-                  <HStack justifyContent="center" alignItems="center">
-                    <ChevronRightIcon boxSize={6} />
-                  </HStack>
-                </Td>
-              </Tr>
+            
             </Tbody>
           </Table>
         </TableContainer>
       </Box>
     </Center>
   );
-};
+}
