@@ -4,13 +4,13 @@ import { CartPage } from "./pages/CartPage";
 import {ReceiptPage} from "./pages/ReceiptPage";
 import { OrderStatusPage } from "./pages/OrderStatusPage";
 import { CartMenuDetail } from "./pages/CartMenuDetail";
-import { MenuAllBusiness } from "./pages/MenuAllBusiness";
-import { EditMenu } from "./pages/EditMenu";
-import { AddMenu } from "./pages/AddMenu";
-import { AddSetMenu } from "./pages/AddSetMenu";
-import { ChooseMenu } from "./pages/ChooseMenu";
-import { BusinessMenuDetail } from "./pages/BusinessMenuDetail";
-import { EditSetMenu } from "./pages/EditSetMenu";
+import { MenuAllBusiness } from "./pages/BusinessSidePage/MenuAllBusiness";
+import { EditMenu } from "./pages/BusinessSidePage/EditMenu";
+import { AddMenu } from "./pages/BusinessSidePage/AddMenu";
+import { AddSetMenu } from "./pages/BusinessSidePage/AddSetMenu";
+import { ChooseMenu } from "./pages/BusinessSidePage/ChooseMenu";
+import { BusinessMenuDetail } from "./pages/BusinessSidePage/BusinessMenuDetail";
+import { EditSetMenu } from "./pages/BusinessSidePage/EditSetMenu";
 export const Feature07Routes = () => {
   return [
     { path: "/venue/:venueId/menu", element: <MenuAll /> },

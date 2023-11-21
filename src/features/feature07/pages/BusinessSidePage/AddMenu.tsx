@@ -1,38 +1,13 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton} from '@chakra-ui/react'; 
-import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
-import { Image } from "../component/ImageUpload/Image";
-import { useRef,useState,useEffect } from 'react';
-import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation } from 'react-router-dom';
+import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRightElement } from '@chakra-ui/react'; 
+import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
+import { Image } from "../../component/ImageUpload/Image";
+import { useRef,useState } from 'react';
 
-interface Menu {
-    name: string;
-  }
-
-  export const AddSetMenu: React.FC = () => {
+export const AddMenu = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedMenus, setSelectedMenus] = useState<Menu[]>([]);
-  const [inputFieldValue, setInputFieldValue] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleDeleteMenu = (index) => {
-    const updatedMenus = [...selectedMenus];
-    updatedMenus.splice(index, 1);
-    setSelectedMenus(updatedMenus);
-  };
-
-  useEffect(() => {
-    console.log('Location state:', location.state);
-    if (location.state && location.state.selectedMenus) {
-      console.log('Selected Menus:', location.state.selectedMenus);
-      setSelectedMenus(location.state.selectedMenus);
-    }
-  }, [location.state]);
-  
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -42,24 +17,6 @@ interface Menu {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
-  };
-
-  const handleAddMenuClick = () => {
-    const targetPath = '/venue/:venueId/choosemenu';
-    console.log('Navigating to:', targetPath);
-    navigate(targetPath);
-  };
-   
-  const handleAddSetMenuClick = () => {
-    const targetPath = `/venue/:venueId/menubusiness?section=setmenu`;
-    console.log('Navigating to:', targetPath);
-    navigate(targetPath);
-  };
-  
- 
-  const handleMenuSelect = (selectedMenu: Menu) => {
-    setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
-    setInputFieldValue('');
   };
 
   return (
@@ -97,38 +54,7 @@ interface Menu {
             />
           </Box>
         </Center>
-        <Center>
-        <Box>
-      <FormLabel>Selected Food in set:</FormLabel>
-      <VStack align="start" spacing={2}>
-        {selectedMenus.map((menu, index) => (
-            <Box key={index}>
-            <HStack spacing={2} align="center">
-                <Box>{menu.name}</Box>
-                <DeleteIcon
-                ml={60}
-                boxSize={4}
-                aria-label={`Delete ${menu.name}`}
-                onClick={() => handleDeleteMenu(index)}
-                />
-            </HStack>
-            </Box>
-        ))}
-        </VStack>
 
-      <InputGroup>
-        <InputLeftElement>
-          <AddIcon boxSize={4} onClick={handleAddMenuClick} />
-        </InputLeftElement>
-        <Input
-          variant="flushed"
-          width="307px"
-          value={inputFieldValue}
-          onChange={(e) => setInputFieldValue(e.target.value)}
-        />
-      </InputGroup>
-    </Box>
-        </Center>
         <Center>
           <Box>
             <FormLabel>Price</FormLabel>
@@ -202,8 +128,7 @@ interface Menu {
         borderRadius="5px">
         <ButtonComponent 
         width={"330px"}
-        text= "Add Set Menu"
-        onClick={handleAddSetMenuClick}
+        text= "Add Menu"
         />
         </Box>
         </Center>

@@ -1,10 +1,10 @@
 import {Box,Image,Text,VStack,HStack,Center,Switch} from "@chakra-ui/react";
 import {FC,useState} from "react";
-import textStyles from "../../../theme/foundations/textStyles";
+import textStyles from "../../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
-import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
+import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import {useNavigate} from "react-router-dom";
-import { Axios } from "../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 

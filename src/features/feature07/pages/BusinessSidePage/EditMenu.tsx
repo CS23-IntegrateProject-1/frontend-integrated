@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
-import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
-import { Image } from "../component/ImageUpload/Image";
+import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
+import { Image } from "../../component/ImageUpload/Image";
 import {useNavigate} from 'react-router-dom';
 export const EditMenu = () => {
 

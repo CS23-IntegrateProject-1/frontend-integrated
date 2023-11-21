@@ -1,7 +1,7 @@
 import {Box,Text, VStack,Center} from "@chakra-ui/react"
-import textStyles from "../../../theme/foundations/textStyles"
-import { AddCard } from "../component/AddCard"
-import { ButtonComponent } from "../../../components/buttons/ButtonComponent"
+import textStyles from "../../../../theme/foundations/textStyles"
+import { AddCard } from "../../component/AddCard"
+import { ButtonComponent } from "../../../../components/buttons/ButtonComponent"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 
