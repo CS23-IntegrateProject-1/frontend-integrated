@@ -186,66 +186,82 @@ export const AdvertisementIDEditPage = () => {
       </FormControl>
 
       {/* Image */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Images
-        </FormLabel>
-        <Stack spacing={2} direction="column">
-          <Center
-            width={"auto"}
-            height={"100"}
-            bg={"#5F0DBB"}
-            borderRadius={5}
-            cursor={"pointer"}
-          >
-            <Input
-              onChange={handleFileChange}
-              type="file"
-              opacity={0}
-              height={"100%"}
-              w={"100%"}
-              pos={"absolute"}
-            ></Input>
-            <Icon
-              as={BiImageAdd}
-              color={"#FFFFFF"}
-              width={"auto"}
-              height={"8"}
-            ></Icon>
-          </Center>
-        </Stack>
-      </FormControl>
       {imagePreview ? (
-        <Box
-          position={"relative"}
-          overflow={"hidden"}
-          minWidth={"50%"}
-          maxWidth={"50%"}
-          height={"auto"}
+        <FormControl
+          isRequired
+          width="50%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
         >
-          <IconButton
-            aria-label="close"
-            minWidth={"15px"}
-            height={"15px"}
-            position={"absolute"}
-            top={0}
-            right={0}
-            as={AiOutlineClose}
-            onClick={handleCloseImage}
-          ></IconButton>
-          <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
-        </Box>
+          <FormLabel style={TextStyle.h2} color={"white"}>
+            Image
+          </FormLabel>
+
+          <Box
+            position={"relative"}
+            overflow={"hidden"}
+            width={"100%"}
+            minWidth={"250px"}
+            maxWidth={"400px"}
+            height={"auto"}
+            alignSelf={"center"}
+          >
+            <IconButton
+              aria-label="close"
+              minWidth={"15px"}
+              height={"15px"}
+              position={"absolute"}
+              top={0}
+              right={0}
+              as={AiOutlineClose}
+              onClick={handleCloseImage}
+            ></IconButton>
+            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+          </Box>
+        </FormControl>
       ) : (
-        <></>
+        <FormControl
+          isRequired
+          width="50%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
+        >
+          <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+            {" "}
+            Image
+          </FormLabel>
+          <Stack spacing={2} direction="column">
+            {}
+            <Center
+              width={"auto"}
+              height={"100"}
+              bg={"#5F0DBB"}
+              borderRadius={5}
+              cursor={"pointer"}
+            >
+              <Input
+                onChange={handleFileChange}
+                type="file"
+                opacity={0}
+                height={"100%"}
+                w={"100%"}
+                pos={"absolute"}
+              ></Input>
+              <Icon
+                as={BiImageAdd}
+                color={"#FFFFFF"}
+                width={"auto"}
+                height={"8"}
+              ></Icon>
+            </Center>
+          </Stack>
+        </FormControl>
       )}
 
       {/* Target customer */}
