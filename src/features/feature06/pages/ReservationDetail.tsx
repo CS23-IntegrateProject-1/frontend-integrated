@@ -2,12 +2,14 @@ import {
   Box,
   Icon,
   Text,
+  Input,
+  WrapItem,
   Button,
+  Highlight,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { useLocation } from "react-router-dom";
 
 interface IData {
   venue: {
@@ -65,9 +67,6 @@ export const ReservationDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
 
- const location = useLocation();
- const searchParams = new URLSearchParams(location.search);
- const seats = searchParams.get("count");
   
   useEffect(() => {
     fetchData();
@@ -472,7 +471,7 @@ export const ReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              {seats}
+              11 seats
             </Text>
             {/* Additional content goes here */}
           </Box>
