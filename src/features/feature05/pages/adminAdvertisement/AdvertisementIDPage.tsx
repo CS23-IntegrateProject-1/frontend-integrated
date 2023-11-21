@@ -255,21 +255,6 @@ export const AdvertisementIDPage = () => {
         minWidth="250px"
         maxWidth="400px"
         display="flex"
-        flexDirection={"column"}
-        paddingBottom={8}
-      >
-        <Select placeholder="Payment method" style={TextStyle.h1}>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
-        </Select>
-      </Box>
-
-      <Box
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
         flexDirection={"row"}
         paddingBottom={3}
         justifyContent={"space-evenly"}
