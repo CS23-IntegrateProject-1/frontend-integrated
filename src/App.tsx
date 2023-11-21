@@ -7,6 +7,7 @@ import { Axios } from "./AxiosInstance";
 
 interface User {
   //   userId: number;
+  username: string;
   fname: string;
   lname: string;
   email: string;
@@ -15,9 +16,9 @@ interface User {
   profile_picture: string;
 }
 
-
 const UserContext = createContext({
   //   userId: -1,
+  username: "",
   fname: "",
   lname: "",
   email: "",
@@ -33,6 +34,7 @@ const isLogin = await Verify();
 function App() {
   const [user, setUser] = useState<User>({
     // userId: -1,
+    username: "",
     fname: "",
     lname: "",
     email: "",
