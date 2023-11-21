@@ -14,7 +14,7 @@ export const EnterCode = () => {
         objectFit="cover"
         maxW={{ base: "100%", sm: "50%" }}
         maxH={{ base: "100%", sm: "50%" }}
-        src="https://www.globsub.com/wp-content/uploads/2021/12/QR-Code-Payment-Globsub.jpg"
+        src="https://promptpay.io/0835753909/500.png"
         alt="QR CODE"
         margin={5}
       />
