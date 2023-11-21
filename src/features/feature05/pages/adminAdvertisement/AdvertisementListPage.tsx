@@ -36,6 +36,7 @@ export const AdvertisementListPage = () => {
       alignItems={"center"}
       width={"100%"}
     >
+      
       {/* Search */}
       <Box
         width="50%"
