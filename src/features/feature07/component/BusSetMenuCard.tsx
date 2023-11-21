@@ -12,17 +12,18 @@ interface BusSetMenuCardProps {
   imageUrl: string;
   amount: number;
   type: string;
+  onClick?: () => void;
 };
 
-export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,type}) => {
+export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,onClick}) => {
     const navigate = useNavigate();
     const { venueId } = useParams();
     // const [isAvailable, setIsAvailable] = useState(true);
 
-    const handleMenuEdit = () => {
-          navigate(`/venue/:venueId/editsetmenu`);
-          console.log("Clicked menu. Menu ID:", id);
-  }
+  //   const handleMenuEdit = () => {
+  //         navigate(`/venue/:venueId/editsetmenu`);
+  //         console.log("Clicked menu. Menu ID:", id);
+  // }
 
   return (
     <Flex 
@@ -32,6 +33,7 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
     height="130px" 
     p={1} 
     borderColor={"brand.100"}
+    onClick={onClick}
      >
       
     <Flex justifyContent="center" width="140px" height="105px" >
@@ -48,15 +50,15 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
    
     <VStack alignItems="left" mt={1} ml={2} flex="1">
       <Box>
-        <HStack spacing={2} align="center">
+        {/* <HStack spacing={2} align="center"> */}
         <Text {...textStyles.h3} color="white" 
         lineHeight="1.5" >
             
            {/* Prepare food Name  */}
           {foodName}
         </Text>
-        <EditIcon color="white" boxSize={4} ml="auto" onClick={() => handleMenuEdit()}/>
-        </HStack>
+        {/* <EditIcon color="white" boxSize={4} ml="auto" onClick={() => handleMenuEdit()}/> */}
+        {/* </HStack> */}
         <Text {...textStyles.body2} color="white"
          lineHeight="1.5" >
           {/* Description Integrate kasjfakldf
@@ -67,7 +69,7 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
         <Text {...textStyles.body3} color="white"
          lineHeight="2" >
           {/* Price Integrate */}
-          {`${price*amount} baht`}
+          {`${price} baht`}
         </Text>
       </Box>
     </VStack>

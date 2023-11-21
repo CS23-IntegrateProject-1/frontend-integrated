@@ -28,15 +28,6 @@ interface SetMenu {
   onClick?: () => void;
 }
 
-// const fetchMenuData =async (venueId: string) => {
-//   try {
-//     const response = await Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`);
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(`Error fetching menu data: ${error.message}`);
-//   }
-// }
-
 const fetchMenuAndSetData = async (venueId: string) => {
     const [menuResponse, setResponse] = await Promise.all([
       Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
@@ -45,6 +36,7 @@ const fetchMenuAndSetData = async (venueId: string) => {
 
     const menuData = menuResponse.data;
     const setMenuData = setResponse.data;
+    console.log(menuData);
 
     return { menuData, setMenuData };
 };
@@ -78,10 +70,17 @@ export const MenuAllBusiness = () => {
       setBorderColor("brand.200");
     }
   };
+
+  const handleMenuClick = (type: string, menuid: string) => {
+    navigate(`/venue/${venueId}/bmenudetail/${type}/${menuid}`);
+    console.log("Clicked menu. Menu ID:", menuid);
+  }  
+
   const handleAddMenuClick = () => {
     const route = subtitle === "All Menu" ? "addmenu" : "addsetmenu";
     navigate(`/venue/${venueId}/${route}`);
   };
+
   useEffect(() => {
     handleAllMenuClick();
     const params = new URLSearchParams(window.location.search);

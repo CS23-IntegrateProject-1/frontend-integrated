@@ -25,6 +25,6 @@ export const Feature07Routes = () => {
     { path: "/venue/:venueId/addmenu", element: <AddMenu /> },
     { path: "/venue/:venueId/addsetmenu", element: <AddSetMenu /> },
     { path: "/venue/:venueId/choosemenu", element: <ChooseMenu /> },
-    { path: "/venue/:venueId/bmenudetail", element: <BusinessMenuDetail /> },
+    { path: "/venue/:venueId/bmenudetail/:type/:menuid", element: <BusinessMenuDetail /> },
   ];
 };

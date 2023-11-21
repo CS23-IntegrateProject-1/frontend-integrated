@@ -1,5 +1,5 @@
 import {Box,Image,Text,VStack,HStack,Center,Switch} from "@chakra-ui/react";
-import {FC,useState} from "react";
+import {FC,useEffect,useState} from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
@@ -8,25 +8,10 @@ import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-// const getMenuItem = async (type: string, menuid: string) => {
-//     const response = await Axios.get(`/feature7/get${type}ById/${menuid}`);
-//     return response.data;
-//   };
-
-interface Branch {
-    id: number;
-    name: string;
-    isAvailable: boolean;
-}
-
-interface MenuItem {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    image_url: string;
-    branches: Branch[];
-}
+const getMenuItem = async (type: string, menuid: string) => {
+    const response = await Axios.get(`/feature7/get${type}ById/${menuid}`);
+    return response.data;
+};
 
 interface BusMenuDetailProps {
     id: number;
@@ -37,47 +22,52 @@ interface BusMenuDetailProps {
 }
 
 export const BusinessMenuDetail: FC = () => {
-    const {type, menuid} = useParams();
+    const {type, menuid, venueId} = useParams();
     //console.log(menuid);
     const navigate = useNavigate();
-    const [branchAvailability, setBranchAvailability] = useState<{ [branchId: number]: boolean }>({});
+    // const [branchAvailability, setBranchAvailability] = useState([]);
     const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => getMenuItem(type, menuid));
-    console.log(menuItem);
+    //console.log(menuItem);
 
     const handleMenuEdit = () => {
-        navigate(`/venue/:venueId/editmenu`);
-        
-}
-const handleBranchSwitchChange = (branchId: number) => {
-        setBranchAvailability(prevState => ({
-            ...prevState,
-            [branchId]: !prevState[branchId],
-        }));
+        navigate(`/venue/${venueId}/editmenu`);     
     }
 
-    const getMenuItem = async (type: string, menuid: string): Promise<MenuItem> => {
-        return {
-            id: 1,
-            name: "Sample Menu Item",
-            price: 1000,
-            description: "Sample Description",
-            image_url: "/src/features/feature07/assets/test.jpg",
-            branches: [
-                { id: 1, name: "Branch 1", isAvailable: false },
-                { id: 2, name: "Branch 2", isAvailable: true },
-                { id: 3, name: "Branch 3", isAvailable: false },
-            ],
-        };
+    const getBranchAvailability = async (menuid: string) => {
+        const response = await Axios.get(`/feature7/checkMenuAvailabilityOfAllBranches/${menuid}/${venueId}`);
+        //console.log("BranchAva",response.data);
+        return response.data;
     };
 
-   
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
+    const {data: branchAvailabilityData, refetch: branchAvailabilityRefetch } = useQuery(["branchAvailability", menuid], () => getBranchAvailability(menuid));
+    console.log("BranchAva2",branchAvailabilityData);
 
-    // if (isError) {
-    //     return <div>Error fetching {type} details</div>;
-    // }
+    const handleBranchSwitch = async (branchId: number) => {
+        try{
+            const response = await Axios.post(`/feature7/changeMenuAvailability/${menuid}/${venueId}/${branchId}`);
+            branchAvailabilityRefetch();
+            console.log("SetBranchAva",response);
+        } catch (error) {
+            console.error('Error setting availability:', error); // Log any errors for debugging
+            console.log('Error response:'); // Log the error response for debugging
+        }
+        // setBranchAvailability(prevState => ({
+        //     ...prevState,
+        //     [branchId]: !prevState[branchId],
+        // }));
+    }
+
+    useEffect(() => {
+        
+    },[branchAvailabilityData]);
+   
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error fetching {type} details</div>;
+    }
 
     return(
         <Box>
@@ -96,14 +86,14 @@ const handleBranchSwitchChange = (branchId: number) => {
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" marginLeft="70px">{`${menuItem?.price} baht`}</Text>
                 </HStack>
                 <Text {...textStyles.body2}>{menuItem?.description}</Text>
-                {menuItem?.branches.map(branch => (
-                    <HStack key={branch.id} alignItems="center">
-                        <Text {...textStyles.h3} mr={2}>{branch.name}</Text>
+                {branchAvailabilityData?.map(branch => (
+                    <HStack key={branch.branchId} alignItems="center">
+                        <Text {...textStyles.h3} mr={2}> {branch.branchName}</Text>
                         <Switch
                             colorScheme="brand"
                             size="md"
-                            isChecked={branchAvailability[branch.id]}
-                            onChange={() => handleBranchSwitchChange(branch.id)}
+                            isChecked={branch.availability}
+                            onChange={() => handleBranchSwitch(branch.branchId)}
                         />
                     </HStack>
                 ))}

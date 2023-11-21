@@ -11,18 +11,19 @@ interface BusMenuCardProps {
   price: number;
   imageUrl: string;
   amount: number;
-  type: string;
+  // type: string;
+  onClick?: () => void;
 };
 
-export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,type}) => {
+export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,onClick}) => {
     const navigate = useNavigate();
     const { venueId } = useParams();
     // const [isAvailable, setIsAvailable] = useState(true);
 
-    const handleMenuEdit = () => {
-          navigate(`/venue/${venueId}/bmenudetail`);
-          console.log("Clicked menu. Menu ID:", id);
-  }
+  //   const handleMenuEdit = () => {
+  //         navigate(`/venue/${venueId}/bmenudetail`);
+  //         console.log("Clicked menu. Menu ID:", id);
+  // }
 
   return (
     <Flex 
@@ -32,8 +33,8 @@ export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,
     height="130px" 
     p={1} 
     borderColor={"brand.100"}
-    onClick={() => handleMenuEdit()}
-     >
+    onClick={onClick}
+    >
       
     <Flex justifyContent="center" width="140px" height="105px" >
       <Image src="/src/features/feature07/assets/test.jpg"
@@ -68,7 +69,7 @@ export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,
         <Text {...textStyles.body3} color="white"
          lineHeight="2" >
           {/* Price Integrate */}
-          {`${price*amount} baht`}
+          {`${price} baht`}
         </Text>
         {/* <ButtonComponent 
         text={isAvailable ? "Available" : "Out of Stock"}
