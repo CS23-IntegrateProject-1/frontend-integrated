@@ -7,13 +7,9 @@ import {
   Button,
   Highlight,
 } from "@chakra-ui/react";
-<<<<<<< Updated upstream
-import React, { useState, useEffect } from "react";
-=======
 import { MdOutlineEventSeat } from "react-icons/md";
 import { CalendarIcon, TimeIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
->>>>>>> Stashed changes
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
 import { color } from "framer-motion";
@@ -68,11 +64,6 @@ interface IData {
   ];
 }
 
-<<<<<<< Updated upstream
-=======
-export const ReservationDetail = () => {
-  const [data, setData] = useState<IData | undefined>();
->>>>>>> Stashed changes
 
 
 export const ReservationDetail = () => {
@@ -519,21 +510,6 @@ export const ReservationDetail = () => {
           >
             200 Baht
           </Text>
-<<<<<<< Updated upstream
-          <Box
-            width="360px"
-            height="1px"
-            background="#DEBEF6"
-            marginTop="18px"
-            marginLeft="18px"
-          ></Box>
-          <Button
-            borderRadius="10px"
-            width="128px"
-            height="36px"
-            backgroundColor="#A533C8"
-            textColor="white"
-=======
           <Text
             color="#000"
             fontFamily="Roboto"
@@ -549,7 +525,6 @@ export const ReservationDetail = () => {
           <Text
             color="#000"
             fontFamily="Roboto"
->>>>>>> Stashed changes
             fontSize="16px"
             fontStyle="normal"
             fontWeight="600"
@@ -557,10 +532,6 @@ export const ReservationDetail = () => {
             marginTop="15px"
             marginLeft="133px"
           >
-<<<<<<< Updated upstream
-            Review
-          </Button>
-=======
             Phone Number :
           </Text>
           <Text
@@ -655,7 +626,6 @@ export const ReservationDetail = () => {
             11 seats
           </Text>
           {/* Additional content goes here */}
->>>>>>> Stashed changes
         </Box>
       </Box>
     );
