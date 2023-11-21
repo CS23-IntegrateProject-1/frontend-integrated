@@ -7,9 +7,16 @@ import {
   Button,
   Highlight,
 } from "@chakra-ui/react";
+<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
+=======
+import { MdOutlineEventSeat } from "react-icons/md";
+import { CalendarIcon, TimeIcon } from "@chakra-ui/icons";
+import { useState, useEffect } from "react";
+>>>>>>> Stashed changes
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
+import { color } from "framer-motion";
 
 interface IData {
   venue: {
@@ -61,6 +68,11 @@ interface IData {
   ];
 }
 
+<<<<<<< Updated upstream
+=======
+export const ReservationDetail = () => {
+  const [data, setData] = useState<IData | undefined>();
+>>>>>>> Stashed changes
 
 
 export const ReservationDetail = () => {
@@ -507,6 +519,7 @@ export const ReservationDetail = () => {
           >
             200 Baht
           </Text>
+<<<<<<< Updated upstream
           <Box
             width="360px"
             height="1px"
@@ -520,6 +533,23 @@ export const ReservationDetail = () => {
             height="36px"
             backgroundColor="#A533C8"
             textColor="white"
+=======
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft={34}
+            marginTop="10px"
+          >
+            {data?.reservations[0]?.user.fname}
+          </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+>>>>>>> Stashed changes
             fontSize="16px"
             fontStyle="normal"
             fontWeight="600"
@@ -527,8 +557,105 @@ export const ReservationDetail = () => {
             marginTop="15px"
             marginLeft="133px"
           >
+<<<<<<< Updated upstream
             Review
           </Button>
+=======
+            Phone Number :
+          </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft={34}
+            marginTop="10px"
+          >
+            1169
+          </Text>
+          <CalendarIcon w={"20px"} h={"20px"} color={"black"} ml={"40px"} mt={"12px"}/>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="71px"
+            marginTop="-20px"
+          >
+            Date :
+          </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11/11/23
+          </Text>
+          <TimeIcon w={"20px"} h={"20px"} color={"black"} ml={"40px"} mt={"25px"}/>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="71px"
+            marginTop="-20px"
+          >
+            Time :
+          </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11.11 pm
+          </Text>
+          <Box
+          ml={"38px"}
+          mt={"20px"}>
+          <MdOutlineEventSeat style={{ width: "24px", height: "24px", color:"black",} }/>
+          </Box>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="71px"
+            marginTop="-20px"
+          >
+            Seats :
+          </Text>
+          <Text
+            color="#000"
+            fontFamily="Roboto"
+            fontSize="12px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+            marginLeft="120px"
+            marginTop="-14px"
+          >
+            11 seats
+          </Text>
+          {/* Additional content goes here */}
+>>>>>>> Stashed changes
         </Box>
       </Box>
     );
