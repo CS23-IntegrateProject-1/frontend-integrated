@@ -92,11 +92,11 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_in")}
-          text="Check_in"
+          text="Checkin"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_out")}
-          text="Check_out"
+          text="Completed"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Cancel")}
