@@ -3,7 +3,8 @@ import { PromotionsPage } from "./pages/homePage/PromotionsPage";
 import { RecommendedPlacesPage } from "./pages/homePage/RecommendedPlacesPage";
 import { RestaurantPage } from "./pages/homePage/RestaurantPage";
 import { ReviewPage } from "./pages/homePage/ReviewPage";
-import { Temp_ResturantDetail } from "./pages/homePage/Temp_ResturantDetail";
+import { VenueDetail } from "./pages/homePage/VenueDetail";
+import { VenueBranches } from "./pages/homePage/VenueBranches";
 
 export const Feature03Routes = () => {
   return [
@@ -12,10 +13,8 @@ export const Feature03Routes = () => {
     { path: "/Restaurants", element: <RestaurantPage /> },
     { path: "/RecommendedPlaces", element: <RecommendedPlacesPage /> },
     { path: "/Promotions", element: <PromotionsPage /> },
-
-    // { path: "/Temp_RestaurantDetail", element: <Temp_ResturantDetail /> },
-
     { path: "/venue-list", element: "ElementPlaceHolder" },
-    { path: "/venuevenue-branch/:branchId", element: <Temp_ResturantDetail /> },
+    { path: "/venuevenue-branch/:branchId", element: <VenueDetail /> },
+    { path: "/Branches/:venueId", element: <VenueBranches />}
   ];
 };

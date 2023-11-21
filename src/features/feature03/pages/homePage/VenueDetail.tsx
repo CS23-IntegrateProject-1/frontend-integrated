@@ -2,9 +2,6 @@ import { NavLink } from "react-router-dom";
 import {
   Box,
   Text,
-  Card,
-  CardBody,
-  Heading,
   Image,
   Button,
   Flex,
@@ -13,7 +10,7 @@ import {
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-export const Temp_ResturantDetail = () => {
+export const VenueDetail = () => {
   return (
     <Box width={"100%"}>
       <Image

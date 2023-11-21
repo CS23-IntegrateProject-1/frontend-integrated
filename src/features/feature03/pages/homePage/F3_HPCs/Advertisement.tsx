@@ -3,13 +3,13 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  ModalHeader,
   ModalCloseButton,
   ModalBody,
   ModalContent,
   ModalFooter,
   Image,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 
 interface ModalProps {
@@ -24,7 +24,7 @@ interface Advertisement extends ModalProps {
   numberOfEmployee: number;
 }
 
-export function Advertisement({ isOpen = false, onClose = () => {} }) {
+export function Advertisement({ isOpen = true, onClose = () => {} }) {
   return (
     <Modal
       isOpen={isOpen}
@@ -39,41 +39,49 @@ export function Advertisement({ isOpen = false, onClose = () => {} }) {
         alignItems="center"
         justifyContent="center"
       >
-        <ModalHeader>Advertisement</ModalHeader>
         <ModalCloseButton />
-        <ModalBody p={"2"}>
+        <ModalBody mt="3">
           <Image
-            src="https://www.localguidesconnect.com/t5/image/serverpage/image-id/577026iC349F71B836713F5/image-size/large?v=v2&px=999"
+            src="https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg"
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
-            h="300px"
+            h="auto"
             objectFit={"cover"}
           />
-          <Text>Placeholder text</Text>
+          <Heading fontSize="30px" mt="4">
+            Advertisement
+          </Heading>
+          <Text>
+            Placeholder text advertisement detail buy my merch click the link
+            the description to buy my products free giveaway
+          </Text>
         </ModalBody>
         <ModalFooter>
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row">
             <Button
               variant="outline"
-              borderColor="red"
-              textColor="red"
+              borderColor="brand.400"
+              textColor="white"
               _hover={{
-                textColor: "white",
-                borderColor: "red",
-                bgColor: "red",
+                textColor: "black",
+                bgColor: "brand.100",
               }}
+              mr="5"
+              w="150px"
+              onClick={onClose}
             >
               Dismiss
             </Button>
             <Button
               variant="solid"
               textColor="white"
-              bgColor="brand.300"
+              bgColor="brand.200"
               _hover={{
                 textColor: "black",
                 bgColor: "brand.100",
               }}
+              w="150px"
             >
               Go!
             </Button>

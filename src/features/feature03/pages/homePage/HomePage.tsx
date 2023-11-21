@@ -2,19 +2,27 @@ import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
 import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
-
 import { ButtonPenta } from "./F3_HPCs/ButtonPenta";
 import { ButtonQuad } from "./F3_HPCs/ButtonQuad";
 import { RecommendSlide } from "./F3_HPCs/RecommendSlide";
 import { PromoSlide } from "./F3_HPCs/PromoSlide";
-import { Box, Text, Image, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Image,
+  Flex,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-        
+import { Advertisement } from "./F3_HPCs/Advertisement";
+import { useEffect } from "react";
 
 export const HomePage = () => {
-  // const [searchFilter, setSearchFilter] = useState<string>("");
-  // const [selectedRestaurant, setSelectedRestaurant] =
-  //   useState<RestaurantProps | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  useEffect(() => {
+    onOpen();
+  }, []);
 
   return (
     <Box width={"100%"}>
@@ -24,6 +32,8 @@ export const HomePage = () => {
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <ButtonPenta />
       <ButtonQuad />
+      <Button onClick={onOpen}/>
+      <Advertisement isOpen={isOpen} onClose={onClose} />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
         Explore Venues
