@@ -1,18 +1,18 @@
 import {
     Box,
     Text,
-    SimpleGrid
+    SimpleGrid,
+    HStack
   } from "@chakra-ui/react";
   import PlaceTypes from "../components/PlaceTypes";
-  import React, { useEffect, useState } from "react";
+  import { useEffect, useState } from "react";
   import Cards from "../components/Card";
   import Header from "../components/Header";
   import index from "../../../theme/foundations/index";
-  import SavedLocationCard from "../components/SavedLocationCard";
   import RecommendLocation from "../components/RecommendLocation";
-import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
-import SearchBar from "../components/Search";
-import { Axios } from "../../../AxiosInstance";
+  import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+  import SearchBar from "../components/Search";
+  import { Axios } from "../../../AxiosInstance";
   
 interface LocationData {
   id: string;
@@ -29,7 +29,7 @@ interface RegisteredData{
   category: string;
   capacity: number;
   score: number;
-  website: string;
+  website_url: string;
 }
 
 
@@ -42,7 +42,7 @@ interface RegisteredData{
     const fetchRestaurantData = async () => {
       try {
         const response = await Axios.get("/feature4/bars"); 
-        setRegistered(response.data);
+        setRegistered(response.data.bars);
         console.log(response.data)
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
@@ -110,18 +110,20 @@ interface RegisteredData{
           maxWidth="1500px"
         >
           {/* Render RecommendLocation components based on savedData */}
-          {Array.isArray(registered) &&
-            registered.map((loc) => (
+          <HStack spacing={2} overflowX="auto">
+          {registered &&
+            registered.map((location,index) => (
               <RecommendLocation
-                key={loc.name}
-                name={loc.name}
-                description={loc.description}
-                category={loc.category}
-                capacity={loc.capacity}
-                score={loc.score}
-                website={loc.website}
+                key={index}
+                name={location.name}
+                description={location.description}
+                category={location.category}
+                capacity={location.capacity}
+                score={location.score}
+                website_url={location.website_url}
               />
             ))}
+        </HStack>
         </Box>
   
         <br/>

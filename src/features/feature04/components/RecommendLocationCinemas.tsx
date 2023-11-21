@@ -28,14 +28,15 @@ import {
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 
-interface RecommendLocationCard {
+
+interface RecommendLocationCinemaCard{
     name: string;
-    description: string;
-    category: string;
-    capacity: number;
-    score: number;
-    website_url: string;
-}
+    address: string;
+    phone_num: string;
+    latitude: number;
+    longitude: number;
+    
+  }
 
 // const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
 //   return (
@@ -89,7 +90,7 @@ const StarIcon: React.FC = () => {
   );
 };
 
-const RecommendLocation = (props: RecommendLocationCard) => {
+const RecommendLocationCinema = (props: RecommendLocationCinemaCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription, setShowFullDescription] = useState(false);
   // const [liked, setLiked] = useState(false);
@@ -98,11 +99,11 @@ const RecommendLocation = (props: RecommendLocationCard) => {
   //   ? props.description
   //   : `${props.description.slice(0, 50)}...`;
 
-  const descriptionToShow = showFullDescription
-    ? props.description
-    : typeof props.description === "string"
-    ? `${props.description.slice(0, 50)}...`
-    : ""; // Handle the case where props.description is not a string
+  // const descriptionToShow = showFullDescription
+  //   ? props.description
+  //   : typeof props.description === "string"
+  //   ? `${props.description.slice(0, 50)}...`
+  //   : ""; // Handle the case where props.description is not a string
 
   // const handleLikeClick = () => {
   //   setLiked(!liked);
@@ -181,7 +182,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    {props.score}
+                    {/* {props.score} */}
                   </Text>
                 </Box>
               </Box>
@@ -191,7 +192,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
               fontWeight={textStyles.body3.fontWeight}
               color={colors.grey[200]}
             >
-              {descriptionToShow}
+              {props.address}
             </Text>
           </Stack>
         </CardBody>
@@ -251,16 +252,10 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                     color={colors.grey[400]}
                   >
                       <p>
-                        Description : {props.description}
+                        Address : {props.address}
                       </p>
                       <p>
-                        Category : {props.category}
-                      </p>
-                      <p>
-                        Capacity : {props.capacity}
-                      </p>
-                      <p>
-                        Website : {props.website_url}
+                        Phone Number : {props.phone_num}
                       </p>
                   </ModalBody>
                 </ModalContent>
@@ -283,4 +278,4 @@ const RecommendLocation = (props: RecommendLocationCard) => {
     </Box>
   );
 };
-export default RecommendLocation;
+export default RecommendLocationCinema;

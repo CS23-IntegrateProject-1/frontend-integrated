@@ -7,23 +7,24 @@ import {
 
 import { useState } from "react";
 
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { modalAnatomy as parts } from "@chakra-ui/anatomy";
+// import {
+//   Modal,
+//   ModalOverlay,
+//   ModalContent,
+//   ModalHeader,
+//   ModalFooter,
+//   ModalBody,
+//   ModalCloseButton,
+// } from "@chakra-ui/react";
+// import { modalAnatomy as parts } from "@chakra-ui/anatomy";
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 
 interface CinemasCardProps {
-  placename: string;
+  name: string;
   distance: number;
 }
+
 
 const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
     return (
@@ -109,14 +110,14 @@ const CinemasCard = (props: CinemasCardProps) => {
             fontSize={textStyles.h3.fontSize}
             fontWeight={textStyles.h3.fontWeight}
           >
-            {props.placename}
+            {props.name}
           </Box>
           <Box
             fontSize={textStyles.h5.fontSize}
             fontWeight={textStyles.h5.fontWeight}
             color={colors.grey[300]}
           >
-            {props.distance} km
+            {`${(props.distance / 1000).toFixed(2)} km`}
           </Box>
           <Spacer />
           {/* <Flex flexDir={"row"}> */}

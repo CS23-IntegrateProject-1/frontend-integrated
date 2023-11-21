@@ -2,7 +2,6 @@ import {
   Box,
   Text,
   Image,
-  Flex,
   Card,
   CardBody,
   Stack,
@@ -12,7 +11,6 @@ import {
   Button,
   Spacer,
   CardFooter,
-  IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import colors from "../../../theme/foundations/colors";
@@ -22,7 +20,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
@@ -90,7 +87,7 @@ const StarIcon: React.FC = () => {
 
 const Cards = (props: CardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullDescription] = useState(false);
   // const [liked, setLiked] = useState(false);
 
   const generateRandomNumber = () => {
@@ -213,7 +210,7 @@ const Cards = (props: CardProps) => {
                 variant="outline"
                 color={colors.brand[100]}
                 border="1px solid #DEBEF6"
-                width={130}
+                width="100%" // Full width on all screens
                 height={10}
                 onClick={onOpen}
                 _hover={{
@@ -221,7 +218,7 @@ const Cards = (props: CardProps) => {
                   borderColor: "black",
                   bgColor: "brand.100",
                 }}
-                w="150px"
+                mb={2}
               >
                 {showFullDescription ? "Show Less" : "More Info"}
               </Button>
@@ -265,11 +262,13 @@ const Cards = (props: CardProps) => {
               </Modal>
               <Spacer />
               <Button
+                marginLeft={100}
                 variant="solid"
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="150px"
+                width="100%" // Full width on all screens
+                mb={2}
               >
                 Reserve Now
               </Button>
