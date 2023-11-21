@@ -7,7 +7,27 @@ import { Verify } from "./api/Auth/Verify";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Axios } from "./AxiosInstance";
 
-const UserContext = createContext(0);
+interface User {
+  //   userId: number;
+  username: string;
+  fname: string;
+  lname: string;
+  email: string;
+  addId: string;
+  phone: string;
+  profile_picture: string;
+}
+
+const UserContext = createContext({
+  //   userId: -1,
+  username: "",
+  fname: "",
+  lname: "",
+  email: "",
+  addId: "",
+  phone: "",
+  profile_picture: "",
+});
 
 const privateRouter = PrivateRoutes;
 const publicRouter = PublicRoutes;
