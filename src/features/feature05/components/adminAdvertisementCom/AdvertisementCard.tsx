@@ -1,12 +1,12 @@
-import {
-  Box,
-  Card,
-  CardBody,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, Text } from "@chakra-ui/react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
 
-export const AdvertisementCard = () => {
+export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
+  name,
+  description,
+}) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/advertisement/:id");
@@ -32,18 +32,17 @@ export const AdvertisementCard = () => {
         bg={"rgba(0, 0, 0, 0)"}
         color={"white"}
         onClick={handleClick}
-      > 
+      >
         <CardBody>
           <Box>
             <Text pt="2" fontSize="md">
-              Name: Product 'z' launch
+              Name: {name}
               <br />
-              Description: Loremipsum dolor sit amet, consectetur adipiscing elit.
+              Description: {description}
             </Text>
           </Box>
         </CardBody>
       </Card>
-
     </Box>
   );
 };
