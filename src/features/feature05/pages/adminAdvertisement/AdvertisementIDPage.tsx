@@ -1,4 +1,16 @@
-import { Box, Button, Center, FormControl, FormLabel, Icon, IconButton, Select, Stack, Text, useDisclosure} from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  FormControl,
+  FormLabel,
+  Icon,
+  IconButton,
+  Select,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/react";
@@ -10,7 +22,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalCloseButton,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { ChangeEvent, useEffect, useState } from "react";
@@ -18,7 +30,7 @@ import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 
 export const AdvertisementIDPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const handleClickReject = () => {
     navigate("/advertisement/:id/reject");
@@ -46,7 +58,7 @@ export const AdvertisementIDPage = () => {
       }
     };
   }, [imagePreview]);
-  
+
   return (
     <Box
       display={"flex"}
@@ -55,7 +67,6 @@ export const AdvertisementIDPage = () => {
       alignItems={"center"}
       width={"100%"}
     >
-
       {/* Name * */}
       <Box
         paddingBottom={3}
@@ -69,12 +80,17 @@ export const AdvertisementIDPage = () => {
           {" "}
           Name *
         </Text>
-        <Input
+        {/* <Input
           variant="name"
           placeholder="Filled"
           style={{ width: "auto" }}
           color={"black"}
-        />
+        /> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            test
+          </Text>
+        </Box>
       </Box>
 
       {/* Description * */}
@@ -90,12 +106,17 @@ export const AdvertisementIDPage = () => {
           {" "}
           Description *
         </Text>
-        <Textarea
+        {/* <Textarea
           variant="name"
           placeholder="Filled"
           width="auto"
           color={"black"}
-        />
+        /> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            test
+          </Text>
+        </Box>
       </Box>
 
       {/* Starting Date * & Ending Date * */}
@@ -113,14 +134,24 @@ export const AdvertisementIDPage = () => {
             {" "}
             Starting Date *
           </Text>
-          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+          {/* <Input size={"xs"} type="date" color="black" bg={"white"}></Input> */}
+          <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+            <Text color={"#000000"} paddingLeft={"5px"}>
+              7/11/2023
+            </Text>
+          </Box>
         </Box>
         <Box flex={"1"}>
           <Text style={TextStyle.h2} color={"white"}>
             {" "}
             Ending Date *
           </Text>
-          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+          {/* <Input size={"xs"} type="date" color="black" bg={"white"}></Input> */}
+          <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+            <Text color={"#000000"} paddingLeft={"5px"}>
+              10/11/2023
+            </Text>
+          </Box>
         </Box>
       </Box>
 
@@ -197,14 +228,24 @@ export const AdvertisementIDPage = () => {
         flexDirection={"column"}
         paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+        <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
           Target customer
         </FormLabel>
-        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+        {/* <Select
+          bgColor={"#FFFFFF"}
+          borderColor={"#FFFFFF"}
+          placeholder=" "
+          iconColor="black"
+        >
           <option value="option1">All</option>
           <option value="option2">Member</option>
-        </Select>
+        </Select> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            test
+          </Text>
+        </Box>
       </FormControl>
 
       {/* Target group */}
@@ -217,16 +258,26 @@ export const AdvertisementIDPage = () => {
         flexDirection={"column"}
         paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+        <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
           Target group
         </FormLabel>
-        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+        {/* <Select
+          bgColor={"#FFFFFF"}
+          borderColor={"#FFFFFF"}
+          placeholder=" "
+          iconColor="black"
+        >
           <option value="option1">Teen</option>
           <option value="option2">young Adult</option>
           <option value="option3">adult</option>
           <option value="option4">elder</option>
-        </Select>
+        </Select> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            test
+          </Text>
+        </Box>
       </FormControl>
 
       <Box
@@ -241,13 +292,18 @@ export const AdvertisementIDPage = () => {
           {" "}
           Advertisement plan
         </Text>
-        <RadioGroup defaultValue="2">
+        {/* <RadioGroup defaultValue="2">
           <Stack spacing={1} direction="column">
             <Radio value="1">100 Baht/Week</Radio>
             <Radio value="2">300 Baht/Month</Radio>
             <Radio value="3">3,600 Baht/Year</Radio>
           </Stack>
-        </RadioGroup>
+        </RadioGroup> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            test
+          </Text>
+        </Box>
       </Box>
 
       <Box
@@ -259,17 +315,17 @@ export const AdvertisementIDPage = () => {
         paddingBottom={3}
         justifyContent={"space-evenly"}
       >
-        <Button 
-        colorScheme="gray" 
-        variant="solid" 
-        width="40%" 
-        color="#A533C8"
-        onClick={handleClickReject}
+        <Button
+          colorScheme="gray"
+          variant="solid"
+          width="40%"
+          color="#A533C8"
+          onClick={handleClickReject}
         >
           Reject
         </Button>
 
-        <Button 
+        <Button
           backgroundColor="#A533C8"
           variant="solid"
           width="40%"
@@ -279,18 +335,32 @@ export const AdvertisementIDPage = () => {
           Accept
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
-          <ModalHeader mt={3}>The request has been approved</ModalHeader>
-          <ModalCloseButton />
-          <ModalFooter>
-            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>
-            <Button bgColor={"#A533C8"} mr={3} onClick={handleClickConfirm} color={"white"} width="30%">
-              Confirm
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>The request has been approved</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickConfirm}
+                color={"white"}
+                width="30%"
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </Box>
   );
