@@ -5,31 +5,56 @@ import { Verify } from "./api/Auth/Verify";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Axios } from "./AxiosInstance";
 
-const UserContext = createContext(0);
+interface User {
+  //   userId: number;
+  fname: string;
+  lname: string;
+  email: string;
+  addId: string;
+  phone: string;
+  profile_picture: string;
+}
+
+
+const UserContext = createContext({
+  //   userId: -1,
+  fname: "",
+  lname: "",
+  email: "",
+  addId: "",
+  phone: "",
+  profile_picture: "",
+});
 
 const privateRouter = PrivateRoutes;
 const publicRouter = PublicRoutes;
 const isLogin = await Verify();
 
 function App() {
-  const [userId, setUserId] = useState(-1);
+  const [user, setUser] = useState<User>({
+    // userId: -1,
+    fname: "",
+    lname: "",
+    email: "",
+    addId: "",
+    phone: "",
+    profile_picture: "",
+  });
 
   useEffect(() => {
     if (isLogin) {
       Axios.get("/auth/getUser")
         .then((res) => {
-          setUserId(res.data.userId);
+          setUser(res.data);
         })
         .catch((err) => {
           console.error("Error verifying user:", err);
         });
-    } else {
-      setUserId(-1);
     }
   }, [isLogin]);
 
   return (
-    <UserContext.Provider value={userId}>
+    <UserContext.Provider value={user}>
       <RouterProvider router={isLogin ? privateRouter : publicRouter} />;
     </UserContext.Provider>
   );
