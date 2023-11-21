@@ -3,6 +3,9 @@ import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 import { Dashboard } from "./pages/Dashboard";
+import { Reservation } from "./pages/Business/Reservation";
+import { WalkInPeople } from "./pages/Business/WalkInPeople";
+import { WalkInDetail } from "./pages/Business/WalkInDetail";
 
 
 export const Feature06Routes = () => {
@@ -17,6 +20,9 @@ export const Feature06Routes = () => {
     { path: "/table", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
     { path: "/dashboard", element: <Dashboard /> },
-    { path: "/reservation-detail", element: <ReservationDetail/>}
+    { path: "/reservation-detail", element: <ReservationDetail/>},
+    { path: "/Reservation", element: <Reservation />},
+    { path: "/WalkInDetail", element: <WalkInDetail />},
+    { path: "/WalkInPeople", element: <WalkInPeople />}
   ];
 };
