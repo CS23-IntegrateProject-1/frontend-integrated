@@ -24,10 +24,19 @@ import {
 import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const AdvertisementListPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  //เอาไว้เปลี่ยน sort
+  const [sort, setSort] = useState("");
+
+  const handleChangeSort = (sort: string) => {
+    console.log(sort);
+    setSort(sort);
+  };
+
   return (
     <Box
       display={"flex"}
@@ -36,7 +45,6 @@ export const AdvertisementListPage = () => {
       alignItems={"center"}
       width={"100%"}
     >
-      
       {/* Search */}
       <Box
         width="50%"
@@ -94,37 +102,45 @@ export const AdvertisementListPage = () => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-             Sort By
+              Sort By
             </ModalHeader>
             <ModalCloseButton />
             <Divider />
 
             {/* Sort-checkbox */}
             <Box
-              width="50%"
+              width="100%"
               minWidth="250px"
               maxWidth="400px"
               display="flex"
               flexDirection={"column"}
               paddingLeft={5}
               paddingTop={5}
-              paddingBottom={8}
+              paddingBottom={2}
             >
-              <Tabs
+              <Button
                 fontWeight="bold"
                 color="black"
                 paddingBottom={2}
-                _selected={{color: "#5F0DBB"}}
+                variant={"unstyled"}
+                // _selected={{ color: "#5F0DBB" }}
+                onClick={() => handleChangeSort("AtoZ")}
+                textAlign={"start"}
+                w={"100%"}
               >
                 A to Z
-              </Tabs>
-              <Box
+              </Button>
+              <Button
                 fontWeight="bold"
                 color="black"
+                paddingBottom={2}
+                variant={"unstyled"}
+                onClick={() => handleChangeSort("ZtoA")}
+                textAlign={"start"}
+                w={"100%"}
               >
                 Z to A
-              </Box>
-
+              </Button>
             </Box>
 
             {/* Sort-Button */}
@@ -141,6 +157,7 @@ export const AdvertisementListPage = () => {
                 width="100px"
                 _hover={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }} // Add shadow on hover
                 boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)" // Add initial shadow
+                onClick={()=>{setSort("")}}
               >
                 Reset
               </Button>
@@ -149,11 +166,9 @@ export const AdvertisementListPage = () => {
         </Modal>
       </Box>
 
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-
-
+      <AdvertisementCard />
+      <AdvertisementCard />
+      <AdvertisementCard />
     </Box>
   );
 };
