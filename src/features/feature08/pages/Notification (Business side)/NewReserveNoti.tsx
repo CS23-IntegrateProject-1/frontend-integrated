@@ -26,7 +26,7 @@ export const NewReserveNoti = () => {
       } catch (error) {
         console.error('Error fetching table number:', error);
       }
-    };
+    };  
 
     fetchTableNumber();
   }, [reservationId]);
