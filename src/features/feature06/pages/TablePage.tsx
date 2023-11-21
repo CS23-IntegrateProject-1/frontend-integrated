@@ -197,16 +197,17 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to='/reservation-detail'>
-      <Button
-        width={"140px"}
-        height={"40px"}
-        bg={"brand.200"}
-        color={"white"}
-        _hover={{ bg: "brand.300"}}
-      >
-        Continue
-      </Button>
+      <Link to="/reservation-detail">
+        <Button
+          width={"140px"}
+          height={"40px"}
+          bg={"brand.200"}
+          color={"white"}
+          _hover={{ bg: "brand.300" }}
+        >
+          Continue
+        </Button>
+
       </Link>
     </Box>
   );
