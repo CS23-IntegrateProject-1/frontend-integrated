@@ -83,7 +83,9 @@ export const AdvertisementListPage = () => {
           <ModalContent
             bgColor={"#FFFFFF"}
             color={"#200944"}
-            height={"40%"}
+            height={"250px"}
+            width={"30%"}
+            minWidth={"300px"}
             borderRadius={20}
           >
             <ModalHeader
@@ -136,7 +138,7 @@ export const AdvertisementListPage = () => {
                 borderColor={"Red"}
                 bgColor={"#FFFFFF"}
                 color={"red"}
-                width="30%"
+                width="100px"
                 _hover={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }} // Add shadow on hover
                 boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)" // Add initial shadow
               >
