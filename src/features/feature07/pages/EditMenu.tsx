@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 import { Image } from "../component/ImageUpload/Image";
-
+import {useNavigate} from 'react-router-dom';
 export const EditMenu = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const navigate = useNavigate();
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
@@ -16,6 +16,12 @@ export const EditMenu = () => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
+  };
+
+  const handleDeleteAndUpdate = () => {
+    const targetPath = `/venue/:venueId/menubusiness?section=allmenu`;
+    console.log('Navigating to:', targetPath);
+    navigate(targetPath);
   };
 
   return (
@@ -127,12 +133,14 @@ export const EditMenu = () => {
               text="Delete"
               bgColor="white"
               textColor="brand.200"
+              onClick={handleDeleteAndUpdate}
             />
           </Box>
           <Box>
             <ButtonComponent
               width={"150px"}
               text="Update"
+              onClick={handleDeleteAndUpdate}
             />
           </Box>
         </HStack>

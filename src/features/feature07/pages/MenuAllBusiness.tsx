@@ -84,7 +84,14 @@ export const MenuAllBusiness = () => {
   };
   useEffect(() => {
     handleAllMenuClick();
-  }, []);
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
+}, []);
+ 
 
   const renderMenuCards = () => {
     if (isLoading) {
@@ -100,7 +107,7 @@ export const MenuAllBusiness = () => {
     if (subtitle === "All Menu") {
       if (menuData && menuData.length > 0) {
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
               <BusMenucard
               key={menu.menuId}
@@ -118,7 +125,7 @@ export const MenuAllBusiness = () => {
     } else if (subtitle === "Set Menu") {
       if (setMenuData && setMenuData.length > 0) {
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
               <BusSetMenuCard
               key={set.setId}
@@ -162,10 +169,11 @@ export const MenuAllBusiness = () => {
       </HStack>
       </Center>
       </Flex>
-      
-      <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
+      <Center >
+      <Box mt={4} p={1} marginRight="220px" borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
+      </Center>
       <Center >
       {renderMenuCards()}
       </Center>

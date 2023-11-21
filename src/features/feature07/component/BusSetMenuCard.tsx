@@ -17,10 +17,10 @@ interface BusSetMenuCardProps {
 export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,type}) => {
     const navigate = useNavigate();
     const { venueId } = useParams();
-    const [isAvailable, setIsAvailable] = useState(true);
+    // const [isAvailable, setIsAvailable] = useState(true);
 
     const handleMenuEdit = () => {
-          navigate(`/venue/${venueId}/editmenu`);
+          navigate(`/venue/:venueId/editsetmenu`);
           console.log("Clicked menu. Menu ID:", id);
   }
 
@@ -38,9 +38,9 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
       <Image src="/src/features/feature07/assets/test.jpg"
       alt="integrate" 
       objectFit="cover" 
-      mt={1}
+      mt={0.5}
       width="140px" 
-      height="108px"
+      height="102px"
       borderRadius="5px"
       position="relative"
       />
@@ -69,14 +69,6 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
           {/* Price Integrate */}
           {`${price*amount} baht`}
         </Text>
-        <ButtonComponent 
-        text={isAvailable ? "Available" : "Out of Stock"}
-        textStyle="body2"
-        width={isAvailable ? "70px" : "90px"}
-        height={"30px"} 
-        bgColor={isAvailable ? "green" : "red"} 
-        bgColorHover={isAvailable ? "green" : "red"}
-        />
       </Box>
     </VStack>
     </Flex>

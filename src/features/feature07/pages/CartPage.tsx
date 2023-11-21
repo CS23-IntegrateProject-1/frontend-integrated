@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState,useEffect } from 'react';
-import { Box,HStack,Flex, VStack, Text} from '@chakra-ui/react';
+import { Box,HStack,Flex, VStack, Text,Center} from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
@@ -55,7 +55,7 @@ export const CartPage = () => {
     // console.log(cartItems);
    return(
     <Flex direction="column" align="center" justify="center">
-    <VStack mt={4} overflowY="auto" maxHeight="500px">
+    <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
       {cartItems.length===0 ? (
         <Box><Text {...textStyles.h2}>No iterms in cart</Text></Box>
       ) : (
@@ -74,11 +74,11 @@ export const CartPage = () => {
         )}
           {/* <SecondCartCard /> */}
     </VStack>
+    <Center>
     <Flex align="center" justify="center" mt={4}>
       <Box
         position="fixed"
         bottom="4"
-        left="32%"
         width="109px"
         height="29px"
         textAlign="center"
@@ -93,6 +93,7 @@ export const CartPage = () => {
          
       </Box>
       </Flex>
+      </Center>
     </Flex>
     
    )

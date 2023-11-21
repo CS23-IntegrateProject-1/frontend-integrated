@@ -9,8 +9,11 @@ import { useNavigate,useLocation } from 'react-router-dom';
 interface Menu {
     name: string;
   }
-
-  export const AddSetMenu: React.FC = () => {
+  const placeholderMenus: Menu[] = [
+    { name: 'Menu 1' },
+    { name: 'Menu 2' },
+  ];
+  export const EditSetMenu: React.FC = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -50,17 +53,15 @@ interface Menu {
     navigate(targetPath);
   };
    
-  const handleAddSetMenuClick = () => {
+    const handleDeleteAndUpdate = () => {
     const targetPath = `/venue/:venueId/menubusiness?section=setmenu`;
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
-  
- 
-  const handleMenuSelect = (selectedMenu: Menu) => {
-    setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
-    setInputFieldValue('');
-  };
+
+  useEffect(() => {
+    setSelectedMenus(placeholderMenus);
+  }, []);
 
   return (
     <FormControl>
@@ -195,17 +196,24 @@ interface Menu {
           </Box>
         </Center>
         <Center>
-        <Box
-        position="fixed"
-        bottom="4"
-        textAlign="center"
-        borderRadius="5px">
-        <ButtonComponent 
-        width={"330px"}
-        text= "Add Set Menu"
-        onClick={handleAddSetMenuClick}
-        />
-        </Box>
+        <HStack marginTop="2" bottom="4" position="fixed">
+          <Box marginRight="4">
+            <ButtonComponent
+              width={"150px"}
+              text="Delete"
+              bgColor="white"
+              textColor="brand.200"
+              onClick={handleDeleteAndUpdate}
+            />
+          </Box>
+          <Box>
+            <ButtonComponent
+              width={"150px"}
+              text="Update"
+              onClick={handleDeleteAndUpdate}
+            />
+          </Box>
+        </HStack>
         </Center>
       </Box>
     </FormControl>
