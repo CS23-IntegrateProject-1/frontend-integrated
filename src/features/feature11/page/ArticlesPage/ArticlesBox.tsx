@@ -1,12 +1,12 @@
 import { Box, Icon, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Text, Image } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/Bi";
+import { BiComment } from "react-icons/bi";
 import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../ArticleDetailPage/ArticleTypes";
+import { ArticlesPageProps } from "../../ArticleTypes";
 import { Axios } from "../../../../AxiosInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
