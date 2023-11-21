@@ -1,15 +1,11 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { useState } from "react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AmountOfPeopleIcon } from "../components/AmountOfPeople";
 
 export const TablePage = () => {
   const [count, setCount] = useState(0);
-  useEffect(() => {
-    sessionStorage.setItem("guestAmount", count.toString());
-  }, [count]);
 
   function increment() {
     if (count < 10) {
@@ -123,7 +119,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to="/reservation-detail">
+      <Link to={`/reservation-detail?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}
