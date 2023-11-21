@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Text,
-  InputGroup,
   Input,
-  InputLeftElement,
   Flex,
   Button,
   useDisclosure,
@@ -28,17 +26,15 @@ import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Define interface for the saved location item
 interface SavedLocationItem {
-  locationId: number;
   userId:number;
   name:string;
-  latitude:number;
-  longtitude:number;
   createdAt:Date;
   address: string;
   province: string;
   district: string;
   subdistrict: string;
   postcode: string;
+  savedLocId: number;
 }
 
 interface SavedLocationInterface{
@@ -50,11 +46,8 @@ const queryClient = new QueryClient(); // Create a new instance of QueryClient
 
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [locationId, setLocationId] = useState("");
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
@@ -80,8 +73,6 @@ export const SavedLocation = () => {
       const payload = {
         userId,
         name,
-        latitude,
-        longitude,
         address,
         province,
         district,
@@ -95,19 +86,22 @@ export const SavedLocation = () => {
       // queryClient.invalidateQueries('savedData');
       onClose(); // Close the modal after successfully creating a new address
     } catch (error) {
-      console.error('Error saving location:', error);onClose(); 
+      console.error('Error saving location:', error);
+      onClose(); 
     }
   };
-  
 
+  console.log(savedData);
+  
   return (
     <Box>
       <Header />
 
       <Flex flexDir={"column"} alignItems="center">
         <Flex flexWrap="wrap" justifyContent="center" maxW="800px">
-          {savedData.location.map((location, index) => (
-            <SavedLocationCard key={index} city={location.province} address={location.address}/> 
+
+          {savedData.location.map((location,index) => (
+            <SavedLocationCard key={index} savedLocId={location.savedLocId} name={location.name} address={location.address}/> 
           ))}
         </Flex>
       </Flex>
@@ -136,7 +130,7 @@ export const SavedLocation = () => {
             <ModalBody>
               <Flex flexDir={"row"}>
                 <Icon as={FaMapMarkerAlt} height={6} width={6}/>
-                ...
+                Please fill in the information below
               </Flex>
               <br />
               <Text
@@ -149,11 +143,6 @@ export const SavedLocation = () => {
               <Stack spacing={3} mt={2}>
               <Input
                   variant="outline"
-                  placeholder="LocationID"
-                  onChange={(e) => setLocationId(e.target.value)}
-                />
-              <Input
-                  variant="outline"
                   placeholder="UserID"
                   onChange={(e) => setUserId(e.target.value)}
                 />
@@ -161,16 +150,6 @@ export const SavedLocation = () => {
                   variant="outline"
                   placeholder="Name"
                   onChange={(e) => setName(e.target.value)}
-                />
-                <Input
-                  variant="outline"
-                  placeholder="Latitude"
-                  onChange={(e) => setLatitude(e.target.value)}
-                />
-                <Input
-                  variant="outline"
-                  placeholder="Longtitude"
-                  onChange={(e) => setLongitude(e.target.value)}
                 />
                 <Input
                   variant="outline"
