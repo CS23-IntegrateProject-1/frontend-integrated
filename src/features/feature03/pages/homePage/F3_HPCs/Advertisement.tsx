@@ -10,6 +10,7 @@ import {
   Image,
   Text,
   Heading,
+  Box,
 } from "@chakra-ui/react";
 
 interface ModalProps {
@@ -29,7 +30,7 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size={{ base: "xs", sm: "md", md: "lg" }}
+      size={{ base: "xs", sm: "xl" }}
       isCentered
     >
       <ModalOverlay />
@@ -38,37 +39,40 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        rounded="xl"
       >
-        <ModalCloseButton />
-        <ModalBody mt="3">
+        <ModalBody p={0}>
           <Image
             src="https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg"
-            alt="Map_Pic not load"
-            borderRadius="xl"
+            alt="Pic not load"
             w="100%"
-            h="auto"
+            h="100%"
+            maxH={{base:"200px", lg:"300px"}}
             objectFit={"cover"}
           />
-          <Heading fontSize="30px" mt="4">
-            Advertisement
-          </Heading>
-          <Text>
-            Placeholder text advertisement detail buy my merch click the link
-            the description to buy my products free giveaway
-          </Text>
+          <Box mx="4" mt="4">
+            <Heading fontWeight="bold" fontSize={{ base: "25px", lg: "30px" }}>
+              Advertisement
+            </Heading>
+            <Text fontSize={"sm"} mt="1">
+              Placeholder text advertisement detail buy my merch click the link
+              the description to buy my products free giveaway
+            </Text>
+          </Box>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter mx="4" mt="2">
           <Flex direction="row">
             <Button
               variant="outline"
-              borderColor="brand.400"
+              borderColor="white"
               textColor="white"
               _hover={{
                 textColor: "black",
                 bgColor: "brand.100",
+                borderColor: "black",
               }}
-              mr="5"
-              w="150px"
+              mr={{base:"5", lg:"10"}}
+              w={{base:"125px", lg:"180px"}}
               onClick={onClose}
             >
               Dismiss
@@ -81,7 +85,7 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
                 textColor: "black",
                 bgColor: "brand.100",
               }}
-              w="150px"
+              w={{base:"125px", lg:"180px"}}
             >
               Go!
             </Button>

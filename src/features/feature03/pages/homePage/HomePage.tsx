@@ -17,6 +17,21 @@ import {
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { Advertisement } from "./F3_HPCs/Advertisement";
 import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+
+interface VenueRecommended {
+  id: number;
+  venueId: number;
+  name: string;
+  description: string;
+  category: string;
+  capacity: string;
+  location: string;
+  score: string;
+  website_url: string;
+}
 
 export const HomePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

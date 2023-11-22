@@ -44,7 +44,7 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
         rounded={"2xl"}
       >
         <ModalHeader fontWeight={"bold"} fontSize={{base:"20px", lg:"25px"}}>Filter By</ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton mt={"1"} />
         <ModalBody>
           <FilterType />
           <FilterPrice />
