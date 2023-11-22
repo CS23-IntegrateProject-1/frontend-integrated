@@ -30,8 +30,21 @@ export const BusinessMenuDetail: FC = () => {
     //console.log(menuItem);
 
     const handleMenuEdit = () => {
-        navigate(`/venue/${venueId}/editmenu`);     
+        navigate(`/venue/${venueId}/editmenu/${menuid}`);     
     }
+
+    const handleDelete = async() => {
+        try{
+          const response = await Axios.delete(`/feature7/deleteMenu/${menuid}`);
+          console.log('Menu deleted:', response.data);
+          const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
+          console.log('Navigating to:', targetPath);
+          navigate(targetPath);
+        } catch (error) {
+          console.error('Error deleting menu:', error);
+        }
+        
+      };
 
     const getBranchAvailability = async (menuid: string) => {
         const response = await Axios.get(`/feature7/checkMenuAvailabilityOfAllBranches/${menuid}/${venueId}`);
@@ -56,10 +69,6 @@ export const BusinessMenuDetail: FC = () => {
         //     [branchId]: !prevState[branchId],
         // }));
     }
-
-    useEffect(() => {
-        
-    },[branchAvailabilityData]);
    
     if (isLoading) {
         return <div>Loading...</div>;
@@ -100,17 +109,24 @@ export const BusinessMenuDetail: FC = () => {
             </VStack>
             </Center>
             <Center>
+            <HStack marginTop="2" bottom="4" position="fixed">
+            <Box marginRight="4">
+            <ButtonComponent
+              width={"150px"}
+              text="Delete"
+              onClick={handleDelete}
+            />
+            </Box>
             <Box
-            position="fixed"
-            bottom="4"
             textAlign="center"
             borderRadius="5px">
             <ButtonComponent 
-            width="200px"
+            width={"150px"}
             text="Edit Menu" 
             onClick={handleMenuEdit}
             />
             </Box>
+            </HStack>
             </Center>
         </Box>
     )

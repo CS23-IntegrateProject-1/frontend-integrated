@@ -4,7 +4,8 @@ import { ButtonComponent } from '../../../../components/buttons/ButtonComponent'
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
 import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate,useLocation, useParams } from 'react-router-dom';
+import { Axios } from '../../../../AxiosInstance';
 
 interface Menu {
     name: string;
@@ -21,6 +22,7 @@ interface Menu {
   const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const { venueId, menuid } = useParams();
 
   const handleDeleteMenu = (index) => {
     const updatedMenus = [...selectedMenus];
@@ -52,9 +54,9 @@ interface Menu {
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
-   
-    const handleDeleteAndUpdate = () => {
-    const targetPath = `/venue/:venueId/menubusiness?section=setmenu`;
+
+  const handleUpdate = () => {
+    const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
@@ -200,17 +202,17 @@ interface Menu {
           <Box marginRight="4">
             <ButtonComponent
               width={"150px"}
-              text="Delete"
+              text="Cancel"
               bgColor="white"
               textColor="brand.200"
-              onClick={handleDeleteAndUpdate}
+              onClick={() => navigate(`/venue/${venueId}/bmenudetail/Set/${menuid}`)}
             />
           </Box>
           <Box>
             <ButtonComponent
               width={"150px"}
               text="Update"
-              onClick={handleDeleteAndUpdate}
+              onClick={handleUpdate}
             />
           </Box>
         </HStack>

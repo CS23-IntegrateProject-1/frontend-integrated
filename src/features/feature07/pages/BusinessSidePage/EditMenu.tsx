@@ -2,12 +2,18 @@ import React, { useRef, useState } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import { Axios } from '../../../../AxiosInstance';
+
+
 export const EditMenu = () => {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
+  const { venueId, menuid } = useParams();
+  console.log(menuid);
+
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
@@ -18,8 +24,8 @@ export const EditMenu = () => {
     console.log('Selected file:', selectedFile);
   };
 
-  const handleDeleteAndUpdate = () => {
-    const targetPath = `/venue/:venueId/menubusiness?section=allmenu`;
+  const handleUpdate = () => {
+    const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
@@ -130,17 +136,17 @@ export const EditMenu = () => {
           <Box marginRight="4">
             <ButtonComponent
               width={"150px"}
-              text="Delete"
+              text="Cancel"
               bgColor="white"
               textColor="brand.200"
-              onClick={handleDeleteAndUpdate}
+              onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
             />
           </Box>
           <Box>
             <ButtonComponent
               width={"150px"}
               text="Update"
-              onClick={handleDeleteAndUpdate}
+              onClick={handleUpdate}
             />
           </Box>
         </HStack>
