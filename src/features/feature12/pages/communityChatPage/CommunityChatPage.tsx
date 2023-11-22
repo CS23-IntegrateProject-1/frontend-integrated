@@ -8,7 +8,6 @@ import {
 import TestMessageLog from "../testingPage/TestMessageLog";
 import OpenConversations from "../../components/OpenConversations";
 
-interface CommunityChatPageProps {}
 
 export const CommunityChatPage = () => {
   return (

@@ -1,93 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Flex,
   Heading,
   IconButton,
   Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { Axios } from "../../../../AxiosInstance";
 import { BiConversation } from "react-icons/bi";
-import { Form } from "react-router-dom";
+import NewConversationModal from "../../components/NewConversationModal";
 import { useConversations } from "../../context/ConversationProvider";
-import { useContacts } from "../../context/ContactProvider";
-
-const conversations = [
-  {
-    id: 1,
-    name: "John Doe",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-  },
-  {
-    Id: 3,
-    name: "John Smith",
-  },
-];
+import Conversations from "../communityChatPage/Conversations";
 
 interface Contact {
   username: string;
-  id: number;
+  userId: number;
 }
 
 
 const TestMessageLog: React.FC = () => {
-  const [contacts, setContacts] = useState<Contact[] | undefined>([]);
-  const [selectedContactId, setSelectedContactId] = useState<number[]>([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { createConversation } = useConversations();
-  // const { contacts } = useContacts();
+  const { contacts } = useConversations();
+  const [modalOpen, setModalOpen] = useState(false);
 
-
-  useEffect(() => {
-    Axios.get("/feature12/displayUser")
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setContacts(res.data);
-        }
-        
-        console.log(contacts)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) { 
-    e.preventDefault();
-    createConversation(selectedContactId);
+  function closeModal() { 
+    setModalOpen(false);
   }
-
-  function handleCheckboxChange(contactId: number) { 
-    setSelectedContactId((prevSelectedContactIds) => {
-      if (prevSelectedContactIds.includes(contactId)) {
-        return prevSelectedContactIds.filter((prevId) => {
-          return contactId !== prevId;
-        })
-      } else {
-        return [...prevSelectedContactIds, contactId]
-      }
-    })
-  }
-
 
   return (
     <Box width="25%" mr="4px">
@@ -96,7 +38,7 @@ const TestMessageLog: React.FC = () => {
         <IconButton
           aria-label="open modal"
           icon={<BiConversation />}
-          onClick={onOpen}
+          onClick={() => setModalOpen(true)}
         />
       </Box>
       <Tabs variant="enclosed">
@@ -107,7 +49,7 @@ const TestMessageLog: React.FC = () => {
         <TabPanels>
           <TabPanel>
             <VStack>
-              {conversations.map((conversation, index: number) => (
+              {/* {conversations.map((conversation, index: number) => (
                 <Box
                   key={index}
                   width="100%"
@@ -126,7 +68,8 @@ const TestMessageLog: React.FC = () => {
                     </Box>
                   </Flex>
                 </Box>
-              ))}
+              ))} */}
+              <Conversations />
             </VStack>
           </TabPanel>
           <TabPanel>
@@ -146,27 +89,8 @@ const TestMessageLog: React.FC = () => {
         </TabPanels>
       </Tabs>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalBody>
-            <Form onSubmit={handleSubmit}>
-              {contacts?.map((contact: Contact) => (
-                <CheckboxGroup key={contact.id}>
-                  <VStack>
-                    <Checkbox
-                      // isChecked={selectedContactId.includes(contact.id)}
-                      onChange={() => handleCheckboxChange(contact.id)}
-                    >
-                      <Text color={"black"}>{contact.username}</Text>
-                    </Checkbox>
-                  </VStack>
-                </CheckboxGroup>
-              ))}
-              <Button type="submit" onClick={onClose}>Create</Button>
-            </Form>
-          </ModalBody>
-        </ModalContent>
+      <Modal isOpen={modalOpen} onClose={closeModal} size={"half"}>
+        <NewConversationModal closeModal={closeModal} />
       </Modal>
     </Box>
   );
