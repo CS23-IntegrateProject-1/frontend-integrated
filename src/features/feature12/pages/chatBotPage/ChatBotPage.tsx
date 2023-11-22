@@ -21,9 +21,9 @@ import { Axios } from "../../../../AxiosInstance";
 import { ShowingVenuesMsg } from "./ShowingVenuesMsg";
 import { Form } from "react-router-dom";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
+import { useUser } from "../../../../App";
 
-interface IUser{
-    id: number;
+interface Ibot{
     name: string;
     img: string;
 }
@@ -35,10 +35,11 @@ export const ChatBotPage: FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [askedGenMsg, setAskedGenMsg] = useState<string>();
     const [data, setData] = useState<string | null>(null);
+
+    const user = useUser();
     
-    const user: IUser = {
-        id: 1,
-        name: "John",
+    const bot: Ibot = {
+        name: "MONIQUE",
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIkSDNcRcU_UeGaNIl7pi7zlSwznp-ulDJxnm-zKYoTf2ZLqQY7zIgsni5waCv2ButaDQ&usqp=CAU",
     };
     
@@ -103,7 +104,7 @@ export const ChatBotPage: FC = () => {
         overflow={"scroll"}
         >
     <Flex gap='4'>
-        <Avatar name={user.name} src={user.img} />
+        <Avatar name={bot.name} src={bot.img} />
         <VStack 
             alignItems={"start"} 
             maxW={"60%"}
@@ -117,7 +118,7 @@ export const ChatBotPage: FC = () => {
                     color={"brand.200"} 
                     p={3}>
                         {/* IMPT need to get user's name with Cookies */}
-                Hi there <b>{user.name}</b> ! How may I help you today? 
+                Hi there <b>{user.username}</b> ! How may I help you today? 
                 </Text>
             </Box>
             <Box 
@@ -129,7 +130,7 @@ export const ChatBotPage: FC = () => {
                     color={"brand.200"} 
                     p={3}
                     >
-                    It's me ! "<b>MONIQUE</b>", your Online Assistant. 
+                    It's me ! "<b>{bot.name}</b>", your Online Assistant. 
                 </Text>
             </Box>
             <Box 
