@@ -24,6 +24,8 @@ export const Feature06Routes = () => {
     { path: "/reservation-detail", element: <ReservationDetail/>},
     { path: "/Reservation", element: <Reservation />},
     { path: "/WalkInDetail", element: <WalkInDetail />},
-    { path: "/WalkInPeople", element: <WalkInPeople />}
+    { path: "/WalkInPeople", element: <WalkInPeople />},
+    { path: "/viewtable", element: <ViewTable />}
+
   ];
 };
