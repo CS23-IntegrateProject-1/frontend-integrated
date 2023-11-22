@@ -1,8 +1,8 @@
-import { Box, Icon, Text } from "@chakra-ui/react";
+import { Box, Icon, Text, } from "@chakra-ui/react";
 import { MdQrCodeScanner } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { MdChair } from "react-icons/md";
-import { center } from "../../feature04/components/Maps/setting";
+
 
 export const Dashboard = () => {
   return (
