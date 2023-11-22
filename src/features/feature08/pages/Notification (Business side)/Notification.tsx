@@ -49,7 +49,9 @@ export const Notification = () => {
   const [reservation,setReservation] =useState<Reservation[]>([]);
   const { venueId } = useParams()
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
+  const [advertisementData, setAdvertisementData] = useState<any[]>([]);
 
+  
 
 
 
@@ -199,6 +201,38 @@ console.log(reservation)
   console.log(notificationData)
   const pendingReservations = notificationData.filter(res => res.status === 'Pending');
   const checkOutReservations = notificationData.filter(res => res.status === 'Check_out');
+
+  const fetchAdvertisementData = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const advertisementResponse = await axios.get(`${backendUrl}/feature8/notifications/advertisementbizId`);
+      const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
+      setAdvertisementData(advertisementData);
+    } catch (error) {
+      console.error('Error fetching advertisement data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdvertisementData();
+  }, []);
+
+  const matchingAdvertisement = useMemo(() => {
+    if (!Array.isArray(advertisementData)) {
+      console.error('Invalid advertisement data structure:', advertisementData);
+      return null;
+    }
+
+    return advertisementData.find((ad: any) => ad.object?.venueId === venueId);
+
+  }, [advertisementData, venueId]);
+
+  console.log('Matching Advertisement:', matchingAdvertisement);
+
+
+
+  console.log(advertisementData);
+  
   
 
   return (
@@ -307,7 +341,7 @@ console.log(reservation)
 
           </Flex>
         </Link>
-        <Link to="/Notification/Promotion">
+        {/* <Link to="/Notification/Promotion">
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
@@ -328,7 +362,7 @@ console.log(reservation)
             </Box>
 
           </Flex>
-        </Link>
+        </Link> */}
       
     </div>
   );
