@@ -3,11 +3,20 @@ import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRight
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState } from 'react';
+import { Axios } from '../../../../AxiosInstance';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const AddMenu = () => {
 
+  const navigate = useNavigate();
+  const { venueId } = useParams();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+  });
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -17,6 +26,39 @@ export const AddMenu = () => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formDataWithFile = new FormData();
+    //console.log(formData);
+    formDataWithFile.append('name', formData.name);
+    formDataWithFile.append('description', formData.description);
+    formDataWithFile.append('price', formData.price);
+    formDataWithFile.append('menuImage', selectedFile);
+    //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
+
+    try {
+      const response = await Axios.post(`/feature7/addMenu/${venueId}`, formDataWithFile, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Menu added:', response.data);
+      navigate(`/venue/${venueId}/menubusiness`);
+      // Add logic for what happens after successfully adding menu item
+    } catch (error) {
+      console.error('Error adding menu:', error);
+      // Add logic for error handling
+    }
   };
 
   return (
@@ -36,6 +78,9 @@ export const AddMenu = () => {
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
+              name='name'
+              value={formData.name}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -51,6 +96,9 @@ export const AddMenu = () => {
               padding="0px 12px 0px 12px"
               borderColor="brand.300"
               bgColor="brand.300"
+              name='description'
+              value={formData.description}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -68,6 +116,9 @@ export const AddMenu = () => {
               borderColor="brand.300"
               bgColor="brand.300"
               marginBottom="10px"
+              name='price'
+              value={formData.price}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -129,6 +180,7 @@ export const AddMenu = () => {
         <ButtonComponent 
         width={"330px"}
         text= "Add Menu"
+        onClick={handleSubmit}
         />
         </Box>
         </Center>
