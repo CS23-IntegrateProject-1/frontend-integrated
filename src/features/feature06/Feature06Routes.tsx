@@ -7,6 +7,7 @@ import { ViewTable } from "./pages/ViewTable";
 import { Reservation } from "./pages/Business/Reservation";
 import { WalkInPeople } from "./pages/Business/WalkInPeople";
 import { WalkInDetail } from "./pages/Business/WalkInDetail";
+import { TableList } from "./pages/Business/TableList";
 
 
 export const Feature06Routes = () => {
@@ -25,7 +26,7 @@ export const Feature06Routes = () => {
     { path: "/Reservation", element: <Reservation />},
     { path: "/WalkInDetail", element: <WalkInDetail />},
     { path: "/WalkInPeople", element: <WalkInPeople />},
-    { path: "/viewtable", element: <ViewTable />}
-
+    { path: "/viewtable", element: <ViewTable />},
+    {path: "/tablelist", element: <TableList />}
   ];
 };
