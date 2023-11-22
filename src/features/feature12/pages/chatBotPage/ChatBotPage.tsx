@@ -86,11 +86,24 @@ export const ChatBotPage: FC = () => {
     }, [askedGenMsg]);
     
     //will be used later to send the message
-    const [message, setMessage] = useState("");
+    const [userMessage, setUserMessage] = useState("");
     const handleSend = () => {
-        // handle sending the message
-        console.log(message);
-        setMessage("");
+        // Generate a new sessionId when the page loads
+        // let sessionId = uuidv4();
+
+        Axios.post("feature12/dialogflow", {
+            languageCode: "en",
+            queryText: userMessage,
+            sessionId: "abc123", // Include the sessionId in the request
+        })
+        .then(response => {
+            console.log(response.data);
+            setUserMessage("");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        console.log(userMessage);
     };
     const sendButtonStyle = {
         border: "none",
@@ -204,11 +217,12 @@ export const ChatBotPage: FC = () => {
             <FormControl 
                         // px="25px" 
                         // isRequired
-                        isDisabled>
+                        // isDisabled
+            >
               <Input
                 type="text"
-                // value={text}
-                // onChange={(e) => setText(e.target.value)}
+                value={userMessage}
+                onChange={(e) => setUserMessage(e.target.value)}
                 placeholder="Message..."
                 bg="white"
                 color="black"
@@ -216,12 +230,13 @@ export const ChatBotPage: FC = () => {
             </FormControl>
             <InputRightElement>
               <IconButton
-                isDisabled
+                // isDisabled
                 type="submit"
                 aria-label="Send Message"
                 icon={
                   <PiPaperPlaneRightFill border="none" style={sendButtonStyle} />
                 }
+                onClick={handleSend}
               />
             </InputRightElement>
           </InputGroup>
