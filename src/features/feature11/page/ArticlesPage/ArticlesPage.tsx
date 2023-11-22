@@ -10,7 +10,7 @@ import {
   TabPanels,
   Tabs,
   useDisclosure,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 import { ArticlesBox } from "./ArticlesBox";
 import { MdAddCircle } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
