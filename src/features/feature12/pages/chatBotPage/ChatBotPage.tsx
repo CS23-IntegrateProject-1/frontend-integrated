@@ -23,6 +23,7 @@ import { Form } from "react-router-dom";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "../../../../contexts/userContext/UserContext";
+import { BotMsg } from "./BotMsg";
 
 interface Ibot{
     name: string;
@@ -89,23 +90,27 @@ export const ChatBotPage: FC = () => {
     // Generate a new sessionId when the page loads
     let sessionId = uuidv4();
 
-    const [userMessage, setUserMessage] = useState("");
-    const handleSend = () => {
+    const [message,setMessage] = useState<string>("");
+    const [messages, setMessages] = useState<Array<{sender: string, text: string}>>([]);
+
+     const handleSend = () => {
+        // Add user message to messages array
+        setMessages(prevMessages => [...prevMessages, {sender: user.username, text: message}]);
 
         Axios.post("feature12/dialogflow", {
-            languageCode: "en",
-            queryText: userMessage,
-            sessionId: sessionId, // Include the sessionId in the request
+        languageCode: "en",
+        queryText: message,
+        sessionId: sessionId,
         })
         .then(response => {
-            console.log(response.data);
-            setUserMessage("");
+        // Add bot message to messages array
+        setMessages(prevMessages => [...prevMessages, {sender: 'Monique', text: response.data}]);
+        setMessage("");
         })
         .catch(error => {
-            console.error('Error:', error);
-        });
-        console.log(userMessage);
-    };
+        console.error('Error:', error);
+    });
+  };
     const sendButtonStyle = {
         border: "none",
         color: "#A533C8",
@@ -175,6 +180,9 @@ export const ChatBotPage: FC = () => {
                 </Box>
             )
         )}
+        {messages.map((message, index) => (
+            message.sender === "Monique" ? (<BotMsg key={index} msg={message.text} />) :(<ClientMsg key={index} msg={message.text} />)
+        ))}
     </Box>
     
     <Flex
@@ -187,7 +195,7 @@ export const ChatBotPage: FC = () => {
         flexDirection={"column"}
         >
         {/* For Categories Buttons */}
-        <Wrap margin={"auto"}>
+        {/* <Wrap margin={"auto"}>
             <WrapItem>
                 <Button variant="outline" 
                         colorScheme="brand" 
@@ -212,7 +220,7 @@ export const ChatBotPage: FC = () => {
                     </Button>
                 </WrapItem>
             ))}
-        </Wrap>
+        </Wrap> */}
         <Form onSubmit={handleSend}>
           <InputGroup marginTop={"10px"}>
             <FormControl 
@@ -222,8 +230,8 @@ export const ChatBotPage: FC = () => {
             >
               <Input
                 type="text"
-                value={userMessage}
-                onChange={(e) => setUserMessage(e.target.value)}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="Message..."
                 bg="white"
                 color="black"
