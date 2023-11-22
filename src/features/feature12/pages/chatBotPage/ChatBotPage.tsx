@@ -22,6 +22,7 @@ import { ShowingVenuesMsg } from "./ShowingVenuesMsg";
 import { Form } from "react-router-dom";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { useUser } from "../../../../App";
+import { v4 as uuidv4 } from "uuid";
 
 interface Ibot{
     name: string;
@@ -85,16 +86,16 @@ export const ChatBotPage: FC = () => {
         });
     }, [askedGenMsg]);
     
-    //will be used later to send the message
+    // Generate a new sessionId when the page loads
+    let sessionId = uuidv4();
+
     const [userMessage, setUserMessage] = useState("");
     const handleSend = () => {
-        // Generate a new sessionId when the page loads
-        // let sessionId = uuidv4();
 
         Axios.post("feature12/dialogflow", {
             languageCode: "en",
             queryText: userMessage,
-            sessionId: "abc123", // Include the sessionId in the request
+            sessionId: sessionId, // Include the sessionId in the request
         })
         .then(response => {
             console.log(response.data);

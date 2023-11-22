@@ -41,7 +41,8 @@
     "react-textarea-autosize": "^8.5.3",
     "socket.io-client": "^4.7.2",
     "sort-by": "^1.2.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/google.maps": "^3.54.7",
