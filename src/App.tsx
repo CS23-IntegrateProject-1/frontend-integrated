@@ -4,49 +4,54 @@ import { PrivateAdminRoutes } from "./routes/PrivateAdminRoutes";
 import { PrivateBusinessRoutes } from "./routes/PrivateBusinessRoutes";
 import { PublicRoutes } from "./routes/PublicRoutes";
 import { Verify } from "./api/Auth/Verify";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Axios } from "./AxiosInstance";
-
-interface User {
-  //   userId: number;
-  username: string;
-  fname: string;
-  lname: string;
-  email: string;
-  addId: string;
-  phone: string;
-  profile_picture: string;
-}
-
-const UserContext = createContext({
-  //   userId: -1,
-  username: "",
-  fname: "",
-  lname: "",
-  email: "",
-  addId: "",
-  phone: "",
-  profile_picture: "",
-});
+import { IUser } from "./interfaces/IUsers/IUser.interface";
+import { IAdminUser } from "./interfaces/IUsers/IAdminUser.interface";
+import { IBusinessUser } from "./interfaces/IUsers/IBusinessUser.interface";
+import { UserContext as CUserContext } from "./contexts/userContext/UserContext";
+import { BusinessUserContext as CBusinessUserContext } from "./contexts/userContext/BusinessUserContext";
+import { AdminUserContext as CAdminUserContext } from "./contexts/userContext/AdminUserContext";
 
 const privateRouter = PrivateRoutes;
 const publicRouter = PublicRoutes;
 const privateAdminRouter = PrivateAdminRoutes;
 const privateBusinessRouter = PrivateBusinessRoutes;
 const isLogin = await Verify();
+const Contexts = {
+	UserContext: CUserContext,
+	BusinessUserContext: CBusinessUserContext,
+	AdminUserContext: CAdminUserContext
+};
 
-function App() {
-	const [userId, setUserId] = useState(-1);
-	const [userType, setUserType] = useState<string>();
+export default function App() {
+	const mockUser: IUser = {
+		username: "",
+		fname: "",
+		lname: "",
+		email: "",
+		addId: "",
+		phone: "",
+		profile_picture: ""
+	};
+	const mockAdminUser: IAdminUser = {
+		username: ""
+	};
+	const mockBusinessUser: IBusinessUser = {
+		username: ""
+	};
+	const [user, setUser] = useState<IUser>(mockUser);
+	const [adminUser, setAdminUser] = useState<IAdminUser>(mockAdminUser);
+	const [businessUser, setBusinessUser] =
+		useState<IBusinessUser>(mockBusinessUser);
 
 	useEffect(() => {
 		if (isLogin) {
-			setUserType(isLogin.userType);
-			switch (userType) {
+			switch (isLogin.userType) {
 				case "user": {
 					Axios.get("/auth/getUser")
 						.then((res) => {
-							setUserId(res.data.userId);
+							setUser(res.data);
 						})
 						.catch((err) => {
 							console.error("Error verifying user:", err);
@@ -56,7 +61,7 @@ function App() {
 				case "admin": {
 					Axios.get("/auth/getUser/admin")
 						.then((res) => {
-							setUserId(res.data.adminId);
+							setAdminUser(res.data);
 						})
 						.catch((err) => {
 							console.error("Error verifying admin:", err);
@@ -66,7 +71,7 @@ function App() {
 				case "business": {
 					Axios.get("/auth/getUser/business")
 						.then((res) => {
-							setUserId(res.data.businessId);
+							setBusinessUser(res.data);
 						})
 						.catch((err) => {
 							console.error("Error verifying business:", err);
@@ -74,36 +79,38 @@ function App() {
 					break;
 				}
 				default: {
-					setUserId(-1);
+					setUser(mockUser);
 				}
 			}
 		} else {
-			setUserId(-1);
+			setUser(mockUser);
 		}
-	}, [userType]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isLogin]);
 
-	return (
-		<UserContext.Provider value={userId}>
-			<RouterProvider
-				router={
-					!isLogin || isLogin.status !== 200
-						? publicRouter
-						: isLogin.userType === "user"
-						? privateRouter
-						: isLogin.userType === "admin"
-						? privateAdminRouter
-						: isLogin.userType === "business"
-						? privateBusinessRouter
-						: publicRouter
-				}
-			/>
-			;
-		</UserContext.Provider>
-	);
-}
-
-export default App;
-
-export function useUser() {
-	return useContext(UserContext);
+	if (!isLogin || isLogin.status !== 200) {
+		return (
+			<Contexts.UserContext.Provider value={user}>
+				<RouterProvider router={publicRouter} />
+			</Contexts.UserContext.Provider>
+		);
+	} else if (isLogin.userType === "user") {
+		return (
+			<Contexts.UserContext.Provider value={user}>
+				<RouterProvider router={privateRouter} />
+			</Contexts.UserContext.Provider>
+		);
+	} else if (isLogin.userType === "admin") {
+		return (
+			<Contexts.AdminUserContext.Provider value={adminUser}>
+				<RouterProvider router={privateAdminRouter} />
+			</Contexts.AdminUserContext.Provider>
+		);
+	} else if (isLogin.userType === "business") {
+		return (
+			<Contexts.BusinessUserContext.Provider value={businessUser}>
+				<RouterProvider router={privateBusinessRouter} />
+			</Contexts.BusinessUserContext.Provider>
+		);
+	}
 }
