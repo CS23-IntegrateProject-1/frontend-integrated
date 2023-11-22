@@ -2,9 +2,26 @@ import { Box, Icon, Text, } from "@chakra-ui/react";
 import { MdQrCodeScanner } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { MdChair } from "react-icons/md";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
 
-
+interface IData {
+  sumRevenue?: number;
+  ReservationCount?: number;
+  CustomerCount?: number;
+}
 export const Dashboard = () => {
+  const [data, setData] = useState<IData>({});
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response: IData = await getCountPerDay(1);
+    setData(response);
+  };
   return (
     <Box display={"flex"} flexDirection={"column"} position={"relative"}>
       <Text
@@ -32,7 +49,7 @@ export const Dashboard = () => {
             Revenue
           </Text>
           <Text fontSize={"20px"} fontWeight={"700"} mt={"5px"}>
-            22,400
+            {data.sumRevenue}
           </Text>
         </Box>
         <Box
@@ -51,7 +68,7 @@ export const Dashboard = () => {
             Customers
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            20
+            {data.CustomerCount}
           </Text>
         </Box>
         <Box
@@ -70,7 +87,7 @@ export const Dashboard = () => {
             Reservation
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            9
+            {data.ReservationCount}
           </Text>
         </Box>
       </Box>
