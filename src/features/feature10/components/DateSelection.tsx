@@ -32,7 +32,7 @@ const DateSelection = () => {
   });
 
   return (
-    <Box p={4}>
+    <Box p={1} marginTop={'5px'}>
       <Text as="h5" fontSize="10px" fontWeight="bold" color="#DEBEF6" marginLeft="8px">
         Nov
       </Text>

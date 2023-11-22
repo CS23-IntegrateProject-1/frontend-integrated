@@ -1,3 +1,4 @@
+import CinemaDetailPage from "./pages/CinemaDetails";
 import { CinemaMain } from "./pages/CinemaMain";
 import { ShowTime } from "./pages/ShowTime";
 export const Feature10Routes = () => {
@@ -12,5 +13,6 @@ export const Feature10Routes = () => {
 
     },
     { path: "/event/:eventId", element: "ElementPlaceHolder" },
+    { path: "/cinemaDetails", element: <CinemaDetailPage /> },
   ];
 };
