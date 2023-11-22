@@ -1,5 +1,4 @@
 // import { useState } from "react";
-import { ContactProvider } from "./context/ContactProvider";
 import { ConversationsProvider } from "./context/ConversationProvider";
 import { ChatBotPage } from "./pages/chatBotPage/ChatBotPage";
 import { CommunityChatPage } from "./pages/communityChatPage/CommunityChatPage";
@@ -13,16 +12,16 @@ export const Feature12Routes = () => {
     },
     {
       path: "/communitychat",
-      element: <CommunityChatPage />,
+      element:
+        <ConversationsProvider id="id">
+
+          <CommunityChatPage />,
+        </ConversationsProvider>
     },
     {
       path: "/feature12Testing",
       element: (
-        <ContactProvider>
-          <ConversationsProvider id="id">
-            <TestingFeat12 />,
-          </ConversationsProvider>
-        </ContactProvider>
+            <TestingFeat12 />
       ),
     },
   ];
