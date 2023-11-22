@@ -39,7 +39,7 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        rounded="xl"
+        rounded="3xl"
       >
         <ModalBody p={0}>
           <Image
@@ -49,8 +49,9 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
             h="100%"
             maxH={{base:"200px", lg:"300px"}}
             objectFit={"cover"}
+            rounded="3xl"
           />
-          <Box mx="4" mt="4">
+          <Box mx={{base:"4", lg:"6"}} mt="4">
             <Heading fontWeight="bold" fontSize={{ base: "25px", lg: "30px" }}>
               Advertisement
             </Heading>
@@ -60,7 +61,7 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
             </Text>
           </Box>
         </ModalBody>
-        <ModalFooter mx="4" mt="2">
+        <ModalFooter mx="4" my="2">
           <Flex direction="row">
             <Button
               variant="outline"
