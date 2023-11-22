@@ -12,6 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
 import { FaPencilAlt } from "react-icons/fa";
 
+
 export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -48,6 +49,11 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
     onOpen();
   };
 
+  const handleEditClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Stop the click event from propagating
+    navigate(`/article/${props.articleId}/edit`);
+  };
+
   return (
     <Box
       display="flex"
@@ -61,13 +67,14 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       }}
     >
       <IconButton
+        display={"flex"}
         variant={"unstyled"}
-        size={"xs"}
-        fontSize={"2xl"}
+        size={"small"}
         color={"white"}
         aria-label="liked"
         icon={<FaPencilAlt />}
-        onClick={handleDeleteLike}
+        alignSelf={"flex-end"}
+        onClick={handleEditClick}
       />
       {/* Profile Info */}
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
