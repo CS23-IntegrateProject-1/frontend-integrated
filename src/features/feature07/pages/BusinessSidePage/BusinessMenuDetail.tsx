@@ -53,13 +53,13 @@ export const BusinessMenuDetail: FC = () => {
     };
 
     const {data: branchAvailabilityData, refetch: branchAvailabilityRefetch } = useQuery(["branchAvailability", menuid], () => getBranchAvailability(menuid));
-    console.log("BranchAva2",branchAvailabilityData);
+    //console.log("BranchAva2",branchAvailabilityData);
 
     const handleBranchSwitch = async (branchId: number) => {
         try{
             const response = await Axios.post(`/feature7/changeMenuAvailability/${menuid}/${venueId}/${branchId}`);
             branchAvailabilityRefetch();
-            console.log("SetBranchAva",response);
+            //console.log("SetBranchAva",response);
         } catch (error) {
             console.error('Error setting availability:', error); // Log any errors for debugging
             console.log('Error response:'); // Log the error response for debugging
@@ -82,8 +82,8 @@ export const BusinessMenuDetail: FC = () => {
         <Box>
             <Center>
             <Image 
-                src="/src/features/feature07/assets/test.jpg" 
-                // src={type == "Set" ? menuItem.image_url: menuItem.image}
+                // src="/src/features/feature07/assets/test.jpg" 
+                src={type == "Set" ? `http://localhost:8080/uploads/${menuItem.image_url}`: `http://localhost:8080/uploads/${menuItem.image}`}
                 width="350px" 
                 height="250px" 
                 objectFit="cover"/>
