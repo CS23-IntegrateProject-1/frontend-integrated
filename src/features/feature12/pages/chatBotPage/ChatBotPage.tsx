@@ -14,15 +14,15 @@ import {
   } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState, useEffect} from "react";
+import { FC, useState, useEffect, useContext} from "react";
 import { ClientMsg } from "./ClientMsg";
 import { QuestionMsg } from "./QuestionMsg";
 import { Axios } from "../../../../AxiosInstance";
 import { ShowingVenuesMsg } from "./ShowingVenuesMsg";
 import { Form } from "react-router-dom";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
-import { useUser } from "../../../../App";
 import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 
 interface Ibot{
     name: string;
@@ -36,8 +36,8 @@ export const ChatBotPage: FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [askedGenMsg, setAskedGenMsg] = useState<string>();
     const [data, setData] = useState<string | null>(null);
-
-    const user = useUser();
+    
+    const user = useContext(UserContext);
     
     const bot: Ibot = {
         name: "MONIQUE",
