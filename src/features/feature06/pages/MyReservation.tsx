@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { ReservationCards } from "../components/ReservationCards";  
+import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
 
@@ -39,7 +39,7 @@ export const MyReservation = () => {
   const [data, setData] = useState<IData[]>([]);
   useEffect(() => {
     fetchData();
-  }, []); 
+  }, []);
 
   const fetchData = async () => {
     const response: IData[] = await getMyReservation(1, status);
@@ -92,11 +92,11 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_in")}
-          text="Checkin"
+          text="Check_in"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_out")}
-          text="Completed"
+          text="Check_out"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Cancel")}

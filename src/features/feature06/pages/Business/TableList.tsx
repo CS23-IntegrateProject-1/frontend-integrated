@@ -1,4 +1,3 @@
-import { BusinessReservationCard } from "../../components/BusinessReservationCard";
 import { Box, Button, useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
@@ -9,8 +8,9 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { TableCard } from "../../components/TableCard";
 
-export const Reservation = () => {
+export const TableList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
@@ -18,20 +18,8 @@ export const Reservation = () => {
         display={"flex"}
         flexDirection={"row"}
         width={"319px"}
-        justifyContent={"space-between"} // Aligns buttons at both ends
+        justifyContent={"end"} // Aligns buttons at both ends
       >
-        <Button
-          display={"flex"}
-          height={"40px"}
-          width={"200px"}
-          background={"#A533C8"}
-          color={"#F6F6F6"}
-          fontWeight={"600"}
-          _hover={{ background: "#A533C8" }}
-          // onClick={}
-        >
-          Walk-in customer
-        </Button>
         <Button
           background={"none"}
           color={"F6F6F6"}
@@ -59,9 +47,7 @@ export const Reservation = () => {
           <ModalContent>
             <ModalHeader color={"black"}>Filter By</ModalHeader>
             <ModalCloseButton />
-            <ModalBody color={"black"}>
-              kjhkjhkjhkjhkjhjk
-            </ModalBody>
+            <ModalBody color={"black"}>kjhkjhkjhkjhkjhjk</ModalBody>
 
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -76,9 +62,9 @@ export const Reservation = () => {
         display={"flex"}
         flexDirection={"row"}
         justifyContent={"center"}
-        marginTop={"32px"}
+        marginTop={"8px"}
       >
-        <BusinessReservationCard status="Check_in" />
+        <TableCard tableno={"1"} type={"high-top"} status={"Booked"} />
       </Box>
     </Box>
   );

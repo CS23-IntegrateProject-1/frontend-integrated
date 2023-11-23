@@ -3,6 +3,14 @@ import { MdQrCodeScanner } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { MdChair } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
+
+interface IData {
+  sumRevenue?: number;
+  ReservationCount?: number;
+  CustomerCount?: number;
+}
 
 export const Dashboard = () => {
   let navigate = useNavigate();
@@ -17,6 +25,16 @@ export const Dashboard = () => {
   const tableList = () => {
     let path = "/viewtable";
     navigate(path);
+  };
+  const [data, setData] = useState<IData>({});
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response: IData = await getCountPerDay(1);
+    setData(response);
   };
   return (
     <Box display={"flex"} flexDirection={"column"} position={"relative"}>
@@ -45,7 +63,7 @@ export const Dashboard = () => {
             Revenue
           </Text>
           <Text fontSize={"20px"} fontWeight={"700"} mt={"5px"}>
-            22,400
+            {data.sumRevenue}
           </Text>
         </Box>
         <Box
@@ -64,7 +82,7 @@ export const Dashboard = () => {
             Customers
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            20
+            {data.CustomerCount}
           </Text>
         </Box>
         <Box
@@ -83,7 +101,7 @@ export const Dashboard = () => {
             Reservation
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            9
+            {data.ReservationCount}
           </Text>
         </Box>
       </Box>
