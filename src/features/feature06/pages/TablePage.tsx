@@ -119,7 +119,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/reservation-detail?count=${count}`}>
+      <Link to={`/getreservation-detail?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}
