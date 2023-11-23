@@ -1,10 +1,12 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton} from '@chakra-ui/react'; 
+import { Select,FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton} from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
 import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate,useLocation, useParams } from 'react-router-dom';
+import { Axios } from '../../../../AxiosInstance';
+import { useQuery } from '@tanstack/react-query';
 
 interface Menu {
     name: string;
@@ -18,8 +20,31 @@ interface Menu {
   const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const {venueId} = useParams();
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+  });
 
-  const handleDeleteMenu = (index) => {
+  const getMenu = async () => {
+    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const menuData = response.data;
+    //console.log(menuData);
+    return menuData;
+  }
+
+const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => getMenu());
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleDeleteMenu = (index: number) => {
     const updatedMenus = [...selectedMenus];
     updatedMenus.splice(index, 1);
     setSelectedMenus(updatedMenus);
@@ -33,29 +58,30 @@ interface Menu {
     }
   }, [location.state]);
   
-
+  //for image upload
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  const handleAddMenuClick = () => {
-    const targetPath = '/venue/:venueId/choosemenu';
+  //for choose menu
+  const handleChooseMenuClick = () => {
+    const targetPath = `/venue/${venueId}/choosemenu`;
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
    
   const handleAddSetMenuClick = () => {
-    const targetPath = `/venue/:venueId/menubusiness?section=setmenu`;
+    const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
     console.log('Navigating to:', targetPath);
     navigate(targetPath);
   };
   
+  const handleDropdownChange = (selectedMenuId: string) => {};
  
   const handleMenuSelect = (selectedMenu: Menu) => {
     setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
@@ -79,6 +105,9 @@ interface Menu {
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
+              name='name'
+              value={formData.name}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -94,10 +123,13 @@ interface Menu {
               padding="0px 12px 0px 12px"
               borderColor="brand.300"
               bgColor="brand.300"
+              name='description'
+              value={formData.description}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
-        <Center>
+        {/* <Center>
         <Box>
       <FormLabel>Selected Food in set:</FormLabel>
       <VStack align="start" spacing={2}>
@@ -118,7 +150,7 @@ interface Menu {
 
       <InputGroup>
         <InputLeftElement>
-          <AddIcon boxSize={4} onClick={handleAddMenuClick} />
+          <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
         </InputLeftElement>
         <Input
           variant="flushed"
@@ -128,7 +160,58 @@ interface Menu {
         />
       </InputGroup>
     </Box>
+        </Center> */}
+        <Center>
+          <Box>
+            <FormLabel>Selected Food in set:</FormLabel>
+            <VStack align="start" spacing={2}>
+              {/* {selectedMenus?.map((menu, index) => (
+                <Box key={index}>
+                  <HStack spacing={2} align="center">
+                    <Box>{menu.name}</Box>
+                    <DeleteIcon
+                      ml={60}
+                      boxSize={4}
+                      aria-label={`Delete ${menu.name}`}
+                      onClick={() => handleDeleteMenu(index)}
+                    />
+                  </HStack>
+                </Box>
+              ))} */}
+            </VStack>
+            <InputGroup>
+              {/* <InputLeftElement>
+                <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
+              </InputLeftElement> */}
+              <Select
+                variant="flushed"
+                width="307px"
+                placeholder='Select a menu'
+                //value={selectedMenuId} // value should represent the selected menu ID
+                onChange={(e) => handleDropdownChange(e.target.value)} // handleDropdownChange to handle dropdown selection
+              >
+                {menuOptions?.map((menu) => (
+                  <option 
+                    key={menu.menuId} 
+                    value={menu.name}
+                    //ask Nz about colors
+                    color={"brand.300"}
+                    style={{
+                      backgroundColor: "brand.300",
+                      color: "white.500",
+                      "&:hover": {
+                        backgroundColor: "brand.300",
+                      },
+                    }}
+                    >
+                    {menu.name}
+                  </option>
+                ))}
+              </Select>
+            </InputGroup>
+          </Box>
         </Center>
+
         <Center>
           <Box>
             <FormLabel>Price</FormLabel>
@@ -142,6 +225,9 @@ interface Menu {
               borderColor="brand.300"
               bgColor="brand.300"
               marginBottom="10px"
+              name='price'
+              value={formData.price}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
