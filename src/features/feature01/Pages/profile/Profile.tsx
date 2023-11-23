@@ -2,6 +2,7 @@ import { Box, Text, Flex, Avatar, Input, useDisclosure,Grid,GridItem, FormContro
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
 
 export const Profile = () => {
  
@@ -10,11 +11,29 @@ export const Profile = () => {
   const [email, setEmail] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [gender, setGender] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState("");
 
-// useEffect(() => {
-//   const url = '';
+  const [profileData, setProfileData] = useState('');
 
-
+  useEffect(() => {
+    const url1 = `/feature1/profile`;
+            Axios.get(url1, { withCredentials: true })
+            .then((response) => {
+                if (response.status == 200) {
+                    setProfileData(response.data);
+                    console.log(profileData);
+                    // friData.map((item) => {
+                    //     console.log(item.name);
+                    // })
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching fir list data:", error);
+            });
+        }, []);
+ const handleSave = () =>{
+  console.log('svae');
+ }
   return (
     <Grid>
       <GridItem>
@@ -40,19 +59,19 @@ export const Profile = () => {
       <GridItem>
       <Box mt={5}>
           <Text {...TextStyle}>Name</Text>
-          <Input placeholder="Name" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+          <Input onChange={(e) => setName(e.target.value)} value={name}  placeholder="Name" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
         </Box>
       </GridItem>
       <GridItem>
       <Box mt={5}>
           <Text {...TextStyle}>Phone Number</Text>
-          <Input placeholder="080-*******" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+          <Input onChange={(e) => setPhone(e.target.value)} value={phone} placeholder="080-*******" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
         </Box>
       </GridItem>
       <GridItem>
       <Box mt={5}>
           <Text {...TextStyle}>Email</Text>
-          <Input placeholder="***@gmail.com" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
+          <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="***@gmail.com" size="md" borderColor={"#DEBEF6"} variant={'flushed'}/>
         </Box>
       </GridItem>
       <GridItem>
@@ -64,6 +83,8 @@ export const Profile = () => {
           type="date"
           borderColor={"#DEBEF6"}
           variant={'flushed'}
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)}
           />
           </Box>
       </GridItem> 
@@ -71,10 +92,10 @@ export const Profile = () => {
         <Box mt={5}>
         <FormControl >
           <FormLabel >Gender</FormLabel>
-          <Select placeholder='Gender' borderColor={"#DEBEF6"} variant={'flushed'}>
-            <option style={{ color: 'black' }}>Male</option>
-            <option style={{ color: 'black' }}>Female</option>
-            <option style={{ color: 'black' }}>Others</option>
+          <Select onChange={(e) => setGender(e.target.value)} placeholder='Gender' borderColor={"#DEBEF6"} variant={'flushed'}>
+            <option value={'male'} style={{ color: 'black' }}>Male</option>
+            <option value={'female'} style={{ color: 'black' }}>Female</option>
+            <option value={'others'} style={{ color: 'black' }}>Others</option>
           </Select>
         </FormControl>
         </Box>
@@ -85,7 +106,7 @@ export const Profile = () => {
         <ButtonComponent text="Cancel" />
         </Box>
         <Box paddingLeft={"5px"}>
-        <ButtonComponent text="Save"  bgColor="#ffffff" textColor="brand.200" />
+        <ButtonComponent text="Save" onClick={handleSave}  bgColor="#ffffff" textColor="brand.200" />
         </Box>
       </Flex>
       </GridItem>
