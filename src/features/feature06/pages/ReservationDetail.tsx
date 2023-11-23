@@ -9,7 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { Form, useLocation } from "react-router-dom";
+import { Form, useLocation, useSearchParams } from "react-router-dom";
 
 interface IData {
   venue: {
@@ -64,11 +64,13 @@ interface IData {
 export const ReservationDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
+  const url = useSearchParams();
+  console.log(url);
 
-   const location = useLocation();
-   const searchParams = new URLSearchParams(location.search);
-   const seats = searchParams.get("count");
-  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const seats = searchParams.get("count");
+
   useEffect(() => {
     fetchData();
     // console.log("FNAME" + data?.reservations[0].user.fname);
