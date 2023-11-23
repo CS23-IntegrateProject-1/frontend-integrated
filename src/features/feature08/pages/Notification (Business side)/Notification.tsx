@@ -26,6 +26,13 @@ type Reservation = {
   Notes?          :   string
   Orders?         :   string
 }
+type advernoti = {
+  notiAdBusinessId :number
+  title            :string
+  message          :string
+  isApprove        :string
+  advertisementId  :number
+}
 
 const formatDate = (dateString: string) => {
   if (!dateString) {
@@ -51,6 +58,8 @@ export const Notification = () => {
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
   const [advertisementData, setAdvertisementData] = useState<any[]>([]);
   const [businessId,setBusinessId] = useState();
+  const [businessAdver, setbusinessAdver] =useState<advernoti[]>([]); 
+  const [businessAdMain, setBusinessAdMain ] = useState();
 
 
 
@@ -220,7 +229,7 @@ console.log(reservation)
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
       const FetchbusinessId = await axios.get(`${backendUrl}/feature8/notifications/advertisementbizId/${venueId}`);
-      const businessId = FetchbusinessId.data; // Assuming the data is in the 'data' property
+      const businessId = FetchbusinessId.data.businessId; // Assuming the data is in the 'data' property
       setBusinessId(businessId);
     } catch (error) {
       console.error('Error fetching advertisement data:', error);
@@ -231,12 +240,60 @@ console.log(reservation)
     fetchBusinessId();
   }, []);
 
+  const bizAdverAd = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const advertisementResponse = await axios.get(`${backendUrl}/feature8/notifications/advertisement`);
+      const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
+      setbusinessAdver(advertisementData);
+    } catch (error) {
+      console.error('Error fetching advertisement data:', error);
+    }
+  };
+
+  useEffect(() => {
+    bizAdverAd();
+  }, []);
+
+  const advertisementId = useMemo(() => {
+    return businessAdver.map((res : any) => res.advertisementId);
+  }, [businessAdver]);
+  console.log(advertisementId)
+
+  const bizAllAdvertiseMain = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const advertisementResponse = await axios.get(`${backendUrl}/feature8/business/adall`);
+      const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
+      setBusinessAdMain(advertisementData);
+    } catch (error) {
+      console.error('Error fetching advertisement data:', error);
+    }
+  };
+
+  useEffect(() => {
+    bizAllAdvertiseMain();
+  }, []);
+
+
+  const filteredAds = useMemo(() => {
+    if (!businessAdMain || !advertisementId) {
+      return [];
+    }
+  
+    return (businessAdMain as any[]).filter((ad: { advertisementId: number; }) => advertisementId.includes(ad.advertisementId));
+  }, [businessAdMain, advertisementId]);
+
+
 
 
   
-  console.log(advertisementData);
-  console.log(businessId)
-  
+  console.log(pendingReservations);
+  // console.log(businessId);
+  // console.log(businessAdver);
+  // console.log(businessAdMain); 
+  console.log(advertisementId);
+  // console.log(filteredAds) 
 
   return (
     <div>
@@ -322,28 +379,37 @@ console.log(reservation)
           </Link>
         );
       })}
-        <Link to="/Notification/Advertisement">
-          <Flex
-            bg={"blackAlpha.300"}
-            h={"75px"}
-            align={"center"}
-            borderRadius={"10px"}
-            transition={"background-color 0.3s ease-in-out"}
-            _hover={{ bg: "blackAlpha.400" }}
-            _active={{ bg: "blackAlpha.200" }}
-            marginBottom={"10px"}
-          >
-            <Box ml="3">
-              <Text fontWeight="bold">Advertisement approved</Text>
-              <Text fontSize="sm">Report to business</Text>
-            </Box>
-            <Spacer />
-            <Box>
-              <Text fontSize="md" textAlign={"right"} paddingRight={3}>12hr ago</Text>          
-            </Box>
 
-          </Flex>
-        </Link>
+{/* <Link to={`/notifications/advertisement/:advertisementId/${businessId}`}> */}
+
+      {/* <Link to={`/notifications/advertisement/:advertisementId/${businessId}`}> */}
+
+        {filteredAds.map((ad, index) => (
+          <Link key={index} to={`/notifications/advertisement/${ad.advertisementId}/${businessId}`}>
+            <Flex
+              bg={"blackAlpha.300"}
+              h={"75px"}
+              align={"center"}
+              borderRadius={"10px"}
+              transition={"background-color 0.3s ease-in-out"}
+              _hover={{ bg: "blackAlpha.400" }}
+              _active={{ bg: "blackAlpha.200" }}
+              marginBottom={"10px"}
+            >
+              <Box ml="3">
+                <Text fontWeight="bold">Advertisement Notice</Text>
+                <Text fontSize="sm"> Advertisement number {ad.advertisementId}, Report to business</Text>
+              </Box>
+              <Spacer />
+              <Box>
+                <Text fontSize="md" textAlign={"right"} paddingRight={3}>
+                  12 hr ago
+                </Text>
+              </Box>
+            </Flex>
+          </Link>
+        ))}
+        
         {/* <Link to="/Notification/Promotion">
           <Flex
             bg={"blackAlpha.300"}
