@@ -24,7 +24,6 @@ export const BotMsg : FC<BotMsgProps> = ({ data }) => {
         name: "MONIQUE",
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIkSDNcRcU_UeGaNIl7pi7zlSwznp-ulDJxnm-zKYoTf2ZLqQY7zIgsni5waCv2ButaDQ&usqp=CAU",
     };
-    console.log(data);
 
     //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);

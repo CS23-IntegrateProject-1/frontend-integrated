@@ -8,10 +8,11 @@ import {
     FormControl,
     Input,
     InputRightElement,
+    InputLeftElement,
   } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState, useEffect, useContext} from "react";
+import { FC, useState, useContext} from "react";
 import { ClientMsg } from "../../components/ClientMsg";
 import { Axios } from "../../../../AxiosInstance";
 import { Form } from "react-router-dom";
@@ -63,6 +64,12 @@ export const ChatBotPage: FC = () => {
         setMessage("");
     }
     };
+
+    // const fetchData = () => {
+    //     Axios.get("/feature12/fetchData").then((res) => {
+    //         console.log(res.data);
+    //     })
+    // }
 
     return (
     <>
@@ -126,6 +133,16 @@ export const ChatBotPage: FC = () => {
         >
         <Form onSubmit={handleSend}>
           <InputGroup marginTop={"10px"}>
+            {/* <InputLeftElement>
+              <IconButton
+                // isDisabled
+                aria-label="Send Message"
+                icon={
+                  <PiPaperPlaneRightFill border="none" style={sendButtonStyle} />
+                }
+                onClick={fetchData}
+              />
+            </InputLeftElement> */}
             <FormControl>
               <Input
                 type="text"
