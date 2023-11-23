@@ -52,7 +52,7 @@ export const AdvertisementRequestPage = () => {
     advertisementPlan: 0,
   });
   const handleClick = () => {
-    navigate("/advertisement/status");
+    navigate("/business/advertisement/status");
   };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

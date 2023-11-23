@@ -6,15 +6,13 @@ import {
   FormLabel,
   Icon,
   IconButton,
-  Select,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Textarea } from "@chakra-ui/react";
-import { Radio, RadioGroup, Image } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -33,10 +31,10 @@ export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const handleClickReject = () => {
-    navigate("/advertisement/:id/reject");
+    navigate("/admin/advertisement/:id/reject");
   };
   const handleClickConfirm = () => {
-    navigate("/advertisement");
+    navigate("/admin/advertisement");
   };
 
   const [file, setFile] = useState<File | null>(null);

@@ -12,17 +12,18 @@ export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
     navigate("/advertisement/:id");
   };
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      width={"100%"}
-      paddingBottom={4}
-    >
-      {/* AdvertisementCard */}
+    // <Box
+    //   display={"flex"}
+    //   flexDirection={"column"}
+    //   justifyContent={"center"}
+    //   alignItems={"center"}
+    //   width={"100%"}
+    
+    //   paddingBottom={4}
+    // >
+    //   {/* AdvertisementCard */}
       <Card
-        width="50%"
+        width="90%"
         minWidth="250px"
         maxWidth="400px"
         display="flex"
@@ -32,6 +33,7 @@ export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
         bg={"rgba(0, 0, 0, 0)"}
         color={"white"}
         onClick={handleClick}
+        mb={"10px"}
       >
         <CardBody>
           <Box>
@@ -43,6 +45,6 @@ export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
           </Box>
         </CardBody>
       </Card>
-    </Box>
+    // </Box>
   );
 };

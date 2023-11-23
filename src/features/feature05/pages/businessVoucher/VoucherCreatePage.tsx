@@ -67,7 +67,7 @@ export const VoucherCreatePage = () => {
 
   const navigate = useNavigate();
   const handleClickSubmit = () => {
-    navigate("/voucher");
+    navigate("/business/voucher");
   };
 
   const handleTypeChange = (tab: string) => {

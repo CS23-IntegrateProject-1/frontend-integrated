@@ -56,7 +56,7 @@ export const VoucherEditPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const handleClickSubmit = () => {
-    navigate("/voucher");
+    navigate("/business/voucher");
   };
   const [voucher, setVoucher] = useState<VoucherType>({
     voucherName: "",

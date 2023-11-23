@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  ChakraProvider,
   Tabs,
   TabList,
-  TabPanels,
   Tab,
-  TabPanel,
   Box,
   Stack,
-  IconButton,
   Icon,
 } from "@chakra-ui/react";
 import { AdvertisementStatusCard } from "../../components/businessAdvertisementCom/AdvertisementStatusCard";
@@ -29,7 +25,7 @@ export const AdvertisementStatusPage: React.FC = () => {
   const [data, setData] = useState<string[]>([]);
   const navigate = useNavigate();
   const handleClickCreate = () => {
-    navigate("/advertisement/request");
+    navigate("/business/advertisement/request");
   };
 
   useEffect(() => {

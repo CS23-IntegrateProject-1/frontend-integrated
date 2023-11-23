@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
-  ChakraProvider,
   Tabs,
   TabList,
-  TabPanels,
   Tab,
-  TabPanel,
   Box,
   Stack,
   Icon,
@@ -28,7 +25,7 @@ export const VoucherStatusPage: React.FC = () => {
   const [data, setData] = useState<string[]>([]);
   const navigate = useNavigate();
   const handleClickCreate = () => {
-    navigate("/voucher/create");
+    navigate("/business/voucher/create");
   };
 
 

@@ -1,0 +1,20 @@
+import { Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react'
+import React from 'react'
+
+interface Card {
+  voucher_name : string
+  description : string
+}
+
+export const ShortRedeemCard = (props : Card) => {
+  return (
+    <Card variant="filled" backgroundColor="brand.100">
+          <CardHeader>
+              <Heading size='md'> {props.voucher_name}</Heading>
+          </CardHeader>
+          <CardBody>
+              <Text>{props.description}</Text>
+          </CardBody>
+    </Card>
+  )
+}
