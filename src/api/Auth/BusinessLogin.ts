@@ -1,9 +1,9 @@
 // import axios from "axios";
 import { Axios } from "../../AxiosInstance";
 
-export const Adminlogin = async (username: string, password: string) => {
+export const BusinessLogin = async (username: string, password: string) => {
 	try {
-		return await Axios.post("/auth/adminLogin", {
+		return await Axios.post("/auth/business/Login", {
 			username,
 			password,
 		});
