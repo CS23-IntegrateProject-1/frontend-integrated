@@ -12,6 +12,7 @@ import { PushNoti } from './Pages/notifications/PushNoti'
 import { BusiProfile } from './Pages/BusiProfile'
 import { BusiProfileEdit } from './Pages/BusiProfileEdit'
 import { AddCard } from './Pages/AddCard'
+import { Overview } from './Pages/overview/Overview'
 export const Feature01Routes = () => {
   return [
     {
@@ -71,6 +72,10 @@ export const Feature01Routes = () => {
     {
       path: "/setting/account/paymentmethodsetting/AddCard",
       element: <AddCard/>,
+    },
+    {
+      path: "/setting/overview",
+      element: <Overview/>,
     }
   ];
 };

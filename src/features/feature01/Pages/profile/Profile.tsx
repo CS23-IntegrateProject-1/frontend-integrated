@@ -1,9 +1,20 @@
 import { Box, Text, Flex, Avatar, Input, useDisclosure,Grid,GridItem, FormControl, FormLabel, Select} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
+import { useEffect, useState } from "react";
 
 export const Profile = () => {
  
+  const [name, setName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+
+// useEffect(() => {
+//   const url = '';
+
+
   return (
     <Grid>
       <GridItem>
@@ -69,7 +80,14 @@ export const Profile = () => {
         </Box>
       </GridItem>  
       <GridItem>
-      
+      <Flex justify={"center"} mt={5}>
+        <Box paddingRight={"5px"}>
+        <ButtonComponent text="Cancel" />
+        </Box>
+        <Box paddingLeft={"5px"}>
+        <ButtonComponent text="Save"  bgColor="#ffffff" textColor="brand.200" />
+        </Box>
+      </Flex>
       </GridItem>
       </Grid>
   )
