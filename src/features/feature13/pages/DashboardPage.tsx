@@ -13,17 +13,18 @@ interface IData {
 }
 
 export const DashboardPage = () => {
+  const venueId = 1;
   let navigate = useNavigate();
   const confirmCheckin = () => {
-    let path = "/";
+    let path = "/qrcodeconfirm";
     navigate(path);
   };
   const menu = () => {
-    let path = "/tabletype";
+    let path = `/business/venue/${venueId}/menu`;
     navigate(path);
   };
   const tableList = () => {
-    let path = "/viewtable";
+    let path = "/business/tablelist";
     navigate(path);
   };
   const [data, setData] = useState<IData>({});

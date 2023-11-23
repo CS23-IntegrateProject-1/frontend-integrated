@@ -1,4 +1,6 @@
 import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Modal,
   ModalOverlay,
@@ -9,9 +11,57 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { TableCard } from "../../components/TableCard";
+import { getAllTableByVenue } from "../../../../api/Reservation/getAllTableByVenueId";
+
+interface IData {
+  venueId?: number;
+  information?: string;
+  tableId?: string;
+  tableTypeDetailId?: number;
+  table_no?: number;
+  branchId?: number;
+  status?: string;
+  table_type?: {
+        capacity?: number;
+        detail?: string;
+        name?: string;
+        tableTypeDetailId?: number;
+        venueId?: number;
+        image_url?: string;
+  };
+}
 
 export const TableList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [data, setData] = useState<IData[]>([]); 
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+    const fetchData = async () => {
+        const response = await getAllTableByVenue(1);
+        setData(response);
+    };
+
+    const renderCards = () => {
+        return data.map((data, index: number) => {
+            return (
+              <Box key={index} marginBottom={"20px"}>
+                {/* <Link to={`/business/viewtable?tableId=${data.tableId}&venueId=${data.venueId}`}> */}
+                <Link
+                  to={`/business/viewtable/${data.tableId}`}
+                >
+                  <TableCard
+                    tableno={data.table_no}
+                    type={data.table_type?.name}
+                    status={data.status}
+                  />
+                </Link>
+              </Box>
+            );
+        });
+    };
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Box
@@ -60,11 +110,12 @@ export const TableList = () => {
       </Box>
       <Box
         display={"flex"}
-        flexDirection={"row"}
+        flexDirection={"column"}
         justifyContent={"center"}
         marginTop={"8px"}
       >
-        <TableCard tableno={"1"} type={"high-top"} status={"Booked"} />
+        {renderCards()}
+        {/* <TableCard tableno={"1"} type={"high-top"} status={"Booked"} /> */}
       </Box>
     </Box>
   );
