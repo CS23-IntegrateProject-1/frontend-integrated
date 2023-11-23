@@ -61,7 +61,7 @@ export const Feature08Routes = () => {
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
 
     { path: "/Notification/BusinessNoti/:venueId", element: <Notification /> },
-    { path: "/Notification/Advertisement", element: <AdvertiseNoti /> },
+    { path: "/Notification/Advertisement/:venueId", element: <AdvertiseNoti /> },
     { path: "/Notification/Promotion", element: <PromotionNoti /> },
     { path: "/Notification/Checkout/:venueId/:reservationId", element: <CheckOutNoti /> },
     { path: "/Notification/NewReservation/:venueId/:reservationId", element: <NewReserveNoti /> },

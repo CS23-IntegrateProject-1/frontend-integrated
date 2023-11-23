@@ -50,6 +50,7 @@ export const Notification = () => {
   const { venueId } = useParams()
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
   const [advertisementData, setAdvertisementData] = useState<any[]>([]);
+  const [businessId,setBusinessId] = useState();
 
 
 
@@ -214,23 +215,27 @@ console.log(reservation)
   useEffect(() => {
     fetchAdvertisementData();
   }, []);
-
-  const matchingAdvertisement = useMemo(() => {
-    if (!Array.isArray(advertisementData)) {
-      console.error('Invalid advertisement data structure:', advertisementData);
-      return null;
+  //http://localhost:8080/feature8/notifications/advertisementbizId/1
+  const fetchBusinessId = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const FetchbusinessId = await axios.get(`${backendUrl}/feature8/notifications/advertisementbizId/${venueId}`);
+      const businessId = FetchbusinessId.data; // Assuming the data is in the 'data' property
+      setBusinessId(businessId);
+    } catch (error) {
+      console.error('Error fetching advertisement data:', error);
     }
+  };
 
-    return advertisementData.find((ad: any) => ad.object?.venueId === venueId);
-
-  }, [advertisementData, venueId]);
-
-  console.log('Matching Advertisement:', matchingAdvertisement);
-
+  useEffect(() => {
+    fetchBusinessId();
+  }, []);
 
 
-  console.log(advertisementData);
+
   
+  console.log(advertisementData);
+  console.log(businessId)
   
 
   return (
