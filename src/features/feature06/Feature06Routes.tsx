@@ -9,7 +9,8 @@ import { WalkInPeople } from "./pages/Business/WalkInPeople";
 import { WalkInDetail } from "./pages/Business/WalkInDetail";
 import { TableList } from "./pages/Business/TableList";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
-
+import { CreateTable1 } from "./pages/CreateTable1";
+import { CreateTable2 } from "./pages/CreateTable2";
 
 export const Feature06Routes = () => {
   return [
@@ -30,5 +31,7 @@ export const Feature06Routes = () => {
     { path: "/viewtable", element: <ViewTable /> },
     { path: "/tablelist", element: <TableList /> },
     { path: "/getreservation-detail", element: <GetReservationDetail /> },
+    { path: "/createtable1", element: <CreateTable1 /> },
+    { path: "/createtable2", element: <CreateTable2 /> },
   ];
 };
