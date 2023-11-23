@@ -93,7 +93,6 @@ export const AccountingMain = () => {
 
   console.log(appTransactionByMonth);
 
-  // Return your JSX here
 
   return (
     <Center>
@@ -165,7 +164,7 @@ export const AccountingMain = () => {
           return (
             <Box key={monthKey}>
               {uniqueYears.map(year => (
-                <Link key={year} to={`/:venueId/Account/${year}/${monthKey}`}>
+                <Link key={year} to={`/${venueId}/Account/${year}/${monthKey}`}>
                   <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"}>
                     <CardBody textAlign="center">
                       <Stack divider={<StackDivider />} color={"#C5C4C7"}>
