@@ -35,7 +35,7 @@ export const BusinessMenuDetail: FC = () => {
 
     const handleDelete = async() => {
         try{
-          const response = await Axios.delete(`/feature7/deleteMenu/${menuid}`);
+          const response = await Axios.delete(`/feature7/delete${type}/${menuid}`);
           console.log('Menu deleted:', response.data);
           const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
           console.log('Navigating to:', targetPath);

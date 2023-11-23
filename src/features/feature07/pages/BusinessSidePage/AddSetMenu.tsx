@@ -16,7 +16,7 @@ interface Menu {
 
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedMenus, setSelectedMenus] = useState<Menu[]>([]);
+  const [selectedMenus, setSelectedMenus] = useState([]);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +26,7 @@ interface Menu {
     description: '',
     price: '',
   });
+  const [selectId, setSelectId] = useState('');
 
   const getMenu = async () => {
     const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
@@ -44,19 +45,30 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
     }));
   };
 
-  const handleDeleteMenu = (index: number) => {
-    const updatedMenus = [...selectedMenus];
-    updatedMenus.splice(index, 1);
-    setSelectedMenus(updatedMenus);
+  const handleDeleteMenu = async (selectedMenuId: string) => {
+    try {
+      const response = await Axios.post('/feature7/deleteMenuItemBeforeAddingToSet/', { menuId: selectedMenuId });
+      if (response.status === 200) {
+        const response = await Axios.get('/feature7/showMenuItemsInCookies/');
+        const selectedItems = response.data;
+        console.log('Selected items:', selectedItems);
+        setSelectedMenus(selectedItems);
+      }
+      // const updatedMenus = [...selectedMenus];
+      // updatedMenus.splice(selectedMenuId, 1);
+      // setSelectedMenus(updatedMenus);
+  } catch (error) {
+    console.error("Error deleting items in cookies", error);
+  }
   };
 
-  useEffect(() => {
-    console.log('Location state:', location.state);
-    if (location.state && location.state.selectedMenus) {
-      console.log('Selected Menus:', location.state.selectedMenus);
-      setSelectedMenus(location.state.selectedMenus);
-    }
-  }, [location.state]);
+  // useEffect(() => {
+  //   console.log('Location state:', location.state);
+  //   if (location.state && location.state.selectedMenus) {
+  //     console.log('Selected Menus:', location.state.selectedMenus);
+  //     setSelectedMenus(location.state.selectedMenus);
+  //   }
+  // }, [location.state]);
   
   //for image upload
   const handleImageClick = () => {
@@ -69,24 +81,64 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
   };
 
   //for choose menu
-  const handleChooseMenuClick = () => {
-    const targetPath = `/venue/${venueId}/choosemenu`;
-    console.log('Navigating to:', targetPath);
-    navigate(targetPath);
-  };
+  // const handleChooseMenuClick = () => {
+  //   const targetPath = `/venue/${venueId}/choosemenu`;
+  //   console.log('Navigating to:', targetPath);
+  //   navigate(targetPath);
+  // };
    
-  const handleAddSetMenuClick = () => {
-    const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
-    console.log('Navigating to:', targetPath);
-    navigate(targetPath);
+  const handleAddSetMenuClick = async (e) => {
+    e.preventDefault();
+    const formDataWithFile = new FormData();
+    //console.log(formData);
+    formDataWithFile.append('name', formData.name);
+    formDataWithFile.append('description', formData.description);
+    formDataWithFile.append('price', formData.price);
+    formDataWithFile.append('menuImage', selectedFile);
+    //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
+
+    try {
+      const response = await Axios.post(`/feature7/addSetWithMenuItems/${venueId}`, formDataWithFile, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response.status === 200) {
+        // const ClearResponse = await Axios.get('/feature7/clearSetItemsInCookies/');
+        // console.log('Clear set items in cookies:', ClearResponse.data);
+        console.log('SetMenu added:', response.data);
+        const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
+        console.log('Navigating to:', targetPath);
+        navigate(targetPath);
+      }
+      
+      // navigate(`/venue/${venueId}/menubusiness`);
+    } catch (error) {
+      console.error('Error adding setmenu:', error);
+    }
+    
   };
   
-  const handleDropdownChange = (selectedMenuId: string) => {};
- 
-  const handleMenuSelect = (selectedMenu: Menu) => {
-    setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
-    setInputFieldValue('');
+  const handleDropdownChange = async (selectedMenuId: string) => {
+    setSelectId(selectedMenuId);
+    try {
+      const addResponse = await Axios.post('/feature7/addMenuItemsToSetsInCookies/', { menuId: selectedMenuId });
+      if (addResponse.status === 200) {
+        const response = await Axios.get('/feature7/showMenuItemsInCookies/');
+        const selectedItems = response.data;
+        console.log('Selected items:', selectedItems);
+        setSelectedMenus(selectedItems);
+      }
+    } catch (error) {
+      console.error("Error adding menu items to cookies or fetching items", error);
+    }
+    setSelectId(''); // reset dropdown
   };
+ 
+  // const handleMenuSelect = (selectedMenu: Menu) => {
+  //   setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
+  //   setInputFieldValue('');
+  // };
 
   return (
     <FormControl>
@@ -165,19 +217,19 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
           <Box>
             <FormLabel>Selected Food in set:</FormLabel>
             <VStack align="start" spacing={2}>
-              {/* {selectedMenus?.map((menu, index) => (
-                <Box key={index}>
+              {selectedMenus?.map((item) => (
+                <Box key={item.menuId}>
                   <HStack spacing={2} align="center">
-                    <Box>{menu.name}</Box>
+                    <Box>{item.menuName}</Box>
                     <DeleteIcon
                       ml={60}
                       boxSize={4}
-                      aria-label={`Delete ${menu.name}`}
-                      onClick={() => handleDeleteMenu(index)}
+                      aria-label={`Delete ${item.menuName}`}
+                      onClick={() => handleDeleteMenu(item.menuId)}
                     />
                   </HStack>
                 </Box>
-              ))} */}
+              ))}
             </VStack>
             <InputGroup>
               {/* <InputLeftElement>
@@ -186,7 +238,8 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
         <Select
   variant="flushed"
   width="307px"
-  placeholder="Select a menu"
+  placeholder="Add a menu"
+  value={selectId}
   onChange={(e) => handleDropdownChange(e.target.value)}
   styles={{
     control: (styles) => ({
@@ -208,7 +261,9 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
   as="select"
 >
   {menuOptions?.map((menu) => (
-    <option key={menu.menuId} value={menu.name}>
+    <option 
+    key={menu.menuId} 
+    value={menu.menuId}>
       {menu.name}
     </option>
   ))}
