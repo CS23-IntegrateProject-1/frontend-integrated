@@ -183,31 +183,37 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
               {/* <InputLeftElement>
                 <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
               </InputLeftElement> */}
-              <Select
-                variant="flushed"
-                width="307px"
-                placeholder='Select a menu'
-                //value={selectedMenuId} // value should represent the selected menu ID
-                onChange={(e) => handleDropdownChange(e.target.value)} // handleDropdownChange to handle dropdown selection
-              >
-                {menuOptions?.map((menu) => (
-                  <option 
-                    key={menu.menuId} 
-                    value={menu.name}
-                    //ask Nz about colors
-                    color={"brand.300"}
-                    style={{
-                      backgroundColor: "brand.300",
-                      color: "white.500",
-                      "&:hover": {
-                        backgroundColor: "brand.300",
-                      },
-                    }}
-                    >
-                    {menu.name}
-                  </option>
-                ))}
-              </Select>
+        <Select
+  variant="flushed"
+  width="307px"
+  placeholder="Select a menu"
+  onChange={(e) => handleDropdownChange(e.target.value)}
+  styles={{
+    control: (styles) => ({
+      ...styles,
+      backgroundColor: 'brand.300',
+      borderColor: 'brand.300',
+    }),
+    option: (styles, { isFocused, isSelected }) => ({
+      ...styles,
+      backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
+      color: isSelected ? 'white' : 'black',
+    }),
+    singleValue: (styles) => ({
+      ...styles,
+      color: 'black',
+    }),
+  }}
+  
+  as="select"
+>
+  {menuOptions?.map((menu) => (
+    <option key={menu.menuId} value={menu.name}>
+      {menu.name}
+    </option>
+  ))}
+</Select>
+
             </InputGroup>
           </Box>
         </Center>
