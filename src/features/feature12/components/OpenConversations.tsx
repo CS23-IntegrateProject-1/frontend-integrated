@@ -13,6 +13,7 @@ import React, { useCallback, useState } from "react";
 import { BiSolidCamera } from "react-icons/bi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { Form } from "react-router-dom";
+import { useConversations } from "../context/ConversationProvider";
 
 const cameraIconStyle = {
   borderRadius: "50%",
@@ -27,9 +28,9 @@ const sendButtonStyle = {
   fontSize: "30px",
 };
 
-export default function OpenConversations() {
-  const [messages, setMessages] = useState<string[] | undefined>([]);
+export default function OpenConversations({ id }: { id: string }) {
   const [text, setText] = useState<string>("");
+  const { sendMessage, selectedConversation } = useConversations();
   const setRef = useCallback((node: HTMLElement | null) => {
     if (node) {
       node.scrollIntoView({ behavior: "smooth" });
@@ -38,11 +39,17 @@ export default function OpenConversations() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const sendMessage = (text: string) => {
-      setText(text);
-      return text;
-    };
-    console.log(sendMessage(text));
+
+    sendMessage({
+      recipients: selectedConversation.recipients.map(
+        (recipient: { id: number }) => recipient.id
+      ),
+      text: text,
+      sender: id,
+      fromMe: true,
+      // senderName: selectedConversation.messages[0].senderName,
+    });
+    console.log("text", text);
     setText("");
   }
 
@@ -57,33 +64,38 @@ export default function OpenConversations() {
           px="12px"
         >
           {/* Each message placing for sender or receiver */}
-          {messages &&
-            messages.map((message, index) => {
-              const lastMessage = messages.length - 1 === index;
-              return (
+          {selectedConversation.messages.map((message, index) => {
+            const lastMessage =
+              selectedConversation.messages.length - 1 === index;
+            return (
+              <Box
+                key={index}
+                ref={lastMessage ? setRef : null}
+                my="4px"
+                display="flex"
+                flexDirection="column"
+                alignItems={message.fromMe ? "flex-end" : "flex-start"}
+              >
                 <Box
-                  key={index}
-                  ref={lastMessage ? setRef : null}
-                  my="4px"
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="end"
-                  alignSelf="end"
+                  rounded={"md"}
+                  py="1"
+                  px="2"
+                  bg={message.fromMe ? "#DEBEF6" : "transparent"}
+                  color={message.fromMe ? "black" : "white"}
+                  borderWidth={message.fromMe ? "0px" : "1px"}
                 >
-                  {/*  return your message component here */}
-                  <Box>
-                    <Box bg="#DEBEF6" px="8px" py="4px" borderRadius="10px">
-                      <Text color="black">{message}</Text>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Text color="gray.500" fontSize="sm">
-                      You
-                    </Text>
-                  </Box>
+                  {message.text}
                 </Box>
-              );
-            })}
+                <Text
+                  fontSize="sm"
+                  color="gray.500"
+                  textAlign={message.fromMe ? "end" : "start"}
+                >
+                  {lastMessage ? (message.fromMe ? "You" : "") : ""}
+                </Text>
+              </Box>
+            );
+          })}
         </VStack>
       </Box>
       <Form onSubmit={handleSubmit}>

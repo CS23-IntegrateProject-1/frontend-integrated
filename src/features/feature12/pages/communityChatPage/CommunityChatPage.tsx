@@ -4,16 +4,20 @@ import {
 } from "@chakra-ui/react";
 
 
-// import MessageLog from "./MessageLog";
-import TestMessageLog from "../testingPage/TestMessageLog";
+// import TestMessageLog from "../testingPage/TestMessageLog";
 import OpenConversations from "../../components/OpenConversations";
+import { useConversations } from "../../context/ConversationProvider";
+import MessageLog from "./MessageLog";
 
 
-export const CommunityChatPage = () => {
+export const CommunityChatPage = ({ id }: { id: string }) => {
+  const { selectedConversation } = useConversations();
+
   return (
     <Box display="flex">
-      <TestMessageLog />
-      <OpenConversations />
+      <MessageLog id={id} />
+      {/* <TestMessageLog id={id} /> */}
+      {selectedConversation && <OpenConversations id={id} />}
     </Box>
   );
 };

@@ -17,13 +17,17 @@ import NewConversationModal from "../../components/NewConversationModal";
 import { useConversations } from "../../context/ConversationProvider";
 import Conversations from "../communityChatPage/Conversations";
 
+interface TestMessageLogProps {
+  id: string;
+}
+
 interface Contact {
   username: string;
   userId: number;
 }
 
 
-const TestMessageLog: React.FC = () => {
+const TestMessageLog: React.FC<TestMessageLogProps> = () => {
   const { contacts } = useConversations();
   const [modalOpen, setModalOpen] = useState(false);
 

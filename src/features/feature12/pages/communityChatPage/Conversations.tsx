@@ -21,7 +21,7 @@ const Conversations: React.FC = () => {
   console.log(conversations);
   return (
     <>
-      <List>
+      <List spacing={3} variant="flush" width="100%" borderBottom="0.5px solid black">
         {conversations.map((conversation, index: number) => (
           <ListItem key={index} cursor={"pointer"} padding={3} onClick={() => selectedConversationIndex(index)}
           background={conversation.selected ? 'blue.200' : 'transparent'}>

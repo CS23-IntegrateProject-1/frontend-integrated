@@ -10,7 +10,9 @@ interface ConversationContextValue {
   conversations: Conversation[];
   createConversation: (recipients: Recipient[]) => void;
   contacts: Contact[] | undefined;
-  selectedConversationIndex: React.Dispatch<React.SetStateAction<number> >;
+  selectedConversationIndex: React.Dispatch<React.SetStateAction<number>>;
+  selectedConversation: Conversation;
+  sendMessage: (message: Message) => void;
 }
 
 interface Recipient {
@@ -25,17 +27,22 @@ interface Conversation {
 }
 interface Message {
   text: string;
+  recipients: number[];
+  sender: string;
+  fromMe: boolean;
+  // senderName: string;
 }
 interface Contact {
   username: string;
   userId: number;
-} 
+}
 
 const ConversationsContext = React.createContext<
   ConversationContextValue | undefined
 >(undefined);
 
 export const ConversationsProvider: FC<ConversationsProviderProps> = ({
+  id,
   children,
 }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -58,68 +65,119 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       .catch((err) => {
         console.log(err);
       });
-    }, [setContacts]);
-    console.log(contacts);
+  }, [setContacts]);
+
   function createConversation(recipients: Recipient[]) {
     setConversations((prevConversations) => {
-      return [...prevConversations, { recipients, messages: [], selected: false }];
+      return [
+        ...prevConversations,
+        { recipients, messages: [], selected: false },
+      ];
     });
   }
-  // If the conversation already exists, add the message to the conversation, otherwise create a new conversation with the message
-  // function addMessageToConversation(text: string) {
-  //   setConversations((prevConversations) => {
-  //     // const madeChange = false;
-  //     const newMessage = { text };
-  //     const newConversations = prevConversations.map((conversation) => {
-  //       return {
-  //         ...conversation,
-  //         messages: [...conversation.messages, newMessage],
-  //       };
-  //     });
-  //     return newConversations;
-  //   });
-  // }
-  // function sendMessage(text: string) {
-  //   addMessageToConversation(text);
-  // }
-  const formattedConversations = conversations.map((conversation, index: number) => {
-    const recipients = conversation.recipients.map((recipient: Recipient) => {
-      console.log(contacts);
-      console.log(recipient?.id)
-      const contact = contacts?.find((contact) => contact.userId === recipient?.id);
-      const name = (contact && contact.username) || recipient?.id.toString(); // Use recipient.name
-      console.log(name);
-      return { id: recipient.id, name };
+
+  function addMessageToConversation({
+    recipients,
+    text,
+    sender,
+  }: {
+    recipients: number[];
+    text: string;
+    sender: string;
+  }) {
+    setConversations((preConversations) => {
+      let madeChange = false;
+      const newMessage = {
+        sender,
+        text,
+        recipients,
+      };
+      const newConversations = preConversations.map((conversation) => {
+        if (
+          arrayEquality(
+            conversation.recipients.map((recipient) => recipient.id),
+            recipients
+          )
+        ) {
+          madeChange = true;
+          return {
+            ...conversation,
+            messages: [...conversation.messages, newMessage],
+            selected: conversation.selected,
+          };
+        }
+        return conversation;
+      });
+
+      // If the conversation already exists, add the message to the conversation, otherwise create a new conversation with the message
+      if (madeChange) {
+        return newConversations; // Return the previous state
+      } else {
+        return [...preConversations, { recipients, messages: [newMessage] }];
+      }
     });
+  }
 
-    const selected = index === selectedConversationIndex;
+  const sendMessage = ({ recipients, text }: Message) => {
+    addMessageToConversation({ recipients, text, sender: id });
+  };
 
-    // const messages = conversation.messages.map((message: Message) => {
-    //   return { ...message };
-    // });
-    console.log(recipients);
-    return { ...conversation, recipients, selected };
-  });
-  console.log(formattedConversations);
+  const formattedConversations = conversations.map(
+    (conversation, index: number) => {
+      const recipients = conversation.recipients.map((recipient: Recipient) => {
+        const contact = contacts?.find(
+          (contact) => contact.userId === recipient?.id
+        );
+        const name = (contact && contact.username) || recipient?.id.toString(); // Use recipient.name
+        return { id: recipient.id, name };
+      });
+
+      const messages = conversation.messages.map((message) => {
+        const contact = contacts?.find(
+          (contact) => contact.userId === Number(message?.sender)
+        );
+        const name = (contact && contact.username) || message?.sender;
+        const fromMe = id === message?.sender;
+        return { ...message, senderName: name, fromMe };
+      });
+
+      const selected = index === selectedConversationIndex;
+
+      return { ...conversation, messages, recipients, selected };
+    }
+  );
   // const value = {
-    // sendMessage,
-    
-    // selectedConversations: formattedConversations[selectedConversationIndex],
-    // selectedConversationIndex: setSelectedConversationIndex,
+  // sendMessage,
+
+  // selectedConversations: formattedConversations[selectedConversationIndex],
+  // selectedConversationIndex: setSelectedConversationIndex,
   // };
   return (
     <ConversationsContext.Provider
       value={{
         conversations: formattedConversations,
-        createConversation,
-        contacts,
         selectedConversationIndex: setSelectedConversationIndex,
+        selectedConversation: formattedConversations[selectedConversationIndex],
+        createConversation,
+        sendMessage,
+        contacts,
       }}
     >
       {children}
     </ConversationsContext.Provider>
   );
 };
+
+function arrayEquality(a: number[], b: number[]) {
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  return a.every((element: number, index: number) => {
+    return element === b[index];
+  });
+}
 
 export function useConversations() {
   const context = useContext(ConversationsContext);
