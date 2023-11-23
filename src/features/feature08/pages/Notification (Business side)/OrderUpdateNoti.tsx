@@ -17,15 +17,17 @@ import axios from 'axios';
   import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 type Order = {
-  orderId:      number
+  userId:       number
+  venueId:      number
   order_date:   Date
   total_amount: number
-  status:       string
-  reserveId:    number
-  userId:       number  
-  venueId:      number
+  addressId:    null
   branchId:     number  
+  driverId:     null
   isDelivery:   Boolean
+  orderId:      number
+  status:       string
+  reserveId:    null
 }
 
 export const OrderUpdateNoti = () => {
@@ -62,7 +64,7 @@ export const OrderUpdateNoti = () => {
   const fetchOrderData = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      const OrderResponse = await axios.get(`${backendUrl}/feature8/order/${orderId}`);
+      const OrderResponse = await axios.get(`${backendUrl}/feature8/orders/${orderId}`);
       const orderData = OrderResponse.data; // Assuming the data is in the 'data' property
       setOrder(orderData);
     } catch (error) {
