@@ -12,7 +12,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
 import { FaPencilAlt } from "react-icons/fa";
 
-
 export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -62,6 +61,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       border="1px"
       borderColor="#A533C8"
       p={"1em"}
+      width={{ base: "100%" }}
       onClick={() => {
         navigate(`/article/${props.articleId}`);
       }}
@@ -71,6 +71,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
         variant={"unstyled"}
         size={"small"}
         color={"white"}
+        
         aria-label="liked"
         icon={<FaPencilAlt />}
         alignSelf={"flex-end"}
