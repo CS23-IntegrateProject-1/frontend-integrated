@@ -1,16 +1,20 @@
 import { NavLink } from "react-router-dom";
-import {
-  Box,
-  Text,
-  Image,
-  Button,
-  Flex,
-  Divider,
-} from "@chakra-ui/react";
+import { Box, Text, Image, Button, Flex, Divider } from "@chakra-ui/react";
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import mockO from "../OF3mock.json";
+
+interface OProps {
+  id: number;
+  name: string;
+  picO: string;
+  price: number;
+  description: string;
+}
 
 export const VenueDetail = () => {
+  const O: OProps[] = mockO;
+
   return (
     <Box width={"100%"}>
       <Image
@@ -152,180 +156,89 @@ export const VenueDetail = () => {
 
       <Flex
         display="grid"
-        gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)"}}
+        pb="4"
+        
       >
-        <Box
-          bgColor={"brand.200"}
-          borderRadius="xl"
-          mt={2}
-          p={4}
-          display={"flex"}
-          alignItems={"center"}
-          maxW={"450px"}
-        >
-          <Image
-            src="https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg"
-            alt="Pic not load"
-            borderRadius="lg"
-            w="100px"
-            h="100px"
-            minW="100px"
-            minH="100px"
-            objectFit={"cover"}
-            ml={1}
-          />
+        {O.filter((O) => O).map((O, index) => (
           <Box
-            pl={4}
-            justifyItems={"center"}
+            borderRadius="xl"
+            mb={4}
+            mt={2}
+            p={4}
+            display={"flex"}
             alignItems={"center"}
-            maxW={"350px"}
+            maxW={"450px"}
+            key={index}
+            border="2px solid white"
           >
-            <Text fontWeight={"bold"} fontSize={"xl"} textColor={"white"}>
-              Steak
-            </Text>
-            <Text fontWeight={"semibold"} fontSize={"md"} textColor={"white"}>
-              Price: 1200 THB
-            </Text>
-            <Text
-              fontWeight={"semibold"}
-              fontSize={"xs"}
-              textColor={"grey.200"}
+            <Image
+              src={O.picO}
+              alt="Pic not load"
+              borderRadius="lg"
+              w="100px"
+              h="100px"
+              minW="100px"
+              minH="100px"
+              objectFit={"cover"}
+              ml={1}
+              border="1px solid white"
+            />
+            <Box
+              pl={4}
+              justifyItems={"center"}
+              alignItems={"center"}
+              maxW={"350px"}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has
-            </Text>
+              <Text fontWeight={"bold"} fontSize={"xl"} textColor={"white"}>
+                {O.name}
+              </Text>
+              <Text fontWeight={"semibold"} fontSize={"md"} textColor={"white"}>
+                {O.price} THB
+              </Text>
+              <Text
+                fontWeight={"semibold"}
+                fontSize={"xs"}
+                textColor={"grey.200"}
+              >
+                {O.description}
+              </Text>
+            </Box>
           </Box>
-        </Box>
-
-        <Box
-          bgColor={"brand.200"}
-          borderRadius="xl"
-          mt={2}
-          p={4}
-          display={"flex"}
-          alignItems={"center"}
-          maxW={"450px"}
-        >
-          <Image
-            src="https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg"
-            alt="Pic not load"
-            borderRadius="lg"
-            w="100px"
-            h="100px"
-            minW="100px"
-            minH="100px"
-            objectFit={"cover"}
-            ml={1}
-          />
-          <Box
-            pl={4}
-            justifyItems={"center"}
-            alignItems={"center"}
-            maxW={"350px"}
-          >
-            <Text fontWeight={"bold"} fontSize={"xl"} textColor={"white"}>
-              Steak
-            </Text>
-            <Text fontWeight={"semibold"} fontSize={"md"} textColor={"white"}>
-              Price: 1200 THB
-            </Text>
-            <Text
-              fontWeight={"semibold"}
-              fontSize={"xs"}
-              textColor={"grey.200"}
-            >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has
-            </Text>
-          </Box>
-        </Box>
-
-        <Box
-          bgColor={"brand.200"}
-          borderRadius="xl"
-          mt={2}
-          p={4}
-          display={"flex"}
-          alignItems={"center"}
-          maxW={"450px"}
-        >
-          <Image
-            src="https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg"
-            alt="Pic not load"
-            borderRadius="lg"
-            w="100px"
-            h="100px"
-            minW="100px"
-            minH="100px"
-            objectFit={"cover"}
-            ml={1}
-          />
-          <Box
-            pl={4}
-            justifyItems={"center"}
-            alignItems={"center"}
-            maxW={"350px"}
-          >
-            <Text fontWeight={"bold"} fontSize={"xl"} textColor={"white"}>
-              Steak
-            </Text>
-            <Text fontWeight={"semibold"} fontSize={"md"} textColor={"white"}>
-              Price: 1200 THB
-            </Text>
-            <Text
-              fontWeight={"semibold"}
-              fontSize={"xs"}
-              textColor={"grey.200"}
-            >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has
-            </Text>
-          </Box>
-        </Box>
-
-        <Box
-          bgColor={"brand.200"}
-          borderRadius="xl"
-          mt={2}
-          p={4}
-          display={"flex"}
-          alignItems={"center"}
-          maxW={"450px"}
-        >
-          <Image
-            src="https://natashaskitchen.com/wp-content/uploads/2020/03/Pan-Seared-Steak-4.jpg"
-            alt="Pic not load"
-            borderRadius="lg"
-            w="100px"
-            h="100px"
-            minW="100px"
-            minH="100px"
-            objectFit={"cover"}
-            ml={1}
-          />
-          <Box
-            pl={4}
-            justifyItems={"center"}
-            alignItems={"center"}
-            maxW={"350px"}
-          >
-            <Text fontWeight={"bold"} fontSize={"xl"} textColor={"white"}>
-              Steak
-            </Text>
-            <Text fontWeight={"semibold"} fontSize={"md"} textColor={"white"}>
-              Price: 1200 THB
-            </Text>
-            <Text
-              fontWeight={"semibold"}
-              fontSize={"xs"}
-              textColor={"grey.200"}
-            >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has
-            </Text>
-          </Box>
-        </Box>
+        ))}
       </Flex>
+
+      <Flex direction="row" pb="10" justifyContent={"center"} >
+        <NavLink to="/table">
+            <Button
+              variant="solid"
+              textColor="white"
+              bgColor="brand.200"
+              _hover={{
+                textColor: "black",
+                bgColor: "brand.100",
+              }}
+              mr={{base:"5", lg:"10"}}
+              w={{base:"125px", lg:"180px"}}
+            >
+              Reserve now
+            </Button>
+          </NavLink>
+          <NavLink to="/PATH_IDKKKKKKKKKOOOOOOO">
+            <Button
+              variant="solid"
+              textColor="white"
+              bgColor="brand.200"
+              _hover={{
+                textColor: "black",
+                bgColor: "brand.100",
+              }}
+              w={{base:"125px", lg:"180px"}}
+            >
+              Order now
+            </Button>
+          </NavLink>
+          </Flex>
     </Box>
   );
 };

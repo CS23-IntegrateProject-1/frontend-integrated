@@ -76,7 +76,6 @@ export const VenueBranches = () => {
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
-      {venueDataData.map((venueD) => (
         <Box
           display="grid"
           width="100%"
@@ -85,8 +84,8 @@ export const VenueBranches = () => {
           mt={{ base: "3", lg: "8" }}
           px={{ base: "none", lg: "10px" }}
           justifyItems={"center"}
-        >
-          {venueRateData.map((venueR) => (
+          >
+          {venueDataData.map((venueD) => (
             <Card
               minW={{ base: "250px", lg: "350px" }}
               width="sm"
@@ -95,7 +94,7 @@ export const VenueBranches = () => {
               bg="none"
               key={venueD.venueId}
               mb={8}
-            >
+              >
               <CardBody>
                 <Image
                   src={venueD.pic}
@@ -116,9 +115,8 @@ export const VenueBranches = () => {
                       mr="2"
                       borderRadius="14"
                       color="white"
-                      key={venueR.id}
-                    >
-                      {venueR.rating}
+                      >
+                      5
                       <StarIcon ml="1" transform="translateY(2px)" />
                     </Flex>
                   </Flex>
@@ -160,9 +158,8 @@ export const VenueBranches = () => {
                 </NavLink>
               </Flex>
             </Card>
-          ))}
-        </Box>
       ))}
+        </Box>
     </Box>
   );
 };

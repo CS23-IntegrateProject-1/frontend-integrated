@@ -138,7 +138,7 @@ export const RestaurantPage: FC = (props) => {
                   textColor="white"
                   bgColor="brand.300"
                   _hover={{ bgColor: "brand.100", textColor: "black" }}
-                  w="160px"
+                  w="350px"
                 >
                   Branches
                 </Button>
