@@ -5,11 +5,12 @@ import {
     VStack,
     Avatar,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState,useCallback } from "react";
+import { da } from "date-fns/locale";
 
 interface BotMsgProps {
-    msg: string;
+    data: any;
 }
 
 interface Ibot{
@@ -17,12 +18,13 @@ interface Ibot{
     img: string;
 }
 
-export const BotMsg : FC<BotMsgProps> = ({ msg }) => {
+export const BotMsg : FC<BotMsgProps> = ({ data }) => {
 
     const bot: Ibot = {
         name: "MONIQUE",
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIkSDNcRcU_UeGaNIl7pi7zlSwznp-ulDJxnm-zKYoTf2ZLqQY7zIgsni5waCv2ButaDQ&usqp=CAU",
     };
+    console.log(data);
 
     //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);
@@ -49,7 +51,7 @@ export const BotMsg : FC<BotMsgProps> = ({ msg }) => {
                 >
                 <Avatar name={bot.name} src={bot.img} />
                 <VStack 
-                    alignItems={"end"}
+                    alignItems={"start"}
                     maxW={"60%"}
                     >
                     <Box 
@@ -62,9 +64,24 @@ export const BotMsg : FC<BotMsgProps> = ({ msg }) => {
                             color={"brand.200"}
                             p={3}>
                             {/* Client's asking Message */}
-                            {msg} 
+                            {data.text} 
                         </Text>
                     </Box>
+                    {data.consequences !== undefined ? (
+                        <Box 
+                        ref={setRef} 
+                        borderRadius={'10px'}
+                        bg="grey.100"
+                        >
+                        <Text 
+                            style={TextStyle.body2} 
+                            color={"brand.200"}
+                            p={3}>
+                            {/* Client's asking Message */}
+                            {data.consequences} 
+                        </Text>
+                    </Box>
+                    ) : null}
                 </VStack>
             </Flex>
         </>

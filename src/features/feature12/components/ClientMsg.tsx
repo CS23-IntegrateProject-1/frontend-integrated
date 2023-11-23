@@ -4,7 +4,7 @@ import {
     Box,
     VStack,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState,useCallback } from "react";
 
 interface ClientMsgProps {
