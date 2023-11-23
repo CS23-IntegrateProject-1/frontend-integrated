@@ -1,10 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import {useNavigate, useParams} from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
+import { useQuery } from '@tanstack/react-query';
 
+
+const getMenuItem = async (menuid: string) => {
+  const response = await Axios.get(`/feature7/getMenuById/${menuid}`);
+  return response.data;
+};
 
 export const EditMenu = () => {
 
@@ -12,7 +18,23 @@ export const EditMenu = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const { venueId, menuid } = useParams();
-  console.log(menuid);
+  const [editFormData, setEditFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+  });
+  
+  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  console.log(menuData);
+  useEffect(() => {
+    if (menuData) {
+      setEditFormData({
+        name: menuData.name,
+        description: menuData.description,
+        price: menuData.price,
+      });
+    }
+  }, [menuData]);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -24,10 +46,37 @@ export const EditMenu = () => {
     console.log('Selected file:', selectedFile);
   };
 
-  const handleUpdate = () => {
-    const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
-    console.log('Navigating to:', targetPath);
-    navigate(targetPath);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append('name', editFormData.name);
+    formData.append('description', editFormData.description);
+    formData.append('price', editFormData.price);
+    if (selectedFile) {
+      formData.append('menuImage', selectedFile);
+    }
+
+    try {
+      const response = await Axios.post(`/feature7/editMenu/${menuid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Menu edited:', response.data);
+      
+      const targetPath = `/venue/${venueId}/bmenudetail/Menu/${menuid}`;
+      navigate(targetPath);
+    } catch (error) {
+        console.error('Error editing menu:', error);
+        // Add logic for error handling
+      }
   };
 
   return (
@@ -47,6 +96,9 @@ export const EditMenu = () => {
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
+              name='name'
+              value={editFormData.name}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -62,6 +114,9 @@ export const EditMenu = () => {
               padding="0px 12px 0px 12px"
               borderColor="brand.300"
               bgColor="brand.300"
+              name='description'
+              value={editFormData.description}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -79,6 +134,9 @@ export const EditMenu = () => {
               borderColor="brand.300"
               bgColor="brand.300"
               marginBottom="10px"
+              name='price'
+              value={editFormData.price}
+              onChange={handleInputChange}
             />
           </Box>
         </Center>
@@ -112,7 +170,7 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
-                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : 'none',
+                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
