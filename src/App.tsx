@@ -21,24 +21,30 @@ const isLogin = await Verify();
 const Contexts = {
 	UserContext: CUserContext,
 	BusinessUserContext: CBusinessUserContext,
-	AdminUserContext: CAdminUserContext
+	AdminUserContext: CAdminUserContext,
 };
 
 export default function App() {
 	const mockUser: IUser = {
+		userId: -1,
 		username: "",
 		fname: "",
 		lname: "",
 		email: "",
 		addId: "",
 		phone: "",
-		profile_picture: ""
+		profile_picture: "",
 	};
 	const mockAdminUser: IAdminUser = {
-		username: ""
+		adminId: -1,
+		username: "",
 	};
 	const mockBusinessUser: IBusinessUser = {
-		username: ""
+		businessId: -1,
+		username: "",
+		email: "",
+		phone_num: "",
+		profile_picture: "",
 	};
 	const [user, setUser] = useState<IUser>(mockUser);
 	const [adminUser, setAdminUser] = useState<IAdminUser>(mockAdminUser);
@@ -85,9 +91,9 @@ export default function App() {
 		} else {
 			setUser(mockUser);
 		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLogin]);
-
 	if (!isLogin || isLogin.status !== 200) {
 		return (
 			<Contexts.UserContext.Provider value={user}>
@@ -111,6 +117,12 @@ export default function App() {
 			<Contexts.BusinessUserContext.Provider value={businessUser}>
 				<RouterProvider router={privateBusinessRouter} />
 			</Contexts.BusinessUserContext.Provider>
+		);
+	} else {
+		return (
+			<Contexts.UserContext.Provider value={user}>
+				<RouterProvider router={publicRouter} />
+			</Contexts.UserContext.Provider>
 		);
 	}
 }
