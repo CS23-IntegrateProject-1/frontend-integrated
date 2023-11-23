@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -104,7 +105,7 @@ useEffect(() => {
   fetchReservationData();
 }, []);
 
-console.log(reservation)
+// console.log(reservation)
 
   useEffect(() => {
     fetchData();
@@ -162,12 +163,12 @@ console.log(reservation)
   
   
 
-  useEffect(() => {
-    // Access the memoized reserveIdMap when needed
-    console.log('ReserveId Map:', reserveIdMap);
+  // useEffect(() => {
+  //   // Access the memoized reserveIdMap when needed
+  //   // console.log('ReserveId Map:', reserveIdMap);
 
-    // ... do something with reserveIdMap
-  }, [reserveIdMap]);
+  //   // ... do something with reserveIdMap
+  // }, [reserveIdMap]);
 
   useEffect(() => {
     const fetchTableNumbers = async () => {
@@ -199,14 +200,14 @@ console.log(reservation)
         console.error('Error fetching table number data:', error);
       }
     };
-  
+    
     // Fetch table numbers when reserveIdMap changes
     fetchTableNumbers();
   }, [reserveIdMap, venueId]);
 
 
-  console.log(tableNumberMap)
-  console.log(notificationData)
+  // console.log(tableNumberMap)
+  // console.log(notificationData)
   const pendingReservations = notificationData.filter(res => res.status === 'Pending');
   const checkOutReservations = notificationData.filter(res => res.status === 'Check_out');
 
@@ -275,7 +276,7 @@ console.log(reservation)
     bizAllAdvertiseMain();
   }, []);
 
-
+// Have to filter the businessId as well ! DON'T FORGET, NOT DONE YET
   const filteredAds = useMemo(() => {
     if (!businessAdMain || !advertisementId) {
       return [];
@@ -288,151 +289,109 @@ console.log(reservation)
 
 
   
-  console.log(pendingReservations);
+  // console.log(reservation)
+  // console.log(pendingReservations);
   // console.log(businessId);
   // console.log(businessAdver);
   // console.log(businessAdMain); 
-  console.log(advertisementId);
-  // console.log(filteredAds) 
+  // console.log(advertisementId);
+  console.log(filteredAds) 
+  // console.log(checkOutReservations)
+
+
+  const allNotifications = useMemo(() => {
+    const pendingResNotifications = pendingReservations.map((pendingRes, index) => {
+      const matchingReservation = reservation.find(res => res.reservationId === pendingRes.reserveId);
+      return matchingReservation ? { ...pendingRes, time: matchingReservation.reserved_time } : null;
+    });
+
+    const checkOutResNotifications = checkOutReservations.map((checkOutRes, index) => {
+      const tableNumberData = tableNumberMap[checkOutRes.reserveId];
+      const tableNumber = tableNumberData ? tableNumberData.tableNo : 'N/A';
+      const matchingReservation = reservation.find(res => res.reservationId === checkOutRes.reserveId);
+      return matchingReservation ? { ...checkOutRes, time: matchingReservation.reserved_time, tableNumber } : null;
+    });
+
+    const adNotifications = filteredAds.map((ad, index) => {
+      return { ...ad, time: new Date(ad.start_date) };
+    });
+
+    // Filter out null entries
+    return [...pendingResNotifications, ...checkOutResNotifications, ...adNotifications].filter(notification => notification !== null);
+  }, [pendingReservations, checkOutReservations, filteredAds, reservation, tableNumberMap]);
+
+  // Sort all notifications by time
+  const sortedNotifications = useMemo(() => {
+    return allNotifications.sort((notif1, notif2) => {
+      const date1 = new Date(notif1.time);
+      const date2 = new Date(notif2.time);
+      return date2.getTime() - date1.getTime();
+    });
+  }, [allNotifications]);
 
   return (
     <div>
-      {pendingReservations.map((pendingRes, index) => (
-        <Link key={index} to={`/Notification/NewReservation/${venueId}/${pendingRes.reserveId}`}>
-          <Flex
-            bg={"blackAlpha.300"}
-            h={"75px"}
-            align={"center"}
-            borderRadius={"10px"}
-            transition={"background-color 0.3s ease-in-out"}
-            _hover={{ bg: "blackAlpha.400" }}
-            _active={{ bg: "blackAlpha.200" }}
-            marginBottom={"10px"}
-          >
-            <Box ml="3">
-              <Text fontWeight="bold">New reservation</Text>
-              <Text fontSize="sm">Report to business</Text>
-            </Box>
-            <Spacer />
-            <Box>
-              <Text fontSize="md" textAlign={"right"} paddingRight={3}>
-                12 hr ago
-              </Text>
-            </Box>
-          </Flex>
-        </Link>
-      ))}
-        <Link to={`/Notification/OrderUpdate/${venueId}`}>
-          <Flex
-            bg={"blackAlpha.300"}
-            h={"75px"}
-            align={"center"}
-            borderRadius={"10px"}
-            transition={"background-color 0.3s ease-in-out"}
-            _hover={{ bg: "blackAlpha.400" }}
-            _active={{ bg: "blackAlpha.200" }}
-            marginBottom={"10px"}
-          >
-            <Box ml="3">
-              <Text fontWeight="bold">Order update</Text>
-              <Text fontSize="sm">Table no.7</Text>
-            </Box>
-            <Spacer />
-            <Box>
-              <Text fontSize="md" textAlign={"right"} paddingRight={3}>12hr ago</Text>          
-            </Box>
-            
-          </Flex>
-        </Link>
-        
-        {/* Check out */}
-        {checkOutReservations.map((pendingRes, index) => {
-  // Assuming you have a valid tableNumberMap
-  const tableNumberData = tableNumberMap[pendingRes.reserveId];
-
-  // Check if tableNumberData is available
-  const tableNumber = tableNumberData ? tableNumberData.tableNo : 'N/A';
-
-        return (
-          <Link key={index} to={`/Notification/Checkout/${venueId}/${pendingRes.reserveId}`}>
-            <Flex
-              bg={"blackAlpha.300"}
-              h={"75px"}
-              align={"center"}
-              borderRadius={"10px"}
-              transition={"background-color 0.3s ease-in-out"}
-              _hover={{ bg: "blackAlpha.400" }}
-              _active={{ bg: "blackAlpha.200" }}
-              marginBottom={"10px"}
-            >
-              <Box ml="3">
-                <Text fontWeight="bold">Check out</Text>
-                <Text fontSize="sm">Table no.{tableNumber}</Text>
-              </Box>
-              <Spacer />
-              <Box>
-                <Text fontSize="md" textAlign={"right"} paddingRight={3}>
-                  12 hr ago
-                </Text>
-              </Box>
-            </Flex>
-          </Link>
-        );
+      {sortedNotifications.map((notification, index) => {
+        const timeDifference = formatDistanceToNow(new Date(notification.time), { addSuffix: true });
+  
+        if (notification.reserveId) {
+          // New Reservation or Check-out
+          return (
+            <Link key={index} to={`/Notification/${notification.status === 'Pending' ? 'NewReservation' : 'Checkout'}/${venueId}/${notification.reserveId}`}>
+              <Flex
+                bg="blackAlpha.300"
+                h="75px"
+                align="center"
+                borderRadius="10px"
+                transition="background-color 0.3s ease-in-out"
+                _hover={{ bg: "blackAlpha.400" }}
+                _active={{ bg: "blackAlpha.200" }}
+                marginBottom="10px"
+              >
+                <Box ml="3">
+                  <Text fontWeight="bold">{notification.status === 'Pending' ? 'New reservation' : 'Check out'}</Text>
+                  <Text fontSize="sm">{notification.status === 'Pending' ? 'Report to business' : `Table no.${notification.tableNumber || 'N/A'}`}</Text>
+                </Box>
+                <Spacer />
+                <Box>
+                  <Text fontSize="md" textAlign="right" paddingRight={3}>
+                    {timeDifference}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+          );
+        } else if (notification.advertisementId) {
+          // Advertisement
+          return (
+            <Link key={index} to={`/Notification/advertisement/${notification.advertisementId}`}>
+              <Flex
+                bg="blackAlpha.300"
+                h="75px"
+                align="center"
+                borderRadius="10px"
+                transition="background-color 0.3s ease-in-out"
+                _hover={{ bg: "blackAlpha.400" }}
+                _active={{ bg: "blackAlpha.200" }}
+                marginBottom="10px"
+              >
+                <Box ml="3">
+                  <Text fontWeight="bold">Advertisement Notice</Text>
+                  <Text fontSize="sm">{`Advertisement number ${notification.advertisementId}, Report to business`}</Text>
+                </Box>
+                <Spacer />
+                <Box>
+                  <Text fontSize="md" textAlign="right" paddingRight={3}>
+                    {timeDifference}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+          );
+        }
+  
+        return null; // Handle other notification types as needed
       })}
-
-{/* <Link to={`/notifications/advertisement/:advertisementId/${businessId}`}> */}
-
-      {/* <Link to={`/notifications/advertisement/:advertisementId/${businessId}`}> */}
-
-        {filteredAds.map((ad, index) => (
-          <Link key={index} to={`/Notification/advertisement/${ad.advertisementId}`}>
-            <Flex
-              bg={"blackAlpha.300"}
-              h={"75px"}
-              align={"center"}
-              borderRadius={"10px"}
-              transition={"background-color 0.3s ease-in-out"}
-              _hover={{ bg: "blackAlpha.400" }}
-              _active={{ bg: "blackAlpha.200" }}
-              marginBottom={"10px"}
-            >
-              <Box ml="3">
-                <Text fontWeight="bold">Advertisement Notice</Text>
-                <Text fontSize="sm"> Advertisement number {ad.advertisementId}, Report to business</Text>
-              </Box>
-              <Spacer />
-              <Box>
-                <Text fontSize="md" textAlign={"right"} paddingRight={3}>
-                  12 hr ago
-                </Text>
-              </Box>
-            </Flex>
-          </Link>
-        ))}
-
-        {/* <Link to="/Notification/Promotion">
-          <Flex
-            bg={"blackAlpha.300"}
-            h={"75px"}
-            align={"center"}
-            borderRadius={"10px"}
-            transition={"background-color 0.3s ease-in-out"}
-            _hover={{ bg: "blackAlpha.400" }}
-            _active={{ bg: "blackAlpha.200" }}
-            marginBottom={"10px"}
-          >
-            <Box ml="3">
-              <Text fontWeight="bold">Promotion approved</Text>
-              <Text fontSize="sm">Report to business</Text>
-            </Box>
-            <Spacer />
-            <Box>
-              <Text fontSize="md" textAlign={"right"} paddingRight={3}>12hr ago</Text>          
-            </Box>
-
-          </Flex>
-        </Link> */}
-      
     </div>
   );
 };
