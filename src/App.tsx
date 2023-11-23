@@ -30,7 +30,7 @@ function App() {
 
   return (
     <UserContext.Provider value={userId}>
-      <RouterProvider router={isLogin ? privateRouter : publicRouter} />;
+      <RouterProvider router={isLogin ? privateRouter : publicRouter} />
     </UserContext.Provider>
   );
 }
