@@ -265,7 +265,7 @@ console.log(reservation)
           </Flex>
         </Link>
       ))}
-        <Link to="/Notification/OrderUpdate">
+        <Link to={`/Notification/OrderUpdate/${venueId}`}>
           <Flex
             bg={"blackAlpha.300"}
             h={"75px"}
