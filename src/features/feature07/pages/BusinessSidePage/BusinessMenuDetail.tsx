@@ -30,16 +30,27 @@ export const BusinessMenuDetail: FC = () => {
     //console.log(menuItem);
 
     const handleMenuEdit = () => {
-        navigate(`/venue/${venueId}/editmenu/${menuid}`);     
+        if (type == "Set"){
+            navigate(`/venue/${venueId}/editsetmenu/${menuid}`);
+        }
+        else {
+            navigate(`/venue/${venueId}/editmenu/${menuid}`);
+        }    
     }
 
     const handleDelete = async() => {
         try{
           const response = await Axios.delete(`/feature7/delete${type}/${menuid}`);
           console.log('Menu deleted:', response.data);
-          const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
-          console.log('Navigating to:', targetPath);
-          navigate(targetPath);
+          if (type == "Set"){
+            navigate(`/venue/${venueId}/menubusiness?section=setmenu`);
+        }
+        else {
+            navigate(`/venue/${venueId}/menubusiness?section=allmenu`);
+        }
+        //   const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
+        //   //console.log('Navigating to:', targetPath);
+        //   navigate(targetPath);
         } catch (error) {
           console.error('Error deleting menu:', error);
         }

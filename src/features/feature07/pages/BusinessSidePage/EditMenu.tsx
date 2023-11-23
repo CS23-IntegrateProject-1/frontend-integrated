@@ -197,7 +197,8 @@ export const EditMenu = () => {
               text="Cancel"
               bgColor="white"
               textColor="brand.200"
-              onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
+              // onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
+              onClick={() => navigate(`/venue/${venueId}/menubusiness`)}
             />
           </Box>
           <Box>
