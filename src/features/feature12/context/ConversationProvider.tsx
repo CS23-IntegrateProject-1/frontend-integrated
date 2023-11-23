@@ -44,7 +44,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   //Temporary Contacts from database
   const [contacts, setContacts] = useState<Contact[] | undefined>([]);
   useEffect(() => {
-    Axios.get("/feature12/displayUser")
+    Axios.get("/feature12/displayFriendList")
       .then((res) => {
         // console.log("API response:", res.data);
         if (Array.isArray(res.data)) {
