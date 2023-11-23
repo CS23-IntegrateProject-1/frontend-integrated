@@ -1,4 +1,4 @@
 export interface IAdminUser {
-	//   userId: number;
+	adminId: number;
 	username: string;
 }
