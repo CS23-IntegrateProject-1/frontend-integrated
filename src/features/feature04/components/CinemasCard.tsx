@@ -106,12 +106,11 @@ const CinemasCard = (props: CinemasCardProps) => {
           alignContent={"center"}
           color={colors.black}
         >
-          <Box
-            fontSize={textStyles.h3.fontSize}
-            fontWeight={textStyles.h3.fontWeight}
-          >
+          <Box fontSize={textStyles.h3.fontSize} fontWeight={textStyles.h3.fontWeight} 
+            whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" maxWidth="150px">
             {props.name}
           </Box>
+
           <Box
             fontSize={textStyles.h5.fontSize}
             fontWeight={textStyles.h5.fontWeight}
@@ -126,7 +125,7 @@ const CinemasCard = (props: CinemasCardProps) => {
         </Box>
         <Spacer/>
         <Button onClick={handleLikeClick} variant={"unstyled"} size={"sm"}>
-          <HeartIcon isLiked={liked} />
+          {/* <HeartIcon isLiked={liked} /> */}
           </Button>
           <Button variant={"unstyled"} size={"sm"}>
           <ShareIcon/>
