@@ -1,6 +1,9 @@
 import { createContext } from "react";
 
 export const BusinessUserContext = createContext({
-	//   userId: -1,
-	username: ""
+	businessId: -1,
+	username: "",
+	email: "",
+	phone_num: "",
+	profile_picture: "",
 });

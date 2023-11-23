@@ -13,7 +13,6 @@ import { Feature09Routes } from "../features/feature09/Feature09Routes";
 import { Feature10Routes } from "../features/feature10/Feature10Routes";
 import { Feature11Routes } from "../features/feature11/Feature11Routes";
 import { Feature12Routes } from "../features/feature12/Feature12Routes";
-import { Feature13Routes } from "../features/feature13/Feature13Routes";
 // import { Feature14Routes } from "../features/feature14/Feature14Routes";
 import { NotFoundPage } from "../pages/fallbackPages/NotFoundPage";
 import { AuthRoutes } from "../features/feature02/AuthRoutes";
@@ -36,8 +35,6 @@ export const PrivateRoutes = createBrowserRouter([
 			...Feature10Routes(),
 			...Feature11Routes(),
 			...Feature12Routes(),
-			...Feature13Routes(),
-			// ...Feature14Routes(),
 			...ExampleFeatureRoutes()
 		]
 	},
