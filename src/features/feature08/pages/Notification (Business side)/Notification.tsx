@@ -51,8 +51,6 @@ export const Notification = () => {
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
   const [advertisementData, setAdvertisementData] = useState<any[]>([]);
 
-  
-
 
 
 const fetchData = async () => {
