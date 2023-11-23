@@ -10,14 +10,14 @@ import { useConversations } from "../../context/ConversationProvider";
 import MessageLog from "./MessageLog";
 
 
-export const CommunityChatPage = ({ id }: { id: string }) => {
+export const CommunityChatPage = () => {
   const { selectedConversation } = useConversations();
 
   return (
     <Box display="flex">
-      <MessageLog id={id} />
+      <MessageLog/>
       {/* <TestMessageLog id={id} /> */}
-      {selectedConversation && <OpenConversations id={id} />}
+      {selectedConversation && <OpenConversations />}
     </Box>
   );
 };

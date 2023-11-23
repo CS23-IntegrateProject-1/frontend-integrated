@@ -1,7 +1,7 @@
 import React, { useContext, FC, useState, useEffect } from "react";
 import { Axios } from "../../../AxiosInstance";
 interface ConversationsProviderProps {
-  id: string;
+  // id: string;
   children: React.ReactNode;
 }
 interface ConversationContextValue {
@@ -14,6 +14,7 @@ interface ConversationContextValue {
   selectedConversation: Conversation;
   sendMessage: (message: Message) => void;
 }
+
 
 interface Recipient {
   id: number;
@@ -38,21 +39,21 @@ interface Contact {
 }
 
 const ConversationsContext = React.createContext<
-  ConversationContextValue | undefined
+ConversationContextValue | undefined
 >(undefined);
 
 export const ConversationsProvider: FC<ConversationsProviderProps> = ({
-  id,
   children,
 }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
-
+  
+  
   //Temporary Contacts from database
   const [contacts, setContacts] = useState<Contact[] | undefined>([]);
   useEffect(() => {
     Axios.get("/feature12/displayFriendList")
-      .then((res) => {
+    .then((res) => {
         // console.log("API response:", res.data);
         if (Array.isArray(res.data)) {
           const contacts = res.data.map((user) => ({
@@ -91,6 +92,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         sender,
         text,
         recipients,
+        
       };
       const newConversations = preConversations.map((conversation) => {
         if (
@@ -119,7 +121,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   }
 
   const sendMessage = ({ recipients, text }: Message) => {
-    addMessageToConversation({ recipients, text, sender: id });
+    addMessageToConversation({ recipients, text });
   };
 
   const formattedConversations = conversations.map(

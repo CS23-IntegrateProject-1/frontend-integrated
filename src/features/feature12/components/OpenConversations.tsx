@@ -28,7 +28,7 @@ const sendButtonStyle = {
   fontSize: "30px",
 };
 
-export default function OpenConversations({ id }: { id: string }) {
+export default function OpenConversations() {
   const [text, setText] = useState<string>("");
   const { sendMessage, selectedConversation } = useConversations();
   const setRef = useCallback((node: HTMLElement | null) => {
@@ -80,7 +80,7 @@ export default function OpenConversations({ id }: { id: string }) {
                   rounded={"md"}
                   py="1"
                   px="2"
-                  bg={message.fromMe ? "#DEBEF6" : "transparent"}
+                  bg={message.fromMe ? "#DEBEF6" : "#D9D9D9"}
                   color={message.fromMe ? "black" : "white"}
                   borderWidth={message.fromMe ? "0px" : "1px"}
                 >

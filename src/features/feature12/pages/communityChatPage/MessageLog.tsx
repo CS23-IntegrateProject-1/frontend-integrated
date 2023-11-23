@@ -17,15 +17,13 @@ import { useConversations } from "../../context/ConversationProvider";
 import Conversations from "./Conversations";
 import NewConversationModal from "../../components/NewConversationModal";
 
-interface MessageLogProps {
-  id: string;
-}
+
 interface Contact {
   username: string;
   userId: number;
 }
 
-const MessageLog: React.FC<MessageLogProps> = () => {
+const MessageLog: React.FC = () => {
   const { contacts } = useConversations();
   const [modalOpen, setModalOpen] = useState(false);
 
