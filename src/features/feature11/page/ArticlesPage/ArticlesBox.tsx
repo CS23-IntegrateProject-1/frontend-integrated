@@ -6,10 +6,10 @@ import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../../ArticleTypes";
 import { Axios } from "../../../../AxiosInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
+import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
 export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();

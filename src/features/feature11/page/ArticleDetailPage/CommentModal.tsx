@@ -13,12 +13,12 @@ import { FC } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { CommentInput } from "./CommentInput";
 import { CommentItem } from "./CommentItem";
-import { ArticleComment } from "../../ArticleTypes";
 import { useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate1 } from "../../../../functions/formatDatetime";
 import { CustomLoader } from "../../../../components/Loader/CustomLoader";
+import { ArticleComment } from "../../../../interfaces/feature11/CommentType";
 
 interface ModalComponentProps {
   isOpen: boolean;
@@ -34,7 +34,6 @@ export const CommentModal: FC<ModalComponentProps> = ({
   const { articleId } = useParams();
   const fetchComments = async (): Promise<ArticleComment[]> => {
     try {
-      console.log(articleId);
       const comments = await Axios.get(
         `/feature11/fetchArticleComment/${articleId}`
       );

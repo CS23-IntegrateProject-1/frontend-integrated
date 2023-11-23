@@ -28,17 +28,17 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
 
-// const fetchVenues = async (): Promise<VenueProps[]> => {
-//   try {
-//     const venues = await Axios.get("/feature11/fetchAllVenueName");
-//     return venues.data; // Extract the data from the response
-//   } catch (error) {
-//     console.error("Error fetching venues:", error);
-//     throw new Error("Failed to fetch venues");
-//   }
-// };
+const fetchAllArticle = async (): Promise<VenueProps[]> => {
+  try {
+    const venues = await Axios.get("/feature11/fetchAllVenueName");
+    return venues.data; // Extract the data from the response
+  } catch (error) {
+    console.error("Error fetching venues:", error);
+    throw new Error("Failed to fetch venues");
+  }
+};
 
-export const CreateArticlePage = () => {
+export const EditArticlePage = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [category, setCategory] = useState<string>("Blog");
