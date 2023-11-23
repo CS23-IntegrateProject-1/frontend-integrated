@@ -51,7 +51,7 @@ export const CheckOutNoti = () => {
                 Check out
               </Heading>
               <Text>
-                Table number 1 wanted to checkout
+                Table number {tableno?.tableNo || 'N/A'} wanted to checkout
               </Text>
               <Text decoration={'underline'}>
                   Table number {tableno?.tableNo || 'N/A'}
