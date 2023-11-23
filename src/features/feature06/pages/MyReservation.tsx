@@ -42,12 +42,14 @@ export const MyReservation = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getMyReservation(1, status);
+    const response: IData[] = await getMyReservation();
     setData(response);
   };
 
   const renderCards = () => {
     return data.map((data, index: number) => {
+      console.log(data);
+
       return (
         (status === "" || data.status === status) && (
           <Box key={index} marginBottom={"20px"}>
@@ -61,6 +63,8 @@ export const MyReservation = () => {
                   ? data.venue.Menu[0].price ?? undefined
                   : undefined
               }
+              reservationId={data.reservationId}
+              venueId={data.venueId}
             />
           </Box>
         )
