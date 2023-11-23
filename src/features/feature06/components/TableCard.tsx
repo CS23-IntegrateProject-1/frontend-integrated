@@ -3,14 +3,16 @@ import { TextStyle } from "../../../theme/TextStyle"
 import { FC } from "react";
 
 interface TableCardProps {
-    tableno?: string;
+    tableno?: number;
     type?: string;
     status?: string;
+    tableId?: string;
 }
 export const TableCard: FC<TableCardProps> = ({
     tableno,
     type,
-    status
+    status,
+    tableId,
 }) => {
     return (
       <Card
