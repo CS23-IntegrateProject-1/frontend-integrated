@@ -385,7 +385,7 @@ console.log(reservation)
       {/* <Link to={`/notifications/advertisement/:advertisementId/${businessId}`}> */}
 
         {filteredAds.map((ad, index) => (
-          <Link key={index} to={`/notifications/advertisement/${ad.advertisementId}/${businessId}`}>
+          <Link key={index} to={`/Notification/advertisement/${ad.advertisementId}`}>
             <Flex
               bg={"blackAlpha.300"}
               h={"75px"}
@@ -409,7 +409,7 @@ console.log(reservation)
             </Flex>
           </Link>
         ))}
-        
+
         {/* <Link to="/Notification/Promotion">
           <Flex
             bg={"blackAlpha.300"}
