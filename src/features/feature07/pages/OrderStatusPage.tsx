@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex, HStack, VStack, Box } from '@chakra-ui/react';
+import { Flex, HStack, VStack, Box, Center } from '@chakra-ui/react';
 import { RButton } from '../component/RButton';
 import { PreparedMenuCard } from '../component/PreparedCard';
 import { CompleteCard } from '../component/CompleteCard';
@@ -42,7 +42,7 @@ export const OrderStatusPage: React.FC = () => {
     switch (status) {
       case 'Preparing':
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
               <PreparedMenuCard 
               key={order.orderDetailId} /* Use unique key */ 
@@ -58,7 +58,7 @@ export const OrderStatusPage: React.FC = () => {
         );
       case 'Completed':
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {completedOrderDetails && completedOrderDetails.map((order: any) => (
               <CompleteCard 
               key={order.orderDetailId} /* Use unique key */ 
@@ -99,15 +99,16 @@ export const OrderStatusPage: React.FC = () => {
           bgColor={completedButtonColor}
         />
       </HStack>
-      <VStack mt={4} overflowY="auto" maxHeight="400px">
+      <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
         {renderCard()}
       </VStack>
+    
       {status === 'Completed' && (
+        <Center>
          <Flex align="center" justify="center" >
          <Box
            position="fixed"
            bottom="4"
-           left="32%"
            width="109px"
            height="29px"
            textAlign="center"
@@ -118,6 +119,7 @@ export const OrderStatusPage: React.FC = () => {
             
          </Box>
          </Flex>
+         </Center> 
       )}
     </Flex>
   );

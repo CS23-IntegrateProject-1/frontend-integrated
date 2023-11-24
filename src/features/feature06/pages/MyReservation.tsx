@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Button, Card } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { ReservationCards } from "../components/ReservationCards";  
+import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
 
@@ -39,15 +39,17 @@ export const MyReservation = () => {
   const [data, setData] = useState<IData[]>([]);
   useEffect(() => {
     fetchData();
-  }, []); 
+  }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getMyReservation(1, status);
+    const response: IData[] = await getMyReservation();
     setData(response);
   };
 
   const renderCards = () => {
     return data.map((data, index: number) => {
+      console.log(data);
+
       return (
         (status === "" || data.status === status) && (
           <Box key={index} marginBottom={"20px"}>
@@ -61,6 +63,8 @@ export const MyReservation = () => {
                   ? data.venue.Menu[0].price ?? undefined
                   : undefined
               }
+              reservationId={data.reservationId}
+              venueId={data.venueId}
             />
           </Box>
         )
@@ -86,10 +90,22 @@ export const MyReservation = () => {
         justifyContent={"flex-start"}
         position={"relative"}
       >
-        <ButtonMyReservation onClick={()=>setStatus("Pending")} text="Pending"></ButtonMyReservation>
-        <ButtonMyReservation onClick={()=>setStatus("Check_in")} text="Check_in"></ButtonMyReservation>
-        <ButtonMyReservation onClick={()=>setStatus("Check_out")} text="Check_out"></ButtonMyReservation>
-        <ButtonMyReservation onClick={()=>setStatus("Cancel")} text="Canceled"></ButtonMyReservation>
+        <ButtonMyReservation
+          onClick={() => setStatus("Pending")}
+          text="Pending"
+        ></ButtonMyReservation>
+        <ButtonMyReservation
+          onClick={() => setStatus("Check_in")}
+          text="Check_in"
+        ></ButtonMyReservation>
+        <ButtonMyReservation
+          onClick={() => setStatus("Check_out")}
+          text="Check_out"
+        ></ButtonMyReservation>
+        <ButtonMyReservation
+          onClick={() => setStatus("Cancel")}
+          text="Canceled"
+        ></ButtonMyReservation>
       </Box>
       <Box className="ReservationList" marginTop={"10px"}>
         {renderCards()}
