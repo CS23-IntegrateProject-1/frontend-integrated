@@ -1,16 +1,8 @@
-import {
-  Box,
-  Icon,
-  Text,
-  Button,
-  FormControl,
-  FormHelperText,
-} from "@chakra-ui/react";
-
+import { Box, Icon, Text, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { RDetailCard } from "../components/RDetailCard";
-import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { Form, useLocation, useSearchParams } from "react-router-dom";
+import { RDetailCard } from "../../components/RDetailCard";
+import { getReservationDetail } from "../../../../api/Reservation/getReservationDetail";
+import { useLocation } from "react-router-dom";
 
 interface IData {
   venue: {
@@ -62,11 +54,9 @@ interface IData {
   ];
 }
 
-export const ReservationDetail = () => {
+export const WalkInDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = useSearchParams();
-  console.log(url);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -74,7 +64,7 @@ export const ReservationDetail = () => {
 
   useEffect(() => {
     fetchData();
-    // console.log("FNAME" + data?.reservations[0].user.fname);
+    console.log("FNAME" + data?.reservations[0].user.fname);
   }, []);
 
   const fetchData = async () => {
@@ -135,12 +125,6 @@ export const ReservationDetail = () => {
             >
               Name :
             </Text>
-            <Form>
-              <FormControl isRequired display={"flex"}>
-                <input type="text" />
-                <FormHelperText>Enter your first name</FormHelperText>
-              </FormControl>
-            </Form>
             <Text
               color="#000"
               fontFamily="Roboto"
@@ -517,21 +501,19 @@ export const ReservationDetail = () => {
           >
             200 Baht
           </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft={34}
-            marginTop="10px"
-          >
-            {data?.reservations[0]?.user.fname}
-          </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
+          <Box
+            width="360px"
+            height="1px"
+            background="#DEBEF6"
+            marginTop="18px"
+            marginLeft="18px"
+          ></Box>
+          <Button
+            borderRadius="10px"
+            width="128px"
+            height="36px"
+            backgroundColor="#A533C8"
+            textColor="white"
             fontSize="16px"
             fontStyle="normal"
             fontWeight="600"
@@ -539,100 +521,8 @@ export const ReservationDetail = () => {
             marginTop="15px"
             marginLeft="133px"
           >
-            Phone Number :
-          </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft={34}
-            marginTop="10px"
-          >
-            1169
-          </Text>
-          <CalendarIcon w={"20px"} h={"20px"} color={"black"} ml={"40px"} mt={"12px"}/>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="71px"
-            marginTop="-20px"
-          >
-            Date :
-          </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="120px"
-            marginTop="-14px"
-          >
-            11/11/23
-          </Text>
-          <TimeIcon w={"20px"} h={"20px"} color={"black"} ml={"40px"} mt={"25px"}/>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="71px"
-            marginTop="-20px"
-          >
-            Time :
-          </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="120px"
-            marginTop="-14px"
-          >
-            11.11 pm
-          </Text>
-          <Box
-          ml={"38px"}
-          mt={"20px"}>
-          <MdOutlineEventSeat style={{ width: "24px", height: "24px", color:"black",} }/>
-          </Box>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="71px"
-            marginTop="-20px"
-          >
-            Seats :
-          </Text>
-          <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft="120px"
-            marginTop="-14px"
-          >
-            11 seats
-          </Text>
-          {/* Additional content goes here */}
+            Review
+          </Button>
         </Box>
       </Box>
     );
