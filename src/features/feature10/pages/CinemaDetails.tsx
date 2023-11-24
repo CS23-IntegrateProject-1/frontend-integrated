@@ -102,7 +102,7 @@ const CinemaDetailPage = () => {
     // console.log(year);
   }, [theaterId]);
 
-  const handleDateChange = async (selectedDate) => {
+  const handleDateChange = async (selectedDate:any) => {
     try {
       // Make a request to the server to get movie details for the selected date
       const response = await getMovieToday(Number(theaterId), selectedDate, month, year);
