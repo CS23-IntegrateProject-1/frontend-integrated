@@ -75,7 +75,7 @@ export const ShowTime = () => {
 
   return (
     <>
-    <DateSelection></DateSelection>
+    {/* <DateSelection></DateSelection> */}
       {/* Display movie details */}
       <Box p={4} boxShadow="md"
         borderRadius="md"
