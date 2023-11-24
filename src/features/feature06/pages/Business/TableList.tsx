@@ -1,4 +1,4 @@
-import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Checkbox, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -34,34 +34,39 @@ interface IData {
 export const TableList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState<IData[]>([]); 
+  const [booked, setBooked] = useState(true);
+  const [available, setAvailable] = useState(true);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [booked, available]);
 
     const fetchData = async () => {
         const response = await getAllTableByVenue(1);
         setData(response);
     };
 
-    const renderCards = () => {
-        return data.map((data, index: number) => {
-            return (
-              <Box key={index} marginBottom={"20px"}>
-                {/* <Link to={`/business/viewtable?tableId=${data.tableId}&venueId=${data.venueId}`}> */}
-                <Link
-                  to={`/business/viewtable/${data.tableId}`}
-                >
-                  <TableCard
-                    tableno={data.table_no}
-                    type={data.table_type?.name}
-                    status={data.status}
-                  />
-                </Link>
-              </Box>
-            );
-        });
-    };
+     const renderCards = () => {
+       return data.map((table, index: number) => {
+         if (
+           (booked && table.status === "Booked") ||
+           (available && table.status === "Available")
+         ) {
+           return (
+             <Box key={index} marginBottom={"20px"}>
+               <Link to={`/business/viewtable/${table.tableId}`}>
+                 <TableCard
+                   tableno={table.table_no}
+                   type={table.table_type?.name}
+                   status={table.status}
+                 />
+               </Link>
+             </Box>
+           );
+         }
+         return null; // Skip rendering if not booked and not available
+       });
+     };
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Box
@@ -94,20 +99,48 @@ export const TableList = () => {
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader color={"black"}>Filter By</ModalHeader>
+          <ModalContent backgroundColor={"#D9D9D9"}>
+            <ModalHeader
+              color={"black"}
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+            >
+              Filter By
+            </ModalHeader>
             <ModalCloseButton />
-            <ModalBody color={"black"}>kjhkjhkjhkjhkjhjk</ModalBody>
+            <ModalBody color={"black"}>
+              <Checkbox defaultChecked onChange={() => setBooked(true)}>
+                Booked
+              </Checkbox>
+              <br />
+              <Checkbox defaultChecked onChange={() => setAvailable(true)}>
+                Available
+              </Checkbox>
+            </ModalBody>
 
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
+                Done
               </Button>
-              <Button variant="ghost">Secondary Action</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       </Box>
+      <Link to={"/business/createtable1"}>
+        <Button
+          zIndex={1}
+          position={"fixed"}
+          width={"62px"}
+          h={"62px"}
+          borderRadius={"100px"}
+          fontSize={"54px"}
+          bottom={"36px"}
+          right={"36px"}
+        >
+          +
+        </Button>
+      </Link>
       <Box
         display={"flex"}
         flexDirection={"column"}
