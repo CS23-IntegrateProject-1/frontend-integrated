@@ -1,8 +1,10 @@
 import { Box, Text, Flex, Avatar, Accordion, HStack,VStack,Grid,AccordionPanel, AccordionIcon, AccordionButton, AccordionItem, Spacer, Badge, GridItem} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { Progress } from '@chakra-ui/react'
-import { ChevronRightIcon } from '@chakra-ui/icons'
+import { Progress } from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { NavLink } from "react-router-dom";
+
 export const Overview = () => {
     
   return (
@@ -92,7 +94,7 @@ export const Overview = () => {
                 <ChevronRightIcon />
             </Box>
             <Box width={"100%"} display={"flex"}>
-                <Text>
+                <Text fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize}>
                     {" "}
                     My Tickets
 
@@ -103,19 +105,49 @@ export const Overview = () => {
 
             <Box width={"100%"} display={"flex"}>
                 <Accordion defaultIndex={[0]} allowMultiple width={"100%"}>
-                    <AccordionItem borderTop={"1px solid #200944"} borderBottom={"1px solid #200944"}>
-                        <h2>
-                        <AccordionButton _expanded={{bg: 'brand.200'}}>
-                            <Box as="span" flex='1' textAlign='left' style={TextStyle.h4}>
-                            My Reservations
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4} borderTop={"1px solid white"} style={TextStyle.body2}>
-                        Yes, we take the privacy and security of your information seriously. Refer to our privacy policy for detailed information on how we handle user data.
-                        </AccordionPanel>
-                    </AccordionItem>
+                    <AccordionItem borderTop={"1px solid #200944"} borderBottom={"1px solid #200944"} >
+                                        <h2>
+                                            <AccordionButton>
+                                                <Box fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize} color={'white'} as="span" flex='1' textAlign='left'>
+                                                    My Reservations
+                                                </Box>
+                                                <AccordionIcon color={'white'} fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize} />
+                                            </AccordionButton>
+                                        </h2>
+                                        <AccordionPanel bg={'#DEBEF6'} pb={4} color={'black'}>
+                                        <NavLink to = "/my-reservation">
+                                            <Flex px={2} bg={'#DEBEF6'}  py={2} alignContent={'center'} alignItems={'center'}>
+                                                
+                                                <Box ml={10}>
+                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>
+                                                        Reservations
+                                                    </Text>
+                                                </Box>
+                                                <Spacer />
+                                                <Box>
+                                                    <ChevronRightIcon />
+                                                </Box>
+                                            </Flex>
+                                        </NavLink>
+                                        </AccordionPanel>
+                                        <AccordionPanel bg={'#DEBEF6'} pb={4} color={'black'} borderBottomEndRadius={"25px"} borderBottomLeftRadius={"25px"}>
+                                        <NavLink to = "/map/savedlocation">
+                                            <Flex px={2} bg={'#DEBEF6'}  py={2} alignContent={'center'} alignItems={'center'}>
+                                            
+                                                <Box ml={10}>
+                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>
+                                                        Delivery
+                                                    </Text>                
+                                                </Box>
+                                                <Spacer />
+                                                <Box>
+                                                    <ChevronRightIcon />
+                                                </Box>
+                                                
+                                            </Flex>
+                                            </NavLink>
+                                        </AccordionPanel>
+                                    </AccordionItem>
                 </Accordion>
             </Box>
 
