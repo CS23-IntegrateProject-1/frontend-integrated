@@ -73,7 +73,7 @@ export const Feature08Routes = () => {
     { path: "/:venueId/Account/:year/:month", element: <Accounting /> },
     { path: "/:venueId/Account/datexpand/:year/:month/:day", element: <Timestamp /> },
     {
-      path: "/venue/Accounting/Checkbill/:transactionId",
+      path: "/:venueId/Account/Checkbill/:transactionId",
       element: <Checkbill />,
     },
   ];
