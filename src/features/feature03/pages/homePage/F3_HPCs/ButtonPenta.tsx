@@ -56,7 +56,7 @@ export const ButtonPenta = () => {
         </Card>
       </NavLink>
 
-      <NavLink to="/Cinemas">
+      <NavLink to="/cinemaMainPage">
         <Card sx={cardStyle}>
           <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
             <HStack justifyContent={"center"}>
