@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text, Button } from '@chakra-ui/react';
-import QRCode from 'qrcode.react'; // Import the QRCode library
+// import QRCode from 'qrcode.react'; // Import the QRCode library
 
 const PaymentSuccess = () => {
   const confirmationMessage = 'Payment Successful!';
@@ -44,7 +44,7 @@ const PaymentSuccess = () => {
         justifyContent={'center'}
         marginBottom={'30px'}
       >
-        <QRCode value={reservationId} size={180} /> 
+        {/* <QRCode value={reservationId} size={180} />  */}
       </Box>
       <Box mt={4} textAlign="center" marginTop={'30px'} maxWidth={'300px'} margin={'auto'} >
         <Text >

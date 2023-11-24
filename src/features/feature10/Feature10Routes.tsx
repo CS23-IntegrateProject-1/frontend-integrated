@@ -19,7 +19,7 @@ export const Feature10Routes = () => {
       element: "ElementPlaceHolder" 
     },
     { 
-      path: "/cinemaDetails", 
+      path: "/cinemaDetails/:theaterId", 
       element: <CinemaDetailPage /> 
     },
     {
