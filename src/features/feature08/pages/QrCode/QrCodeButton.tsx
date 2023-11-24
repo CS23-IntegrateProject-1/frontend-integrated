@@ -1,9 +1,5 @@
-import { Box, Button } from "@chakra-ui/react";
-import { Card, CardBody } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
-import {MdOutlineQrCode2} from "react-icons/md";
+import { Box, Image } from "@chakra-ui/react";
 import { FC } from "react";
-import { Link } from "react-router-dom";
 
 interface ButtonProps {
   bgColor?: string;
@@ -13,10 +9,6 @@ interface ButtonProps {
 }
 
 export const QrCodeButton: FC<ButtonProps> = ({
-  bgColor,
-  textColor,
-  borderColor,
-  bgHover,
 }) => {
   return (
     <Box
@@ -24,30 +16,17 @@ export const QrCodeButton: FC<ButtonProps> = ({
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      margin={5}
-      width={"100%"}
-    > 
-    <Button
-      width={"70%"}
-      height={"40px"}
-      bg={!bgColor ? "brand.200" : bgColor}
-      color={!textColor ? "white" : textColor}
-      borderColor={!borderColor ? "" : borderColor}
-      _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-      textColor={"#DEBEF6"}
-      leftIcon={<MdOutlineQrCode2 />}
+      margin={[3, 5, 7]} // Responsive margin for different screen sizes
+      width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
     >
-      <Link to={'/venue/:venueId/qr-payment'}>
-        QR PromptPay
-      </Link>
-    </Button>
-      <Card size={"sm"} width={"70%"} backgroundColor={"#DEBEF6"}>
-        <CardBody>
-          <Text color={"#5F0DBB"}>
-              Go cashless by scanning QR code.
-          </Text>
-        </CardBody>
-      </Card>
+      <Image
+        objectFit="cover"
+        maxW={{ base: "100%", sm: "50%" }}
+        maxH={{ base: "100%", sm: "50%" }}
+        src="https://promptpay.io/0835753909/500.png"
+        alt="QR CODE"
+        margin={5}
+      />
     </Box>
   );
 };
