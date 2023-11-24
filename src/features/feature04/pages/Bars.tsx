@@ -23,6 +23,14 @@ interface LocationData {
   // Add other properties as needed
 }
 
+interface LocMap{
+  address : string;
+  latitude : number; 
+  locationId : number;
+  longtitude : number;
+  name: string;
+}
+
 interface RegisteredData{
   name: string;
   description: string;
@@ -38,16 +46,24 @@ interface RegisteredData{
     const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+    const [locations, setLocations] = useState<LocMap[] | null>(null);
 
     const fetchRestaurantData = async () => {
       try {
         const response = await Axios.get("/feature4/bars"); 
         setRegistered(response.data.bars);
         console.log(response.data)
+        setLocations(response.data.bars.map((item : any) => item.location));
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
       }
     };
+
+    useEffect(() => {
+      // console.log("hello")
+      // console.log("Updated locations:", locations);
+      // console.log("hello1")
+    }, [locations]);
   
     useEffect(() => {
       fetchRestaurantData();
@@ -81,7 +97,7 @@ interface RegisteredData{
   
     const handleSearch = (term: string) => {
       setSearchTerm(term);
-  
+      console.log(searchTerm);
       // Filter the data based on the search term
       const filtered =
         savedData?.filter((location) =>
@@ -106,8 +122,8 @@ interface RegisteredData{
           display="flex"
           overflowX="auto"
           whiteSpace="nowrap"
-          paddingRight={4}
-          maxWidth="1500px"
+          paddingRight={10}
+          // maxWidth="1500px"
         >
           {/* Render RecommendLocation components based on savedData */}
           <HStack spacing={2} overflowX="auto">
@@ -129,7 +145,7 @@ interface RegisteredData{
         <br/>
         <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="bar" />
+        <GoogleMapComponent type="bar" locMap={locations}/>
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}

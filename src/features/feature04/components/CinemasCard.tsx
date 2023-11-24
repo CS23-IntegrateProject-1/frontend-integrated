@@ -5,18 +5,7 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
-
-// import {
-//   Modal,
-//   ModalOverlay,
-//   ModalContent,
-//   ModalHeader,
-//   ModalFooter,
-//   ModalBody,
-//   ModalCloseButton,
-// } from "@chakra-ui/react";
-// import { modalAnatomy as parts } from "@chakra-ui/anatomy";
+import { useState } from "react"; 
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 

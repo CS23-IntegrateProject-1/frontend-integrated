@@ -20,9 +20,18 @@ import { fetchNearbyPlaces } from "./api.ts";
 import plate from "../../images/Plate.svg";
 import cinema from "../../images/cinema.svg";
 import beer from "../../images/beer.svg";
+import star from "../../images/star.svg";
 
 // Styles
 import { Wrapper, LoadingView } from "./map.styles.ts";
+
+interface LocMap{
+  address : string;
+  latitude : number; 
+  locationId : number;
+  longtitude : number;
+  name: string;
+}
 
 export type MarkerType = {
   id: string;
@@ -34,11 +43,15 @@ export type MarkerType = {
   distance: number;
 };
 
-const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
+const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = ({ type, locMap }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyABaN7gdphOHIg6xnrYtPAtyChroRZlyRs", // replace with your API key
   });
+
+  console.log("hello from google")
+    console.log("Updated locations:", locMap);
+    console.log("hello1")
 
   const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
   const [clickedPos, setClickedPos] = React.useState<google.maps.LatLngLiteral>(
@@ -152,6 +165,18 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
         onUnmount={onUnMount}
         onClick={onMapClick}
         >
+          {locMap?.map((location) => (
+          <Marker
+            key={location.locationId.toString()}
+            position={{ lat: parseFloat(location.latitude), lng: parseFloat(location.longtitude) }}
+            icon={{
+              url: star,
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+              scaledSize: new window.google.maps.Size(35, 35),
+            }}
+          />
+        ))}
         {clickedPos.lat ? <Marker position={clickedPos} /> : null}
         {nearbyPositions?.map(marker => (
          <Marker
@@ -166,6 +191,7 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
            }}
          />
      ))}
+        
       {selectedMarker.location && (
        <InfoWindow position={selectedMarker.location} onCloseClick={() => setSelectedMarker({} as MarkerType)}>
          <div style={{ color: 'black' }}>
@@ -173,7 +199,7 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
             </div>
           </InfoWindow>
         )}
-      </GoogleMap>
+        </GoogleMap>
     </Wrapper>
   );
 };

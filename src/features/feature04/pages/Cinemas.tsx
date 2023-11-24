@@ -24,6 +24,14 @@ import {
     // Add other properties as needed
   }
   
+  interface LocMap{
+    address : string;
+    latitude : number; 
+    locationId : number;
+    longtitude : number;
+    name: string;
+  }
+
   interface RegisteredData{
     name: string;
     address: string;
@@ -38,16 +46,30 @@ import {
     const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+    const [locations, setLocations] = useState<LocMap[] | null>(null);
 
     const fetchRestaurantData = async () => {
       try {
         const response = await Axios.get("/feature4/cinemas");
         setRegistered(response.data.cinemas);
-        console.log(response.data)
+        console.log(response.data);
+        setLocations(response.data.cinemas.map((item : any) => ({
+          locationId: item.theaterId,
+          name: item.name,
+          address: item.address,
+          latitude: parseFloat(item.latitude),
+          longtitude: parseFloat(item.longitude),
+        })));
+        
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
       }
     };
+    useEffect(() => {
+      console.log("hello from cinema")
+      console.log("Updated locations cinemas:", locations);
+      // console.log("hello1")
+    }, [locations]); // This effect will run whenever locations change
   
     useEffect(() => {
       fetchRestaurantData();
@@ -79,6 +101,7 @@ import {
   
     const handleSearch = (term: string) => {
       setSearchTerm(term);
+      console.log("Searching for:", searchTerm);
   
       // Filter the data based on the search term
       const filtered =
@@ -105,7 +128,7 @@ import {
           overflowX="auto"
           whiteSpace="nowrap"
           paddingRight={4}
-          maxWidth="1500px"
+          // maxWidth="1000px"
         >
           <HStack spacing={2} overflowX="auto">
            {registered &&
@@ -119,14 +142,13 @@ import {
                 longitude={location.longitude}
              />
           ))}
-      </HStack>
-          
+          </HStack>
         </Box>
   
         <br/>
         
         <PlaceTypes />
-        <GoogleMapComponent type="cinema"/>
+        <GoogleMapComponent type="cinema" locMap={locations}/>
         <br />
         <SearchBar onSearch={handleSearch} />
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={2}>
