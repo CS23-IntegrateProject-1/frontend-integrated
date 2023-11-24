@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Box, Text, SimpleGrid } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Text, SimpleGrid,HStack } from "@chakra-ui/react";
 import PlaceTypes from "../components/PlaceTypes";
 import Cards from "../components/Card";
 import SearchBar from "../components/Search";
@@ -7,21 +7,48 @@ import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
 import Header from "../components/Header";
 import RecommendLocation from "../components/RecommendLocation";
 import index from "../../../theme/foundations/index";
+import { Axios } from "../../../AxiosInstance";
+
 
 interface LocationData {
   id: string;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
   // Add other properties as needed
+}
+
+interface RegisteredData{
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  score: number;
+  website_url: string;
 }
 
 export const Maps = () => {
   const [savedData, setSavedData] = useState<LocationData[] | null>(null);
   const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
 
+  const fetchRestaurantData = async () => {
+    try {
+      const response = await Axios.get("/feature4/restaurants");
+      setRegistered(response.data.restaurant);
+      console.log(response.data)
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRestaurantData();
+    console.log("hello")
+  }, []);
+  
   // Retrieve data from localStorage on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("nearbyPositions");
@@ -72,19 +99,25 @@ export const Maps = () => {
         display="flex"
         overflowX="auto"
         whiteSpace="nowrap"
-        paddingRight={4}
-        maxWidth="1500px"
+        paddingRight={10}
+        maxWidth="1400px"
       >
-        {/* Render RecommendLocation components based on savedData */}
-        {savedData &&
-          savedData.map((location) => (
-            <RecommendLocation
-              key={location.id}
-              image={location.image}
-              name={location.name}
-              description={location.description}
-            />
-          ))}
+        {/* Render RecommendLocation com  onents based on registeredData */}
+        <HStack spacing={2} overflowX="auto">
+          {registered &&
+            registered.map((location) => (
+              <RecommendLocation
+                key={location.name}
+                name={location.name}
+                description={location.description}
+                category={location.category}
+                capacity={location.capacity}
+                score={location.score}
+                website_url={location.website_url}
+              />
+            ))}
+        </HStack>
+       
       </Box>
       <br />
       <PlaceTypes />
@@ -105,7 +138,7 @@ export const Maps = () => {
                 key={location.id}
                 image={location.image}
                 name={location.name}
-                description={location.description}
+                address={location.address}
                 distance={location.distance}
               />
             ))}
