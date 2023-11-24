@@ -7,6 +7,9 @@ import {
   FormHelperText,
   Input,
   Button,
+  Box,
+  Text,
+
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { StarReviewD } from "./StarReviewD";
@@ -36,21 +39,21 @@ export const ReviewDelivery = () => {
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="brand.200"
+          errorBorderColor="red"
           type="email"
           value={input}
           onChange={handleInputChange}
         />
         {!isError ? (
-          <FormHelperText>Tell us what you think</FormHelperText>
+          <FormHelperText></FormHelperText>
         ) : (
-          <FormErrorMessage>Required</FormErrorMessage>
+          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
       <Button
         variant="solid"
         textColor="white"
-        bgColor="brand.300"
+        bgColor="brand.200"
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
         mt={{ base: "80", lg: "40" }}

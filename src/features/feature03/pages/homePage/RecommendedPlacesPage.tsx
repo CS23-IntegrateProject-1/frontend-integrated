@@ -29,7 +29,7 @@ export const RecommendedPlacesPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
+    <Box overflow={"hidden"} width={"100%"} px={{ base: "none", lg: "30px" }}>
       <Flex direction="row" pt={{ base: "2", lg: "0" }}>
         <SearchBar />
         <Flex

@@ -11,13 +11,14 @@ import { ReviewReservation } from "./pages/homePage/F3_RVPCs/ReviewReservation"
 export const Feature03Routes = () => {
   return [
     { path: "/", element: <HomePage /> },
-    { path: "/Reviews", element: <ReviewPage /> },
     { path: "/Restaurants", element: <RestaurantPage /> },
     { path: "/RecommendedPlaces", element: <RecommendedPlacesPage /> },
     { path: "/Promotions", element: <PromotionsPage /> },
-    { path: "/venue-list", element: "ElementPlaceHolder" },
+
     { path: "/venuevenue-branch/:branchId", element: <VenueDetail /> },
     { path: "/Branches/:venueId", element: <VenueBranches /> },
+
+    { path: "/Reviews/:branchId", element: <ReviewPage /> },
     { path: "/ReviewDel", element: <ReviewDelivery /> },
     { path: "/ReviewRes", element: <ReviewReservation /> }
   ];

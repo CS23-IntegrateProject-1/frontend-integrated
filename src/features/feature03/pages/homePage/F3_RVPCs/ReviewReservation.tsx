@@ -44,7 +44,7 @@ export const ReviewReservation = () => {
         {!isError ? (
           <FormHelperText>Tell us what you think</FormHelperText>
         ) : (
-          <FormErrorMessage>Required</FormErrorMessage>
+          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
       <Button
