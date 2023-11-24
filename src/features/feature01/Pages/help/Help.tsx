@@ -7,7 +7,6 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import {useState} from "react";
 import '../../Components/TextSlider/TextSlider.css';
 import { NavLink } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
 
 export const Help = () => {
   

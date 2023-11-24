@@ -1,5 +1,3 @@
-import { BusiProfile } from './Pages/BusiProfile'
-import { BusiProfileEdit } from './Pages/BusiProfileEdit'
 import { SettingHomepage } from './Pages/homepage/SettingHomepage'
 import { Account } from './Pages/account/Account'
 import { Notifications } from './Pages/notifications/Notifications'
@@ -14,11 +12,20 @@ import { PushNoti } from './Pages/notifications/PushNoti'
 import { AddCard } from './Pages/AddCard'
 import { Overview } from './Pages/overview/Overview'
 import { FriendMain } from './Pages/AddFriends/FriendMain'
-import { AddFriend } from './Pages/AddFriends/AddFriend'
+import { BusiProfile } from './Pages/BusiProfile'
+import { BusiProfileEdit } from './Pages/BusiProfileEdit'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
-export const Feature01Routes = () => {
+export const Feature01PublicRoutes = () => {
   return [
-    
+    //business
+    {
+      path: "/business/busiProfile",
+      element: <BusiProfile/>,
+    },
+    {
+      path: "/business/busiProfileEdit",
+      element: <BusiProfileEdit/>,
+    },
     {
       path: "/setting",
       element: <SettingHomepage/>,
@@ -73,17 +80,13 @@ export const Feature01Routes = () => {
       element: <Overview/>,
     },
     {
-      path: "/Friends",
+      path: "/FriendMain",
       element: <FriendMain/>,
     },
-    {
-      path: "/AddFriend",
-      element: <AddFriend/>,
-  },
-  {
-    path: "CreateGroup",
-    element: <CreateGroup/>,
-  }
+    // {
+    //   path: "/CreateGroup",
+    //   element: <CreateGroup/>,
+    // },
   ];
 };
  
