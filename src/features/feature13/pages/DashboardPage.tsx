@@ -16,7 +16,7 @@ export const DashboardPage = () => {
   const venueId = 1;
   let navigate = useNavigate();
   const confirmCheckin = () => {
-    let path = "/qrcodeconfirm";
+    let path = "/business/qrcodeconfirm";
     navigate(path);
   };
   const menu = () => {
