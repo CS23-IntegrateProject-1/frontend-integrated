@@ -89,6 +89,7 @@ export const CartMenuDetail: FC = () => {
 
   return (
     <Box>
+
       <Image
         src="/src/features/feature07/assets/test.jpg"
         // src={type == "Set" ? menuItem.image_url: menuItem.image}
