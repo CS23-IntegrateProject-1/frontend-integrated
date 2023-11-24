@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Box, Flex, Text, Grid, Icon, Center, Divider } from "@chakra-ui/react";
+import { Box, Flex, Text, Divider } from "@chakra-ui/react";
 import { StarSort } from "./StarSort";
 import { StarIcon } from "@chakra-ui/icons";
 import mockRVF3 from "../../RVF3mock.json";
@@ -22,7 +22,7 @@ export const Reviews = () => {
       <StarSort />
       <Divider
         pt={"20px"}
-        borderBottomWidth="5px"
+        borderBottomWidth="3px"
         borderColor={"brand.100"}
         opacity={"100%"}
       />
