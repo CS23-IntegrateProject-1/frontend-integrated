@@ -51,6 +51,10 @@ export const Feature08Routes = () => {
     { path: "/venue/:venueId/business/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:venueId/business/addcard", element: <AddCardVenue /> },
     { path: "/venue/:venueId/business/history", element: <PaymentHistory /> },
+    { path: "/:venueId/Account/eachmonth", element: <AccountingMain /> },
+    { path: "/:venueId/Account/:year/:month", element: <Accounting /> },
+    { path: "/:venueId/Account/datexpand/:year/:month/:day", element: <Timestamp /> },
+    { path: "/:venueId/Account/Checkbill/:transactionId", element: <Checkbill />,},
 
     // admin side
     {
@@ -69,12 +73,5 @@ export const Feature08Routes = () => {
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
-    { path: "/:venueId/Account/eachmonth", element: <AccountingMain /> },
-    { path: "/:venueId/Account/:year/:month", element: <Accounting /> },
-    { path: "/:venueId/Account/datexpand/:year/:month/:day", element: <Timestamp /> },
-    {
-      path: "/:venueId/Account/Checkbill/:transactionId",
-      element: <Checkbill />,
-    },
   ];
 };
