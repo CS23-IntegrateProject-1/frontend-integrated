@@ -17,7 +17,7 @@ export const SearchBar: FC<SearchBarProps> = ({
 
   return (
     <Input
-      w={"100%"}
+      w={"95%"}
       borderColor={"black"}
       background={"white"}
       textColor={"black"}

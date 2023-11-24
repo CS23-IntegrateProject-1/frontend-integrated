@@ -1,8 +1,6 @@
 import {
   Box,
   Text,
-  Image,
-  Flex,
   Card,
   CardBody,
   Stack,
@@ -12,20 +10,18 @@ import {
   Button,
   Spacer,
   CardFooter,
-  IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 
-import index from "../../../theme/foundations/index";
+// import index from "../../../theme/foundations/index";
 
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
@@ -33,27 +29,30 @@ import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 
 interface RecommendLocationCard {
-  image: string;
-  name: string;
-  description: string;
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    score: number;
+    website_url: string;
 }
 
-const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
-  return (
-    <svg
-      width="19"
-      height="17"
-      viewBox="0 0 19 17"
-      fill={isLiked ? "red" : "none"}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
-        stroke={isLiked ? "red" : "#A533C8"}
-      />
-    </svg>
-  );
-};
+// const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
+//   return (
+//     <svg
+//       width="19"
+//       height="17"
+//       viewBox="0 0 19 17"
+//       fill={isLiked ? "red" : "none"}
+//       xmlns="http://www.w3.org/2000/svg"
+//     >
+//       <path
+//         d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
+//         stroke={isLiked ? "red" : "#A533C8"}
+//       />
+//     </svg>
+//   );
+// };
 
 const PinIcon: React.FC = () => {
   return (
@@ -93,7 +92,7 @@ const StarIcon: React.FC = () => {
 const RecommendLocation = (props: RecommendLocationCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
 
   // const descriptionToShow = showFullDescription
   //   ? props.description
@@ -105,14 +104,14 @@ const RecommendLocation = (props: RecommendLocationCard) => {
     ? `${props.description.slice(0, 50)}...`
     : ""; // Handle the case where props.description is not a string
 
-  const handleLikeClick = () => {
-    setLiked(!liked);
-    if (liked) {
-      alert("Remove From Your Favourite location");
-    } else if (!liked) {
-      alert("Add to Your Favourite location");
-    }
-  };
+  // const handleLikeClick = () => {
+  //   setLiked(!liked);
+  //   if (liked) {
+  //     alert("Remove From Your Favourite location");
+  //   } else if (!liked) {
+  //     alert("Add to Your Favourite location");
+  //   }
+  // };
   return (
     <Box gap="20px" display={"flex"} flexDirection={"row"} m={2} width={"auto"}>
       <Card backgroundColor={colors.brand[200]} pl={2} pr={2}>
@@ -134,13 +133,13 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                 <HeartIcon isLiked={liked} />
               </Box>
             </IconButton> */}
-            <Image
+            {/* <Image
               src={props.image}
               minWidth={320}
               maxHeight={136.25}
               objectFit="cover"
               borderRadius="5px"
-            />
+            /> */}
           </Center>
           <Stack mt="6" spacing="3">
             <Box
@@ -166,13 +165,13 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                   justifyContent={"space-between"}
                 >
                   <PinIcon />
-                  <Text
+                  {/* <Text
                     fontSize={textStyles.h3.fontSize}
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
                     10.3 km
-                  </Text>
+                  </Text> */}
                 </Box>
 
                 <Box display={"flex"} flexDir={"row"}>
@@ -182,7 +181,7 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    5.0
+                    {props.score}
                   </Text>
                 </Box>
               </Box>
@@ -203,13 +202,19 @@ const RecommendLocation = (props: RecommendLocationCard) => {
               fontWeight={textStyles.h5.fontWeight}
             >
               <Button
-                variant="outline"
-                color={colors.brand[100]}
-                border="1px solid #DEBEF6"
-                width={130}
-                height={10}
-                onClick={onOpen}
-              >
+              variant="outline"
+              color={colors.brand[100]}
+              border="1px solid #DEBEF6"
+              width="100%" // Full width on all screens
+              height={10}
+              onClick={onOpen}
+              _hover={{
+                textColor: "black",
+                borderColor: "black",
+                bgColor: "brand.100",
+              }}
+              mb={2}
+            >
                 {showFullDescription ? "Show Less" : "More Info"}
               </Button>
               <Modal
@@ -245,19 +250,30 @@ const RecommendLocation = (props: RecommendLocationCard) => {
                     fontWeight={textStyles.body2.fontWeight}
                     color={colors.grey[400]}
                   >
-                    {props.description}
+                      <p>
+                        Description : {props.description}
+                      </p>
+                      <p>
+                        Category : {props.category}
+                      </p>
+                      <p>
+                        Capacity : {props.capacity}
+                      </p>
+                      <p>
+                        Website : {props.website_url}
+                      </p>
                   </ModalBody>
                 </ModalContent>
               </Modal>
               <Spacer />
               <Button
-                variant="unstyled"
-                color={colors.white}
-                width={130}
-                height={10}
-                border="1px solid #DEBEF6"
-                backgroundColor="#DEBEF6"
-              >
+              variant="solid"
+              textColor="white"
+              bgColor="brand.300"
+              _hover={{ bgColor: "brand.100", textColor: "black" }}
+              width="100%" // Full width on all screens
+              mb={2}
+            >
                 Reserve Now
               </Button>
             </ButtonGroup>

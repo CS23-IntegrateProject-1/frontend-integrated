@@ -3,15 +3,27 @@ import {
     Flex,
     Box,
     VStack,
+    Avatar,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState,useCallback } from "react";
+import { da } from "date-fns/locale";
 
-interface ClientMsgProps {
-    msg: string;
+interface BotMsgProps {
+    data: any;
 }
 
-export const ClientMsg : FC<ClientMsgProps> = ({ msg }) => {
+interface Ibot{
+    name: string;
+    img: string;
+}
+
+export const BotMsg : FC<BotMsgProps> = ({ data }) => {
+
+    const bot: Ibot = {
+        name: "MONIQUE",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIkSDNcRcU_UeGaNIl7pi7zlSwznp-ulDJxnm-zKYoTf2ZLqQY7zIgsni5waCv2ButaDQ&usqp=CAU",
+    };
 
     //To make the message appear one by one
     const [isVisible, setIsVisible] = useState(false);
@@ -33,11 +45,12 @@ export const ClientMsg : FC<ClientMsgProps> = ({ msg }) => {
         <>
             <Flex 
                 gap={"4"}
-                justifyContent={"end"}
+                justifyContent={"start"}
                 marginY={"10px"}
                 >
+                <Avatar name={bot.name} src={bot.img} />
                 <VStack 
-                    alignItems={"end"}
+                    alignItems={"start"}
                     maxW={"60%"}
                     >
                     <Box 
@@ -50,9 +63,24 @@ export const ClientMsg : FC<ClientMsgProps> = ({ msg }) => {
                             color={"brand.200"}
                             p={3}>
                             {/* Client's asking Message */}
-                            {msg} 
+                            {data.text} 
                         </Text>
                     </Box>
+                    {data.consequences !== undefined ? (
+                        <Box 
+                        ref={setRef} 
+                        borderRadius={'10px'}
+                        bg="grey.100"
+                        >
+                        <Text 
+                            style={TextStyle.body2} 
+                            color={"brand.200"}
+                            p={3}>
+                            {/* Client's asking Message */}
+                            {data.consequences} 
+                        </Text>
+                    </Box>
+                    ) : null}
                 </VStack>
             </Flex>
         </>

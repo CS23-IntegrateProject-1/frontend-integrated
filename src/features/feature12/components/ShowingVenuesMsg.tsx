@@ -5,9 +5,9 @@ import {
     Box,
     VStack,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState, useCallback } from "react";
-import { Axios } from "../../../../AxiosInstance";
+import { Axios } from "../../../AxiosInstance";
 import { ClientMsg } from "./ClientMsg";
 import { QuestionMsg } from "./QuestionMsg";
 interface IUser{
