@@ -1,14 +1,13 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex,Center} from "@chakra-ui/react";
+import { Box, HStack, Button,Text, Center, Icon, VStack,Flex} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
-import textStyles from "../../../theme/foundations/textStyles";
-import { MenuCard } from "../component/MenuCard";
-import { SetMenuCard } from "../component/SetMenuCard";
-import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { CustomCartIcon } from "../component/CartIcon/createIcon";
+import textStyles from "../../../../theme/foundations/textStyles";
+import { BusMenucard } from "../../component/BusMenucard";
+import { BusSetMenuCard } from "../../component/BusSetMenuCard";
+import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
+import { CustomCartIcon } from "../../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
-import { RButton } from "../component/RButton";
-
-import { Axios } from "../../../AxiosInstance";
+import { RButton } from "../../component/RButton";
+import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -29,15 +28,6 @@ interface SetMenu {
   onClick?: () => void;
 }
 
-// const fetchMenuData =async (venueId: string) => {
-//   try {
-//     const response = await Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`);
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(`Error fetching menu data: ${error.message}`);
-//   }
-// }
-
 const fetchMenuAndSetData = async (venueId: string) => {
     const [menuResponse, setResponse] = await Promise.all([
       Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
@@ -46,11 +36,12 @@ const fetchMenuAndSetData = async (venueId: string) => {
 
     const menuData = menuResponse.data;
     const setMenuData = setResponse.data;
+    console.log(menuData);
 
     return { menuData, setMenuData };
 };
 
-export const MenuAll = () => {
+export const MenuAllBusiness = () => {
   
   const [allMenuButtonColor, setAllMenuButtonColor] = useState("brand.200");
   const [setMenuButtonColor, setSetMenuButtonColor] = useState("brand.400");
@@ -79,16 +70,27 @@ export const MenuAll = () => {
       setBorderColor("brand.200");
     }
   };
+
   const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
+    navigate(`/venue/${venueId}/bmenudetail/${type}/${menuid}`);
     console.log("Clicked menu. Menu ID:", menuid);
   }  
-  const handleCartClick = () => {
-    navigate(`/venue/${venueId}/cart`); 
+
+  const handleAddMenuClick = () => {
+    const route = subtitle === "All Menu" ? "addmenu" : "addsetmenu";
+    navigate(`/venue/${venueId}/${route}`);
   };
+
   useEffect(() => {
     handleAllMenuClick();
-  }, []);
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
+}, []);
+ 
 
   const renderMenuCards = () => {
     if (isLoading) {
@@ -106,7 +108,7 @@ export const MenuAll = () => {
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
-              <MenuCard
+              <BusMenucard
               key={menu.menuId}
               id={menu.menuId}
               foodName={menu.name}
@@ -116,25 +118,6 @@ export const MenuAll = () => {
               onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
             />
             ))}
-            {/* {menuData.map((menu) => {
-          console.log("Rendering menu item:", menu);
-          
-          if (!menu.menuId) {
-            console.error("Menu ID is undefined or null for the following menu item:", menu);
-          }
-
-          return (
-            <MenuCard
-              key={menu.menuId}
-              id={menu.menuId}
-              foodName={menu.name}
-              description={menu.description}
-              price={menu.price}
-              imageUrl={menu.image}
-              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
-            />
-          );
-        })} */}
           </VStack>
         );
       }
@@ -143,7 +126,7 @@ export const MenuAll = () => {
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
-              <SetMenuCard
+              <BusSetMenuCard
               key={set.setId}
               id={set.setId}
               foodName={set.name}
@@ -162,6 +145,7 @@ export const MenuAll = () => {
   return (
     <Box>
     <Flex direction="column" align="center" justify="center">
+    <Center>
       <HStack spacing={4}>
       <RButton 
         bgColor={allMenuButtonColor}
@@ -182,29 +166,17 @@ export const MenuAll = () => {
         onClick={handleSetMenuClick}
          />
       </HStack>
+      </Center>
       </Flex>
-      <Center>
+      <Center >
       <Box mt={4} p={1} marginRight="220px" borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
       </Center>
+      <Center >
       {renderMenuCards()}
-      <Center>
-      <Box
-        position="fixed"
-        bottom="20"
-        marginLeft="300px"
-        borderRadius="5px"
-        zIndex="1"
-      >
-        <Icon as={CustomCartIcon}
-          color="currentColor"
-          aria-label="Open Cart"
-          boxSize={20}
-          onClick={handleCartClick}
-        />
-      </Box>
       </Center>
+      
       <Center>
       <Box
         position="fixed"
@@ -214,10 +186,12 @@ export const MenuAll = () => {
         textAlign="center"
         borderRadius="5px">
             
-        <ButtonComponent text="Order Status"
-        onClick={() => navigate(`/venue/${venueId}/order`)} />
+        <ButtonComponent text="Add"
+        onClick={handleAddMenuClick} />
+         
       </Box>
       </Center>
+    
       </Box>
    
   );
