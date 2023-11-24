@@ -1,7 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import PaymentSuccess from './PaymentSuccess';
 import { Box, Text, Button } from '@chakra-ui/react';
 
 const PaymentPage = () => {
+
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/paymentSuccess'); 
+  };
   const posterPhotoUrl =
     'https://th.bing.com/th/id/R.c885bc0b17e0e2af6da4ac6b4cf601c9?rik=0e2ZuDz7XW%2fXfg&riu=http%3a%2f%2fimages1.wikia.nocookie.net%2f__cb20110414135716%2fpixar%2fimages%2f8%2f88%2fCars_poster_5.jpg&ehk=SVNDryQS4B5MtyJ1iie9VOKU0w7FoUSIldrRUBciEXk%3d&risl=&pid=ImgRaw&r=0';
 
@@ -52,7 +60,7 @@ const PaymentPage = () => {
           color={'white'}
           width="300px" 
           marginTop={'25px'} 
-          // Set a custom width as needed
+          onClick={handleButtonClick}
         >
           Confirm
         </Button>
