@@ -26,7 +26,7 @@ export const QrCodeButton: FC<ButtonProps> = ({
       width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
     >
       <Button
-        width={"70%"}
+        width={"100%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
         color={!textColor ? "white" : textColor}
