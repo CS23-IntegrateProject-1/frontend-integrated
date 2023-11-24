@@ -235,39 +235,45 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
               {/* <InputLeftElement>
                 <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
               </InputLeftElement> */}
-        <Select
-  variant="flushed"
-  width="307px"
-  placeholder="Add a menu"
-  value={selectId}
-  onChange={(e) => handleDropdownChange(e.target.value)}
-  styles={{
-    control: (styles) => ({
-      ...styles,
-      backgroundColor: 'brand.300',
-      borderColor: 'brand.300',
-    }),
-    option: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
-      color: isSelected ? 'white' : 'black',
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: 'black',
-    }),
-  }}
-  
-  as="select"
->
-  {menuOptions?.map((menu) => (
-    <option 
-    key={menu.menuId} 
-    value={menu.menuId}>
-      {menu.name}
-    </option>
-  ))}
-</Select>
+            <Select
+              variant="flushed"
+              width="307px"
+              placeholder="Add a menu"
+              value={selectId}
+              onChange={(e) => handleDropdownChange(e.target.value)}
+              // style={{
+              //   control: (styles) => ({
+              //     ...styles,
+              //     backgroundColor: 'brand.300',
+              //     borderColor: 'brand.300',
+              //   }),
+              //   option: (styles, { isFocused, isSelected }) => ({
+              //     ...styles,
+              //     backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
+              //     color: isSelected ? 'white' : 'black',
+              //   }),
+              //   singleValue: (styles) => ({
+              //     ...styles,
+              //     color: 'black',
+              //   }),
+              // }}
+              sx={{
+                '> option': {
+                  background: 'brand.300',
+                  color: 'white',
+                },
+              }}
+              bg={'brand.300'}
+              as="select"
+            >
+              {menuOptions?.map((menu) => (
+                <option 
+                key={menu.menuId} 
+                value={menu.menuId}>
+                  {menu.name}
+                </option>
+              ))}
+            </Select>
 
             </InputGroup>
           </Box>
