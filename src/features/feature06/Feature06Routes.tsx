@@ -5,6 +5,7 @@ import { TableType } from "./pages/TableType";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
 import { CreateTable1 } from "./pages/CreateTable1";
 import { CreateTable2 } from "./pages/CreateTable2";
+import { QrcodeConfirm } from "./pages/QrcodeConfirm";
 
 export const Feature06Routes = () => {
   return [
@@ -20,5 +21,6 @@ export const Feature06Routes = () => {
     // { path: "/dashboard", element: <Dashboard /> },
     { path: "/reservation-detail", element: <ReservationDetail /> },
     { path: "/getreservation-detail", element: <GetReservationDetail /> },
+    
   ];
 };
