@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Text, Image } from "@chakra-ui/react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/Bi";
+import { BiComment } from "react-icons/bi";
 import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";

@@ -5,9 +5,8 @@ import { CreateArticlePage } from "./page/CreateArticlePge/CreateArticlePage";
 
 export const Feature11Routes = () => {
   return [
-    { path: "/article", element: <ArticlesPage/> } ,
-    { path: "/article/:articleId", element: <ArticlePage/> },
-    { path: "/community", element: <CommunityPage /> },
-    { path: "/article/create", element: <CreateArticlePage/>}
+    { path: "/article", element: <ArticlesPage /> },
+    { path: "/article/:articleId", element: <ArticlePage /> },
+    { path: "/article/create", element: <CreateArticlePage /> },
   ];
 };

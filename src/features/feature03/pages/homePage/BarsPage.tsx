@@ -101,7 +101,7 @@ export const BarsPage = () => {
                 More Info
               </Button>
               </NavLink>
-              <NavLink to="/IDK_PathRRRRRRR">
+              <NavLink to="/table">
               <Button
                 variant="solid"
                 textColor="white"
