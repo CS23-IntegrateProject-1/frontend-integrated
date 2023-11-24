@@ -106,7 +106,8 @@ export const BusinessMenuDetail: FC = () => {
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" marginLeft="70px">{`${menuItem?.price} baht`}</Text>
                 </HStack>
                 <Text {...textStyles.body2}>{menuItem?.description}</Text>
-                {branchAvailabilityData?.map(branch => (
+                
+                {type == "Menu" && branchAvailabilityData?.map(branch => (
                     <HStack key={branch.branchId} alignItems="center">
                         <Text {...textStyles.h3} mr={2}> {branch.branchName}</Text>
                         <Switch
