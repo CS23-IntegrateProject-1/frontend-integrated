@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from 'date-fns';
 import React from "react";
+import { utcToZonedTime } from 'date-fns-tz';
+
 
 export const Accounting = () => {
   const [appTrans, setAppTrans] = useState();
@@ -37,7 +39,7 @@ export const Accounting = () => {
 
         const transactionIds = tableData.map((transaction: any) => transaction.appTransactionId);
         setAllTransactionIds(transactionIds);
-
+       
       } catch (error) {
         console.error('Error fetching table number:', error);
       }
@@ -86,7 +88,7 @@ export const Accounting = () => {
 
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds]);
-
+  const ThailandTimeZone = 'Asia/Bangkok';
   return (
     <Center>
       <Box
@@ -124,7 +126,11 @@ export const Accounting = () => {
             return (
               <React.Fragment key={monthKey}>
                 {detailsArray.map((details, index) => {
-                  const formattedDate = format(new Date(details.monthly), 'dd MMMM yyyy');
+                  const formattedDate = format(
+                    utcToZonedTime(new Date(details.monthly), ThailandTimeZone),
+                    'dd MMMM yyyy',
+                  );
+                  
                   const formattedAmount = `${details.total_amount} Baht`;
                   const [year, month, day] = formattedDate.split(' ');
 

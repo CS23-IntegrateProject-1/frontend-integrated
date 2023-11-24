@@ -17,6 +17,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
+import { utcToZonedTime } from 'date-fns-tz'; // new import
 
 export const Timestamp = () => {
   const [appTrans, setAppTrans] = useState<any[] | undefined>(undefined);
@@ -74,6 +75,7 @@ export const Timestamp = () => {
 
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds, selectedDate]);
+  const ThailandTimeZone = 'Asia/Bangkok'; // Thailand time zone
 
   return (
     <Center>
@@ -110,7 +112,10 @@ export const Timestamp = () => {
         {/* Display transactions for the selected date */}
         {appTransactionByDate.map((details, index) => {
           const formattedDateAbove = format(new Date(details.monthly), 'HH:mm:ss');
-          const formattedDateBelow = format(new Date(details.monthly), 'dd/MM/yy');
+          const formattedDateBelow = format(
+            utcToZonedTime(new Date(details.monthly), ThailandTimeZone),
+            'dd MMMM yyyy',
+          );
           const formattedAmount = `${details.total_amount} Baht`;
 
           return (
@@ -124,7 +129,7 @@ export const Timestamp = () => {
                           <Tr borderBottom="none">
                             <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">
                               {formattedDateAbove}<br></br>
-                              {formattedDateBelow}
+                              <Text marginTop={5} color={"grey"}>{formattedDateBelow}</Text>
                             </Th>
                             <Th textAlign="center" style={TextStyle.h1} color="black">
                               {formattedAmount}
