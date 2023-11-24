@@ -3,14 +3,11 @@ import {
   Button,
   Divider,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
-  ImageProps,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
   Select,
   Tag,
@@ -22,37 +19,65 @@ import { useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { AutoResizeTextarea } from "../../components/AutoResizeTextArea";
 import { Axios } from "../../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
-import textStyles from "../../../../theme/foundations/textStyles";
-import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
+import {
+  ArticleTagProps,
+  ArticleVenueProps,
+  VenueProps,
+} from "../../../../interfaces/feature11/ArticleType";
+import { useParams } from "react-router-dom";
+import { fetchArticle } from "../../../../api/feature11/fetchArticle";
+import { useQuery } from "@tanstack/react-query";
+import { set } from "date-fns";
 
-const fetchAllArticle = async (): Promise<VenueProps[]> => {
-  try {
-    const venues = await Axios.get("/feature11/fetchAllVenueName");
-    return venues.data; // Extract the data from the response
-  } catch (error) {
-    console.error("Error fetching venues:", error);
-    throw new Error("Failed to fetch venues");
-  }
-};
+// const fetchAllArticle = async (): Promise<VenueProps[]> => {
+//   try {
+//     const venues = await Axios.get("/feature11/fetchAllVenueName");
+//     return venues.data; // Extract the data from the response
+//   } catch (error) {
+//     console.error("Error fetching venues:", error);
+//     throw new Error("Failed to fetch venues");
+//   }
+// };
 
 export const EditArticlePage = () => {
-  const [tags, setTags] = useState<string[]>([]);
+  const article = useQuery({
+    queryKey: ["article"],
+    queryFn: () => fetchArticle(articleId ?? ""),
+    onSuccess: (data) => {
+      // Set default values once the data is successfully fetched
+      setTopic(data.topic);
+      setContent(data.content);
+      setCategory(data.category);
+      setAuthorName(data.author_name);
+      setSelectedVenues(data.Article_venue);
+      setTags(data.Article_tags);
+      // setTags(data.tags);
+    },
+  });
+  const [tags, setTags] = useState<ArticleTagProps[]>(
+    article.data?.Article_tags || []
+  );
   const [tagInput, setTagInput] = useState<string>("");
-  const [category, setCategory] = useState<string>("Blog");
-  const [selectedVenues, setSelectedVenues] = useState<VenueProps[]>([]);
-  const [topic, setTopic] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [category, setCategory] = useState<string>(
+    article.data?.category || ""
+  );
+  const [selectedVenues, setSelectedVenues] = useState<ArticleVenueProps[]>(
+    article.data?.Article_venue || []
+  );
+  const [topic, setTopic] = useState<string>(article.data?.topic || "");
+  const [content, setContent] = useState<string>(article.data?.content || "");
   const [authorName, setAuthorName] = useState<string>("");
   const [images, setImages] = useState<File[] | null>([]);
+  const { articleId } = useParams<{ articleId: string }>();
 
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
     Axios.get("/feature11/fetchAllVenueName")
       .then((res) => {
         setVenues(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -60,6 +85,14 @@ export const EditArticlePage = () => {
   }, []);
   if (venues.length === 0) {
     return <FullPageLoader />;
+  }
+
+  if (article.status === "loading") {
+    return <span>Loading...</span>;
+  }
+
+  if (article.error instanceof Error) {
+    return <div>An error occurred: {article.error.message}</div>;
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,8 +107,16 @@ export const EditArticlePage = () => {
       const selectedVenue = venues.find(
         (venue) => venue.venueId === parseInt(venueId)
       );
+
       if (selectedVenue) {
-        setSelectedVenues([...selectedVenues, selectedVenue]);
+        setSelectedVenues([
+          ...selectedVenues,
+          {
+            articleId: parseInt(articleId || "0"),
+            venueId: selectedVenue.venueId,
+            venue: { venueId: selectedVenue.venueId, name: selectedVenue.name },
+          },
+        ]);
       }
     }
   };
@@ -88,13 +129,24 @@ export const EditArticlePage = () => {
       setSelectedVenues(updatedVenues);
     }
   };
-  const handleAddTag = (tag: string) => {
-    if (tagInput != "") {
-      setTags([...tags, tag]);
+  const handleAddTag = () => {
+    if (tagInput !== "") {
+      const newTagId = tags.length + 1;
+      setTags([
+        ...tags,
+        {
+          articleId: parseInt(articleId || "0"),
+          tagId: newTagId, // Assign the value of 4 to tagId
+          tag: {
+            tagId: newTagId,
+            tag_name: tagInput,
+          },
+        },
+      ]);
     }
   };
   const handleRemoveTag = (tag: string) => {
-    const updatedTags = tags.filter((t) => t !== tag);
+    const updatedTags = tags.filter((t) => t.tag.tag_name !== tag);
     setTags(updatedTags);
   };
 
@@ -121,7 +173,7 @@ export const EditArticlePage = () => {
   //     }
   //   }
   // };
-  const handleCreateArticle = () => {
+  const handleEditArticle = () => {
     if (
       topic === "" ||
       content === "" ||
@@ -136,7 +188,7 @@ export const EditArticlePage = () => {
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
 
-    Axios.post("/feature11/addArticle", {
+    Axios.patch("/feature11/editArticle", {
       topic: topic,
       content: content,
       // category: category,
@@ -154,10 +206,11 @@ export const EditArticlePage = () => {
     })
       .then((res) => {
         console.log(res);
-        // alert("Article created");
+        
       })
       .catch((err) => {
         console.log("error", err);
+        throw new Error("Failed to edit article");
       });
   };
 
@@ -271,7 +324,8 @@ export const EditArticlePage = () => {
                 size={"xs"}
                 fontSize={"xl"}
                 onClick={() => {
-                  handleAddTag(tagInput);
+                  handleAddTag();
+                  setTagInput("");
                 }}
               />
             </InputRightElement>
@@ -281,6 +335,7 @@ export const EditArticlePage = () => {
           spacing={2}
           // overflow={"scroll"}
           overflowX={"auto"} // Enable horizontal scrolling
+          h={"32px"}
           maxW={"calc(100% - 150px)"} // Limit maximum width
         >
           {tags.map((value, index) => (
@@ -293,8 +348,10 @@ export const EditArticlePage = () => {
               bgColor={"brand.200"}
               color={"white"}
             >
-              <TagLabel>{value}</TagLabel>
-              <TagCloseButton onClick={() => handleRemoveTag(value)} />
+              <TagLabel>{value.tag.tag_name}</TagLabel>
+              <TagCloseButton
+                onClick={() => handleRemoveTag(value.tag.tag_name)}
+              />
             </Tag>
           ))}
         </HStack>
@@ -325,6 +382,7 @@ export const EditArticlePage = () => {
           overflowX={"auto"} // Enable horizontal scrolling
           maxW={"calc(100% - 150px)"} // Limit maximum width
           alignSelf={"flex-end"}
+          h={"32px"}
         >
           {selectedVenues.map((venue, index) => (
             <Tag
@@ -336,7 +394,7 @@ export const EditArticlePage = () => {
               bgColor={"brand.200"}
               color={"white"}
             >
-              <TagLabel>{venue.name}</TagLabel>
+              <TagLabel>{venue.venue.name}</TagLabel>
               <TagCloseButton
                 onClick={() => handleRemoveVenue(venue.venueId)}
               />
@@ -366,10 +424,11 @@ export const EditArticlePage = () => {
         borderRadius={"20px"}
         bg={"brand.200"}
         color={"white"}
+        w={"100px"}
         _hover={{ bg: "brand.300" }}
-        onClick={handleCreateArticle}
+        onClick={handleEditArticle}
       >
-        Submit
+        Save
       </Button>
     </Box>
   );

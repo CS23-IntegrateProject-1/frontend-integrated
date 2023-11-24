@@ -20,6 +20,7 @@ import { ShareModal } from "../../components/ShareModal";
 import { formatDate1 } from "../../../../functions/formatDatetime";
 import { ArticlePageProps } from "../../../../interfaces/feature11/ArticleType";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 export const ArticlePage = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,28 +28,12 @@ export const ArticlePage = () => {
   const shareDisclosure = useDisclosure();
   const { articleId } = useParams<{ articleId: string }>();
   const queryClient = useQueryClient();
-
-  // const fetchArticle = async (): Promise<ArticlePageProps> => {
-  //   try {
-  //     const article = await Axios.get(
-  //       `/feature11/fetchArticleDetail/${articleId}`
-  //     );
-  //     article.data.created_date = formatDate1(article.data.created_date);
-  //     return article.data;
-  //     // return mockArticle;
-  //   } catch (error) {
-  //     console.error("Error fetching article:", error);
-  //     throw new Error("Failed to fetch article");
-  //   }
-  // };
-
-  // const result = useQuery(fetchArticle);
   const article = useQuery({
     queryKey: ["article"],
     queryFn: () => fetchArticle(articleId ?? ""),
   });
   if (article.status === "loading") {
-    return <span>Loading...</span>;
+    return <FullPageLoader />;
   }
 
   if (article.error instanceof Error) {

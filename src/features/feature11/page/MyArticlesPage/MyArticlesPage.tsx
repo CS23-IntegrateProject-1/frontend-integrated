@@ -5,10 +5,20 @@ import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType"
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { MyArticlesBox } from "./MyArticleBox";
 import { CommentBox } from "./CommentBox";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import getArticleComments from "../../../../api/Reservation/getArticleComments";
+import {
+  Box,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { CommentItemProps } from "../../../../interfaces/feature11/CommentType";
+import { fetchMyComments } from "../../../../api/feature11/fetchMyComments";
+import { useNavigate } from "react-router-dom";
+import { EditCommentModal } from "./EditCommentModal";
 
 const fetchMyArticles = async (): Promise<ArticlesPageProps[]> => {
   const res = await Axios.get("/feature11/fetchArticleHistory");
@@ -20,23 +30,22 @@ const fetchMyArticles = async (): Promise<ArticlesPageProps[]> => {
 
 export const MyArticlesPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [comments, setComments] = useState<CommentItemProps[]>([]);
-  const fetchArticleComments = async () => {
-    const response = await getArticleComments();
-    if (!response?.data) {
-      return;
-    }
-    setComments(response.data);
-  };
+  // const [comments, setComments] = useState<CommentItemProps[]>([]);
+  const myComments = useQuery({
+    queryKey: ["myComments"],
+    queryFn: fetchMyComments,
+  });
   const myArticles = useQuery({
     queryKey: ["myArticles"],
     queryFn: fetchMyArticles,
   });
-
-  useEffect(() => {
-    fetchArticleComments();
-  }, []);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [comment, setComment] = useState<CommentItemProps>();
+  const navigate = useNavigate();
+  const handleEdit = (comment: CommentItemProps) => {
+    setComment(comment);
+    onOpen();
+  };
   if (myArticles.status == "loading") {
     return <FullPageLoader />;
   }
@@ -91,13 +100,19 @@ export const MyArticlesPage = () => {
               })}
             </TabPanel>
             <TabPanel px={"0"}>
-              {comments.map((comment) => {
+              {myComments.data?.map((comment) => {
                 return (
                   <CommentBox
                     article={comment.article}
                     user={comment.user}
                     create_date={comment.create_date}
                     content={comment.content}
+                    articleId={comment.articleId}
+                    commentId={comment.commentId}
+                    key={comment.commentId}
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    onOpen={onOpen}
                   />
                 );
               })}
@@ -105,6 +120,12 @@ export const MyArticlesPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
+      <EditCommentModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        //comment={comment}
+      />
     </Box>
   );
 };

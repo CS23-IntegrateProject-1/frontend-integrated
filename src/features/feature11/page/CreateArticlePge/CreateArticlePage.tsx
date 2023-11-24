@@ -7,16 +7,13 @@ import {
   FormLabel,
   HStack,
   IconButton,
-  ImageProps,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
   Select,
   Tag,
   TagCloseButton,
   TagLabel,
-  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
@@ -27,6 +24,8 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
+import { useCustomToast } from "../../../../components/useCustomToast";
+import { useNavigate } from "react-router-dom";
 
 // const fetchVenues = async (): Promise<VenueProps[]> => {
 //   try {
@@ -47,6 +46,8 @@ export const CreateArticlePage = () => {
   const [content, setContent] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
   const [images, setImages] = useState<File[] | null>([]);
+  const toast = useCustomToast();
+  const navigate = useNavigate();
 
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
@@ -155,6 +156,10 @@ export const CreateArticlePage = () => {
       .then((res) => {
         console.log(res);
         // alert("Article created");
+        toast.success("Article created successfully");
+        setTimeout(() => {
+          navigate("/article/myarticles");
+        }, 1000);
       })
       .catch((err) => {
         console.log("error", err);
@@ -272,6 +277,7 @@ export const CreateArticlePage = () => {
                 fontSize={"xl"}
                 onClick={() => {
                   handleAddTag(tagInput);
+                  setTagInput("");
                 }}
               />
             </InputRightElement>

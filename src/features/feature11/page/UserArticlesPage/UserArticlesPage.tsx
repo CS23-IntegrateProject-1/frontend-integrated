@@ -14,7 +14,6 @@ export const UserArticlesPage = () => {
     const res = await Axios.post("/feature11/fetchUserArticle", {
       userId: Number(userId),
     });
-    // console.log(res.data)
     res.data.forEach((article: ArticlesPageProps) => {
       article.created_date = formatDate1(article.created_date);
     });

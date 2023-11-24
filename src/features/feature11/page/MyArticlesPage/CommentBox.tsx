@@ -1,12 +1,15 @@
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Flex, IconButton, useDisclosure } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Text } from "@chakra-ui/react";
 import { FaPencilAlt } from "react-icons/fa";
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   // ArticleComment,
   CommentItemProps,
 } from "../../../../interfaces/feature11/CommentType";
+import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
+import { EditCommentModal } from "./EditCommentModal";
 // import { useParams } from "react-router-dom";
 // import { formatDate1 } from "../../../../functions/formatDatetime";
 // import { Axios } from "../../../../AxiosInstance";
@@ -18,7 +21,13 @@ export const CommentBox: FC<CommentItemProps> = ({
   user,
   create_date,
   content,
+  articleId,
+  commentId,
+  onClose,
+  isOpen,
+  onOpen
 }: CommentItemProps) => {
+  const navigate = useNavigate();
   return (
     <Box
       display="flex"
@@ -29,6 +38,9 @@ export const CommentBox: FC<CommentItemProps> = ({
       mb={"1em"}
       borderRadius={"20px"}
       p="4"
+      onClick={() => {
+        navigate(`/article/${articleId}`);
+      }}
     >
       <Flex
         display="flex"
@@ -48,6 +60,10 @@ export const CommentBox: FC<CommentItemProps> = ({
           aria-label="Edit"
           icon={<FaPencilAlt />}
           alignSelf={"flex-end"}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            onOpen();
+          }}
         />
       </Flex>
       {/* <Box display="flex" alignItems="center"> */}
