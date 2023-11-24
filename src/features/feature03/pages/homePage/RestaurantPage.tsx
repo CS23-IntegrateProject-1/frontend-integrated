@@ -40,30 +40,30 @@ export const RestaurantPage: FC = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
-    isLoading: venueDataLoading,
-    isError: venueDataError,
-    data: venueDataData,
+    isLoading: venueLoading,
+    isError: venueError,
+    data: venueData,
   } = useQuery<VenueData[]>({
-    queryKey: ["getVenues"],
+    queryKey: ["getVen"],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venues");
+      const { data } = await Axios.get("/feature3/ven");
       return data;
     },
   });
 
-  const {
-    isLoading: venueRateLoading,
-    isError: venueRateError,
-    data: venueRateData,
-  } = useQuery<VenueRate[]>({
-    queryKey: ["getVenueRates"],
-    queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venue-ratings");
-      return data;
-    },
-  });
+  // const {
+  //   isLoading: venueRateLoading,
+  //   isError: venueRateError,
+  //   data: venueRateData,
+  // } = useQuery<VenueRate[]>({
+  //   queryKey: ["getVenueRates"],
+  //   queryFn: async () => {
+  //     const { data } = await Axios.get("/feature3/venue-ratings");
+  //     return data;
+  //   },
+  // });
 
-  if (venueDataLoading || venueRateLoading) {
+  if (venueLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -71,7 +71,7 @@ export const RestaurantPage: FC = (props) => {
     );
   }
 
-  if (venueDataError || venueRateError) {
+  if (venueError) {
     return <span>An error occurred: </span>;
   }
 
@@ -102,7 +102,7 @@ export const RestaurantPage: FC = (props) => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {venueDataData.map((venueD) => (
+        {venueData.map((venueD) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"

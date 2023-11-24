@@ -16,9 +16,11 @@ import { Axios } from "../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { useParams } from "react-router-dom";
 
-interface VenueData {
+interface BranchVenueData {
   id: number;
   venueId: number;
+  branchId: number;
+  branchName: string;
   name: string;
   description: string;
   category: string;
@@ -28,41 +30,42 @@ interface VenueData {
   website_url: string;
 }
 
-interface VenueRate {
-  id: number;
-  venueId: number;
-  rating: string;
-}
+// interface VenueRate {
+//   id: number;
+//   venueId: number;
+//   rating: string;
+// }
 
 export const VenueBranches = () => {
 
   const { venueId } = useParams();
 
   const {
-    isLoading: venueDataLoading,
-    isError: venueDataError,
-    data: venueDataData,
-  } = useQuery<VenueData[]>({
-    queryKey: ["getVenues"],
+    isLoading: venueBLoading,
+    isError: venueBError,
+    data: venueBData,
+  } = useQuery<BranchVenueData[]>({
+    queryKey: ["getBranch"],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venues");
+      const { data } = await Axios.get("/feature3/branchVenue");
       return data;
     },
   });
 
-  const {
-    isLoading: venueRateLoading,
-    isError: venueRateError,
-    data: venueRateData,
-  } = useQuery<VenueRate[]>({
-    queryKey: ["getVenueRates"],
-    queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venue-ratings");
-      return data;
-    },
-  });
 
-  if (venueDataLoading || venueRateLoading) {
+  // const {
+  //   isLoading: venueRateLoading,
+  //   isError: venueRateError,
+  //   data: venueRateData,
+  // } = useQuery<VenueRate[]>({
+  //   queryKey: ["getVenueRates"],
+  //   queryFn: async () => {
+  //     const { data } = await Axios.get("/feature3/venue-ratings");
+  //     return data;
+  //   },
+  // });
+
+  if ( venueBLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -70,7 +73,7 @@ export const VenueBranches = () => {
     );
   }
 
-  if (venueDataError || venueRateError) {
+  if (venueBError ) {
     return <span>An error occurred: </span>;
   }
 
@@ -85,7 +88,7 @@ export const VenueBranches = () => {
           px={{ base: "none", lg: "10px" }}
           justifyItems={"center"}
           >
-          {venueDataData.map((venueD) => (
+          {venueBData.map((venueD) => (
             <Card
               minW={{ base: "250px", lg: "350px" }}
               width="sm"
