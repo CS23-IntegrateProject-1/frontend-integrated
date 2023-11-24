@@ -25,7 +25,7 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
     cursor={onClick ? "pointer" : "default"} 
     onClick={onClick} >
       
-    <Flex justifyContent="center" >
+    <Flex justifyContent="center" width="140px" height="105px" >
       <Image 
       src="/src/features/feature07/assets/test.jpg"
       // alt="integrate" 
@@ -40,7 +40,7 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       />
     </Flex>
    
-    <VStack alignItems="left" mt={2} ml={2}>
+    <VStack alignItems="left" mt={2} ml={2} flex="1">
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >

@@ -6,21 +6,26 @@ const generateDatesForMonth = () => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Get the last day of the month
+  const lastDay = new Date(year, month + 1, 0).getDate();
 
-  return Array.from({ length: daysInMonth }, (_, index) => {
-    const date = new Date(year, month, index + 1);
+  // Generate dates only for the remaining days of the month
+  return Array.from({ length: lastDay - currentDate.getDate() + 1 }, (_, index) => {
+    const date = new Date(year, month, currentDate.getDate() + index);
     return date.getDate().toString().padStart(2, '0'); // Ensure two-digit format
   });
 };
 
-const DateSelection = () => {
+
+
+const DateSelection = ({onDateSelect}) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const dates = generateDatesForMonth();
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    onDateSelect(date);
   };
 
   const theme = extendTheme({
@@ -32,7 +37,7 @@ const DateSelection = () => {
   });
 
   return (
-    <Box p={4}>
+    <Box p={1} marginTop={'5px'}>
       <Text as="h5" fontSize="10px" fontWeight="bold" color="#DEBEF6" marginLeft="8px">
         Nov
       </Text>

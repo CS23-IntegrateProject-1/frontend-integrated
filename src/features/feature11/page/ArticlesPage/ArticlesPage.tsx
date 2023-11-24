@@ -10,25 +10,25 @@ import {
   TabPanels,
   Tabs,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
+} from "@chakra-ui/react"
 import { ArticlesBox } from "./ArticlesBox";
 import { MdAddCircle } from "react-icons/md";
-import { mockArticles } from "../ArticleDetailPage/mockArticles";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { Axios } from "../../../../AxiosInstance";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../ArticleDetailPage/ArticleTypes";
+import { ArticlesPageProps } from "../../ArticleTypes";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { AuthorBox } from "./AuthorBox";
+import { formatDate1 } from "../../../../functions/formatDatetime";
 
 const fetchArticles = async (): Promise<ArticlesPageProps[]> => {
   const res = await Axios.get("/feature11/fetchAllArticle");
+  res.data.forEach((article: ArticlesPageProps) => {
+    article.created_date = formatDate1(article.created_date);
+  });
   return res.data;
-  // console.log(mockArticles);
-  // return mockArticles;
 };
 
 export const ArticlesPage = () => {
@@ -88,9 +88,7 @@ export const ArticlesPage = () => {
           User Feed
         </Text> */}
         <InputGroup>
-          <InputRightElement
-          //onClick={}
-          >
+          <InputRightElement>
             <Search2Icon color="gray.400" />
           </InputRightElement>
           <Input
@@ -114,46 +112,46 @@ export const ArticlesPage = () => {
               </Tab>
             </TabList>
             <TabPanels>
-              <TabPanel  p={"0"} pt={"1px"}>
+              <TabPanel p={"0"} pt={"1px"}>
                 {filteredArticles?.map((article) => {
                   return (
                     <ArticlesBox
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      // writerProfilePicture={article.writerProfilePicture}
                       Image={article.Image}
                       Like={article.Like}
                       Comment={article.Comment}
-                      // articleCommentsNumber={article.articleCommentsNumber}
                       created_date={article.created_date}
                       key={article.articleId}
                       content={""}
                       category={""}
                       userId={0}
                       isLike={article.isLike}
+                      Article_tags={article.Article_tags}
+                      Article_venue={article.Article_venue}
                     />
                   );
                 })}
               </TabPanel>
-              <TabPanel  p={"0"} pt={"1px"}>
+              <TabPanel p={"0"} pt={"1px"}>
                 {filteredArticles?.map((article) => {
                   return (
                     <AuthorBox
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      // writerProfilePicture={article.writerProfilePicture}
                       Image={article.Image}
                       Like={article.Like}
                       Comment={article.Comment}
-                      // articleCommentsNumber={article.articleCommentsNumber}
                       created_date={article.created_date}
                       key={article.articleId}
                       content={""}
                       category={""}
                       userId={0}
                       isLike={article.isLike}
+                      Article_tags={article.Article_tags}
+                      Article_venue={article.Article_venue}
                     />
                   );
                 })}

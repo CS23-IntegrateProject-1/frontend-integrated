@@ -5,7 +5,7 @@ import {
   CardFooter,
   Box,
   Button,
-  Heading,
+  Heading,   
   Image,
   Flex,
   FormControl,
@@ -17,7 +17,8 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
-import axios from "axios";
+import axios from "axios"
+import { useParams } from "react-router-dom";
 
 interface ButtonProps {
   bgColor?: string;
@@ -32,10 +33,10 @@ type AddCard = {
   name : string,
   country : string,
   bank : string,
-  cvc : string,
-  exp : string,
-  userId? : string,
-  venueId? : string
+  cvc : number,
+  exp : Date,
+  userId? : number,
+  venueId? : number
 }
 
 export const AddCard: FC<ButtonProps> = ({
@@ -52,7 +53,7 @@ export const AddCard: FC<ButtonProps> = ({
   const [bank, setBank] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addCardData, setAddCardData] = useState<AddCard[]>([]);
-
+  const {userId, venueId} = useParams();
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -151,6 +152,7 @@ export const AddCard: FC<ButtonProps> = ({
       } else {
         console.log("card is not valid");
       }
+      // window.location.href = `/:userId/venue/:venueId/payment`;
     };
     // creditCardId : string,
     // card_no : string,
@@ -161,6 +163,30 @@ export const AddCard: FC<ButtonProps> = ({
     // exp : string,
     // userId? : string,
     // venueId? : string
+
+    // Assuming expiryDate is in the format "MM/YY"
+    const [month, year] = expiryDate.split('/');
+
+    console.log("Parsed month and year:", month, year);
+    
+    // Creating a new Date object with the parsed month and year
+    const expirationDate = new Date(parseInt(`20${year}`, 10), parseInt(month, 10) - 1);
+    
+    if (isNaN(expirationDate.getTime())) {
+      console.error("Invalid expirationDate:", expiryDate);
+    }
+    
+    // Formatting the date as an ISO 8601 string
+    let iso8601Date: string;
+    try {
+      iso8601Date = expirationDate.toISOString();
+    } catch (error) {
+      console.error("Error converting expirationDate to ISO:", error);
+    }
+    
+    
+
+
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault(); // Prevent default form submission behavior
     
@@ -173,12 +199,12 @@ export const AddCard: FC<ButtonProps> = ({
             // 2. Pull userId or venueId from somewhere?
             card_no: cardNumber,
             name: name,
-            exp: expiryDate,
-            cvc: cvc,
+            exp: iso8601Date,
+            cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            // userId?: ,
-            // venueId?: 
+            userId: parseInt(userId),
+            venueId: parseInt(venueId),
           }
         );
     
@@ -187,6 +213,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
+        window.location.href = `/${userId}/venue/${venueId}/payment`;
       } catch (error) {
         console.error("POST error:", error);
       }
@@ -349,7 +376,7 @@ export const AddCard: FC<ButtonProps> = ({
           </Flex>
 
           <Button
-            width="70%"
+            width="100%"
             height="40px"
             backgroundColor={buttonColor}
             bg={!bgColor ? "brand.200" : bgColor}
@@ -359,7 +386,6 @@ export const AddCard: FC<ButtonProps> = ({
             textColor="#DEBEF6"
             marginTop={10}
             onClick={handleSubmit}
-            disabled={!isValid}
             type="submit"
           >
             Apply
