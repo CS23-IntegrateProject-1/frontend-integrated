@@ -129,7 +129,7 @@ export const Timestamp = () => {
                           <Tr borderBottom="none">
                             <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">
                               {formattedDateAbove}<br></br>
-                              <Text marginTop={5} color={"grey"}>{formattedDateBelow}</Text>
+                              <Text marginTop={6} color={"grey"}>{formattedDateBelow}</Text>
                             </Th>
                             <Th textAlign="center" style={TextStyle.h1} color="black">
                               {formattedAmount}
