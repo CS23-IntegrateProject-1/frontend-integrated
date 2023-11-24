@@ -1,6 +1,6 @@
 import { BusinessLoginPage } from "./pages/BusinessLoginPage";
 import BusinessSignupPage from "./pages/BusinessSignupPage";
-import DashboardPage from "./pages/DashboardPage";
+import { DashboardPage } from "./pages/DashboardPage";
 export const Feature13Routes = () => {
 	return [
 		{
