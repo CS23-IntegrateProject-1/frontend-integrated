@@ -124,8 +124,10 @@ const SavedLocationCard = (props: SavedCardProps) => {
         };
     
         await mutation.mutateAsync(updatedData);
+        return Promise.resolve();
       } catch (error) {
         console.error('Error updating data:', error);
+        return Promise.reject(error);
       }
     };
     
