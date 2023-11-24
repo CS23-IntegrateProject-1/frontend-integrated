@@ -20,7 +20,7 @@ export const DashboardPage = () => {
     navigate(path);
   };
   const menu = () => {
-    let path = `/business/venue/${venueId}/menu`;
+    let path = `/business/venue/${venueId}/menubusiness`;
     navigate(path);
   };
   const tableList = () => {
