@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Text, Image, useMediaQuery, Flex ,Button } from "@chakra-ui/react";
 import DateSelection from "../Components/DateSelection";
-import TimeSelection from "../Components/TimeSelection";
+//import TimeSelection from "../Components/TimeSelection";
 import getTheaterDetail from "../../../api/movie/getTheaterDetail";
 import getMovieToday from "../../../api/movie/getMovieToday";
 interface TheaterDetail {
