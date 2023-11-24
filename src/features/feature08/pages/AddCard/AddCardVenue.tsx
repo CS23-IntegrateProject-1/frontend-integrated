@@ -39,7 +39,7 @@ type AddCard = {
   venueId? : number
 }
 
-export const AddCard: FC<ButtonProps> = ({
+export const AddCardVenue: FC<ButtonProps> = ({
   bgColor,
   textColor,
   borderColor,
@@ -192,7 +192,7 @@ export const AddCard: FC<ButtonProps> = ({
     
       try {
         const response = await axios.post(
-          "http://localhost:8080/feature8/add_creditcard",
+          "http://localhost:8080/feature8/add_venue_creditcard",
           {
             // Need to add extra information 
             // 1. Make more input field for country , bank, (done)
@@ -203,7 +203,6 @@ export const AddCard: FC<ButtonProps> = ({
             cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            userId: parseInt(userId),
             venueId: parseInt(venueId),
           }
         );
@@ -213,7 +212,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
-        window.location.href = `/${userId}/venue/${venueId}/payment`;
+        window.location.href = `http://localhost:4000/venue/${venueId}/business/checkout`;
       } catch (error) {
         console.error("POST error:", error);
       }
