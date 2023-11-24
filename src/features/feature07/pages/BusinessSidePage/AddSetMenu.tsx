@@ -218,11 +218,12 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
             <FormLabel>Selected Food in set:</FormLabel>
             <VStack align="start" spacing={2}>
               {selectedMenus?.map((item) => (
-                <Box key={item.menuId}>
-                  <HStack spacing={2} align="center">
+                <Box width={'307px'}
+                key={item.menuId}>
+                  <HStack justify={'space-between'} align="center">
                     <Box>{item.menuName}</Box>
                     <DeleteIcon
-                      ml={60}
+                      // ml={60}
                       boxSize={4}
                       aria-label={`Delete ${item.menuName}`}
                       onClick={() => handleDeleteMenu(item.menuId)}
