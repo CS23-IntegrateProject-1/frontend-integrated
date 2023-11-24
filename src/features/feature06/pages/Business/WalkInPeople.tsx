@@ -1,10 +1,10 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
+import { TextStyle } from "../../../../theme/TextStyle";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AmountOfPeopleIcon } from "../components/AmountOfPeople";
+import { AmountOfPeopleIcon } from "../../components/AmountOfPeople";
 
-export const TablePage = () => {
+export const WalkInPeople = () => {
   const [count, setCount] = useState(0);
 
   function increment() {
@@ -119,7 +119,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/getreservation-detail?count=${count}`}>
+      <Link to={`/WalkInDetail?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}

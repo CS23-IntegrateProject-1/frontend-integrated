@@ -3,13 +3,12 @@ import {
   Icon,
   Text,
   Button,
-  FormControl,
-  FormHelperText,
+
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { Form, useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 interface IData {
   venue: {
@@ -61,11 +60,9 @@ interface IData {
   ];
 }
 
-export const ReservationDetail = () => {
+export const GetReservationDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = useSearchParams();
-  console.log(url);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -73,7 +70,7 @@ export const ReservationDetail = () => {
 
   useEffect(() => {
     fetchData();
-    // console.log("FNAME" + data?.reservations[0].user.fname);
+    console.log("FNAME" + data?.reservations[0].user.fname);
   }, []);
 
   const fetchData = async () => {
@@ -134,12 +131,6 @@ export const ReservationDetail = () => {
             >
               Name :
             </Text>
-            <Form>
-              <FormControl isRequired display={"flex"}>
-                <input type="text" />
-                <FormHelperText>Enter your first name</FormHelperText>
-              </FormControl>
-            </Form>
             <Text
               color="#000"
               fontFamily="Roboto"
