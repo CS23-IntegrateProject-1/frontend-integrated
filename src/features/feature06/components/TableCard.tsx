@@ -12,7 +12,6 @@ export const TableCard: FC<TableCardProps> = ({
     tableno,
     type,
     status,
-    tableId,
 }) => {
     return (
       <Card
@@ -57,7 +56,7 @@ export const TableCard: FC<TableCardProps> = ({
             <Text color={"white"}>
               {status === "Available" ? (
                 <Text color={"#007E33"}>Available</Text>
-              ) : status === "Booked" ? (
+              ) : status === "Unavailable" ? (
                 <Text color={"#C00"}>Booked</Text>
               ) : (
                 ""
