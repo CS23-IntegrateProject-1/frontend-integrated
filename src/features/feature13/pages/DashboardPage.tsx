@@ -34,7 +34,7 @@ export const DashboardPage = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getCountPerDay(1);
+    const response: IData = await getCountPerDay();
     setData(response);
   };
   return (
