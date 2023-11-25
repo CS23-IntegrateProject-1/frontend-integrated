@@ -100,7 +100,7 @@ export const ViewTable = () => {
         >
           {data.status === "Available" ? (
             <Text color={"#007E33"}>Available</Text>
-          ) : data.status === "Booked" ? (
+          ) : data.status === "Unavailable" ? (
             <Text color={"#C00"}>Booked</Text>
           ) : (
             ""
