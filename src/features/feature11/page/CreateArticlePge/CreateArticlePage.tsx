@@ -159,7 +159,7 @@ export const CreateArticlePage = () => {
         toast.success("Article created successfully");
         setTimeout(() => {
           navigate("/article/myarticles");
-        }, 1000);
+        }, 500);
       })
       .catch((err) => {
         console.log("error", err);

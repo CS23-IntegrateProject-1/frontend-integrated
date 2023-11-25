@@ -25,9 +25,14 @@ export const CommentBox: FC<CommentItemProps> = ({
   commentId,
   onClose,
   isOpen,
-  onOpen
+  onOpen,
+  onEdit,
 }: CommentItemProps) => {
   const navigate = useNavigate();
+  const [commentToEdit, setCommentToEdit] = useState<CommentItemProps | null>(
+    null
+  );
+
   return (
     <Box
       display="flex"
@@ -39,6 +44,18 @@ export const CommentBox: FC<CommentItemProps> = ({
       borderRadius={"20px"}
       p="4"
       onClick={() => {
+        setCommentToEdit({
+          article,
+          user,
+          create_date,
+          content,
+          articleId,
+          commentId,
+          onClose,
+          isOpen,
+          onOpen,
+          onEdit,
+        });
         navigate(`/article/${articleId}`);
       }}
     >
@@ -62,6 +79,7 @@ export const CommentBox: FC<CommentItemProps> = ({
           alignSelf={"flex-end"}
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();
+
             onOpen();
           }}
         />
@@ -102,6 +120,18 @@ export const CommentBox: FC<CommentItemProps> = ({
             ut orci a lacus eleifend dapibus. */}
         </Text>
       </Box>
+      <EditCommentModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        article={article}
+        user={user}
+        create_date={create_date}
+        content={content}
+        articleId={articleId}
+        commentId={commentId}
+      
+      />
     </Box>
   );
 };

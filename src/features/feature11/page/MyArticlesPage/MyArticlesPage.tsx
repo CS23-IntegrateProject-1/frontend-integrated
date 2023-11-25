@@ -42,10 +42,10 @@ export const MyArticlesPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState<CommentItemProps>();
   const navigate = useNavigate();
-  const handleEdit = (comment: CommentItemProps) => {
-    setComment(comment);
-    onOpen();
-  };
+  // const handleEdit = (comment: CommentItemProps) => {
+  //   setComment(comment);
+  //   onOpen();
+  // };
   if (myArticles.status == "loading") {
     return <FullPageLoader />;
   }
@@ -113,6 +113,7 @@ export const MyArticlesPage = () => {
                     onClose={onClose}
                     isOpen={isOpen}
                     onOpen={onOpen}
+                    // onEdit={handleEdit}
                   />
                 );
               })}
@@ -120,12 +121,6 @@ export const MyArticlesPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
-      <EditCommentModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-        //comment={comment}
-      />
     </Box>
   );
 };

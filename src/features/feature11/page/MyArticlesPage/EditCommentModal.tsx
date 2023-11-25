@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import {
   Box,
   Button,
@@ -12,17 +12,49 @@ import {
   ModalOverlay,
   Textarea,
 } from "@chakra-ui/react";
-import { EditCommentModalProps } from "../../../../interfaces/feature11/CommentType";
+import {
+  CommentItem,
+  CommentItemProps,
+  EditCommentModalProps,
+} from "../../../../interfaces/feature11/CommentType";
 import { TextStyle } from "../../../../theme/TextStyle";
 
 export const EditCommentModal: FC<EditCommentModalProps> = ({
   isOpen,
   onClose,
+  article,
+  user,
+  create_date,
+  content,
+  articleId,
+  commentId,
 }) => {
+  //   const [editComment, setEditComment] = useState<CommentItem>({
+  //     article,
+  //     user,
+  //     create_date,
+  //     content,
+  //     articleId,
+  //     commentId,
+  //   });
+  const [newContent, setNewContent] = useState<string | null>(content || null);
+  const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewContent(event.target.value);
+    // Update the editComment state with the new content
+    // setEditComment((prevComment) => ({
+    //   ...prevComment,
+    //   content: newContent,
+    // }));
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen || false} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent bg={"brand.100"} w={{ base: "90%", md: "70%", lg: "50%" }} p={'1em'}>
+      <ModalContent
+        bg={"brand.100"}
+        w={{ base: "90%", md: "70%", lg: "50%" }}
+        p={"1em"}
+      >
         <Flex
           justifyContent={"space-between"}
           alignItems={"center"}
@@ -50,11 +82,11 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
           justifyContent={"space-between"}
           borderRadius={"20px"}
         >
-          {/* <Box>
+          <Box>
             <Flex alignItems={"center"} mb={"0.25em"}>
               <Box w={"30px"} h={"30px"} mr={"0.5em"} bg={"red"}></Box>
               <Heading style={TextStyle.h4} color={"black"}>
-                username
+                {user?.username}
               </Heading>
             </Flex>
             <Textarea
@@ -63,15 +95,15 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
               variant={"unstyled"}
               rows={2}
               placeholder={"Write a comment..."}
-              value={content}
+              value={newContent || ""}
               onChange={handleContentChange}
               color={"black"}
               resize={"none"}
               // bg={"red"}
             />
-          </Box> */}
+          </Box>
 
-          {/* <Flex justifyContent={"flex-end"}>
+          <Flex justifyContent={"flex-end"}>
             <Button
               border={"solid 1px"}
               bg={"white"}
@@ -80,6 +112,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
               h={"25px"}
               mr={"1em"}
               style={TextStyle.h5}
+              w={"70px"}
             >
               Cancel
             </Button>
@@ -90,13 +123,13 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
               color={"white"}
               _hover={{ bg: "brand.300" }}
               style={TextStyle.h5}
-              onClick={handleCreateComment}
+              w={"70px"}
+              //   onClick={handleCreateComment}
             >
-              Comment
-            </Button> */}
-          {/*</Flex>*/}
-        </Flex>{" "}
-        */
+              Save
+            </Button>
+          </Flex>
+        </Flex>
       </ModalContent>
     </Modal>
   );
