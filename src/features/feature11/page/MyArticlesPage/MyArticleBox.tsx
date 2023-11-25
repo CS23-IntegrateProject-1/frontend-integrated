@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
+import { FaPencilAlt } from "react-icons/fa";
 import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
-export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
+export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,6 +48,11 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
     onOpen();
   };
 
+  const handleEditClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Stop the click event from propagating
+    navigate(`/article/${props.articleId}/edit`);
+  };
+
   return (
     <Box
       display="flex"
@@ -55,10 +61,21 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       border="1px"
       borderColor="#A533C8"
       p={"1em"}
+      width={{ base: "100%" }}
       onClick={() => {
         navigate(`/article/${props.articleId}`);
       }}
     >
+      <IconButton
+        display={"flex"}
+        variant={"unstyled"}
+        size={"small"}
+        color={"white"}
+        aria-label="liked"
+        icon={<FaPencilAlt />}
+        alignSelf={"flex-end"}
+        onClick={handleEditClick}
+      />
       {/* Profile Info */}
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
@@ -83,7 +100,12 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         alignItems={"center"}
         justifyContent={"space-around"}
       >
-        <Text color={"#C5C4C7"} style={TextStyle.h2} w={"50%"} textAlign={"center"}>
+        <Text
+          color={"#C5C4C7"}
+          style={TextStyle.h2}
+          w={"50%"}
+          textAlign={"center"}
+        >
           {props.topic}
         </Text>
         <Image

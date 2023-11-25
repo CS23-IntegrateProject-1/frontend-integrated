@@ -18,12 +18,12 @@ const generateDatesForMonth = () => {
 
 
 
-const DateSelection = ({onDateSelect}) => {
+const DateSelection = ({onDateSelect}:any) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const dates = generateDatesForMonth();
 
-  const handleDateClick = (date) => {
+  const handleDateClick = (date: any) => {
     setSelectedDate(date);
     onDateSelect(date);
   };

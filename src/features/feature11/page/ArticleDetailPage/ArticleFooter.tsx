@@ -1,15 +1,9 @@
 import React from "react";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Tag, TagLabel, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
+import { ArticleFooterProps, ArticleTagProps } from "../../ArticleTypes";
 
-interface ArticleFooterProps {
-  author_name: string;
-}
-
-export const ArticleFooter: React.FC<ArticleFooterProps> = ({
-  author_name,
-}) => {
-  
+export const ArticleFooter: React.FC<ArticleFooterProps> = (props) => {
   return (
     <Box
       p={{ base: "1em", md: "2em" }}
@@ -22,14 +16,26 @@ export const ArticleFooter: React.FC<ArticleFooterProps> = ({
     >
       <Box w={"60px"} h={"60px"} mb={"1em"} bg={"red"} rounded={"50%"}></Box>
       <Heading style={TextStyle.h1} mb={"1em"}>
-        Written by {author_name}
+        Written by {props.author_name}
       </Heading>
-      <Text mb={"1em"} style={TextStyle.body2}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia autem
-        voluptates aperiam corporis veniam vel repudiandae quisquam cum maiores
-        reiciendis, nisi quod doloremque. Ut eum deleniti, voluptatum a
-        inventore ex.
-      </Text>
+      {/* <Text mb={"1em"} style={TextStyle.body2}>
+        
+      </Text> */}
+      <Box>
+        {props.Article_tags.map((tag: ArticleTagProps) => (
+          <Tag
+            key={tag.tag.tagId}
+            mr={"0.5em"}
+            mb={"0.5em"}
+            borderRadius={"full"}
+            variant="solid"
+            // colorScheme="brand"
+            bg={"brand.300"}
+          >
+            <TagLabel style={TextStyle.body3}>{tag.tag.tag_name}</TagLabel>
+          </Tag>
+        ))}
+      </Box>
     </Box>
   );
 };
