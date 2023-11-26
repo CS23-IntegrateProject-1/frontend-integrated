@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import {
   Box,
-  Stack,
   Text,
   Card,
   CardBody,
@@ -9,121 +8,140 @@ import {
   Image,
   Button,
   Flex,
-  Modal,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Filter_Modal } from "./F3_Cs/Filter_Modal";
-import { FC, useState } from "react";
-
+import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
-import mockR from "../RF3mock.json";
-import { StarIcon } from "@chakra-ui/icons";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { FC } from "react";
 
-interface RProps {
+interface VenueData {
   id: number;
+  venueId: number;
   name: string;
   description: string;
-  picR: string;
+  category: string;
+  capacity: string;
+  location: string;
+  score: string;
+  website_url: string;
 }
 
-export const RestaurantPage:FC = () => {
-  const R: RProps[] = mockR;
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const Filter_Model = useDisclosure()
+interface VenueRate {
+  id: number;
+  venueId: number;
+  rating: string;
+}
 
-  const handleFilterClick = () => {
-    onOpen(); // Open the modal when the filter icon is clicked
-  };
+export const RestaurantPage: FC = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  
+  const {
+    isLoading: venueLoading,
+    isError: venueError,
+    data: venueData,
+  } = useQuery<VenueData[]>({
+    queryKey: ["getVen"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/ven");
+      return data;
+    },
+  });
+
+  // const {
+  //   isLoading: venueRateLoading,
+  //   isError: venueRateError,
+  //   data: venueRateData,
+  // } = useQuery<VenueRate[]>({
+  //   queryKey: ["getVenueRates"],
+  //   queryFn: async () => {
+  //     const { data } = await Axios.get("/feature3/venue-ratings");
+  //     return data;
+  //   },
+  // });
+
+  if (venueLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (venueError) {
+    return <span>An error occurred: </span>;
+  }
+
   return (
-    <Box width={"100%"} px={{base:"none", lg:"30px"}}>
-      <Flex direction="row" pt={{base:"2", lg:"0"}}>
+    <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
+      <Flex direction="row" pt={{ base: "2", lg: "0" }}>
         <SearchBar />
-        <Flex direction="column" ml="3" _hover={{color:"brand.100"}} onClick={handleFilterClick}>
+        <Flex
+          direction="column"
+          ml="3"
+          _hover={{ color: "brand.100" }}
+          onClick={onOpen}
+        >
           <FaFilter fontSize="25px" />
           <Text fontSize="15px" transform="translateX(-3px)">
             Filter
           </Text>
+          <Filter_Modal isOpen={isOpen} onClose={onClose} />
         </Flex>
       </Flex>
+
       <Box
         display="grid"
         width="100%"
         gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
         overflow="hidden"
-        mt={{base:"3", lg:"8"}}
-        px={{base: "none", lg: "10px"}}
+        mt={{ base: "3", lg: "8" }}
+        px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {R.filter((R) => R).map((R, index) => (
+        {venueData.map((venueD) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
             borderRadius="2xl"
             bg="brand.200"
-            key={index}
+            key={venueD.venueId}
             mb={8}
           >
             <CardBody>
               <Image
-                src={R.picR}
-                alt="BarButPic not load"
+                src={venueD.pic}
+                alt={venueD.name}
                 borderRadius="lg"
                 w="100%"
                 h="160px"
+                bgColor={"white"}
               />
-              <Stack mt="4" spacing="3">
-                <Flex direction="row" justify="space-between" align="center">
-                  <Heading color="white" size="md">
-                    {R.name}
-                  </Heading>
-                  <Flex
-                    direction="row"
-                    p="1.5"
-                    mr="2"
-                    borderRadius="14"
-                    color="white"
-                  >
-                    5<StarIcon ml="1" transform="translateY(2px)" />
-                  </Flex>
-                </Flex>
-                <Text color="grey.200">{R.description}</Text>
-              </Stack>
+              <Heading color="white" size="md" mt="4">
+                {venueD.name}
+              </Heading>
             </CardBody>
             <Flex
               direction="row"
-              justify="space-between"
+              justify="center"
               width="100%"
               pl="5"
               pr="5"
               pb="5"
             >
-              <NavLink to="/Temp_RestaurantDetail">
-              <Button
-                variant="outline"
-                textColor="white"
-                _hover={{
-                  textColor: "black",
-                  borderColor: "black",
-                  bgColor: "brand.100",
-                }}
-                w="160px"
-              >
-                More Info
-              </Button>
-              </NavLink>
-              <NavLink to="/table">
-              <Button
-                variant="solid"
-                textColor="white"
-                bgColor="brand.300"
-                _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="160px"
-              >
-                Reserve Now
-              </Button>
+              <NavLink to={`/Branches/${venueD.venueId}`}>
+                <Button
+                  variant="solid"
+                  textColor="white"
+                  bgColor="brand.300"
+                  _hover={{ bgColor: "brand.100", textColor: "black" }}
+                  w="350px"
+                >
+                  Branches
+                </Button>
               </NavLink>
             </Flex>
           </Card>

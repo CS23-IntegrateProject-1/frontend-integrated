@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Icon, Image } from "@chakra-ui/react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+import { RxDotFilled } from "react-icons/rx";
 
 import mockA from "../../AF3mock.json";
 
@@ -27,9 +28,13 @@ export const SliderAdvertisement: React.FC = () => {
     );
   };
 
+  const goToSlide = (slideIndex: number) => {
+    setCurrentIndex(slideIndex);
+  };
+
   return (
     <Box width="100%" pos={"relative"}>
-      <Box bgColor="black" overflow="none" maxH="100px">
+      <Box bgColor="black" overflow="none" maxH={{base:"120px", lg:"140px"}}>
         {A.map((item, index) => (
           <Image
             key={index}
@@ -38,7 +43,7 @@ export const SliderAdvertisement: React.FC = () => {
             objectFit={"cover"}
             borderRadius="xl"
             w="100%"
-            h="100px"
+            h={{base:"120px", lg:"140px"}}
             display={index === currentIndex ? "block" : "none"}
             zIndex={index === currentIndex ? 1 : 0}
           />
@@ -81,6 +86,21 @@ export const SliderAdvertisement: React.FC = () => {
               rounded="full"
             />
           </Box>
+        </Box>
+
+        {/* Dots */}
+        <Box display="flex" position="absolute" bottom={0} left="50%" transform="translateX(-50%)">
+          {A.map((_, index) => (
+            <Box
+              key={index}
+              onClick={() => goToSlide(index)}
+              fontSize="2xl"
+              cursor="pointer"
+              mx={1}
+            >
+              <Icon as={RxDotFilled} boxSize={{base:"5", lg:"6"}} color={index === currentIndex ? "white" : "gray.300"} />
+            </Box>
+          ))}
         </Box>
       </Box>
     </Box>

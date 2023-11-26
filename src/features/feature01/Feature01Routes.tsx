@@ -19,63 +19,62 @@ import { CreateGroup } from './Pages/AddFriends/CreateGroup'
 import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
 export const Feature01Routes = () => {
   return [
-    
     {
       path: "/setting",
-      element: <SettingHomepage/>,
+      element: <SettingHomepage />,
     },
     {
       path: "/setting/account",
-      element: <Account/>,
+      element: <Account />,
     },
     {
       path: "/setting/account/profile",
-      element: <Profile/>,
+      element: <Profile />,
     },
-    
+
     {
       path: "/setting/account/paymentmethodsetting",
-      element: <PaymentMethodSetting/>,
+      element: <PaymentMethodSetting />,
     },
     {
       path: "/setting/notifications",
-      element: <Notifications/>,
+      element: <Notifications />,
     },
     {
       path: "/setting/notifications/EmailNoti",
-      element: <EmailNoti/>,
+      element: <EmailNoti />,
     },
     {
       path: "/setting/notifications/PushNoti",
-      element: <PushNoti/>,
+      element: <PushNoti />,
     },
     {
       path: "/setting/privacy-policy",
-      element: <PrivacyPolicy/>,
+      element: <PrivacyPolicy />,
     },
     {
       path: "/setting/term-of-service",
-      element: <TermOfService/>,
+      element: <TermOfService />,
     },
     {
       path: "/setting/help",
-      element: <Help/>,
+      element: <Help />,
     },
     {
       path: "/setting/about",
-      element: <About/>,
+      element: <About />,
     },
     {
       path: "/setting/account/paymentmethodsetting/AddCard",
-      element: <AddCard/>,
+      element: <AddCard />,
     },
     {
       path: "/setting/overview",
-      element: <Overview/>,
+      element: <Overview />,
     },
     {
       path: "/Friends",
-      element: <FriendMain/>,
+      element: <FriendMain />,
     },
     {
       path: "/AddFriend",
@@ -91,4 +90,3 @@ export const Feature01Routes = () => {
   }
   ];
 };
- 

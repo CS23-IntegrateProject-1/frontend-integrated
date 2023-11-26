@@ -1,22 +1,21 @@
-import React from 'react'
+//import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import DateSelection from '../components/DateSelection'
+//import DateSelection from '../Components/DateSelection'
 import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
-import MovieBanner from '../components/MovieBanner'
-import poster1 from '../assets/img/poster1.jpg'
-import SearchBar from '../components/SearchBar'
-import NearestCinemas from '../components/NearestCinemas'
+//import MovieBanner from '../Components/MovieBanner'
+//import poster1 from '../assets/img/poster1.jpg'
+import SearchBar from '../Components/SearchBar'
+import NearestCinemas from '../Components/NearestCinemas'
 
 interface Movie {
   title: string;
   imageUrl: string;
-  id: number; // Adjust the data type based on your API response
+  id: number; 
   rate: string;
   genre: string;
   duration: number;
-  // Add other properties as needed
 }
 
 export const ShowTime = () => {
@@ -30,14 +29,14 @@ export const ShowTime = () => {
       try {
         const response = await axios.get(`http://localhost:8080/feature10//getFilmsById/${movieId}`);
         setMovie({
-          title: response.data.film.name,
-          imageUrl: response.data.film.poster_img,
-          id: response.data.film.filmId,
-          rate: response.data.film.rate,
-          genre: response.data.film.genre,
-          duration: response.data.film.duration,
+          title: response.data.name,
+          imageUrl: response.data.poster_img,
+          id: response.data.filmId,
+          rate: response.data.rate,
+          genre: response.data.genre,
+          duration: response.data.duration,
         });
-        console.log(response.data);
+        console.log(response.data.film);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }
@@ -76,7 +75,7 @@ export const ShowTime = () => {
 
   return (
     <>
-    <DateSelection></DateSelection>
+    {/* <DateSelection></DateSelection> */}
       {/* Display movie details */}
       <Box p={4} boxShadow="md"
         borderRadius="md"

@@ -36,7 +36,7 @@ export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
 
 
   const cardArray = Array.isArray(card) ? card : [card];
-
+  // localhost:8080/feature8/users/4
   return (
     <Box
       display={"flex"}
@@ -78,9 +78,8 @@ export const CreditCardList: FC<CreditCardListProps> = ({ card }) => {
                   <Heading size="md" color={"white"}>
                     {cardItem.name}
                   </Heading>
-
                   <Text py="2" color={"white"}>
-                    {cardItem.card_no}
+                    {cardItem.bank}
                   </Text>
                 </CardBody>
                 <Radio value={cardItem.creditCardId.toString()} />
