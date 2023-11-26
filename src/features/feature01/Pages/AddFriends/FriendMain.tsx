@@ -13,9 +13,14 @@ interface FriendList{
     friend_since: string;
     status: string;
 }
+interface GroupList{
+    group_id: number;
+    group_name: string;
+}
 export const FriendMain = () => {
     const [isShowAddFri, setisShowAddFri] = useState(false);
     const [friData, setFriData] = useState<FriendList[]>([]);
+    const [groupData, setGroupData] = useState<GroupList[]>([]);
     const [profileData, setProfileData] = useState('');
     //get the fir list of the user when the page is loaded
     useEffect(() => {
@@ -46,6 +51,35 @@ export const FriendMain = () => {
             .catch((error) => {
                 console.error("Error fetching user list data:", error);
             });
+
+            //group list
+        const groupurl = `/feature1/group`;
+        Axios.get(groupurl, { withCredentials: true })
+            .then((response) => {
+                if (response.status == 200) {
+                    setGroupData(response.data);
+                    console.log("list of group"+ groupData);
+                    groupData.map((item) => {
+                        console.log(item.group_name);
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching group list data:", error);
+            });
+
+            // const url1 = `/feature1/profile`;
+            // Axios.get(url1, { withCredentials: true })
+            // .then((response) => {
+            //     if (response.status == 200) {
+            //         setProfileData(response.data);
+            //         console.log(profileData + 'profile');
+                    
+            //     }
+            // })
+            // .catch((error) => {
+            //     console.error("Error fetching user list data:", error);
+            // });
         }, []);
 
     const onCloseAddFri = () => setisShowAddFri(false);
@@ -63,6 +97,7 @@ export const FriendMain = () => {
     const [username, setUsername] = useState('');
     const [friendname, setFriendname] = useState('');
     const [friendImg, setFriendImg] = useState('');
+    const [groupName, setGroupName] = useState('');
     //const [isFriend, setIsFriend] = useState(false);
 
     console.log(username);
@@ -169,30 +204,34 @@ export const FriendMain = () => {
                                 </Box>
                             </Flex>
                             <Box mt={5}>
-                                <Accordion m={-2} bg={'white'} defaultIndex={[0]} allowMultiple>
+                                <Accordion m={-2} bg={'white'}  allowMultiple>
                                     <AccordionItem>
                                         <h2>
                                             <AccordionButton>
                                                 <Box fontWeight={TextStyle.h1.fontWeight} fontSize={TextStyle.h2.fontSize} color={'black'} as="span" flex='1' textAlign='left'>
-                                                    Groups 00
+                                                    Groups {groupData.length}
                                                 </Box>
                                                 <AccordionIcon color={'black'} fontWeight={TextStyle.h1.fontWeight} fontSize={TextStyle.h2.fontSize} />
                                             </AccordionButton>
                                         </h2>
-                                        <AccordionPanel pb={4} color={'black'}>
+                                        <AccordionPanel bg={'brand.200'} pb={4} color={'black'}>
                                             {/* loop group list here ***/}
-                                            <Flex alignContent={'center'} alignItems={'center'}>
+
+                                            {groupData.map((item) => (
+                                            <Flex key={item.group_id} px={2} bg={'brand.200'} borderBottom={'0.2px solid black'} py={2} alignContent={'center'} alignItems={'center'}>
                                                 <Box>
-                                                    {friendname ? <Avatar src={friendImg} size={'xl'} /> :
-                                                        <Avatar src='https://bit.ly/broken-link' size={'xl'} />}                                                </Box>
+                                                {item.avatar ? <Avatar src={"friendImg"} size={'md'} /> :
+                                                <Avatar src='https://bit.ly/broken-link' size={'md'} />}
+                                                </Box>
                                                 <Box ml={10}>
-                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>Group Name</Text>
+                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>{item.group_name}</Text>
                                                     {/* <Text fontSize={TextStyle.body2.fontSize}>Last Message</Text> */}
                                                 </Box>
                                                 <Box>
                                                     {/* <Text fontSize={TextStyle.body2.fontSize}>Time</Text> */}
                                                 </Box>
                                             </Flex>
+                                            ))}
                                         </AccordionPanel>
                                     </AccordionItem>
 
@@ -278,8 +317,6 @@ export const FriendMain = () => {
                                     <Text mt={-1} color={'brand.200'} fontSize={TextStyle.body1.fontSize} >Articles</Text>
                                 </Stack>
                             </NavLink>
-
-
                         </Flex>
                     </AlertDialogBody>
                 </AlertDialogContent>
@@ -304,7 +341,7 @@ export const FriendMain = () => {
                         </Center>
                         <Flex py={2} justifyContent={'space-evenly'} cursor={'pointer'}>
                             {/* <Text onClick={handleCofirmAddFri}>Search</Text> */}
-                            <Box px={35} borderRadius={15} color={'white'} py={8} bg={'brand.300'}>
+                            {/* <Box px={35} borderRadius={15} color={'white'} py={8} bg={'brand.300'}>
                                 <Box mt={5} ml={1}>
                                     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                                         <rect width="46" height="46" fill="url(#pattern0)" />
@@ -318,8 +355,8 @@ export const FriendMain = () => {
 
                                 </Box>
                                 <Box ml={1} mt={3} fontWeight={TextStyle.body3.fontWeight} fontSize={TextStyle.body2.fontSize}>QR code</Box>
-                            </Box>
-                            <NavLink to='/AddFriend'>
+                            </Box> */}
+                            <NavLink to='/AddFriend' state={friData}>
                                 <Box px={35} borderRadius={15} color={'white'} py={8} bg={'brand.300'}>
                                     <Box fontWeight={TextStyle.h1.fontWeight} fontSize={50} ><Search2Icon /></Box>
                                     <Box fontWeight={TextStyle.body3.fontWeight} fontSize={TextStyle.body2.fontSize}>Search</Box>

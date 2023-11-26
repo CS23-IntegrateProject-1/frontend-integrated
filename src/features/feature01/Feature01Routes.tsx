@@ -16,6 +16,7 @@ import { Overview } from './Pages/overview/Overview'
 import { FriendMain } from './Pages/AddFriends/FriendMain'
 import { AddFriend } from './Pages/AddFriends/AddFriend'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
+import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
 export const Feature01Routes = () => {
   return [
     
@@ -81,8 +82,12 @@ export const Feature01Routes = () => {
       element: <AddFriend/>,
   },
   {
-    path: "CreateGroup",
+    path: "/CreateGroup",
     element: <CreateGroup/>,
+  },
+  {
+    path: "/SetUpGroup",
+    element: <SetUpGroup/>,
   }
   ];
 };
