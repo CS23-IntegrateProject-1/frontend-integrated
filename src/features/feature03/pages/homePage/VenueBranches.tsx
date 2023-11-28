@@ -88,7 +88,7 @@ export const VenueBranches = () => {
           px={{ base: "none", lg: "10px" }}
           justifyItems={"center"}
           >
-          {venueBData.map((venueD) => (
+          {(venueBData || []).filter(v => String(v.venueId) == venueId).map((venueD) => (
             <Card
               minW={{ base: "250px", lg: "350px" }}
               width="sm"
