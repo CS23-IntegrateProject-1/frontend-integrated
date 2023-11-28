@@ -20,7 +20,7 @@ interface BranchVenueData {
   id: number;
   venueId: number;
   branchId: number;
-  branchName: string;
+  branch_name: string;
   name: string;
   description: string;
   category: string;
@@ -30,11 +30,12 @@ interface BranchVenueData {
   website_url: string;
 }
 
-// interface VenueRate {
-//   id: number;
-//   venueId: number;
-//   rating: string;
-// }
+interface BranchRateData {
+  id: number;
+  branchId: number;
+  venueId: number;
+  rating: string;
+}
 
 export const VenueBranches = () => {
 
@@ -53,19 +54,19 @@ export const VenueBranches = () => {
   });
 
 
-  // const {
-  //   isLoading: venueRateLoading,
-  //   isError: venueRateError,
-  //   data: venueRateData,
-  // } = useQuery<VenueRate[]>({
-  //   queryKey: ["getVenueRates"],
-  //   queryFn: async () => {
-  //     const { data } = await Axios.get("/feature3/venue-ratings");
-  //     return data;
-  //   },
-  // });
+  const {
+    isLoading: branchRateLoading,
+    isError: branchRateError,
+    data: branchRateData,
+  } = useQuery<BranchRateData[]>({
+    queryKey: ["getBranchRates"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/branchRate");
+      return data;
+    },
+  });
 
-  if ( venueBLoading) {
+  if ( venueBLoading || branchRateLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -73,7 +74,7 @@ export const VenueBranches = () => {
     );
   }
 
-  if (venueBError ) {
+  if (venueBError || branchRateError) {
     return <span>An error occurred: </span>;
   }
 
@@ -99,31 +100,24 @@ export const VenueBranches = () => {
               mb={8}
               >
               <CardBody>
-                <Image
-                  src={venueD.pic}
-                  alt={venueD.name}
-                  borderRadius="lg"
-                  w="100%"
-                  h="160px"
-                  bgColor={"white"}
-                />
                 <Stack mt="4" spacing="3">
                   <Flex direction="row" justify="space-between" align="center">
                     <Heading color="white" size="md">
-                      {venueD.name}
+                      {venueD.branch_name}
                     </Heading>
-                    <Flex
-                      direction="row"
-                      p="1.5"
-                      mr="2"
-                      borderRadius="14"
-                      color="white"
-                      >
-                      5
-                      <StarIcon ml="1" transform="translateY(2px)" />
-                    </Flex>
+                    {(branchRateData || []).filter(v => String(v.branchId) == venueId).map((venueDR) => (
+  <Flex
+    direction="row"
+    mr="2"
+    borderRadius="14"
+    color="white"
+    key={venueDR.venueId}
+  >
+    {venueDR.rating}
+    <StarIcon ml="2" transform="translateY(2px)" />
+  </Flex>
+))}
                   </Flex>
-                  <Text color="grey.200">{venueD.description}</Text>
                 </Stack>
               </CardBody>
               <Flex

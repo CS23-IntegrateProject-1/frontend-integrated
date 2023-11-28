@@ -12,7 +12,7 @@ interface PProps {
 export const PromoSlide = () => {
   const P: PProps[] = mockP;
   return (
-    <Box width={"100%"} pt={1}>
+    <Box overflowX={"scroll"} overflow={"hidden"} width={"100%"} pt={1}>
       <Box overflowX="auto">
         <Box display="flex">
           {P.map((P, index) => (

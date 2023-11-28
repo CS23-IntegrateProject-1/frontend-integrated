@@ -24,7 +24,7 @@ interface RProps {
 export const RecommendSlide = () => {
   const R: RProps[] = mockR;
   return (
-    <Box overflow={"scroll"} display={"flex"} w={"100%"} pt={1}>
+    <Box overflowX={"scroll"} overflow={"hidden"} display={"flex"} w={"100%"} pt={1}  >
       {R.filter((R) => R).map((R, index) => (
         <Card
           minW={{ base: "300px", lg: "350px" }}
