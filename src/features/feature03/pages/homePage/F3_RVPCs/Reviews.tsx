@@ -45,7 +45,7 @@ export const Reviews: FC = () => {
   if (reviewsError) {
     return <span>An error occurred: </span>;
   }
-  console.log(reviewsData);
+  // console.log(reviewsData);
   
   return (
     <Box width={"100%"}>
@@ -64,9 +64,9 @@ export const Reviews: FC = () => {
           <Box key={index} pb={"20px"}>
             <Box display={"flex"}>
               <Box width={"80%"}>
-                <Text fontWeight="bold">{reviews.userId} | <Text as ="span" textColor={"red"}>{reviews.review_type}</Text></Text>
+                <Text fontWeight="bold">{reviews.userId}USERNAME | <Text as ="span" textColor={"red"}>{reviews.review_type}</Text></Text>
                 <Flex color={"brand.100"} alignItems={"center"}>
-                  <StarIcon mr={"6px"} />
+                  <StarIcon mr={"6px"}/>
                   <Text mt={"1.5px"}>{reviews.rating}</Text>
                 </Flex>
                 <Text py={"15px"} textColor={"grey.200"}>

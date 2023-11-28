@@ -10,6 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { StarReviewR } from "./StarReviewR";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
+
 
 export const ReviewReservation = () => {
   const [input, setInput] = useState("");

@@ -14,13 +14,54 @@ import {
 import { useState } from "react";
 import { StarReviewD } from "./StarReviewD";
 
+interface VenueData {
+  id: number;
+  venueId: number;
+  name: string;
+  description: string;
+  category: string;
+  capacity: string;
+  location: string;
+  score: string;
+  website_url: string;
+}
+
 export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
+  const [inputFQ, setInputFQ] = useState("");
+  const [inputDT, setInputDT] = useState("");
+  const [inputOA, setInputOA] = useState("");
+  const [inputCS, setInputCS] = useState("");
+  const [inputRR, setInputRR] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
 
   const isError = input === "";
+
+  // const {
+  //   isLoading: venueLoading,
+  //   isError: venueError,
+  //   data: venueData,
+  // } = useQuery<VenueData[]>({
+  //   queryKey: ["getVen"],
+  //   queryFn: async () => {
+  //     const { data } = await Axios.get("/feature3/ven");
+  //     return data;
+  //   },
+  // });
+
+  // if (venueLoading) {
+  //   return (
+  //     <span>
+  //       <FullPageLoader />
+  //     </span>
+  //   );
+  // }
+
+  // if (venueError) {
+  //   return <span>An error occurred: </span>;
+  // }
 
   return (
     <Flex
