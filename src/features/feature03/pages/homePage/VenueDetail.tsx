@@ -3,6 +3,7 @@ import { Box, Text, Image, Button, Flex, Divider } from "@chakra-ui/react";
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import mockO from "../OF3mock.json";
+import { useParams } from "react-router-dom";
 
 interface OProps {
   id: number;
@@ -14,6 +15,7 @@ interface OProps {
 
 export const VenueDetail = () => {
   const O: OProps[] = mockO;
+  const { branchId } = useParams();
 
   return (
     <Box width={"100%"}>

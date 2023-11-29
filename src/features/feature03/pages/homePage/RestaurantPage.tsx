@@ -13,6 +13,7 @@ import {
 import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
+import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
@@ -20,21 +21,19 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-interface VenueData {
+interface Venue {
   id: number;
   venueId: number;
+  branchId: number;
   name: string;
   description: string;
   category: string;
   capacity: string;
   location: string;
-  score: string;
   website_url: string;
 }
 
-interface VenueRate {
-  id: number;
-  venueId: number;
+interface VenueXRate extends Venue {
   rating: string;
 }
 
@@ -45,7 +44,7 @@ export const RestaurantPage: FC = (props) => {
     isLoading: venueLoading,
     isError: venueError,
     data: venueData,
-  } = useQuery<VenueData[]>({
+  } = useQuery<Venue[]>({
     queryKey: ["getVen"],
     queryFn: async () => {
       const { data } = await Axios.get("/feature3/ven");
@@ -53,19 +52,19 @@ export const RestaurantPage: FC = (props) => {
     },
   });
 
-  // const {
-  //   isLoading: venueRateLoading,
-  //   isError: venueRateError,
-  //   data: venueRateData,
-  // } = useQuery<VenueRate[]>({
-  //   queryKey: ["getVenueRates"],
-  //   queryFn: async () => {
-  //     const { data } = await Axios.get("/feature3/venue-ratings");
-  //     return data;
-  //   },
-  // });
+  const {
+    isLoading: venueXRateLoading,
+    isError: venueXRateError,
+    data: venueXRateData,
+  } = useQuery<VenueXRate[]>({
+    queryKey: ["getVenueXRates"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/venXRate");
+      return data;
+    },
+  });
 
-  if (venueLoading) {
+  if (venueLoading || venueXRateLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -73,9 +72,17 @@ export const RestaurantPage: FC = (props) => {
     );
   }
 
-  if (venueError) {
+  if (venueError || venueXRateError) {
     return <span>An error occurred: </span>;
   }
+
+  // Combine venue data with ratings
+  const venuesWithRating = venueData.map((venueD) => {
+    const matchingRating = venueXRateData.find(
+      (venueXRate) => venueXRate.venueId === venueD.venueId
+    );
+    return { ...venueD, rating: matchingRating?.rating || "N/A" };
+  });
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
@@ -104,7 +111,7 @@ export const RestaurantPage: FC = (props) => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {venueData.map((venueD) => (
+        {venuesWithRating.map((venueD) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
@@ -113,27 +120,35 @@ export const RestaurantPage: FC = (props) => {
             key={venueD.venueId}
             mb={8}
           >
-            <CardBody>
+            <CardBody pb={1}>
               <Image
                 src={venueD.pic}
-                alt={venueD.name}
+                alt={venueD.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
                 h="160px"
                 bgColor={"white"}
               />
-              <Heading color="white" size="md" mt="4">
-                {venueD.name}
-              </Heading>
+              <Flex mt="4">
+                <Heading color="white" size="md">
+                  {venueD.name}
+                </Heading>
+                <Flex direction="row" mr="2" borderRadius="14" ml={"auto"} color="white" transform="translateY(2px)">
+                  {venueD.rating}
+                  <StarIcon ml="2" transform="translateY(2px)" />
+                </Flex>
+              </Flex>
             </CardBody>
             <Flex
-              direction="row"
+              direction="column"
               justify="center"
               width="100%"
-              pl="5"
-              pr="5"
+              px="5"
               pb="5"
             >
+              <Text mb={3} textColor={"gray.300"}>
+                {venueD.description}
+              </Text>
               <NavLink to={`/Branches/${venueD.venueId}`}>
                 <Button
                   variant="solid"

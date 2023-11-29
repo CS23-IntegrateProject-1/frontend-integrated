@@ -105,15 +105,13 @@ export const VenueBranches = () => {
                     <Heading color="white" size="md">
                       {venueD.branch_name}
                     </Heading>
-                    {(branchRateData || [])
-                      .filter((v) => String(v.branchId) == venueId)
-                      .map((venueDR) => (
+                    {(branchRateData || []).filter((v) => String(v.branchId) === String(venueD.branchId)).map((venueDR) => (
                         <Flex
                           direction="row"
                           mr="2"
                           borderRadius="14"
                           color="white"
-                          key={venueDR.venueId}
+                          key={venueDR.branchId}
                         >
                           {venueDR.rating}
                           <StarIcon ml="2" transform="translateY(2px)" />
@@ -130,7 +128,7 @@ export const VenueBranches = () => {
                 pr="5"
                 pb="5"
               >
-                <NavLink to="/venuevenue-branch/:branchId">
+                <NavLink to={`/venueDetail/${venueD.branchId}`}>
                   <Button
                     variant="outline"
                     textColor="white"
