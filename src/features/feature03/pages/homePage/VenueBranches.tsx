@@ -38,7 +38,6 @@ interface BranchRateData {
 }
 
 export const VenueBranches = () => {
-
   const { venueId } = useParams();
 
   const {
@@ -53,7 +52,6 @@ export const VenueBranches = () => {
     },
   });
 
-
   const {
     isLoading: branchRateLoading,
     isError: branchRateError,
@@ -66,7 +64,7 @@ export const VenueBranches = () => {
     },
   });
 
-  if ( venueBLoading || branchRateLoading) {
+  if (venueBLoading || branchRateLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -80,16 +78,18 @@ export const VenueBranches = () => {
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
-        <Box
-          display="grid"
-          width="100%"
-          gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
-          overflow="hidden"
-          mt={{ base: "3", lg: "8" }}
-          px={{ base: "none", lg: "10px" }}
-          justifyItems={"center"}
-          >
-          {(venueBData || []).filter(v => String(v.venueId) == venueId).map((venueD) => (
+      <Box
+        display="grid"
+        width="100%"
+        gridTemplateColumns={{ lg: "repeat(3, 1fr)", base: "repeat(1, 1fr)" }}
+        overflow="hidden"
+        mt={{ base: "3", lg: "8" }}
+        px={{ base: "none", lg: "10px" }}
+        justifyItems={"center"}
+      >
+        {(venueBData || [])
+          .filter((v) => String(v.venueId) == venueId)
+          .map((venueD) => (
             <Card
               minW={{ base: "250px", lg: "350px" }}
               width="sm"
@@ -98,25 +98,27 @@ export const VenueBranches = () => {
               bg="none"
               key={venueD.venueId}
               mb={8}
-              >
+            >
               <CardBody>
                 <Stack mt="4" spacing="3">
                   <Flex direction="row" justify="space-between" align="center">
                     <Heading color="white" size="md">
                       {venueD.branch_name}
                     </Heading>
-                    {(branchRateData || []).filter(v => String(v.branchId) == venueId).map((venueDR) => (
-  <Flex
-    direction="row"
-    mr="2"
-    borderRadius="14"
-    color="white"
-    key={venueDR.venueId}
-  >
-    {venueDR.rating}
-    <StarIcon ml="2" transform="translateY(2px)" />
-  </Flex>
-))}
+                    {(branchRateData || [])
+                      .filter((v) => String(v.branchId) == venueId)
+                      .map((venueDR) => (
+                        <Flex
+                          direction="row"
+                          mr="2"
+                          borderRadius="14"
+                          color="white"
+                          key={venueDR.venueId}
+                        >
+                          {venueDR.rating}
+                          <StarIcon ml="2" transform="translateY(2px)" />
+                        </Flex>
+                      ))}
                   </Flex>
                 </Stack>
               </CardBody>
@@ -155,8 +157,8 @@ export const VenueBranches = () => {
                 </NavLink>
               </Flex>
             </Card>
-      ))}
-        </Box>
+          ))}
+      </Box>
     </Box>
   );
 };

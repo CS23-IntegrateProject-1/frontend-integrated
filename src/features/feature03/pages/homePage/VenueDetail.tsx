@@ -156,9 +156,8 @@ export const VenueDetail = () => {
 
       <Flex
         display="grid"
-        gridTemplateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)"}}
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)" }}
         pb="4"
-        
       >
         {O.filter((O) => O).map((O, index) => (
           <Box
@@ -208,37 +207,37 @@ export const VenueDetail = () => {
         ))}
       </Flex>
 
-      <Flex direction="row" pb="10" justifyContent={"center"} >
+      <Flex direction="row" pb="10" justifyContent={"center"}>
         <NavLink to="/table">
-            <Button
-              variant="solid"
-              textColor="white"
-              bgColor="brand.200"
-              _hover={{
-                textColor: "black",
-                bgColor: "brand.100",
-              }}
-              mr={{base:"5", lg:"10"}}
-              w={{base:"125px", lg:"180px"}}
-            >
-              Reserve now
-            </Button>
-          </NavLink>
-          <NavLink to="/PATH_IDKKKKKKKKKOOOOOOO">
-            <Button
-              variant="solid"
-              textColor="white"
-              bgColor="brand.200"
-              _hover={{
-                textColor: "black",
-                bgColor: "brand.100",
-              }}
-              w={{base:"125px", lg:"180px"}}
-            >
-              Order now
-            </Button>
-          </NavLink>
-          </Flex>
+          <Button
+            variant="solid"
+            textColor="white"
+            bgColor="brand.200"
+            _hover={{
+              textColor: "black",
+              bgColor: "brand.100",
+            }}
+            mr={{ base: "5", lg: "10" }}
+            w={{ base: "125px", lg: "180px" }}
+          >
+            Reserve now
+          </Button>
+        </NavLink>
+        <NavLink to="/PATH_IDKKKKKKKKKOOOOOOO">
+          <Button
+            variant="solid"
+            textColor="white"
+            bgColor="brand.200"
+            _hover={{
+              textColor: "black",
+              bgColor: "brand.100",
+            }}
+            w={{ base: "125px", lg: "180px" }}
+          >
+            Order now
+          </Button>
+        </NavLink>
+      </Flex>
     </Box>
   );
 };
