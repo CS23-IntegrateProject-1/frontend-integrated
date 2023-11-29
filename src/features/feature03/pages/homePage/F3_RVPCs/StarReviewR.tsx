@@ -3,6 +3,7 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 export const StarReviewR = () => {
+  
   const [reserve, setResRating] = useState(0);
   const [table, setTabRating] = useState(0);
   const [ambiance, setAmbRating] = useState(0);

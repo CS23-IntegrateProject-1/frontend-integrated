@@ -10,20 +10,20 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-interface Venue {
+
+interface VenueXRate {
   id: number;
   venueId: number;
   branchId: number;
   name: string;
+  branch_name: string;
   description: string;
   category: string;
   capacity: string;
   location: string;
   website_url: string;
-}
-
-interface VenueXRate extends Venue {
   rating: string;
+
 }
 
 interface OProps {
@@ -40,18 +40,6 @@ export const VenueDetail: FC = () => {
 
 
   const {
-    isLoading: venueLoading,
-    isError: venueError,
-    data: venueData,
-  } = useQuery<Venue[]>({
-    queryKey: ["getVen"],
-    queryFn: async () => {
-      const { data } = await Axios.get("/feature3/ven");
-      return data;
-    },
-  });
-
-  const {
     isLoading: venueXRateLoading,
     isError: venueXRateError,
     data: venueXRateData,
@@ -63,10 +51,9 @@ export const VenueDetail: FC = () => {
     },
   });
 
-  const selectedVenue = venueData?.find((venue) => venue.branchId === Number(branchId));
-  const selectedVenueXRate = venueXRateData?.find((venue) => venue.branchId === Number(branchId));
 
-  if (venueLoading || venueXRateLoading) {
+
+  if (venueXRateLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -74,16 +61,20 @@ export const VenueDetail: FC = () => {
     );
   }
 
-  if (venueError || venueXRateError) {
+  if (venueXRateError) {
     return <span>An error occurred: </span>;
   }
 
-  console.log(selectedVenue);
+  const filteredVenueData = venueXRateData.filter((venue) => venue.branchId === Number(branchId));
+
+  console.log(branchId);
   return (
     <Box width={"100%"}>
+      {filteredVenueData.map((venue, index) => (
+      <Box key={index}>
       <Image
-        src="https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg"
-        alt="Pic not load"
+        src={venue.pic}
+        alt={venue.name + "_Pic"}
         borderRadius="2xl"
         w="100%"
         h="300px"
@@ -91,11 +82,12 @@ export const VenueDetail: FC = () => {
         minH="300px"
         objectFit={"cover"}
         mb="5"
+        bgColor={"black"}
       />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Box display={"flex"} alignItems={"center"}>
         <Text fontSize={"3xl"} fontWeight={"bold"}>
-          {selectedVenue?.name}
+        {venue.name} | {venue.branch_name}
         </Text>
         {/* ******************* If have time ************************ */}
         <Box ml="auto">
@@ -113,11 +105,11 @@ export const VenueDetail: FC = () => {
       <Box display={"flex"} pb={5}>
         <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
         <Text color={"brand.100"} fontSize="15px">
-        {selectedVenueXRate?.rating}
+        {venue.rating}
         </Text>
 
         <Box ml={"auto"}>
-          <NavLink to={`/Reviews/${1}`}>
+          <NavLink to={`/Reviews/${branchId}`}>
             <Text
               textDecoration={"underline"}
               fontSize="12.5px"
@@ -131,21 +123,15 @@ export const VenueDetail: FC = () => {
           </NavLink>
         </Box>
       </Box>
-      {/* <NavLink to={`/VenueDetail/${venueD.branchId}`}> */}
 
       <Box bgColor={"brand.200"} borderRadius="xl">
         <Text p={3}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          {venue.description}
         </Text>
+        
       </Box>
+      </Box>
+      ))}
 
       <Divider
         py={4}
@@ -302,6 +288,7 @@ export const VenueDetail: FC = () => {
           </Button>
         </NavLink>
       </Flex>
+      
     </Box>
   );
 };
