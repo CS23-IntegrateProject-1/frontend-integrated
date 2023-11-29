@@ -4,8 +4,8 @@ import { StarIcon } from "@chakra-ui/icons";
 
 const starSortBox = {
   backgroundColor: "brand.300",
-  px: "3",
-  py: "2",
+  px: { base: "2", lg: "3" },
+  py: { base: "1", lg: "2" },
   mr: "2",
   borderRadius: "xl",
 };

@@ -7,8 +7,9 @@ import {
   ModalContent,
   ModalFooter,
 } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
-export function reviewModal({ isOpen = false, onClose = () => {} }) {
+export function reviewModalDel({ isOpen = false, onClose = () => {} }) {
   return (
     <Modal
       isOpen={isOpen}
@@ -34,27 +35,30 @@ export function reviewModal({ isOpen = false, onClose = () => {} }) {
         </ModalHeader>
         <ModalFooter>
           <Flex direction="row" justify="space-between" w="100%">
-          <Button
-            variant="outline"
-            borderColor="white"
-            textColor="white"
-            _hover={{
-              textColor: "black",
-              borderColor: "black",
-              bgColor: "white",
-            }}
-            mr="5"
-          >
-            Later
-          </Button>
-          <Button
-            variant="solid"
-            textColor="white"
-            bgColor="brand.300"
-            _hover={{ bgColor: "brand.100", textColor: "black" }}
-          >
-            Review
-          </Button></Flex>
+            <Button
+              variant="outline"
+              borderColor="white"
+              textColor="white"
+              _hover={{
+                textColor: "black",
+                borderColor: "black",
+                bgColor: "white",
+              }}
+              mr="5"
+            >
+              Later
+            </Button>
+            <NavLink to="/ReviewDel">
+              <Button
+                variant="solid"
+                textColor="white"
+                bgColor="brand.300"
+                _hover={{ bgColor: "brand.100", textColor: "black" }}
+              >
+                Review
+              </Button>
+            </NavLink>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

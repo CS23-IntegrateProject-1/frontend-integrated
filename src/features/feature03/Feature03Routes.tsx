@@ -7,6 +7,7 @@ import { VenueDetail } from "./pages/homePage/VenueDetail";
 import { VenueBranches } from "./pages/homePage/VenueBranches";
 import { ReviewDelivery } from "./pages/homePage/F3_RVPCs/ReviewDelivery"
 import { ReviewReservation } from "./pages/homePage/F3_RVPCs/ReviewReservation"
+import { MyReviews } from "./pages/homePage/F3_RVPCs/MyReviews"
 
 export const Feature03Routes = () => {
   return [
@@ -20,6 +21,7 @@ export const Feature03Routes = () => {
 
     { path: "/Reviews/:branchId", element: <ReviewPage /> },
     { path: "/ReviewDel", element: <ReviewDelivery /> },
-    { path: "/ReviewRes", element: <ReviewReservation /> }
+    { path: "/ReviewRes", element: <ReviewReservation /> },
+    { path: "/MyReviews", element: <MyReviews /> }
   ];
 };

@@ -1,7 +1,6 @@
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
 import { StarSort } from "./StarSort";
 import { StarIcon } from "@chakra-ui/icons";
-
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
@@ -19,9 +18,9 @@ interface reviewsData {
   date_added: string;
 }
 
-export const Reviews: FC = () => {
+export const MyReviews: FC = () => {
   const branchId = useParams<{ branchId: string }>();
-
+  
   const {
     isLoading: reviewsLoading,
     isError: reviewsError,
@@ -29,9 +28,7 @@ export const Reviews: FC = () => {
   } = useQuery<reviewsData[]>({
     queryKey: ["getReviews"],
     queryFn: async () => {
-      const { data } = await Axios.get(
-        `/feature3/reviews/${branchId.branchId}`
-      );
+      const { data } = await Axios.get(`/feature3/reviews/${branchId.branchId}`);
       return data;
     },
   });
@@ -48,7 +45,7 @@ export const Reviews: FC = () => {
     return <span>An error occurred: </span>;
   }
   // console.log(reviewsData);
-
+  
   return (
     <Box width={"100%"}>
       <Text fontSize={"20px"} fontWeight="bold">
@@ -66,14 +63,9 @@ export const Reviews: FC = () => {
           <Box key={index} pb={"20px"}>
             <Box display={"flex"}>
               <Box width={"80%"}>
-                <Text fontWeight="bold">
-                  {reviews.userId}USERNAME |{" "}
-                  <Text as="span" textColor={"red"}>
-                    {reviews.review_type}
-                  </Text>
-                </Text>
+                <Text fontWeight="bold">{reviews.userId}USERNAME | <Text as ="span" textColor={"red"}>{reviews.review_type}</Text></Text>
                 <Flex color={"brand.100"} alignItems={"center"}>
-                  <StarIcon mr={"6px"} />
+                  <StarIcon mr={"6px"}/>
                   <Text mt={"1.5px"}>{reviews.rating}</Text>
                 </Flex>
                 <Text py={"15px"} textColor={"grey.200"}>
@@ -81,9 +73,7 @@ export const Reviews: FC = () => {
                 </Text>
               </Box>
               <Box textColor={"grey.200"} ml={"auto"}>
-                <Text fontSize={{ base: "10px", lg: "15px" }}>
-                  {reviews.date_added.substring(0, 10)}
-                </Text>
+                {reviews.date_added.substring(0,10)}
               </Box>
             </Box>
             <Divider
