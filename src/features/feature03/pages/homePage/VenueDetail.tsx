@@ -10,7 +10,6 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-
 interface VenueXRate {
   id: number;
   venueId: number;
@@ -23,7 +22,6 @@ interface VenueXRate {
   location: string;
   website_url: string;
   rating: string;
-
 }
 
 interface OProps {
@@ -38,7 +36,6 @@ export const VenueDetail: FC = () => {
   const O: OProps[] = mockO;
   const { branchId } = useParams();
 
-
   const {
     isLoading: venueXRateLoading,
     isError: venueXRateError,
@@ -50,8 +47,6 @@ export const VenueDetail: FC = () => {
       return data;
     },
   });
-
-
 
   if (venueXRateLoading) {
     return (
@@ -65,73 +60,80 @@ export const VenueDetail: FC = () => {
     return <span>An error occurred: </span>;
   }
 
-  const filteredVenueData = venueXRateData.filter((venue) => venue.branchId === Number(branchId));
+  const filteredVenueData = venueXRateData
+  .filter((venue) => venue.branchId === Number(branchId))
+  .map((venue) => ({
+    ...venue,
+    rating: venue.rating !== undefined && venue.rating !== null ? venue.rating : "N/A",
+  }));
 
   console.log(branchId);
+  console.log(filteredVenueData);
+
+
   return (
     <Box width={"100%"}>
       {filteredVenueData.map((venue, index) => (
-      <Box key={index}>
-      <Image
-        src={venue.pic}
-        alt={venue.name + "_Pic"}
-        borderRadius="2xl"
-        w="100%"
-        h="300px"
-        maxH="300px"
-        minH="300px"
-        objectFit={"cover"}
-        mb="5"
-        bgColor={"black"}
-      />
-      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Box display={"flex"} alignItems={"center"}>
-        <Text fontSize={"3xl"} fontWeight={"bold"}>
-        {venue.name} | {venue.branch_name}
-        </Text>
-        {/* ******************* If have time ************************ */}
-        <Box ml="auto">
-          <Flex
-            direction="column"
-            alignItems="center"
-            _hover={{ color: "brand.100" }}
-          >
-            <FaMapMarkerAlt fontSize="25px" />
-            <Text fontSize="15px">Location</Text>
-          </Flex>
-        </Box>
-        {/* ******************************************************** */}
-      </Box>
-      <Box display={"flex"} pb={5}>
-        <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
-        <Text color={"brand.100"} fontSize="15px">
-        {venue.rating}
-        </Text>
-
-        <Box ml={"auto"}>
-          <NavLink to={`/Reviews/${branchId}`}>
-            <Text
-              textDecoration={"underline"}
-              fontSize="12.5px"
-              ml={"auto"}
-              mt={"3px"}
-              color={"grey.200"}
-              _hover={{ color: "white" }}
-            >
-              View all ratings & reviews
+        <Box key={index}>
+          <Image
+            src={venue.pic}
+            alt={venue.name + "_Pic"}
+            borderRadius="2xl"
+            w="100%"
+            h="300px"
+            maxH="300px"
+            minH="300px"
+            objectFit={"cover"}
+            mb="5"
+            bgColor={"black"}
+          />
+          {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+          <Box display={"flex"} alignItems={"center"}>
+            <Text fontSize={"3xl"} fontWeight={"bold"}>
+              {venue.name} | {venue.branch_name}
             </Text>
-          </NavLink>
-        </Box>
-      </Box>
+            {/* ******************* If have time ************************ */}
+            <Box ml="auto">
+              <Flex
+                direction="column"
+                alignItems="center"
+                _hover={{ color: "brand.100" }}
+              >
+                <FaMapMarkerAlt fontSize="25px" />
+                <Text fontSize="15px">Location</Text>
+              </Flex>
+            </Box>
+            {/* ******************************************************** */}
+          </Box>
+          <Box display={"flex"} pb={5}>
+              <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
+              <Text color={"brand.100"} fontSize="15px">
+                {venue.rating}
+              </Text>
 
-      <Box bgColor={"brand.200"} borderRadius="xl">
-        <Text p={3}>
-          {venue.description}
-        </Text>
-        
-      </Box>
-      </Box>
+            <Box ml={"auto"}>
+              <NavLink to={`/Reviews/${branchId}`}>
+                <Text
+                  textDecoration={"underline"}
+                  fontSize="12.5px"
+                  ml={"auto"}
+                  mt={"3px"}
+                  color={"grey.200"}
+                  _hover={{ color: "white" }}
+                >
+                  View all ratings & reviews
+                </Text>
+              </NavLink>
+            </Box>
+          </Box>
+
+          <Box bgColor={"brand.200"} borderRadius="xl">
+            <Text p={3}>{venue.description}</Text>
+          </Box>
+        </Box>
       ))}
+
+
 
       <Divider
         py={4}
@@ -288,7 +290,6 @@ export const VenueDetail: FC = () => {
           </Button>
         </NavLink>
       </Flex>
-      
     </Box>
   );
 };
