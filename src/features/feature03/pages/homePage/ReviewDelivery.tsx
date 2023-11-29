@@ -12,7 +12,7 @@ import {
 
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { StarReviewD } from "./StarReviewD";
+import { StarReviewD } from "./F3_RVPCs/StarReviewD";
 
 interface VenueData {
   id: number;
@@ -94,7 +94,7 @@ export const ReviewDelivery = () => {
       <Button
         variant="solid"
         textColor="white"
-        bgColor="brand.200"
+        bgColor="brand.300"
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
         mt={{ base: "80", lg: "40" }}

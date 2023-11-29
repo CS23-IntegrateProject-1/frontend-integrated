@@ -27,7 +27,7 @@ const cardStyle = {
 export const ButtonPenta = () => {
   return (
     <Flex pb={{ base: 0, lg: 2 }} justifyContent={"center"} width={"100%"}>
-      <NavLink to="/Restaurants">
+      <NavLink to="/Venues">
         <Card sx={cardStyle}>
           <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
             <HStack justifyContent={"center"}>

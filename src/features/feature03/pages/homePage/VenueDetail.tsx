@@ -3,7 +3,28 @@ import { Box, Text, Image, Button, Flex, Divider } from "@chakra-ui/react";
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import mockO from "../OF3mock.json";
+
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { FC } from "react";
 import { useParams } from "react-router-dom";
+
+interface Venue {
+  id: number;
+  venueId: number;
+  branchId: number;
+  name: string;
+  description: string;
+  category: string;
+  capacity: string;
+  location: string;
+  website_url: string;
+}
+
+interface VenueXRate extends Venue {
+  rating: string;
+}
 
 interface OProps {
   id: number;
@@ -13,10 +34,51 @@ interface OProps {
   description: string;
 }
 
-export const VenueDetail = () => {
+export const VenueDetail: FC = () => {
   const O: OProps[] = mockO;
   const { branchId } = useParams();
 
+
+  const {
+    isLoading: venueLoading,
+    isError: venueError,
+    data: venueData,
+  } = useQuery<Venue[]>({
+    queryKey: ["getVen"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/ven");
+      return data;
+    },
+  });
+
+  const {
+    isLoading: venueXRateLoading,
+    isError: venueXRateError,
+    data: venueXRateData,
+  } = useQuery<VenueXRate[]>({
+    queryKey: ["getVenueXRates"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/venXRate");
+      return data;
+    },
+  });
+
+  const selectedVenue = venueData?.find((venue) => venue.branchId === Number(branchId));
+  const selectedVenueXRate = venueXRateData?.find((venue) => venue.branchId === Number(branchId));
+
+  if (venueLoading || venueXRateLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (venueError || venueXRateError) {
+    return <span>An error occurred: </span>;
+  }
+
+  console.log(selectedVenue);
   return (
     <Box width={"100%"}>
       <Image
@@ -33,7 +95,7 @@ export const VenueDetail = () => {
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Box display={"flex"} alignItems={"center"}>
         <Text fontSize={"3xl"} fontWeight={"bold"}>
-          Restuant Lorem by by NENE
+          {selectedVenue?.name}
         </Text>
         {/* ******************* If have time ************************ */}
         <Box ml="auto">
@@ -51,11 +113,11 @@ export const VenueDetail = () => {
       <Box display={"flex"} pb={5}>
         <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
         <Text color={"brand.100"} fontSize="15px">
-          4.7 (2934 ratings)
+        {selectedVenueXRate?.rating}
         </Text>
 
         <Box ml={"auto"}>
-          <NavLink to="/Reviews">
+          <NavLink to={`/Reviews/${1}`}>
             <Text
               textDecoration={"underline"}
               fontSize="12.5px"
@@ -69,6 +131,7 @@ export const VenueDetail = () => {
           </NavLink>
         </Box>
       </Box>
+      {/* <NavLink to={`/VenueDetail/${venueD.branchId}`}> */}
 
       <Box bgColor={"brand.200"} borderRadius="xl">
         <Text p={3}>
@@ -171,7 +234,7 @@ export const VenueDetail = () => {
             alignItems={"center"}
             maxW={"450px"}
             key={index}
-            border="2px solid white"
+            bgColor={"brand.300"}
           >
             <Image
               src={O.picO}
@@ -183,7 +246,6 @@ export const VenueDetail = () => {
               minH="100px"
               objectFit={"cover"}
               ml={1}
-              border="1px solid white"
             />
             <Box
               pl={4}

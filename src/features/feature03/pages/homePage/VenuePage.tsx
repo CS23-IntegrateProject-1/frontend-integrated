@@ -37,7 +37,7 @@ interface VenueXRate extends Venue {
   rating: string;
 }
 
-export const RestaurantPage: FC = (props) => {
+export const VenuePage: FC = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {

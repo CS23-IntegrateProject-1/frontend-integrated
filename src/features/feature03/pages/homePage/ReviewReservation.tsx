@@ -9,10 +9,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { StarReviewR } from "./StarReviewR";
+import { StarReviewR } from "./F3_RVPCs/StarReviewR";
 import { useQuery } from "@tanstack/react-query";
-import { Axios } from "../../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 
 export const ReviewReservation = () => {
@@ -40,7 +40,7 @@ export const ReviewReservation = () => {
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="brand.200"
+          errorBorderColor="red"
           type="email"
           value={input}
           onChange={handleInputChange}

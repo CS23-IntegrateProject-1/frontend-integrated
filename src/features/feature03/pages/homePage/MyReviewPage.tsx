@@ -1,9 +1,9 @@
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
-import { StarSort } from "./StarSort";
+import { StarSort } from "./F3_RVPCs/StarSort";
 import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Axios } from "../../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,7 +28,7 @@ export const MyReviews: FC = () => {
   } = useQuery<reviewsData[]>({
     queryKey: ["getReviews"],
     queryFn: async () => {
-      const { data } = await Axios.get(`/feature3/reviews/${branchId.branchId}`);
+      const { data } = await Axios.get(`/feature3/reviews/${1}`);
       return data;
     },
   });
@@ -47,9 +47,9 @@ export const MyReviews: FC = () => {
   // console.log(reviewsData);
   
   return (
-    <Box width={"100%"}>
-      <Text fontSize={"20px"} fontWeight="bold">
-        Reviews
+    <Box width={"100%"} px={{ base: "0", lg: "300" }}>
+      <Text fontSize={{base:"40px", lg:"50px"}} fontWeight="bold">
+        My Reviews
       </Text>
       <StarSort />
       <Divider

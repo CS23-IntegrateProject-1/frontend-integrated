@@ -7,8 +7,7 @@ export const ReviewPage = () => {
     <Flex justify="center">
       <Box
         width={"100%"}
-        pl={{ base: "0", lg: "300" }}
-        pr={{ base: "0", lg: "300" }}
+        px={{ base: "0", lg: "300" }}
       >
         <Ratings />
         <Reviews />

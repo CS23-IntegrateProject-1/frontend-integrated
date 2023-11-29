@@ -38,6 +38,7 @@ interface BranchRateData {
 }
 
 export const VenueBranches = () => {
+
   const { venueId } = useParams();
 
   const {
@@ -76,6 +77,15 @@ export const VenueBranches = () => {
     return <span>An error occurred: </span>;
   }
 
+  const branchWithRating = venueBData.map((venueB) => {
+    const matchingBRating = branchRateData.find(
+      (branchR) => venueB.venueId === branchR.venueId
+    );
+    return { ...venueB, rating: matchingBRating?.rating || "N/A" };
+  });
+
+  // console.log(branchRateData);
+
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
       <Box
@@ -87,7 +97,7 @@ export const VenueBranches = () => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {(venueBData || [])
+        {(branchWithRating || [])
           .filter((v) => String(v.venueId) == venueId)
           .map((venueD) => (
             <Card
@@ -105,7 +115,7 @@ export const VenueBranches = () => {
                     <Heading color="white" size="md">
                       {venueD.branch_name}
                     </Heading>
-                    {(branchRateData || []).filter((v) => String(v.branchId) === String(venueD.branchId)).map((venueDR) => (
+                    {(branchRateData || []).filter((venueDR) => String(venueDR.branchId) === String(venueD.branchId)).map((venueDR) => (
                         <Flex
                           direction="row"
                           mr="2"
@@ -128,7 +138,7 @@ export const VenueBranches = () => {
                 pr="5"
                 pb="5"
               >
-                <NavLink to={`/venueDetail/${venueD.branchId}`}>
+                <NavLink to={`/VenueDetail/${venueD.branchId}`}>
                   <Button
                     variant="outline"
                     textColor="white"

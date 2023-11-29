@@ -81,7 +81,7 @@ export const Reviews: FC = () => {
                 </Text>
               </Box>
               <Box textColor={"grey.200"} ml={"auto"}>
-                <Text fontSize={{ base: "10px", lg: "15px" }}>
+                <Text fontSize="15px">
                   {reviews.date_added.substring(0, 10)}
                 </Text>
               </Box>
