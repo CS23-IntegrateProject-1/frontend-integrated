@@ -6,7 +6,7 @@ import { CartMenuDetail } from "./pages/CartMenuDetail";
 import FoodDelivery from "./pages/FoodDelivery";
 import OngoingPage from "./pages/Mydelivery/MyDelivery";
 import { CompletedStatusPage } from "./pages/Mydelivery/CompletedStatusPage";
-import { CancledMyDelivery } from "./pages/Mydelivery/CancleDelivery";
+import { CanceledMyDelivery } from "./pages/Mydelivery/CanceledDelivery";
 export const Feature04Routes = () => {
   return [
     { path: "/map", element: <Maps /> },
@@ -16,9 +16,9 @@ export const Feature04Routes = () => {
     { path: "/map/bars", element: <Bars /> },
     {path:"/map/food-delivery", element:<FoodDelivery/>},
     {path:"/map/food-delivery/food-detail", element:<CartMenuDetail/>},
-    {path:"/map/food-delivery/my-delivery",element:<OngoingPage/>},
-    {path:"/map/food-delivery/my-delivery/completed",element:<CompletedStatusPage/>},
-    {path:"/map/food-delivery/my-delivery/cancled",element:<CancledMyDelivery/>}
+    {path:"/map/food-delivery/ongoing",element:<OngoingPage/>},
+    {path:"/map/food-delivery/completed",element:<CompletedStatusPage/>},
+    {path:"/map/food-delivery/canceled",element:<CanceledMyDelivery/>}
 
 
 
