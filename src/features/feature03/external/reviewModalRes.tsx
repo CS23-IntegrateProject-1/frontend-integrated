@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
-export function reviewModalRes({ isOpen = false, onClose = () => {} }) {
+export function ReviewModalRes({ isOpen = false, onClose = () => {} }) {
   return (
     <Modal
       isOpen={isOpen}
@@ -45,14 +45,15 @@ export function reviewModalRes({ isOpen = false, onClose = () => {} }) {
                 bgColor: "white",
               }}
               mr="5"
+              onClick={onClose}
             >
               Later
             </Button>
-            <NavLink to="/ReviewRes">
+            <NavLink to="/ReviewReservation">
               <Button
                 variant="solid"
                 textColor="white"
-                bgColor="brand.300"
+                bgColor="brand.200"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
               >
                 Review
