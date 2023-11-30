@@ -35,7 +35,7 @@ export const OrderUpdateNoti = () => {
   const [userId, setUserId] = useState('');
   const [order, setOrder] = useState<Order[]>([]);
   const { orderId } = useParams();
-
+            
   const fetchData = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -49,7 +49,7 @@ export const OrderUpdateNoti = () => {
           console.log('API Response:', userData);
           setUserData(userData);
           setUserId(userData.userId);
-        } else {
+        } else { 
           console.error('No user data received from API');
         }
       } else {

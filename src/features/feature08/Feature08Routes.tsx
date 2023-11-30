@@ -18,6 +18,7 @@ import { Checkbill } from "./pages/Account/Checkbill";
 import { Timestamp } from "./pages/Account/Timestamp";
 import { AccountingMain } from "./pages/Account/AccountingMain";
 import { AddCardVenue } from "./pages/AddCard/AddCardVenue";
+import { BusinessInsight } from "./pages/Admin/BusinessInsight";
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
 export const Feature08Routes = () => {
@@ -63,6 +64,7 @@ export const Feature08Routes = () => {
     },
     { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
+    { path: "/venue/:userId/admin/insight", element: <BusinessInsight /> },
 
     { path: "/Notification/BusinessNoti/:venueId", element: <Notification /> },
     { path: "/Notification/advertisement/:advertisementId", element: <AdvertiseNoti /> },
@@ -73,5 +75,6 @@ export const Feature08Routes = () => {
     { path: "/Notification/Update", element: <UpdateNoti /> },
     { path: "/Notification/addcard", element: <AddCardNoti /> },
     { path: "/Notification/entercode", element: <EnterCode /> },
+  
   ];
 };
