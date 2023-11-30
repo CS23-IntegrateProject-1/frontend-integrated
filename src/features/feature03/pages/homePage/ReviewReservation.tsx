@@ -8,7 +8,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarReviewR } from "./F3_RVPCs/StarReviewR";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
@@ -17,9 +17,14 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 export const ReviewReservation = () => {
   const [input, setInput] = useState("");
+  const [rating, setRating] = useState(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
+
+    useEffect(() => {
+      console.log(rating);
+    },[rating])
 
   const isError = input === "";
 
@@ -33,7 +38,7 @@ export const ReviewReservation = () => {
       pl={{ base: "0", lg: "300" }}
       pr={{ base: "0", lg: "300" }}
     >
-      <StarReviewR />
+      <StarReviewR setAvgRating={setRating}/>
       <FormControl isInvalid={isError} mt="5" mb="5">
         <FormLabel>Comment</FormLabel>
         <Input

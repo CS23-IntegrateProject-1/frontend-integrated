@@ -4,28 +4,30 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { FC, useState } from "react";
 
-export const StarReviewD = () => {
-  const [food, setFodRating] = useState(0);
-  const [deliver, setDelRating] = useState(0);
-  const [order, setOrdRating] = useState(0);
-  const [service, setSerRating] = useState(0);
+export const StarReviewD:FC<{
+  setAvgRating: Function
+}> = ({setAvgRating}) => {
+  const [food, setFoodRating] = useState(0);
+  const [deliver, setDeliveryRating] = useState(0);
+  const [order, setOrderRating] = useState(0);
+  const [service, setServiceRating] = useState(0);
   const [rating, setRating] = useState(0);
 
   const handleStarClick = (selectedRating: number, category: string) => {
     switch (category) {
       case "food":
-        setFodRating(selectedRating);
+        setFoodRating(selectedRating);
         break;
       case "deliver":
-        setDelRating(selectedRating);
+        setDeliveryRating(selectedRating);
         break;
       case "order":
-        setOrdRating(selectedRating);
+        setOrderRating(selectedRating);
         break;
       case "service":
-        setSerRating(selectedRating);
+        setServiceRating(selectedRating);
         break;
       case "rating":
         setRating(selectedRating);
@@ -33,6 +35,7 @@ export const StarReviewD = () => {
       default:
         break;
     }
+    setAvgRating((food + deliver + order + service + rating) / 5);
   };
 
   return (

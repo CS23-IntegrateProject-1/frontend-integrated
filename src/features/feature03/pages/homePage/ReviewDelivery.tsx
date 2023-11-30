@@ -11,31 +11,20 @@ import {
   Text,
 
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarReviewD } from "./F3_RVPCs/StarReviewD";
 
-interface VenueData {
-  id: number;
-  venueId: number;
-  name: string;
-  description: string;
-  category: string;
-  capacity: string;
-  location: string;
-  score: string;
-  website_url: string;
-}
 
 export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
-  const [inputFQ, setInputFQ] = useState("");
-  const [inputDT, setInputDT] = useState("");
-  const [inputOA, setInputOA] = useState("");
-  const [inputCS, setInputCS] = useState("");
-  const [inputRR, setInputRR] = useState("");
+  const [rating, setRating] = useState(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
+
+    useEffect(() => {
+      console.log(rating);
+    },[rating])
 
   const isError = input === "";
 
@@ -73,7 +62,7 @@ export const ReviewDelivery = () => {
       pl={{ base: "0", lg: "300" }}
       pr={{ base: "0", lg: "300" }}
     >
-      <StarReviewD />
+      <StarReviewD setAvgRating={setRating} />
       <FormControl isInvalid={isError} mt="5" mb="5">
         <FormLabel>Comment</FormLabel>
         <Input

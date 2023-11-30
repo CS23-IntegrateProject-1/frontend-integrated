@@ -25,7 +25,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mt={0.5} ml={1}>
           5
         </Text>
         <StarIcon sx={starPlacement} />
@@ -38,7 +38,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mt={0.5} ml={1}>
           4
         </Text>
         <StarIcon sx={starPlacement} />
@@ -51,7 +51,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mt={0.5} ml={1}>
           3
         </Text>
         <StarIcon sx={starPlacement} />
@@ -64,7 +64,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mt={0.5} ml={1}>
           2
         </Text>
         <StarIcon sx={starPlacement} />
@@ -77,7 +77,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mt={0.5} ml={1}>
           1
         </Text>
         <StarIcon sx={starPlacement} />
@@ -91,7 +91,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mx={1}>
           Reservation
         </Text>
       </Button>
@@ -102,7 +102,7 @@ export const StarSort = () => {
           backgroundColor: "brand.200",
         }}
       >
-        <Text mt={1} ml={1}>
+        <Text mx={1}>
         Delivery
         </Text>
       </Button>

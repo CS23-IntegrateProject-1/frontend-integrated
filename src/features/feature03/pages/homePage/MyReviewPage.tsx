@@ -7,33 +7,45 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-interface reviewsData {
-  id: number;
-  venueReviewId: number;
-  userId: number;
-  branchId: number;
-  rating: string;
-  review: string;
-  review_type: string;
-  date_added: string;
+interface MyReviewsData {
+  name: string;
+  description: string;
+  category: string;
+  venueId: number;
+  Venue_branch: [
+    {
+      branchId: number;
+      venueId: number;
+      branch_name: string;
+      Venue_reviews: [
+        {
+          userId: number;
+          rating: number;
+          review: string;
+          date_added: string;
+          venueReviewId: number;
+          branchId: number;
+          review_type: string;
+        }
+      ];
+    }
+  ];
 }
 
 export const MyReviews: FC = () => {
-  const branchId = useParams<{ branchId: string }>();
-  
   const {
-    isLoading: reviewsLoading,
-    isError: reviewsError,
-    data: reviewsData,
-  } = useQuery<reviewsData[]>({
-    queryKey: ["getReviews"],
+    isLoading: myReviewsLoading,
+    isError: myReviewsError,
+    data: myReviewsData,
+  } = useQuery<MyReviewsData[]>({
+    queryKey: ["getMyReviews"],
     queryFn: async () => {
-      const { data } = await Axios.get(`/feature3/reviews/${1}`);
+      const { data } = await Axios.get(`/feature3/myReviews`);
       return data;
     },
   });
 
-  if (reviewsLoading) {
+  if (myReviewsLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -41,14 +53,14 @@ export const MyReviews: FC = () => {
     );
   }
 
-  if (reviewsError) {
+  if (myReviewsError) {
     return <span>An error occurred: </span>;
   }
-  // console.log(reviewsData);
-  
+
+  // console.log(myReviewsData);
   return (
     <Box width={"100%"} px={{ base: "0", lg: "300" }}>
-      <Text fontSize={{base:"40px", lg:"50px"}} fontWeight="bold">
+      <Text fontSize={{ base: "40px", lg: "50px" }} fontWeight="bold">
         My Reviews
       </Text>
       <StarSort />
@@ -59,30 +71,56 @@ export const MyReviews: FC = () => {
         opacity={"100%"}
       />
       <Flex direction="column" pt={"20px"}>
-        {reviewsData.map((reviews, index: number) => (
-          <Box key={index} pb={"20px"}>
-            <Box display={"flex"}>
-              <Box width={"80%"}>
-                <Text fontWeight="bold">{reviews.userId}USERNAME | <Text as ="span" textColor={"red"}>{reviews.review_type}</Text></Text>
-                <Flex color={"brand.100"} alignItems={"center"}>
-                  <StarIcon mr={"6px"}/>
-                  <Text mt={"1.5px"}>{reviews.rating}</Text>
-                </Flex>
-                <Text py={"15px"} textColor={"grey.200"}>
-                  {reviews.review}
-                </Text>
-              </Box>
-              <Box textColor={"grey.200"} ml={"auto"}>
-                {reviews.date_added.substring(0,10)}
-              </Box>
-            </Box>
-            <Divider
-              borderBottomWidth="2.5px"
-              borderColor={"brand.100"}
-              opacity={"100%"}
-            />
-          </Box>
-        ))}
+        {myReviewsData?.map((branchs, index: number) => {
+          if (!branchs) {
+            return <></>;
+          }
+
+          return branchs.Venue_branch.map((reviews, index: number) => {
+            if (!reviews) {
+              return <></>;
+            }
+
+            return reviews.Venue_reviews.map((review, index: number) => {
+              if (!review) {
+                return <></>;
+              }
+              console.log(review);
+
+              return (
+                <Box key={index} pb={"20px"}>
+                  <Box display={"flex"}>
+                    <Box width={"80%"}>
+                      <Text fontWeight="bold">
+                        {branchs.name} |{" "}
+                        <Text as="span" textColor={"white"}>
+                          {reviews.branch_name}
+                        </Text>
+                      </Text>
+                      <Text fontWeight="bold">{branchs.category}</Text>
+                      <Text fontWeight="bold">{review.review_type}</Text>
+                      <Flex color={"brand.100"} alignItems={"center"}>
+                        <StarIcon mr={"6px"} />
+                        <Text mt={"1.5px"}>{review.rating}</Text>
+                      </Flex>
+                      <Text py={"15px"} textColor={"grey.200"}>
+                        {review.review}
+                      </Text>
+                    </Box>
+                    <Box textColor={"grey.200"} ml={"auto"}>
+                      {review.date_added.substring(0, 10)}
+                    </Box>
+                  </Box>
+                  <Divider
+                    borderBottomWidth="2.5px"
+                    borderColor={"brand.100"}
+                    opacity={"100%"}
+                  />
+                </Box>
+              );
+            });
+          });
+        })}
       </Flex>
     </Box>
   );

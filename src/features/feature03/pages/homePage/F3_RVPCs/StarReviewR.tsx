@@ -1,28 +1,29 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { FC, useState } from "react";
 
-export const StarReviewR = () => {
-  
-  const [reserve, setResRating] = useState(0);
-  const [table, setTabRating] = useState(0);
-  const [ambiance, setAmbRating] = useState(0);
-  const [staff, setStaRating] = useState(0);
+export const StarReviewR:FC<{
+  setAvgRating: Function
+}> = ({setAvgRating}) => {
+  const [reserve, setReserveRating] = useState(0);
+  const [table, setTableRating] = useState(0);
+  const [ambiance, setAmbianceRating] = useState(0);
+  const [staff, setStaffRating] = useState(0);
   const [rating, setRating] = useState(0);
 
   const handleStarClick = (selectedRating: number, category: string) => {
     switch (category) {
       case "reserve":
-        setResRating(selectedRating);
+        setReserveRating(selectedRating);
         break;
       case "table":
-        setTabRating(selectedRating);
+        setTableRating(selectedRating);
         break;
       case "ambiance":
-        setAmbRating(selectedRating);
+        setAmbianceRating(selectedRating);
         break;
       case "staff":
-        setStaRating(selectedRating);
+        setStaffRating(selectedRating);
         break;
       case "rating":
         setRating(selectedRating);
@@ -30,6 +31,7 @@ export const StarReviewR = () => {
       default:
         break;
     }
+    setAvgRating((reserve + table + ambiance + staff + rating) / 5);
   };
 
   return (
