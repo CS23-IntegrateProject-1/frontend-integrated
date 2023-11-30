@@ -26,10 +26,10 @@ import {
   ArticleVenueProps,
   VenueProps,
 } from "../../../../interfaces/feature11/ArticleType";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
 import { useQuery } from "@tanstack/react-query";
-import { set } from "date-fns";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 // const fetchAllArticle = async (): Promise<VenueProps[]> => {
 //   try {
@@ -53,7 +53,6 @@ export const EditArticlePage = () => {
       setAuthorName(data.author_name);
       setSelectedVenues(data.Article_venue);
       setTags(data.Article_tags);
-      // setTags(data.tags);
     },
   });
   const [tags, setTags] = useState<ArticleTagProps[]>(
@@ -70,8 +69,9 @@ export const EditArticlePage = () => {
   const [content, setContent] = useState<string>(article.data?.content || "");
   const [authorName, setAuthorName] = useState<string>("");
   const [images, setImages] = useState<File[] | null>([]);
-  const { articleId } = useParams<{ articleId: string }>();
-
+  const { articleId } = useParams();
+  const toast = useCustomToast();
+  const navigate = useNavigate();
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
     Axios.get("/feature11/fetchAllVenueName")
@@ -187,8 +187,10 @@ export const EditArticlePage = () => {
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
+    const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
 
     Axios.patch("/feature11/editArticle", {
+      articleId: parseInt(articleId || "0"),
       topic: topic,
       content: content,
       // category: category,
@@ -196,7 +198,7 @@ export const EditArticlePage = () => {
       // author_name: authorName,
       author_name: authorName,
       venueIds: selectedVenueIds,
-      tags: tags,
+      tags: formattedTags,
       images: [
         {
           url: "/test.jpg",
@@ -206,10 +208,13 @@ export const EditArticlePage = () => {
     })
       .then((res) => {
         console.log(res);
+        toast.success("Edit article successfully");
+        navigate(`/article/${articleId}`);
         
       })
       .catch((err) => {
         console.log("error", err);
+        toast.error("Edit article failed");
         throw new Error("Failed to edit article");
       });
   };

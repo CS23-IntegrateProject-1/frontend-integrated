@@ -41,7 +41,7 @@ export const ArticlePage = () => {
   }
 
   const handleDeleteLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
+    event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
       data: { articleId: article.data?.articleId },
@@ -56,7 +56,7 @@ export const ArticlePage = () => {
   };
 
   const handleAddLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
+    event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.post(`/feature11/addLike`, { articleId: article.data?.articleId })
       .then((res) => {

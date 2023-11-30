@@ -5,20 +5,8 @@ import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType"
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { MyArticlesBox } from "./MyArticleBox";
 import { CommentBox } from "./CommentBox";
-import {
-  Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { CommentItemProps } from "../../../../interfaces/feature11/CommentType";
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { fetchMyComments } from "../../../../api/feature11/fetchMyComments";
-import { useNavigate } from "react-router-dom";
-import { EditCommentModal } from "./EditCommentModal";
 
 const fetchMyArticles = async (): Promise<ArticlesPageProps[]> => {
   const res = await Axios.get("/feature11/fetchArticleHistory");
@@ -29,8 +17,6 @@ const fetchMyArticles = async (): Promise<ArticlesPageProps[]> => {
 };
 
 export const MyArticlesPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [comments, setComments] = useState<CommentItemProps[]>([]);
   const myComments = useQuery({
     queryKey: ["myComments"],
     queryFn: fetchMyComments,
@@ -39,13 +25,7 @@ export const MyArticlesPage = () => {
     queryKey: ["myArticles"],
     queryFn: fetchMyArticles,
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [comment, setComment] = useState<CommentItemProps>();
-  const navigate = useNavigate();
-  // const handleEdit = (comment: CommentItemProps) => {
-  //   setComment(comment);
-  //   onOpen();
-  // };
+
   if (myArticles.status == "loading") {
     return <FullPageLoader />;
   }
@@ -64,7 +44,6 @@ export const MyArticlesPage = () => {
     >
       <Box
         width={{ base: "100%", md: "80%", lg: "50%" }}
-        //        bg={"#5F0DBB"}
         mt={{ base: "-1em", md: "-2em" }}
       >
         <Tabs isLazy isFitted variant="enclosed">
@@ -104,16 +83,13 @@ export const MyArticlesPage = () => {
                 return (
                   <CommentBox
                     article={comment.article}
-                    user={comment.user}
-                    create_date={comment.create_date}
-                    content={comment.content}
                     articleId={comment.articleId}
                     commentId={comment.commentId}
+                    content={comment.content}
+                    create_date={comment.create_date}
+                    user={comment.user}
+                    userId={comment.userId}
                     key={comment.commentId}
-                    onClose={onClose}
-                    isOpen={isOpen}
-                    onOpen={onOpen}
-                    // onEdit={handleEdit}
                   />
                 );
               })}

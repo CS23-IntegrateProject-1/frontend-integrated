@@ -1,54 +1,71 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import {
   Box,
   Button,
   CloseButton,
   Flex,
   Heading,
-  IconButton,
   Modal,
   ModalContent,
-  ModalHeader,
+  Text,
   ModalOverlay,
   Textarea,
 } from "@chakra-ui/react";
 import {
   CommentItem,
-  CommentItemProps,
   EditCommentModalProps,
 } from "../../../../interfaces/feature11/CommentType";
 import { TextStyle } from "../../../../theme/TextStyle";
+import { editComment } from "../../../../api/feature11/editComment";
+import { useCustomToast } from "../../../../components/useCustomToast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const EditCommentModal: FC<EditCommentModalProps> = ({
-  isOpen,
-  onClose,
-  article,
-  user,
-  create_date,
-  content,
+  article: { topic },
   articleId,
   commentId,
+  content,
+  create_date,
+  user: { profile_picture, username },
+  userId,
+  onOpen,
+  onClose,
+  isOpen,
 }) => {
-  //   const [editComment, setEditComment] = useState<CommentItem>({
-  //     article,
-  //     user,
-  //     create_date,
-  //     content,
-  //     articleId,
-  //     commentId,
-  //   });
-  const [newContent, setNewContent] = useState<string | null>(content || null);
+  const [comment, setComment] = useState<CommentItem | null>(null);
+  const [newContent, setNewContent] = useState<string>("");
+  const queryClient = useQueryClient();
+
+  const toast = useCustomToast();
+  useEffect(() => {
+    setComment({
+      article: { topic },
+      articleId,
+      commentId,
+      content,
+      create_date,
+      user: { profile_picture, username },
+      userId,
+    });
+    setNewContent(content);
+  }, []);
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setNewContent(event.target.value);
-    // Update the editComment state with the new content
-    // setEditComment((prevComment) => ({
-    //   ...prevComment,
-    //   content: newContent,
-    // }));
   };
+  const handleEditComment = async () => {
+    try {
+      await editComment(commentId, newContent);
+      toast.success("Edit comment successfully");
+      queryClient.invalidateQueries(["myComments"]); // Invalidate and refetch the article query
 
+      onClose();
+    } catch (err) {
+      toast.error("Edit comment failed");
+      console.log(err);
+    }
+  };
   return (
-    <Modal isOpen={isOpen || false} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent
         bg={"brand.100"}
@@ -82,26 +99,45 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
           justifyContent={"space-between"}
           borderRadius={"20px"}
         >
-          <Box>
-            <Flex alignItems={"center"} mb={"0.25em"}>
-              <Box w={"30px"} h={"30px"} mr={"0.5em"} bg={"red"}></Box>
-              <Heading style={TextStyle.h4} color={"black"}>
-                {user?.username}
-              </Heading>
-            </Flex>
-            <Textarea
-              p={"0.5em"}
-              style={TextStyle.body3}
-              variant={"unstyled"}
-              rows={2}
-              placeholder={"Write a comment..."}
-              value={newContent || ""}
-              onChange={handleContentChange}
-              color={"black"}
-              resize={"none"}
-              // bg={"red"}
+          <Box flexDirection="column">
+            <img
+              src="/src/features/feature11/img/Profile.png"
+              alt="Profile"
+              width="32px"
+              height="32px"
             />
+            <Text
+              display={"flex"}
+              fontSize={"xs"}
+              color={"#191919"}
+              mt={"-30px"}
+              ml={"40px"}
+              as={"b"}
+            >
+              {username}
+            </Text>
+            <Text
+              display={"flex"}
+              fontSize={"xs"}
+              color={"#191919"}
+              mt={"-1px"}
+              ml={"40px"}
+            >
+              {create_date}
+            </Text>
           </Box>
+          <Textarea
+            p={"0.5em"}
+            style={TextStyle.body3}
+            variant={"unstyled"}
+            rows={2}
+            placeholder={"Write a comment..."}
+            value={newContent}
+            onChange={handleContentChange}
+            color={"black"}
+            resize={"none"}
+            // bg={"red"}
+          />
 
           <Flex justifyContent={"flex-end"}>
             <Button
@@ -124,7 +160,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
               _hover={{ bg: "brand.300" }}
               style={TextStyle.h5}
               w={"70px"}
-              //   onClick={handleCreateComment}
+              onClick={handleEditComment}
             >
               Save
             </Button>

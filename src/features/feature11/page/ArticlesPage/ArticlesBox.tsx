@@ -70,6 +70,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
           />
           <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
             {props.author_name}
+            
           </Text>
           <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
             {props.created_date}

@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Text, Image } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiComment } from "react-icons/bi";
@@ -11,12 +11,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
 import { FaPencilAlt } from "react-icons/fa";
 import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
+import { DeleteArticleModal } from "./DeleteArticleModal";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const shareArticle = useDisclosure();
+  const deleteArticle = useDisclosure();
   const handleDeleteLike = (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
@@ -45,7 +47,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
 
   const handleShare = (event: React.MouseEvent) => {
     event.stopPropagation();
-    onOpen();
+    shareArticle.onOpen();
   };
 
   const handleEditClick = (event: React.MouseEvent) => {
@@ -65,17 +67,36 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       onClick={() => {
         navigate(`/article/${props.articleId}`);
       }}
+      pt={"0.5em"}
     >
-      <IconButton
-        display={"flex"}
-        variant={"unstyled"}
-        size={"small"}
-        color={"white"}
-        aria-label="liked"
-        icon={<FaPencilAlt />}
-        alignSelf={"flex-end"}
-        onClick={handleEditClick}
-      />
+      <Flex justifyContent={"flex-end"} alignSelf={"flex-end"}>
+        {" "}
+        <IconButton
+          display={"flex"}
+          variant={"unstyled"}
+          size={"sm"}
+          color={"white"}
+          aria-label="Delete Comment"
+          icon={<DeleteIcon />}
+          alignSelf={"flex-end"}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            deleteArticle.onOpen();
+          }}
+          mr={"0.5em"}
+        />
+        <IconButton
+          display={"flex"}
+          variant={"unstyled"}
+          size={"sm"}
+          color={"white"}
+          aria-label="Edit Article"
+          icon={<FaPencilAlt />}
+          alignSelf={"flex-end"}
+          onClick={handleEditClick}
+        />
+      </Flex>
+
       {/* Profile Info */}
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
@@ -177,9 +198,15 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
         />
       </Box>
       <ShareModal
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={shareArticle.isOpen}
+        onClose={shareArticle.onClose}
         url={`${window.location.href}/${props.articleId}`}
+      />
+      <DeleteArticleModal
+        isOpen={deleteArticle.isOpen}
+        onClose={deleteArticle.onClose}
+        articleId={props.articleId}
+        onOpen={deleteArticle.onOpen}
       />
     </Box>
   );
