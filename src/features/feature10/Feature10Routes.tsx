@@ -3,6 +3,7 @@ import { CinemaMain } from "./pages/CinemaMain";
 import PaymentPage from "./pages/Payment";
 import { ShowTime } from "./pages/ShowTime";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import ScreenPage from "./pages/ScreenPage";
 export const Feature10Routes = () => {
   return [
     {
@@ -29,6 +30,10 @@ export const Feature10Routes = () => {
     {
       path: "/paymentSuccess",
       element: <PaymentSuccess />
+    },
+    {
+      path: '/screen',
+      element: <ScreenPage />
     }
   ];
 };
