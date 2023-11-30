@@ -3,7 +3,12 @@ import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
 import { FaShoppingCart } from "react-icons/fa";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
 import index from "../../../theme/foundations/index";
+import { useNavigate } from "react-router-dom";
 const FoodDelivery = () => {
+  const navigate = useNavigate();
+  const navToCartDetail=()=>{
+    navigate('/map/food-delivery/cart-detail')
+  }
   return (
     <Box>
       <FoodDeliNavbar RestaurantName="MK Restaurant (Big C Rama 4)" DeliveryMinute={30}/>
@@ -29,6 +34,7 @@ const FoodDelivery = () => {
           background={index.colors.brand[200]}
           color={index.colors.white}
           m={10}
+          onClick={navToCartDetail}
         >
           <Text
             borderRadius={"100%"}
