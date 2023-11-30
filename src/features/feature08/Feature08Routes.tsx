@@ -73,6 +73,7 @@ export const Feature08Routes = () => {
     { path: "/venue/:userId/admin/reservation", element: <Reservation /> },
     { path: "/venue/:userId/admin/FoodOrder", element: <FoodOrder /> },
     { path: "/venue/:userId/admin/FoodDelivery", element: <FoodDelivery /> },
+    { path: "/venue/:userId/admin/Checkbill/:transactionId", element: <Checkbill /> },
 
     { path: "/Notification/BusinessNoti/:venueId", element: <Notification /> },
     { path: "/Notification/advertisement/:advertisementId", element: <AdvertiseNoti /> },
