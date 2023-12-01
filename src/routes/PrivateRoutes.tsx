@@ -35,8 +35,8 @@ export const PrivateRoutes = createBrowserRouter([
 			...Feature10Routes(),
 			...Feature11Routes(),
 			...Feature12Routes(),
-			...ExampleFeatureRoutes()
-		]
+			...ExampleFeatureRoutes(),
+		],
 	},
-	{ path: "/*", element: <NotFoundPage /> }
+	{ path: "/*", element: <NotFoundPage /> },
 ]);

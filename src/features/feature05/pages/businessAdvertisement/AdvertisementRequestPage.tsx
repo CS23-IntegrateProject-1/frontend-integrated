@@ -1,25 +1,24 @@
 import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
-  Icon,
-  Select,
-  Stack,
-  Image,
-  IconButton,
-  useDisclosure,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+	Box,
+	Button,
+	Center,
+	FormControl,
+	FormLabel,
+	Icon,
+	Select,
+	Stack,
+	Image,
+	IconButton,
+	useDisclosure,
+	Modal,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
@@ -27,351 +26,452 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 
 interface AdvertisementProps {
-  name: string;
-  description: string;
-  startingDate: Date | null;
-  endingDate: Date | null;
-  images: string;
-  targetCustomer: string;
-  targetGroup: string;
-  advertisementPlan: number;
+	name: string;
+	description: string;
+	startingDate: Date | null;
+	endingDate: Date | null;
+	images: string;
+	targetCustomer: string;
+	targetGroup: string;
+	advertisementPlan: number;
 }
 export const AdvertisementRequestPage = () => {
-  const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [file, setFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [advertise, setAdvertise] = useState<AdvertisementProps>({
-    name: "",
-    description: "",
-    images: "",
-    startingDate: null,
-    endingDate: null,
-    targetCustomer: "",
-    targetGroup: "",
-    advertisementPlan: 0,
-  });
-  const handleClick = () => {
-    navigate("/business/advertisement/status");
-  };
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
-    }
-  };
-  const handleCloseImage = () => {
-    setImagePreview(null);
-  };
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
-  }, [imagePreview]);
+	const navigate = useNavigate();
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [file, setFile] = useState<File | null>(null);
+	const [imagePreview, setImagePreview] = useState<string | null>(null);
+	const [advertise, setAdvertise] = useState<AdvertisementProps>({
+		name: "",
+		description: "",
+		images: "",
+		startingDate: null,
+		endingDate: null,
+		targetCustomer: "All",
+		targetGroup: "Teen",
+		advertisementPlan: 300,
+	});
+	const handleChange = (
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+		>
+	) => {
+		const { name, value } = e.target;
+		setAdvertise((prevAdvertise) => ({
+			...prevAdvertise,
+			[name]: value,
+		}));
+		console.log(advertise);
+	};
+	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			setFile(e.target.files[0]);
+			const previewURL = URL.createObjectURL(e.target.files[0]);
+			setImagePreview(previewURL);
+		}
+	};
+	const handleCloseImage = () => {
+		setImagePreview(null);
+	};
+	useEffect(() => {
+		return () => {
+			if (imagePreview) {
+				URL.revokeObjectURL(imagePreview);
+			}
+		};
+	}, [imagePreview]);
 
-  const handleSubmit = async () => {
-    try {
-      await Axios.post;
-    } catch (err) {
-      console.error(err);
-    }
-  };
+	const handleSubmit = async () => {
+		console.log(advertise);
 
-  return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      width={"100%"}
-    >
-      {/* Name * */}
-      <FormControl
-        isRequired
-        paddingBottom={3}
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Name
-        </FormLabel>
-        <Input
-          variant="name"
-          style={{ width: "auto" }}
-          color={"white"}
-          bgColor={"#5F0DBB"}
-          borderColor={"#5F0DBB"}
-          type="email"
-        />
-      </FormControl>
+		try {
+			const businessId = 2; // Ensure this ID is valid
+			console.log(advertise);
+			console.log(`Sending request to /AdBSN/${businessId}`);
+			const response = await Axios.post(`feature5/AdBSN/${businessId}`, {
+				...advertise,
+				advertisementPlan: Number(advertise.advertisementPlan),
+			});
+			console.log(response.data); // Log the response data
+			navigate("/business/advertisement/status");
+		} catch (err) {
+			console.error("Error submitting advertisement:", err);
+			// You can add more detailed error handling here
+		}
+	};
+	console.log(advertise);
 
-      {/* Description * */}
-      <FormControl
-        isRequired
-        paddingBottom={3}
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Description
-        </FormLabel>
-        <Input
-          variant="name"
-          style={{ width: "auto" }}
-          color={"white"}
-          bgColor={"#5F0DBB"}
-          borderColor={"#5F0DBB"}
-          type="email"
-        />
-      </FormControl>
+	return (
+		<Box
+			display={"flex"}
+			flexDirection={"column"}
+			justifyContent={"center"}
+			alignItems={"center"}
+			width={"100%"}
+		>
+			{/* Name * */}
+			<FormControl
+				isRequired
+				paddingBottom={3}
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+			>
+				<FormLabel style={TextStyle.h2} color={"white"}>
+					{" "}
+					Name
+				</FormLabel>
+				<Input
+					name="name"
+					onChange={handleChange}
+					variant="name"
+					style={{ width: "auto" }}
+					color={"white"}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					type="email"
+				/>
+			</FormControl>
 
-      {/* Starting Date * & Ending Date * */}
-      <FormControl
-        isRequired
-        paddingBottom={3}
-        width={"50%"}
-        minWidth={"250px"}
-        maxWidth={"400px"}
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent={"center"}
-      >
-        <Box mr={"20px"} flex={"1"}>
-          <FormLabel style={TextStyle.h2} color={"white"}>
-            {" "}
-            Starting Date
-          </FormLabel>
-          <Input
-            size={"xs"}
-            type="date"
-            color="white"
-            bgColor={"#5F0DBB"}
-            borderRadius={5}
-            borderColor={"#5F0DBB"}
-          />
-        </Box>
+			{/* Description * */}
+			<FormControl
+				isRequired
+				paddingBottom={3}
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+			>
+				<FormLabel style={TextStyle.h2} color={"white"}>
+					{" "}
+					Description
+				</FormLabel>
+				<Input
+					name="description"
+					onChange={handleChange}
+					variant="name"
+					style={{ width: "auto" }}
+					color={"white"}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					type="text"
+				/>
+			</FormControl>
 
-        <Box flex={"1"}>
-          <FormLabel style={TextStyle.h2} color={"white"}>
-            {" "}
-            Ending Date
-          </FormLabel>
-          <Input
-            id="fileInput"
-            size={"xs"}
-            type="date"
-            color="white"
-            bgColor={"#5F0DBB"}
-            borderRadius={5}
-            borderColor={"#5F0DBB"}
-          />
-        </Box>
-      </FormControl>
+			{/* Starting Date * & Ending Date * */}
+			<FormControl
+				isRequired
+				paddingBottom={3}
+				width={"50%"}
+				minWidth={"250px"}
+				maxWidth={"400px"}
+				display={"flex"}
+				flexDirection={"row"}
+				justifyContent={"center"}
+			>
+				<Box mr={"20px"} flex={"1"}>
+					<FormLabel style={TextStyle.h2} color={"white"}>
+						{" "}
+						Starting Date
+					</FormLabel>
+					<Input
+						name="startingDate"
+						onChange={handleChange}
+						size={"xs"}
+						type="date"
+						color="white"
+						bgColor={"#5F0DBB"}
+						borderRadius={5}
+						borderColor={"#5F0DBB"}
+						isRequired
+					/>
+				</Box>
 
-      {/* Image */}
+				<Box flex={"1"}>
+					<FormLabel style={TextStyle.h2} color={"white"}>
+						{" "}
+						Ending Date
+					</FormLabel>
+					<Input
+						name="endingDate"
+						onChange={handleChange}
+						id="fileInput"
+						size={"xs"}
+						type="date"
+						color="white"
+						bgColor={"#5F0DBB"}
+						borderRadius={5}
+						borderColor={"#5F0DBB"}
+					/>
+				</Box>
+			</FormControl>
 
-      {imagePreview ? (
-        <FormControl
-          isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"column"}
-          paddingBottom={3}
-        >
-          <FormLabel style={TextStyle.h2} color={"white"}>
-            Image
-          </FormLabel>
+			{/* Image */}
 
-          <Box
-            position={"relative"}
-            overflow={"hidden"}
-            width={"100%"}
-            minWidth={"250px"}
-            maxWidth={"400px"}
-            height={"auto"}
-            alignSelf={"center"}
-          >
-            <IconButton
-              aria-label="close"
-              minWidth={"15px"}
-              height={"15px"}
-              position={"absolute"}
-              top={0}
-              right={0}
-              as={AiOutlineClose}
-              onClick={handleCloseImage}
-            ></IconButton>
-            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
-          </Box>
-        </FormControl>
-      ) : (
-        <FormControl
-          isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"column"}
-          paddingBottom={3}
-        >
-          <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-            {" "}
-            Image
-          </FormLabel>
-          <Stack spacing={2} direction="column">
-            {}
-            <Center
-              width={"auto"}
-              height={"100"}
-              bg={"#5F0DBB"}
-              borderRadius={5}
-              cursor={"pointer"}
-            >
-              <Input
-                onChange={handleFileChange}
-                type="file"
-                opacity={0}
-                height={"100%"}
-                w={"100%"}
-                pos={"absolute"}
-              ></Input>
-              <Icon
-                as={BiImageAdd}
-                color={"#FFFFFF"}
-                width={"auto"}
-                height={"8"}
-              ></Icon>
-            </Center>
-          </Stack>
-        </FormControl>
-      )}
+			{imagePreview ? (
+				<FormControl
+					// isRequired
+					width="50%"
+					minWidth="250px"
+					maxWidth="400px"
+					display="flex"
+					flexDirection={"column"}
+					paddingBottom={3}
+				>
+					<FormLabel style={TextStyle.h2} color={"white"}>
+						Image
+					</FormLabel>
 
-      {/* Target customer */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Target customer
-        </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">All</option>
-          <option value="option2">Member</option>
-        </Select>
-      </FormControl>
+					<Box
+						position={"relative"}
+						overflow={"hidden"}
+						width={"100%"}
+						minWidth={"250px"}
+						maxWidth={"400px"}
+						height={"auto"}
+						alignSelf={"center"}
+					>
+						<IconButton
+							aria-label="close"
+							minWidth={"15px"}
+							height={"15px"}
+							position={"absolute"}
+							top={0}
+							right={0}
+							as={AiOutlineClose}
+							onClick={handleCloseImage}
+						></IconButton>
+						<Image
+							src={imagePreview}
+							alt={"image"}
+							width={"100%"}
+						></Image>
+					</Box>
+				</FormControl>
+			) : (
+				<FormControl
+					isRequired
+					width="50%"
+					minWidth="250px"
+					maxWidth="400px"
+					display="flex"
+					flexDirection={"column"}
+					paddingBottom={3}
+				>
+					<FormLabel
+						style={TextStyle.h2}
+						color={"white"}
+						paddingBottom={1}
+					>
+						{" "}
+						Image
+					</FormLabel>
+					<Stack spacing={2} direction="column">
+						{}
+						<Center
+							width={"auto"}
+							height={"100"}
+							bg={"#5F0DBB"}
+							borderRadius={5}
+							cursor={"pointer"}
+						>
+							<Input
+								onChange={handleFileChange}
+								type="file"
+								opacity={0}
+								height={"100%"}
+								w={"100%"}
+								pos={"absolute"}
+							></Input>
+							<Icon
+								as={BiImageAdd}
+								color={"#FFFFFF"}
+								width={"auto"}
+								height={"8"}
+							></Icon>
+						</Center>
+					</Stack>
+				</FormControl>
+			)}
 
-      {/* Target group */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Target group
-        </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">Teen</option>
-          <option value="option2">young Adult</option>
-          <option value="option3">adult</option>
-          <option value="option4">elder</option>
-        </Select>
-      </FormControl>
+			{/* Target customer */}
+			<FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={3}
+			>
+				<FormLabel
+					style={TextStyle.h2}
+					color={"white"}
+					paddingBottom={1}
+				>
+					{" "}
+					Target customer
+				</FormLabel>
+				<Select
+					name="targetCustomer"
+					onChange={handleChange}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					placeholder=""
+					defaultValue={"All"}
+				>
+					<option value="All">All</option>
+					<option value="Member">Member</option>
+				</Select>
+			</FormControl>
 
-      {/* Advertisement plan */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={6}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Advertisement plan
-        </FormLabel>
-        <RadioGroup defaultValue="2">
-          <Stack spacing={1} direction="column">
-            <Radio value="1">100 Baht/Week</Radio>
-            <Radio value="2">300 Baht/Month</Radio>
-            <Radio value="3">3600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup>
-      </FormControl>
+			{/* Target group */}
+			<FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={3}
+			>
+				<FormLabel
+					style={TextStyle.h2}
+					color={"white"}
+					paddingBottom={1}
+				>
+					{" "}
+					Target group
+				</FormLabel>
+				<Select
+					name="targetGroup"
+					onChange={handleChange}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					defaultValue={"Teen"}
+				>
+					<option value="Teen">Teen</option>
+					<option value="Young_adult">Young Adult</option>
+					<option value="Adult">Adult</option>
+					<option value="Elder">Elder</option>
+				</Select>
+			</FormControl>
 
-      {/* Submit */}
-      <Box
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"row"}
-        paddingBottom={3}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Button
-          backgroundColor="#A533C8"
-          variant="solid"
-          width="40%"
-          color="white"
-          onClick={onOpen}
-        >
-          Submit
-        </Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-            <ModalHeader mt={3}>Submit advertisement</ModalHeader>
-            <ModalCloseButton />
-            <ModalFooter>
-              <Button
-                bgColor={"white"}
-                color={"#200944"}
-                mr={5}
-                width="30%"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                bgColor={"#A533C8"}
-                mr={3}
-                onClick={handleClick}
-                color={"white"}
-                width="30%"
-              >
-                Confirm
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Box>
-    </Box>
-  );
+			{/* Advertisement plan */}
+			<FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={3}
+			>
+				<FormLabel
+					style={TextStyle.h2}
+					color={"white"}
+					paddingBottom={1}
+				>
+					{" "}
+					Advertisement plan
+				</FormLabel>
+				<Select
+					name="advertisementPlan"
+					onChange={handleChange}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					defaultValue={"300"}
+				>
+					<option value="100">100 Baht/Week</option>
+					<option value="300">300 Baht/Month</option>
+					<option value="3600">3600 Baht/Year</option>
+				</Select>
+			</FormControl>
+			{/* <FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={6}
+			>
+				<FormLabel style={TextStyle.h2} color={"white"}>
+					{" "}
+					Advertisement plan
+				</FormLabel>
+				<RadioGroup
+					defaultValue="2"
+					name="advertisementPlan"
+					onChange={(value) => handleChange(value)}
+				>
+					<Stack spacing={1} direction="column">
+						<Radio value="1">100 Baht/Week</Radio>
+						<Radio value="2">300 Baht/Month</Radio>
+						<Radio value="3">3600 Baht/Year</Radio>
+					</Stack>
+				</RadioGroup>
+			</FormControl> */}
+
+			{/* Submit */}
+			<Box
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"row"}
+				paddingBottom={3}
+				justifyContent={"center"}
+				alignItems={"center"}
+			>
+				<Button
+					backgroundColor="#A533C8"
+					variant="solid"
+					width="40%"
+					color="white"
+					onClick={() => {
+						if (
+							advertise.startingDate == null ||
+							advertise.endingDate == null
+						) {
+							alert("Please fill the date");
+							return;
+						}
+						onOpen();
+					}}
+				>
+					Submit
+				</Button>
+				<Modal isOpen={isOpen} onClose={onClose}>
+					<ModalOverlay />
+					<ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+						<ModalHeader mt={3}>Submit advertisement</ModalHeader>
+						<ModalCloseButton />
+						<ModalFooter>
+							<Button
+								bgColor={"white"}
+								color={"#200944"}
+								mr={5}
+								width="30%"
+								onClick={onClose}
+							>
+								Cancel
+							</Button>
+							<Button
+								bgColor={"#A533C8"}
+								mr={3}
+								onClick={handleSubmit}
+								color={"white"}
+								width="30%"
+							>
+								Confirm
+							</Button>
+						</ModalFooter>
+					</ModalContent>
+				</Modal>
+			</Box>
+		</Box>
+	);
 };
