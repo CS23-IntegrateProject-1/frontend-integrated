@@ -33,7 +33,6 @@ export const RecommendSlide = () => {
         width: '6px',
       },
       '&::-webkit-scrollbar-thumb': {
-        background: 'white',
         borderRadius: '24px',
       },
     }} display={"flex"} w={"100%"} pt={1}  >

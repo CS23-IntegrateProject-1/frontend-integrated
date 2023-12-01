@@ -21,7 +21,6 @@ export const PromoSlide = () => {
         width: '6px',
       },
       '&::-webkit-scrollbar-thumb': {
-        background: 'white',
         borderRadius: '24px',
       },
     }} width={"100%"} pt={1}>
