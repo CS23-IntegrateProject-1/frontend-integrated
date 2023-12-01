@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 import { Axios } from "../../../../AxiosInstance";
@@ -32,18 +32,19 @@ export const UserArticlesPage = () => {
   }
 
   return (
-    <Box
+    <Flex
+      width={{ base: "100%", md: "80%", lg: "50%" }}
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      w={"100%"}
+      m={{ base: "-1em", md: "auto" }}
+      ml={{ base: "0", md: "auto" }}
     >
       <Box
-        width={{ base: "100%", md: "80%", lg: "50%" }}
+        w={"100%"}
         height={"163px"}
         bg={"#5F0DBB"}
-        mt={{ base: "-1em", md: "-2em" }}
         justifyContent={"center"}
         alignItems={"center"}
         display={"flex"}
@@ -56,13 +57,13 @@ export const UserArticlesPage = () => {
             height="91px"
           />
           <Text
-            ml="10px"
+            ml="35px"
             color={"#C5C4C7"}
             fontSize={"md"}
-            mt={"10px"}
+            mt={"20px"}
             as={"b"}
           >
-            username
+            {UserArticles.data?.[0].author_name}
           </Text>
         </Box>
       </Box>
@@ -87,6 +88,6 @@ export const UserArticlesPage = () => {
           />
         );
       })}
-    </Box>
+    </Flex>
   );
 };
