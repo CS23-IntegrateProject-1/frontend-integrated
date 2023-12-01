@@ -31,7 +31,6 @@ interface CreditCard {
   userId: number;
 }
 export const PaymentMethodSetting = () => {
-  var userId;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isShowDrawerPromptPay, setIsShowDrawerPromptPay ] = useState(false);
   const [flexBoxId, setFlexBoxId] = useState("");

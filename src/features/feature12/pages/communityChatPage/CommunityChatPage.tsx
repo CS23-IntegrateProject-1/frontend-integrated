@@ -1,19 +1,23 @@
-import { Box, Heading } from "@chakra-ui/react";
-import { TextStyle } from "../../../../theme/TextStyle";
+import React, {} from "react";
+import {
+  Box,
+} from "@chakra-ui/react";
+
+
+// import TestMessageLog from "../testingPage/TestMessageLog";
+import OpenConversations from "../../components/OpenConversations";
+import { useConversations } from "../../context/ConversationProvider";
+import MessageLog from "./MessageLog";
+
 
 export const CommunityChatPage = () => {
-  return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-    >
-      <Heading style={TextStyle.h1} color={"white"}>
-        {" "}
-        Hello, This is Community Chat Page
-      </Heading>
+  const { selectedConversation } = useConversations();
 
+  return (
+    <Box display="flex">
+      <MessageLog/>
+      {/* <TestMessageLog id={id} /> */}
+      {selectedConversation && <OpenConversations />}
     </Box>
   );
 };

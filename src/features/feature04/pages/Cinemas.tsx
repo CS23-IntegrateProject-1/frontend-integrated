@@ -1,22 +1,93 @@
 import {
     Box,
     Text,
-    InputGroup,
-    Input,
-    InputLeftElement,
+    SimpleGrid,
+    HStack
   } from "@chakra-ui/react";
   import PlaceTypes from "../components/PlaceTypes";
-  import Cards from "../components/Card";
   import Header from "../components/Header";
-  import Search from "../components/Search";
 
   import index from "../../../theme/foundations/index";
-  import SavedLocationCard from "../components/SavedLocationCard";
-  import RecommendLocation from "../components/RecommendLocation";
-import CinemasCard from "../components/CinemasCard";
-import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+  import RecommendLocationCinema from "../components/RecommendLocationCinemas";
+  import CinemasCard from "../components/CinemasCard";
+  import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+  import { useEffect,useState } from "react";
+  import SearchBar from "../components/Search";
+  import { Axios } from "../../../AxiosInstance";
+
+  interface LocationData {
+    id: string;
+    image: string;
+    name: string;
+    address: string;
+    distance: number;
+    // Add other properties as needed
+  }
+  
+  interface RegisteredData{
+    name: string;
+    address: string;
+    phone_num: string;
+    latitude: number;
+    longitude: number;
+    
+  }
   
   export const Cinemas = () => {
+    const [savedData, setSavedData] = useState<LocationData[] | null>(null);
+    const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+
+    const fetchRestaurantData = async () => {
+      try {
+        const response = await Axios.get("/feature4/cinemas");
+        setRegistered(response.data.cinemas);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching restaurant data:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchRestaurantData();
+      console.log("hello")
+    }, []);
+
+    useEffect(() => {
+      const storedData = localStorage.getItem("nearbyPositions");
+      const parsedData = storedData ? JSON.parse(storedData) : null;
+      setSavedData(parsedData);
+      setFilteredData(parsedData);
+    }, []);
+  
+    // Listen for changes in localStorage
+    useEffect(() => {
+      const handleStorageChange = () => {
+        const storedData = localStorage.getItem("nearbyPositions");
+        const parsedData = storedData ? JSON.parse(storedData) : null;
+        setSavedData(parsedData);
+        setFilteredData(parsedData);
+      };
+  
+      window.addEventListener("storage", handleStorageChange);
+  
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }, []); // Empty dependency array means this effect will run once on mount and clean up on unmount
+  
+    const handleSearch = (term: string) => {
+      setSearchTerm(term);
+  
+      // Filter the data based on the search term
+      const filtered =
+        savedData?.filter((location) =>
+          location.name.toLowerCase().includes(term.toLowerCase())
+        ) || null;
+      setFilteredData(filtered);
+    };
+  
 
     return (
       <Box>
@@ -30,40 +101,44 @@ import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
           Recommended Locations
         </Text>
         <Box
-    display="flex"
-    overflowX="auto"
-    whiteSpace="nowrap"
-    paddingRight={4}
-    maxWidth="1500px"
-  >
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
+          display="flex"
+          overflowX="auto"
+          whiteSpace="nowrap"
+          paddingRight={4}
+          maxWidth="1500px"
+        >
+          <HStack spacing={2} overflowX="auto">
+           {registered &&
+            registered.map((location,index) => (
+             <RecommendLocationCinema
+                key={index}
+                name = {location.name}
+                address = {location.address}
+                phone_num={location.phone_num}
+                latitude={location.latitude}
+                longitude={location.longitude}
+             />
+          ))}
+      </HStack>
+          
         </Box>
   
         <br/>
-        <Search />
+        
         <PlaceTypes />
         <GoogleMapComponent type="cinema"/>
         <br />
-        <CinemasCard placename="awd" distance={2}/>
+        <SearchBar onSearch={handleSearch} />
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={2}>
+          {filteredData &&
+            filteredData.map((location) => (
+              <CinemasCard
+                key={location.id}
+                name={location.name}
+                distance={location.distance}
+              />
+            ))}
+        </SimpleGrid>
       </Box>
     );
   };
