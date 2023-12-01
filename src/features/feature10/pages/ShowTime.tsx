@@ -1,11 +1,11 @@
-import React from 'react'
+//import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import DateSelection from '../Components/DateSelection'
+//import DateSelection from '../Components/DateSelection'
 import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
-import MovieBanner from '../Components/MovieBanner'
-import poster1 from '../assets/img/poster1.jpg'
+//import MovieBanner from '../Components/MovieBanner'
+//import poster1 from '../assets/img/poster1.jpg'
 import SearchBar from '../Components/SearchBar'
 import NearestCinemas from '../Components/NearestCinemas'
 
