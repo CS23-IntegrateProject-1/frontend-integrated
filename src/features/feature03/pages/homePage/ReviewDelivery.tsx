@@ -14,10 +14,15 @@ import {
 import { useEffect, useState } from "react";
 import { StarReviewD } from "./F3_RVPCs/StarReviewD";
 
+import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
+
 
 export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
   const [rating, setRating] = useState(0);
+
+  const { branchId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
@@ -28,29 +33,20 @@ export const ReviewDelivery = () => {
 
   const isError = input === "";
 
-  // const {
-  //   isLoading: venueLoading,
-  //   isError: venueError,
-  //   data: venueData,
-  // } = useQuery<VenueData[]>({
-  //   queryKey: ["getVen"],
-  //   queryFn: async () => {
-  //     const { data } = await Axios.get("/feature3/ven");
-  //     return data;
-  //   },
-  // });
+  const handleSubmit = async () => {
+    try {
+      await Axios.post(`/feature3/reviewDelivery`, {
+        rating,
+        review: input,
+        branchId: 1,
+      });
+      console.log("Review posted successfully!");
 
-  // if (venueLoading) {
-  //   return (
-  //     <span>
-  //       <FullPageLoader />
-  //     </span>
-  //   );
-  // }
+    } catch (error) {
+      console.error("Error posting review:", error);
+    }
+  };
 
-  // if (venueError) {
-  //   return <span>An error occurred: </span>;
-  // }
 
   return (
     <Flex
@@ -80,16 +76,19 @@ export const ReviewDelivery = () => {
           <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
+      <NavLink to={`/Reviews/${1}`}>
       <Button
         variant="solid"
         textColor="white"
         bgColor="brand.300"
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
-        mt={{ base: "80", lg: "40" }}
+        onClick={handleSubmit}
+        isDisabled={input === "" || rating === 0}
       >
         Confirm
       </Button>
+      </NavLink>
     </Flex>
   );
 };

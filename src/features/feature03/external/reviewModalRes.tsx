@@ -29,9 +29,9 @@ export function ReviewModalRes({ isOpen = false, onClose = () => {} }) {
       >
         <ModalHeader
           fontWeight={"bold"}
-          fontSize={{ base: "20px", lg: "25px" }}
+          fontSize={{ base: "18px", lg: "23px" }}
         >
-          Write a review now?
+          Write a review for reservation now?
         </ModalHeader>
         <ModalFooter>
           <Flex direction="row" justify="space-between" w="100%">

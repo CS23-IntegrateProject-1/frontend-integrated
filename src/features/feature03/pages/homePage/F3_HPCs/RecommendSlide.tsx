@@ -24,7 +24,19 @@ interface RProps {
 export const RecommendSlide = () => {
   const R: RProps[] = mockR;
   return (
-    <Box overflowX={"scroll"} overflow={"hidden"} display={"flex"} w={"100%"} pt={1}  >
+    <Box overflowX="auto"
+    css={{
+      '&::-webkit-scrollbar': {
+        width: '4px',
+      },
+      '&::-webkit-scrollbar-track': {
+        width: '6px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: 'white',
+        borderRadius: '24px',
+      },
+    }} display={"flex"} w={"100%"} pt={1}  >
       {R.filter((R) => R).map((R, index) => (
         <Card
           minW={{ base: "300px", lg: "350px" }}

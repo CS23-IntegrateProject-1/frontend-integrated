@@ -10,14 +10,16 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { StarReviewR } from "./F3_RVPCs/StarReviewR";
-import { useQuery } from "@tanstack/react-query";
+
 import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { useParams } from "react-router-dom";
 
 
 export const ReviewReservation = () => {
   const [input, setInput] = useState("");
   const [rating, setRating] = useState(0);
+
+  const { branchId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
@@ -27,6 +29,20 @@ export const ReviewReservation = () => {
     },[rating])
 
   const isError = input === "";
+
+  const handleSubmit = async () => {
+    try {
+      await Axios.post(`/feature3/reviewReservation`, {
+        rating,
+        review: input,
+        branchId: 1,
+      });
+      console.log("Review posted successfully!");
+
+    } catch (error) {
+      console.error("Error posting review:", error);
+    }
+  };
 
   return (
     <Flex
@@ -56,16 +72,19 @@ export const ReviewReservation = () => {
           <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
+      <NavLink to={`/Reviews/${1}`}>
       <Button
         variant="solid"
         textColor="white"
         bgColor="brand.300"
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
-        mt={{ base: "80", lg: "40" }}
+        onClick={handleSubmit}
+        isDisabled={input === "" || rating === 0}
       >
         Confirm
       </Button>
+      </NavLink>
     </Flex>
   );
 };

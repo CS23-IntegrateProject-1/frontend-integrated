@@ -26,6 +26,7 @@ interface VenueฺฺBranchPageData {
 }
 
 export const VenueBranches = () => {
+  
   const { venueId } = useParams();
   const {
     isLoading: venueBranchPageLoading,
@@ -75,10 +76,10 @@ export const VenueBranches = () => {
             mb={8}
           >
             <CardBody>
-              <Stack mt="4" spacing="3">
+              <Stack my="4" spacing="3">
                 <Flex direction="row" justify="space-between" align="center">
                   <Heading color="white" size="md">
-                    NO BRANCH, FIX IT
+                    NO BRANCH
                   </Heading>
                   <Flex
                     direction="row"
@@ -92,40 +93,6 @@ export const VenueBranches = () => {
                 </Flex>
               </Stack>
             </CardBody>
-            <Flex
-              direction="row"
-              justify="space-between"
-              width="100%"
-              pl="5"
-              pr="5"
-              pb="5"
-            >
-              <NavLink to={""}>
-                <Button
-                  variant="outline"
-                  textColor="white"
-                  _hover={{
-                    textColor: "black",
-                    borderColor: "black",
-                    bgColor: "brand.100",
-                  }}
-                  w="160px"
-                >
-                  More Info
-                </Button>
-              </NavLink>
-              <NavLink to="/table">
-                <Button
-                  variant="solid"
-                  textColor="white"
-                  bgColor="brand.300"
-                  _hover={{ bgColor: "brand.100", textColor: "black" }}
-                  w="160px"
-                >
-                  Reserve Now
-                </Button>
-              </NavLink>
-            </Flex>
           </Card>
         ) : (
           venueBranchPageData?.map((venueD) => (

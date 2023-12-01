@@ -98,7 +98,7 @@ export const MyReviews: FC = () => {
                         </Text>
                       </Text>
                       <Text fontWeight="bold">{branchs.category}</Text>
-                      <Text fontWeight="bold">{review.review_type}</Text>
+                      <Text fontWeight="bold" textColor={"red"}>{review.review_type}</Text>
                       <Flex color={"brand.100"} alignItems={"center"}>
                         <StarIcon mr={"6px"} />
                         <Text mt={"1.5px"}>{review.rating}</Text>
