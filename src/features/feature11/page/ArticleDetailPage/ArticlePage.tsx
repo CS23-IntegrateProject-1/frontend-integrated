@@ -17,8 +17,6 @@ import { CommentModal } from "./CommentModal";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { ShareModal } from "../../components/ShareModal";
-import { formatDate1 } from "../../../../functions/formatDatetime";
-import { ArticlePageProps } from "../../../../interfaces/feature11/ArticleType";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 

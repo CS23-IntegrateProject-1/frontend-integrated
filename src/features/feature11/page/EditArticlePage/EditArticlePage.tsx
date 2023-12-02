@@ -187,8 +187,9 @@ export const EditArticlePage = () => {
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
+    console.log("before: ", tags )
     const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
-
+    console.log("after: ", formattedTags)
     Axios.patch("/feature11/editArticle", {
       articleId: parseInt(articleId || "0"),
       topic: topic,
