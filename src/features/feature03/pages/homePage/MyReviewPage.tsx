@@ -40,7 +40,7 @@ export const MyReviews: FC = () => {
   } = useQuery<MyReviewsData[]>({
     queryKey: ["getMyReviews"],
     queryFn: async () => {
-      const { data } = await Axios.get(`/feature3/myReviews`);
+      const { data } = await Axios.get(`/feature3/MyReviews`);
       return data;
     },
   });

@@ -35,7 +35,7 @@ export const ReviewDelivery = () => {
 
   const handleSubmit = async () => {
     try {
-      await Axios.post(`/feature3/reviewDelivery`, {
+      await Axios.post(`/feature3/ReviewDelivery`, {
         rating,
         review: input,
         branchId: 1,

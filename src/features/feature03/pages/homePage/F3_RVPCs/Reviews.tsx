@@ -30,7 +30,7 @@ export const Reviews: FC = () => {
     queryKey: ["getReviews"],
     queryFn: async () => {
       const { data } = await Axios.get(
-        `/feature3/reviews/${branchId.branchId}`
+        `/feature3/Reviews/${branchId.branchId}`
       );
       return data;
     },

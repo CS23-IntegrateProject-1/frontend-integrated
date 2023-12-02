@@ -10,7 +10,7 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-interface VenueXRate {
+interface VenueDetail {
   id: number;
   venueId: number;
   branchId: number;
@@ -37,18 +37,18 @@ export const VenueDetail: FC = () => {
   const { branchId } = useParams();
 
   const {
-    isLoading: venueXRateLoading,
-    isError: venueXRateError,
-    data: venueXRateData,
-  } = useQuery<VenueXRate[]>({
+    isLoading: venueDetailLoading,
+    isError: venueDetailError,
+    data: venueDetailData,
+  } = useQuery<VenueDetail[]>({
     queryKey: ["getVenueXRates"],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venXRate");
+      const { data } = await Axios.get(`/feature3/VenDetail/${branchId}`);
       return data;
     },
   });
 
-  if (venueXRateLoading) {
+  if (venueDetailLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -56,24 +56,17 @@ export const VenueDetail: FC = () => {
     );
   }
 
-  if (venueXRateError) {
+  if (venueDetailError) {
     return <span>An error occurred: </span>;
   }
 
-  const filteredVenueData = venueXRateData
-  .filter((venue) => venue.branchId === Number(branchId))
-  .map((venue) => ({
-    ...venue,
-    rating: venue.rating !== undefined && venue.rating !== null ? venue.rating : "N/A",
-  }));
-
   console.log(branchId);
-  console.log(filteredVenueData);
+  console.log(venueDetailData);
 
 
   return (
     <Box width={"100%"}>
-      {filteredVenueData.map((venue, index) => (
+      {venueDetailData.map((venue, index) => (
         <Box key={index}>
           <Image
             src={venue.pic}
@@ -108,7 +101,7 @@ export const VenueDetail: FC = () => {
           <Box display={"flex"} pb={5}>
               <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
               <Text color={"brand.100"} fontSize="15px">
-                {venue.rating}
+                {venue.rating != "0" ? venue.rating : "N/A"}  
               </Text>
 
             <Box ml={"auto"}>

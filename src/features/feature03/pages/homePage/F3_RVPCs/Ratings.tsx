@@ -1,32 +1,50 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { StarGraph } from "./StarGraph";
 
+import { StarIcon } from "@chakra-ui/icons";
 
-export const Ratings = () => {
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
 
-  // const {
-  //   isLoading: venueXRateLoading,
-  //   isError: venueXRateError,
-  //   data: venueXRateData,
-  // } = useQuery<VenueXRate[]>({
-  //   queryKey: ["getVenueXRates"],
-  //   queryFn: async () => {
-  //     const { data } = await Axios.get("/feature3/venXRate");
-  //     return data;
-  //   },
-  // });
 
-  // if (venueLoading || venueXRateLoading) {
-  //   return (
-  //     <span>
-  //       <FullPageLoader />
-  //     </span>
-  //   );
-  // }
+interface ReviewsBranchOverAll {
+  id: number;
+  branchId: number;
+  venueReviewId: number;
+  rating: number;
+  total_reviews: number;
+}
 
-  // if (venueError || venueXRateError) {
-  //   return <span>An error occurred: </span>;
-  // }
+
+export const Ratings: FC = () => {
+  const { branchId } = useParams();
+
+  const {
+    isLoading: reviewsBranchOverAllLoading,
+    isError: reviewsBranchOverAllError,
+    data: reviewsBranchOverAllData,
+  } = useQuery<ReviewsBranchOverAll[]>({
+    queryKey: ["getReviewsBranchOverAll"],
+    queryFn: async () => {
+      const { data } = await Axios.get(`/feature3/ReviewsBranchOverAll/${branchId}`);
+      return data;
+    },
+  });
+
+  if (reviewsBranchOverAllLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (reviewsBranchOverAllError) {
+    return <span>An error occurred: </span>;
+  }
 
 
 
@@ -36,6 +54,7 @@ export const Ratings = () => {
       <Text fontSize={"20px"} fontWeight="bold">
         Ratings
       </Text>
+      {reviewsBranchOverAllData.map((RBOA, index) => (
       <Box
         mt="1"
         backgroundColor="brand.200"
@@ -43,15 +62,18 @@ export const Ratings = () => {
         p="4"
         display={"flex"}
         justifyContent={"center"}
+        key={index}
       >
         <Flex direction="row" align="center" justify="space-between" w="auto">
-          <Flex direction="column" align="center" mr="8" ml="4">
-            <Text fontSize="250%">4.7</Text>
-            <Text fontSize="80%">2934 reviews</Text>
+          <Flex direction="column" align="center">
+            <Text color={"#fcda12"} fontSize={{base:"2xl", lg:"4xl"}}>{RBOA.rating} <StarIcon mb={{base:2 ,lg:3}}/></Text>
+            <Text color={"#fcda12"} fontSize={{base:"md", lg:"xl"}}>{RBOA.total_reviews} reviews</Text>
           </Flex>
+          <Box mx={{base:15, lg:50}}/>
           <StarGraph />
         </Flex>
       </Box>
+      ))}
     </Box>
   );
 };

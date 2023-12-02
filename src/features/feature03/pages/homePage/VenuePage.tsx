@@ -31,9 +31,6 @@ interface Venue {
   capacity: string;
   location: string;
   website_url: string;
-}
-
-interface VenueXRate extends Venue {
   rating: string;
 }
 
@@ -47,24 +44,12 @@ export const VenuePage: FC = (props) => {
   } = useQuery<Venue[]>({
     queryKey: ["getVen"],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/ven");
+      const { data } = await Axios.get("/feature3/VenuesPage");
       return data;
     },
   });
 
-  const {
-    isLoading: venueXRateLoading,
-    isError: venueXRateError,
-    data: venueXRateData,
-  } = useQuery<VenueXRate[]>({
-    queryKey: ["getVenueXRates"],
-    queryFn: async () => {
-      const { data } = await Axios.get("/feature3/venXRate");
-      return data;
-    },
-  });
-
-  if (venueLoading || venueXRateLoading) {
+  if (venueLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -72,17 +57,10 @@ export const VenuePage: FC = (props) => {
     );
   }
 
-  if (venueError || venueXRateError) {
+  if (venueError) {
     return <span>An error occurred: </span>;
   }
 
-  // Combine venue data with ratings
-  const venuesWithRating = venueData.map((venueD) => {
-    const matchingRating = venueXRateData.find(
-      (venueXRate) => venueXRate.venueId === venueD.venueId
-    );
-    return { ...venueD, rating: matchingRating?.rating || "N/A" };
-  });
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
@@ -111,7 +89,7 @@ export const VenuePage: FC = (props) => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {venuesWithRating.map((venueD) => (
+        {venueData.map((venueD) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
@@ -134,7 +112,7 @@ export const VenuePage: FC = (props) => {
                   {venueD.name}
                 </Heading>
                 <Flex direction="row" mr="2" borderRadius="14" ml={"auto"} color="white" transform="translateY(2px)">
-                  {venueD.rating}
+                  {venueD.rating != "0" ? venueD.rating : "N/A"}
                   <StarIcon ml="2" transform="translateY(2px)" />
                 </Flex>
               </Flex>
