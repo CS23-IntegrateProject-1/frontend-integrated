@@ -5,7 +5,7 @@ import index from "../../../../theme/foundations/index";
 
 
 
-const FoodStatus = () => {
+const FoodStatusNavbar = () => {
   const navigate= useNavigate();
 const OngoingPage=()=>{
   navigate('/map/food-delivery/ongoing');
@@ -93,4 +93,4 @@ const linkStyleNotActive = {
   );
 };
 
-export default FoodStatus;
+export default FoodStatusNavbar;

@@ -1,7 +1,7 @@
 import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
-import FoodStatus from "../../components/FoodDeliveryComp/FoodStatus";
+import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
 export const CanceledMyDelivery=()=>{
     return(
         <Box>

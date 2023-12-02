@@ -1,6 +1,7 @@
 import { Box, Flex, Text, IconButton, Divider, Button } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import index from "../../../../../theme/foundations/index";
 export const InCartMenu = () => {
   const [addItem, setAddItem] = useState(0);
@@ -12,6 +13,10 @@ export const InCartMenu = () => {
       setAddItem(addItem - 1);
     }
   };
+  const navigate = useNavigate();
+  const nav=()=>{
+    navigate('/map/food-delivery/checkout');
+  }
   return (
     <Box mt={20}>
       <Box>
@@ -28,7 +33,7 @@ export const InCartMenu = () => {
             <Text>small</Text>
           </Flex>
           <Flex flexDir={"column"} justifyContent={"space-around"}>
-            <Text>$200</Text>
+            <Text>$20</Text>
             <Flex flexDir={"row"}>
               <IconButton
                 icon={<MinusIcon />}
@@ -77,7 +82,7 @@ export const InCartMenu = () => {
               justifyContent={"space-around"}
             >
               <Text>Subtotal</Text>
-              <Text>$210</Text>
+              <Text>$20</Text>
             </Box>
             <Box
               display={"flex"}
@@ -103,7 +108,7 @@ export const InCartMenu = () => {
             gap={2}
           >
             <Text>Total(incl. Vat)</Text>
-            <Text>$210</Text>
+            <Text>$20</Text>
           </Box>
           <Button
             variant={"unstyle"}
@@ -113,6 +118,7 @@ export const InCartMenu = () => {
             maxHeight={100}
             width={500}
             mb={2}
+            onClick={nav}
           >
             Review payment and address
           </Button>

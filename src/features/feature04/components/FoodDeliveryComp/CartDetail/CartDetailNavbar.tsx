@@ -8,16 +8,6 @@ export const CartDetailNavbar=(prop: resName)=>{
     return(
     <Box>
         <Flex flexDir={"column"} alignItems={"center"}>
-        <Flex justifyContent={"center"}>
-          <Text
-            textAlign={"center"}
-            fontSize={index.textStyles.h1.fontSize}
-            fontWeight={index.textStyles.h1.fontWeight}
-            color={index.colors.white}
-          >
-            Cart
-          </Text>
-        </Flex>
         <Text
           fontSize={index.textStyles.h4.fontSize}
           fontWeight={index.textStyles.body1.fontWeight}
