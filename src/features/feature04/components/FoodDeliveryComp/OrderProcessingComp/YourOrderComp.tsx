@@ -11,8 +11,13 @@ import {
   useDisclosure,extendTheme
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
+import { useNavigate } from "react-router-dom";
 export const YourOrderComp = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate=useNavigate();
+  const navigateCancelOrder=()=>{
+    navigate('/map/food-delivery/your-order')
+  }
   return (
     <Box display={"flex"} justifyContent={"center"}>
       <Flex flexDirection={"column"}>
@@ -94,7 +99,7 @@ export const YourOrderComp = () => {
                       color={index.colors.white}
                       variant={"untsyle"}
                     >
-                      Cancel
+                      Cancel your order
                     </Button>
                   </Flex>
                 </Flex>
