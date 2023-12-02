@@ -1,8 +1,6 @@
-import React from "react";
 import { FaFacebookSquare, FaInstagram, FaLine } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
-import { Box, Flex, Text, Grid, Icon, Center } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { Divider } from "@chakra-ui/react";
 

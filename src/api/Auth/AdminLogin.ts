@@ -3,13 +3,13 @@ import { Axios } from "../../AxiosInstance";
 
 export const Adminlogin = async (username: string, password: string) => {
 	try {
-		return await Axios.post("/auth/AdminLogin", {
+		return await Axios.post("/auth/adminLogin", {
 			username,
-			password
+			password,
 		});
 	} catch (e) {
 		return {
-			status: 401
+			status: 401,
 		};
 	}
 };

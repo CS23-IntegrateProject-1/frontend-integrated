@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
@@ -13,7 +14,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
@@ -22,15 +22,10 @@ import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
-
-interface ImageProps {
-  url: string;
-  description: string;
-}
-interface VenueProps {
-  venueId: number;
-  name: string;
-}
+import textStyles from "../../../../theme/foundations/textStyles";
+import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
+import { useCustomToast } from "../../../../components/useCustomToast";
+import { useNavigate } from "react-router-dom";
 
 // const fetchVenues = async (): Promise<VenueProps[]> => {
 //   try {
@@ -45,12 +40,15 @@ interface VenueProps {
 export const CreateArticlePage = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string>("Blog");
   const [selectedVenues, setSelectedVenues] = useState<VenueProps[]>([]);
   const [topic, setTopic] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
-  const [images, setImages] = useState<ImageProps[]>([]);
+  const [images, setImages] = useState<File[] | null>([]);
+  const toast = useCustomToast();
+  const navigate = useNavigate();
+
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
     Axios.get("/feature11/fetchAllVenueName")
@@ -64,15 +62,6 @@ export const CreateArticlePage = () => {
   if (venues.length === 0) {
     return <FullPageLoader />;
   }
-
-  // const venues = useQuery({ queryKey: ["veueNames"], queryFn: fetchVenues });
-  // if (venues.status == "loading") {
-  //   return <span>Loading...</span>;
-  // }
-
-  // if (venues.error instanceof Error) {
-  //   return <div>An error occurred: {venues.error.message}</div>;
-  // }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTopic(e.target.value);
@@ -110,12 +99,35 @@ export const CreateArticlePage = () => {
     setTags(updatedTags);
   };
 
+  // const handleImageUpload = async (e: { target: { files: any; }; }) => {
+  //   const files = e.target.files;
+  //   if (files && files.length > 0) {
+  //     const formData = new FormData();
+
+  //     Array.from(files).forEach((file) => {
+  //       formData.append("images", file);
+  //     });
+
+  //     try {
+  //       const response = await Axios.post("/api/images/upload", formData, {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       });
+
+  //       const uploadedFilesData = response.data.uploadedFiles;
+  //       setUploadedFiles(uploadedFilesData);
+  //     } catch (error) {
+  //       console.error("Error uploading images:", error);
+  //     }
+  //   }
+  // };
   const handleCreateArticle = () => {
     if (
       topic === "" ||
       content === "" ||
       selectedVenues.length === 0 ||
-      authorName === "" 
+      authorName === ""
       // images.length === 0
     ) {
       alert("Please fill in all the fields");
@@ -144,6 +156,10 @@ export const CreateArticlePage = () => {
       .then((res) => {
         console.log(res);
         // alert("Article created");
+        toast.success("Article created successfully");
+        setTimeout(() => {
+          navigate("/article/myarticles");
+        }, 1000);
       })
       .catch((err) => {
         console.log("error", err);
@@ -174,6 +190,19 @@ export const CreateArticlePage = () => {
       </FormControl>
       <FormControl id="title" w={"95%"} isRequired></FormControl>
       <Divider />
+      {/* =============== Image ================== */}
+      <FormControl>
+        <FormLabel style={TextStyle.h3}>Images</FormLabel>
+        <Input
+          variant={"unstyled"}
+          type="file"
+          multiple
+          // onChange={handleImageUpload}
+          // value={images.map((image) => image.url)}
+        />
+      </FormControl>
+
+      {/* =============== Author Name ================== */}
       <FormControl
         display={"flex"}
         flexDirection={"row"}
@@ -193,6 +222,8 @@ export const CreateArticlePage = () => {
           onChange={(e) => setAuthorName(e.target.value)}
         />
       </FormControl>
+
+      {/* =============== Category ==================*/}
       <FormControl
         display={"flex"}
         flexDirection={"row"}
@@ -216,56 +247,70 @@ export const CreateArticlePage = () => {
         </Select>
       </FormControl>
 
-      <Box mt={"10px"} w={"100%"} display={"flex"}>
-        <InputGroup
-          justifyContent="center"
-          alignItems="center"
-          mr={"0.5em"}
-          w={"40%"}
-          maxW={"250px"}
-        >
-          <Input
-            type="text"
-            size="sm"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            placeholder="add tag"
-          />
-          <InputRightElement>
-            <IconButton
-              textColor={"white"}
-              variant={"link"}
-              fontSize={"20px"}
-              isRound={true}
-              aria-label="add tag"
-              icon={<IoAddCircleSharp />}
-              size={"xs"}
-              onClick={() => {
-                handleAddTag(tagInput);
-              }}
+      {/* ============= TAG===========  */}
+      <FormControl display={"flex"} alignItems={"flex-end"}>
+        <Box>
+          <FormLabel display={"inline"} fontSize={"xs"}>
+            Add tag
+          </FormLabel>
+          <InputGroup
+            justifyContent="center"
+            alignItems="center"
+            mr={"0.5em"}
+            w={"150px"}
+            size={"sm"}
+          >
+            <Input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="add tag"
             />
-          </InputRightElement>
-        </InputGroup>
-        <HStack>
-          {tags.map((value) => (
+            <InputRightElement>
+              <IconButton
+                textColor={"white"}
+                variant={"unstyled"}
+                // isRound={true}
+                aria-label="add tag"
+                icon={<IoAddCircleSharp />}
+                size={"xs"}
+                fontSize={"xl"}
+                onClick={() => {
+                  handleAddTag(tagInput);
+                  setTagInput("");
+                }}
+              />
+            </InputRightElement>
+          </InputGroup>
+        </Box>
+        <HStack
+          spacing={2}
+          // overflow={"scroll"}
+          overflowX={"auto"} // Enable horizontal scrolling
+          maxW={"calc(100% - 150px)"} // Limit maximum width
+        >
+          {tags.map((value, index) => (
             <Tag
-              size={"sm"}
-              key={value}
+              key={index}
+              size="md"
               borderRadius="full"
-              variant="solid"
+              variant="subtle"
+              minWidth={"fit-content"}
               bgColor={"brand.200"}
+              color={"white"}
             >
               <TagLabel>{value}</TagLabel>
               <TagCloseButton onClick={() => handleRemoveTag(value)} />
             </Tag>
           ))}
         </HStack>
-      </Box>
+      </FormControl>
+      {/* ============= SELECT VENUE ===========  */}
 
       <FormControl display={"flex"}>
         <Box w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
-            Select Venue Names
+            Select Venue
           </FormLabel>
           <Select
             size={"sm"}
