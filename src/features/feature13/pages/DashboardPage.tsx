@@ -39,7 +39,7 @@ export const DashboardPage = () => {
   };
   return (
     <Box display={"flex"} flexDirection={"column"} position={"relative"}>
-      <Text
+      {/* <Text
         fontSize={"20px"}
         fontWeight={"700"}
         fontStyle={"normal"}
@@ -107,7 +107,6 @@ export const DashboardPage = () => {
         </Box>
       </Box>
 
-      {/* Qrcode confirm link */}
 
       <Card
         w={"147px"}
@@ -138,7 +137,6 @@ export const DashboardPage = () => {
         </Box>
       </Card>
 
-      {/* Menu card */}
       <Card
         w={"147px"}
         h={"100px"}
@@ -159,7 +157,6 @@ export const DashboardPage = () => {
         </Box>
       </Card>
 
-      {/* Table List card */}
 
       <Card
         w={"147px"}
@@ -187,7 +184,7 @@ export const DashboardPage = () => {
             List
           </Text>
         </Box>
-      </Card>
+      </Card> */}
     </Box>
   );
 };
