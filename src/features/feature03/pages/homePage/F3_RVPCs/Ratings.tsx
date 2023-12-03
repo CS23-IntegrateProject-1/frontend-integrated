@@ -46,9 +46,6 @@ export const Ratings: FC = () => {
     return <span>An error occurred: </span>;
   }
 
-
-
-
   return (
     <Box width={"100%"} pb="30px">
       <Text fontSize={"20px"} fontWeight="bold">
