@@ -7,13 +7,12 @@ import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader"
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-
-interface ReviewsBranchOverAll {
+interface StarGraphData {
   id: number;
   branchId: number;
-  venueReviewId: number;
   rating: number;
-  total_reviews: number;
+  total_per_rating: number;
+  total_ratings_per_branch: number;
 }
 
 const starGraph = {
@@ -23,22 +22,21 @@ const starGraph = {
 };
 
 export const StarGraph = () => {
-
   const { branchId } = useParams();
 
   const {
-    isLoading: reviewsBranchOverAllLoading,
-    isError: reviewsBranchOverAllError,
-    data: reviewsBranchOverAllData,
-  } = useQuery<ReviewsBranchOverAll[]>({
-    queryKey: ["getReviewsBranchOverAll"],
+    isLoading: starGraphLoading,
+    isError: starGraphError,
+    data: starGraphData,
+  } = useQuery<StarGraphData[]>({
+    queryKey: ["getStarGraphData"],
     queryFn: async () => {
       const { data } = await Axios.get(`/feature3/StarGraph/${branchId}`);
       return data;
     },
   });
 
-  if (reviewsBranchOverAllLoading) {
+  if (starGraphLoading) {
     return (
       <span>
         <FullPageLoader />
@@ -46,82 +44,114 @@ export const StarGraph = () => {
     );
   }
 
-  if (reviewsBranchOverAllError) {
+  if (starGraphError) {
     return <span>An error occurred: </span>;
   }
 
-
   return (
     <Flex direction="column" align="flex-start" mt={2}>
-      {reviewsBranchOverAllData.map((RBOA, index) => (
-      <Box key={index}>
-      <Flex sx={starGraph}>
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <Box
-          backgroundColor="white"
-          w="120px"
-          h="9px"
-          ml="0.5rem"
-          borderRadius="10"
-          mt="0.5"
-        />
-      </Flex>
-      <Flex sx={starGraph}>
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <Box
-          backgroundColor="white"
-          w={RBOA.rating}
-          h="9px"
-          ml="1.25rem"
-          borderRadius="10"
-          mt="0.5"
-        />
-      </Flex>
-      <Flex sx={starGraph}>
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <Box
-          backgroundColor="white"
-          w="40px"
-          h="9px"
-          ml="2rem"
-          borderRadius="10"
-          mt="0.5"
-        />
-      </Flex>
-      <Flex sx={starGraph}>
-        <StarIcon boxSize="3" />
-        <StarIcon boxSize="3" />
-        <Box
-          backgroundColor="white"
-          w="20px"
-          h="9px"
-          ml="2.75rem"
-          borderRadius="10"
-          mt="0.5"
-        />
-      </Flex>
-      <Flex sx={starGraph}>
-        <StarIcon boxSize="3" />
-        <Box
-          backgroundColor="white"
-          w="30px"
-          h="9px"
-          ml="3.5rem"
-          borderRadius="10"
-          mt="0.5"
-        />
-      </Flex>
+      <Box>
+        {starGraphData.map(
+          (SG, index) =>
+            SG.rating === 5 && (
+              <Flex sx={starGraph} key={index}>
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <Box
+                  backgroundColor="white"
+                  w={`${
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                  }px`}
+                  h="9px"
+                  ml="0.5rem"
+                  borderRadius="10"
+                  mt="0.5"
+                />
+              </Flex>
+            )
+        )}
+        {starGraphData.map(
+          (SG, index) =>
+            SG.rating === 4 && (
+              <Flex sx={starGraph} key={index}>
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <Box
+                  backgroundColor="white"
+                  w={`${
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                  }px`}
+                  h="9px"
+                  ml="1.25rem"
+                  borderRadius="10"
+                  mt="0.5"
+                />
+              </Flex>
+            )
+        )}
+        {starGraphData.map(
+          (SG, index) =>
+            SG.rating === 3 && (
+              <Flex sx={starGraph} key={index}>
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <Box
+                  backgroundColor="white"
+                  w={`${
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                  }px`}
+                  h="9px"
+                  ml="2rem"
+                  borderRadius="10"
+                  mt="0.5"
+                />
+              </Flex>
+            )
+        )}
+        {starGraphData.map(
+          (SG, index) =>
+            SG.rating === 2 && (
+              <Flex sx={starGraph} key={index}>
+                <StarIcon boxSize="3" />
+                <StarIcon boxSize="3" />
+                <Box
+                  backgroundColor="white"
+                  w={`${
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                  }px`}
+                  h="9px"
+                  ml="2.75rem"
+                  borderRadius="10"
+                  mt="0.5"
+                />
+              </Flex>
+            )
+        )}
+        {starGraphData.map(
+          (SG, index) =>
+            SG.rating === 1 && (
+              <Flex sx={starGraph} key={index}>
+                <StarIcon boxSize="3" />
+                <Box
+                  backgroundColor="white"
+                  w={`${
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                  }px`}
+                  h="9px"
+                  ml="3.5rem"
+                  borderRadius="10"
+                  mt="0.5"
+                />
+              </Flex>
+            )
+        )}
       </Box>
-      ))}
     </Flex>
   );
 };

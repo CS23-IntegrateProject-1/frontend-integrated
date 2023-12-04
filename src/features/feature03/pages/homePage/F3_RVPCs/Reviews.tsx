@@ -10,13 +10,14 @@ import { useParams } from "react-router-dom";
 
 interface reviewsData {
   id: number;
-  venueReviewId: number;
   userId: number;
+  username: string;
   branchId: number;
+  venueReviewId: number;
   rating: string;
   review: string;
-  review_type: string;
   date_added: string;
+  review_type: string;
 }
 
 export const Reviews: FC = () => {
@@ -67,7 +68,7 @@ export const Reviews: FC = () => {
             <Box display={"flex"}>
               <Box width={"80%"}>
                 <Text fontWeight="bold">
-                  {reviews.userId}USERNAME |{" "}
+                  {reviews.username} |{" "}
                   <Text as="span" textColor={"red"}>
                     {reviews.review_type}
                   </Text>
