@@ -33,7 +33,8 @@ type Order = {
 export const OrderUpdateNoti = () => {
   const [userData, setUserData] = useState('');
   const [userId, setUserId] = useState('');
-  const [order, setOrder] = useState<Order[]>([]);
+  const [order, setOrder] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
             
   const fetchData = async () => {
@@ -66,8 +67,10 @@ export const OrderUpdateNoti = () => {
       const OrderResponse = await axios.get(`${backendUrl}/feature8/orders/${orderId}`);
       const orderData = OrderResponse.data;
       setOrder(orderData);
+      setLoading(false);
     } catch (error) {
-      console.error('Error fetching reservation data:', error);
+      console.error('Error fetching Order data:', error);
+      setLoading(false);
     }
   };
 
@@ -76,7 +79,11 @@ export const OrderUpdateNoti = () => {
     fetchData();
   }, [orderId]); // Include orderId as a dependency to re-run the effect when it changes
 
-  console.log(order);
+  console.log('Order Data: ', order);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box
@@ -100,12 +107,18 @@ export const OrderUpdateNoti = () => {
               <TableContainer>
                 <Table variant={'simple'}>
                   <Tbody>
-                    {order.map((item) => (
-                      <Tr key={item.orderId}>
-                        <Td>{item.status}</Td>
-                        <Td>{item.total_amount}</Td>
+                    {Array.isArray(order) && order.length > 0 ? (
+                      order.map((item) => (
+                        <Tr key={item.orderId}>
+                          <Td>{item.status}</Td>
+                          <Td>{item.total_amount}</Td>
+                        </Tr>
+                      ))
+                    ) : (
+                      <Tr>
+                        <Td colSpan={2}>No orders found</Td>
                       </Tr>
-                    ))}
+                    )}
                   </Tbody>
                 </Table>
               </TableContainer>
