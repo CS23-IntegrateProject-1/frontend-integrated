@@ -5,11 +5,11 @@ import { FC, useState } from "react";
 export const StarReviewR:FC<{
   setAvgRating: Function
 }> = ({setAvgRating}) => {
-  const [reserve, setReserveRating] = useState(0);
-  const [table, setTableRating] = useState(0);
-  const [ambiance, setAmbianceRating] = useState(0);
-  const [staff, setStaffRating] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [reserve, setReserveRating] = useState(1);
+  const [table, setTableRating] = useState(1);
+  const [ambiance, setAmbianceRating] = useState(1);
+  const [staff, setStaffRating] = useState(1);
+  const [rating, setRating] = useState(1);
 
   const handleStarClick = (selectedRating: number, category: string) => {
     switch (category) {

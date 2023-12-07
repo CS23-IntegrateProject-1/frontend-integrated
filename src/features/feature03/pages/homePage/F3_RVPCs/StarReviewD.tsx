@@ -9,11 +9,11 @@ import { FC, useState } from "react";
 export const StarReviewD:FC<{
   setAvgRating: Function
 }> = ({setAvgRating}) => {
-  const [food, setFoodRating] = useState(0);
-  const [deliver, setDeliveryRating] = useState(0);
-  const [order, setOrderRating] = useState(0);
-  const [service, setServiceRating] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [food, setFoodRating] = useState(1);
+  const [deliver, setDeliveryRating] = useState(1);
+  const [order, setOrderRating] = useState(1);
+  const [service, setServiceRating] = useState(1);
+  const [rating, setRating] = useState(1);
 
   const handleStarClick = (selectedRating: number, category: string) => {
     switch (category) {
