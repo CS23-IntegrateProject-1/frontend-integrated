@@ -13,55 +13,40 @@ import {
 import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
+import { StarIcon } from "@chakra-ui/icons";
+
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { FC } from "react";
 
-interface VenueData {
+interface Venue {
   id: number;
   venueId: number;
+  branchId: number;
   name: string;
   description: string;
   category: string;
   capacity: string;
   location: string;
-  score: string;
   website_url: string;
-}
-
-interface VenueRate {
-  id: number;
-  venueId: number;
   rating: string;
 }
 
-export const RestaurantPage: FC = (props) => {
+export const VenuePage: FC = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     isLoading: venueLoading,
     isError: venueError,
     data: venueData,
-  } = useQuery<VenueData[]>({
+  } = useQuery<Venue[]>({
     queryKey: ["getVen"],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/ven");
+      const { data } = await Axios.get("/feature3/VenuesPage");
       return data;
     },
   });
-
-  // const {
-  //   isLoading: venueRateLoading,
-  //   isError: venueRateError,
-  //   data: venueRateData,
-  // } = useQuery<VenueRate[]>({
-  //   queryKey: ["getVenueRates"],
-  //   queryFn: async () => {
-  //     const { data } = await Axios.get("/feature3/venue-ratings");
-  //     return data;
-  //   },
-  // });
 
   if (venueLoading) {
     return (
@@ -74,6 +59,7 @@ export const RestaurantPage: FC = (props) => {
   if (venueError) {
     return <span>An error occurred: </span>;
   }
+
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
@@ -111,27 +97,35 @@ export const RestaurantPage: FC = (props) => {
             key={venueD.venueId}
             mb={8}
           >
-            <CardBody>
+            <CardBody pb={1}>
               <Image
                 src={venueD.pic}
-                alt={venueD.name}
+                alt={venueD.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
                 h="160px"
                 bgColor={"white"}
               />
-              <Heading color="white" size="md" mt="4">
-                {venueD.name}
-              </Heading>
+              <Flex mt="4">
+                <Heading color="white" size="md">
+                  {venueD.name}
+                </Heading>
+                <Flex direction="row" mr="2" borderRadius="14" ml={"auto"} color="white" transform="translateY(2px)">
+                  {venueD.rating != "0" ? venueD.rating : "N/A"}
+                  <StarIcon ml="2" transform="translateY(2px)" />
+                </Flex>
+              </Flex>
             </CardBody>
             <Flex
-              direction="row"
+              direction="column"
               justify="center"
               width="100%"
-              pl="5"
-              pr="5"
+              px="5"
               pb="5"
             >
+              <Text mb={3} textColor={"gray.300"}>
+                {venueD.description}
+              </Text>
               <NavLink to={`/Branches/${venueD.venueId}`}>
                 <Button
                   variant="solid"

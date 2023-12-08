@@ -1,43 +1,111 @@
 import { NavLink } from "react-router-dom";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Button, Text } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 const starSortBox = {
   backgroundColor: "brand.300",
-  px: "3",
-  py: "2",
+  px: { base: "2", lg: "3" },
+  py: { base: "1", lg: "2" },
   mr: "2",
   borderRadius: "xl",
 };
 
 const starPlacement = {
   ml: "2",
-  mt: "0.5",
   fontSize: "lg",
 };
 
 export const StarSort = () => {
   return (
     <Flex direction="row" mt="2">
-      <Flex direction="row" sx={starSortBox}>
-        5
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mt={0.5} ml={1}>
+          5
+        </Text>
         <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        4
+      </Button>
+      {/* ///////////////////////////////////////////////// */}
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mt={0.5} ml={1}>
+          4
+        </Text>
         <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        3
+      </Button>
+      {/* ///////////////////////////////////////////////// */}
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mt={0.5} ml={1}>
+          3
+        </Text>
         <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        2
+      </Button>
+      {/* ///////////////////////////////////////////////// */}
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mt={0.5} ml={1}>
+          2
+        </Text>
         <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        1
+      </Button>
+      {/* ///////////////////////////////////////////////// */}
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mt={0.5} ml={1}>
+          1
+        </Text>
         <StarIcon sx={starPlacement} />
+      </Button>
+      {/************************************************************ */}
+      <Flex pl={5}>
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mx={1}>
+          Reservation
+        </Text>
+      </Button>
+      <Button
+        sx={starSortBox}
+        textColor={"white"}
+        _hover={{
+          backgroundColor: "brand.200",
+        }}
+      >
+        <Text mx={1}>
+        Delivery
+        </Text>
+      </Button>
       </Flex>
     </Flex>
   );
