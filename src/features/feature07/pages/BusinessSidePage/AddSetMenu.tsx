@@ -218,11 +218,12 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
             <FormLabel>Selected Food in set:</FormLabel>
             <VStack align="start" spacing={2}>
               {selectedMenus?.map((item) => (
-                <Box key={item.menuId}>
-                  <HStack spacing={2} align="center">
+                <Box width={'307px'}
+                key={item.menuId}>
+                  <HStack justify={'space-between'} align="center">
                     <Box>{item.menuName}</Box>
                     <DeleteIcon
-                      ml={60}
+                      // ml={60}
                       boxSize={4}
                       aria-label={`Delete ${item.menuName}`}
                       onClick={() => handleDeleteMenu(item.menuId)}
@@ -235,39 +236,45 @@ const { data : menuOptions, isLoading, isError } = useQuery(["menuData"], () => 
               {/* <InputLeftElement>
                 <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
               </InputLeftElement> */}
-        <Select
-  variant="flushed"
-  width="307px"
-  placeholder="Add a menu"
-  value={selectId}
-  onChange={(e) => handleDropdownChange(e.target.value)}
-  styles={{
-    control: (styles) => ({
-      ...styles,
-      backgroundColor: 'brand.300',
-      borderColor: 'brand.300',
-    }),
-    option: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
-      color: isSelected ? 'white' : 'black',
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: 'black',
-    }),
-  }}
-  
-  as="select"
->
-  {menuOptions?.map((menu) => (
-    <option 
-    key={menu.menuId} 
-    value={menu.menuId}>
-      {menu.name}
-    </option>
-  ))}
-</Select>
+            <Select
+              variant="flushed"
+              width="307px"
+              placeholder="Add a menu"
+              value={selectId}
+              onChange={(e) => handleDropdownChange(e.target.value)}
+              // style={{
+              //   control: (styles) => ({
+              //     ...styles,
+              //     backgroundColor: 'brand.300',
+              //     borderColor: 'brand.300',
+              //   }),
+              //   option: (styles, { isFocused, isSelected }) => ({
+              //     ...styles,
+              //     backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
+              //     color: isSelected ? 'white' : 'black',
+              //   }),
+              //   singleValue: (styles) => ({
+              //     ...styles,
+              //     color: 'black',
+              //   }),
+              // }}
+              sx={{
+                '> option': {
+                  background: 'brand.300',
+                  color: 'white',
+                },
+              }}
+              bg={'brand.300'}
+              as="select"
+            >
+              {menuOptions?.map((menu) => (
+                <option 
+                key={menu.menuId} 
+                value={menu.menuId}>
+                  {menu.name}
+                </option>
+              ))}
+            </Select>
 
             </InputGroup>
           </Box>

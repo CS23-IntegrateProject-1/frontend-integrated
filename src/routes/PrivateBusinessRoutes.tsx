@@ -9,7 +9,7 @@ export const PrivateBusinessRoutes = createBrowserRouter([
 	{ path: "/", element: <Navigate to={"/business/dashboard"} /> },
 	{
 		path: "/",
-		element: <RootLayout />,
+		element: <RootLayout role="business" />,
 		children: [...Feature13Routes(), ...Feature13PublicRoutes(), ...Feature06BusinessPrivateRoutes()],
 	},
 	{ path: "/*", element: <NotFoundPage /> },
