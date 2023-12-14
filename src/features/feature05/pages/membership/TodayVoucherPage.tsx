@@ -5,9 +5,6 @@ export function TodayVoucherPage() {
   return (
     <VStack spacing={"20px"}>
       <TodayVoucherCard />
-      <TodayVoucherCard />
-
-
 
       <TodayVoucherCard />
 

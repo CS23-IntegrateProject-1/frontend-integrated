@@ -10,7 +10,7 @@ export const VoucherStatusCard: FC<{
 	const voucherId = data.voucherId;
 
 	const handleClickEdit = () => {
-		navigate(`/business/voucher/edit/${voucherId}`);
+		navigate("/business/voucher/edit/:id");
 	};
 	const status = data.isApprove;
 	const img = data.voucher_image;

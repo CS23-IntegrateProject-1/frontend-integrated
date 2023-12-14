@@ -406,48 +406,44 @@ export const AdvertisementIDEditPage = () => {
 					</ModalContent>
 				</Modal>
 
-				{/* Submit */}
-				<Button
-					h={"40px"}
-					backgroundColor="#A533C8"
-					variant="solid"
-					width="50%"
-					color="white"
-					onClick={submitModal.onOpen}
-				>
-					Submit
-				</Button>
-				<Modal
-					isOpen={submitModal.isOpen}
-					onClose={submitModal.onClose}
-				>
-					<ModalOverlay />
-					<ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-						<ModalHeader mt={3}>Submit advertisement</ModalHeader>
-						<ModalCloseButton />
-						<ModalFooter>
-							<Button
-								bgColor={"white"}
-								color={"#200944"}
-								mr={5}
-								width="30%"
-								onClick={submitModal.onClose}
-							>
-								Cancel
-							</Button>
-							<Button
-								bgColor={"#A533C8"}
-								mr={3}
-								onClick={handleClickSubmit}
-								color={"white"}
-								width="30%"
-							>
-								Submit
-							</Button>
-						</ModalFooter>
-					</ModalContent>
-				</Modal>
-			</Box>
-		</Box>
-	);
+        <Button
+          h={"40px"}
+          backgroundColor="#A533C8"
+          variant="solid"
+          width="50%"
+          color="white"
+          onClick={submitModal.onOpen}
+        >
+          Submit
+        </Button>
+        <Modal isOpen={submitModal.isOpen} onClose={submitModal.onClose}>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>Submit advertisement</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={submitModal.onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickSubmit}
+                color={"white"}
+                width="30%"
+              >
+                Submit
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </Box>
+  );
 };

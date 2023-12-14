@@ -1,12 +1,12 @@
 import { Box, Icon, Image } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export const AdvertisementStatusCard: FC<{ data: any }> = ({ data }) => {
 	const navigate = useNavigate();
 	const handleClickEdit = () => {
-		navigate("/advertisement/edit/:id");
+		navigate("/business/advertisement/edit/:id");
 	};
 	const status = data.isApprove;
 	const img = data.image_url;
