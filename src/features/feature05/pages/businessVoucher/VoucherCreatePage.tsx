@@ -87,29 +87,55 @@ export const VoucherCreatePage = () => {
 		}));
 	};
 
+	// const handleChange = (
+	// 	e: React.ChangeEvent<
+	// 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+	// 	>
+	// ) => {
+	// 	const { name, value } = e.target;
+	// 	if (name.startsWith("discountVoucher.")) {
+	// 		const typeField = name.split(".")[1];
+	// 		setVoucher((prevVoucher) => ({
+	// 			...prevVoucher,
+	// 			discountVoucher: {
+	// 				...prevVoucher.discountVoucher,
+	// 				[typeField]: value,
+	// 			},
+	// 		}));
+	// 	} else if (name.startsWith("giftVoucher.")) {
+	// 		const typeField = name.split(".")[1];
+	// 		setVoucher((prevVoucher) => ({
+	// 			...prevVoucher,
+	// 			giftVoucher: {
+	// 				...prevVoucher.giftVoucher,
+	// 				[typeField]: value,
+	// 			},
+	// 		}));
+	// 	} else {
+	// 		setVoucher((prevVoucher) => ({
+	// 			...prevVoucher,
+	// 			[name]: value,
+	// 		}));
+	// 	}
+	// };
+
 	const handleChange = (
 		e: React.ChangeEvent<
 			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 		>
 	) => {
 		const { name, value } = e.target;
-		if (name.startsWith("discountVoucher.")) {
-			const typeField = name.split(".")[1];
+
+		if (
+			name.startsWith("discountVoucher.") ||
+			name.startsWith("giftVoucher.")
+		) {
+			// your existing code for discountVoucher and giftVoucher
+		} else if (name === "startDate" || name === "endDate") {
+			const dateValue = new Date(value);
 			setVoucher((prevVoucher) => ({
 				...prevVoucher,
-				discountVoucher: {
-					...prevVoucher.discountVoucher,
-					[typeField]: value,
-				},
-			}));
-		} else if (name.startsWith("giftVoucher.")) {
-			const typeField = name.split(".")[1];
-			setVoucher((prevVoucher) => ({
-				...prevVoucher,
-				giftVoucher: {
-					...prevVoucher.giftVoucher,
-					[typeField]: value,
-				},
+				[name]: dateValue.toISOString(),
 			}));
 		} else {
 			setVoucher((prevVoucher) => ({

@@ -16,7 +16,7 @@ import { AdvertisementStatusCardIPG } from "../../components/businessAdvertiseme
 import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { GetAdsBusinessById } from "../../../../api/Advertisement/GetAdsBusinessById";
+import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -25,7 +25,11 @@ import { GetAdsBusinessById } from "../../../../api/Advertisement/GetAdsBusiness
 //   return data;
 // };
 
-export const AdvertisementStatusPage: React.FC = () => {
+interface AdvertisementStatusPageProps {
+	businessId: number; // Change the type according to your needs
+}
+
+export const AdvertisementStatusPage: React.FC<AdvertisementStatusPageProps> = ({ businessId }) => {
 	const [currentTab, setCurrentTab] = useState(0);
 	const [data, setData] = useState<string[]>([]);
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
@@ -33,17 +37,17 @@ export const AdvertisementStatusPage: React.FC = () => {
 	const handleClickCreate = () => {
 		navigate("/business/advertisement/request");
 	};
-	const businessId = 2;
+	// const businessId = 2;
 
 	const fetchBusinessAds = async () => {
-		const res = await GetAdsBusinessById(businessId);
+		const res = await GetAllAdsBusiness(businessId);
 		setData(res);
 	};
 
 	useEffect(() => {
 		fetchBusinessAds();
-		console.log(data);
-	}, []);
+		// console.log(data);
+	}, [businessId]);
 
 	const handleTabChange = (index: number) => {
 		setCurrentTab(index);

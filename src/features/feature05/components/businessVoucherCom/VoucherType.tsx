@@ -43,8 +43,9 @@ export const VoucherType: FC<handleChangeProp> = ({
 				<FormLabel style={TextStyle.h2}>Discount Type</FormLabel>
 				<Tabs isFitted variant="solid-rounded">
 					<TabList>
-						{tabHeads.map((tabHead) => (
+						{tabHeads.map((tabHead, index: number) => (
 							<Tab
+								key={index}
 								style={tabStyle}
 								_selected={{
 									bg: "brand.200",

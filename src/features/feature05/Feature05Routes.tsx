@@ -1,7 +1,3 @@
-import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
-import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementListPage";
-import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
-
 import { RecommendationPage } from "./pages/RecommendationPage";
 
 import { MemberShipPage } from "./pages/membership/MembershipPage";
@@ -11,14 +7,6 @@ import { TodayVoucherPage } from "./pages/membership/TodayVoucherPage";
 
 export const Feature05Routes = () => {
 	return [
-		// Advertisement ( admin )
-		{ path: "/admin/advertisement", element: <AdvertisementListPage /> },
-		{ path: "/admin/advertisement/:id", element: <AdvertisementIDPage /> },
-		{
-			path: "/admin/advertisement/:id/reject",
-			element: <AdvertisementRejectPage />,
-		},
-
 		// Recommendation ( customer )
 		{ path: "/list/recommendation", element: <RecommendationPage /> },
 

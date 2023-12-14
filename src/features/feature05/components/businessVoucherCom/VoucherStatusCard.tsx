@@ -7,9 +7,19 @@ export const VoucherStatusCard: FC<{
 	data: any;
 }> = ({ data }) => {
 	const navigate = useNavigate();
+	const voucherId = data.voucherId;
+
 	const handleClickEdit = () => {
-		navigate("/voucher/edit/:id");
+		navigate(`/business/voucher/edit/${voucherId}`);
 	};
+	const status = data.isApprove;
+	const img = data.voucher_image;
+	const color =
+		status === "Rejected"
+			? "red"
+			: status === "In_progress"
+			? "blue"
+			: "green";
 	return (
 		<Box
 			display={"flex"}
@@ -26,19 +36,16 @@ export const VoucherStatusCard: FC<{
 				marginTop={8}
 				borderRadius={6}
 			>
-				<Image
-					objectFit={"cover"}
-					src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-food-voucher-template-design-3f760e8c846b211d1f48bbbdc1364386_screen.jpg?ts=1588142046"
-				/>
+				<Image objectFit={"cover"} src={img} />
 				<Box
 					pos={"absolute"}
-					bg={"red"}
+					bg={color}
 					bottom={2}
 					right={2}
 					borderRadius={10}
 					px={"10px"}
 				>
-					Reject
+					{status}
 				</Box>
 				<Box
 					pos={"absolute"}
@@ -47,11 +54,13 @@ export const VoucherStatusCard: FC<{
 					borderRadius={10}
 					px={"10px"}
 				>
-					<Icon
-						as={FaRegEdit}
-						color={"#5F0DBB"}
-						onClick={handleClickEdit}
-					></Icon>
+					{status === "In_progress" && (
+						<Icon
+							as={FaRegEdit}
+							color={"#5F0DBB"}
+							onClick={handleClickEdit}
+						></Icon>
+					)}
 				</Box>
 			</Box>
 		</Box>

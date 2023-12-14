@@ -28,12 +28,12 @@ import { Axios } from "../../../../AxiosInstance";
 interface AdvertisementProps {
 	name: string;
 	description: string;
-	startingDate: Date | null;
-	endingDate: Date | null;
+	start_date: Date | null;
+	end_date: Date | null;
 	images: string;
-	targetCustomer: string;
-	targetGroup: string;
-	advertisementPlan: number;
+	customer_type: string;
+	target_group: string;
+	cost: number;
 }
 export const AdvertisementRequestPage = () => {
 	const navigate = useNavigate();
@@ -44,24 +44,65 @@ export const AdvertisementRequestPage = () => {
 		name: "",
 		description: "",
 		images: "",
-		startingDate: null,
-		endingDate: null,
-		targetCustomer: "All",
-		targetGroup: "Teen",
-		advertisementPlan: 300,
+		start_date: null,
+		end_date: null,
+		customer_type: "All",
+		target_group: "Teen",
+		cost: 300,
 	});
+	const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+		null
+	);
+	const [formattedEndDate, setFormattedEndDate] = useState<string | null>(
+		null
+	);
+	// const handleChange = (
+	// 	e: React.ChangeEvent<
+	// 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+	// 	>
+	// ) => {
+	// 	const { name, value } = e.target;
+	// 	const formattedValue = name.includes("date")
+	// 		? new Date(value).toISOString()
+	// 		: value;
+	// 	setAdvertise((prevAdvertise) => ({
+	// 		...prevAdvertise,
+	// 		[name]: formattedValue,
+	// 	}));
+	// 	console.log(advertise);
+	// };
+
+	//gpt
 	const handleChange = (
 		e: React.ChangeEvent<
 			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 		>
 	) => {
 		const { name, value } = e.target;
+		const formattedValue = name.includes("date")
+			? new Date(value).toISOString().replace("T", " ").replace("Z", "")
+			: value;
+
+		  if (
+				name === "start_date" &&
+				!isNaN(new Date(formattedValue).getTime())
+			) {
+				setFormattedStartDate(formattedValue);
+			}
+
+			if (
+				name === "end_date" &&
+				!isNaN(new Date(formattedValue).getTime())
+			) {
+				setFormattedEndDate(formattedValue);
+			}
+
 		setAdvertise((prevAdvertise) => ({
 			...prevAdvertise,
-			[name]: value,
+			[name]: formattedValue,
 		}));
-		console.log(advertise);
 	};
+
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {
 			setFile(e.target.files[0]);
@@ -84,18 +125,25 @@ export const AdvertisementRequestPage = () => {
 		console.log(advertise);
 
 		try {
-			const businessId = 2; // Ensure this ID is valid
+			// Ensure this ID is valid
+			console.log("Formatted Start Date:", formattedStartDate);
+			console.log("Formatted End Date:", formattedEndDate);
 			console.log(advertise);
-			console.log(`Sending request to /AdBSN/${businessId}`);
-			const response = await Axios.post(`feature5/AdBSN/${businessId}`, {
+			console.log(`Sending request to /AdBSN`);
+			const response = await Axios.post(`feature5/AdBSN`, {
 				...advertise,
-				advertisementPlan: Number(advertise.advertisementPlan),
+				// advertisementPlan: Number(advertise.cost),
+				Tags: [],
+				start_date: formattedStartDate,
+				end_date: formattedEndDate,
 			});
 			console.log(response.data); // Log the response data
 			navigate("/business/advertisement/status");
-		} catch (err) {
+		} catch (err: any) {
 			console.error("Error submitting advertisement:", err);
 			// You can add more detailed error handling here
+			console.log("Request data:", err.config.data); // Log the request payload
+			console.log("Response data:", err.response.data); // Log the response data
 		}
 	};
 	console.log(advertise);
@@ -177,7 +225,7 @@ export const AdvertisementRequestPage = () => {
 						Starting Date
 					</FormLabel>
 					<Input
-						name="startingDate"
+						name="start_date"
 						onChange={handleChange}
 						size={"xs"}
 						type="date"
@@ -195,7 +243,7 @@ export const AdvertisementRequestPage = () => {
 						Ending Date
 					</FormLabel>
 					<Input
-						name="endingDate"
+						name="end_date"
 						onChange={handleChange}
 						id="fileInput"
 						size={"xs"}
@@ -315,7 +363,7 @@ export const AdvertisementRequestPage = () => {
 					Target customer
 				</FormLabel>
 				<Select
-					name="targetCustomer"
+					name="customer_type"
 					onChange={handleChange}
 					bgColor={"#5F0DBB"}
 					borderColor={"#5F0DBB"}
@@ -346,7 +394,7 @@ export const AdvertisementRequestPage = () => {
 					Target group
 				</FormLabel>
 				<Select
-					name="targetGroup"
+					name="target_group"
 					onChange={handleChange}
 					bgColor={"#5F0DBB"}
 					borderColor={"#5F0DBB"}
@@ -378,7 +426,7 @@ export const AdvertisementRequestPage = () => {
 					Advertisement plan
 				</FormLabel>
 				<Select
-					name="advertisementPlan"
+					name="cost"
 					onChange={handleChange}
 					bgColor={"#5F0DBB"}
 					borderColor={"#5F0DBB"}
@@ -433,8 +481,8 @@ export const AdvertisementRequestPage = () => {
 					color="white"
 					onClick={() => {
 						if (
-							advertise.startingDate == null ||
-							advertise.endingDate == null
+							advertise.start_date == null ||
+							advertise.end_date == null
 						) {
 							alert("Please fill the date");
 							return;

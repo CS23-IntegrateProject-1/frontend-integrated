@@ -68,10 +68,6 @@ export const Feature13Routes = () => {
 			element: "ElementPlaceHolder"
 		},
 		{
-			path: "/business/voucher",
-			element: "ElementPlaceHolder"
-		},
-		{
 			path: "/business/profile",
 			element: "ElementPlaceHolder"
 		},

@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-	ChakraProvider,
-	Tabs,
-	TabList,
-	TabPanels,
-	Tab,
-	TabPanel,
-	Box,
-	Stack,
-	Icon,
-} from "@chakra-ui/react";
+import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
 import { VoucherStatusCard } from "../../components/businessVoucherCom/VoucherStatusCard";
-import { VoucherStatusCardCom } from "../../components/businessVoucherCom/VoucherStatusCardCom";
-import { VoucherStatusCardIPG } from "../../components/businessVoucherCom/VoucherStatusCardIPG";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetVoucherById } from "../../../../api/Voucher/GetVoucherById";
@@ -24,15 +12,24 @@ import { GetVoucherById } from "../../../../api/Voucher/GetVoucherById";
 //   return data;
 // };
 
-export const VoucherStatusPage: React.FC = () => {
+interface VoucherStatusPageProps {
+	voucherId: number; // Change the type according to your needs
+}
+
+export const VoucherStatusPage: React.FC<VoucherStatusPageProps> = ({
+	voucherId,
+}) => {
 	const [currentTab, setCurrentTab] = useState(0);
-	// const [data, setData] = useState<string[]>([]);
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<string[]>([]);
+	// const [data, setData] = useState([]);
+	// const [loading, setLoading] = useState(true);
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
 	const navigate = useNavigate();
 	const handleClickCreate = () => {
-		navigate("/voucher/create");
+		navigate("/business/voucher/create");
 	};
+
+	// const [voucherId, setVoucherId] = useState<number>(1);
 
 	// useEffect(() => {
 	//   const fetchTabData = async () => {
@@ -50,15 +47,41 @@ export const VoucherStatusPage: React.FC = () => {
 		setCurrentTab(index);
 	};
 
-	const voucherId = 1;
+	// const voucherId = 1;
+	// const fetchVoucherStatusPage = async () => {
+	// 	const res = await GetVoucherById(voucherId);
+	// 	setData(res);
+	// };
+
+	// useEffect(() => {
+	// 	fetchVoucherStatusPage();
+	// }, []);
+
+	// useEffect(() => {
+	// 	const fetchVoucherStatusPage = async () => {
+	// 		try {
+	// 			const res = await GetVoucherById(voucherId);
+	// 			setData(res);
+	// 		} catch (error) {
+	// 			console.error("Error fetching data:", error);
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}
+	// 	};
+
+	// 	console.log("Fetching data for voucherId:", voucherId);
+	// 	fetchVoucherStatusPage();
+	// }, [voucherId]);
+
 	const fetchVoucherStatusPage = async () => {
 		const res = await GetVoucherById(voucherId);
-		setData(res);
+		setData(res[0].venue.Voucher);
+		console.log(res[0].venue.Voucher);
 	};
 
 	useEffect(() => {
 		fetchVoucherStatusPage();
-	}, []);
+	}, [voucherId]);
 
 	return (
 		<Box
@@ -88,6 +111,7 @@ export const VoucherStatusPage: React.FC = () => {
 								borderColor: "#A533C8",
 								bgColor: "#A533C8",
 							}}
+							onClick={() => setSelector("ongoing")}
 						>
 							On going
 						</Tab>
@@ -99,6 +123,7 @@ export const VoucherStatusPage: React.FC = () => {
 								borderColor: "#A533C8",
 								bgColor: "#A533C8",
 							}}
+							onClick={() => setSelector("complete")}
 						>
 							Complete
 						</Tab>
@@ -115,8 +140,10 @@ export const VoucherStatusPage: React.FC = () => {
 			</Tabs>
 
 			{data?.map((data: any, index: number) => {
+				console.log(data);
+
 				if (selector === "ongoing") {
-					console.log(data);
+					// console.log(data);
 
 					return (
 						(data.isApprove === "Rejected" ||
@@ -131,9 +158,6 @@ export const VoucherStatusPage: React.FC = () => {
 						)
 					);
 			})}
-			{/* <VoucherStatusCard /> */}
-			{/* <VoucherStatusCardIPG />
-			<VoucherStatusCardCom /> */}
 
 			<Box pos={"absolute"} top={680} bottom={10} right={5}>
 				<Icon

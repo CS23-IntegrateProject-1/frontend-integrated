@@ -353,7 +353,7 @@ export const AdvertisementIDEditPage = () => {
 				</RadioGroup>
 			</FormControl>
 
-			{/* Submit */}
+			{/* Delete */}
 			<Box
 				width="50%"
 				minWidth="250px"
@@ -406,6 +406,7 @@ export const AdvertisementIDEditPage = () => {
 					</ModalContent>
 				</Modal>
 
+				{/* Submit */}
 				<Button
 					h={"40px"}
 					backgroundColor="#A533C8"
@@ -441,7 +442,7 @@ export const AdvertisementIDEditPage = () => {
 								color={"white"}
 								width="30%"
 							>
-								Delete
+								Submit
 							</Button>
 						</ModalFooter>
 					</ModalContent>
