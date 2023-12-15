@@ -46,118 +46,125 @@ import { TextStyle } from "../../../../theme/TextStyle";
 
 
 export const Checkbill = () => {
-  const { orderId } = useParams();
+  const { reservationId } = useParams();
+  const { venueId } = useParams();
+  // need ReservationId , date? , orderId, orderDetailId for all from orderId
+  
+
+
+
+
 
   //orderDetail axios.get(`http://localhost:8080/feature8/orderdetail/${orderDetailId}`);
-  const [unitPrice, setUnitPrice] = useState<string>('');
-  const [orderTime, setOrderTime] = useState<string>('');
-  const [additionalReq, setAdditionalReq] = useState<string>('');
-  const [menuId, setMenuId] = useState<string>('');
-  const [quantity, setQuantity] = useState<string>('');
-  const [setId, setSetId] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
+  // const [unitPrice, setUnitPrice] = useState<string>('');
+  // const [orderTime, setOrderTime] = useState<string>('');
+  // const [additionalReq, setAdditionalReq] = useState<string>('');
+  // const [menuId, setMenuId] = useState<string>('');
+  // const [quantity, setQuantity] = useState<string>('');
+  // const [setId, setSetId] = useState<string>('');
+  // const [status, setStatus] = useState<string>('');
 
   //order axios.get(`http://localhost:8080/feature8/order/${orderId}`);
-  const [userId, setUserId] = useState<string>('');
-  const [venueId, setVenueId] = useState<string>('');
-  const [orderDate, setOrderDate] = useState<string>('');
-  const [totalAmount, setTotalAmount] = useState<string>('');
-  const [addressId, setAddressId] = useState<string>('');
-  const [branchId, setBranchId] = useState<string>('');
-  const [driverId, setDriverId] = useState<string>('');
-  const [isDelivery, setIsDelivery] = useState<string>('');
-  const [reservedId, setReservedId] = useState<string>('');
+  // const [userId, setUserId] = useState<string>('');
+  // const [venueId, setVenueId] = useState<string>('');
+  // const [orderDate, setOrderDate] = useState<string>('');
+  // const [totalAmount, setTotalAmount] = useState<string>('');
+  // const [addressId, setAddressId] = useState<string>('');
+  // const [branchId, setBranchId] = useState<string>('');
+  // const [driverId, setDriverId] = useState<string>('');
+  // const [isDelivery, setIsDelivery] = useState<string>('');
+  // const [reservedId, setReservedId] = useState<string>('');
 
   //Menu
-  const [name,setName] = useState<string>('');
+  // const [name,setName] = useState<string>('');
 
 
 // Fetch orderDetail data based on orderId
-useEffect(() => {
-  if (orderId) {
-    // Make a request to get orderDetailId based on orderId
-    axios.get(`http://localhost:8080/feature8/order/${orderId}`)
-      .then((response) => {
-        const data = response.data;
-        console.log(data);
+// useEffect(() => {
+//   if (orderId) {
+//     // Make a request to get orderDetailId based on orderId
+//     axios.get(`http://localhost:8080/feature8/order/${orderId}`)
+//       .then((response) => {
+//         const data = response.data;
+//         console.log(data);
         
 
-        // Extract orderDetailId from the response
-        // Fetch orderDetail data based on the obtained orderDetailId
-        axios.get(`http://localhost:8080/feature8/orderdetail/${orderId}`)
-          .then((orderDetailResponse) => {
-            const orderDetailData = orderDetailResponse.data;
+//         // Extract orderDetailId from the response
+//         // Fetch orderDetail data based on the obtained orderDetailId
+//         axios.get(`http://localhost:8080/feature8/orderdetail/${orderId}`)
+//           .then((orderDetailResponse) => {
+//             const orderDetailData = orderDetailResponse.data;
 
-            // Update state for orderDetail properties
-            setUnitPrice(orderDetailData.unit_price);
-            setOrderTime(orderDetailData.order_time);
-            setAdditionalReq(orderDetailData.additional_req);
-            setMenuId(orderDetailData.menuId);
-            setQuantity(orderDetailData.quantity);
-            setSetId(orderDetailData.setId);
-            setStatus(orderDetailData.status);
-          })
-          .catch((orderDetailError) => {
-            console.error('Error fetching orderDetail:', orderDetailError);
-          });
-      })
-      .catch((error) => {
-        console.error('Error fetching order:', error);
-      });
-  }
-}, [orderId]);
+//             // Update state for orderDetail properties
+//             setUnitPrice(orderDetailData.unit_price);
+//             setOrderTime(orderDetailData.order_time);
+//             setAdditionalReq(orderDetailData.additional_req);
+//             setMenuId(orderDetailData.menuId);
+//             setQuantity(orderDetailData.quantity);
+//             setSetId(orderDetailData.setId);
+//             setStatus(orderDetailData.status);
+//           })
+//           .catch((orderDetailError) => {
+//             console.error('Error fetching orderDetail:', orderDetailError);
+//           });
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching order:', error);
+//       });
+//   }
+// }, [orderId]);
 
 
-  useEffect(() => {
-    // Fetch order data
-    if (orderId) {
-      axios.get(`http://localhost:8080/feature8/order/${orderId}`)
-        .then((response) => {
-          const data = response.data;
+//   useEffect(() => {
+//     // Fetch order data
+//     if (orderId) {
+//       axios.get(`http://localhost:8080/feature8/order/${orderId}`)
+//         .then((response) => {
+//           const data = response.data;
 
-          // Update state for order properties
-          setUserId(data.userId);
-          setVenueId(data.venueId);
-          setOrderDate(data.order_date);
-          setTotalAmount(data.total_amount);
-          setAddressId(data.addressId);
-          setBranchId(data.branchId);
-          setDriverId(data.driverId);
-          setIsDelivery(data.isDelivery);
-          setReservedId(data.reservedId);
-          // ... update other state variables as needed
-        })
-        .catch((error) => {
-          console.error('Error fetching order:', error);
-        });
-    }
-  }, [orderId]);
+//           // Update state for order properties
+//           setUserId(data.userId);
+//           setVenueId(data.venueId);
+//           setOrderDate(data.order_date);
+//           setTotalAmount(data.total_amount);
+//           setAddressId(data.addressId);
+//           setBranchId(data.branchId);
+//           setDriverId(data.driverId);
+//           setIsDelivery(data.isDelivery);
+//           setReservedId(data.reservedId);
+//           // ... update other state variables as needed
+//         })
+//         .catch((error) => {
+//           console.error('Error fetching order:', error);
+//         });
+//     }
+//   }, [orderId]);
 
-  useEffect(() => {
-    if(menuId){
-      axios.get(`http://localhost:8080/feature8/menu/${menuId}`)
-      .then((res) =>{
-        setName(res.data.name);
-        console.log(name)
-      })
-      .catch((error) => {
-        console.error('Error fetching Menu', error);
-      });
-    }
-  }, [menuId]);
+//   useEffect(() => {
+//     if(menuId){
+//       axios.get(`http://localhost:8080/feature8/menu/${menuId}`)
+//       .then((res) =>{
+//         setName(res.data.name);
+//         console.log(name)
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching Menu', error);
+//       });
+//     }
+//   }, [menuId]);
 
   
 
-  const formattedOrderDate = orderDate
-  ? new Date(orderDate).toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-    })
-  : '';
+//   const formattedOrderDate = orderDate
+//   ? new Date(orderDate).toLocaleString('en-US', {
+//       weekday: 'long',
+//       year: 'numeric',
+//       month: 'long',
+//       day: 'numeric',
+//       hour: 'numeric',
+//       minute: 'numeric',
+//     })
+//   : '';
 
 
   return (

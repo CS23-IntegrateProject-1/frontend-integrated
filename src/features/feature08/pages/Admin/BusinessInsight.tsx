@@ -32,7 +32,9 @@ export const BusinessInsight = () => {
   const [selectedMonthTo, setSelectedMonthTo] = useState<number | string>("");
   const [selectedYearFrom, setSelectedYearFrom] = useState<number | string>("");
   const [selectedYearTo, setSelectedYearTo] = useState<number | string>("");
-  const {userId} = useParams();
+  const [selectedFromDate, setSelectedFromDate] = useState<number | string>("");
+  const [selectedToDate, setSelectedToDate] = useState<number | string>("");
+  const {venueId} = useParams();
 
   // Function to generate an array of numbers for days, months, and years
   const generateArray = (start: number, end: number): number[] => {
@@ -42,6 +44,7 @@ export const BusinessInsight = () => {
   const days = generateArray(1, 31);
   const months = generateArray(1, 12);
   const years = generateArray(2000, new Date().getFullYear());
+
 
   const receipts = {
     labels: ["5May", "10May", "15May", "20May", "25May", "30May", "5June"],
@@ -112,6 +115,27 @@ export const BusinessInsight = () => {
       },
     },
   };
+
+
+  const handleFilterDone = () => {
+    
+    if (selectedDayFrom && selectedMonthFrom && selectedYearFrom &&
+        selectedDayTo && selectedMonthTo && selectedYearTo) {
+
+      const fromDate = `${selectedDayFrom}-${selectedMonthFrom}-${selectedYearFrom}`;
+      const toDate = `${selectedDayTo}-${selectedMonthTo}-${selectedYearTo}`;
+      
+      setSelectedFromDate(fromDate);
+      setSelectedToDate(toDate);
+
+    } else {
+      console.error("Please select both 'From' and 'To' dates.");
+    }
+  };
+  
+
+  console.log(selectedFromDate)
+  console.log(selectedToDate)
   return (
     <Center>
       <Box
@@ -247,35 +271,36 @@ export const BusinessInsight = () => {
                   </Select>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${userId}/admin/dashboard`}>
+                  <Link to={`/venue/${venueId}/admin/dashboard`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Total
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${userId}/admin/reservation`}>
+                  <Link to={`/venue/${venueId}/admin/reservation`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Reservation
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${userId}/admin/FoodOrder`}>
+                  <Link to={`/venue/${venueId}/admin/FoodOrder`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Order
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${userId}/admin/FoodDelivery`}>
+                  <Link to={`/venue/${venueId}/admin/FoodDelivery`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Delivery
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverFooter textAlign={"center"}>
-                  <ButtonComponent text="Done" />
+                  <ButtonComponent text="Done"
+                   onClick={handleFilterDone} />
                 </PopoverFooter>
               </PopoverContent>
             </Portal>
