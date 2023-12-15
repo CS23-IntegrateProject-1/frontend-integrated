@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { Advertisement } from "./F3_HPCs/Advertisement";
+import { ReviewModalDel } from "../../external/reviewModalDel";
+import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
@@ -34,9 +36,11 @@ interface VenueRecommended {
 }
 
 export const HomePage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modal1 = useDisclosure();
+  const modal2 = useDisclosure();
+  const modal3 = useDisclosure();
   useEffect(() => {
-    onOpen();
+    modal1.onOpen();
   }, []);
 
   return (
@@ -47,8 +51,12 @@ export const HomePage = () => {
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <ButtonPenta />
       <ButtonQuad />
-      <Button onClick={onOpen}/>
-      <Advertisement isOpen={isOpen} onClose={onClose} />
+      <Button onClick={modal1.onOpen} mr="5" />
+      <Advertisement isOpen={modal1.isOpen} onClose={modal1.onClose} />
+      <Button onClick={modal2.onOpen} mr="5"/>
+      <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} />
+      <Button onClick={modal3.onOpen} mr="5"/>
+      <ReviewModalRes isOpen={modal3.isOpen} onClose={modal3.onClose} />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
         Explore Venues
