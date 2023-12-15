@@ -30,9 +30,8 @@ export const Feature05Routes = () => {
     { path: "/business/voucher/edit/:voucherId", element: <VoucherEditPage />,},
     { path: "/business/voucher", element: <VoucherStatusPage />,},
 
+
     // Membership & Promotion ( customer )
-    { path: "/voucher-today", element: <TodayVoucherPage/> },
-    { path: "/voucher/history", element: "ElementPlaceHolder" },
     { path: "/my-rewards", element: "ElementPlaceHolder" },
 
     { path: "/membership", element: <MemberShipPage /> },
@@ -53,9 +52,7 @@ export const Feature05Routes = () => {
     // Promotion ( Business )
     { path: "/business/promotion/status", element: "ElementPlaceHolder" },
     { path: "/business/promotion/create", element: "ElementPlaceHolder" },
-    { path: "/business/promotion/edit/:redeemId", element: "ElementPlaceHolder" },
+    { path: "/business/promotion/edit/:promotionId", element: "ElementPlaceHolder" },
   
-    // { path: "/voucher-seasonally", element: "ElementPlaceHolder" },
-    // { path: "/voucher-recently", element: "ElementPlaceHolder" },
   ];
 };
