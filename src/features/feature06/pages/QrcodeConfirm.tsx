@@ -1,12 +1,20 @@
-import { Box, Text, Input, Button  } from "@chakra-ui/react";
+import { Box, Text, Input, Button, Image  } from "@chakra-ui/react";
+import qrcodehmoni from "./../../feature06/components/img/qrcodehamoni.png";
 
 export const QrcodeConfirm = () => {
   return (
-    <Box
-    justifyContent={"center"}
-    alignItems={"center"}
-    display={"flex"}>
-    <Text>Qrcode Page</Text>
+    <Box>
+      <Box
+        justifyContent={"center"}
+        alignItems={"center"}
+        display={"flex"}
+        h={"60vh"}
+      >
+        <Image src={qrcodehmoni} />
+      </Box>
+      <Box backgroundColor={"rgba(95, 13, 187, 0.4)"}>
+        
+      </Box>
     </Box>
   );
 };
