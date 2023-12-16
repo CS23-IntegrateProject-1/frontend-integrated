@@ -1,9 +1,9 @@
-import {Box,Image,Text,VStack,HStack,Flex,IconButton,Button} from "@chakra-ui/react";
+import {Box,Image,Text,VStack,HStack,Flex,IconButton,Center} from "@chakra-ui/react";
 import {FC,useState} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-
+import { useCustomToast } from "../../../components/useCustomToast";
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -27,7 +27,7 @@ export const MenuDetail: FC = () => {
     const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => getMenuItem(type, menuid));
     console.log(menuItem);
     const [amount, setAmount] = useState(0);
-
+    const toast = useCustomToast();
     const increaseAmount = () => {
       setAmount(amount + 1);
     };
@@ -40,13 +40,17 @@ export const MenuDetail: FC = () => {
 
     const handleAddToCart = async () => {
         try {
+            if(amount>0){
             const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
                 quantity : amount,
             });
             console.log(response.data);
+            toast.success("Successfully Added to Cart");
             // setAmount(0);
+        }
         } catch (error) {
             console.error("Error adding to cart:", error);
+            
         }
         // const cart = localStorage.getItem("cart");
         // const cartObj = cart ? JSON.parse(cart) : {};
@@ -65,7 +69,7 @@ export const MenuDetail: FC = () => {
       }
 
     const buttonBgColor = amount > 0 ? "brand.200" : "gray.300";
-
+    const hoverColor = amount > 0 ? "brand.300" : "gray.300";
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -75,20 +79,26 @@ export const MenuDetail: FC = () => {
     }
 
     return(
-        <Box>
+        <Flex direction="column" align="center" justify="center">
+        <VStack align="start">
+        <Center>
             <Image 
                 src="/src/features/feature07/assets/test.jpg" 
                 // src={type == "Set" ? menuItem.image_url: menuItem.image}
                 width="350px" 
                 height="250px" 
                 objectFit="cover"/>
-            <VStack p={1.5} textAlign="start" alignItems="start">
-                <HStack>
+            </Center>
+            <Box width="100%">
+          <Flex justifyContent="space-between" alignItems="flex-start">
+                
                 <Text {...textStyles.h1} color="white" lineHeight="1.5">{menuItem.name}</Text>
                 <Text {...textStyles.h3} color="white" lineHeight="1.5" marginLeft="70px">{menuItem.price} baht</Text>
-                </HStack>
+                </Flex>
+        </Box>
                 <Text {...textStyles.body2}>{menuItem.description}</Text>
-            </VStack>
+               
+        
             <HStack  p={2} position="absolute" bottom="0" width="100%" spacing={15}>
             <HStack>
             <Box border="solid" 
@@ -128,9 +138,11 @@ export const MenuDetail: FC = () => {
             width="200px"
             text="Add To Cart" 
             bgColor={buttonBgColor}
+            bgColorHover={{ bgColor: hoverColor }}
             isDisabled={amount === 0}
             onClick={handleAddToCart}/>
             </HStack>
-        </Box>
+            </VStack>
+        </Flex>
     )
 }

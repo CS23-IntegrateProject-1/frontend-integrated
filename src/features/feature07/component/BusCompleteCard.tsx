@@ -50,7 +50,7 @@ export const BusCompleteCard: FC<BusCompleteCardProps>= ({id,items,tableNo,order
                         {/* Set food Name Integrate */}
                         foodName steak steak
                     </Text>
-                    <Spacer />
+                     <Spacer />
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" alignItems="flex-end" >
                         {/* Set food Name Integrate */}
                         x 1000000000
