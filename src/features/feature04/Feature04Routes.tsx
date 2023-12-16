@@ -13,6 +13,7 @@ import { YourOrder } from "./pages/OrderProcessing/YourOrder";
 import { CancelOrder } from "./pages/OrderProcessing/CancelOrder";
 import { CompleteOrder } from "./pages/OrderProcessing/CompleteOrder";
 import { OngoingOrder } from "./pages/OrderProcessing/OngoingOrder";
+import { EditLocation } from "./pages/OrderProcessing/EditLocation";
 export const Feature04Routes = () => {
   return [
     { path: "/map", element: <Maps /> },
@@ -27,6 +28,7 @@ export const Feature04Routes = () => {
     {path:"/map/food-delivery/canceled",element:<CanceledMyDelivery/>},
     {path:"/map/food-delivery/cart-detail",element:<CartDetail/>},
     {path:"/map/food-delivery/checkout",element:<Checkout/>},
+    {path:"/map/food-delivery/edit-delivery-location",element:<EditLocation/>},
     {path:"/map/food-delivery/your-order",element:<YourOrder/>},
     {path:"/map/food-delivery/cancel-your-order",element:<CancelOrder/>},
     {path:"/map/food-delivery/Completed-your-order",element:<CompleteOrder/>},

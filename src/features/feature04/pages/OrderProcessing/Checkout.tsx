@@ -6,7 +6,7 @@ import { PaymentMethod } from "../../components/FoodDeliveryComp/OrderProcessing
 import index from "../../../../theme/foundations/index";
 import { OrderSummary } from "../../components/FoodDeliveryComp/OrderProcessingComp/OrderSummary";
 import { PlaceOrder } from "../../components/FoodDeliveryComp/OrderProcessingComp/PlaceOrder";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 interface Order {
   amount: number;
   restaurant: string;

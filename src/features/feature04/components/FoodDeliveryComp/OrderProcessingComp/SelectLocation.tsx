@@ -17,13 +17,13 @@ import {
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface DeliveryLocationProps {
   mainAddress: string;
   subAddress: string;
 }
 export const SelectLocation = (props: DeliveryLocationProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen,onClose } = useDisclosure();
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -55,6 +55,11 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
     );
   };
   const [value, setValue] = useState("1");
+
+  const navigate = useNavigate();
+  const navigateEditLocation=()=>{
+    navigate('/map/food-delivery/edit-delivery-location')
+  }
   return (
     <Box>
       <Flex display={"flex"} justifyContent={"center"}>
@@ -77,7 +82,7 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
               aria-label="Call Segun"
               variant={"unstyled"}
               size={"sm"}
-              onClick={onOpen}
+              onClick={navigateEditLocation}
             />
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />

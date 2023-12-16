@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Button } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
-import { OrderSummary } from "./OrderSummary";
+// import { OrderSummary } from "./OrderSummary";
 import { useNavigate } from "react-router-dom";
 export const PlaceOrder = () => {
     const navigate=useNavigate();
