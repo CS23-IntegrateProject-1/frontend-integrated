@@ -15,12 +15,12 @@ import { useConversations } from "../context/ConversationProvider";
 interface NewConversationModalProps {
   closeModal: () => void;
 }
-interface Contacts {
-  username: string;
-  userId: number;
-}
+// interface Contact {
+//   username: string;
+//   userId: string;
+// }
 interface Recipient  {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -31,6 +31,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({closeModal})
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     createConversation(selectedContactIds);
+    console.log("selectedContactIds", selectedContactIds);
   }
 
   // if (contacts) {
@@ -39,7 +40,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({closeModal})
   //   });
   // }
 
-  function handleCheckboxChange(contactId: number) {
+  function handleCheckboxChange(contactId: string) {
     setSelectedContactIds((prevSelectedContactIds: Recipient[]) => {
       // If current contactId is already in the array, remove it
       if (
@@ -53,13 +54,13 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({closeModal})
         let newRecipient;
         if (contacts) {
           newRecipient = contacts.find(
-            (contact) => contact.userId === contactId
+            (contact) => contact.addId === contactId
           );
         }
         if (newRecipient) {
           // Convert the newRecipient from a Contact to a Recipient
           const recipient: Recipient = {
-            id: newRecipient.userId,
+            id: newRecipient.addId,
             name: newRecipient.username,
             // add other properties as needed
           };
@@ -86,12 +87,12 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({closeModal})
         <ModalBody>
           <Form onSubmit={handleSubmit}>
             {contacts &&
-              contacts.map((contact: Contacts, index: number) => (
+              contacts.map((contact, index: number) => (
                 <FormControl key={index}>
                   <FormLabel>
                     <Checkbox
                       // isChecked={selectedContactIds.includes(contact.userId)}
-                      onChange={() => handleCheckboxChange(contact.userId)}
+                      onChange={() => handleCheckboxChange(contact.addId)}
                       color={"black"}
                     >
                       <Text color={"black"}>{contact.username}</Text>

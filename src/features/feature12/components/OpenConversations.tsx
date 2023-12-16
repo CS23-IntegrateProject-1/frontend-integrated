@@ -37,17 +37,16 @@ export default function OpenConversations() {
     }
   }, []);
 
+  console.log("selectedConversation", selectedConversation);
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     sendMessage({
-      recipients: selectedConversation.recipients.map(
-        (recipient: { id: number }) => recipient.id
-      ),
-      text: text,
-      sender: id,
-      fromMe: true,
-      // senderName: selectedConversation.messages[0].senderName,
+      recipients: selectedConversation.recipients.map((r) => ({
+        id: r.id,
+        name: r.name,
+      })),
+      text,
     });
     console.log("text", text);
     setText("");
@@ -80,7 +79,7 @@ export default function OpenConversations() {
                   rounded={"md"}
                   py="1"
                   px="2"
-                  bg={message.fromMe ? "#DEBEF6" : "#D9D9D9"}
+                  bg={message.fromMe ? "#DEBEF6" : "red"}
                   color={message.fromMe ? "black" : "white"}
                   borderWidth={message.fromMe ? "0px" : "1px"}
                 >
@@ -91,7 +90,7 @@ export default function OpenConversations() {
                   color="gray.500"
                   textAlign={message.fromMe ? "end" : "start"}
                 >
-                  {lastMessage ? (message.fromMe ? "You" : "") : ""}
+                  {lastMessage ? (message.fromMe ? "You" : message.sender) : ""}
                 </Text>
               </Box>
             );

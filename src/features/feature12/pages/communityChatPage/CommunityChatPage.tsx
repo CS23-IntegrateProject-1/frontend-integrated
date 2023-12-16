@@ -18,6 +18,7 @@ export const CommunityChatPage = () => {
       <MessageLog/>
       {/* <TestMessageLog id={id} /> */}
       {selectedConversation && <OpenConversations />}
+      
     </Box>
   );
 };

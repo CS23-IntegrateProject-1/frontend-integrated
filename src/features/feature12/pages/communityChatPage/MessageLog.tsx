@@ -16,17 +16,15 @@ import { BiConversation } from "react-icons/bi";
 import { useConversations } from "../../context/ConversationProvider";
 import Conversations from "./Conversations";
 import NewConversationModal from "../../components/NewConversationModal";
-
-
 interface Contact {
   username: string;
-  userId: number;
+  addId: string;
 }
 
 const MessageLog: React.FC = () => {
   const { contacts } = useConversations();
   const [modalOpen, setModalOpen] = useState(false);
-
+  
   function closeModal() {
     setModalOpen(false);
   }
