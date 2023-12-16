@@ -1,9 +1,9 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTableByTableId } from "../../../api/Reservation/getTableByTableId";
+import { getTableByTableId } from "../../../../api/Reservation/getTableByTableId";
 import { Image } from "@chakra-ui/react";
-import { deleteTableId } from "../../../api/Reservation/deleteTableId";
+import { deleteTableId } from "../../../../api/Reservation/deleteTableId";
 
 interface IViewTable {
   venueId: number;
@@ -58,7 +58,7 @@ export const ViewTable = () => {
     const response: IViewTable = await deleteTableId(tableIdNum);
     console.log(response);
     navigate("/business/tablelist");
-  }
+  };
 
   console.log(JSON.stringify(data) + "----------- This is data");
   return (
