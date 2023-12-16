@@ -28,6 +28,7 @@ export const BusCompleteCard: FC<BusCompleteCardProps>= ({id,items,tableNo,order
             p={1} 
             borderColor={"brand.300"}
             bgColor={"brand.300"}
+            mt={2}
             >
             <HStack spacing={4} justifyContent="space-between">
                 <Text {...textStyles.h2} color="white" lineHeight="1.5" >
@@ -43,17 +44,18 @@ export const BusCompleteCard: FC<BusCompleteCardProps>= ({id,items,tableNo,order
                
             </HStack>
             <VStack align="start" spacing={2} mt={1}>
-                <Box>
-                <HStack width="100%" alignItems="center" justifyContent="space-between" >
+                <Box width="100%">
+                <Flex justifyContent="space-between" alignItems="flex-start">
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" >
                         {/* Set food Name Integrate */}
-                        foodName
+                        foodName steak steak
                     </Text>
-                    <Text {...textStyles.h2} color="white" lineHeight="1.5" ml={0}>
+                    <Spacer />
+                    <Text {...textStyles.h3} color="white" lineHeight="1.5" alignItems="flex-end" >
                         {/* Set food Name Integrate */}
-                        xamount
+                        x 1000000000
                     </Text>
-                </HStack>
+                </Flex>
                 </Box>
             </VStack>
         </Flex>
