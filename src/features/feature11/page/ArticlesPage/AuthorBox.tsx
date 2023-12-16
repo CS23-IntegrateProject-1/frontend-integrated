@@ -5,7 +5,7 @@ import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../../ArticleTypes";
+import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
 export const AuthorBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();

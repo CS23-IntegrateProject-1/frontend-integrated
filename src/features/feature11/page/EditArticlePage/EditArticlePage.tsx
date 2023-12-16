@@ -13,7 +13,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";

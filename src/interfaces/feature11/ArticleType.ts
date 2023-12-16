@@ -20,6 +20,7 @@ export interface ArticlesPageProps {
   Article_venue: number[];
 }
 
+
 export interface ArticlePageProps {
   articleId: number;
   topic: string;
@@ -63,10 +64,7 @@ export interface ArticleFooterProps {
   Article_tags: ArticleTagProps[];
 }
 
-export interface ImageProps {
-  url: string;
-  description: string;
-}
+
 export interface VenueProps {
   venueId: number;
   name: string;

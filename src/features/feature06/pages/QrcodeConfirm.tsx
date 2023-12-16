@@ -1,3 +1,3 @@
-export const QrcodeConfirm{
+// export const QrcodeConfirm{
     
-}
+// }

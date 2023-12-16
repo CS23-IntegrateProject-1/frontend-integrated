@@ -3,10 +3,8 @@ import {
   CloseButton,
   Flex,
   Heading,
-  IconButton,
   Modal,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 import { FC } from "react";

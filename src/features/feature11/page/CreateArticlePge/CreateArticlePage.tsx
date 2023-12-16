@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
@@ -15,27 +14,15 @@ import {
   TagCloseButton,
   TagLabel,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { AutoResizeTextarea } from "../../components/AutoResizeTextArea";
 import { Axios } from "../../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
-import textStyles from "../../../../theme/foundations/textStyles";
 import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
 import { useCustomToast } from "../../../../components/useCustomToast";
 import { useNavigate } from "react-router-dom";
-
-// const fetchVenues = async (): Promise<VenueProps[]> => {
-//   try {
-//     const venues = await Axios.get("/feature11/fetchAllVenueName");
-//     return venues.data; // Extract the data from the response
-//   } catch (error) {
-//     console.error("Error fetching venues:", error);
-//     throw new Error("Failed to fetch venues");
-//   }
-// };
 
 export const CreateArticlePage = () => {
   const [tags, setTags] = useState<string[]>([]);
@@ -99,36 +86,23 @@ export const CreateArticlePage = () => {
     setTags(updatedTags);
   };
 
-  // const handleImageUpload = async (e: { target: { files: any; }; }) => {
-  //   const files = e.target.files;
-  //   if (files && files.length > 0) {
-  //     const formData = new FormData();
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileList = Array.from(e.target.files);
+      console.log(fileList);
+      setImages(fileList);
+      // const previewURL = URL.createObjectURL(e.target.files[0]);
+      // setImagePreview(previewURL);
+    }
+  };
 
-  //     Array.from(files).forEach((file) => {
-  //       formData.append("images", file);
-  //     });
-
-  //     try {
-  //       const response = await Axios.post("/api/images/upload", formData, {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       });
-
-  //       const uploadedFilesData = response.data.uploadedFiles;
-  //       setUploadedFiles(uploadedFilesData);
-  //     } catch (error) {
-  //       console.error("Error uploading images:", error);
-  //     }
-  //   }
-  // };
   const handleCreateArticle = () => {
     if (
       topic === "" ||
       content === "" ||
       selectedVenues.length === 0 ||
-      authorName === ""
-      // images.length === 0
+      authorName === "" ||
+      images?.length === 0
     ) {
       alert("Please fill in all the fields");
       return;
@@ -136,25 +110,53 @@ export const CreateArticlePage = () => {
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
+    
+    console.log("images: ", images);
+    const formData = new FormData();
+    formData.append("topic", topic);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("author_name", authorName);
+    for (let i = 0; i < selectedVenueIds.length; i++) {
+      formData.append("venueIds[]", selectedVenueIds[i].toString());
+    }
+    console.log("venueID in ",formData.get("venueIds"));
+    tags.forEach((tag) => {
+      formData.append("tags", tag);
+    });
 
-    Axios.post("/feature11/addArticle", {
-      topic: topic,
-      content: content,
-      // category: category,
-      category: category,
-      // author_name: authorName,
-      author_name: authorName,
-      venueIds: selectedVenueIds,
-      tags: tags,
-      images: [
-        {
-          url: "/test.jpg",
-          description: "test",
+    if (images) {
+      images.forEach((image, index) => {
+        formData.append("files", image);
+      });
+    } else {
+      console.log("no images");
+    }
+
+    console.log("formData: ", formData.values);
+    Axios.post(
+      "/feature11/addArticle",
+      // {
+      //   topic: topic,
+      //   content: content,
+      //   // category: category,
+      //   category: category,
+      //   // author_name: authorName,
+      //   author_name: authorName,
+      //   venueIds: selectedVenueIds,
+      //   tags: tags,
+      //   files: images,
+      // },
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      ],
-    })
+      }
+    )
       .then((res) => {
         console.log(res);
+
         // alert("Article created");
         toast.success("Article created successfully");
         setTimeout(() => {
@@ -197,8 +199,7 @@ export const CreateArticlePage = () => {
           variant={"unstyled"}
           type="file"
           multiple
-          // onChange={handleImageUpload}
-          // value={images.map((image) => image.url)}
+          onChange={handleFileChange}
         />
       </FormControl>
 

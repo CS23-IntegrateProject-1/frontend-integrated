@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { ShareModal } from "../../components/ShareModal";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import PhotoDisplayer from "../../components/PhotoDisplayer";
 
 export const ArticlePage = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -80,13 +81,18 @@ export const ArticlePage = () => {
           <Text style={TextStyle.body3}>{article.data?.created_date}</Text>
         </Box>
       </Box>
-      <Box
+      {/* <Box
         display={"flex"}
         minH={"200px"}
         minW={"250px"}
         mb={"1em"}
         bg={"red"}
-      ></Box>
+      ></Box> */}
+      <Box>
+        <PhotoDisplayer images={article.data?.Image || []} />
+
+      </Box>
+
       <Box minH={"80px"} mb={"2em"}>
         <Text style={TextStyle.body2}>{article.data?.content}</Text>
       </Box>

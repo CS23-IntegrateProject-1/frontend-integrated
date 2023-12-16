@@ -28,7 +28,6 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
   create_date,
   user: { profile_picture, username },
   userId,
-  onOpen,
   onClose,
   isOpen,
 }) => {

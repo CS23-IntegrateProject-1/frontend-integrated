@@ -18,7 +18,6 @@ import { useQueryClient } from "@tanstack/react-query";
 export const DeleteCommentModal: FC<ModalDeleteComment> = ({
   isOpen,
   onClose,
-  onOpen,
   commentId,
 }) => {
   const toast = useCustomToast();
