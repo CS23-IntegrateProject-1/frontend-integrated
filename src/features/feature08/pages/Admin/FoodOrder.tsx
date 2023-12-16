@@ -267,7 +267,8 @@ export const FoodOrder = () => {
                   </Link>
                 </PopoverBody>
                 <PopoverFooter textAlign={"center"}>
-                  <ButtonComponent text="Done" />
+                  <ButtonComponent text="Done" 
+                  onClick={handleFilterDone} />
                 </PopoverFooter>
               </PopoverContent>
             </Portal>

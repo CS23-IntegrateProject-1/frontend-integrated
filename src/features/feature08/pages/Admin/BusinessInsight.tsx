@@ -69,7 +69,6 @@ export const BusinessInsight = () => {
   const [selectedFromDate, setSelectedFromDate] = useState<string>();
   const [selectedToDate, setSelectedToDate] = useState<string>();
   const {venueId} = useParams();
-  const test = useState<number>();
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   
   const fetchBusinessInsightData = async () => {
@@ -184,10 +183,16 @@ console.log(VenueName)
 
 
 
+// // Step 1: Convert the timestamp to a date string
+// const convertToDateString = (timestamp: Date) => {
+//   const date = new Date(timestamp);
+//   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+// };
+
 // Step 1: Convert the timestamp to a date string
 const convertToDateString = (timestamp: Date) => {
   const date = new Date(timestamp);
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+  return `${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
 };
 
 // Step 2: Group the transaction details by date
