@@ -91,8 +91,8 @@ export const VenuePage: FC = (props) => {
   return (
     <FilterContext.Provider value={{ filter, setFilter}}>
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
-      <Flex direction="row" pt={{ base: "2", lg: "0" }}>
-        <SearchBar searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
+      <Flex direction="row" pt={{ base: "2", lg: "0" }} px={{base:"0", lg:"24"}} transform={{base:"0" ,lg:"translateX(24px)"}}>
+        <SearchBar searchFilter={searchFilter} setSearchFilter={setSearchFilter} />
         <Flex
           direction="column"
           ml="3"

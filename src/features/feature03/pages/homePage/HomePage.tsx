@@ -67,21 +67,9 @@ export const HomePage = () => {
       </Text>
       <Box display="flex">
         <HomePageSearchBar/>
-        <NavLink to="/map">
-          <Box
-            _hover={{ color: "brand.100" }}
-            pl="15px"
-            display={{ base: "block", lg: "none" }}
-          >
-            <FaMapMarkerAlt fontSize="25px" />
-            <Text fontSize="15px" transform="translateX(-3px)">
-              Map
-            </Text>
-          </Box>
-        </NavLink>
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Box pt="10px" display={{ base: "none", lg: "block" }}>
+      <Box pt="10px" display={"block"}>
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
           Maps
         </Text>
@@ -91,7 +79,7 @@ export const HomePage = () => {
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
-            h="300px"
+            h={{base:"125px", lg:"300px"}}
             objectFit={"cover"}
           />
         </NavLink>

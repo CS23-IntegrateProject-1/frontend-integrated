@@ -30,7 +30,7 @@ export default function HomePageSearchBar(){
           onClick={handleSubmit}
         >
           <IoMdSearch fontSize="25px" />
-          <Text fontSize="15px" transform="translateX(-3px)">
+          <Text fontSize="15px">
             Search
           </Text>
         </Flex>
