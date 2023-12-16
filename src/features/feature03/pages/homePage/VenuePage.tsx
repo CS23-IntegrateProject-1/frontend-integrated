@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -18,7 +18,7 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
+import { FC, useState, useEffect, Dispatch, createContext, SetStateAction } from "react";
 
 interface Venue {
   id: number;
@@ -33,38 +33,66 @@ interface Venue {
   rating: string;
 }
 
-export const VenuePage: FC = (props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface SearchFilter {
+  type: string;
+  priceMin: number;
+  priceMax: number;
+  distance: number;
+  capacity: number;
+}
 
+export const FilterContext = createContext<{ filter: SearchFilter, setFilter: Dispatch<SetStateAction<SearchFilter>> }>();
+ 
+export const VenuePage: FC = (props) => { 
+  const params = new URL(String(window.location)).searchParams;
+  const search = params.get("search"); // is the string "Jonathan Smith".
+  const navigate = useNavigate() 
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
+  const [searchFilter, setSearchFilter] = useState(search || "");
+
+  const [filter, setFilter] = useState<SearchFilter>({
+    type: "",
+    priceMin: 0,
+    priceMax: 1000,
+    distance: 10,
+    capacity: 222,
+  })
+
+  useEffect(() => {
+    navigate(`?search=${searchFilter}`, { replace: true})  
+  }, [searchFilter])
+ 
   const {
     isLoading: venueLoading,
-    isError: venueError,
-    data: venueData,
+    error: venueError,
+    data: venueData, 
   } = useQuery<Venue[]>({
-    queryKey: ["getVen"],
+    queryKey: ["getVen", searchFilter],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/VenuesPage");
+      const { data } = await Axios.get(`/feature3/VenuesPage?search=${searchFilter.trim()}`);
       return data;
-    },
+    }, 
+    keepPreviousData: true
   });
 
-  if (venueLoading) {
-    return (
-      <span>
-        <FullPageLoader />
-      </span>
-    );
-  }
+  // if (venueLoading) {
+  //   return (
+  //     <span>
+  //       <FullPageLoader />
+  //     </span>
+  //   );
+  // }
 
   if (venueError) {
     return <span>An error occurred: </span>;
   }
-
+ 
 
   return (
+    <FilterContext.Provider value={{ filter, setFilter}}>
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
       <Flex direction="row" pt={{ base: "2", lg: "0" }}>
-        <SearchBar />
+        <SearchBar searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
         <Flex
           direction="column"
           ml="3"
@@ -87,8 +115,9 @@ export const VenuePage: FC = (props) => {
         mt={{ base: "3", lg: "8" }}
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
+        sx={{ opacity: venueLoading ? .7 : 1, transition: 'all .25s ease-in-out'}}
       >
-        {venueData.map((venueD) => (
+        {(venueData || []).map((venueD) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
@@ -142,5 +171,6 @@ export const VenuePage: FC = (props) => {
         ))}
       </Box>
     </Box>
+    </FilterContext.Provider>
   );
 };

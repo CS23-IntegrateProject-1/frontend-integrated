@@ -4,7 +4,6 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
 import { useParams } from "react-router-dom";
 
 interface StarGraphData {

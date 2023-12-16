@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import { Flex, Button, Text, Box } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
@@ -23,7 +22,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
@@ -36,7 +36,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
@@ -49,7 +50,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
@@ -62,7 +64,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
@@ -75,7 +78,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
@@ -90,7 +94,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mx={1}>Reservation</Text>
@@ -99,7 +104,8 @@ export const StarSort = () => {
           sx={starSortBox}
           textColor={"white"}
           _hover={{
-            backgroundColor: "brand.200",
+            backgroundColor: "brand.100",
+            textColor: "black",
           }}
         >
           <Text fontSize={{ base: "sm", lg: "lg" }} mx={1}>Delivery</Text>

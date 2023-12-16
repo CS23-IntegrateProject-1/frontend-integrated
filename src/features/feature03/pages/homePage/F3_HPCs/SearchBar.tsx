@@ -4,16 +4,24 @@ import { FC } from "react";
 interface SearchBarProps {
   searchFilter: string;
   setSearchFilter: (filter: string) => void;
+  onSubmit?: () => void;
 }
 
 export const SearchBar: FC<SearchBarProps> = ({
   searchFilter,
   setSearchFilter,
+  onSubmit
 }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFilter = event.target.value;
     setSearchFilter(newFilter);
   };
+
+  const handleInputSubmit = (e: KeyboardEvent) => {
+    if(e.keyCode === 13){ 
+      onSubmit?.();
+    }
+  }
 
   return (
     <Input
@@ -24,6 +32,7 @@ export const SearchBar: FC<SearchBarProps> = ({
       placeholder="search"
       value={searchFilter}
       onChange={handleInputChange}
+      onKeyUp={handleInputSubmit}
     />
   );
 };

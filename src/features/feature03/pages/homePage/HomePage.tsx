@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { SearchBar } from "./F3_HPCs/SearchBar";
 import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
 import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
 import { ButtonPenta } from "./F3_HPCs/ButtonPenta";
@@ -20,8 +19,9 @@ import { ReviewModalDel } from "../../external/reviewModalDel";
 import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Axios } from "../../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance"; 
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import HomePageSearchBar from "../../../../components/homepage/SearchBar"; 
 
 interface VenueRecommended {
   id: number;
@@ -40,7 +40,11 @@ export const HomePage = () => {
   const modal2 = useDisclosure();
   const modal3 = useDisclosure();
   useEffect(() => {
-    modal1.onOpen();
+    const isAdAvailable = sessionStorage.getItem("is_ads_available") 
+    if(isAdAvailable == null) {  
+      modal1.onOpen(); 
+      sessionStorage.setItem("is_ads_available", "false")
+    }
   }, []);
 
   return (
@@ -62,7 +66,7 @@ export const HomePage = () => {
         Explore Venues
       </Text>
       <Box display="flex">
-        <SearchBar />
+        <HomePageSearchBar/>
         <NavLink to="/map">
           <Box
             _hover={{ color: "brand.100" }}

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Flex,
   FormControl,
@@ -7,8 +7,6 @@ import {
   FormHelperText,
   Input,
   Button,
-  Box,
-  Text,
 
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -21,6 +19,7 @@ import { useParams } from "react-router-dom";
 export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
   const { branchId } = useParams();
 
@@ -38,10 +37,10 @@ export const ReviewDelivery = () => {
       await Axios.post(`/feature3/ReviewDelivery/${branchId}`, {
         rating,
         review: input,
-        branchId: 1,
+        branchId: branchId,
       });
       console.log("Review posted successfully!");
-
+      navigate(`/Reviews/${branchId}`, { replace: true})
     } catch (error) {
       console.error("Error posting review:", error);
     }
@@ -76,7 +75,6 @@ export const ReviewDelivery = () => {
           <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
-      <NavLink to={`/Reviews/${1}`}>
       <Button
         variant="solid"
         textColor="white"
@@ -85,10 +83,10 @@ export const ReviewDelivery = () => {
         w="200px"
         onClick={handleSubmit}
         isDisabled={input === "" || rating === 0}
+        
       >
         Confirm
       </Button>
-      </NavLink>
     </Flex>
   );
 };
