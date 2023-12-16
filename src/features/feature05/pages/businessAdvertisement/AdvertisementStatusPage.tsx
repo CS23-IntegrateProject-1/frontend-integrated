@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import {
-	ChakraProvider,
 	Tabs,
 	TabList,
-	TabPanels,
 	Tab,
-	TabPanel,
 	Box,
 	Stack,
-	IconButton,
 	Icon,
 } from "@chakra-ui/react";
 import { AdvertisementStatusCard } from "../../components/businessAdvertisementCom/AdvertisementStatusCard";
-import { AdvertisementStatusCardIPG } from "../../components/businessAdvertisementCom/AdvertisementStatusCardIPG";
-import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
+import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -25,13 +20,9 @@ import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusine
 //   return data;
 // };
 
-interface AdvertisementStatusPageProps {
-	businessId: number; // Change the type according to your needs
-}
-
-export const AdvertisementStatusPage: React.FC<AdvertisementStatusPageProps> = ({ businessId }) => {
+export const AdvertisementStatusPage: React.FC = () => {
 	const [currentTab, setCurrentTab] = useState(0);
-	const [data, setData] = useState<string[]>([]);
+	const [data, setData] = useState<IAd_business[]>([]);
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
 	const navigate = useNavigate();
 	const handleClickCreate = () => {
@@ -40,14 +31,14 @@ export const AdvertisementStatusPage: React.FC<AdvertisementStatusPageProps> = (
 	// const businessId = 2;
 
 	const fetchBusinessAds = async () => {
-		const res = await GetAllAdsBusiness(businessId);
+		const res = await GetAllAdsBusiness();
 		setData(res);
 	};
 
 	useEffect(() => {
 		fetchBusinessAds();
 		// console.log(data);
-	}, [businessId]);
+	});
 
 	const handleTabChange = (index: number) => {
 		setCurrentTab(index);
@@ -109,7 +100,7 @@ export const AdvertisementStatusPage: React.FC<AdvertisementStatusPageProps> = (
         </TabPanels> */}
 			</Tabs>
 
-			{data?.map((data: any, index: number) => {
+			{data?.map((data, index: number) => {
 				if (selector === "ongoing") {
 					return (
 						(data.isApprove === "Rejected" ||

@@ -5,7 +5,7 @@ interface Card {
   description : string
 }
 
-export const ShortRedeemCard = (props : Card) => {
+export const ShortMyprivilegeCard = (props : Card) => {
   return (
     <Card variant="filled" backgroundColor="brand.100">
           <CardHeader>

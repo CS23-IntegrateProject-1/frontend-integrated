@@ -1,13 +1,15 @@
+1
 import { Box, Icon, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import IVoucher_Business from "../../../../interfaces/Voucher/IVoucher_Business.interface";
 
 export const VoucherStatusCard: FC<{
-	data: any;
+	data: IVoucher_Business;
 }> = ({ data }) => {
 	const navigate = useNavigate();
-	const voucherId = data.voucherId;
+	//const voucherId = data.voucherId;
 
 	const handleClickEdit = () => {
 		navigate("/business/voucher/edit/:id");

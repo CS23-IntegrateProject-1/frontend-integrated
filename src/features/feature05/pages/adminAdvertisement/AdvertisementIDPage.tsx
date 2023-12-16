@@ -1,3 +1,4 @@
+3
 import {
 	Box,
 	Button,
@@ -40,7 +41,7 @@ export const AdvertisementIDPage = () => {
 	};
 	useEffect(() => {
 		fetchDatas();
-	}, []);
+	},[]);
 	const navigate = useNavigate();
 	const handleClickReject = () => {
 		navigate(`/admin/advertisement/${id}/reject`);
@@ -51,7 +52,7 @@ export const AdvertisementIDPage = () => {
 		location.reload();
 	};
 
-	const [file, setFile] = useState<File | null>(null);
+	const [files, setFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {

@@ -1,3 +1,4 @@
+4
 import {
 	Box,
 	Button,
@@ -11,23 +12,20 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Radio,
-	RadioGroup,
 	Text,
-	Stack,
 	useDisclosure,
 	Icon,
 } from "@chakra-ui/react";
 import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
 import { Search2Icon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetInProgressBusinessAds } from "../../../../api/Advertisement/GetInProgressBusinessAds";
 import { MdSort } from "react-icons/md";
 
 export const AdvertisementListPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 	//เอาไว้เปลี่ยน sort
 	const [sort, setSort] = useState("");
 	const [datas, setDatas] = useState([]);

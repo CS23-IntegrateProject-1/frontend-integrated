@@ -1,4 +1,4 @@
-import { Box, Button, Input, Text, useDisclosure } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { RecommendationCard } from "../components/RecommendationCard";
 
 export const RecommendationPage = () => {
@@ -11,7 +11,6 @@ export const RecommendationPage = () => {
       width={"100%"}
     >
       <RecommendationCard />
-
     </Box>
   );
 };

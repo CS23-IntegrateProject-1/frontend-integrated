@@ -2,8 +2,9 @@ import { Box, Icon, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
-export const AdvertisementStatusCard: FC<{ data: any }> = ({ data }) => {
+export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({ data }) => {
 	const navigate = useNavigate();
 	const handleClickEdit = () => {
 		navigate("/business/advertisement/edit/:id");

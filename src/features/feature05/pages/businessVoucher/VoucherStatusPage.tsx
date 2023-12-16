@@ -1,180 +1,108 @@
-import React, { useState, useEffect } from "react";
-import {
-  Tabs,
-  TabList,
-  Tab,
-  Box,
-  Stack,
-  Icon,
-} from "@chakra-ui/react";
+import { useState, useEffect, FC } from "react";
+import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
 import { VoucherStatusCard } from "../../components/businessVoucherCom/VoucherStatusCard";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { GetVoucherById } from "../../../../api/Voucher/GetVoucherById";
+import { GetVoucherByBusinessId } from "../../../../api/Voucher/GetVoucherByBusinessId";
+import IVoucher_Business from "../../../../interfaces/Voucher/IVoucher_Business.interface";
 
-// const fetchData = async (status: string): Promise<string[]> => {
-//   // Assume this is your backend API endpoint to fetch data based on the status
-//   const response = await fetch(/api/data?status=${status});
-//   const data = await response.json();
-//   return data;
-// };
+export const VoucherStatusPage: FC = () => {
+  const [currentTab, setCurrentTab] = useState(0);
+  const [data, setData] = useState<IVoucher_Business[]>([]);
+  const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
+  const navigate = useNavigate();
+  const handleClickCreate = () => {
+    navigate("/business/voucher/create");
+  };
 
-interface VoucherStatusPageProps {
-	voucherId: number; // Change the type according to your needs
-}
+  const handleTabChange = (index: number) => {
+    setCurrentTab(index);
+  };
 
-export const VoucherStatusPage: React.FC<VoucherStatusPageProps> = ({
-	voucherId,
-}) => {
-	const [currentTab, setCurrentTab] = useState(0);
-	const [data, setData] = useState<string[]>([]);
-	// const [data, setData] = useState([]);
-	// const [loading, setLoading] = useState(true);
-	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
-	const navigate = useNavigate();
-	const handleClickCreate = () => {
-		navigate("/business/voucher/create");
-	};
+  const fetchVoucherStatusPage = async () => {
+    const res = await GetVoucherByBusinessId();
 
-	// const [voucherId, setVoucherId] = useState<number>(1);
+    setData(res);
+  };
 
-	// useEffect(() => {
-	//   const fetchTabData = async () => {
-	//     const statusOptions = ["pending", "complete"];
-	//     const selectedStatus = statusOptions[currentTab];
+  useEffect(() => {
+    fetchVoucherStatusPage();
+  }, []);
 
-	//     // const result = await fetchData(selectedStatus);
-	//     // setData(result);
-	//   };
+  return (
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      width={"100%"}
+    >
+      <Tabs
+        variant={"soft-rounded"}
+        colorScheme={"brand"}
+        index={currentTab}
+        onChange={handleTabChange}
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"center"}
+      >
+        <TabList>
+          <Stack spacing={10} flexDirection={"row"}>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("ongoing")}
+            >
+              On going
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("complete")}
+            >
+              Complete
+            </Tab>
+          </Stack>
+        </TabList>
+      </Tabs>
 
-	//   fetchTabData();
-	// }, [currentTab]);
+      {data?.map((data: IVoucher_Business, index: number) => {
+        if (selector === "ongoing") {
 
-	const handleTabChange = (index: number) => {
-		setCurrentTab(index);
-	};
+          return (
+            (data.isApprove === "Rejected" ||
+              data.isApprove === "In_progress") && (
+              <VoucherStatusCard key={index} data={data} />
+            )
+          );
+        } else
+          return (
+            data.isApprove === "Completed" && (
+              <VoucherStatusCard key={index} data={data} />
+            )
+          );
+      })}
 
-	// const voucherId = 1;
-	// const fetchVoucherStatusPage = async () => {
-	// 	const res = await GetVoucherById(voucherId);
-	// 	setData(res);
-	// };
-
-	// useEffect(() => {
-	// 	fetchVoucherStatusPage();
-	// }, []);
-
-	// useEffect(() => {
-	// 	const fetchVoucherStatusPage = async () => {
-	// 		try {
-	// 			const res = await GetVoucherById(voucherId);
-	// 			setData(res);
-	// 		} catch (error) {
-	// 			console.error("Error fetching data:", error);
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	};
-
-	// 	console.log("Fetching data for voucherId:", voucherId);
-	// 	fetchVoucherStatusPage();
-	// }, [voucherId]);
-
-	const fetchVoucherStatusPage = async () => {
-		const res = await GetVoucherById(voucherId);
-		setData(res[0].venue.Voucher);
-		console.log(res[0].venue.Voucher);
-	};
-
-	useEffect(() => {
-		fetchVoucherStatusPage();
-	}, [voucherId]);
-
-	return (
-		<Box
-			display={"flex"}
-			flexDirection={"column"}
-			justifyContent={"center"}
-			alignItems={"center"}
-			width={"100%"}
-		>
-			<Tabs
-				variant={"soft-rounded"}
-				colorScheme={"brand"}
-				index={currentTab}
-				onChange={handleTabChange}
-				display={"flex"}
-				justifyContent={"center"}
-				alignContent={"center"}
-			>
-				<TabList>
-					<Stack spacing={10} flexDirection={"row"}>
-						<Tab
-							border="1px solid white"
-							color="#FFFFFF"
-							whiteSpace={"nowrap"}
-							_selected={{
-								color: "#FFFFFF",
-								borderColor: "#A533C8",
-								bgColor: "#A533C8",
-							}}
-							onClick={() => setSelector("ongoing")}
-						>
-							On going
-						</Tab>
-						<Tab
-							border="1px solid white"
-							color="#FFFFFF"
-							_selected={{
-								color: "#FFFFFF",
-								borderColor: "#A533C8",
-								bgColor: "#A533C8",
-							}}
-							onClick={() => setSelector("complete")}
-						>
-							Complete
-						</Tab>
-					</Stack>
-				</TabList>
-
-				{/* <TabPanels>
-          {data.map((item, index) => (
-            <TabPanel key={index}>
-              <p>{item}</p>
-            </TabPanel>
-          ))}
-        </TabPanels> */}
-			</Tabs>
-
-			{data?.map((data: any, index: number) => {
-				console.log(data);
-
-				if (selector === "ongoing") {
-					// console.log(data);
-
-					return (
-						(data.isApprove === "Rejected" ||
-							data.isApprove === "In_progress") && (
-							<VoucherStatusCard key={index} data={data} />
-						)
-					);
-				} else
-					return (
-						data.isApprove === "Completed" && (
-							<VoucherStatusCard key={index} data={data} />
-						)
-					);
-			})}
-
-			<Box pos={"absolute"} top={680} bottom={10} right={5}>
-				<Icon
-					as={FaPlusCircle}
-					w={"50px"}
-					h={"50px"}
-					color={"#5F0DBB"}
-					onClick={handleClickCreate}
-				></Icon>
-			</Box>
-		</Box>
-	);
+      <Box pos={"absolute"} top={680} bottom={10} right={5}>
+        <Icon
+          as={FaPlusCircle}
+          w={"50px"}
+          h={"50px"}
+          color={"#5F0DBB"}
+          onClick={handleClickCreate}
+        ></Icon>
+      </Box>
+    </Box>
+  );
 };

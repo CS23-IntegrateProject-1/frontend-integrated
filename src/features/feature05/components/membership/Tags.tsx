@@ -1,10 +1,8 @@
-import React from 'react'
 import { Box ,Text} from '@chakra-ui/react'
 
 interface Name {
     tag_text : string
 }
-
 
 function Tags(props : Name) {
     
@@ -21,6 +19,7 @@ function Tags(props : Name) {
      >
     <Text margin="1">{props.tag_text}</Text>
      </Box>
+
     </>
   )
 }

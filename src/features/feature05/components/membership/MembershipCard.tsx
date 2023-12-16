@@ -1,28 +1,16 @@
-import React from "react";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   Stack,
   Heading,
   Text,
-  Divider,
   ButtonGroup,
   Button,
   Box,
 } from "@chakra-ui/react";
-import {
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
-} from "@chakra-ui/react";
 
 import { Progress } from "@chakra-ui/react";
 import { RepeatClockIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import theme from "../../../../theme/theme";
 function MemberShipCard() {
   return (
     <>

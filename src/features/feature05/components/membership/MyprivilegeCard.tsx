@@ -1,9 +1,8 @@
-import { Box, Button, Heading, Text } from '@chakra-ui/react'
+import { Box, Heading, Text } from '@chakra-ui/react'
 import { Card, CardBody } from '@chakra-ui/react'
-import { BsBookmarkStarFill } from "react-icons/bs";
+// import { BsBookmarkStarFill } from "react-icons/bs";
 
-
-export const RedeemCard = () => {
+export const MyprivilegeCard = () => {
   return (
       <Box>
           <Card
@@ -30,13 +29,6 @@ export const RedeemCard = () => {
                   </Box>
               </Box>
 
-            <Box display="flex" flexDirection="row" justifyContent="end" alignItems="flex-start" padding="5px 20px">
-                  <Button variant='solid' padding="27px 20px" backgroundColor='brand.300'  color="white"  borderRadius="30px" columnGap="7px">
-                      <BsBookmarkStarFill />
-                      My rewards
-                  </Button>
-            </Box>
-              
           </Card>
       </Box>
   )

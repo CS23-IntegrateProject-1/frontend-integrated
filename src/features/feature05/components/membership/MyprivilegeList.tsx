@@ -1,5 +1,5 @@
-import { Stack } from '@chakra-ui/react'
-import { ShortRedeemCard } from '../../components/membership/ShortRedeemCard';
+import { Stack } from '@chakra-ui/react';
+import { ShortMyprivilegeCard } from '../../components/membership/ShortMyprivilegeCard';
 
 type voucher = {
   key : number
@@ -8,7 +8,7 @@ type voucher = {
 }
 
 // let cards : voucher[] = [
-const cards: voucher[] = [
+  const cards: voucher[] = [
     {
       key: 1,
       name: "freefood",
@@ -31,14 +31,14 @@ const cards: voucher[] = [
     },
   ];
 
-const RedeemList = () => {
+const MyprivilegeList = () => {
   return (
     <Stack padding="20px">
         {cards.map((card) => (
-          <ShortRedeemCard key={card.key} voucher_name={card.name} description={card.description}/>
+          <ShortMyprivilegeCard key={card.key} voucher_name={card.name} description={card.description}/>
         ))}
     </Stack>
   )
 }
 
-export default RedeemList
+export default MyprivilegeList

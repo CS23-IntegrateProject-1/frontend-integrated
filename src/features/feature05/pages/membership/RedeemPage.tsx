@@ -1,5 +1,3 @@
-import React from 'react';
-import theme from '../../../../theme/theme';
 import { RedeemCard } from '../../components/membership/RedeemCard';
 import { Box } from '@chakra-ui/react';
 import Tags from '../../components/membership/Tags';
