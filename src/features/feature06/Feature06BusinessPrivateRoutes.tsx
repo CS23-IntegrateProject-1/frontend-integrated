@@ -5,6 +5,7 @@ import { WalkInPeople } from "./pages/Business/WalkInPeople";
 import { CreateTable1 } from "./pages/CreateTable1";
 import { CreateTable2 } from "./pages/CreateTable2";
 import { ViewTable } from "./pages/ViewTable";
+import { QrcodeConfirm } from "./pages/QrcodeConfirm";
 
 export const Feature06BusinessPrivateRoutes = () => {
   return [
@@ -19,6 +20,7 @@ export const Feature06BusinessPrivateRoutes = () => {
     { path: "business/viewtable/:tableId", element: <ViewTable /> },
     { path: "business/createtable1", element: <CreateTable1 /> },
     { path: "business/createtable2", element: <CreateTable2 /> },
+    { path: "business/qrcodeconfirm", element: <QrcodeConfirm /> },
     // {
     //   path:
     // }

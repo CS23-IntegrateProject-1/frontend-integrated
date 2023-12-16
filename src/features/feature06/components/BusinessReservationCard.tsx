@@ -34,6 +34,13 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
         </Button>
       );
     }
+    const dateString = `${date}`;
+    const dateObject = new Date(dateString);
+
+    const year = dateObject.getUTCFullYear();
+    const month = dateObject.getUTCMonth() + 1; // Month is zero-based, so add 1
+    const day = dateObject.getUTCDate();
+
     return (
       <Box
         position={"relative"}
@@ -46,7 +53,7 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
         height={"148px"}
       >
         <Text position={"absolute"} top={"5px"} right={"9px"}>
-          date: {date}
+          {day}/{month}/{year}
         </Text>
         <Text position={"absolute"} top={"28px"} left={"21px"}>
           Name : {name}
