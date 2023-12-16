@@ -7,17 +7,46 @@ import {
   FormHelperText,
   Input,
   Button,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { StarReviewR } from "./StarReviewR";
+  Box,
+  Text,
 
-export const ReviewReservation = () => {
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { StarReviewD } from "./F3_RVPCs/StarReviewD";
+
+import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
+
+
+export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
+  const [rating, setRating] = useState(0);
+
+  const { branchId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(e.target.value);
 
+    useEffect(() => {
+      console.log(rating);
+    },[rating])
+
   const isError = input === "";
+
+  const handleSubmit = async () => {
+    try {
+      await Axios.post(`/feature3/ReviewDelivery`, {
+        rating,
+        review: input,
+        branchId: 1,
+      });
+      console.log("Review posted successfully!");
+
+    } catch (error) {
+      console.error("Error posting review:", error);
+    }
+  };
+
 
   return (
     <Flex
@@ -29,35 +58,37 @@ export const ReviewReservation = () => {
       pl={{ base: "0", lg: "300" }}
       pr={{ base: "0", lg: "300" }}
     >
-      <StarReviewR />
+      <StarReviewD setAvgRating={setRating} />
       <FormControl isInvalid={isError} mt="5" mb="5">
         <FormLabel>Comment</FormLabel>
         <Input
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="brand.200"
+          errorBorderColor="red"
           type="email"
           value={input}
           onChange={handleInputChange}
         />
         {!isError ? (
-          <FormHelperText>Tell us what you think</FormHelperText>
+          <FormHelperText></FormHelperText>
         ) : (
-          <FormErrorMessage>Required</FormErrorMessage>
+          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
+      <NavLink to={`/Reviews/${1}`}>
       <Button
         variant="solid"
         textColor="white"
         bgColor="brand.300"
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
-        mt={{ base: "80", lg: "40" }}
+        onClick={handleSubmit}
+        isDisabled={input === "" || rating === 0}
       >
         Confirm
       </Button>
+      </NavLink>
     </Flex>
   );
 };
-

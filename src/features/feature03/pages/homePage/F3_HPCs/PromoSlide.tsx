@@ -12,8 +12,19 @@ interface PProps {
 export const PromoSlide = () => {
   const P: PProps[] = mockP;
   return (
-    <Box width={"100%"} pt={1}>
-      <Box overflowX="auto">
+    <Box overflowX="auto"
+    css={{
+      '&::-webkit-scrollbar': {
+        width: '4px',
+      },
+      '&::-webkit-scrollbar-track': {
+        width: '6px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: '24px',
+      },
+    }} width={"100%"} pt={1}>
+      <Box>
         <Box display="flex">
           {P.map((P, index) => (
             <Card

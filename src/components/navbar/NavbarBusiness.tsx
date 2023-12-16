@@ -9,7 +9,7 @@ interface NavbarContentProps {
   onClose: () => void;
 }
 
-export const NavbarContent: FC<NavbarContentProps> = ({
+export const NavbarBusiness: FC<NavbarContentProps> = ({
   isOpen,
   // onOpen,
   onClose,
@@ -19,26 +19,23 @@ export const NavbarContent: FC<NavbarContentProps> = ({
   };
   const navigate = useNavigate();
   const links = [
-    { title: "Home", to: "/" },
+    
+    { title: "Dashboard", to: "/" },
     {
-      title: "My Reservation",
-      to: "/my-reservation",
+      title: "Orders",
+      to: "/orders",
     },
     {
-      title: "My Article",
-      to: "/article/myarticles",
+      title: "Reservation",
+      to: "/business/Reservation",
     },
     {
-      title: "Save Places",
-      to: "/saved-place",
+      title: "Marketing",
+      to: "/marketing",
     },
     {
-      title: "Promotion",
-      to: "/promotion",
-    },
-    {
-      title: "Membership",
-      to: "/membership",
+      title: "Finance",
+      to: "/finance",
     },
   ];
   return (
