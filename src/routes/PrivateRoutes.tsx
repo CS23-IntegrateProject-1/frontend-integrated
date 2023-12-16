@@ -20,7 +20,7 @@ import { AuthRoutes } from "../features/feature02/AuthRoutes";
 export const PrivateRoutes = createBrowserRouter([
 	{
 		path: "/",
-		element: <RootLayout />,
+		element: <RootLayout role="customer" />,
 		children: [
 			...AuthRoutes(),
 			...Feature01Routes(),
