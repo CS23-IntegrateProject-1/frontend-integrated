@@ -148,7 +148,7 @@ export const VoucherEditPage = () => {
 					<FormLabel style={TextStyle.h2}>Vocher name *</FormLabel>
 					<Input
 						name="voucherName"
-						value={voucher.voucherName}
+						// value={voucher.voucherName}
 						onChange={handleChange}
 						bg={"#390b74"}
 						border={"none"}
@@ -161,7 +161,7 @@ export const VoucherEditPage = () => {
 					</FormLabel>
 					<Input
 						name="description"
-						value={voucher.description}
+						// value={voucher.description}
 						onChange={handleChange}
 						bg={"#390b74"}
 						border={"none"}
@@ -212,7 +212,7 @@ export const VoucherEditPage = () => {
 					<InputGroup>
 						<Input
 							name="limitation"
-							value={voucher.limitation}
+							// value={voucher.limitation}
 							onChange={handleChange}
 							type={"number"}
 							bg={"#390b74"}

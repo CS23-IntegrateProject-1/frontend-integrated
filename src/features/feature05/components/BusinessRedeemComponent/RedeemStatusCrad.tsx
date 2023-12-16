@@ -2,14 +2,11 @@ import { Box, Icon, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
-export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({
-	data,
-}) => {
+export const RedeemStatusCard: FC<{ data: any }> = ({ data }) => {
 	const navigate = useNavigate();
 	const handleClickEdit = () => {
-		navigate(`/business/advertisement/edit/${data.advertisementId}`);
+		navigate("/business/redeem/edit/:redeemId");
 	};
 	const status = data.isApprove;
 	const img = data.image_url;
@@ -55,7 +52,6 @@ export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({
 				>
 					{status === "Rejected" && (
 						<Icon
-							cursor={"pointer"}
 							as={FaRegEdit}
 							color={"#5F0DBB"}
 							onClick={handleClickEdit}

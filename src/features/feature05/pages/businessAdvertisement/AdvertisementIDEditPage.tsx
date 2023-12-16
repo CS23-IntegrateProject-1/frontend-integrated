@@ -1,4 +1,3 @@
-5
 import {
 	Box,
 	Button,
@@ -21,7 +20,7 @@ import {
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -38,14 +37,14 @@ interface AdvertisementProps {
 	advertisementPlan: number;
 }
 export const AdvertisementIDEditPage = () => {
+	const { id } = useParams();
+
 	const navigate = useNavigate();
-	//  const { isOpen, onOpen, onClose } = useDisclosure()
 	const deleteModal = useDisclosure();
 	const submitModal = useDisclosure();
 	const handleClickSubmit = () => {
-		navigate("/advertisement/status");
+		navigate("/business/advertisement/status");
 	};
-
 	const [file, setFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 	const [advertise, setAdvertise] = useState<AdvertisementProps>({
@@ -72,6 +71,7 @@ export const AdvertisementIDEditPage = () => {
 		setImagePreview(null);
 	};
 	useEffect(() => {
+		fetchPlaceHolder();
 		return () => {
 			if (imagePreview) {
 				URL.revokeObjectURL(imagePreview);
@@ -84,6 +84,32 @@ export const AdvertisementIDEditPage = () => {
 			await Axios.post;
 		} catch (err) {
 			console.error(err);
+		}
+	};
+
+	const fetchPlaceHolder = async () => {
+		try {
+			const { data } = await Axios.get(`/feature5/AdBSN/${id}`);
+
+			console.log(data);
+
+			console.log(advertise);
+
+			setAdvertise((prevAdvertise) => ({
+				...prevAdvertise,
+				name: data.name,
+				description: data.description,
+				images: data.image_url,
+				startingDate: data.start_date,
+				endingDate: data.end_date,
+				targetCustomer: data.costumer_type,
+				targetGroup: data.target_group,
+				advertisementPlan: parseInt(data.cost),
+			}));
+
+			console.log(advertise);
+		} catch (e) {
+			console.error(e);
 		}
 	};
 
@@ -111,6 +137,7 @@ export const AdvertisementIDEditPage = () => {
 				</FormLabel>
 				<Input
 					variant="name"
+					value={advertise.name}
 					style={{ width: "auto" }}
 					color={"white"}
 					bgColor={"#5F0DBB"}
@@ -135,6 +162,7 @@ export const AdvertisementIDEditPage = () => {
 				</FormLabel>
 				<Input
 					variant="name"
+					value={advertise.description}
 					style={{ width: "auto" }}
 					color={"white"}
 					bgColor={"#5F0DBB"}
@@ -166,6 +194,7 @@ export const AdvertisementIDEditPage = () => {
 						bgColor={"#5F0DBB"}
 						borderRadius={5}
 						borderColor={"#5F0DBB"}
+						//value={advertise.startingDate} //TONG WILL DO IT
 					/>
 				</Box>
 
@@ -182,6 +211,8 @@ export const AdvertisementIDEditPage = () => {
 						bgColor={"#5F0DBB"}
 						borderRadius={5}
 						borderColor={"#5F0DBB"}
+						//TONG WILL DO IT
+						//value
 					/>
 				</Box>
 			</FormControl>
@@ -407,44 +438,47 @@ export const AdvertisementIDEditPage = () => {
 					</ModalContent>
 				</Modal>
 
-        <Button
-          h={"40px"}
-          backgroundColor="#A533C8"
-          variant="solid"
-          width="50%"
-          color="white"
-          onClick={submitModal.onOpen}
-        >
-          Submit
-        </Button>
-        <Modal isOpen={submitModal.isOpen} onClose={submitModal.onClose}>
-          <ModalOverlay />
-          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-            <ModalHeader mt={3}>Submit advertisement</ModalHeader>
-            <ModalCloseButton />
-            <ModalFooter>
-              <Button
-                bgColor={"white"}
-                color={"#200944"}
-                mr={5}
-                width="30%"
-                onClick={submitModal.onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                bgColor={"#A533C8"}
-                mr={3}
-                onClick={handleClickSubmit}
-                color={"white"}
-                width="30%"
-              >
-                Submit
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Box>
-    </Box>
-  );
+				<Button
+					h={"40px"}
+					backgroundColor="#A533C8"
+					variant="solid"
+					width="50%"
+					color="white"
+					onClick={submitModal.onOpen}
+				>
+					Submit
+				</Button>
+				<Modal
+					isOpen={submitModal.isOpen}
+					onClose={submitModal.onClose}
+				>
+					<ModalOverlay />
+					<ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+						<ModalHeader mt={3}>Submit advertisement</ModalHeader>
+						<ModalCloseButton />
+						<ModalFooter>
+							<Button
+								bgColor={"white"}
+								color={"#200944"}
+								mr={5}
+								width="30%"
+								onClick={submitModal.onClose}
+							>
+								Cancel
+							</Button>
+							<Button
+								bgColor={"#A533C8"}
+								mr={3}
+								onClick={handleClickSubmit}
+								color={"white"}
+								width="30%"
+							>
+								Submit
+							</Button>
+						</ModalFooter>
+					</ModalContent>
+				</Modal>
+			</Box>
+		</Box>
+	);
 };

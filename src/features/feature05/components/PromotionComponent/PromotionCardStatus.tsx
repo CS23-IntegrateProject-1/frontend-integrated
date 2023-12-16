@@ -2,14 +2,21 @@ import { Box, Icon, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
-export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({
-	data,
-}) => {
+interface PromotionStatusCardProps {
+	data: {
+		promotionId: number; // Assuming promotionId is a number
+		isApprove: string;
+		image_url: string;
+		// Add other properties as needed
+	};
+}
+
+export const PromotionStatusCard: FC<PromotionStatusCardProps> = ({ data }) => {
 	const navigate = useNavigate();
-	const handleClickEdit = () => {
-		navigate(`/business/advertisement/edit/${data.advertisementId}`);
+    const handleClickEdit = () => {
+        const { promotionId } = data;
+		navigate(`/business/promotion/edit/${promotionId}`);
 	};
 	const status = data.isApprove;
 	const img = data.image_url;
@@ -35,7 +42,8 @@ export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({
 				marginTop={8}
 				borderRadius={6}
 			>
-				<Image objectFit={"cover"} src={img} />
+				<Image  w={"320px"}
+				h={"129px"} objectFit={"cover"} src={img} />
 				<Box
 					pos={"absolute"}
 					bg={color}
@@ -55,7 +63,6 @@ export const AdvertisementStatusCard: FC<{ data: IAd_business }> = ({
 				>
 					{status === "Rejected" && (
 						<Icon
-							cursor={"pointer"}
 							as={FaRegEdit}
 							color={"#5F0DBB"}
 							onClick={handleClickEdit}

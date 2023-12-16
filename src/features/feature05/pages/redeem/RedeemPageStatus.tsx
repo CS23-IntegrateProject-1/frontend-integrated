@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
-import { AdvertisementStatusCard } from "../../components/businessAdvertisementCom/AdvertisementStatusCard";
+import {
+	ChakraProvider,
+	Tabs,
+	TabList,
+	TabPanels,
+	Tab,
+	TabPanel,
+	Box,
+	Stack,
+	IconButton,
+	Icon,
+} from "@chakra-ui/react";
+import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCrad";
+import { AdvertisementStatusCardIPG } from "../../components/businessAdvertisementCom/AdvertisementStatusCardIPG";
+import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
-import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -13,25 +25,33 @@ import IAd_business from "../../../../interfaces/Advertisement/IAd_business.inte
 //   return data;
 // };
 
-export const AdvertisementStatusPage: React.FC = () => {
+//ขอแปะไว้้ก่อน รอหมิวทำ BACKEND
+
+interface RedeemStatusPageProps {
+
+}
+
+export const RedeemPageStatus: React.FC<
+	RedeemStatusPageProps
+> = () => {
 	const [currentTab, setCurrentTab] = useState(0);
-	const [data, setData] = useState<IAd_business[]>([]);
+	const [data, setData] = useState<string[]>([]);
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
 	const navigate = useNavigate();
 	const handleClickCreate = () => {
-		navigate("/business/advertisement/request");
+		navigate("/business/redeem/create");
 	};
 	// const businessId = 2;
 
 	const fetchBusinessAds = async () => {
-		const res = await GetAllAdsBusiness();
-		setData(res);
+		//const res = await GetAllRedeem();
+		//setData(res);
 	};
 
 	useEffect(() => {
 		fetchBusinessAds();
 		// console.log(data);
-	});
+	}, []);
 
 	const handleTabChange = (index: number) => {
 		setCurrentTab(index);
@@ -83,33 +103,25 @@ export const AdvertisementStatusPage: React.FC = () => {
 						</Tab>
 					</Stack>
 				</TabList>
-
-				{/* <TabPanels>
-          {data.map((item, index) => (
-            <TabPanel key={index}>
-              <p>{item}</p>
-            </TabPanel>
-          ))}
-        </TabPanels> */}
 			</Tabs>
 
-			{data?.map((data, index: number) => {
+			{data?.map((data: any, index: number) => {
 				if (selector === "ongoing") {
 					return (
 						(data.isApprove === "Rejected" ||
 							data.isApprove === "In_progress") && (
-							<AdvertisementStatusCard key={index} data={data} />
+							<RedeemStatusCard key={index} data={data} />
 						)
 					);
 				} else
 					return (
 						data.isApprove === "Completed" && (
-							<AdvertisementStatusCard key={index} data={data} />
+							<RedeemStatusCard key={index} data={data} />
 						)
 					);
 			})}
 
-			<Box pos={"fixed"} bottom={6} right={6} zIndex={999}>
+            <Box pos={"fixed"} bottom={10} right={10} zIndex={999}>
 				<Icon
 					as={FaPlusCircle}
 					w={"50px"}

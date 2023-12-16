@@ -1,4 +1,3 @@
-6;
 import {
 	Box,
 	Button,
@@ -26,88 +25,32 @@ import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 
-interface AdvertisementProps {
+interface PromotionProps {
 	name: string;
 	description: string;
 	start_date: Date | null;
 	end_date: Date | null;
-	images: string;
-	customer_type: string;
-	target_group: string;
-	cost: number;
+	image_url: string;
+	menuId: number;
+	venueId: number;
+	discount_price: number;
 }
-export const AdvertisementRequestPage = () => {
+export const PromotionCreatePage = () => {
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [file, setFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
-	const [advertise, setAdvertise] = useState<AdvertisementProps>({
+	const [promotion, setPromotion] = useState<PromotionProps>({
 		name: "",
 		description: "",
-		images: "",
-		start_date: null,
-		end_date: null,
-		customer_type: "All",
-		target_group: "Teen",
-		cost: 300,
+		image_url: "",
+		start_date: new Date(),
+		end_date: new Date(),
+		menuId: 3,
+		venueId: 3,
+		discount_price: 10,
 	});
-	const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
-		null
-	);
-	const [formattedEndDate, setFormattedEndDate] = useState<string | null>(
-		null
-	);
-	// const handleChange = (
-	// 	e: React.ChangeEvent<
-	// 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-	// 	>
-	// ) => {
-	// 	const { name, value } = e.target;
-	// 	const formattedValue = name.includes("date")
-	// 		? new Date(value).toISOString()
-	// 		: value;
-	// 	setAdvertise((prevAdvertise) => ({
-	// 		...prevAdvertise,
-	// 		[name]: formattedValue,
-	// 	}));
-	// 	console.log(advertise);
-	// };
 
-	//gpt
-	const handleChange = (
-		e: React.ChangeEvent<
-			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-		>
-	) => {
-		const { name, value } = e.target;
-		const formattedValue = name.includes("date")
-			? new Date(value).toISOString().replace("T", " ").replace("Z", "")
-			: value;
-
-		if (
-			name === "start_date" &&
-			!isNaN(new Date(formattedValue).getTime())
-		) {
-			setFormattedStartDate(formattedValue);
-		}
-
-		if (name === "end_date" && !isNaN(new Date(formattedValue).getTime())) {
-			setFormattedEndDate(formattedValue);
-		}
-
-		setAdvertise((prevAdvertise) => ({
-			...prevAdvertise,
-			[name]: formattedValue,
-		}));
-	};
-
-	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files.length > 0) {
-			setFile(e.target.files[0]);
-			const previewURL = URL.createObjectURL(e.target.files[0]);
-			setImagePreview(previewURL);
-		}
-	};
 	const handleCloseImage = () => {
 		setImagePreview(null);
 	};
@@ -119,32 +62,103 @@ export const AdvertisementRequestPage = () => {
 		};
 	}, [imagePreview]);
 
+	//gpt
+	const handleChange = (
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+		>
+	) => {
+		const { name, value } = e.target;
+		// const formattedValue = name.includes("date")
+		// 	? new Date(value).toISOString().replace("T", " ").replace("Z", "")
+		// 	: value;
+
+		// if (
+		// 	name === "start_date" &&
+		// 	!isNaN(new Date(formattedValue).getTime())
+		// ) {
+		// 	setFormattedStartDate(formattedValue);
+		// }
+
+		// if (name === "end_date" && !isNaN(new Date(formattedValue).getTime())) {
+		// 	setFormattedEndDate(formattedValue);
+		// }
+
+		if (name === "start_date" || name === "end_date") {
+			const dateValue = new Date(value);
+			setPromotion((prevPromotion) => ({
+				...prevPromotion,
+				[name]: dateValue.toISOString(),
+			}));
+		} else {
+			setPromotion((prevPromotion) => ({
+				...prevPromotion,
+				[name]: value,
+			}));
+		}
+
+		if (name === "discount_price") {
+			setPromotion((prevPromotion) => ({
+				...prevPromotion,
+				[name]: parseFloat(value),
+			}));
+		}
+		
+		if (name === "venueId") {
+			setPromotion((prevPromotion) => ({
+				...prevPromotion,
+				[name]: parseInt(value),
+			}));
+		}
+
+		if (name === "menuId") {
+			setPromotion((prevPromotion) => ({
+				...prevPromotion,
+				[name]: parseInt(value),
+			}));
+		}
+		
+	};
+
+		
+	// 	setPromotion((prevPromotion) => ({
+	// 		...prevPromotion,
+	// 		[name]: value,
+	// 	}));
+	// };
+
+	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			setFile(e.target.files[0]);
+			const previewURL = URL.createObjectURL(e.target.files[0]);
+			setImagePreview(previewURL);
+		}
+	};
+
 	const handleSubmit = async () => {
-		console.log(advertise);
+		console.log(promotion);
 
 		try {
 			// Ensure this ID is valid
-			console.log("Formatted Start Date:", formattedStartDate);
-			console.log("Formatted End Date:", formattedEndDate);
-			console.log(advertise);
-			console.log(`Sending request to /AdBSN`);
-			const response = await Axios.post(`feature5/AdBSN`, {
-				...advertise,
+			console.log(promotion);
+			console.log(`Sending request to /Promotion`);
+			const response = await Axios.post(`feature5/Promotion`, {
+				...promotion,
 				//advertisementPlan: Number(advertise.cost),
 				Tags: [],
-				start_date: formattedStartDate,
-				end_date: formattedEndDate,
+				// start_date: promotion.start_date,
+				// end_date: formattedEndDate,
 			});
 			console.log(response.data); // Log the response data
-			navigate("/business/advertisement/status");
+			navigate("/business/promotion/status");
 		} catch (err: any) {
-			console.error("Error submitting advertisement:", err);
+			console.error("Error submitting promotion:", err);
 			// You can add more detailed error handling here
 			console.log("Request data:", err.config.data); // Log the request payload
 			console.log("Response data:", err.response.data); // Log the response data
 		}
 	};
-	console.log(advertise);
+	console.log(promotion);
 
 	return (
 		<Box
@@ -176,7 +190,7 @@ export const AdvertisementRequestPage = () => {
 					color={"white"}
 					bgColor={"#5F0DBB"}
 					borderColor={"#5F0DBB"}
-					type="email"
+					type="text"
 				/>
 			</FormControl>
 
@@ -204,6 +218,39 @@ export const AdvertisementRequestPage = () => {
 					borderColor={"#5F0DBB"}
 					type="text"
 				/>
+			</FormControl>
+
+			{/* Branch */}
+			<FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={3}
+			>
+				<FormLabel
+					style={TextStyle.h2}
+					color={"white"}
+					paddingBottom={1}
+				>
+					{" "}
+					Branch
+				</FormLabel>
+				<Select
+					name="venueId"
+					onChange={handleChange}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					placeholder=""
+				>
+					<option value="1">PrachaUthit</option>
+					<option value="2">Bang pakok</option>
+					<option value="3">Tha kham</option>
+					<option value="4">Bang bon</option>
+					<option value="5">Bang khae</option>
+				</Select>
 			</FormControl>
 
 			{/* Starting Date * & Ending Date * */}
@@ -252,6 +299,62 @@ export const AdvertisementRequestPage = () => {
 						borderColor={"#5F0DBB"}
 					/>
 				</Box>
+			</FormControl>
+
+			{/* Select menu */}
+			<FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={3}
+			>
+				<FormLabel
+					style={TextStyle.h2}
+					color={"white"}
+					paddingBottom={1}
+				>
+					{" "}
+					Select menu
+				</FormLabel>
+				<Select
+					name="menuId"
+					onChange={handleChange}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					placeholder=""
+				>
+					<option value="3">3</option>
+					<option value="3">3</option>
+				</Select>
+			</FormControl>
+
+			{/* Discount value * */}
+			<FormControl
+				isRequired
+				paddingBottom={3}
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+			>
+				<FormLabel style={TextStyle.h2} color={"white"}>
+					{" "}
+					Discount value
+				</FormLabel>
+				<Input
+					name="discount_price"
+					onChange={handleChange}
+					variant="discount_price"
+					style={{ width: "auto" }}
+					color={"white"}
+					bgColor={"#5F0DBB"}
+					borderColor={"#5F0DBB"}
+					type="float"
+				/>
 			</FormControl>
 
 			{/* Image */}
@@ -342,125 +445,6 @@ export const AdvertisementRequestPage = () => {
 				</FormControl>
 			)}
 
-			{/* Target customer */}
-			<FormControl
-				isRequired
-				width="50%"
-				minWidth="250px"
-				maxWidth="400px"
-				display="flex"
-				flexDirection={"column"}
-				paddingBottom={3}
-			>
-				<FormLabel
-					style={TextStyle.h2}
-					color={"white"}
-					paddingBottom={1}
-				>
-					{" "}
-					Target customer
-				</FormLabel>
-				<Select
-					name="customer_type"
-					onChange={handleChange}
-					bgColor={"#5F0DBB"}
-					borderColor={"#5F0DBB"}
-					placeholder=""
-					defaultValue={"All"}
-				>
-					<option value="All">All</option>
-					<option value="Member">Member</option>
-				</Select>
-			</FormControl>
-
-			{/* Target group */}
-			<FormControl
-				isRequired
-				width="50%"
-				minWidth="250px"
-				maxWidth="400px"
-				display="flex"
-				flexDirection={"column"}
-				paddingBottom={3}
-			>
-				<FormLabel
-					style={TextStyle.h2}
-					color={"white"}
-					paddingBottom={1}
-				>
-					{" "}
-					Target group
-				</FormLabel>
-				<Select
-					name="target_group"
-					onChange={handleChange}
-					bgColor={"#5F0DBB"}
-					borderColor={"#5F0DBB"}
-					defaultValue={"Teen"}
-				>
-					<option value="Teen">Teen</option>
-					<option value="Young_adult">Young Adult</option>
-					<option value="Adult">Adult</option>
-					<option value="Elder">Elder</option>
-				</Select>
-			</FormControl>
-
-			{/* Advertisement plan */}
-			<FormControl
-				isRequired
-				width="50%"
-				minWidth="250px"
-				maxWidth="400px"
-				display="flex"
-				flexDirection={"column"}
-				paddingBottom={3}
-			>
-				<FormLabel
-					style={TextStyle.h2}
-					color={"white"}
-					paddingBottom={1}
-				>
-					{" "}
-					Advertisement plan
-				</FormLabel>
-				<Select
-					name="cost"
-					onChange={handleChange}
-					bgColor={"#5F0DBB"}
-					borderColor={"#5F0DBB"}
-					defaultValue={"300"}
-				>
-					<option value="100">100 Baht/Week</option>
-					<option value="300">300 Baht/Month</option>
-					<option value="3600">3600 Baht/Year</option>
-				</Select>
-			</FormControl>
-			{/* <FormControl
-				isRequired
-				width="50%"
-				minWidth="250px"
-				maxWidth="400px"
-				display="flex"
-				flexDirection={"column"}
-				paddingBottom={6}
-			>
-				<FormLabel style={TextStyle.h2} color={"white"}>
-					{" "}
-					Advertisement plan
-				</FormLabel>
-				<RadioGroup
-					defaultValue="2"
-					name="advertisementPlan"
-					onChange={(value) => handleChange(value)}
-				>
-					<Stack spacing={1} direction="column">
-						<Radio value="1">100 Baht/Week</Radio>
-						<Radio value="2">300 Baht/Month</Radio>
-						<Radio value="3">3600 Baht/Year</Radio>
-					</Stack>
-				</RadioGroup>
-			</FormControl> */}
-
 			{/* Submit */}
 			<Box
 				width="50%"
@@ -479,8 +463,8 @@ export const AdvertisementRequestPage = () => {
 					color="white"
 					onClick={() => {
 						if (
-							advertise.start_date == null ||
-							advertise.end_date == null
+							promotion.start_date == null ||
+							promotion.end_date == null
 						) {
 							alert("Please fill the date");
 							return;

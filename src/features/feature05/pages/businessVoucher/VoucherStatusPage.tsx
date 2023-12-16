@@ -94,7 +94,7 @@ export const VoucherStatusPage: FC = () => {
           );
       })}
 
-      <Box pos={"absolute"} top={680} bottom={10} right={5}>
+      <Box pos={"fixed"} bottom={10} right={6}>
         <Icon
           as={FaPlusCircle}
           w={"50px"}

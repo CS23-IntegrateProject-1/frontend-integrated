@@ -56,7 +56,7 @@ export const VoucherStatusCard: FC<{
 					borderRadius={10}
 					px={"10px"}
 				>
-					{status === "In_progress" && (
+					{status === "Rejected" && (
 						<Icon
 							as={FaRegEdit}
 							color={"#5F0DBB"}
