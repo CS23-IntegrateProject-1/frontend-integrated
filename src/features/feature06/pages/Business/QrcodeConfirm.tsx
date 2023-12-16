@@ -1,5 +1,5 @@
 import { Box, Text, Input, Button, Image  } from "@chakra-ui/react";
-import qrcodehmoni from "./../../feature06/components/img/qrcodehamoni.png";
+
 
 export const QrcodeConfirm = () => {
   return (
@@ -10,7 +10,6 @@ export const QrcodeConfirm = () => {
         display={"flex"}
         h={"60vh"}
       >
-        <Image src={qrcodehmoni} />
       </Box>
       <Box backgroundColor={"rgba(95, 13, 187, 0.4)"}>
         
