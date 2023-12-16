@@ -534,7 +534,7 @@ console.log(selectedToDate)
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK} />
+          <Bar data={revenue} options={chartOptionsK as any} />
         </Card>
         <Card
           marginTop={10}
@@ -548,9 +548,9 @@ console.log(selectedToDate)
             <Text style={TextStyle.h3}>{isFiltered ? 
                   filteredNetProfit.reduce((total, count) => total + count, 0) :
                   netProfitNormal.reduce((total, count) => total + count, 0)
-                  }{" "}</Text>
+                  }{" "} Baht</Text>
           </Box>
-          <Bar data={profit} options={chartOptionsK} />
+          <Bar data={profit} options={chartOptionsK as any} />
         </Card>
       </Box>
     </Center>

@@ -635,7 +635,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK} />
+          <Bar data={revenue} options={chartOptionsK as any} />
         </Card>
         <ButtonComponent
           text="See All Receipts"
@@ -662,7 +662,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                }
               {" "} Baht</Text>
           </Box>
-          <Bar data={netProfit} options={chartOptionsK} />
+          <Bar data={netProfit} options={chartOptionsK as any} />
         </Card>
       </Box>
     </Center>
