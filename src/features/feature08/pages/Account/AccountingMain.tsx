@@ -15,7 +15,8 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { Axios } from "../../../../AxiosInstance";
+
 
 export const AccountingMain = () => {
   const [appTrans, setAppTrans] = useState();
@@ -27,8 +28,7 @@ export const AccountingMain = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/apptransactions/${venueId}`);
+        const response = await Axios.get(`/feature8/apptransactions/${venueId}`);
         const tableData = response.data;
         setAppTrans(tableData); // Set the entire array of transactions
 
@@ -48,7 +48,7 @@ export const AccountingMain = () => {
     const fetchData = async (transactionId: any) => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(
+        const response = await Axios.get(
           `${backendUrl}/feature8/apptransaction_details/bytransactionId/${transactionId}`
         );
         const appTransactionDetails = response.data;

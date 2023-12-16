@@ -68,7 +68,7 @@ export const Feature08Routes = () => {
     },
     { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
-    { path: "/venue/:userId/admin/insight", element: <BusinessInsight /> },
+    { path: "/venue/:venueId/admin/insight", element: <BusinessInsight /> },
     { path: "/venue/:userId/admin/dashboard", element: <AllData /> },
     { path: "/venue/:userId/admin/reservation", element: <Reservation /> },
     { path: "/venue/:userId/admin/FoodOrder", element: <FoodOrder /> },
