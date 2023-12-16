@@ -8,6 +8,7 @@ import {
   InputRightElement,
   Text,
   VStack,
+  Flex,
 } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { BiSolidCamera } from "react-icons/bi";
@@ -67,32 +68,38 @@ export default function OpenConversations() {
             const lastMessage =
               selectedConversation.messages.length - 1 === index;
             return (
-              <Box
+              <Flex
                 key={index}
                 ref={lastMessage ? setRef : null}
                 my="4px"
                 display="flex"
-                flexDirection="column"
-                alignItems={message.fromMe ? "flex-end" : "flex-start"}
+                flexDirection={message.fromMe ? "row-reverse" : "row"}
+                width="100%"
               >
-                <Box
-                  rounded={"md"}
-                  py="1"
-                  px="2"
-                  bg={message.fromMe ? "#DEBEF6" : "red"}
-                  color={message.fromMe ? "black" : "white"}
-                  borderWidth={message.fromMe ? "0px" : "1px"}
-                >
-                  {message.text}
+                <Box flexDirection="column">
+                  <Box
+                    rounded={"md"}
+                    py="1"
+                    px="2"
+                    bg={message.fromMe ? "#DEBEF6" : "red"}
+                    color={message.fromMe ? "black" : "white"}
+                    borderWidth={message.fromMe ? "0px" : "1px"}
+                  >
+                    {message.text}
+                  </Box>
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    textAlign={message.fromMe ? "end" : "start"}
+                  >
+                    {lastMessage
+                      ? message.fromMe
+                        ? "You"
+                        : message.sender
+                      : ""}
+                  </Text>
                 </Box>
-                <Text
-                  fontSize="sm"
-                  color="gray.500"
-                  textAlign={message.fromMe ? "end" : "start"}
-                >
-                  {lastMessage ? (message.fromMe ? "You" : message.sender) : ""}
-                </Text>
-              </Box>
+              </Flex>
             );
           })}
         </VStack>
