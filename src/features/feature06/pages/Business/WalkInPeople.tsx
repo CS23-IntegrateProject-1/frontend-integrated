@@ -119,7 +119,7 @@ export const WalkInPeople = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/WalkInDetail?count=${count}`}>
+      <Link to={`/business/WalkInDetail?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}

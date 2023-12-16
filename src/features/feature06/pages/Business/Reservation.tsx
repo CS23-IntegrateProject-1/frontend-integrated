@@ -1,5 +1,5 @@
 import { BusinessReservationCard } from "../../components/BusinessReservationCard";
-import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Checkbox, useDisclosure } from "@chakra-ui/react";
 import { getAllReservationOfVenue } from "../../../../api/Reservation/getAllreservationofVenue";
 import {
   Modal,
@@ -18,7 +18,19 @@ interface ReservationCard {
   guest_amount: number;
   reserved_time: string;
   status: string;
-  userId: string;
+  user: {
+            username: string,
+            hashed_password: string,
+            fname: string,
+            lname: string,
+            email: string,
+            profile_picture: null,
+            addId: null,
+            phone: string,
+            tierId: number,
+            userId: number,
+            prompt_pay: null
+        };
   entry_time: string;
   isReview: Boolean;
   reservationId: number;
@@ -34,35 +46,49 @@ export const Reservation = () => {
     offline: true,
     online: true,
   });
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   
   useEffect(() => {
     fetchData();
-  }, [filterOptions]);
+  },[]);
 
   const fetchData = async () => {
     const response = await getAllReservationOfVenue();
     setData(response);
   };
 
+  const handleDateChange = (newDate: string) => {
+    setSelectedDate(newDate);
+  };
+
+  const handleDoneClick = async () => {
+    await fetchData(); // Fetch new data
+    onClose(); // Close the modal
+  };
+
   const renderCards = () => {
     return data.map((reservation, index: number) => {
       const shouldRender =
-        (filterOptions.offline && reservation.status === "Check_out") ||
-        (filterOptions.online && reservation.status === "Check_in");
+        (filterOptions.offline && reservation.user.userId === 0) ||
+        (filterOptions.online && reservation.user.userId !== 0);
 
-      return shouldRender ? (
+      // Check if the reservation matches the selected date
+      const isMatchingDate =
+        selectedDate === null ||
+        reservation.reserved_time.includes(selectedDate);
+
+      return shouldRender && isMatchingDate ? (
         <Box key={index} marginBottom={"20px"}>
-            <BusinessReservationCard
-              name={reservation.userId}
-              // type={reservation.type}
-              status={reservation.status}
-              date={reservation.reserved_time}
-            />
+          <BusinessReservationCard
+            name={reservation.user.fname + " " + reservation.user.lname}
+            type={reservation.user.userId === 0 ? "offline" : "online"}
+            status={reservation.status}
+            date={reservation.reserved_time}
+          />
         </Box>
       ) : null;
     });
   };
-  // console.log(data);
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Box
@@ -71,25 +97,32 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Button
-          display={"flex"}
-          height={"40px"}
-          width={"200px"}
-          background={"#A533C8"}
-          color={"#F6F6F6"}
-          fontWeight={"600"}
-          _hover={{ background: "#A533C8" }}
-          onClick={() => {<Link to={"business/WalkInDetail"} />;}}
-        >
-          Walk-in customer
-        </Button>
+        <Link to={"/business/WalkInPeople"}>
+          <Button
+            display={"flex"}
+            height={"40px"}
+            width={"200px"}
+            background={"#A533C8"}
+            color={"#F6F6F6"}
+            fontWeight={"600"}
+            _hover={{ background: "#A533C8" }}
+            onClick={() => {
+              <Link to={"business/WalkInDetail"} />;
+            }}
+          >
+            Walk-in customer
+          </Button>
+        </Link>
         <Button
           background={"none"}
           color={"F6F6F6"}
           textDecoration={"underline"}
           fontWeight={"400"}
           _hover={{ background: "none" }}
-          onClick={onOpen}
+          onClick={() => {
+            onOpen();
+            setSelectedDate(null);
+          }}
         >
           Filter
           <svg
@@ -107,18 +140,60 @@ export const Reservation = () => {
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader color={"black"}>Filter By</ModalHeader>
+          <ModalContent backgroundColor={"#D9D9D9"}>
+            <ModalHeader
+              color={"black"}
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+            >
+              Filter By
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody color={"black"}>
-              kjhkjhkjhkjhkjhjk
+              <input
+                type="date"
+                onChange={(e) => handleDateChange(e.target.value)}
+              />
+              <br />
+              <Checkbox
+                defaultChecked={filterOptions.offline}
+                onChange={() =>
+                  setFilterOptions((prev) => ({
+                    ...prev,
+                    offline: !prev.offline,
+                  }))
+                }
+              >
+                Offline
+              </Checkbox>
+              <br />
+              <Checkbox
+                defaultChecked={filterOptions.online}
+                onChange={() =>
+                  setFilterOptions((prev) => ({
+                    ...prev,
+                    online: !prev.online,
+                  }))
+                }
+              >
+                Online
+              </Checkbox>
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
+              <Button
+                type="submit"
+                colorScheme="none"
+                backgroundColor="#5F0DBB"
+                mr={3}
+                onClick={() => {
+                  onClose();
+                  handleDoneClick();
+                }}
+              >
+                Done
               </Button>
-              <Button variant="ghost">Secondary Action</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
