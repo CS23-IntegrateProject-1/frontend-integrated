@@ -58,6 +58,7 @@ export const TableList = () => {
         <Box key={index} marginBottom={"20px"}>
           <Link to={`/business/viewtable/${table.tableId}`}>
             <TableCard
+              image={table.table_type?.image_url}
               tableno={table.table_no}
               type={table.table_type?.name}
               status={table.status}
