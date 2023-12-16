@@ -5,6 +5,7 @@ import { MdChair } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
+import Cookies from "js-cookie";
 
 interface IData {
   sumRevenue?: number;
@@ -13,7 +14,7 @@ interface IData {
 }
 
 export const DashboardPage = () => {
-  const venueId = 1;
+  const [venueId, setVenueId] = useState<number | null>(1);
   let navigate = useNavigate();
   const confirmCheckin = () => {
     let path = "/business/qrcodeconfirm";
@@ -31,6 +32,10 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     fetchData();
+    const storedVenueId = Cookies.get("venueId");
+      if (storedVenueId) {
+        setVenueId(parseInt(storedVenueId, 10));
+      }
   }, []);
 
   const fetchData = async () => {
