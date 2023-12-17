@@ -177,10 +177,10 @@ export const Checkbill = () => {
         fontWeight={"bold"}
       >
         <Text style={TextStyle.h1} fontSize={"lg"} fontWeight={"bold"} marginBottom={3}>
-          Order #{orderId}
+          {/* Order #{orderId} */}
         </Text>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={2}>
-          {formattedOrderDate}
+          {/* {formattedOrderDate} */}
         </Text>
         <Divider variant={"dashed"} />
 
@@ -208,10 +208,10 @@ export const Checkbill = () => {
                     {/* not integrate yet */}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    {name}
+                    {/* {name} */}
                   </Td>
                   <Td textAlign="center" fontSize="lg" color="white">
-                    {quantity}
+                    {/* {quantity} */}
                   </Td>
                 </Tr>
               
@@ -239,7 +239,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  {quantity}{/* Your total amount value */}
+                  {/* {quantity}Your total amount value */}
                 </Td>
               </Tr>
               <Tr borderBottom="none">
@@ -248,7 +248,7 @@ export const Checkbill = () => {
                 </Td>
                 <Td></Td>
                 <Td textAlign="center" fontSize="lg" color="white">
-                  {totalAmount}
+                  {/* {totalAmount} */}
                 </Td>
               </Tr>
               <Divider width={"300%"} variant={"dashed"} marginTop={3} />

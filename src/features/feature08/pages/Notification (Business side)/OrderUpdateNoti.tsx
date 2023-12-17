@@ -107,18 +107,18 @@ export const OrderUpdateNoti = () => {
               <TableContainer>
                 <Table variant={'simple'}>
                   <Tbody>
-                    {Array.isArray(order) && order.length > 0 ? (
+                    {/* {Array.isArray(order) && order.length > 0 ? (
                       order.map((item) => (
                         <Tr key={item.orderId}>
                           <Td>{item.status}</Td>
                           <Td>{item.total_amount}</Td>
                         </Tr>
                       ))
-                    ) : (
+                    ) : ( */}
                       <Tr>
                         <Td colSpan={2}>No orders found</Td>
                       </Tr>
-                    )}
+                    {/* )} */}
                   </Tbody>
                 </Table>
               </TableContainer>
