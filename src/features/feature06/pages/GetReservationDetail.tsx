@@ -1,19 +1,21 @@
-import {
-  Box,
-  Icon,
-  Text,
-  Button,
-
-} from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Fade, } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-// import { useLocation } from "react-router-dom";
-import { CalendarIcon } from "@chakra-ui/icons";
-import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
+// 
+import { CalendarIcon,} from "@chakra-ui/icons";
+import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { FC, useRef } from "react";
+
+interface ShareModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  url: string;
+}
+
 
 interface IData {
   venue: {
@@ -80,6 +82,8 @@ export const GetReservationDetail = () => {
   const day = dateObject.getUTCDate();
   const hour = dateObject.getUTCHours();
   const minute = dateObject.getUTCMinutes();
+  const tensDigit = Math.floor(minute / 10);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const {venueId, reservationId} = useParams<{venueId: string, reservationId: string}>()
   const venueIdInt = parseInt(venueId || "0");
@@ -104,7 +108,17 @@ export const GetReservationDetail = () => {
         // Handle error, e.g., set an error state or display an error message
       }
   };
-  const render = () => {
+  const handleCopyClick = () => {
+    // Logic to copy link
+
+    // Show overlay for 2 seconds
+    setShowOverlay(true);
+    setTimeout(() => {
+      setShowOverlay(false);
+    }, 600);
+  };
+
+    
     return (
       <Box
         display="flex"
@@ -149,7 +163,33 @@ export const GetReservationDetail = () => {
             >
               Reservation information
             </Text>
-            <ExternalLinkIcon color={"black"} mt={"-85px"} ml={"340px"} />
+
+            <Box position="relative">
+      <LinkIcon
+        color={'black'}
+        mt={"-85px"}
+        ml={"330px"}
+        onClick={handleCopyClick}
+        cursor="pointer"
+      />
+
+      <Fade in={showOverlay}>
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          bg="rgba(0, 0, 0, 0.8)"
+          color="white"
+          padding={4}
+          borderRadius={8}
+          zIndex={999}
+        >
+          Copy link done
+        </Box>
+      </Fade>
+    </Box>
+
             <Text
               color="#000"
               fontFamily="Roboto"
@@ -368,5 +408,4 @@ export const GetReservationDetail = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Loading...</div>;
-};
+
