@@ -2,7 +2,7 @@ import { QrCodeButton } from "../QrCode/QrCodeButton";
 import { MobileBankingList } from "../MobileBanking/MobileBankingList"
 import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, ChakraProvider, FormControl, FormLabel } from "@chakra-ui/react";
 import {MdAttachMoney} from "react-icons/md"
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
@@ -36,6 +36,21 @@ export const SelectPayment: FC<ButtonProps>= ({
 }) => {
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     // Use fetch or another library to make a POST request
+  //     const response = await fetch('https://api.example.com/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       // body: JSON.stringify(formData),
+  //     });
+  // };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,19 +78,24 @@ export const SelectPayment: FC<ButtonProps>= ({
         alignItems={"center"}
         margin={5}
       >
-          {/* <Button
-        width={"70%"}
-        height={"40px"}
-        bg={!bgColor ? "brand.200" : bgColor}
-        color={!textColor ? "white" : textColor}
-        borderColor={!borderColor ? "" : borderColor}
-        _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-        textColor={"#DEBEF6"}
-        leftIcon={<MdAttachMoney />}
-      >
-      Cash
-      </Button> */}
-        <PayButton cartItems={[]} />
+      <form action="/create-checkout-session" method="POST">
+        <Button
+              type="submit"
+              id="checkout-button"
+            width={"70%"}
+            height={"40px"}
+            bg={!bgColor ? "brand.200" : bgColor}
+            color={!textColor ? "white" : textColor}
+            borderColor={!borderColor ? "" : borderColor}
+            _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+            textColor={"#DEBEF6"}
+            leftIcon={<MdAttachMoney />}
+            >
+            Cash
+          </Button>
+      </form>
+          
+        {/* <PayButton cartItems={[]} /> */}
         <QrCodeButton />
         <MobileBankingList />
         <CreditCardList card={creditCardUser} />

@@ -24,7 +24,7 @@ import { Reservation } from "./pages/Admin/Reservation";
 import { FoodOrder } from "./pages/Admin/FoodOrder";
 import { FoodDelivery } from "./pages/Admin/FoodDelivery";
 import { Receipt } from "./pages/Admin/Receipt";
-import { PayButton } from "./pages/Customer/PayButton";
+import { ProductDisplay } from "./pages/Customer/ProductDisplay";
 
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
@@ -32,7 +32,7 @@ export const Feature08Routes = () => {
   return [
     //customer side
     { path: ":userId/venue/:venueId/payment", element: <SelectPayment /> },
-    { path: ":userId/venue/:venueId/payment/paymentbutton", element: <PayButton cartItems={[]} /> },
+    { path: ":userId/venue/:venueId/payment/checkout", element: <ProductDisplay /> },
     { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
     //payment to venue by using venueId?
