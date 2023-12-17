@@ -1,8 +1,9 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getTableByTableId } from "../../../api/Reservation/getTableByTableId";
 import { Image } from "@chakra-ui/react";
+import { deleteTableId } from "../../../api/Reservation/deleteTableId";
 
 interface IViewTable {
   venueId: number;
@@ -22,11 +23,8 @@ interface IViewTable {
   };
 }
 export const ViewTable = () => {
-  // const location = useLocation();
-  // const searchParams = new URLSearchParams(location.search);
-  // const tableIdString = searchParams.get("tableId");
-
   const { tableId } = useParams();
+  const navigate = useNavigate();
   const tableIdNum: number = +tableId!;
   const [data, setData] = useState<IViewTable>({
     venueId: 0,
@@ -49,12 +47,19 @@ export const ViewTable = () => {
   useEffect(() => {
     console.log("tableId: ", tableId);
     fetchData();
-  }, [tableId]);
+  }, []);
 
   const fetchData = async () => {
     const response: IViewTable = await getTableByTableId(tableIdNum);
     setData(response);
   };
+
+  const deleteTable = async () => {
+    const response: IViewTable = await deleteTableId(tableIdNum);
+    console.log(response);
+    navigate("/business/tablelist");
+  }
+
   console.log(JSON.stringify(data) + "----------- This is data");
   return (
     <Box
@@ -75,7 +80,7 @@ export const ViewTable = () => {
           textAlign={"center"}
           mt={"18px"}
         >
-          Table no: {tableId}
+          Table no: {data?.table_no}
         </Text>
         <Image
           src={data?.table_type?.image_url}
@@ -95,7 +100,7 @@ export const ViewTable = () => {
         >
           {data.status === "Available" ? (
             <Text color={"#007E33"}>Available</Text>
-          ) : data.status === "Booked" ? (
+          ) : data.status === "Unavailable" ? (
             <Text color={"#C00"}>Booked</Text>
           ) : (
             ""
@@ -132,6 +137,7 @@ export const ViewTable = () => {
           fontWeight="700"
           lineHeight="24px"
           mr={"17px"}
+          onClick={deleteTable}
         >
           Delete
         </Button>
@@ -145,6 +151,7 @@ export const ViewTable = () => {
           fontStyle="normal"
           fontWeight="700"
           lineHeight="24px"
+          onClick={() => navigate("/business/tablelist")}
         >
           Cancel
         </Button>

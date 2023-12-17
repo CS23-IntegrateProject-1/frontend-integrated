@@ -1,8 +1,6 @@
 import { Avatar, Box } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { useLocation } from "react-router-dom";
-import { set } from "date-fns";
 interface SelectedFriend {
   user_id: number;
   name: string;
@@ -33,7 +31,7 @@ export const GroupAva: FC<GroupMemberProps> = (props: GroupMemberProps) => {
               top={-1}
               left={8}
               color={"white"}
-              onClick={(e) => {
+              onClick={() => {
                 props.setSelectedFriends(
                   props.selectedFriends.filter(
                     (f) => f.user_id !== friend.user_id

@@ -16,57 +16,58 @@ import { getAllTableByVenue } from "../../../../api/Reservation/getAllTableByVen
 interface IData {
   venueId?: number;
   information?: string;
-  tableId?: string;
+  tableId?: number;
   tableTypeDetailId?: number;
   table_no?: number;
   branchId?: number;
   status?: string;
   table_type?: {
-        capacity?: number;
-        detail?: string;
-        name?: string;
-        tableTypeDetailId?: number;
-        venueId?: number;
-        image_url?: string;
+    capacity?: number;
+    detail?: string;
+    name?: string;
+    tableTypeDetailId?: number;
+    venueId?: number;
+    image_url?: string;
   };
 }
 
 export const TableList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [data, setData] = useState<IData[]>([]); 
-  const [booked, setBooked] = useState(true);
-  const [available, setAvailable] = useState(true);
+  const [data, setData] = useState<IData[]>([]);
+  const [filterOptions, setFilterOptions] = useState({
+    unavailable: true,
+    available: true,
+  });
 
   useEffect(() => {
     fetchData();
-  }, [booked, available]);
+  }, [filterOptions]);
 
-    const fetchData = async () => {
-        const response = await getAllTableByVenue(1);
-        setData(response);
-    };
+  const fetchData = async () => {
+    const response = await getAllTableByVenue();
+    setData(response);
+  };
 
-     const renderCards = () => {
-       return data.map((table, index: number) => {
-         if (
-           (booked && table.status === "Booked") ||
-           (available && table.status === "Available")
-         ) {
-           return (
-             <Box key={index} marginBottom={"20px"}>
-               <Link to={`/business/viewtable/${table.tableId}`}>
-                 <TableCard
-                   tableno={table.table_no}
-                   type={table.table_type?.name}
-                   status={table.status}
-                 />
-               </Link>
-             </Box>
-           );
-         }
-         return null; // Skip rendering if not booked and not available
-       });
-     };
+  const renderCards = () => {
+    return data.map((table, index: number) => {
+      const shouldRender =
+        (filterOptions.unavailable && table.status === "Unavailable") ||
+        (filterOptions.available && table.status === "Available");
+
+      return shouldRender ? (
+        <Box key={index} marginBottom={"20px"}>
+          <Link to={`/business/viewtable/${table.tableId}`}>
+            <TableCard
+              image={table.table_type?.image_url}
+              tableno={table.table_no}
+              type={table.table_type?.name}
+              status={table.status}
+            />
+          </Link>
+        </Box>
+      ) : null;
+    });
+  };
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Box
@@ -110,11 +111,27 @@ export const TableList = () => {
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody color={"black"}>
-              <Checkbox defaultChecked onChange={() => setBooked(true)}>
+              <Checkbox
+                defaultChecked={filterOptions.unavailable}
+                onChange={() =>
+                  setFilterOptions((prev) => ({
+                    ...prev,
+                    unavailable: !prev.unavailable,
+                  }))
+                }
+              >
                 Booked
               </Checkbox>
               <br />
-              <Checkbox defaultChecked onChange={() => setAvailable(true)}>
+              <Checkbox
+                defaultChecked={filterOptions.available}
+                onChange={() =>
+                  setFilterOptions((prev) => ({
+                    ...prev,
+                    available: !prev.available,
+                  }))
+                }
+              >
                 Available
               </Checkbox>
             </ModalBody>
@@ -148,7 +165,6 @@ export const TableList = () => {
         marginTop={"8px"}
       >
         {renderCards()}
-        {/* <TableCard tableno={"1"} type={"high-top"} status={"Booked"} /> */}
       </Box>
     </Box>
   );
