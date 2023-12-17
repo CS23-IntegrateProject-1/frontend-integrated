@@ -72,8 +72,10 @@ export const ArticlePage = () => {
     shareDisclosure.onOpen();
   };
   return (
-    <Box display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}>
-      
+    <Box 
+    // display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}
+    >
+
       {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
