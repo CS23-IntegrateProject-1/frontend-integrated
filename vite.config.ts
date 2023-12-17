@@ -7,7 +7,7 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-    host: 'localhost', // Change the host to 'localhost'
+    host: '0.0.0.0', // Change the host to 'localhost'
     port: 4000,
     proxy: {
       '/socket.io': {
