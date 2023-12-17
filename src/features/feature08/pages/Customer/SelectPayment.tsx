@@ -44,7 +44,7 @@ export const SelectPayment: FC<ButtonProps>= ({
 
   const redirectToCheckout = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("hello")
+    
 
     // const stripe = await stripePromise;
 
