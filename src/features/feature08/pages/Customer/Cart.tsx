@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PayButton from './PayButton';
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<any[]>([]); // Update the type based on your actual data structure
+  const [cartItems, setCartItems] = useState<unknown[]>([]); // Update the type based on your actual data structure
 
   const handleAddToCart = (itemName: string, itemPrice: number) => {
     setCartItems(prevItems => [...prevItems, { name: itemName, price: itemPrice }]);
