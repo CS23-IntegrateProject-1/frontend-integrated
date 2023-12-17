@@ -1,5 +1,5 @@
 import { Box, Text, Input, Button } from "@chakra-ui/react";
-import { Axios } from "../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
