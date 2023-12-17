@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Tbody,
-  Tr,
-  Td,
+  // Tr,
+  // Td,
   TableContainer,
   Card,
   Heading,
@@ -17,50 +16,52 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-interface Order  {
-  userId: number;
-  venueId: number;
-  order_date: Date;
-  total_amount: number;
-  addressId: null;
-  branchId: number;
-  driverId: null;
-  isDelivery: boolean;
-  orderId: number;
-  status: string;
-  reserveId: null;
-}
+// interface Order  {
+//   userId: number;
+//   venueId: number;
+//   order_date: Date;
+//   total_amount: number;
+//   addressId: null;
+//   branchId: number;
+//   driverId: null;
+//   isDelivery: boolean;
+//   orderId: number;
+//   status: string;
+//   reserveId: null;
+// }
 
 export const OrderUpdateNoti = () => {
-  const [userData, setUserData] = useState('');
-  const [userId, setUserId] = useState('');
+  // const [userData, setUserData] = useState('');
+  // const [userId, setUserId] = useState('');
   const [order, setOrder] = useState([]);
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
-            
-  const fetchData = async () => {
-    try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      const response = await fetch(backendUrl + '/feature8/user', {
-        credentials: 'include'
-      });
+     
+  
+  // Idea on fetching userId by credential cookies
+  // const fetchData = async () => {
+  //   try {
+  //     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  //     const response = await fetch(backendUrl + '/feature8/user', {
+  //       credentials: 'include'
+  //     });
 
-      if (response.ok) {
-        const userData = await response.json();
-        if (userData) {
-          console.log('API Response:', userData);
-          setUserData(userData);
-          setUserId(userData.userId);
-        } else { 
-          console.error('No user data received from API');
-        }
-      } else {
-        console.error('Error fetching user data. Status:', response.status);
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
+  //     if (response.ok) {
+  //       const userData = await response.json();
+  //       if (userData) {
+  //         console.log('API Response:', userData);
+  //         setUserData(userData);
+  //         setUserId(userData.userId);
+  //       } else { 
+  //         console.error('No user data received from API');
+  //       }
+  //     } else {
+  //       console.error('Error fetching user data. Status:', response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // };
 
   const fetchOrderData = async () => {
     try {
@@ -77,7 +78,7 @@ export const OrderUpdateNoti = () => {
 
   useEffect(() => {
     fetchOrderData();
-    fetchData();
+    // fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]); // Include orderId as a dependency to re-run the effect when it changes
 
@@ -109,7 +110,7 @@ export const OrderUpdateNoti = () => {
               <TableContainer>
                 <Table variant={'simple'}>
                   <Tbody>
-                    {Array.isArray(order) && order.length > 0 ? (
+                    {/* {Array.isArray(order) && order.length > 0 ? (
                       order.map((item) => (
                         <Tr key={item.orderId}>
                           <Td>{item.status}</Td>
@@ -120,7 +121,7 @@ export const OrderUpdateNoti = () => {
                       <Tr>
                         <Td colSpan={2}>No orders found</Td>
                       </Tr>
-                    )}
+                    )} */}
                   </Tbody>
                 </Table>
               </TableContainer>

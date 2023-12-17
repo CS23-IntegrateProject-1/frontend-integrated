@@ -2,8 +2,8 @@ import { Box, Text, Input, Textarea, Button } from "@chakra-ui/react";
 import { FormControl, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Axios } from "../../../AxiosInstance";
-import { getAllTableTypeByVenueId } from "../../../api/Reservation/getAllTableTypeByVenueId";
+import { Axios } from "../../../../AxiosInstance";
+import { getAllTableTypeByVenueId } from "../../../../api/Reservation/getAllTableTypeByVenueId";
 
 interface create1 {
   tabletype: string;
@@ -19,7 +19,6 @@ interface TableType {
   venueId: number;
   image_url: string;
 }
-
 
 export const CreateTable1 = () => {
   const [tabletypeId, setTabletypeId] = useState<number>();
@@ -41,16 +40,16 @@ export const CreateTable1 = () => {
     const path = "/business/createtable2";
     navigate(path);
   };
-  
+
   const handleCreate = async () => {
     try {
       console.log("tabletypeDetailId: ", tabletypeId);
       console.log("tablenumber: ", tablenumber);
       console.log("information: ", information);
-      const response:create1 = await Axios.post(`/feature6/createTable`, {
+      const response: create1 = await Axios.post(`/feature6/createTable`, {
         tableTypeDetailId: tabletypeId,
-        tablenumber:tablenumber,
-        information:information,
+        tablenumber: tablenumber,
+        information: information,
       });
       console.log(response);
       console.log("create table success");
@@ -84,7 +83,10 @@ export const CreateTable1 = () => {
               focusBorderColor="none"
             >
               {tabletype.map((tabletype) => (
-                <option key={tabletype.tableTypeDetailId} value={tabletype.tableTypeDetailId}>
+                <option
+                  key={tabletype.tableTypeDetailId}
+                  value={tabletype.tableTypeDetailId}
+                >
                   {tabletype.name}
                 </option>
               ))}

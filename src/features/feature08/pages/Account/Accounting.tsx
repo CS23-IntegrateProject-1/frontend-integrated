@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Table,
   Thead,
@@ -65,7 +64,7 @@ export const Accounting = () => {
     };
     console.log(appTrans)
     fetchTableNumber();
-  }, [venueId]);
+  }, [appTrans, venueId]);
 
   useEffect(() => {
     const fetchData = async (transactionId: number) => {
