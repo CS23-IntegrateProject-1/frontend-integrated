@@ -7,6 +7,7 @@ import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
 import { useNavigate,useLocation, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface Menu {
     name: string;
@@ -25,6 +26,7 @@ interface Menu {
   const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const toast = useCustomToast();
   const { venueId, menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
@@ -164,7 +166,7 @@ interface Menu {
         },
       });
       console.log('Menu edited:', response.data);
-      
+      toast.success("Menu Edited");
       const targetPath = `/venue/${venueId}/bmenudetail/Set/${menuid}`;
       navigate(targetPath);
     } catch (error) {

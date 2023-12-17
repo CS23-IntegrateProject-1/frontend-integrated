@@ -5,7 +5,7 @@ import { Image } from "../../component/ImageUpload/Image";
 import {useNavigate, useParams} from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
-
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 const getMenuItem = async (menuid: string) => {
   const response = await Axios.get(`/feature7/getMenuById/${menuid}`);
@@ -17,6 +17,7 @@ export const EditMenu = () => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
+  const toast = useCustomToast();
   const { venueId, menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
@@ -70,7 +71,7 @@ export const EditMenu = () => {
         },
       });
       console.log('Menu edited:', response.data);
-      
+      toast.success("Menu Edited");
       const targetPath = `/venue/${venueId}/bmenudetail/Menu/${menuid}`;
       navigate(targetPath);
     } catch (error) {
