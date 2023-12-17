@@ -1,9 +1,8 @@
-//import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Text, Image, useMediaQuery, Flex ,Button } from "@chakra-ui/react";
 import DateSelection from "../Components/DateSelection";
-//import TimeSelection from "../Components/TimeSelection";
+import TimeSelection from "../Components/TimeSelection";
 import getTheaterDetail from "../../../api/movie/getTheaterDetail";
 import getMovieToday from "../../../api/movie/getMovieToday";
 interface TheaterDetail {
@@ -103,7 +102,7 @@ const CinemaDetailPage = () => {
     // console.log(year);
   }, [theaterId]);
 
-  const handleDateChange = async (selectedDate:any) => {
+  const handleDateChange = async (selectedDate) => {
     try {
       // Make a request to the server to get movie details for the selected date
       const response = await getMovieToday(Number(theaterId), selectedDate, month, year);
