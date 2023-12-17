@@ -1,4 +1,4 @@
-import React, { useContext, FC, useState, useEffect} from "react";
+import React, { useContext, FC, useState, useEffect, useCallback } from "react";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";
 import { Axios } from "../../../AxiosInstance";
@@ -7,8 +7,8 @@ interface ConversationsProviderProps {
 }
 interface ConversationContextValue {
   conversations: Conversation[];
-  openConversation: (recipients: Recipient[],group_id: string) => void;
-  selectedConversationIndex: React.Dispatch<React.SetStateAction<number>>;
+  openConversation: (recipients: Recipient[], group_id: string) => void;
+  selectedConversationIndex: number | null;
   selectedConversation: Conversation;
   sendMessage: (message: SendMessageParams) => void;
 }
@@ -42,24 +42,28 @@ interface SendMessageParams {
   text: string;
 }
 
-const ConversationsContext = React.createContext< ConversationContextValue | undefined >(undefined);
+const ConversationsContext = React.createContext<
+  ConversationContextValue | undefined
+>(undefined);
 
 export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   children,
 }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
+  const [selectedConversationIndex, setSelectedConversationIndex] = useState();
   const user = useContext(UserContext);
   const [contacts, setContacts] = useState<Contact[] | undefined>([]);
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
     const newSocket = io("http://localhost:8000", {
-      query: { id: user.username }
+      query: { id: user.username },
     });
     setSocket(newSocket);
     console.log("newSocket", newSocket);
-    return () => { newSocket.close(); }
+    return () => {
+      newSocket.close();
+    };
   }, [user]);
 
   //Temporary Contacts from database
@@ -71,7 +75,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
           const contacts = res.data.map((c) => ({
             id: c.userId,
             username: c.username,
-            profile_picture : c.profile_picture
+            profile_picture: c.profile_picture,
           }));
           setContacts(contacts);
         }
@@ -81,66 +85,100 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       });
   }, []);
   // console.log("contacts", contacts);
-  
+
   //To get all the privateConversationLog
   useEffect(() => {
-  Axios.get("/feature12/displayGroupDetail").then((res) => {
-    setConversations([]);
-    const newConversations = res.data.map((group: any) => ({
-      group_name: group.group_name,
-      group_profile: group.group_profile,
-      recipients: group.members, // add appropriate recipients
-      messages: [], // add appropriate messages
-      selected: false, // or true, depending on your logic
-    }));
+    Axios.get("/feature12/displayGroupDetail").then((res) => {
+      setConversations([]);
+      const newConversations = res.data.map((group: any) => ({
+        group_name: group.group_name,
+        group_profile: group.group_profile,
+        recipients: group.members, // add appropriate recipients
+        messages: [], // add appropriate messages
+        selected: false, // or true, depending on your logic
+      }));
 
-    setConversations(prevConversations => [
-      ...prevConversations,
-      ...newConversations,
-    ]);
-  });
-}, [socket]);
+      setConversations((prevConversations) => [
+        ...prevConversations,
+        ...newConversations,
+      ]);
+    });
+  }, [socket]);
 
-  function openConversation(recipients: Recipient[],group_id: string) {
+  function openConversation(recipients: Recipient[], group_id: string) {
     console.log("recipients", recipients);
-    console.log(conversations+ "<< conversations")
-    socket?.emit("join-room", ({recipients,group_id}))
+    console.log(conversations + "<< conversations");
+    socket?.emit("join-room", { recipients, group_id });
     // setConversations((prevConversations) => {
     //   return [
     //     ...prevConversations,
-    //     { recipients, messages: [], selected: false ,group_name },
+    //     { recipients, messages: [], selected: false , group_name: "" },
     //   ];
     // });
   }
-  
-  const sendMessage = ({ recipients, text }: { recipients: Recipient[], text: string }) => {
+
+  const sendMessage = ({
+    recipients,
+    text,
+  }: {
+    recipients: Recipient[];
+    text: string;
+  }) => {
     socket?.emit("send-message", { recipients, text });
-    addMessageToConversation({recipients, text, sender: user.username});
+    addMessageToConversation({ recipients, text, sender: user.username });
   };
 
-  const addMessageToConversation = ({ recipients, text, sender }: { recipients: Recipient[], text: string, sender: string },) => {
-    setConversations((prevConversations) => {
-      let madeChange = false;
-      const newMessage: Message = { sender, text, recipients: [], fromMe: user.username === sender };
-      const newConversations = prevConversations.map(conversation => {
-        if (arrayEquality(conversation.recipients.map(r => r.id.toString()), recipients.map(r => r.id.toString()))) {
-          madeChange = true;
-          return {
-            ...conversation,
-            messages: [...conversation.messages, newMessage]
+  const addMessageToConversation = useCallback(
+    ({
+      recipients,
+      text,
+      sender,
+    }: {
+      recipients: Recipient[];
+      text: string;
+      sender: string;
+    }) => {
+      setConversations((prevConversations) => {
+        let madeChange = false;
+        const newMessage: Message = {
+          sender,
+          text,
+          recipients: [],
+          fromMe: user.username === sender,
+        };
+        const newConversations = prevConversations.map((conversation) => {
+          if (
+            arrayEquality(
+              conversation.recipients.map((r) => r.id.toString()),
+              recipients.map((r) => r.id.toString())
+            )
+          ) {
+            madeChange = true;
+            return {
+              ...conversation,
+              messages: [...conversation.messages, newMessage],
+            };
           }
+          return conversation;
+        });
+        // If the conversation already exists, add the message to the conversation, otherwise create a new conversation with the message
+        if (madeChange) {
+          return newConversations; // Return the previous state
+        } else {
+          return [
+            ...prevConversations,
+            {
+              recipients,
+              messages: [newMessage],
+              selected: true,
+              group_name: "",
+            },
+          ];
         }
-        return conversation;
-      })
-      // If the conversation already exists, add the message to the conversation, otherwise create a new conversation with the message
-      if (madeChange) {
-        return newConversations; // Return the previous state
-      } else {
-        return [...prevConversations,
-        { recipients, messages: [newMessage], selected: true}];
-      }
-    });
-  };
+      });
+    },
+    [user.username]
+  );
 
   // Socket Recieve message event listener
   useEffect(() => {
@@ -149,13 +187,12 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       return;
     }
 
-    socket.on("receive-message", addMessageToConversation );
+    socket.on("receive-message", addMessageToConversation);
 
     return () => {
       socket.off("receive-message");
-    }
+    };
   }, [addMessageToConversation, socket]);
-
 
   const formattedConversations = conversations.map(
     (conversation, index: number) => {
@@ -169,12 +206,12 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       // });
 
       const messages = conversation.messages.map((message) => {
-      // const contact = contacts?.find(
-      //   (contact) => contact.addId === message?.sender
-      // );
-      const name = message?.sender;
-      const fromMe = user.username === message?.sender;
-      return { ...message, senderName: name, fromMe};
+        // const contact = contacts?.find(
+        //   (contact) => contact.addId === message?.sender
+        // );
+        const name = message?.sender;
+        const fromMe = user.username === message?.sender;
+        return { ...message, senderName: name, fromMe };
       });
 
       const selected = index === selectedConversationIndex;
@@ -190,7 +227,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         selectedConversationIndex: setSelectedConversationIndex,
         selectedConversation: formattedConversations[selectedConversationIndex],
         openConversation,
-        sendMessage
+        sendMessage,
       }}
     >
       {children}

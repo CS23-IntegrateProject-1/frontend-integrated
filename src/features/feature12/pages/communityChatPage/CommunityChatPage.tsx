@@ -1,13 +1,13 @@
 import { Box,Tab,TabList,TabPanel,TabPanels,Tabs,Text } from "@chakra-ui/react";
 
-// import OpenConversations from "../../components/OpenConversations";
-// import { useConversations } from "../../context/ConversationProvider";
+import OpenConversations from "../../components/OpenConversations";
+import { useConversations } from "../../context/ConversationProvider";
 import ConversationsLog from "../../components/ConversationsLog";
 // import { TextStyle } from "../../../../theme/TextStyle";
 
 export const CommunityChatPage = () => {
 
-  // const { selectedConversation } = useConversations();
+  const { selectedConversation } = useConversations();
 
   return (
     <Box display="flex">
@@ -28,6 +28,9 @@ export const CommunityChatPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
+      <Box width="75%">
+        {selectedConversation ? <OpenConversations /> : <Text>Select a conversation</Text>}
+        </Box>
     </Box>
   )
 };
