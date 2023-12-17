@@ -73,6 +73,14 @@ export const WalkInDetail = () => {
     setData(response);
     setIsLoaded(true);
   };
+  const [name, setName] = useState("");
+  const [phonenumber, setPhoneNumber] = useState("");
+  {
+    console.log(name);
+  }
+  {
+    console.log(phonenumber);
+  }
   const render = () => {
     return (
       <Box
@@ -136,6 +144,9 @@ export const WalkInDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </Box>
             <Text
@@ -162,8 +173,7 @@ export const WalkInDetail = () => {
             >
               Phone Number :
             </Text>
-            <Box
-            mt={"5px"}>
+            <Box mt={"5px"}>
               <Input
                 placeholder="enter phone no."
                 htmlSize={4}
@@ -173,9 +183,12 @@ export const WalkInDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
               />
             </Box>
-            
+
             <Icon ml={"38px"} mt={"20px"} width="35px" height="35px">
               <MdOutlineEventSeat style={{ color: "black" }} />
             </Icon>
@@ -201,12 +214,11 @@ export const WalkInDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              5
               {seats}
             </Text>
             {/* Additional content goes here */}
           </Box>
-          
+
           <Button
             borderRadius="10px"
             width="128px"

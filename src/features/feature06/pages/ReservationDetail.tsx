@@ -8,10 +8,11 @@ import {
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { Form, useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
+
 
 interface IData {
   venue: {
@@ -83,6 +84,20 @@ export const ReservationDetail = () => {
     setData(response);
     setIsLoaded(true);
   };
+
+  const [name, setName] = useState("");
+  const [phonenumber, setPhoneNumber] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  {console.log(name)}
+  {console.log(phonenumber)}
+  {console.log(date)}
+  {console.log(time)}
+  let navigate = useNavigate();
+  const toGetRD = () => {
+    const path = "/getreservation-detail";
+    navigate(path);
+  };
   const render = () => {
     return (
       <Box
@@ -146,6 +161,9 @@ export const ReservationDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </Box>
             <Text
@@ -183,6 +201,9 @@ export const ReservationDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
               />
             </Box>
             <CalendarIcon
@@ -220,13 +241,16 @@ export const ReservationDetail = () => {
             marginLeft="120px"
             marginTop="-20px">
             <Input
-              placeholder="Select Date and Time"
+              placeholder="Select Date"
               size="md"
               type="date"
               backgroundColor={"white"}
               textColor={"black"}
               width="163px"
               height={"25px"}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
             />
             </Box>
             <TimeIcon
@@ -265,13 +289,16 @@ export const ReservationDetail = () => {
             marginLeft="120px"
             marginTop="-20px">
             <Input
-              placeholder="Select Date and Time"
+              placeholder="Select Time"
               size="md"
               type="time"
               backgroundColor={"white"}
               textColor={"black"}
               width="163px"
               height={"25px"}
+              onChange={(e) => {
+                setTime(e.target.value);
+              }}
             />
             </Box>
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
@@ -354,6 +381,7 @@ export const ReservationDetail = () => {
             lineHeight="24px"
             marginTop="15px"
             marginLeft="133px"
+            onClick={toGetRD}
           >
             Confirm
           </Button>

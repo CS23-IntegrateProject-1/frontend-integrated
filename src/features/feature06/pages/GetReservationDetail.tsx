@@ -10,7 +10,7 @@ import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
 import { useLocation } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
-import { TimeIcon } from "@chakra-ui/icons";
+import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 
 interface IData {
@@ -122,6 +122,7 @@ export const GetReservationDetail = () => {
             >
               Reservation information
             </Text>
+            <ExternalLinkIcon color={'black'} mt={"-85px"} ml={"340px"}/>
             <Text
               color="#000"
               fontFamily="Roboto"
@@ -130,7 +131,7 @@ export const GetReservationDetail = () => {
               fontWeight="700"
               lineHeight="normal"
               marginLeft={34}
-              marginTop="4px"
+              marginTop="-18px"
             >
               Name :
             </Text>
