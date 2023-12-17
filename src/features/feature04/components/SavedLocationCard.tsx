@@ -25,12 +25,21 @@ import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 import {
   useMutation,
+  useQuery
 } from "@tanstack/react-query";
 
 interface SavedCardProps {
   savedLocId : number;
   address: string;
   name: string;
+  province: string;
+  district: string;
+  sub_district: string;
+  postcode: string;
+
+}
+interface SavedLocationInterface{
+  message: string;
 }
 
 const PinIcon: React.FC<{ fillColor: string }> = (props) => {
@@ -226,38 +235,44 @@ const SavedLocationCard = (props: SavedCardProps) => {
                 />
                 <Input
                   variant="outline"
-                  placeholder="name"
+                  placeholder="Name (eg. Home, Office)"
+                  defaultValue={`${props.name}`}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Address"
+                  defaultValue={`${props.address}`}
                   onChange={(e) => setAddress(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Province"
+                  defaultValue={`${props.province}`}
                   onChange={(e) => setProvince(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="District"
+                  defaultValue={`${props.district}`}
                   onChange={(e) => setDistrict(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Subdistrict"
+                  defaultValue={`${props.sub_district}`}
                   onChange={(e) => setSubdistrict(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Postcode"
+                  defaultValue={`${props.postcode}`}  
                   onChange={(e) => setPostcode(e.target.value)}
                 />
               </Stack>
               </ModalBody>
               <Divider borderColor={colors.brand[200]} />
-              <Flex justifyContent={"center"} m={5}>
+              <Flex justifyContent={"center"} m={5} >
               <Button
                 variant={"unstyled"}
                 backgroundColor={colors.brand[200]}

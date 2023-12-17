@@ -46,11 +46,11 @@ export type MarkerType = {
 const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = ({ type, locMap }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyABaN7gdphOHIg6xnrYtPAtyChroRZlyRs", // replace with your API key
+    googleMapsApiKey: "AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY", // replace with your API key
   });
 
   console.log("hello from google")
-    console.log("Updated locations:", locMap);
+    console.log("Updated locations:", locMap);  
     console.log("hello1")
 
   const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
@@ -60,6 +60,10 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
   const [selectedMarker, setSelectedMarker] = React.useState<MarkerType>(
     {} as MarkerType
   );
+
+  const [selectedMarkerInfo, setSelectedMarkerInfo] = React.useState<MarkerType | null>(null);
+  console.log(selectedMarkerInfo)
+
   const [savedData, setSavedData] = useState<string | null>(null);
 
   // Retrieve data from localStorage on component mount
@@ -126,6 +130,10 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     setSelectedMarker(marker);
   };
 
+  const onMarkerClick2 = (marker: MarkerType) => {
+    setSelectedMarkerInfo(marker);
+  };
+
   if (!isLoaded) return <LoadingView>Loading...</LoadingView>;
 
   const iconUrl =
@@ -169,12 +177,22 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
           <Marker
             key={location.locationId.toString()}
             position={{ lat: parseFloat(location.latitude), lng: parseFloat(location.longtitude) }}
+            
             icon={{
               url: star,
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
               scaledSize: new window.google.maps.Size(35, 35),
             }}
+            onClick={() => onMarkerClick2({
+              id: location.locationId.toString(),
+              address: location.address,
+              location: { lat: parseFloat(location.latitude), lng: parseFloat(location.longtitude) },
+              name: location.name,
+              phone_number: '',  // You may need to get this information from your data
+              website: '',       // You may need to get this information from your data
+              distance: 0,        // You may need to get this information from your data
+            })}
           />
         ))}
         {clickedPos.lat ? <Marker position={clickedPos} /> : null}
@@ -193,9 +211,23 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
      ))}
         
       {selectedMarker.location && (
-       <InfoWindow position={selectedMarker.location} onCloseClick={() => setSelectedMarker({} as MarkerType)}>
+       <InfoWindow 
+       position={selectedMarker.location} 
+       onCloseClick={() => setSelectedMarker({} as MarkerType)}>
          <div style={{ color: 'black' }}>
+              
               <h3>{selectedMarker.name}</h3>
+            </div>
+          </InfoWindow>
+        )}
+        {selectedMarkerInfo && (
+          <InfoWindow
+            position={selectedMarkerInfo.location}
+            onCloseClick={() => setSelectedMarkerInfo(null)}
+          >
+            <div style={{ color: 'black' }}>
+              <h3>{selectedMarkerInfo.name}</h3>
+              {/* Include other information as needed */}
             </div>
           </InfoWindow>
         )}
