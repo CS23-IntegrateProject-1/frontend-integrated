@@ -27,7 +27,10 @@ import { Link, useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate1 } from "../../../../functions/formatDatetime";
+41
+import { Chart, registerables} from 'chart.js';
 
+Chart.register(...registerables);
 interface transaction {
   // Define the properties of the business insight here
   transactionId: number;
