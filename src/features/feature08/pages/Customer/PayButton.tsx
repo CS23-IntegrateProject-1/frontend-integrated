@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 interface PayButtonProps {
-  cartItems: any[]; // Update the type based on your actual data structure
+  cartItems: unknown[]; // Update the type based on your actual data structure
 }
 
 const PayButton: React.FC<PayButtonProps> = ({ cartItems }) => {
@@ -10,23 +10,23 @@ const PayButton: React.FC<PayButtonProps> = ({ cartItems }) => {
 
   const handlePayNow = async () => {
     try {
-      const response = await fetch('http://localhost:8080/stripe/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartItems }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setCheckoutUrl(data.url);
-      } else {
-        console.error('Failed to initiate checkout');
+        const response = await fetch('http://localhost:8080/stripe/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cartItems }),
+        });
+      
+        if (!response.ok) {
+          console.error('Failed to initiate checkout:', response.statusText);
+        } else {
+          const data = await response.json();
+          setCheckoutUrl(data.url);
+        }
+      } catch (error) {
+        console.error('Error during fetch:', error);
       }
-    } catch (error) {
-      console.error('Error during fetch:', error);
-    }
   };
 
   return (
