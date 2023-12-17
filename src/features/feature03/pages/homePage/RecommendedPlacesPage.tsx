@@ -53,7 +53,7 @@ export const FilterContext = createContext<{ filter: SearchFilter, setFilter: (f
   setFilter: () => {}
 });
 
-export default function useThrottleValue<T>(value: T, delay: number = 500) {
+function useThrottleValue<T>(value: T, delay: number = 500) {
   const [throttleValue, setThrottleValue] = useState<T>(value);
   const throttling = useRef(false);
   useEffect(() => {

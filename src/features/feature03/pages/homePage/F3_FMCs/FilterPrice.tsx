@@ -35,23 +35,11 @@ export const FilterPrice = () => {
         handlePriceMaxChange(max);
       }}>
         <RangeSliderTrack>
-          <RangeSliderFilledTrack />
+          <RangeSliderFilledTrack bg="brand.200"/>
         </RangeSliderTrack>
         <RangeSliderThumb index={0} />
         <RangeSliderThumb index={1} />
       </RangeSlider>
-      {/* <Slider mb="5" onChange={e => handlePriceMinChange(e)}>
-        <SliderMark value={4} {...sliderLabel} >
-          THB 0
-        </SliderMark>
-        <SliderMark value={77} {...sliderLabel}>
-          THB 1000
-        </SliderMark>
-        <SliderTrack>
-          <SliderFilledTrack bg="brand.200" />
-        </SliderTrack>
-        <SliderThumb />
-      </Slider> */}
     </Flex>
   );
 };
