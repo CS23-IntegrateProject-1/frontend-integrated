@@ -1,17 +1,19 @@
-import {
-  Box,
-  Icon,
-  Text,
-  Button,
-
-} from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Fade, Portal } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
 import { useLocation } from "react-router-dom";
-import { CalendarIcon } from "@chakra-ui/icons";
-import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
+import { CalendarIcon, CheckCircleIcon } from "@chakra-ui/icons";
+import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
+import { FC, useRef } from "react";
+
+interface ShareModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  url: string;
+}
+
 
 interface IData {
   venue: {
@@ -75,6 +77,7 @@ export const GetReservationDetail = () => {
   const hour = dateObject.getUTCHours();
   const minute = dateObject.getUTCMinutes();
   const tensDigit = Math.floor(minute / 10);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -90,7 +93,17 @@ export const GetReservationDetail = () => {
     setData(response);
     setIsLoaded(true);
   };
-  const render = () => {
+  const handleCopyClick = () => {
+    // Logic to copy link
+
+    // Show overlay for 2 seconds
+    setShowOverlay(true);
+    setTimeout(() => {
+      setShowOverlay(false);
+    }, 600);
+  };
+
+    
     return (
       <Box
         display="flex"
@@ -135,7 +148,33 @@ export const GetReservationDetail = () => {
             >
               Reservation information
             </Text>
-            <ExternalLinkIcon color={'black'} mt={"-85px"} ml={"340px"}/>
+
+            <Box position="relative">
+      <LinkIcon
+        color={'black'}
+        mt={"-85px"}
+        ml={"330px"}
+        onClick={handleCopyClick}
+        cursor="pointer"
+      />
+
+      <Fade in={showOverlay}>
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          bg="rgba(0, 0, 0, 0.8)"
+          color="white"
+          padding={4}
+          borderRadius={8}
+          zIndex={999}
+        >
+          Copy link done
+        </Box>
+      </Fade>
+    </Box>
+
             <Text
               color="#000"
               fontFamily="Roboto"
@@ -158,7 +197,8 @@ export const GetReservationDetail = () => {
               marginLeft={34}
               marginTop="10px"
             >
-              {data?.reservations[0]?.user.fname} {data?.reservations[0]?.user.lname}
+              {data?.reservations[0]?.user.fname}{" "}
+              {data?.reservations[0]?.user.lname}
             </Text>
             <Text
               color="#000"
@@ -246,7 +286,7 @@ export const GetReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              {hour}:{(minute < 10 ? "0" + minute : "" + minute)}
+              {hour}:{minute < 10 ? "0" + minute : "" + minute}
             </Text>
 
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
@@ -351,5 +391,5 @@ export const GetReservationDetail = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Loading...</div>;
-};
+
+

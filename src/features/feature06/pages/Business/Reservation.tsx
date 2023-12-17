@@ -1,5 +1,5 @@
 import { BusinessReservationCard } from "../../components/BusinessReservationCard";
-import { Box, Button, Checkbox, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Checkbox, useDisclosure, Input } from "@chakra-ui/react";
 import { getAllReservationOfVenue } from "../../../../api/Reservation/getAllreservationofVenue";
 import {
   Modal,
@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { center } from "../../../feature04/components/Maps/setting";
 
 interface ReservationCard {
   venueId: number;
@@ -19,18 +20,18 @@ interface ReservationCard {
   reserved_time: string;
   status: string;
   user: {
-            username: string,
-            hashed_password: string,
-            fname: string,
-            lname: string,
-            email: string,
-            profile_picture: null,
-            addId: null,
-            phone: string,
-            tierId: number,
-            userId: number,
-            prompt_pay: null
-        };
+    username: string;
+    hashed_password: string;
+    fname: string;
+    lname: string;
+    email: string;
+    profile_picture: null;
+    addId: null;
+    phone: string;
+    tierId: number;
+    userId: number;
+    prompt_pay: null;
+  };
   entry_time: string;
   isReview: Boolean;
   reservationId: number;
@@ -47,10 +48,10 @@ export const Reservation = () => {
     online: true,
   });
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  
+
   useEffect(() => {
     fetchData();
-  },[]);
+  }, []);
 
   const fetchData = async () => {
     const response = await getAllReservationOfVenue();
@@ -140,23 +141,37 @@ export const Reservation = () => {
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent backgroundColor={"#D9D9D9"}>
+          <ModalContent backgroundColor={"#D9D9D9"}
+          borderRadius={'20px'}>
             <ModalHeader
               color={"black"}
               display={"flex"}
               flexDirection={"row"}
               justifyContent={"center"}
+              fontWeight={700}
+              fontSize={24}
             >
               Filter By
             </ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton color={'black'}/>
             <ModalBody color={"black"}>
-              <input
-                type="date"
-                onChange={(e) => handleDateChange(e.target.value)}
-              />
+              <Input
+              placeholder="Select Date"
+              size="md"
+              type="date"
+              backgroundColor={"white"}
+              textColor={"black"}
+              width="163px"
+              height={"25px"}
+              onChange={(e) => handleDateChange(e.target.value)}
+            />
+              
               <br />
               <Checkbox
+                textColor={"#5F0DBB"}
+                colorScheme="purple"
+                mt={'10px'}
+                fontWeight={700}
                 defaultChecked={filterOptions.offline}
                 onChange={() =>
                   setFilterOptions((prev) => ({
@@ -165,10 +180,14 @@ export const Reservation = () => {
                   }))
                 }
               >
-                Offline
+                Offline Reservation
               </Checkbox>
               <br />
               <Checkbox
+                textColor={"#5F0DBB"}
+                colorScheme="purple"
+                mt={'10px'}
+                fontWeight={700}
                 defaultChecked={filterOptions.online}
                 onChange={() =>
                   setFilterOptions((prev) => ({
@@ -177,16 +196,15 @@ export const Reservation = () => {
                   }))
                 }
               >
-                Online
+                Online Reservation
               </Checkbox>
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 type="submit"
                 colorScheme="none"
                 backgroundColor="#5F0DBB"
-                mr={3}
                 onClick={() => {
                   onClose();
                   handleDoneClick();
@@ -209,4 +227,3 @@ export const Reservation = () => {
     </Box>
   );
 };
-
