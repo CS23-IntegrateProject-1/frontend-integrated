@@ -11,7 +11,7 @@ export const AddMenu = () => {
 
   const navigate = useNavigate();
   const { venueId } = useParams();
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const toast = useCustomToast();
   const [formData, setFormData] = useState({
@@ -21,16 +21,16 @@ export const AddMenu = () => {
   });
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -38,14 +38,14 @@ export const AddMenu = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append('name', formData.name);
     formDataWithFile.append('description', formData.description);
     formDataWithFile.append('price', formData.price);
-    formDataWithFile.append('menuImage', selectedFile);
+    formDataWithFile.append('menuImage', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
     try {
