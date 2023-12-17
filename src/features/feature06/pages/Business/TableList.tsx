@@ -109,9 +109,12 @@ export const TableList = () => {
             >
               Filter By
             </ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton color={'black'}/>
             <ModalBody color={"black"}>
               <Checkbox
+                textColor={"#5F0DBB"}
+                colorScheme="purple"
+                fontWeight={700}
                 defaultChecked={filterOptions.unavailable}
                 onChange={() =>
                   setFilterOptions((prev) => ({
@@ -124,6 +127,10 @@ export const TableList = () => {
               </Checkbox>
               <br />
               <Checkbox
+                textColor={"#5F0DBB"}
+                colorScheme="purple"
+                mt={"10px"}
+                fontWeight={700}
                 defaultChecked={filterOptions.available}
                 onChange={() =>
                   setFilterOptions((prev) => ({
@@ -135,9 +142,15 @@ export const TableList = () => {
                 Available
               </Checkbox>
             </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <ModalFooter style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                type="submit"
+                colorScheme="none"
+                backgroundColor="#5F0DBB"
+                onClick={() => {
+                  onClose();
+                }}
+              >
                 Done
               </Button>
             </ModalFooter>

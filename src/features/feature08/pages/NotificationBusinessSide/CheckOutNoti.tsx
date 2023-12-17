@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
     Card,
     Heading,
@@ -30,7 +29,7 @@ export const CheckOutNoti = () => {
     };  
 
     fetchTableNumber();
-  }, [reservationId]);
+  }, [reservationId, venueId]);
 
     console.log(tableno)
 
