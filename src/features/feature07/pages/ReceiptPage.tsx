@@ -5,6 +5,7 @@ import {ButtonComponent} from '../../../components/buttons/ButtonComponent';
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { formatDate1, formatTime1 } from '../../../functions/formatDatetime';
+import { FullPageLoader } from '../../../components/Loader/FullPageLoader';
 
 interface ReceiptPageProps {
   orderId: string;
@@ -14,16 +15,23 @@ interface ReceiptPageProps {
 
 export const ReceiptPage: React.FC<ReceiptPageProps> = () => {
 
-  const { data: receipt } = useQuery(['orderReceipt'], async () => {
+  const { data:receipt, isLoading,isError, error } = useQuery(['orderReceipt'], async () => {
     const response = await Axios.get('/feature7/getReceipt');
-    console.log("Receipt data:" ,response.data);
+    console.log("Receipt data:" ,response.data);  
     return response.data;
   });
+  if (isLoading){
+    return <FullPageLoader />
+  }
+  if (isError){
+    return <div>An error occurred: {(error as Error).message}</div>;
+  }
 
   return (
     <Box>
       {/* {receipt && () } */}
       <Text {...textStyles.h2}>Order #{receipt?.orderId}</Text>
+      {/* <Text>{receipt.orderDate? receipt.orderDate :"hello"}</Text> */}
       <Text {...textStyles.h3}>{formatDate1(receipt?.orderDate)} {formatTime1(receipt?.orderDate)}</Text>
       <Box borderTop="1px dotted" mt={2} mb={2}/>
             <HStack display="flex" justifyContent="space-between">
