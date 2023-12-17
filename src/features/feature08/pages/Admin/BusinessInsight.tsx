@@ -656,7 +656,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                }
               {" "} Baht</Text>
           </Box>
-          <Bar data={netProfit} options={chartOptionsK as any} />
+          <Bar data={netProfit} options={chartOptionsK as never} />
         </Card>
       </Box>
     </Center>
