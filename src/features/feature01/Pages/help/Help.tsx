@@ -30,8 +30,8 @@ export const Help = () => {
         <div className="main">
           <div className="tips" style={TextStyle.body2}> {wordData} </div>
           <div className='flex_row' style={{}}>
-          {words.map((data,i)=>
-            <Box key={i} onClick={()=>handleClick(i)}
+          {words.map((_data,i)=>
+            <Box  key={i} onClick={()=>handleClick(i)}
             as='button'
             height='17px'
             width='15px'
