@@ -8,33 +8,32 @@ interface ConversationsProviderProps {
 interface ConversationContextValue {
   conversations: Conversation[];
   openConversation: (recipients: Recipient[], group_id: string) => void;
-  selectedConversationIndex: number | null;
-  selectedConversation: Conversation;
   sendMessage: (message: SendMessageParams) => void;
 }
 
 interface Recipient {
-  id: number;
-  name: string;
-  avatar: string | null;
+  member: {
+    username: string;
+    userId: number;
+    addId: string;
+    profile_picture: string | null;
+  },
+  memberId: number;
 }
 
 interface Conversation {
-  recipients: Recipient[];
+  group_name: string;
+  group_profile: string;
+  id:number;
+  members: Recipient[];
   messages: Message[];
   selected?: boolean;
-  group_name: string;
 }
 interface Message {
   recipients: Recipient[] | string[];
   text: string;
   sender: string;
   fromMe: boolean;
-}
-interface Contact {
-  username: string;
-  id: number;
-  profile_picture: string;
 }
 
 interface SendMessageParams {
@@ -50,9 +49,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   children,
 }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [selectedConversationIndex, setSelectedConversationIndex] = useState();
   const user = useContext(UserContext);
-  const [contacts, setContacts] = useState<Contact[] | undefined>([]);
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
@@ -66,36 +63,18 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     };
   }, [user]);
 
-  //Temporary Contacts from database
-  useEffect(() => {
-    Axios.get("/feature12/displayFriendList")
-      .then((res) => {
-        // console.log("API response:", res.data);
-        if (Array.isArray(res.data)) {
-          const contacts = res.data.map((c) => ({
-            id: c.userId,
-            username: c.username,
-            profile_picture: c.profile_picture,
-          }));
-          setContacts(contacts);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  // console.log("contacts", contacts);
 
   //To get all the privateConversationLog
   useEffect(() => {
     Axios.get("/feature12/displayGroupDetail").then((res) => {
       setConversations([]);
-      const newConversations = res.data.map((group: any) => ({
+      const newConversations = res.data.map((group: Conversation) => ({
         group_name: group.group_name,
         group_profile: group.group_profile,
-        recipients: group.members, // add appropriate recipients
-        messages: [], // add appropriate messages
-        selected: false, // or true, depending on your logic
+        id: group.id,
+        members: group.members, 
+        messages: [],
+        selected: false,
       }));
 
       setConversations((prevConversations) => [
@@ -109,23 +88,13 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     console.log("recipients", recipients);
     console.log(conversations + "<< conversations");
     socket?.emit("join-room", { recipients, group_id });
-    // setConversations((prevConversations) => {
-    //   return [
-    //     ...prevConversations,
-    //     { recipients, messages: [], selected: false , group_name: "" },
-    //   ];
-    // });
   }
 
-  const sendMessage = ({
-    recipients,
-    text,
-  }: {
-    recipients: Recipient[];
-    text: string;
-  }) => {
+  const sendMessage = (
+    { recipients, text }:{recipients: Recipient[]; text: string; }
+    ) => {
     socket?.emit("send-message", { recipients, text });
-    addMessageToConversation({ recipients, text, sender: user.username });
+    // addMessageToConversation({ recipients, text, sender: user.username });
   };
 
   const addMessageToConversation = useCallback(
@@ -172,6 +141,8 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
               messages: [newMessage],
               selected: true,
               group_name: "",
+              group_profile: "",
+              id: 0,
             },
           ];
         }
@@ -186,46 +157,16 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       console.log("socket is null");
       return;
     }
-
-    socket.on("receive-message", addMessageToConversation);
-
+    // socket.on("receive-message", addMessageToConversation);
     return () => {
       socket.off("receive-message");
     };
-  }, [addMessageToConversation, socket]);
-
-  const formattedConversations = conversations.map(
-    (conversation, index: number) => {
-      // const recipients = conversation.recipients.map((recipient: Recipient) => {
-      //   const contact = contacts?.find(
-      //     (contact) => contact.id === recipient?.id
-      //   );
-      //   const name = (contact && contact?.username) || recipient?.name; // Use recipient.name
-      //   const avatar = contact?.profile_picture || 'default-avatar.png';
-      //   return { id: recipient.id, name , avatar};
-      // });
-
-      const messages = conversation.messages.map((message) => {
-        // const contact = contacts?.find(
-        //   (contact) => contact.addId === message?.sender
-        // );
-        const name = message?.sender;
-        const fromMe = user.username === message?.sender;
-        return { ...message, senderName: name, fromMe };
-      });
-
-      const selected = index === selectedConversationIndex;
-
-      return { ...conversation, messages, selected };
-    }
-  );
+  }, [socket]);
 
   return (
     <ConversationsContext.Provider
       value={{
-        conversations: formattedConversations,
-        selectedConversationIndex: setSelectedConversationIndex,
-        selectedConversation: formattedConversations[selectedConversationIndex],
+        conversations,
         openConversation,
         sendMessage,
       }}
@@ -237,10 +178,8 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
 
 function arrayEquality(a: string[], b: string[]) {
   if (a.length !== b.length) return false;
-
   a.sort();
   b.sort();
-
   return a.every((element: string, index: number) => {
     return element === b[index];
   });
@@ -254,6 +193,5 @@ export function useConversations() {
       "useConversations must be used within a ConversationsProvider"
     );
   }
-
   return context;
 }

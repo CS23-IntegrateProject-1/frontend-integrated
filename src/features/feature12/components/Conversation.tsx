@@ -29,7 +29,7 @@ const sendButtonStyle = {
   fontSize: "30px",
 };
 
-export default function OpenConversations() {
+export default function Conversation() {
   const [text, setText] = useState<string>("");
   const { sendMessage, selectedConversation } = useConversations();
   
@@ -40,9 +40,9 @@ export default function OpenConversations() {
   }, []);
 
   console.log("selectedConversation", selectedConversation);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     sendMessage({
       recipients: selectedConversation.recipients.map((r) => ({
         id: r.id,
