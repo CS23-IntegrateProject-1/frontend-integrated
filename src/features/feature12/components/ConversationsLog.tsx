@@ -3,7 +3,7 @@ import React from "react";
 import { useConversations } from "../context/ConversationProvider";
 
 const ConversationsLog: React.FC = () => {
-  const { conversations, selectedConversationIndex } = useConversations();
+  const { conversations, openConversation } = useConversations();
   console.log(conversations);
   return (
     <>
@@ -12,11 +12,9 @@ const ConversationsLog: React.FC = () => {
           <ListItem key={index} 
                     cursor={"pointer"} 
                     padding={3} 
-                    onClick={() => selectedConversationIndex(index)}
+                    onClick={() => openConversation(conversation.recipients,conversation.group_name)}
                     background={conversation.selected ? '#DEBEF6' : 'transparent'}>
-            {conversation.recipients
-              .map((recipient) => recipient.name)
-              .join(", ")}
+            {conversation.group_name}
           </ListItem>
         ))}
       </List>

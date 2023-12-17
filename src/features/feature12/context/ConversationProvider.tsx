@@ -7,7 +7,7 @@ interface ConversationsProviderProps {
 }
 interface ConversationContextValue {
   conversations: Conversation[];
-  createConversation: (recipients: Recipient[],group_id: string) => void;
+  openConversation: (recipients: Recipient[],group_id: string) => void;
   selectedConversationIndex: React.Dispatch<React.SetStateAction<number>>;
   selectedConversation: Conversation;
   sendMessage: (message: SendMessageParams) => void;
@@ -85,12 +85,20 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   //To get all the privateConversationLog
   useEffect(() => {
       Axios.get("/feature12/displayGroupDetail").then((res) => {
-          setConversations(res.data);
+        setConversations(prevConversations => [
+          ...prevConversations,
+          {
+            group_name: res.data.group_name,
+            group_profile: res.data.group_profile,
+            recipients: res.data.members, // add appropriate recipients
+            messages: [], // add appropriate messages
+            selected: false, // or true, depending on your logic
+          }
+        ]);
       });
   },[socket]);
-  // console.log("conversations", conversations);
 
-  function createConversation(recipients: Recipient[],group_id: string) {
+  function openConversation(recipients: Recipient[],group_id: string) {
     console.log("recipients", recipients);
     console.log(conversations+ "<< conversations")
     socket?.emit("join-room", ({recipients,group_id}))
@@ -107,7 +115,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     addMessageToConversation({recipients, text, sender: user.username});
   };
 
-  const addMessageToConversation = useCallback(({ recipients, text, sender }: { recipients: Recipient[], text: string, sender: string },) => {
+  const addMessageToConversation = ({ recipients, text, sender }: { recipients: Recipient[], text: string, sender: string },) => {
     setConversations((prevConversations) => {
       let madeChange = false;
       const newMessage: Message = { sender, text, recipients: [], fromMe: user.username === sender };
@@ -129,7 +137,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         { recipients, messages: [newMessage], selected: true}];
       }
     });
-  }, [setConversations]);
+  };
 
   // Socket Recieve message event listener
   useEffect(() => {
@@ -143,7 +151,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     return () => {
       socket.off("receive-message");
     }
-  }, [socket]);
+  }, [addMessageToConversation, socket]);
 
 
   const formattedConversations = conversations.map(
@@ -178,7 +186,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         conversations: formattedConversations,
         selectedConversationIndex: setSelectedConversationIndex,
         selectedConversation: formattedConversations[selectedConversationIndex],
-        createConversation,
+        openConversation,
         sendMessage
       }}
     >
