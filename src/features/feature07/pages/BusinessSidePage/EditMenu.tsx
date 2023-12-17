@@ -15,8 +15,8 @@ const getMenuItem = async (menuid: string) => {
 
 export const EditMenu = () => {
 
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const toast = useCustomToast();
   const { venueId, menuid } = useParams();
@@ -43,11 +43,11 @@ export const EditMenu = () => {
   }, [menuData]);
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files?.[0] ? event.target.files?.[0] : null;
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
