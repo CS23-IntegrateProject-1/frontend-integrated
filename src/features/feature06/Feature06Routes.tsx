@@ -4,6 +4,8 @@ import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
 import { QrcodeConfirm } from "./pages/Business/QrcodeConfirm";
+import QrcodeGen from "./pages/QrcodeGen";
+
 
 export const Feature06Routes = () => {
   return [
@@ -18,7 +20,8 @@ export const Feature06Routes = () => {
     { path: "/tabletype", element: <TableType /> },
     { path: "/reservation-detail/:venueId", element: <ReservationDetail /> },
     { path: "/getreservation-detail/:venueId/:reservationId", element: <GetReservationDetail /> },
-    { path: "/qrcodeconfirmation", element: <QrcodeConfirm/> },
+    { path: "/qrcode", element: <QrcodeConfirm/> },
+    { path: "/qrcode/display/:reservationId", element: <QrcodeGen /> },
     
   ];
 };
