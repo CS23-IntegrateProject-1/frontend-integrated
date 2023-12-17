@@ -96,11 +96,12 @@ export const BusiProfileEdit = () => {
     const [website, setWebsite] = useState("");
     //card id
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [cardInfo, setcardInfo] = useState<string>("");
+    const [cardInfo] = useState<string>("");
+
     //const [userid, setuserid] = useState<string>("");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cardData] = useState<CreditCard[]>([]);
-
+    if(cardData)console.log(cardData[0].card_no);
     const [availability, setAvailability] = useState<Availability>(defaultAvailability);
 
     const handleCancel = () => {
