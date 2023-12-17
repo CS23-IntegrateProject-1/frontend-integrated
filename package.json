@@ -31,6 +31,7 @@
     "date-fns-tz": "^2.0.0",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "html5-qrcode": "^2.3.8",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "localforage": "^1.10.0",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@types/google.maps": "^3.54.7",
     "@types/googlemaps": "^3.43.3",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
