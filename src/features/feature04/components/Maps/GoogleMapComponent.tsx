@@ -65,7 +65,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
   console.log(selectedMarkerInfo)
 
   // const [savedData, setSavedData] = useState<string | null>(null);
-  savedData;
+  // savedData;
 
   // // Retrieve data from localStorage on component mount
   // useEffect(() => {
