@@ -1,6 +1,5 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
-import { Box,HStack,Flex, VStack, Text,Center} from '@chakra-ui/react';
+import { Box,Flex, VStack, Text,Center} from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
@@ -10,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import textStyles from '../../../theme/foundations/textStyles';
 
 const fetchCartItems = async () => {
-  const userId = 4;
+  // const userId = 4;
   try {
     // const response = await Axios.get(`/feature7/showCart?userId=${userId}`);
     const response = await Axios.get('/feature7/showCart');

@@ -23,13 +23,7 @@ const getMenuItem = async (type: string, menuid: string) => {
   return response.data;
 };
 
-interface MenuDetailProps {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image_url: string;
-}
+
 export const MenuDetail: FC = () => {
   const { type, menuid, venueId } = useParams();
   //console.log(menuid);

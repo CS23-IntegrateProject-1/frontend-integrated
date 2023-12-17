@@ -1,4 +1,4 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex,Center} from "@chakra-ui/react";
+import { Box, HStack, Text,  Icon, VStack,Flex,Center} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";

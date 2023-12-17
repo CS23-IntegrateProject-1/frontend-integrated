@@ -1,5 +1,5 @@
-import { Box, Flex, Image, Text, IconButton, VStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
+import { FC } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 
 
@@ -10,7 +10,7 @@ interface SetMenuCardProps {
   price: number;
   imageUrl: string;
   onClick?: () => void;
-};
+}
 
 export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
 

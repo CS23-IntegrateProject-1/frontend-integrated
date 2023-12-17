@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton, Select } from '@chakra-ui/react'; 
+import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement,VStack, Select } from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
-import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
+import { DeleteIcon} from '@chakra-ui/icons'
 import { useNavigate,useLocation, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
@@ -23,9 +23,7 @@ interface Menu {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
-  const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
   const toast = useCustomToast();
   const { venueId, menuid } = useParams();
   const [editFormData, setEditFormData] = useState({

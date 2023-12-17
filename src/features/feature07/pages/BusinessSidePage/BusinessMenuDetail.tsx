@@ -7,11 +7,9 @@ import {
   Center,
   Switch,
   Flex,
-  Spacer,
 } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { FC} from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
-import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
@@ -24,13 +22,6 @@ const getMenuItem = async (type: string, menuid: string) => {
   return response.data;
 };
 
-interface BusMenuDetailProps {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image_url: string;
-}
 
 export const BusinessMenuDetail: FC = () => {
   const { type, menuid, venueId } = useParams();

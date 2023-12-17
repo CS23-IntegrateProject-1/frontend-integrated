@@ -1,5 +1,5 @@
-import { Box, Flex, Image, Text,  VStack, HStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { Box, Flex, Image, Text,  VStack} from "@chakra-ui/react";
+import { FC} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 // import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,11 +13,9 @@ interface BusMenuCardProps {
   amount: number;
   // type: string;
   onClick?: () => void;
-};
+}
 
-export const BusMenucard: FC<BusMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,onClick}) => {
-    const navigate = useNavigate();
-    const { venueId } = useParams();
+export const BusMenucard: FC<BusMenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
     // const [isAvailable, setIsAvailable] = useState(true);
 
   //   const handleMenuEdit = () => {

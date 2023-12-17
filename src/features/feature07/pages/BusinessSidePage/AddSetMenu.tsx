@@ -10,31 +10,25 @@ import {
   Icon,
   InputGroup,
   InputRightElement,
-  InputLeftElement,
   VStack,
-  Flex,
 } from "@chakra-ui/react";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { Image } from "../../component/ImageUpload/Image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState} from "react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
 
-interface Menu {
-  name: string;
-}
+
 
 export const AddSetMenu: React.FC = () => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
-  const [inputFieldValue, setInputFieldValue] = useState("");
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const location = useLocation();
   const { venueId } = useParams();
   const [formData, setFormData] = useState({
     name: "",
