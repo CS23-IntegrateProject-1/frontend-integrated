@@ -10,6 +10,20 @@ import { BusCompleteCard } from '../../component/BusCompleteCard';
 import { FullPageLoader } from '../../../../components/Loader/FullPageLoader';
 import { formatDatetime1 } from '../../../../functions/formatDatetime';
 
+interface OrderDetailsProps {
+  orderId: number;
+  table: {
+    tableId: number;
+    orderDate: string;
+  };
+  orderDetails: {
+    menuName: string;
+    setName: string;
+    quantity: number;
+    orderDetailId: number;
+  }[];
+}
+
 type OrderStatus = 'Preparing' | 'Completed';
 
 export const BusOrderStat: React.FC = () => {
@@ -67,7 +81,7 @@ export const BusOrderStat: React.FC = () => {
             //     <BusOngoCard />
             // </VStack>
             <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-                { ongoingOrderDetails && ongoingOrderDetails.map((order,index) => (
+                { ongoingOrderDetails && ongoingOrderDetails.map((order: OrderDetailsProps,index: number) => (
                   // const orderDetails = ongoingOrderDetails[index];
                   // return (
                     <BusOngoCard 
@@ -86,7 +100,7 @@ export const BusOrderStat: React.FC = () => {
             //     <BusCompleteCard />
             // </VStack>
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {completedOrderDetails && completedOrderDetails.map((order, index) => (
+            {completedOrderDetails && completedOrderDetails.map((order: OrderDetailsProps, index: number) => (
               <BusCompleteCard 
                 key={index} /* Use unique key */ 
                 tableNo={order.table.tableId}

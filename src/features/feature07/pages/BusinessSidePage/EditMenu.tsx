@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
@@ -26,7 +26,11 @@ export const EditMenu = () => {
     price: '',
   });
   
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () =>{
+    if (menuid !== undefined) {
+      return getMenuItem(menuid);
+    }return Promise.reject(new Error('menuid is undefined'));
+  } );
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -42,13 +46,13 @@ export const EditMenu = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
       ...prevData,

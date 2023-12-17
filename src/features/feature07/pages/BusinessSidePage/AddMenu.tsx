@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRightElement } from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";

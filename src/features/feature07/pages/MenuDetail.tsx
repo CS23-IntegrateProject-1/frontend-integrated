@@ -32,7 +32,12 @@ export const MenuDetail: FC = () => {
     data: menuItem,
     isLoading,
     isError,
-  } = useQuery([type, menuid], () => getMenuItem(type, menuid));
+  } = useQuery([type, menuid], () => {
+    if (type !== undefined && menuid !== undefined) {
+      return getMenuItem(type, menuid);
+    }
+    return Promise.reject(new Error('type or menuid is undefined'));
+  });
   console.log(menuItem);
   const [amount, setAmount] = useState(0);
   const toast = useCustomToast();
