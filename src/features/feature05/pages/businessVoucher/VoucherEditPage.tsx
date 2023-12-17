@@ -64,7 +64,7 @@ export const VoucherEditPage = () => {
 	};
 	useEffect(() => {
 		fetchDatas();
-	}, []);
+	});
 	const handleClickSubmit = () => {
 		navigate("/business/voucher");
 	};

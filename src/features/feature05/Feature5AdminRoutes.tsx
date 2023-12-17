@@ -3,13 +3,13 @@ import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementL
 import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
 
 export const Feature05AdminRoutes = () => {
-	return [
-		// Advertisement ( admin )
-		{ path: "/admin/advertisement", element: <AdvertisementListPage /> },
-		{ path: "/admin/advertisement/:id", element: <AdvertisementIDPage /> },
-		{
-			path: "/admin/advertisement/:id/reject",
-			element: <AdvertisementRejectPage />,
-		},
-	];
+  return [
+    // Advertisement ( admin )
+    { path: "/admin/advertisement", element: <AdvertisementListPage /> },
+    { path: "/admin/advertisement/:id", element: <AdvertisementIDPage /> },
+    {
+      path: "/admin/advertisement/:id/reject",
+      element: <AdvertisementRejectPage />,
+    },
+  ];
 };

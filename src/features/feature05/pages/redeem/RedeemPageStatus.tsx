@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-	ChakraProvider,
-	Tabs,
-	TabList,
-	TabPanels,
-	Tab,
-	TabPanel,
-	Box,
-	Stack,
-	IconButton,
-	Icon,
-} from "@chakra-ui/react";
+import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
 import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCrad";
-import { AdvertisementStatusCardIPG } from "../../components/businessAdvertisementCom/AdvertisementStatusCardIPG";
-import { AdvertisementStatusCardCom } from "../../components/businessAdvertisementCom/AdvertisementStatusCardCom";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
+// import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -25,111 +12,110 @@ import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusine
 //   return data;
 // };
 
-//ขอแปะไว้้ก่อน รอหมิวทำ BACKEND
-
-interface RedeemStatusPageProps {
-
+interface IRedeemCard {
+  isApprove: "Rejected" | "In_progress" | "Completed";
+  image_url: string;
 }
 
-export const RedeemPageStatus: React.FC<
-	RedeemStatusPageProps
-> = () => {
-	const [currentTab, setCurrentTab] = useState(0);
-	const [data, setData] = useState<string[]>([]);
-	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
-	const navigate = useNavigate();
-	const handleClickCreate = () => {
-		navigate("/business/redeem/create");
-	};
-	// const businessId = 2;
+interface RedeemStatusPageProps {}
 
-	const fetchBusinessAds = async () => {
-		//const res = await GetAllRedeem();
-		//setData(res);
-	};
+export const RedeemPageStatus: React.FC<RedeemStatusPageProps> = () => {
+  const [currentTab, setCurrentTab] = useState(0);
+  const [data] = useState<IRedeemCard[]>([]);
+  const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
+  const navigate = useNavigate();
+  const handleClickCreate = () => {
+    navigate("/business/redeem/create");
+  };
+  // const businessId = 2;
 
-	useEffect(() => {
-		fetchBusinessAds();
-		// console.log(data);
-	}, []);
+  const fetchBusinessAds = async () => {
+    //const res = await GetAllRedeem();
+    //setData(res);
+  };
 
-	const handleTabChange = (index: number) => {
-		setCurrentTab(index);
-	};
+  useEffect(() => {
+    fetchBusinessAds();
+    // console.log(data);
+  }, []);
 
-	return (
-		<Box
-			display={"flex"}
-			flexDirection={"column"}
-			justifyContent={"center"}
-			alignItems={"center"}
-			width={"100%"}
-		>
-			<Tabs
-				variant={"soft-rounded"}
-				colorScheme={"brand"}
-				index={currentTab}
-				onChange={handleTabChange}
-				display={"flex"}
-				justifyContent={"center"}
-				alignContent={"center"}
-			>
-				<TabList>
-					<Stack spacing={10} flexDirection={"row"}>
-						<Tab
-							border="1px solid white"
-							color="#FFFFFF"
-							whiteSpace={"nowrap"}
-							_selected={{
-								color: "#FFFFFF",
-								borderColor: "#A533C8",
-								bgColor: "#A533C8",
-							}}
-							onClick={() => setSelector("ongoing")}
-						>
-							On going
-						</Tab>
-						<Tab
-							border="1px solid white"
-							color="#FFFFFF"
-							_selected={{
-								color: "#FFFFFF",
-								borderColor: "#A533C8",
-								bgColor: "#A533C8",
-							}}
-							onClick={() => setSelector("complete")}
-						>
-							Complete
-						</Tab>
-					</Stack>
-				</TabList>
-			</Tabs>
+  const handleTabChange = (index: number) => {
+    setCurrentTab(index);
+  };
 
-			{data?.map((data: any, index: number) => {
-				if (selector === "ongoing") {
-					return (
-						(data.isApprove === "Rejected" ||
-							data.isApprove === "In_progress") && (
-							<RedeemStatusCard key={index} data={data} />
-						)
-					);
-				} else
-					return (
-						data.isApprove === "Completed" && (
-							<RedeemStatusCard key={index} data={data} />
-						)
-					);
-			})}
+  return (
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      width={"100%"}
+    >
+      <Tabs
+        variant={"soft-rounded"}
+        colorScheme={"brand"}
+        index={currentTab}
+        onChange={handleTabChange}
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"center"}
+      >
+        <TabList>
+          <Stack spacing={10} flexDirection={"row"}>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("ongoing")}
+            >
+              On going
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("complete")}
+            >
+              Complete
+            </Tab>
+          </Stack>
+        </TabList>
+      </Tabs>
 
-            <Box pos={"fixed"} bottom={10} right={10} zIndex={999}>
-				<Icon
-					as={FaPlusCircle}
-					w={"50px"}
-					h={"50px"}
-					color={"#5F0DBB"}
-					onClick={handleClickCreate}
-				></Icon>
-			</Box>
-		</Box>
-	);
+      {data?.map((data: IRedeemCard, index: number) => {
+        if (selector === "ongoing") {
+          return (
+            (data.isApprove === "Rejected" ||
+              data.isApprove === "In_progress") && (
+              <RedeemStatusCard key={index} data={data} />
+            )
+          );
+        } else
+          return (
+            data.isApprove === "Completed" && (
+              <RedeemStatusCard key={index} data={data} />
+            )
+          );
+      })}
+
+      <Box pos={"fixed"} bottom={10} right={10} zIndex={999}>
+        <Icon
+          as={FaPlusCircle}
+          w={"50px"}
+          h={"50px"}
+          color={"#5F0DBB"}
+          onClick={handleClickCreate}
+        ></Icon>
+      </Box>
+    </Box>
+  );
 };
