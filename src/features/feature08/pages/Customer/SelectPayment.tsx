@@ -143,7 +143,7 @@ export const SelectPayment: FC<ButtonProps> = ({
       {/* <button type="submit">Check Out</button> */}
       <Button
         onClick={redirectToCheckout}
-        width={"80%"}
+        width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
         color={!textColor ? "white" : textColor}
