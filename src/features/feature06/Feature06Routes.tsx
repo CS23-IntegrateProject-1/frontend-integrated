@@ -3,7 +3,7 @@ import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
-import { QrcodeConfirm } from "./pages/QrcodeConfirm";
+import { QrcodeConfirm } from "./pages/Business/QrcodeConfirm";
 
 export const Feature06Routes = () => {
   return [
