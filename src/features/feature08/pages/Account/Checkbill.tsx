@@ -10,12 +10,8 @@ import {
   TableContainer,
   Divider,
   Center,
-  HStack,
 } from "@chakra-ui/react";
 
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import { FC, useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 
@@ -49,8 +45,8 @@ export const Checkbill = () => {
   const { reservationId } = useParams();
   const { venueId } = useParams();
   // need ReservationId , date? , orderId, orderDetailId for all from orderId
-  
-
+  console.log(reservationId);
+  console.log(venueId);
 
 
 

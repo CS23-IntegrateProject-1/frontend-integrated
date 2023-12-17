@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Tbody,
@@ -24,7 +25,7 @@ type Order = {
   addressId: null;
   branchId: number;
   driverId: null;
-  isDelivery: Boolean;
+  isDelivery: boolean;
   orderId: number;
   status: string;
   reserveId: null;

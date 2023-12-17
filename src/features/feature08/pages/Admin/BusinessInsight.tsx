@@ -1,7 +1,6 @@
 import {
   Box,
   Select,
-  Flex,
   Center,
   Text,
   Card,
@@ -17,9 +16,6 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Portal,
-  VStack,
-  transition,
-  filter,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
@@ -29,8 +25,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { Link, useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { formatDatetime1,formatDate1,formatTime1 } from "../../../../functions/formatDatetime";
-import { set } from "date-fns";
+import { formatDate1 } from "../../../../functions/formatDatetime";
 interface transaction {
   // Define the properties of the business insight here
   transactionId: number;
@@ -72,7 +67,7 @@ export const BusinessInsight = () => {
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   
   const fetchBusinessInsightData = async () => {
-      const response = await Axios.get<transaction>(`/feature8/transactionsbyvenueid/${venueId}`);
+      
       
       
       const [transactionResponse, transactionDetailResponse] = await Promise.all([
@@ -140,7 +135,7 @@ export const BusinessInsight = () => {
   };
 
   const { data: vd } = useQuery(["fetchBusinessInsightVenueName", venueId || ""], () => fetchBusinessInsightVenueName());
-  const { data, isLoading, isError } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
+  const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
   console.log(data)
   
 
@@ -207,10 +202,7 @@ const groupByDate = (transactionDetails: transaction_detail[]) => {
   }, {} as Record<string, transaction_detail[]>);
 };
 
-// Step 3: Count the number of unique dates
-const countUniqueDates = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
-  return Object.keys(groupedTransactionDetails).length;
-};
+
 
 // Modify the groupByDate function to return an array of dates
 const getDates = (transactionDetails: transaction_detail[]) => {
@@ -635,7 +627,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK as unknown} />
+          <Bar data={revenue} options={chartOptionsK as never} />
         </Card>
         <Link to={`/venue/${venueId}/admin/receipt`}>
           <ButtonComponent
@@ -664,7 +656,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                }
               {" "} Baht</Text>
           </Box>
-          <Bar data={netProfit} options={chartOptionsK as unknown} />
+          <Bar data={netProfit} options={chartOptionsK as never} />
         </Card>
       </Box>
     </Center>

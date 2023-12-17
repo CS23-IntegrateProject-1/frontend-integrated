@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Thead,
@@ -19,13 +20,29 @@ import { Axios } from "../../../../AxiosInstance";
 import { format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
+interface appTransaction {
+  // Define the properties of the business insight here
+  appTransactionId: number;
+  venueId: number;
+  transactionId: number;
+}
+interface appTransactionDetail {
+  // Define the properties of the business insight here
+  appTransactionDetailId: number;
+  detail: string;
+  monthly: Date;
+  total_amount: number;
+  timestamp: Date;
+  appTransactionId: number;
+}
+
 export const Accounting = () => {
   const [appTrans, setAppTrans] = useState();
   const { venueId, month } = useParams();
   const urlMonth = decodeURIComponent(month || "").split(" ")[0];
   const [allTransactionIds, setAllTransactionIds] = useState([]);
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<
-    Record<string, any[]>
+    Record<string, unknown[]>
   >({});
 
   useEffect(() => {
@@ -39,19 +56,19 @@ export const Accounting = () => {
         setAppTrans(tableData);
 
         const transactionIds = tableData.map(
-          (transaction: any) => transaction.appTransactionId
+          (transaction: appTransaction) => transaction.appTransactionId
         );
         setAllTransactionIds(transactionIds);
       } catch (error) {
         console.error("Error fetching table number:", error);
       }
     };
-
+    console.log(appTrans)
     fetchTableNumber();
   }, [venueId]);
 
   useEffect(() => {
-    const fetchData = async (transactionId: any) => {
+    const fetchData = async (transactionId: number) => {
       try {
         
         const response = await Axios.get(
@@ -73,7 +90,7 @@ export const Accounting = () => {
             const existingDetails = prevData[monthKey] || [];
             const isDuplicate = existingDetails.some(
               (existingDetail) =>
-                existingDetail.appTransactionDetailId ===
+                (existingDetail as appTransactionDetail).appTransactionDetailId ===
                 detail.appTransactionDetailId
             );
 
@@ -101,23 +118,23 @@ export const Accounting = () => {
   const ThailandTimeZone = "Asia/Bangkok";
 
   const aggregateAmountsByDate = () => {
-    const aggregatedData: Record<string, { total: number; details: any[] }> = {};
+    const aggregatedData: Record<string, { total: number; details: unknown[] }> = {};
 
     // Aggregate amounts for transactions with the same date
     Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
       detailsArray.forEach((details) => {
         const formattedDate = format(
-          utcToZonedTime(new Date(details.monthly), ThailandTimeZone),
+            utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),
           "dd MMMM yyyy"
         );
 
         if (aggregatedData[formattedDate]) {
           // Add the amount to the existing date
-          aggregatedData[formattedDate].total += Number(details.total_amount);
+          aggregatedData[formattedDate].total += Number((details as appTransactionDetail).total_amount);
           aggregatedData[formattedDate].details.push(details);
         } else {
           // Initialize the amount for a new date
-          aggregatedData[formattedDate] = { total: Number(details.total_amount), details: [details] };
+          aggregatedData[formattedDate] = { total: Number((details as appTransactionDetail).total_amount), details: [details] };
         }        
       });
     });
@@ -191,9 +208,9 @@ export const Accounting = () => {
         //   year: 'numeric',
         // });
 
-        const year = new Date(details.monthly).getFullYear();
-        const month = new Date(details.monthly).toLocaleDateString('en-US', { month: 'long' }).toLowerCase();
-        const day = new Date(details.monthly).getDate();
+        const year = new Date((details as appTransactionDetail).monthly).getFullYear();
+        const month = new Date((details as appTransactionDetail).monthly).toLocaleDateString('en-US', { month: 'long' }).toLowerCase();
+        const day = new Date((details as appTransactionDetail).monthly).getDate();
 
         return (
           <Link

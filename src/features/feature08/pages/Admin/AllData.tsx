@@ -4,9 +4,6 @@ import {
   Select,
   Text,
   Card,
-  Stack,
-  StackDivider,
-  CardBody,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -15,7 +12,6 @@ import {
   PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
   Portal,
 } from "@chakra-ui/react";
 
@@ -58,9 +54,7 @@ export const AllData = () => {
   const {venueId} = useParams();
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   
-  const fetchBusinessInsightData = async () => {
-      const response = await Axios.get<transaction>(`/feature8/transactionsbyvenueid/${venueId}`);
-      
+  const fetchBusinessInsightData = async () => {      
       
       const [transactionResponse, transactionDetailResponse] = await Promise.all([
         Axios.get<transaction[]>(`/feature8/transactionsbyvenueid/${venueId}`),
@@ -119,7 +113,7 @@ export const AllData = () => {
 
 
   
-  const { data, isLoading, isError } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
+  const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
   console.log(data)
   
 
@@ -142,7 +136,7 @@ useEffect(() => {
   // Add dependencies to the dependency array if needed
 }, [selectedFromDate, selectedToDate]);
 
-const [VenueName, setVenueName] = useState<string>("");
+
 
 
 
@@ -151,7 +145,6 @@ const [VenueName, setVenueName] = useState<string>("");
 if(selectedFromDate !== undefined){
   console.log(dataFilted)
 }
-console.log(VenueName)
 
 
 
@@ -179,10 +172,6 @@ const groupByDate = (transactionDetails: transaction_detail[]) => {
   }, {} as Record<string, transaction_detail[]>);
 };
 
-// Step 3: Count the number of unique dates
-const countUniqueDates = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
-  return Object.keys(groupedTransactionDetails).length;
-};
 
 // Modify the groupByDate function to return an array of dates
 const getDates = (transactionDetails: transaction_detail[]) => {
@@ -536,7 +525,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK as any} />
+          <Bar data={revenue} options={chartOptionsK as never} />
         </Card>
         <Card
           marginTop={10}
@@ -555,7 +544,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                }
               {" "} Baht</Text>
           </Box>
-          <Bar data={netProfit} options={chartOptionsK as any} />
+          <Bar data={netProfit} options={chartOptionsK as never} />
         </Card>
       </Box>
     </Center>
