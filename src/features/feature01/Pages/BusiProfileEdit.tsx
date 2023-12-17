@@ -1,9 +1,9 @@
 import { AddIcon, TimeIcon } from "@chakra-ui/icons";
-import { Box, Input, Select, Flex, Text, Avatar, Stack, CheckboxGroup, Checkbox, Tab, TabList, TabIndicator, TabPanel, Tabs, TabPanels, InputGroup, InputRightAddon, InputRightElement, RadioGroup, Center, ButtonGroup, Button, FormControl } from "@chakra-ui/react"
+import { Box, Input, Select, Flex, Text, Avatar, Stack, Tab, TabList, TabIndicator, TabPanel, Tabs, TabPanels, InputGroup, InputRightElement, RadioGroup, Center, ButtonGroup, Button, FormControl } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
-import { AddCard } from "./AddCard";
+// import { AddCard } from "./AddCard";
 import { Axios } from "../../../AxiosInstance";
 interface CreditCard {
     creditCardId: number;
@@ -95,9 +95,11 @@ export const BusiProfileEdit = () => {
     //website url
     const [website, setWebsite] = useState("");
     //card id
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cardInfo, setcardInfo] = useState<string>("");
-    const [userid, setuserid] = useState<string>("");
-    const [cardData, setcardData] = useState<CreditCard[]>([]);
+    //const [userid, setuserid] = useState<string>("");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [cardData] = useState<CreditCard[]>([]);
 
     const [availability, setAvailability] = useState<Availability>(defaultAvailability);
 
@@ -117,18 +119,21 @@ export const BusiProfileEdit = () => {
 
     //load the data when the page is loaded
     useEffect(() => {
-        const fetchData = async () => {
-            const venueData = await Axios.get('url');
-            const venueImage = await Axios.get('url');
-            const venueAvailability = await Axios.get('url');
-            const venuePromptPay = await Axios.get('url');
-            const venuePhone = await Axios.get('url');
-            const venueCreditCard = await Axios.get('url');
+        // const fetchData = async () => {
+        //     const venueData = await Axios.get('url');
+        //     const venueImage = await Axios.get('url');
+        //     const venueAvailability = await Axios.get('url');
+        //     const venuePromptPay = await Axios.get('url');
+        //     const venuePhone = await Axios.get('url');
+        //     const venueCreditCard = await Axios.get('url');
 
-        };
-        fetchData();
+        // };
+        // fetchData();
     }, []);
-    const handleProfileImageChange = (e) => {
+    const handleProfileImageChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        if(!e.target.files) {
+            return;
+        }
         const selectedFile = e.target.files[0];
         console.log('selected file: ', selectedFile);
         //create url
@@ -137,32 +142,56 @@ export const BusiProfileEdit = () => {
         setSelectedFile(objectUrl);
     }
 
-    const handleSave = async (e) => {
+    const handleSave = async (e: { preventDefault: () => void; } ) => {
         //check the data of Opening Day date and time
         e.preventDefault();
+        // const allData = new FormData();
+        // allData.append('image_url', selectedFile);
+        //date and time
+        //allData.append('openingDay', JSON.stringify(availability.openingDay));
+        
+        
+        // console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
+        // Log form data to console
         const venueData = new FormData();
         const venueImage = new FormData();
         const venueCreditCard = new FormData();
-        const venuePromptPay = new FormData();
-        const venuePhone = new FormData();
+        const venuePhoneNPrompt = new FormData();
+        const venueDeposit = new FormData();
         const venueAvailability = new FormData();
         const venueAddress = new FormData();
         //console.log(formData);
         venueImage.append('image_url', selectedFile);
+
         venueData.append('name', name);
         venueData.append('description', aboutUs);
-        venueAddress.append('address', address); //use table location
-        //date and time
-        venueAvailability.append('openingDay', JSON.stringify(availability.openingDay));
         venueData.append('category', category);
         venueData.append('capacity', capacity);
-        venueData.append('deposite', deposite);
         venueData.append('website_url', website);
-        venuePhone.append('phone_number', phNo);
-        venuePromptPay.append('promptpay_number', promptNo);
-        // console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
-        // Log form data to console
-        //Venue Date
+
+        venueAddress.append('address', address); //use table location
+        //date and time
+        venueAvailability.append('MON_OpeningTime', JSON.stringify(availability.openingDay.Mon.openingTime));
+        venueAvailability.append('MON_ClosingTime', JSON.stringify(availability.openingDay.Mon.closingTime));
+        venueAvailability.append('TUE_OpeningTime', JSON.stringify(availability.openingDay.Tue.openingTime));
+        venueAvailability.append('TUE_ClosingTime', JSON.stringify(availability.openingDay.Tue.closingTime));
+        venueAvailability.append('WED_OpeningTime', JSON.stringify(availability.openingDay.Wed.openingTime));
+        venueAvailability.append('WED_ClosingTime', JSON.stringify(availability.openingDay.Wed.closingTime));
+        venueAvailability.append('THU_OpeningTime', JSON.stringify(availability.openingDay.Thu.openingTime));
+        venueAvailability.append('THU_ClosingTime', JSON.stringify(availability.openingDay.Thu.closingTime));
+        venueAvailability.append('FRI_OpeningTime', JSON.stringify(availability.openingDay.Fri.openingTime));
+        venueAvailability.append('FRI_ClosingTime', JSON.stringify(availability.openingDay.Fri.closingTime));
+        venueAvailability.append('SAT_OpeningTime', JSON.stringify(availability.openingDay.Sat.openingTime));
+        venueAvailability.append('SAT_ClosingTime', JSON.stringify(availability.openingDay.Sat.closingTime));
+        venueAvailability.append('SUN_OpeningTime', JSON.stringify(availability.openingDay.Sun.openingTime));
+        venueAvailability.append('SUN_ClosingTime', JSON.stringify(availability.openingDay.Sun.closingTime));
+
+        venueDeposit.append('deposite', deposite);
+
+        venuePhoneNPrompt.append('phone_number', phNo);
+        venuePhoneNPrompt.append('promptpay_number', promptNo);
+        venueCreditCard.append('credit_card_id', cardInfo);
+        //Venue Data
         const url = `/feature1/venueData`;
         //send a put request to the backend to update a new payment method
         Axios.put(
@@ -178,7 +207,7 @@ export const BusiProfileEdit = () => {
             .catch((error) => {
                 console.error("Error saving venude data:", error);
             });
-        //Venue Image
+        // //Venue Image
         const url2 = `/feature1/venueImage`;
         //send a put request to the backend to update a new payment method
         Axios.put(
@@ -215,7 +244,7 @@ export const BusiProfileEdit = () => {
         //send a put request to the backend to update a new payment method
         Axios.put(
             url4,
-            venuePromptPay,
+            venuePhoneNPrompt,
             { withCredentials: true }
         )
             .then((response) => {
@@ -227,12 +256,12 @@ export const BusiProfileEdit = () => {
                 console.error("Error saving venude prompt pay:", error);
             });
 
-        //venue phone
+        // //venue creditCard
         const url5 = `/feature1/venuePhone`;
         //send a put request to the backend to update a new payment method
         Axios.put(
             url5,
-            venuePhone,
+            venueCreditCard,
             { withCredentials: true }
         )
             .then((response) => {
@@ -246,9 +275,9 @@ export const BusiProfileEdit = () => {
     }
 
 
-    function setButtonClick(arg0: boolean): void {
-        throw new Error("Function not implemented.");
-    }
+    // function setButtonClick(arg0: boolean): void {
+    //     throw new Error("Function not implemented.");
+    // }
 
     return (
         <FormControl>
@@ -567,10 +596,10 @@ export const BusiProfileEdit = () => {
                             {/* Visa */}
                             {/* loop credit card info here */}
                             {/* setType willl store Credit Card user ID */}
-                            {cardData.map((card) => (
+                            {/* {cardData.map((card) => (
                                 <AddCard
                                     key={card.creditCardId}
-                                    cardType="master"
+                                    cardType = "visa"
                                     setType={setcardInfo}
                                     bank={card.bank}
                                     card_no={card.card_no}
@@ -581,8 +610,9 @@ export const BusiProfileEdit = () => {
                                     name={card.name}
                                     userId={card.userId}
                                 />
-                            ))} </RadioGroup>
-                        <NavLink to={"/setting/account/paymentmethodsetting/AddCard"} state={cardInfo}>
+                            ))}  */}
+                            </RadioGroup>
+                        <NavLink to={"/business/BusiUpdateCard"} state={cardInfo}>
                             <Flex
                                 py={5}
                                 border={"1px solid"}
@@ -626,7 +656,7 @@ export const BusiProfileEdit = () => {
                         display="block"
                         margin="auto"
                         marginTop="5vh"
-                        onClick={handleSave}
+                        onSubmit={handleSave}
                     >
                         Save
                     </Button>

@@ -188,6 +188,7 @@ export const PaymentMethodSetting = () => {
     }
     //final buttonID here
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleOpen = (event: any) => {
     const buttonId = event.currentTarget.id;
     setFlexBoxId(buttonId);
