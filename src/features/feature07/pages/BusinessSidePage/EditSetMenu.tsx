@@ -1,16 +1,17 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton, Select } from '@chakra-ui/react'; 
+import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement,VStack, Select } from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
-import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation, useParams } from 'react-router-dom';
+import { DeleteIcon} from '@chakra-ui/icons'
+import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
+import { useCustomToast } from "../../../../components/useCustomToast";
 
-interface Menu {
-    name: string;
-  }
+// interface Menu {
+//     name: string;
+//   }
 
   const getMenuItem = async (menuid: string) => {
     const response = await Axios.get(`/feature7/getSetById/${menuid}`);
@@ -22,9 +23,8 @@ interface Menu {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
-  const [inputFieldValue, setInputFieldValue] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
+  const toast = useCustomToast();
   const { venueId, menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
@@ -33,7 +33,7 @@ interface Menu {
   });
   const [selectId, setSelectId] = useState('');
 
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData} = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -140,6 +140,7 @@ interface Menu {
   const handleCancel = async () => {
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
+      console.log('Clear cookies:', response.data);
       navigate(`/venue/${venueId}/menubusiness`);
     }catch (error) {
       console.error('Error clearing cookie:', error);
@@ -164,7 +165,7 @@ interface Menu {
         },
       });
       console.log('Menu edited:', response.data);
-      
+      toast.success("Menu Edited");
       const targetPath = `/venue/${venueId}/bmenudetail/Set/${menuid}`;
       navigate(targetPath);
     } catch (error) {

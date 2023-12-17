@@ -18,6 +18,10 @@ export interface ArticlesPageProps {
     };
   }[];
   Article_venue: number[];
+  user: {
+    username: string;
+    profile_picture: string;
+  };
 }
 
 export interface ArticlePageProps {
@@ -48,6 +52,10 @@ export interface ArticlePageProps {
       name: string;
     };
   }[];
+  user: {
+    username: string;
+    profile_picture: string;
+  };
 }
 
 export interface ArticleTagProps {
@@ -63,10 +71,6 @@ export interface ArticleFooterProps {
   Article_tags: ArticleTagProps[];
 }
 
-export interface ImageProps {
-  url: string;
-  description: string;
-}
 export interface VenueProps {
   venueId: number;
   name: string;

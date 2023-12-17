@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Table,
   Thead,
@@ -14,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
 import { utcToZonedTime } from 'date-fns-tz'; // new import
@@ -117,12 +119,14 @@ export const Timestamp = () => {
             'dd MMMM yyyy',
           );
           const formattedAmount = `${details.total_amount} Baht`;
-
+          const appTransactionId = details.appTransactionId;
+          console.log(details)
           return (
             <Card key={index} width="100%" height={"100px"} backgroundColor={"#D9D9D9"} color="black">
               <CardBody textAlign="center">
                 <Stack divider={<StackDivider />} color={"#C5C4C7"}>
                   <Box>
+                  <Link to="/">
                     <TableContainer>
                       <Table width="100%" variant="unstyled">
                         <Thead>
@@ -138,6 +142,7 @@ export const Timestamp = () => {
                         </Thead>
                       </Table>
                     </TableContainer>
+                    </Link>
                   </Box>
                 </Stack>
               </CardBody>

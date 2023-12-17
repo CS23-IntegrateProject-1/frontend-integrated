@@ -1,5 +1,3 @@
-import { Dashboard } from './../features/feature06/pages/Dashboard';
-import { RecommendationCard } from "./../features/feature05/components/RecommendationCard";
 export const getPageTitle = (pathname: string) => {
   // You can implement a logic to map page routes to their titles here
   // For example, you can use a switch statement or an object mapping
