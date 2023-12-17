@@ -286,7 +286,7 @@ console.log('Filtered Net Profit:', filteredCommision);
 
   const days = generateArray(1, 31);
   const months = generateArray(1, 12);
-  const years = generateArray(2000, new Date().getFullYear());
+  const years = generateArray(2000, new Date().getFullYear()+27);
 
 
   const receipts = {
@@ -635,16 +635,18 @@ console.log('Filtered Net Profit:', filteredCommision);
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK as any} />
+          <Bar data={revenue} options={chartOptionsK as unknown} />
         </Card>
-        <ButtonComponent
-          text="See All Receipts"
-          bgColor="#F6F6F6"
-          textColor="#A533C8"
-          width="100%"
-          bgColorHover="#A533C8"
-          textColorHover="#FFFFFF"
-        />
+        <Link to={`/venue/${venueId}/admin/receipt`}>
+          <ButtonComponent
+            text="See All Receipts"
+            bgColor="#F6F6F6"
+            textColor="#A533C8"
+            width="100%"
+            bgColorHover="#A533C8"
+            textColorHover="#FFFFFF"
+          />
+        </Link>
         <Card
           marginTop={10}
           padding={5}
@@ -662,7 +664,7 @@ console.log('Filtered Net Profit:', filteredCommision);
                }
               {" "} Baht</Text>
           </Box>
-          <Bar data={netProfit} options={chartOptionsK as any} />
+          <Bar data={netProfit} options={chartOptionsK as unknown} />
         </Card>
       </Box>
     </Center>
