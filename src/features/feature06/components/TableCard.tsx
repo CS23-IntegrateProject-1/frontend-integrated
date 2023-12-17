@@ -1,4 +1,4 @@
-import { Box , Card , Image , Stack , CardBody , Heading , Text , CardFooter , Button} from "@chakra-ui/react"
+import { Box , Card , Image , Heading , Text} from "@chakra-ui/react"
 import { TextStyle } from "../../../theme/TextStyle"
 import { FC } from "react";
 

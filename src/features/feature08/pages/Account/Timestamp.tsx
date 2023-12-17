@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Table,
   Thead,
@@ -119,7 +117,7 @@ export const Timestamp = () => {
             'dd MMMM yyyy',
           );
           const formattedAmount = `${details.total_amount} Baht`;
-          const appTransactionId = details.appTransactionId;
+          // const appTransactionId = details.appTransactionId;
           console.log(details)
           return (
             <Card key={index} width="100%" height={"100px"} backgroundColor={"#D9D9D9"} color="black">

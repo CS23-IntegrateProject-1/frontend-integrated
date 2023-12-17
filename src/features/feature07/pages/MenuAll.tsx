@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, HStack, Text,  Icon, VStack,Flex,Center} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
@@ -60,7 +61,7 @@ export const MenuAll = () => {
   const { venueId } = useParams();
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId!));
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {

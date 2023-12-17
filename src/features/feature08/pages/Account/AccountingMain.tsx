@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Thead,
@@ -22,9 +20,10 @@ import { Axios } from "../../../../AxiosInstance";
 
 export const AccountingMain = () => {
   const [appTrans, setAppTrans] = useState();
+  appTrans;
   const { venueId } = useParams();
   const [allTransactionIds, setAllTransactionIds] = useState([]);
-  const [appTransaction, setAppTransaction] = useState([]);
+  // const [appTransaction, setAppTransaction] = useState([]);
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<Record<string, any[]>>({});
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 //import React from 'react'
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 // import DateSelection from '../Components/DateSelection'
 import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
 import SearchBar from '../Components/SearchBar'
 import NearestCinemas from '../Components/NearestCinemas'
+import { Axios } from '../../../AxiosInstance';
 
 interface Movie {
   title: string;
@@ -25,7 +25,7 @@ export const ShowTime = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/feature10/getFilmsById/${movieId}`);
+        const response = await Axios.get(`/feature10/getFilmsById/${movieId}`);
         setMovie({
           title: response.data.name,
           imageUrl: response.data.poster_img,

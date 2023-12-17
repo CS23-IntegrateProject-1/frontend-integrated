@@ -179,7 +179,7 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
-                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image})`,
+                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',

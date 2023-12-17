@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { TableCard } from "../components/TableCard";
 
