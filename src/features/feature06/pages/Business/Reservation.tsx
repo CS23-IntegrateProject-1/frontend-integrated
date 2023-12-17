@@ -11,8 +11,8 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { center } from "../../../feature04/components/Maps/setting";
+import { Link } from "react-router-dom";
+// import { center } from "../../../feature04/components/Maps/setting";
 
 interface ReservationCard {
   venueId: number;
@@ -33,7 +33,7 @@ interface ReservationCard {
     prompt_pay: null;
   };
   entry_time: string;
-  isReview: Boolean;
+  isReview: boolean;
   reservationId: number;
   isPaidDeposit: string;
   depositId: number;

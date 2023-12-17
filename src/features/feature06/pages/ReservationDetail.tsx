@@ -11,8 +11,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
-import { Axios } from "axios";
 import { getVenueById } from "../../../api/Reservation/getVenueById";
+import { Axios } from "../../../AxiosInstance";
+import { useCustomToast } from "../../../components/useCustomToast";
 
 interface IData {
     name: string,
@@ -42,6 +43,7 @@ export const ReservationDetail = () => {
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const toast = useCustomToast()
 
   useEffect(() => {
     fetchData();
@@ -61,29 +63,28 @@ export const ReservationDetail = () => {
 
   const handleCreate = async () => {
     try {
-      console.log("Creating reservation with data:", {
-        venueId: venueId,
-        guest_amount: seats,
+    
+      const venueIdInt = parseInt(venueId || "0")
+      const seatsInt = parseInt(seats || "0")
+      if (date == "" || time == "" || name == "" || phonenumber == "") {
+        toast.warning("Please fill in all information")
+      }
+      const response = await Axios.post(`/feature6/createReservation`, {
+        venueId: venueIdInt,
+        guest_amount: seatsInt,
         reserve_date: date,
-        time: time,
+        time: time ,
         branchId: 1,
         name: name,
         phonenumber: phonenumber,
       });
-      // const response = await Axios.post(`/feature6/createreservation`, {
-      //   venueId: venueId,
-      //   guest_amount: seats,
-      //   reserve_date: date,
-      //   time: time,
-      //   branchId:1,
-      //   name: name,
-      //   phonenumber: phonenumber,
-      // });
-      // console.log(response);
+        // console.log(response);
       console.log("create reservation successfully");
       navigate("/3/venue/3/payment");
-    } catch (err) {
+    } catch (err : any) {
+      toast.error(err.response.data.error)
       console.log(err);
+      throw err;
     }
   };
 
@@ -228,6 +229,7 @@ export const ReservationDetail = () => {
               textColor={"black"}
               width="163px"
               height={"25px"}
+              value={date}
               onChange={(e) => {
                 setDate(e.target.value);
               }}
@@ -264,6 +266,7 @@ export const ReservationDetail = () => {
               textColor={"black"}
               width="163px"
               height={"25px"}
+              value={time}
               onChange={(e) => {
                 setTime(e.target.value);
               }}

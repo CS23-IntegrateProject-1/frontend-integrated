@@ -1,59 +1,27 @@
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../../components/RDetailCard";
-import { getReservationDetail } from "../../../../api/Reservation/getReservationDetail";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { Axios } from "../../../../AxiosInstance";
+import { getVenueById } from "../../../../api/Reservation/getVenueById";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface IData {
-  venue: {
-    name: string;
-    description: string;
-    category: string;
-    capacity: number;
-    chatRoomId: number;
-    locationId: number;
-    score: string;
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  chatRoomId: number;
+  locationId: number;
+  score: string;
+  venueId: number;
+  website_url: string;
+  Venue_photo: {
     venueId: number;
-    website_url: string;
-    Venue_photo: string;
+    image_url: string;
+    date_added: Date;
   };
-  location: {
-    address: string;
-  };
-  reservations: [
-    {
-      venueId: number;
-      guest_amount: number;
-      reserved_time: string;
-      status: string;
-      userId: number;
-      entry_time: string;
-      isReview: boolean;
-      reservationId: number;
-      depositId: number;
-      isPaidDeposit: string;
-      user: {
-        username: string;
-        hashed_password: string;
-        fname: string;
-        lname: string;
-        email: string;
-        profile_picture: string;
-        addId: string;
-        phone: string;
-        tierId: number;
-        userId: number;
-        User_bio: string;
-      };
-      deposit: {
-        deposit_amount: string;
-        depositId: number;
-        venueId: number;
-      };
-    }
-  ];
 }
 
 export const WalkInDetail = () => {
@@ -63,27 +31,34 @@ export const WalkInDetail = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const seats = searchParams.get("count");
+  const seatsInt = parseInt(seats || "0");
+
+  const { venueId } = useParams<{ venueId: string }>();
+  const venueIdInt = parseInt(venueId || "0");
 
   useEffect(() => {
     fetchData();
-    console.log("FNAME" + data?.reservations[0].user.fname);
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getReservationDetail(1, 46);
+    const response: IData = await getVenueById(venueIdInt, 1); //ไม่ควรเป็น param
     setData(response);
     setIsLoaded(true);
   };
   const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
+  const toast = useCustomToast();
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleCreate = async () => {
     try {
+      if (name == "" || phonenumber == "") {
+        toast.warning("Please fill in all information");
+      }
       const response = await Axios.post(`/feature6/createOfflineReservation`, {
-        venueId: 3,
-        guest_amount: seats,
+        venueId: venueIdInt,
+        guest_amount: seatsInt,
         name: name,
         phonenumber: phonenumber,
         branchId: 1,
@@ -91,7 +66,8 @@ export const WalkInDetail = () => {
       console.log(response);
       console.log("create reservation successfully");
       navigate("/business/reservation");
-    } catch (err) {
+    } catch (err: any) {
+      toast.error(err.response.data.error);
       console.log(err);
     }
   };
@@ -104,7 +80,11 @@ export const WalkInDetail = () => {
         alignItems="center" // Center the content horizontally
         justifyContent="center"
       >
-        <RDetailCard />
+        <RDetailCard
+          name={data?.name}
+          star={data?.score}
+          location={"แก้ด่วน"}
+        />
 
         {/* This will push the reservation detail to the bottom */}
         <Box
