@@ -1,13 +1,7 @@
 import {
   Box,
-  Card,
-  Image,
-  Stack,
-  CardBody,
-  Heading,
+  Image, 
   Text,
-  CardFooter,
-  Button,
   Flex,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
@@ -17,7 +11,6 @@ interface RDetailCardProps {
   name?: string;
   star?: string;
   location?: string;
-  reservationId?: number;
   venueId?: number;
   src?: string;
 }
@@ -25,9 +18,8 @@ interface RDetailCardProps {
 export const RDetailCard: FC<RDetailCardProps> = ({
   name,
   star,
-  reservationId,
   location,
-  src
+  src,
 }) => {
   const images: string[] = ["1", "2", "3", "4", "5", "6"];
   
