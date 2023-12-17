@@ -60,7 +60,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     setSocket(newSocket);
     console.log("newSocket", newSocket);
     return () => { newSocket.close(); }
-  }, [user.username]);
+  }, [user]);
 
   //Temporary Contacts from database
   useEffect(() => {
@@ -83,12 +83,13 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   // console.log("contacts", contacts);
   
   //To get all the privateConversationLog
-  // useEffect(() => {
-  //     Axios.get("/feature12/displayCategory").then((res) => {
-  //         setConversations(res.data);
-  //     });
-  // },[]);
-  
+  useEffect(() => {
+      Axios.get("/feature12/displayGroupDetail").then((res) => {
+          setConversations(res.data);
+      });
+  },[socket]);
+  // console.log("conversations", conversations);
+
   function createConversation(recipients: Recipient[],group_id: string) {
     console.log("recipients", recipients);
     console.log(conversations+ "<< conversations")
@@ -100,6 +101,11 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     //   ];
     // });
   }
+  
+  const sendMessage = ({ recipients, text }: { recipients: Recipient[], text: string }) => {
+    socket?.emit("send-message", { recipients, text });
+    addMessageToConversation({recipients, text, sender: user.username});
+  };
 
   const addMessageToConversation = useCallback(({ recipients, text, sender }: { recipients: Recipient[], text: string, sender: string },) => {
     setConversations((prevConversations) => {
@@ -132,17 +138,13 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       return;
     }
 
-    // socket.on("receive-message", addMessageToConversation );
+    socket.on("receive-message", addMessageToConversation );
 
-    // return () => {
-    //   socket.off("receive-message");
-    // }
+    return () => {
+      socket.off("receive-message");
+    }
   }, [socket]);
 
-  const sendMessage = ({ recipients, text }: { recipients: Recipient[], text: string }) => {
-    socket?.emit("send-message", { recipients, text });
-    addMessageToConversation({recipients, text, sender: user.username});
-  };
 
   const formattedConversations = conversations.map(
     (conversation, index: number) => {

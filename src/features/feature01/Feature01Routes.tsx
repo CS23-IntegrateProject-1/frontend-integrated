@@ -75,10 +75,7 @@ export const Feature01Routes = () => {
     },
     {
       path: "/Friends",
-      element: 
-        <ConversationsProvider>
-          <FriendMain/>
-        </ConversationsProvider>,
+      element: <FriendMain/>,
     },
     {
       path: "/AddFriend",
@@ -90,10 +87,7 @@ export const Feature01Routes = () => {
   },
   {
     path: "/SetUpGroup",
-    element: 
-      <ConversationsProvider>
-        <SetUpGroup/>
-      </ConversationsProvider>
+    element: <SetUpGroup/>,
   }
   ];
 };

@@ -20,7 +20,7 @@ export const SetUpGroup = () => {
   //to refresh group list
 
   //FROM GROUP 3
-  const { createConversation } = useConversations();
+  // const { createConversation } = useConversations();
   
   const groupImageProfile = (e: any) => {
     const file = e.target.files[0];
@@ -51,7 +51,7 @@ export const SetUpGroup = () => {
                     console.log(response.data);
                     console.log('successfully added')
                     //FROM GROUP 3
-                    createConversation(response.data.members,response.data.group_id);
+                    // createConversation(response.data.members,response.data.group_id);
                 }
             })
             .catch((error) => {

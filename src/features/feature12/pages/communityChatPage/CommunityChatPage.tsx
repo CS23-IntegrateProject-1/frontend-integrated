@@ -2,7 +2,7 @@ import { Box,Tab,TabList,TabPanel,TabPanels,Tabs,Text } from "@chakra-ui/react";
 
 import OpenConversations from "../../components/OpenConversations";
 import { useConversations } from "../../context/ConversationProvider";
-import Conversations from "../../components/Conversations";
+import Conversations from "../../components/ConversationsLog";
 import { TextStyle } from "../../../../theme/TextStyle";
 
 export const CommunityChatPage = () => {
@@ -28,7 +28,7 @@ export const CommunityChatPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
-      {selectedConversation && <OpenConversations />}
+      {/* {selectedConversation && <OpenConversations />} */}
     </Box>
   );
 };

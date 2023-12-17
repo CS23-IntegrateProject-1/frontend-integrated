@@ -2,7 +2,7 @@ import { List, ListItem } from "@chakra-ui/react";
 import React from "react";
 import { useConversations } from "../context/ConversationProvider";
 
-const Conversations: React.FC = () => {
+const ConversationsLog: React.FC = () => {
   const { conversations, selectedConversationIndex } = useConversations();
   console.log(conversations);
   return (
@@ -24,4 +24,4 @@ const Conversations: React.FC = () => {
   );
 };
 
-export default Conversations;
+export default ConversationsLog;
