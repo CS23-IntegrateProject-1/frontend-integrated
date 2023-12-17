@@ -7,12 +7,13 @@ interface TableCardProps {
     type?: string;
     status?: string;
     tableId?: string;
+    image?: string;
 }
 export const TableCard: FC<TableCardProps> = ({
     tableno,
     type,
     status,
-    tableId,
+    image,
 }) => {
     return (
       <Card
@@ -29,7 +30,7 @@ export const TableCard: FC<TableCardProps> = ({
           width="100px" // Set the width to 100px
           height="100px" // Set the height to 100px
           borderRadius="10px"
-          src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+          src={image}
           alt="Caffe Latte"
           margin={"15px"}
         />
@@ -57,7 +58,7 @@ export const TableCard: FC<TableCardProps> = ({
             <Text color={"white"}>
               {status === "Available" ? (
                 <Text color={"#007E33"}>Available</Text>
-              ) : status === "Booked" ? (
+              ) : status === "Unavailable" ? (
                 <Text color={"#C00"}>Booked</Text>
               ) : (
                 ""

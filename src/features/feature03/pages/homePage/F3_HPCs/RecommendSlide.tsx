@@ -9,8 +9,10 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
+import { FaHeart } from "react-icons/fa";
 
 import mockR from "../../RF3mock.json";
 
@@ -23,8 +25,29 @@ interface RProps {
 
 export const RecommendSlide = () => {
   const R: RProps[] = mockR;
+  const [isFav, setIsFav] = useState(false);
+
+  const toggleFav = () => {
+    setIsFav((prevIsFav) => !prevIsFav);
+  };
   return (
-    <Box overflow={"scroll"} display={"flex"} w={"100%"} pt={1}>
+    <Box
+      overflowX="auto"
+      css={{
+        "&::-webkit-scrollbar": {
+          width: "4px",
+        },
+        "&::-webkit-scrollbar-track": {
+          width: "6px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          borderRadius: "24px",
+        },
+      }}
+      display={"flex"}
+      w={"100%"}
+      pt={1}
+    >
       {R.filter((R) => R).map((R, index) => (
         <Card
           minW={{ base: "300px", lg: "350px" }}
@@ -34,6 +57,24 @@ export const RecommendSlide = () => {
           key={index}
           marginRight="5"
         >
+          <Button
+            position="absolute"
+            right="0"
+            mt="1.5"
+            mr="1.5"
+            borderRadius="100%"
+            paddingY="3"
+            paddingX="0"
+            bgColor={isFav ? "#f0608d" : "white"}
+            color={isFav ? "white" : "#f0608d"}
+            _hover={{
+              bgColor: isFav ? "black" : "white",
+              color: isFav ? "white" : "black",
+            }}
+            onClick={toggleFav}
+          >
+            <FaHeart fontSize="20px" />
+          </Button>
           <CardBody>
             <Image
               src={R.picR}

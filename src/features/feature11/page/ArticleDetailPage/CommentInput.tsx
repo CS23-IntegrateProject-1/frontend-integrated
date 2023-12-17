@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Textarea } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -29,7 +29,6 @@ export const CommentInput = () => {
       .catch((err) => {
         console.log("error", err);
       });
-      
   };
 
   return (

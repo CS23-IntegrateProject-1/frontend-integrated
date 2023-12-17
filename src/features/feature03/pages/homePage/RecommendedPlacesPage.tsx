@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import {
   Box,
-  Stack,
   Text,
   Card,
   CardBody,
@@ -14,19 +13,53 @@ import {
 import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
-import mockR from "../RF3mock.json";
 import { StarIcon } from "@chakra-ui/icons";
 
-interface RProps {
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+
+interface RecommendedPlaces {
   id: number;
+  venueId: number;
+  branchId: number;
   name: string;
   description: string;
-  picR: string;
+  category: string;
+  capacity: string;
+  location: string;
+  website_url: string;
+  rating: string;
 }
 
 export const RecommendedPlacesPage = () => {
-  const R: RProps[] = mockR;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const search = params.get("search");
+
+  const {
+    isLoading: recommendedPlacesLoading,
+    isError: recommendedPlacesError,
+    data: recommendedPlacesData,
+  } = useQuery<RecommendedPlaces[]>({
+    queryKey: ["getVen"],
+    queryFn: async () => {
+      const { data } = await Axios.get("/feature3/RecommendedPlaces");
+      return data;
+    },
+  });
+
+  if (recommendedPlacesLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (recommendedPlacesError) {
+    return <span>An error occurred: </span>;
+  }
+
 
   return (
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
@@ -45,6 +78,7 @@ export const RecommendedPlacesPage = () => {
           <Filter_Modal isOpen={isOpen} onClose={onClose} />
         </Flex>
       </Flex>
+
       <Box
         display="grid"
         width="100%"
@@ -54,73 +88,54 @@ export const RecommendedPlacesPage = () => {
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
       >
-        {R.filter((R) => R).map((R, index) => (
+        {recommendedPlacesData.map((RP) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
             borderRadius="2xl"
             bg="brand.200"
-            key={index}
+            key={RP.venueId}
             mb={8}
           >
-            <CardBody>
+            <CardBody pb={1}>
               <Image
-                src={R.picR}
-                alt="BarButPic not load"
+                src={RP.pic}
+                alt={RP.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
                 h="160px"
+                bgColor={"white"}
               />
-              <Stack mt="4" spacing="3">
-                <Flex direction="row" justify="space-between" align="center">
-                  <Heading color="white" size="md">
-                    {R.name}
-                  </Heading>
-                  <Flex
-                    direction="row"
-                    p="1.5"
-                    mr="2"
-                    borderRadius="14"
-                    color="white"
-                  >
-                    5<StarIcon ml="1" transform="translateY(2px)" />
-                  </Flex>
+              <Flex mt="4">
+                <Heading color="white" size="md">
+                  {RP.name}
+                </Heading>
+                <Flex direction="row" mr="2" borderRadius="14" ml={"auto"} color="white" transform="translateY(2px)">
+                  {RP.rating != "0" ? RP.rating : "N/A"}
+                  <StarIcon ml="2" transform="translateY(2px)" />
                 </Flex>
-                <Text color="grey.200">{R.description}</Text>
-              </Stack>
+              </Flex>
             </CardBody>
             <Flex
-              direction="row"
-              justify="space-between"
+              direction="column"
+              justify="center"
               width="100%"
-              pl="5"
-              pr="5"
+              px="5"
               pb="5"
             >
-              <NavLink to="/Temp_RestaurantDetail">
+              <Text mb={3} textColor={"gray.300"}>
+                {RP.description}
+              </Text>
+              <NavLink to={`/Branches/${RP.venueId}`}>
                 <Button
-                  variant="outline"
+                  variant="solid"
                   textColor="white"
-                  _hover={{
-                    textColor: "black",
-                    borderColor: "black",
-                    bgColor: "brand.100",
-                  }}
-                  w="160px"
+                  bgColor="brand.300"
+                  _hover={{ bgColor: "brand.100", textColor: "black" }}
+                  w="350px"
                 >
-                  More Info
+                  Branches
                 </Button>
-              </NavLink>
-              <NavLink to="/table">
-              <Button
-                variant="solid"
-                textColor="white"
-                bgColor="brand.300"
-                _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="160px"
-              >
-                Reserve Now
-              </Button>
               </NavLink>
             </Flex>
           </Card>

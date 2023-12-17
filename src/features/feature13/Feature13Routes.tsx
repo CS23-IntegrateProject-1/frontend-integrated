@@ -60,10 +60,6 @@ export const Feature13Routes = () => {
 			element: "ElementPlaceHolder"
 		},
 		{
-			path: "/business/reservation",
-			element: "ElementPlaceHolder"
-		},
-		{
 			path: "/business/reservation/offline",
 			element: "ElementPlaceHolder"
 		},

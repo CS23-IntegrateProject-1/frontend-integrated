@@ -1,8 +1,29 @@
 import { NavLink } from "react-router-dom";
 import { Box, Text, Image, Button, Flex, Divider } from "@chakra-ui/react";
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { FaMapMarkerAlt } from "react-icons/fa";
+
 import mockO from "../OF3mock.json";
+
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
+
+interface VenueDetail {
+  id: number;
+  venueId: number;
+  branchId: number;
+  name: string;
+  branch_name: string;
+  description: string;
+  category: string;
+  capacity: string;
+  location: string;
+  website_url: string;
+  rating: string;
+  venue_picture: string;
+}
 
 interface OProps {
   id: number;
@@ -12,75 +33,89 @@ interface OProps {
   description: string;
 }
 
-export const VenueDetail = () => {
+export const VenueDetail: FC = () => {
   const O: OProps[] = mockO;
+  const { branchId } = useParams();
+
+  const {
+    isLoading: venueDetailLoading,
+    isError: venueDetailError,
+    data: venueDetailData,
+  } = useQuery<VenueDetail[]>({
+    queryKey: ["getVenueXRates"],
+    queryFn: async () => {
+      const { data } = await Axios.get(`/feature3/VenDetail/${branchId}`);
+      return data;
+    },
+  });
+
+  if (venueDetailLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (venueDetailError) {
+    return <span>An error occurred: </span>;
+  }
+
+  console.log(branchId);
+  console.log(venueDetailData);
+
 
   return (
     <Box width={"100%"}>
-      <Image
-        src="https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg"
-        alt="Pic not load"
-        borderRadius="2xl"
-        w="100%"
-        h="300px"
-        maxH="300px"
-        minH="300px"
-        objectFit={"cover"}
-        mb="5"
-      />
-      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Box display={"flex"} alignItems={"center"}>
-        <Text fontSize={"3xl"} fontWeight={"bold"}>
-          Restuant Lorem by by NENE
-        </Text>
-        {/* ******************* If have time ************************ */}
-        <Box ml="auto">
-          <Flex
-            direction="column"
-            alignItems="center"
-            _hover={{ color: "brand.100" }}
-          >
-            <FaMapMarkerAlt fontSize="25px" />
-            <Text fontSize="15px">Location</Text>
-          </Flex>
-        </Box>
-        {/* ******************************************************** */}
-      </Box>
-      <Box display={"flex"} pb={5}>
-        <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
-        <Text color={"brand.100"} fontSize="15px">
-          4.7 (2934 ratings)
-        </Text>
-
-        <Box ml={"auto"}>
-          <NavLink to="/Reviews">
-            <Text
-              textDecoration={"underline"}
-              fontSize="12.5px"
-              ml={"auto"}
-              mt={"3px"}
-              color={"grey.200"}
-              _hover={{ color: "white" }}
-            >
-              View all ratings & reviews
+      {venueDetailData.map((venue, index) => (
+        <Box key={index}>
+          <Image
+            src={venue.venue_picture}
+            alt={venue.name + "_Pic"}
+            borderRadius="2xl"
+            w="100%"
+            h="300px"
+            maxH="300px"
+            minH="300px"
+            objectFit={"cover"}
+            mb="5"
+            bgColor={"black"}
+          />
+          {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+          <Box display={"flex"} alignItems={"center"}>
+            <Text fontSize={"3xl"} fontWeight={"bold"}>
+              {venue.name} | {venue.branch_name}
             </Text>
-          </NavLink>
-        </Box>
-      </Box>
+          </Box>
+          <Box display={"flex"} pb={5}>
+              <StarIcon color={"brand.100"} fontSize="20px" mr="2" />
+              <Text color={"brand.100"} fontSize="15px">
+                {venue.rating != "0" ? venue.rating : "N/A"}  
+              </Text>
 
-      <Box bgColor={"brand.200"} borderRadius="xl">
-        <Text p={3}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
-        </Text>
-      </Box>
+            <Box ml={"auto"}>
+              <NavLink to={`/Reviews/${branchId}`}>
+                <Text
+                  textDecoration={"underline"}
+                  fontSize="12.5px"
+                  ml={"auto"}
+                  mt={"3px"}
+                  color={"grey.200"}
+                  _hover={{ color: "white" }}
+                >
+                  View all ratings & reviews
+                </Text>
+              </NavLink>
+            </Box>
+          </Box>
+
+          <Box bgColor={"brand.200"} borderRadius="xl">
+            <Text p={3}>{venue.description}</Text>
+          </Box>
+        </Box>
+      ))}
+
+
 
       <Divider
         py={4}
@@ -156,9 +191,8 @@ export const VenueDetail = () => {
 
       <Flex
         display="grid"
-        gridTemplateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)"}}
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(3, 1fr)" }}
         pb="4"
-        
       >
         {O.filter((O) => O).map((O, index) => (
           <Box
@@ -170,7 +204,7 @@ export const VenueDetail = () => {
             alignItems={"center"}
             maxW={"450px"}
             key={index}
-            border="2px solid white"
+            bgColor={"brand.300"}
           >
             <Image
               src={O.picO}
@@ -182,7 +216,6 @@ export const VenueDetail = () => {
               minH="100px"
               objectFit={"cover"}
               ml={1}
-              border="1px solid white"
             />
             <Box
               pl={4}
@@ -208,37 +241,37 @@ export const VenueDetail = () => {
         ))}
       </Flex>
 
-      <Flex direction="row" pb="10" justifyContent={"center"} >
+      <Flex direction="row" pb="10" justifyContent={"center"}>
         <NavLink to="/table">
-            <Button
-              variant="solid"
-              textColor="white"
-              bgColor="brand.200"
-              _hover={{
-                textColor: "black",
-                bgColor: "brand.100",
-              }}
-              mr={{base:"5", lg:"10"}}
-              w={{base:"125px", lg:"180px"}}
-            >
-              Reserve now
-            </Button>
-          </NavLink>
-          <NavLink to="/PATH_IDKKKKKKKKKOOOOOOO">
-            <Button
-              variant="solid"
-              textColor="white"
-              bgColor="brand.200"
-              _hover={{
-                textColor: "black",
-                bgColor: "brand.100",
-              }}
-              w={{base:"125px", lg:"180px"}}
-            >
-              Order now
-            </Button>
-          </NavLink>
-          </Flex>
+          <Button
+            variant="solid"
+            textColor="white"
+            bgColor="brand.200"
+            _hover={{
+              textColor: "black",
+              bgColor: "brand.100",
+            }}
+            mr={{ base: "5", lg: "10" }}
+            w={{ base: "125px", lg: "180px" }}
+          >
+            Reserve now
+          </Button>
+        </NavLink>
+        <NavLink to="/PATH_IDKKKKKKKKKOOOOOOO">
+          <Button
+            variant="solid"
+            textColor="white"
+            bgColor="brand.200"
+            _hover={{
+              textColor: "black",
+              bgColor: "brand.100",
+            }}
+            w={{ base: "125px", lg: "180px" }}
+          >
+            Order now
+          </Button>
+        </NavLink>
+      </Flex>
     </Box>
   );
 };

@@ -1,10 +1,9 @@
-import { Box, HStack, Button,Text, Center, Icon, VStack,Flex} from "@chakra-ui/react";
+import { Box, HStack, Text, Center, VStack,Flex} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { BusMenucard } from "../../component/BusMenucard";
 import { BusSetMenuCard } from "../../component/BusSetMenuCard";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { CustomCartIcon } from "../../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
 import { RButton } from "../../component/RButton";
 import { Axios } from "../../../../AxiosInstance";
@@ -49,9 +48,10 @@ export const MenuAllBusiness = () => {
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
   const { venueId } = useParams();
+  const venueIdNum: number = +venueId!;
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueIdNum], () => fetchMenuAndSetData(venueIdNum.toString()));
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -109,14 +109,13 @@ export const MenuAllBusiness = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
               <BusMenucard
-              key={menu.menuId}
-              id={menu.menuId}
-              foodName={menu.name}
-              description={menu.description}
-              price={menu.price}
-              imageUrl={menu.image}
-              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
-            />
+                key={menu.menuId}
+                id={menu.menuId}
+                foodName={menu.name}
+                description={menu.description}
+                price={menu.price}
+                imageUrl={menu.image}
+                onClick={() => handleMenuClick("Menu", `${menu.menuId}`)} amount={0}            />
             ))}
           </VStack>
         );
@@ -127,14 +126,13 @@ export const MenuAllBusiness = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
               <BusSetMenuCard
-              key={set.setId}
-              id={set.setId}
-              foodName={set.name}
-              description={set.description}
-              price={set.price}
-              imageUrl={set.image_url}
-              onClick={() => handleMenuClick("Set", `${set.setId}`)}
-            />
+                key={set.setId}
+                id={set.setId}
+                foodName={set.name}
+                description={set.description}
+                price={set.price}
+                imageUrl={set.image_url}
+                onClick={() => handleMenuClick("Set", `${set.setId}`)} amount={0} type={""}            />
             ))}
           </VStack>
         );

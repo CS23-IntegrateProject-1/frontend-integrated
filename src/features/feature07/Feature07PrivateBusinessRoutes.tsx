@@ -4,6 +4,7 @@ import { BusinessMenuDetail } from "./pages/BusinessSidePage/BusinessMenuDetail"
 import { EditMenu } from "./pages/BusinessSidePage/EditMenu";
 import { EditSetMenu } from "./pages/BusinessSidePage/EditSetMenu";
 import { MenuAllBusiness } from "./pages/BusinessSidePage/MenuAllBusiness";
+import { BusOrderStat } from "./pages/BusinessSidePage/BusOrderStat";
 
 export const Feature07PrivateBusinessRoutes = () => {
     return [
@@ -31,5 +32,9 @@ export const Feature07PrivateBusinessRoutes = () => {
             path: "/business/venue/:venueId/bmenudetail/:type/:menuid", 
             element: <BusinessMenuDetail /> 
         },
+        {
+            path: "/business/venue/:venueId/orderstat", 
+            element: <BusOrderStat />
+        }
     ];
 };

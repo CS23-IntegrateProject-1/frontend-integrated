@@ -1,8 +1,8 @@
 // AddCard.tsx
-import { Box, Flex, Image, Text, IconButton, VStack, HStack } from "@chakra-ui/react";
+import {  Flex, Image, Text, VStack, HStack } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+
 
 interface AddCardProps {
   id: number;
@@ -12,13 +12,7 @@ interface AddCardProps {
   imageUrl: string;
   onSelect?: (id:number) => void;
 }
-interface Menu {
-  id: number;
-  foodName: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  }
+
 
 export const AddCard: FC<AddCardProps> = ({ id, foodName, description, price, imageUrl, onSelect }) => {
   const [isSelected, setIsSelected] = useState(false);

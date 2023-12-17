@@ -9,19 +9,18 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useDisclosure,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 import { ArticlesBox } from "./ArticlesBox";
 import { MdAddCircle } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { Axios } from "../../../../AxiosInstance";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../../ArticleTypes";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { AuthorBox } from "./AuthorBox";
 import { formatDate1 } from "../../../../functions/formatDatetime";
+import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
 const fetchArticles = async (): Promise<ArticlesPageProps[]> => {
   const res = await Axios.get("/feature11/fetchAllArticle");
@@ -41,7 +40,8 @@ export const ArticlesPage = () => {
   const [filteredAuthors, setFilteredAuthors] = useState<ArticlesPageProps[]>(
     []
   );
-
+  {filteredAuthors}
+  
   const articles = useQuery({ queryKey: ["articles"], queryFn: fetchArticles });
   useEffect(() => {
     const filtered = articles.data?.filter((article) =>
@@ -130,6 +130,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
+                      user={article.user}
                     />
                   );
                 })}
@@ -152,6 +153,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
+                      user={article.user}
                     />
                   );
                 })}

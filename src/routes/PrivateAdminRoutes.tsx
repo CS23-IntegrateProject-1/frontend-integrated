@@ -6,15 +6,11 @@ import { NotFoundPage } from "../pages/fallbackPages/NotFoundPage";
 import { Feature05AdminRoutes } from "../features/feature05/Feature5AdminRoutes";
 
 export const PrivateAdminRoutes = createBrowserRouter([
-	{ path: "/", element: <Navigate to={"/admin/dashboard"} /> },
-	{
-		path: "/",
-		element: <RootLayout />,
-		children: [
-			...Feature14Routes(),
-			...Feature05AdminRoutes(),
-			...AdminPublicRoutes(),
-		],
-	},
-	{ path: "/*", element: <NotFoundPage /> },
+  { path: "/", element: <Navigate to={"/admin/dashboard"} /> },
+  {
+    path: "/",
+    element: <RootLayout role="admin" />,
+    children: [...Feature14Routes(), ...Feature05AdminRoutes(), ...AdminPublicRoutes()],
+  },
+  { path: "/*", element: <NotFoundPage /> },
 ]);

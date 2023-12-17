@@ -1,21 +1,21 @@
-import { BusiProfile } from "./Pages/BusiProfile";
-import { BusiProfileEdit } from "./Pages/BusiProfileEdit";
-import { SettingHomepage } from "./Pages/homepage/SettingHomepage";
-import { Account } from "./Pages/account/Account";
-import { Notifications } from "./Pages/notifications/Notifications";
-import { PrivacyPolicy } from "./Pages/privacyPolicy/PrivacyPolicy";
-import { TermOfService } from "./Pages/termOfService/TermOfService";
-import { Help } from "./Pages/help/Help";
-import { About } from "./Pages/about/About";
-import { Profile } from "./Pages/profile/Profile";
-import { PaymentMethodSetting } from "./Pages/paymentMethodSetting/PaymentMethodSetting";
-import { EmailNoti } from "./Pages/notifications/EmailNoti";
-import { PushNoti } from "./Pages/notifications/PushNoti";
-import { AddCard } from "./Pages/AddCard";
-import { Overview } from "./Pages/overview/Overview";
-import { FriendMain } from "./Pages/AddFriends/FriendMain";
-import { AddFriend } from "./Pages/AddFriends/AddFriend";
-import { CreateGroup } from "./Pages/AddFriends/CreateGroup";
+import { SettingHomepage } from './Pages/homepage/SettingHomepage'
+import { Account } from './Pages/account/Account'
+import { Notifications } from './Pages/notifications/Notifications'
+import { PrivacyPolicy } from './Pages/privacyPolicy/PrivacyPolicy'
+import { TermOfService } from './Pages/termOfService/TermOfService'
+import { Help } from './Pages/help/Help'
+import { About } from './Pages/about/About'
+import { Profile } from './Pages/profile/Profile'
+import { PaymentMethodSetting } from './Pages/paymentMethodSetting/PaymentMethodSetting'
+import { EmailNoti } from './Pages/notifications/EmailNoti'
+import { PushNoti } from './Pages/notifications/PushNoti'
+import { AddCard } from './Pages/AddCard'
+import { Overview } from './Pages/overview/Overview'
+import { FriendMain } from './Pages/AddFriends/FriendMain'
+import { AddFriend } from './Pages/AddFriends/AddFriend'
+import { CreateGroup } from './Pages/AddFriends/CreateGroup'
+import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
+import { QRScanner } from './Pages/AddFriends/QRScanner'
 export const Feature01Routes = () => {
   return [
     {
@@ -73,15 +73,23 @@ export const Feature01Routes = () => {
     },
     {
       path: "/Friends",
-      element: <FriendMain />,
+      element: <FriendMain/>,
     },
     {
       path: "/AddFriend",
-      element: <AddFriend />,
-    },
-    {
-      path: "CreateGroup",
-      element: <CreateGroup />,
-    },
+      element: <AddFriend/>,
+  },
+  {
+    path: "/CreateGroup",
+    element: <CreateGroup/>,
+  },
+  {
+    path: "/SetUpGroup",
+    element: <SetUpGroup/>,
+  },
+  {
+    path: "/AddFriend/QRCode",
+    element: <QRScanner/>,
+  },
   ];
 };

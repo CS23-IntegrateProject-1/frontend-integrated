@@ -1,14 +1,9 @@
 import { NavLink } from "react-router-dom";
 import {
   Box,
-  Text,
   Card,
   Image,
-  Button,
-  Flex,
 } from "@chakra-ui/react";
-import { SearchBar } from "./F3_HPCs/SearchBar";
-import { FaFilter } from "react-icons/fa";
 import mockP from "../PF3mock.json";
 
 interface PProps {
@@ -21,15 +16,6 @@ export const PromotionsPage = () => {
   const P: PProps[] = mockP;
   return (
     <Box width={"100%"} px={{base:"none", lg:"30px"}}>
-      <Flex direction="row" pt={{base:"2", lg:"0"}}>
-        <SearchBar />
-        <Flex direction="column" ml="3">
-          <FaFilter fontSize="25px" />
-          <Text fontSize="15px" transform="translateX(-3px)">
-            Filter
-          </Text>
-        </Flex>
-      </Flex>
       <Box
         display="grid"
         width="100%"

@@ -57,21 +57,21 @@ export const AddCard: FC<ButtonProps> = ({
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let name = event.target.value;
-    setName(name);
-  }
+      const name = event.target.value;
+      setName(name);
+    }
 
-  const handleCountryChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let country = event.target.value;
-    setCountry(country);
-  }
+    const handleCountryChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const country = event.target.value;
+      setCountry(country);
+    }
 
-  const handleBankChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let bank = event.target.value;
+    const handleBankChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const bank = event.target.value;
     setBank(bank);
   }
 
@@ -203,8 +203,8 @@ export const AddCard: FC<ButtonProps> = ({
             cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            userId: parseInt(userId),
-            venueId: parseInt(venueId),
+            userId: parseInt(userId ?? ''),
+            venueId: parseInt(venueId ?? ''),
           }
         );
     
@@ -213,6 +213,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
+        console.log(addCardData)
         window.location.href = `/${userId}/venue/${venueId}/payment`;
       } catch (error) {
         console.error("POST error:", error);

@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box} from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { Text } from "@chakra-ui/react";
 import { TextStyle } from "../../theme/TextStyle";

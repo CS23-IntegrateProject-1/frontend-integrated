@@ -1,5 +1,5 @@
 import { Search2Icon } from "@chakra-ui/icons"
-import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
+import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
 import TextStyle from "../../../../theme/foundations/textStyles"
 import { useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
@@ -7,21 +7,54 @@ import { NavLink } from "react-router-dom";
 export const AddFriend = () => {
     const [username, setUsername] = useState('');
     const [userImg, setUserImg] = useState('');
-    const [tabIndex, setTabIndex] = useState(0);
+    const [userId, setUserId] = useState('');
+    const [, setTabIndex] = useState(0);
     const toast = useToast()
     const [shouldShowChatButton, setShouldShowChatButton] = useState(false);
-
+    const [phNoSearch, setPhNoSearch] = useState('');
+    //get fri data from main page
+    // const location = useLocation();
+    // const {setFriData, friData} = location.state;
+    
     const onClickHandler = () => {
-        toast({
-          render: () => (
-            <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
-              Added!
-            </Box>
-          ),
-          duration: 1500,
-          isClosable: true,
-        });
-        setShouldShowChatButton(true);
+               
+        if(!shouldShowChatButton){
+            Axios.post(`/feature1/friend/add`, {
+                friend_id: userId
+            }, { withCredentials: true })
+                .then((response) => {
+                    if (response.status == 200) {
+                        toast({
+                            render: () => (
+                              <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+                                Added!
+                              </Box>
+                            ),
+                            duration: 1500,
+                            isClosable: true,
+                          }); 
+                        console.log(response.data);
+                        console.log('successfully added')
+                        setShouldShowChatButton(true);
+                    }
+                    
+                    
+                })
+                .catch((error) => {
+                    console.error("Error fetching username data:", error);
+                    if(error.response.status == 409){
+                        toast({
+                            render: () => (
+                              <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+                                Already in the friend List!
+                              </Box>
+                            ),
+                            duration: 1500,
+                            isClosable: true,
+                          });
+                    }
+                });
+        }
       };
       
       {shouldShowChatButton ? (
@@ -31,18 +64,19 @@ export const AddFriend = () => {
       ) : (
         <Button onClick={onClickHandler} bg={'brand.100'} color={'brand.200'} colorScheme='brand.200' variant='solid'>
           Add Friend
-        </Button>
-      )}
+                </Button>
+            )}
 
-      if(shouldShowChatButton){
-        setTimeout(() => {
-            const text = document.getElementById('text');
-            text.style.visibility = 'visible';
-        }
-            , 800);
-        }
+            if(shouldShowChatButton){
+                setTimeout(() => {
+                        const text = document.getElementById('text');
+                        if (text) {
+                                text.style.visibility = 'visible';
+                        }
+                }, 800);
+            }
 
-    const handleSearch = () => {
+        const handleSearch = () => {
         console.log(username);
         const url = `/feature1/search/friends?username=${username}`;
         Axios.get(url, { withCredentials: true })
@@ -51,13 +85,42 @@ export const AddFriend = () => {
                     console.log(response.data);
                     console.log(response.data.name);
                     console.log(response.data.avatar); //give null no data
+                    console.log(response.data.user_id);
+                    setUserId(response.data.user_id);
                     setUsername(response.data.name);
-                    setUserImg(response.data.avatar); //give null no data
+                    setUserImg(response.data.avatar);
+                     //give null no data
+                     //change the state of the box to visible
+                    const box = document.getElementById('box');
+                    if(box)
+                    box.style.visibility = 'visible';
                     
                 }
-                //change the state of the box to visible
+                
+            })
+            .catch((error) => {
+                console.error("Error fetching username data:", error);
+            });
+    }
+    const handleSearchphNo = () => {
+        console.log(phNoSearch);
+        const url = `/feature1/search/friends?phone=${phNoSearch}`;
+        Axios.get(url, { withCredentials: true })
+            .then((response) => {
+                if (response.status == 200) {
+                    console.log(response.data);
+                    console.log(response.data.name);
+                    console.log(response.data.avatar); //give null no data
+                    console.log(response.data.user_id);
+                    setUserId(response.data.user_id);
+                    setUsername(response.data.name);
+                    setUserImg(response.data.avatar);
+                     //give null no data
+                     //change the state of the box to visible
                 const box = document.getElementById('box');
-                box.style.visibility = 'visible';
+               if(box) box.style.visibility = 'visible';
+                }
+                
             })
             .catch((error) => {
                 console.error("Error fetching username data:", error);
@@ -66,6 +129,9 @@ export const AddFriend = () => {
 
     return (
         <Box>
+            {/* {
+                JSON.stringify(location.state, null, 2)
+            } */}
             <RadioGroup defaultValue='username'>
                 <Tabs onChange={(index) => setTabIndex(index)} position="relative" variant="unstyled">
                     <TabList>
@@ -98,10 +164,24 @@ export const AddFriend = () => {
                             </Box>
                         </TabPanel>
                         <TabPanel>
-                            {/* hide visibility */
-
-                            }
-                            <p>WIth ph no</p>
+                            {/* PhNO */}
+                            <Box position={'relative'} overflow={'hidden'}>
+                                <InputGroup size='md' borderRadius={'2'}>
+                                    <Input border={'none'}
+                                        pr='4.5rem'
+                                        placeholder='Search by username'
+                                        bg={'gray.200'}
+                                        color={'black'}
+                                        borderRadius={'20'}
+                                        onChange={(e) => setPhNoSearch(e.target.value)}
+                                    />
+                                    <InputLeftElement>
+                                        <Button _hover={{ bg: 'none' }} position={'absolute'} left={'-1'} bg={'none'} h='1.75rem' size='sm' onClick={handleSearchphNo}>
+                                            <Search2Icon />
+                                        </Button>
+                                    </InputLeftElement>
+                                </InputGroup>
+                            </Box>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
