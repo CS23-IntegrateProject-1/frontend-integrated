@@ -2,8 +2,9 @@ import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../../components/RDetailCard";
 import { getReservationDetail } from "../../../../api/Reservation/getReservationDetail";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineEventSeat } from "react-icons/md";
+import { Axios } from "axios";
 
 interface IData {
   venue: {
@@ -75,12 +76,26 @@ export const WalkInDetail = () => {
   };
   const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
-  {
-    console.log(name);
-  }
-  {
-    console.log(phonenumber);
-  }
+
+  let navigate = useNavigate();
+
+  const handleCreate = async () => {
+    try {
+      const response = await Axios.post(`/feature6/createOfflineReservation`, {
+        venueId: 3,
+        guest_amount: seats,
+        name: name,
+        phonenumber: phonenumber,
+        branchId: 1,
+      });
+      console.log(response);
+      console.log("create reservation successfully");
+      navigate("/business/reservation");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const render = () => {
     return (
       <Box
@@ -220,6 +235,7 @@ export const WalkInDetail = () => {
           </Box>
 
           <Button
+            onClick={handleCreate}
             borderRadius="10px"
             width="128px"
             height="36px"

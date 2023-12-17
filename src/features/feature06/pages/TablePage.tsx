@@ -8,7 +8,7 @@ export const TablePage = () => {
   const [count, setCount] = useState(0);
 
   function increment() {
-    if (count < 10) {
+    if (count < 30) {
       setCount(count + 1);
     }
   }
@@ -119,7 +119,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/getreservation-detail?count=${count}`}>
+      <Link to={`/reservation-detail?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}
