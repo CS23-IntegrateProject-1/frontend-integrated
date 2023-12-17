@@ -17,7 +17,9 @@ const colors = {
     300: "#A0AEC0", // grey input
     400: "#242325", // dark grey
   },
-  red: "#C83333", // red -> ex. color={"red"}
+  red: {
+    300: "#C83333" 
+  }// red -> ex. color={"red"}
 } as const;
 
 export type Colors = typeof colors;

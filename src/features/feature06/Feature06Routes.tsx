@@ -2,8 +2,7 @@ import { MyReservation } from "./pages/MyReservation";
 import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
-import { Dashboard } from "./pages/Dashboard";
-
+import { GetReservationDetail } from "./pages/GetReservationDetail";
 
 export const Feature06Routes = () => {
   return [
@@ -16,7 +15,8 @@ export const Feature06Routes = () => {
     { path: "/my-reservation", element: <MyReservation /> },
     { path: "/table", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
-    { path: "/dashboard", element: <Dashboard /> },
-    { path: "/reservation-detail", element: <ReservationDetail/>}
+    { path: "/reservation-detail", element: <ReservationDetail /> },
+    { path: "/getreservation-detail", element: <GetReservationDetail /> },
+    
   ];
 };

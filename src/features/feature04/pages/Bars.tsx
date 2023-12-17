@@ -1,31 +1,59 @@
 import {
     Box,
     Text,
-    SimpleGrid
+    SimpleGrid,
+    HStack
   } from "@chakra-ui/react";
   import PlaceTypes from "../components/PlaceTypes";
-  import React, { useEffect, useState } from "react";
+  import { useEffect, useState } from "react";
   import Cards from "../components/Card";
   import Header from "../components/Header";
   import index from "../../../theme/foundations/index";
-  import SavedLocationCard from "../components/SavedLocationCard";
   import RecommendLocation from "../components/RecommendLocation";
-import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
-import SearchBar from "../components/Search";
+  import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+  import SearchBar from "../components/Search";
+  import { Axios } from "../../../AxiosInstance";
   
 interface LocationData {
   id: string;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
   // Add other properties as needed
 }
+
+interface RegisteredData{
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  score: number;
+  website_url: string;
+}
+
 
   export const Bars = () => {
     const [savedData, setSavedData] = useState<LocationData[] | null>(null);
     const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+
+    const fetchRestaurantData = async () => {
+      try {
+        const response = await Axios.get("/feature4/bars"); 
+        setRegistered(response.data.bars);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching restaurant data:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchRestaurantData();
+      console.log(registered)
+      console.log("hello")
+    }, []);
   
     // Retrieve data from localStorage on component mount
     useEffect(() => {
@@ -75,38 +103,33 @@ interface LocationData {
           Recommended Locations
         </Text>
         <Box
-    display="flex"
-    overflowX="auto"
-    whiteSpace="nowrap"
-    paddingRight={4}
-    maxWidth="1500px"
-  >
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
+          display="flex"
+          overflowX="auto"
+          whiteSpace="nowrap"
+          paddingRight={4}
+          maxWidth="1500px"
+        >
+          {/* Render RecommendLocation components based on savedData */}
+          <HStack spacing={2} overflowX="auto">
+          {registered &&
+            registered.map((location,index) => (
+              <RecommendLocation
+                key={index}
+                name={location.name}
+                description={location.description}
+                category={location.category}
+                capacity={location.capacity}
+                score={location.score}
+                website_url={location.website_url}
+              />
+            ))}
+        </HStack>
         </Box>
   
         <br/>
         <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="restaurant" />
+        <GoogleMapComponent type="bar" />
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}
@@ -122,7 +145,7 @@ interface LocationData {
                 key={location.id}
                 image={location.image}
                 name={location.name}
-                description={location.description}
+                address={location.address}
                 distance={location.distance}
               />
             ))}

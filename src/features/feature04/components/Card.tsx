@@ -2,7 +2,6 @@ import {
   Box,
   Text,
   Image,
-  Flex,
   Card,
   CardBody,
   Stack,
@@ -12,7 +11,6 @@ import {
   Button,
   Spacer,
   CardFooter,
-  IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import colors from "../../../theme/foundations/colors";
@@ -22,7 +20,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
@@ -32,26 +29,26 @@ interface CardProps {
   // id: number;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
 }
 
-const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
-  return (
-    <svg
-      width="19"
-      height="17"
-      viewBox="0 0 19 17"
-      fill={isLiked ? "red" : "none"}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
-        stroke={isLiked ? "red" : "#A533C8"}
-      />
-    </svg>
-  );
-};
+// const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
+//   return (
+//     <svg
+//       width="19"
+//       height="17"
+//       viewBox="0 0 19 17"
+//       fill={isLiked ? "red" : "none"}
+//       xmlns="http://www.w3.org/2000/svg"
+//     >
+//       <path
+//         d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
+//         stroke={isLiked ? "red" : "#A533C8"}
+//       />
+//     </svg>
+//   );
+// };
 
 const PinIcon: React.FC = () => {
   return (
@@ -90,21 +87,19 @@ const StarIcon: React.FC = () => {
 
 const Cards = (props: CardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullDescription] = useState(false);
   // const [liked, setLiked] = useState(false);
 
   const generateRandomNumber = () => {
-    return (Math.random() * (5.0 - 4.0) + 3.0).toFixed(1); // Generates a number with two decimal places
+    return (Math.random() * (5.0 - 4.0) + 3.7).toFixed(1); // Generates a number with two decimal places
   };
 
-  // const descriptionToShow = showFullDescription
-  //   ? props.description
-  //   : `${props.description.slice(0, 50)}...`;
+  const truncatedName = props.name.length > 20 ? `${props.name.slice(0, 22)}...` : props.name;
 
   const descriptionToShow = showFullDescription
-    ? props.description
-    : typeof props.description === "string"
-    ? `${props.description.slice(0, 50)}...`
+    ? props.address
+    : typeof props.address === "string"
+    ? `${props.address.slice(0, 50)}...`
     : ""; // Handle the case where props.description is not a string
 
   // const handleLikeClick = () => {
@@ -152,21 +147,27 @@ const Cards = (props: CardProps) => {
               justifyContent={"space-between"}
             >
               <Heading
-                fontSize={textStyles.h3.fontSize}
+                fontSize={textStyles.h1.fontSize}
                 fontWeight={textStyles.h3.fontWeight}
                 color={colors.white}
+                maxW="70%" // Limiting the maximum width of the heading
+                overflow="hidden"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
               >
-                {props.name}
+                {truncatedName}
               </Heading>
               <Box
                 display={"flex"}
                 flexDir={"row"}
                 justifyContent={"space-between"}
+                marginLeft={2}
               >
                 <Box
                   display={"flex"}
                   flexDir={"row"}
                   justifyContent={"space-between"}
+                  whiteSpace="nowrap"
                 >
                   <PinIcon />
                   <Text
@@ -174,11 +175,11 @@ const Cards = (props: CardProps) => {
                     fontWeight={textStyles.h3.fontWeight}
                     color={colors.white}
                   >
-                    {props.distance}
+                    {`${(props.distance / 1000).toFixed(2)} km`}
                   </Text>
                 </Box>
 
-                <Box display={"flex"} flexDir={"row"}>
+                <Box display={"flex"} flexDir={"row"} marginLeft={2}>
                   <StarIcon />
                   <Text
                     fontSize={textStyles.h3.fontSize}
@@ -209,12 +210,19 @@ const Cards = (props: CardProps) => {
                 variant="outline"
                 color={colors.brand[100]}
                 border="1px solid #DEBEF6"
-                width={130}
+                width="100%" // Full width on all screens
                 height={10}
                 onClick={onOpen}
+                _hover={{
+                  textColor: "black",
+                  borderColor: "black",
+                  bgColor: "brand.100",
+                }}
+                mb={2}
               >
                 {showFullDescription ? "Show Less" : "More Info"}
               </Button>
+              
               <Modal
                 closeOnOverlayClick={false}
                 isOpen={isOpen}
@@ -248,18 +256,19 @@ const Cards = (props: CardProps) => {
                     fontWeight={textStyles.body2.fontWeight}
                     color={colors.grey[400]}
                   >
-                    {props.description}
+                    {props.address}
                   </ModalBody>
                 </ModalContent>
               </Modal>
               <Spacer />
               <Button
-                variant="unstyled"
-                color={colors.white}
-                width={130}
-                height={10}
-                border="1px solid #DEBEF6"
-                backgroundColor="#DEBEF6"
+                marginLeft={100}
+                variant="solid"
+                textColor="white"
+                bgColor="brand.300"
+                _hover={{ bgColor: "brand.100", textColor: "black" }}
+                width="100%" // Full width on all screens
+                mb={2}
               >
                 Reserve Now
               </Button>

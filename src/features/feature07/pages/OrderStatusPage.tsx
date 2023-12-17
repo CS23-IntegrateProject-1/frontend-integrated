@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex, HStack, VStack, Box } from '@chakra-ui/react';
+import { Flex, HStack, VStack, Box, Center } from '@chakra-ui/react';
 import { RButton } from '../component/RButton';
 import { PreparedMenuCard } from '../component/PreparedCard';
 import { CompleteCard } from '../component/CompleteCard';
@@ -9,6 +9,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
+interface OrderProps {
+  orderDetailId: number;
+  menuId: number | null;
+  setId: number | null;
+  additional_req: string;
+  unit_price: number;
+  imageUrl: string;
+  quantity: number;
+  menu: {
+    name: string;
+  };
+  set: {
+    name: string;
+  };
+}
 type OrderStatus = 'Preparing' | 'Completed';
 
 export const OrderStatusPage: React.FC = () => {
@@ -42,8 +57,8 @@ export const OrderStatusPage: React.FC = () => {
     switch (status) {
       case 'Preparing':
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
-            {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+            {ongoingOrderDetails && ongoingOrderDetails.map((order: OrderProps) => (
               <PreparedMenuCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -51,15 +66,14 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );
       case 'Completed':
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
-            {completedOrderDetails && completedOrderDetails.map((order: any) => (
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+            {completedOrderDetails && completedOrderDetails.map((order: OrderProps) => (
               <CompleteCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -67,8 +81,7 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );
@@ -99,15 +112,16 @@ export const OrderStatusPage: React.FC = () => {
           bgColor={completedButtonColor}
         />
       </HStack>
-      <VStack mt={4} overflowY="auto" maxHeight="400px">
+      <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
         {renderCard()}
       </VStack>
+    
       {status === 'Completed' && (
+        <Center>
          <Flex align="center" justify="center" >
          <Box
            position="fixed"
            bottom="4"
-           left="32%"
            width="109px"
            height="29px"
            textAlign="center"
@@ -118,6 +132,7 @@ export const OrderStatusPage: React.FC = () => {
             
          </Box>
          </Flex>
+         </Center> 
       )}
     </Flex>
   );

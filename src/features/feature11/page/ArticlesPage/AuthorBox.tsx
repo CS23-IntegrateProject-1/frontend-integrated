@@ -1,12 +1,9 @@
 import { Box } from "@chakra-ui/react";
-import { Text, Image } from "@chakra-ui/react";
-import { AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/bi";
-import { MdOutlineSend } from "react-icons/md";
+import { Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../../ArticleTypes";
+import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
 export const AuthorBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
@@ -30,21 +27,14 @@ export const AuthorBox: FC<ArticlesPageProps> = (props) => {
         justifyContent={"space-evenly"}
       >
         <img
-          src="/src/features/feature11/img/Profile.png"
-          alt="Profile"
+          src={import.meta.env.BACKEND_URL + props.user.profile_picture}
+          alt="profile picture"
           width="70px"
+          height={"70px"}
         />
-        <Text
-          style={TextStyle.h4}
-          ml="10px"
-          color={"#C5C4C7"}
-        >
-          {props.author_name}
+        <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
+          {props.user.username}
         </Text>
-      </Box>
-
-      <Box display="flex" transform="rotate(315deg)" alignSelf={"flex-end"}>
-        <MdOutlineSend />
       </Box>
     </Box>
   );

@@ -1,9 +1,7 @@
-import { Box, Button } from "@chakra-ui/react";
-import { Card, CardBody } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
-import {MdOutlineQrCode2} from "react-icons/md";
-import { FC } from "react";
+import { Box , Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { FC } from "react";
+import {MdOutlineQrCode2} from "react-icons/md"
 
 interface ButtonProps {
   bgColor?: string;
@@ -13,10 +11,10 @@ interface ButtonProps {
 }
 
 export const QrCodeButton: FC<ButtonProps> = ({
-  bgColor,
-  textColor,
-  borderColor,
-  bgHover,
+    bgColor,
+    textColor,
+    borderColor,
+    bgHover,
 }) => {
   return (
     <Box
@@ -24,30 +22,31 @@ export const QrCodeButton: FC<ButtonProps> = ({
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      margin={5}
-      width={"100%"}
-    > 
-    <Button
-      width={"70%"}
-      height={"40px"}
-      bg={!bgColor ? "brand.200" : bgColor}
-      color={!textColor ? "white" : textColor}
-      borderColor={!borderColor ? "" : borderColor}
-      _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-      textColor={"#DEBEF6"}
-      leftIcon={<MdOutlineQrCode2 />}
+      margin={[3, 5, 7]} // Responsive margin for different screen sizes
+      width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
     >
-      <Link to={'/venue/:venueId/qr-payment'}>
+      <Button
+        width={"100%"}
+        height={"40px"}
+        bg={!bgColor ? "brand.200" : bgColor}
+        color={!textColor ? "white" : textColor}
+        borderColor={!borderColor ? "" : borderColor}
+        _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+        textColor={"#DEBEF6"}
+        leftIcon={<MdOutlineQrCode2 />}
+    >
+      <Link to={'/Notification/entercode'}>
         QR PromptPay
       </Link>
     </Button>
-      <Card size={"sm"} width={"70%"} backgroundColor={"#DEBEF6"}>
-        <CardBody>
-          <Text color={"#5F0DBB"}>
-              Go cashless by scanning QR code.
-          </Text>
-        </CardBody>
-      </Card>
+      {/* <Image
+        objectFit="cover"
+        maxW={{ base: "100%", sm: "50%" }}
+        maxH={{ base: "100%", sm: "50%" }}
+        src="https://cdn.discordapp.com/attachments/1156171563436085268/1177514282355802142/image.png?ex=6572c8a2&is=656053a2&hm=4e9504358342c43a2398295ae729c605b110ddfce33750cc3c4f068a09b0310a&"
+        alt="QR CODE"
+        margin={5}
+      /> */}
     </Box>
   );
 };
