@@ -15,7 +15,7 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { BiConversation } from "react-icons/bi";
 import NewConversationModal from "../../components/NewConversationModal";
 import { useConversations } from "../../context/ConversationProvider";
-import Conversations from "../communityChatPage/Conversations";
+import Conversations from "../../components/ConversationsLog";
 
 interface TestMessageLogProps {
   id: string;

@@ -8,7 +8,6 @@ import {
     FormControl,
     Input,
     InputRightElement,
-    InputLeftElement,
   } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
@@ -39,7 +38,7 @@ export const ChatBotPage: FC = () => {
     };
     
     // Generate a new sessionId when the page loads
-    let sessionId = user.username;
+    const sessionId = user.username;
 
     const [message,setMessage] = useState<string>("");
     const [messages, setMessages] = useState<Array<{sender: string,consequences:string | undefined, text: string}>>([]);
@@ -112,7 +111,7 @@ export const ChatBotPage: FC = () => {
         {messages.map((message, index) => (
             message.sender === "Monique" ? (
                 <Box key={index}>
-                    <BotMsg data={message} /> 
+                    <BotMsg consequences={message.consequences} text={message.text}/> 
                     {/* {message.consequences != null &&  <BotMsg msg={message.consequences} /> } */}
                 </Box> 
             ) : (
