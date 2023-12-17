@@ -17,6 +17,7 @@ import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { id } from "date-fns/locale";
 const getCartMenuItem = async (type: string, menuid: string) => {
   const response = await Axios.get(
     `/feature7/show${type}DetailFromCart/${menuid}`
@@ -32,6 +33,7 @@ interface MenuDetailProps {
   description: string;
   image_url: string;
 }
+
 export const CartMenuDetail: FC = () => {
   // const { type, menuid } = useParams();
   ////console.log(menuid);
@@ -47,6 +49,11 @@ export const CartMenuDetail: FC = () => {
   const addToCart=(amount:number)=>{
     setAmountInCart(AmountInCart+amount);
   }
+
+  const [AmountInCart, setAmountInCart] = useState(0);
+  const addToCart = (amount: number) => {
+    setAmountInCart(AmountInCart + amount);
+  };
 
   // useEffect(() => {
   //   if (menuItem) {
@@ -90,9 +97,20 @@ export const CartMenuDetail: FC = () => {
   //   return <div>Error fetching {type} details</div>;
   // }
 
+  const handleAddToCart = async () => {
+    try {
+      const response = await Axios.post(`/feature4/cart/${6969}`, {
+        quantity: AmountInCart,
+      });
+      console.log(response.data);
+      // setAmount(0);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
   return (
     <Box>
-
       <Image
         src="/src/features/feature07/assets/test.jpg"
         // src={type == "Set" ? menuItem.image_url: menuItem.image}
@@ -116,10 +134,7 @@ export const CartMenuDetail: FC = () => {
             29 Baht
           </Text>
         </HStack>
-        <Text {...textStyles.body2}>
-          {/* {menuItem.description} */}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe, dolor?
-          </Text>
+        <Text {...textStyles.body2}>{/* {menuItem.description} */}</Text>
       </VStack>
       <HStack p={2} position="absolute" bottom="0" width="100%" spacing={15}>
         <HStack>
@@ -161,8 +176,8 @@ export const CartMenuDetail: FC = () => {
           width="200px"
           text="Add To Cart"
           bgColor={buttonBgColor}
-          // isDisabled={amount === 0}
-          // onClick={handleAddToCart}
+          isDisabled={AmountInCart === 0}
+          onClick={handleAddToCart}
         />
       </HStack>
     </Box>
