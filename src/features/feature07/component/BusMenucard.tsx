@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text,  VStack} from "@chakra-ui/react";
 import { FC} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 // import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { useNavigate, useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
 // import { EditIcon } from '@chakra-ui/icons'
 interface BusMenuCardProps {
   id:number;

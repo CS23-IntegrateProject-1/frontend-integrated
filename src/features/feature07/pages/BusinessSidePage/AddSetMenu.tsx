@@ -46,8 +46,8 @@ export const AddSetMenu: React.FC = () => {
 
   const {
     data: menuOptions,
-    isLoading,
-    isError,
+    // isLoading,
+    // isError,
   } = useQuery(["menuData"], () => getMenu());
 
   const handleInputChange = (e) => {

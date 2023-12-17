@@ -6,6 +6,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { useCustomToast } from "../../../../components/useCustomToast";
+import { FullPageLoader } from '../../../../components/Loader/FullPageLoader';
 
 const getMenuItem = async (menuid: string) => {
   const response = await Axios.get(`/feature7/getMenuById/${menuid}`);
@@ -80,6 +81,13 @@ export const EditMenu = () => {
       }
   };
 
+  if (isLoading) {
+    return <FullPageLoader />
+  }
+  if(isError){
+    return <div>Something went wrong</div>
+  }
+  
   return (
     <FormControl>
       <Box display="flex" flexDirection="column">

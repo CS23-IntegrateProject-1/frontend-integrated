@@ -82,7 +82,7 @@ export const BusinessMenuDetail: FC = () => {
         `/feature7/changeMenuAvailability/${menuid}/${venueId}/${branchId}`
       );
       branchAvailabilityRefetch();
-      //console.log("SetBranchAva",response);
+      console.log("SetBranchAva",response);
     } catch (error) {
       console.error("Error setting availability:", error); // Log any errors for debugging
       console.log("Error response:"); // Log the error response for debugging

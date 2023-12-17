@@ -4,14 +4,14 @@ import { ButtonComponent } from '../../../../components/buttons/ButtonComponent'
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
 import { DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { useCustomToast } from "../../../../components/useCustomToast";
 
-interface Menu {
-    name: string;
-  }
+// interface Menu {
+//     name: string;
+//   }
 
   const getMenuItem = async (menuid: string) => {
     const response = await Axios.get(`/feature7/getSetById/${menuid}`);
@@ -33,7 +33,7 @@ interface Menu {
   });
   const [selectId, setSelectId] = useState('');
 
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData} = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -140,6 +140,7 @@ interface Menu {
   const handleCancel = async () => {
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
+      console.log('Clear cookies:', response.data);
       navigate(`/venue/${venueId}/menubusiness`);
     }catch (error) {
       console.error('Error clearing cookie:', error);

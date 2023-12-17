@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text,  VStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { FC } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 
 
@@ -10,7 +10,7 @@ interface CompleteMenuCardProps {
   price: number;
   imageUrl: string;
   amount: number;
-};
+}
 
 export const CompleteCard: FC<CompleteMenuCardProps>= ({foodName,description,price,imageUrl,amount}) => {
 
