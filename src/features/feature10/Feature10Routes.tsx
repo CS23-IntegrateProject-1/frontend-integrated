@@ -4,7 +4,31 @@ import PaymentPage from "./pages/Payment";
 import { ShowTime } from "./pages/ShowTime";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import ScreenPage from "./pages/ScreenPage";
-import History from './pages/History';
+import TicketHistory from "./pages/TicketHistory";
+
+interface Ticket {
+  id: number;
+  movieName: string;
+  dateAndTime: string;
+  theatreName: string;
+  cinemaName: string;
+  seatAmount: number;
+  // Add more fields as needed
+}
+
+const ticketMock: Ticket[] = [
+  {
+    id: 1,
+    movieName: 'Interstellar',
+    dateAndTime: '15 November 2023 | 12:00 PM',
+    theatreName: 'Harmoni Cineplex KMUTT',
+    cinemaName: 'Cinema 9 | ENG',
+    seatAmount: 5,
+    // Add more fields as needed
+  },
+  // Add more ticket objects as needed
+];
+
 export const Feature10Routes = () => {
   return [
     {
@@ -14,7 +38,6 @@ export const Feature10Routes = () => {
     {
       path: "/showtimes/:movieId",
       element: <ShowTime />,
-
     },
     { 
       path: "/event/:eventId", 
@@ -37,8 +60,8 @@ export const Feature10Routes = () => {
       element: <ScreenPage />
     },
     {
-      path: '/History',
-      element: <History />
+      path: "/ticketHistory",
+      element: <TicketHistory ticketHistory={ticketMock} />
     }
   ];
 };
