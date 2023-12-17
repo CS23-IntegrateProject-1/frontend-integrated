@@ -9,7 +9,6 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { FilterCap } from "./FilterCap";
-import { FilterDistance } from "./FilterDistance";
 import { FilterPrice } from "./FilterPrice";
 import { FilterType } from "./FilterType";
 import { useContext } from "react";
@@ -54,7 +53,6 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
         <ModalBody>
           <FilterType />
           <FilterPrice />
-          <FilterDistance />
           <FilterCap />
         </ModalBody>
         <ModalFooter>

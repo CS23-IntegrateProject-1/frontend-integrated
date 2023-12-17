@@ -18,7 +18,6 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
 
 interface RecommendedPlaces {
   id: number;
@@ -33,8 +32,9 @@ interface RecommendedPlaces {
   rating: string;
 }
 
-export const RecommendedPlacesPage: FC = (props) => {
+export const RecommendedPlacesPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const search = params.get("search");
 
   const {
     isLoading: recommendedPlacesLoading,

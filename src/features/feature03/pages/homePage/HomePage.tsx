@@ -13,27 +13,26 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import { Advertisement } from "./F3_HPCs/Advertisement";
 import { ReviewModalDel } from "../../external/reviewModalDel";
 import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Axios } from "../../../../AxiosInstance"; 
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+// import { useQuery } from "@tanstack/react-query";
+// import { Axios } from "../../../../AxiosInstance"; 
+// import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import HomePageSearchBar from "../../../../components/homepage/SearchBar"; 
 
-interface VenueRecommended {
-  id: number;
-  venueId: number;
-  name: string;
-  description: string;
-  category: string;
-  capacity: string;
-  location: string;
-  score: string;
-  website_url: string;
-}
+// interface VenueRecommended {
+//   id: number;
+//   venueId: number;
+//   name: string;
+//   description: string;
+//   category: string;
+//   capacity: string;
+//   location: string;
+//   score: string;
+//   website_url: string;
+// }
 
 export const HomePage = () => {
   const modal1 = useDisclosure();
@@ -45,7 +44,7 @@ export const HomePage = () => {
       modal1.onOpen(); 
       sessionStorage.setItem("is_ads_available", "false")
     }
-  }, []);
+  }, [modal1]);
 
   return (
     <Box width={"100%"}>

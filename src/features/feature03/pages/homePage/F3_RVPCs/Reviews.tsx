@@ -4,7 +4,6 @@ import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,7 +27,7 @@ export const Reviews: FC = () => {
   })
 
   const {
-    isLoading: reviewsLoading,
+    // isLoading: reviewsLoading,
     isError: reviewsError,
     data: reviewsData,
   } = useQuery<reviewsData[]>({

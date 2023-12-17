@@ -17,8 +17,8 @@ import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC, useState, useEffect, Dispatch, createContext, SetStateAction, useRef } from "react";
+// import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { useState, useEffect, createContext, useRef } from "react";
 
 interface Venue {
   id: number;
@@ -68,9 +68,9 @@ export default function useThrottleValue<T>(value: T, delay: number = 500) {
 }
 
  
-export const VenuePage: FC = (props) => { 
+export const VenuePage = () => { 
   const params = new URL(String(window.location)).searchParams;
-  const search = params.get("search"); // is the string "Jonathan Smith".
+  const search = params.get("search");
   const navigate = useNavigate() 
   const { isOpen, onOpen, onClose } = useDisclosure(); 
   const [searchFilter, setSearchFilter] = useState(search || "");

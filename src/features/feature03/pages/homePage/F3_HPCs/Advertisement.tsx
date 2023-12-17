@@ -3,7 +3,6 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  ModalCloseButton,
   ModalBody,
   ModalContent,
   ModalFooter,

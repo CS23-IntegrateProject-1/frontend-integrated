@@ -1,11 +1,6 @@
 import {
   Text,
   Flex,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
   RangeSlider,
   RangeSliderTrack,
   RangeSliderFilledTrack,
@@ -13,12 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FilterContext } from "../VenuePage";
-
-const sliderLabel = {
-  mt: "2",
-  ml: "-2.5",
-  fontSize: "sm",
-};
 
 export const FilterPrice = () => {
   const context = useContext(FilterContext);
