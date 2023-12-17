@@ -1,5 +1,6 @@
 import { BusinessReservationCard } from "../../components/BusinessReservationCard";
 import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import { getAllReservationOfVenue } from "../../../../api/Reservation/getAllreservationofVenue";
 import {
   Modal,
   ModalOverlay,
@@ -9,9 +10,59 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+
+interface ReservationCard {
+  venueId: number;
+  guest_amount: number;
+  reserved_time: string;
+  status: string;
+  userId: string;
+  entry_time: string;
+  isReview: Boolean;
+  reservationId: number;
+  isPaidDeposit: string;
+  depositId: number;
+  branchId: number;
+}
 
 export const Reservation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [data, setData] = useState<ReservationCard[]>([]);
+  const [filterOptions, setFilterOptions] = useState({
+    offline: true,
+    online: true,
+  });
+  
+  useEffect(() => {
+    fetchData();
+  }, [filterOptions]);
+
+  const fetchData = async () => {
+    const response = await getAllReservationOfVenue();
+    setData(response);
+  };
+
+  const renderCards = () => {
+    return data.map((reservation, index: number) => {
+      const shouldRender =
+        (filterOptions.offline && reservation.status === "Check_out") ||
+        (filterOptions.online && reservation.status === "Check_in");
+
+      return shouldRender ? (
+        <Box key={index} marginBottom={"20px"}>
+            <BusinessReservationCard
+              name={reservation.userId}
+              // type={reservation.type}
+              status={reservation.status}
+              date={reservation.reserved_time}
+            />
+        </Box>
+      ) : null;
+    });
+  };
+  // console.log(data);
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Box
@@ -28,7 +79,7 @@ export const Reservation = () => {
           color={"#F6F6F6"}
           fontWeight={"600"}
           _hover={{ background: "#A533C8" }}
-          // onClick={}
+          onClick={() => {<Link to={"business/WalkInDetail"} />;}}
         >
           Walk-in customer
         </Button>
@@ -74,12 +125,13 @@ export const Reservation = () => {
       </Box>
       <Box
         display={"flex"}
-        flexDirection={"row"}
+        flexDirection={"column"}
         justifyContent={"center"}
         marginTop={"32px"}
       >
-        <BusinessReservationCard status="Check_in" />
+        {renderCards()}
       </Box>
     </Box>
   );
 };
+

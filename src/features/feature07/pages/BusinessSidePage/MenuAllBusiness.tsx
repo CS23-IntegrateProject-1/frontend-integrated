@@ -49,9 +49,10 @@ export const MenuAllBusiness = () => {
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
   const { venueId } = useParams();
+  const venueIdNum: number = +venueId!;
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueIdNum], () => fetchMenuAndSetData(venueIdNum.toString()));
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -109,14 +110,13 @@ export const MenuAllBusiness = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
               <BusMenucard
-              key={menu.menuId}
-              id={menu.menuId}
-              foodName={menu.name}
-              description={menu.description}
-              price={menu.price}
-              imageUrl={menu.image}
-              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
-            />
+                key={menu.menuId}
+                id={menu.menuId}
+                foodName={menu.name}
+                description={menu.description}
+                price={menu.price}
+                imageUrl={menu.image}
+                onClick={() => handleMenuClick("Menu", `${menu.menuId}`)} amount={0}            />
             ))}
           </VStack>
         );
@@ -127,14 +127,13 @@ export const MenuAllBusiness = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
               <BusSetMenuCard
-              key={set.setId}
-              id={set.setId}
-              foodName={set.name}
-              description={set.description}
-              price={set.price}
-              imageUrl={set.image_url}
-              onClick={() => handleMenuClick("Set", `${set.setId}`)}
-            />
+                key={set.setId}
+                id={set.setId}
+                foodName={set.name}
+                description={set.description}
+                price={set.price}
+                imageUrl={set.image_url}
+                onClick={() => handleMenuClick("Set", `${set.setId}`)} amount={0} type={""}            />
             ))}
           </VStack>
         );
