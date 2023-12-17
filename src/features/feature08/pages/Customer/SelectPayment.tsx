@@ -7,6 +7,8 @@ import {MdAttachMoney} from "react-icons/md"
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import PayButton from "./PayButton";
 
 interface ButtonProps {
   bgColor?: string;
@@ -61,18 +63,19 @@ export const SelectPayment: FC<ButtonProps>= ({
         alignItems={"center"}
         margin={5}
       >
-        <Button
-      width={"70%"}
-      height={"40px"}
-      bg={!bgColor ? "brand.200" : bgColor}
-      color={!textColor ? "white" : textColor}
-      borderColor={!borderColor ? "" : borderColor}
-      _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
-      textColor={"#DEBEF6"}
-      leftIcon={<MdAttachMoney />}
-    >
+          {/* <Button
+        width={"70%"}
+        height={"40px"}
+        bg={!bgColor ? "brand.200" : bgColor}
+        color={!textColor ? "white" : textColor}
+        borderColor={!borderColor ? "" : borderColor}
+        _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+        textColor={"#DEBEF6"}
+        leftIcon={<MdAttachMoney />}
+      >
       Cash
-    </Button>
+      </Button> */}
+        <PayButton cartItems={[]} />
         <QrCodeButton />
         <MobileBankingList />
         <CreditCardList card={creditCardUser} />
