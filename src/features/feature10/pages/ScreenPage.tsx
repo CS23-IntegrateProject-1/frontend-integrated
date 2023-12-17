@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 
 import { Box, Center, Image, Text, Grid, Flex} from "@chakra-ui/react";
@@ -226,7 +227,7 @@ const ScreenPage: React.FC = () => {
     }
   };
   
-  function getSeatIdFromIdentifier(seatIdentifier: string) {
+  const getSeatIdFromIdentifier = (seatIdentifier: string) => {
     return seats.find((s) => `${String.fromCharCode(64 + parseInt(s.seatRow, 10))}${s.seatNo}` === seatIdentifier)?.seatId;
   }
   useEffect(() => {

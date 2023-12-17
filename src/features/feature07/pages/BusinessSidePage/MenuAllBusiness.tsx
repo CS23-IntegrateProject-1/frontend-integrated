@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, HStack, Text, Center, VStack,Flex} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";

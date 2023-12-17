@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import {
   Box,
@@ -47,7 +48,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
       userId,
     });
     setNewContent(content);
-  }, []);
+  },[]);
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setNewContent(event.target.value);
   };

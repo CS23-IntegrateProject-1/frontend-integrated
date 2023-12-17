@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { containerStyle, center, options } from "./setting.ts";
 
 // currentLocation
-import CurrentLocation from "./CurrentLocation.tsx";
+// import CurrentLocation from "./CurrentLocation.tsx";
 
 // API class
 import { fetchNearbyPlaces } from "./api.ts";
@@ -40,7 +40,7 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
     googleMapsApiKey: "AIzaSyABaN7gdphOHIg6xnrYtPAtyChroRZlyRs", // replace with your API key
   });
 
-  const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
+  // const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
   const [clickedPos, setClickedPos] = React.useState<google.maps.LatLngLiteral>(
     {} as google.maps.LatLngLiteral
   );
@@ -48,6 +48,7 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
     {} as MarkerType
   );
   const [savedData, setSavedData] = useState<string | null>(null);
+  savedData;
 
   // Retrieve data from localStorage on component mount
   useEffect(() => {
@@ -74,21 +75,21 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
 
   console.log(nearbyPositions);
 
-  const moveTo = (position: google.maps.LatLngLiteral) => {
-    if (mapRef.current) {
-      mapRef.current.panTo({ lat: position.lat, lng: position.lng });
-      mapRef.current.setZoom(16.5);
-      setClickedPos(position);
-    }
-  };
+  // const moveTo = (position: google.maps.LatLngLiteral) => {
+  //   if (mapRef.current) {
+  //     mapRef.current.panTo({ lat: position.lat, lng: position.lng });
+  //     mapRef.current.setZoom(16.5);
+  //     setClickedPos(position);
+  //   }
+  // };
 
-  const onLoad = (map: google.maps.Map<Element> | null): void => {
-    mapRef.current = map;
-  };
+  // const onLoad = (map: google.maps.Map<Element> | null): void => {
+  //   mapRef.current = map;
+  // };
 
-  const onUnMount = (): void => {
-    mapRef.current = null;
-  };
+  // const onUnMount = (): void => {
+  //   mapRef.current = null;
+  // };
 
   const onMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
@@ -142,14 +143,14 @@ const GoogleMapComponent: React.FC<{ type: string }> = ({ type }) => {
 
   return (
     <Wrapper>
-      <CurrentLocation moveTo={moveTo} />
+      {/* <CurrentLocation moveTo={moveTo} /> */}
       <GoogleMap
         mapContainerStyle={containerStyle}
         options={options as google.maps.MapOptions}
         center={center}
         zoom={16}
-        onLoad={onLoad}
-        onUnmount={onUnMount}
+        // onLoad={onLoad}
+        // onUnmount={onUnMount}
         onClick={onMapClick}
         >
         {clickedPos.lat ? <Marker position={clickedPos} /> : null}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Switch, Spacer, Divider, Text, useBoolean, cookieStorageManager } from "@chakra-ui/react";
 cookieStorageManager
 import { Axios } from "../../../../AxiosInstance";

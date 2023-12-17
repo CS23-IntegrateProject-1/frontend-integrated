@@ -1,8 +1,8 @@
-import axios from "axios";
+import { Axios } from "../../AxiosInstance";
 
 const fetchMovies = async (setState) => {
     try {
-      const response = await axios.get('http://localhost:8080/feature10/getNowshowingFilms');
+      const response = await Axios.get('/feature10/getNowshowingFilms');
       setState(
         response.data.map((film) => ({
           title: film.name,
