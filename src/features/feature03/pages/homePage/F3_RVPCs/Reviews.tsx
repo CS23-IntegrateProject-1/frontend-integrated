@@ -1,11 +1,10 @@
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
-import { StarSort } from "./StarSort";
+import { IStarSort, StarSort } from "./StarSort";
 import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 
 interface reviewsData {
@@ -22,28 +21,33 @@ interface reviewsData {
 
 export const Reviews: FC = () => {
   const branchId = useParams<{ branchId: string }>();
+  const [reviewFilter, setReviewFilter] = useState<IStarSort>({
+    reviewStars: "",
+    reviewTypes: ""
+  })
 
   const {
-    isLoading: reviewsLoading,
+    // isLoading: reviewsLoading,
     isError: reviewsError,
     data: reviewsData,
   } = useQuery<reviewsData[]>({
-    queryKey: ["getReviews"],
+    queryKey: ["getReviews", branchId.branchId, reviewFilter.reviewStars, reviewFilter.reviewTypes],
     queryFn: async () => {
       const { data } = await Axios.get(
-        `/feature3/Reviews/${branchId.branchId}`
+        `/feature3/Reviews/${branchId.branchId}?reviewStars=${reviewFilter.reviewStars}&reviewTypes=${reviewFilter.reviewTypes}`
       );
       return data;
     },
+    keepPreviousData: true
   });
 
-  if (reviewsLoading) {
-    return (
-      <span>
-        <FullPageLoader />
-      </span>
-    );
-  }
+  // if (reviewsLoading) {
+  //   return (
+  //     <span>
+  //       <FullPageLoader />
+  //     </span>
+  //   );
+  // }
 
   if (reviewsError) {
     return <span>An error occurred: </span>;
@@ -55,7 +59,7 @@ export const Reviews: FC = () => {
       <Text fontSize={"20px"} fontWeight="bold">
         Reviews
       </Text>
-      <StarSort />
+      <StarSort reviewFilter={reviewFilter} setReviewFilter={setReviewFilter}/>
       <Divider
         pt={"20px"}
         borderBottomWidth="3px"
@@ -63,7 +67,7 @@ export const Reviews: FC = () => {
         opacity={"100%"}
       />
       <Flex direction="column" pt={"20px"}>
-        {reviewsData.map((reviews, index: number) => (
+        {(reviewsData || []).map((reviews, index: number) => (
           <Box key={index} pb={"20px"}>
             <Box display={"flex"}>
               <Box width={"80%"}>
