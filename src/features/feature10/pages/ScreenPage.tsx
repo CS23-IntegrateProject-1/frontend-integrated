@@ -1,3 +1,5 @@
+
+
 import { Box, Center, Image, Text, Grid, Flex} from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { useParams } from "react-router-dom";
