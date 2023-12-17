@@ -25,6 +25,8 @@ import { FoodOrder } from "./pages/Admin/FoodOrder";
 import { FoodDelivery } from "./pages/Admin/FoodDelivery";
 import { Receipt } from "./pages/Admin/Receipt";
 import { ProductDisplay } from "./pages/Customer/ProductDisplay";
+import CheckoutCancel from "./pages/Customer/CheckoutCancel";
+import CheckoutSuccess from "./pages/Customer/CheckoutSuccess";
 
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
@@ -35,6 +37,8 @@ export const Feature08Routes = () => {
     { path: ":userId/venue/:venueId/payment/checkout", element: <ProductDisplay /> },
     { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
+    { path: "/checkout-cancel", element: <CheckoutCancel /> },
+    { path: "/checkout-success", element: <CheckoutSuccess /> },
     //payment to venue by using venueId?
     { path: ":userId/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     //Action
