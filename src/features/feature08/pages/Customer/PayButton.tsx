@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 
 interface PayButtonProps {
-  cartItems: any[]; // Update the type based on your actual data structure
+  cartItems: unknown[]; // Update the type based on your actual data structure
 }
 
-const PayButton: React.FC<PayButtonProps> = ({ cartItems }) => {
+export const PayButton: React.FC<PayButtonProps> = ({ cartItems }) => {
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   const handlePayNow = async () => {
