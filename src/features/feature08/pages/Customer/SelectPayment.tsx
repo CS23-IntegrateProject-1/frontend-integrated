@@ -7,15 +7,9 @@ import { MdAttachMoney } from "react-icons/md";
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import PayButton from "./PayButton";
 
-import { loadStripe } from "@stripe/stripe-js";
 import { Axios } from "../../../../AxiosInstance";
 
-const stripePromise = loadStripe(
-  "pk_test_51OFf98BCLtNTpQNyKo7pOR2Oyl2N3LxLtvGO549ogZUwpqgAUY0ycFgCYGhJbNXXnnyy1eLxTC2czmCuZqRd5BKy00lHA8sWfw"
-); // replace 'your_publishable_key' with your actual publishable key
 
 interface ButtonProps {
   bgColor?: string;

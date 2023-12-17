@@ -99,6 +99,7 @@ const handleFilterDone = () => {
   }
 };
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
 const fetchBusinessInsightTimeFilterData = async () => {
   const transactionDetailResponseFilter = await Axios.get<transaction_detail[]>(`/feature8/getTransactionDetailsByVenueAndDateForDelivery/${venueId}`, {
     params: {
@@ -134,7 +135,7 @@ if (selectedFromDate !== undefined && selectedToDate !== undefined) {
     });
 }
 // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 if(selectedFromDate !== undefined){

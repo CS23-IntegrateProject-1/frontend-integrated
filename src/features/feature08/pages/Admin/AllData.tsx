@@ -98,6 +98,7 @@ export const AllData = () => {
     }
   };
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBusinessInsightTimeFilterData = async () => {
     const transactionDetailResponseFilter = await Axios.get<transaction_detail[]>(`/feature8/transactiondetailbyvenueIdandTime/${venueId}`, {
       params: {
@@ -134,7 +135,7 @@ useEffect(() => {
       });
   }
   // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 

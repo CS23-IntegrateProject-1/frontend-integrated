@@ -65,7 +65,7 @@ export const Accounting = () => {
     };
     console.log(appTrans)
     fetchTableNumber();
-  }, [venueId]);
+  }, [appTrans, venueId]);
 
   useEffect(() => {
     const fetchData = async (transactionId: number) => {
@@ -121,7 +121,7 @@ export const Accounting = () => {
     const aggregatedData: Record<string, { total: number; details: unknown[] }> = {};
 
     // Aggregate amounts for transactions with the same date
-    Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
+    Object.entries(appTransactionByMonth).forEach(([, detailsArray]) => {
       detailsArray.forEach((details) => {
         const formattedDate = format(
             utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),

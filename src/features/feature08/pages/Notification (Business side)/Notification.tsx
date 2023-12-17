@@ -55,13 +55,13 @@ const formatDate = (dateString: string) => {
 
 export const Notification = () => {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
-  const [userData,setUserData] = useState('');
-  const [userId, setUserId] = useState('');
+  const [,setUserData] = useState('');
+  const [, setUserId] = useState('');
   const [reservation,setReservation] =useState<Reservation[]>([]);
   const { venueId } = useParams()
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
-  const [advertisementData, setAdvertisementData] = useState<any[]>([]);
-  const [businessId,setBusinessId] = useState();
+  const [, setAdvertisementData] = useState<any[]>([]);
+  const [,setBusinessId] = useState();
   const [businessAdver, setbusinessAdver] =useState<advernoti[]>([]); 
   const [businessAdMain, setBusinessAdMain ] = useState();
 
@@ -93,6 +93,7 @@ const fetchData = async () => {
     console.error("Error fetching user data:", error);
   }
 };
+// eslint-disable-next-line react-hooks/exhaustive-deps
 const fetchReservationData = async () => {
   try {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -106,7 +107,7 @@ const fetchReservationData = async () => {
 
 useEffect(() => {
   fetchReservationData();
-}, []);
+}, [fetchReservationData]);
 
 // console.log(reservation)
 
@@ -120,6 +121,7 @@ useEffect(() => {
   }, [reservation]);
   console.log(reservationIds)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const notiData = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -145,7 +147,7 @@ useEffect(() => {
   useEffect(() => {
     notiData();
     
-  }, [reservationIds]); // Run once when the component mounts
+  }, [notiData, reservationIds]); // Run once when the component mounts
   
   const reserveIdMap = useMemo(() => {
     const map: Record<number, Notification> = {};
@@ -206,7 +208,7 @@ useEffect(() => {
     
     // Fetch table numbers when reserveIdMap changes
     fetchTableNumbers();
-  }, [reserveIdMap, venueId]);
+  }, [reserveIdMap, tableNumberMap, venueId]);
 
 
   // console.log(tableNumberMap)
@@ -229,6 +231,7 @@ useEffect(() => {
     fetchAdvertisementData();
   }, []);
   //http://localhost:8080/feature8/notifications/advertisementbizId/1
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBusinessId = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -242,7 +245,7 @@ useEffect(() => {
 
   useEffect(() => {
     fetchBusinessId();
-  }, []);
+  }, [fetchBusinessId]);
 
   const bizAdverAd = async () => {
     try {
@@ -303,19 +306,19 @@ useEffect(() => {
 
 
   const allNotifications = useMemo(() => {
-    const pendingResNotifications = pendingReservations.map((pendingRes, index) => {
+    const pendingResNotifications = pendingReservations.map((pendingRes) => {
       const matchingReservation = reservation.find(res => res.reservationId === pendingRes.reserveId);
       return matchingReservation ? { ...pendingRes, time: matchingReservation.reserved_time } : null;
     });
 
-    const checkOutResNotifications = checkOutReservations.map((checkOutRes, index) => {
+    const checkOutResNotifications = checkOutReservations.map((checkOutRes) => {
       const tableNumberData = tableNumberMap[checkOutRes.reserveId];
       const tableNumber = tableNumberData ? tableNumberData.tableNo : 'N/A';
       const matchingReservation = reservation.find(res => res.reservationId === checkOutRes.reserveId);
       return matchingReservation ? { ...checkOutRes, time: matchingReservation.reserved_time, tableNumber } : null;
     });
 
-    const adNotifications = filteredAds.map((ad, index) => {
+    const adNotifications = filteredAds.map((ad) => {
       return { ...ad, time: new Date(ad.start_date) };
     });
 

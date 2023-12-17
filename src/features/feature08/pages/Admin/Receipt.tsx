@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex, Box, Text, Spacer } from '@chakra-ui/react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
@@ -43,6 +43,7 @@ export const Receipt = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchOrderTimeFilterData = async () => {
     try {
       const orderResponseFilter = await Axios.get<OrderResponse>(`feature8/getTransactionReserveIdByVenueIdAndEqualToStatusCompletedAndFiltered/${venueId}`, {
@@ -77,7 +78,7 @@ export const Receipt = () => {
           console.error('Error fetching filtered order data:', error);
         });
     }
-  }, [fromDate, toDate, venueId]);
+  }, [fetchOrderTimeFilterData, fromDate, toDate, venueId]);
 
   if (isLoading) {
     return <div>Loading...</div>;

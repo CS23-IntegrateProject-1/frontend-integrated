@@ -52,26 +52,26 @@ export const AddCardVenue: FC<ButtonProps> = ({
   const [country, setCountry] = useState("");
   const [bank, setBank] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [addCardData, setAddCardData] = useState<AddCard[]>([]);
-  const {userId, venueId} = useParams();
+  const [, setAddCardData] = useState<AddCard[]>([]);
+  const {venueId} = useParams();
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let name = event.target.value;
+    const name = event.target.value;
     setName(name);
   }
 
   const handleCountryChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let country = event.target.value;
+    const country = event.target.value;
     setCountry(country);
   }
 
   const handleBankChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let bank = event.target.value;
+    const bank = event.target.value;
     setBank(bank);
   }
 

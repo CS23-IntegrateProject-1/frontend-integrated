@@ -29,7 +29,7 @@ export const CheckOutNoti = () => {
     };  
 
     fetchTableNumber();
-  }, [reservationId]);
+  }, [reservationId, venueId]);
 
     console.log(tableno)
 
