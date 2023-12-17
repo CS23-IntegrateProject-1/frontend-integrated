@@ -6,6 +6,7 @@ import { Box, Button,} from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
+import { MdAttachMoney } from "react-icons/md";
 
 // import { loadStripe } from '@stripe/stripe-js';
 
