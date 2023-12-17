@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
-import { ArticleComment } from "../../ArticleTypes";
+import { ArticleComment } from "../../../../interfaces/feature11/CommentType";
 
 
 interface CommentItemProps {

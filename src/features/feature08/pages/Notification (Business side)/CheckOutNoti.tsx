@@ -7,8 +7,33 @@ import {
     Box,
     Text
   } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export const CheckOutNoti = () => {
+  const { venueId } = useParams();
+  const { reservationId } = useParams();
+  const [tableno, setTableNo] = useState<{ tableNo?:number }>();
+
+  useEffect(() => {
+    const fetchTableNumber = async () => {
+      try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await axios.get(`${backendUrl}/feature8/reservation/${venueId}/${reservationId}`);
+        const tableNumberData = response.data;
+        setTableNo(tableNumberData);
+      } catch (error) {
+        console.error('Error fetching table number:', error);
+      }
+    };  
+
+    fetchTableNumber();
+  }, [reservationId]);
+
+    console.log(tableno)
+
+
     return (
         <Box
       display={"flex"}
@@ -26,10 +51,10 @@ export const CheckOutNoti = () => {
                 Check out
               </Heading>
               <Text>
-                Table number 1 wanted to checkout
+                Table number {tableno?.tableNo || 'N/A'} wanted to checkout
               </Text>
               <Text decoration={'underline'}>
-                Table number 1
+                  Table number {tableno?.tableNo || 'N/A'}
               </Text>
             </Box>
           </Stack>

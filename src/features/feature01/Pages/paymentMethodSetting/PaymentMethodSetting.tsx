@@ -31,7 +31,6 @@ interface CreditCard {
   userId: number;
 }
 export const PaymentMethodSetting = () => {
-  var userId;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isShowDrawerPromptPay, setIsShowDrawerPromptPay ] = useState(false);
   const [flexBoxId, setFlexBoxId] = useState("");
@@ -189,6 +188,7 @@ export const PaymentMethodSetting = () => {
     }
     //final buttonID here
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleOpen = (event: any) => {
     const buttonId = event.currentTarget.id;
     setFlexBoxId(buttonId);

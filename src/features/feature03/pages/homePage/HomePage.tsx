@@ -1,66 +1,47 @@
-import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
 import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
+import { ButtonPenta } from "./F3_HPCs/ButtonPenta";
+import { ButtonQuad } from "./F3_HPCs/ButtonQuad";
+import { RecommendSlide } from "./F3_HPCs/RecommendSlide";
+import { PromoSlide } from "./F3_HPCs/PromoSlide";
 import {
   Box,
-  Stack,
   Text,
-  Card,
-  CardHeader,
-  CardBody,
-  Heading,
   Image,
-  ButtonGroup,
-  Button,
-  HStack,
   Flex,
-  Circle,
-  Center,
-  Icon,
-  IconButton,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { BiRestaurant, BiSolidDrink } from "react-icons/bi";
-import { SiHomebrew } from "react-icons/si";
-import { FaTicketAlt, FaUserFriends, FaRegNewspaper, FaRobot, FaMapMarkerAlt } from "react-icons/fa";
-import { MdMovie } from "react-icons/md";
-import { IoMdChatboxes } from "react-icons/io";
-import { StarIcon } from "@chakra-ui/icons";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { Advertisement } from "./F3_HPCs/Advertisement";
+import { ReviewModalDel } from "../../external/reviewModalDel";
+import { ReviewModalRes } from "../../external/reviewModalRes";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
-import mockR from "../RF3mock.json";
-import mockP from "../PF3mock.json";
-import mockE from "../EF3mock.json";
-
-interface RProps {
+interface VenueRecommended {
   id: number;
+  venueId: number;
   name: string;
   description: string;
-  picR: string;
-}
-
-interface PProps {
-  id: number;
-  name: string;
-  picP: string;
-}
-
-interface EProps {
-  id: number;
-  name: string;
-  date: string;
+  category: string;
+  capacity: string;
   location: string;
-  picE: string;
+  score: string;
+  website_url: string;
 }
 
 export const HomePage = () => {
-  // const [searchFilter, setSearchFilter] = useState<string>("");
-  // const [selectedRestaurant, setSelectedRestaurant] =
-  //   useState<RestaurantProps | null>(null);
-
-  const R: RProps[] = mockR;
-  const P: PProps[] = mockP;
-  const E: EProps[] = mockE;
+  const modal1 = useDisclosure();
+  const modal2 = useDisclosure();
+  const modal3 = useDisclosure();
+  useEffect(() => {
+    modal1.onOpen();
+  }, []);
 
   return (
     <Box width={"100%"}>
@@ -68,358 +49,17 @@ export const HomePage = () => {
         <SliderAdvertisement />
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Flex pb={{base:0, lg:2}} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/Restaurants">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={BiRestaurant}
-                    fontSize={{ base: "30px", lg: "37px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Restaurants
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/Clubs">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={BiSolidDrink}
-                    fontSize={{ base: "28px", lg: "35px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Clubs
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/Bars">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={SiHomebrew}
-                    fontSize={{ base: "30px", lg: "37px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Bars
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/cinemaMainPage">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={MdMovie}
-                    fontSize={{ base: "30px", lg: "35px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Cinemas
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/chatbot">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-            display={{base:"none", lg:"block"}}
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={FaRobot}
-                    fontSize={{ base: "26px", lg: "33px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Chatbot
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-      </Flex>
-      {/* ---------------------------------------------------------- */}
-      <Flex mb={6} justifyContent={"center"} width={"100%"}>
-        <NavLink to="/article">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={FaRegNewspaper}
-                    fontSize={{ base: "30px", lg: "37px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Articles
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/Friends">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={FaUserFriends}
-                    fontSize={{ base: "28px", lg: "35px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Friends
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/communitychat">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={IoMdChatboxes}
-                    fontSize={{ base: "30px", lg: "37px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Community
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-        <NavLink to="/Ticket">
-          <Card
-            mt={15}
-            mx={{ lg: "4", base: "1" }}
-            w={"21vw"}
-            maxW={"230px"}
-            h={{ lg: "150px", base: "100px" }}
-            _hover={{ bg: "brand.200", textColor: "white" }}
-            bgColor={"brand.100"}
-            borderRadius="xl"
-          >
-            <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-              <HStack justifyContent={"center"}>
-                <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                  <Icon
-                    as={FaTicketAlt}
-                    fontSize={{ base: "26px", lg: "33px" }}
-                    color={"black"}
-                  />
-                </Circle>
-              </HStack>
-              <Stack
-                mt={{ base: "2", lg: "4" }}
-                spacing="3"
-                justifyContent={"center"}
-              >
-                <Heading
-                  fontSize={{ lg: "2xl", base: "xs" }}
-                  textAlign={"center"}
-                  fontWeight="bold"
-                >
-                  Ticket
-                </Heading>
-              </Stack>
-            </CardBody>
-          </Card>
-        </NavLink>
-
-      </Flex>
-
+      <ButtonPenta />
+      <ButtonQuad />
+      <Button onClick={modal1.onOpen} mr="5" />
+      <Advertisement isOpen={modal1.isOpen} onClose={modal1.onClose} />
+      <Button onClick={modal2.onOpen} mr="5"/>
+      <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} />
+      <Button onClick={modal3.onOpen} mr="5"/>
+      <ReviewModalRes isOpen={modal3.isOpen} onClose={modal3.onClose} />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
-        Book Seats
+        Explore Venues
       </Text>
       <Box display="flex">
         <SearchBar />
@@ -443,7 +83,7 @@ export const HomePage = () => {
         </Text>
         <NavLink to="/map">
           <Image
-            src="https://static.vecteezy.com/system/resources/previews/006/659/199/original/futuristic-map-of-the-planet-world-map-globalization-internet-and-technology-cyber-security-abstract-background-with-glowing-map-of-the-earth-illustration-vector.jpg"
+            src="https://www.localguidesconnect.com/t5/image/serverpage/image-id/577026iC349F71B836713F5/image-size/large?v=v2&px=999"
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
@@ -468,74 +108,7 @@ export const HomePage = () => {
           </Text>
         </NavLink>
       </Flex>
-
-      <Box overflow={"scroll"} display={"flex"} w={"100%"} pt={1}>
-        {R.filter((R) => R).map((R, index) => (
-          <Card
-            minW={{ base: "300px", lg: "350px" }}
-            width="sm"
-            borderRadius="xl"
-            bg="brand.200"
-            key={index}
-            marginRight="5"
-          >
-            <CardBody>
-              <Image
-                src={R.picR}
-                alt="BarButPic not load"
-                borderRadius="xl"
-                w="100%"
-                h="160px"
-              />
-              <Stack mt="4" spacing="3">
-                <Heading display={"flex"} color="white" size="md">
-                  {R.name}
-
-                <Text ml={"auto"}>5</Text>
-                <StarIcon display={"flex"} ml="1" />
-                </Heading>
-                
-                <Text color="grey.200">{R.description}</Text>
-              </Stack>
-            </CardBody>
-            <Flex
-              direction="row"
-              justify="space-between"
-              width="100%"
-              pl="5"
-              pr="5"
-              pb="5"
-            >
-              <NavLink to="/Temp_RestaurantDetail">
-              <Button
-                variant="outline"
-                textColor="white"
-                _hover={{
-                  textColor: "black",
-                  borderColor: "black",
-                  bgColor: "brand.100",
-                }}
-                w={{ base: "120px", lg: "145px" }}
-              >
-                More Info
-              </Button>
-              </NavLink>
-
-              <NavLink to="/table">
-              <Button
-                variant="solid"
-                textColor="white"
-                bgColor="brand.300"
-                _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w={{ base: "120px", lg: "145px" }}
-              >
-                Reserve Now
-              </Button>
-              </NavLink>
-            </Flex>
-          </Card>
-        ))}
-      </Box>
+      <RecommendSlide />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Flex pt={5} align="center">
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
@@ -552,37 +125,8 @@ export const HomePage = () => {
           </Text>
         </NavLink>
       </Flex>
-
-      <Box width={"100%"} pt={1}>
-        <Box overflowX="auto">
-          <Box display="flex">
-            {P.map((P, index) => (
-              <Card
-                key={index}
-                minW={"300px"}
-                maxW="sm"
-                minH={"150px"}
-                maxH="sm"
-                borderRadius="xl"
-                marginRight="5"
-              >
-                <NavLink to="/IDK_PathAAAAA">
-                  <Image
-                    src={P.picP}
-                    alt="Promotion_Pic not load"
-                    borderRadius="xl"
-                    w="100%"
-                    maxW="300px"
-                    h="200px"
-                  />
-                </NavLink>
-              </Card>
-            ))}
-          </Box>
-        </Box>
-      </Box>
+      <PromoSlide />
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-
       <Footer_HomePage />
     </Box>
   );
