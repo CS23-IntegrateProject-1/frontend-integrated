@@ -1,16 +1,9 @@
 import {
   Box,
-  Card,
   Image,
-  Stack,
-  CardBody,
-  Heading,
   Text,
-  CardFooter,
-  Button,
   Flex,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
 
 export const RDetailCard = () => {
   const images: string[] = ["1", "2", "3", "4", "5", "6"];

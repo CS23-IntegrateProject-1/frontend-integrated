@@ -6,7 +6,7 @@ import {
   InputGroup,
   Stack,
 } from "@chakra-ui/react";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 interface PaymentCardProps {
   cardType: string;
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -62,7 +62,7 @@ export const AddCard: FC<PaymentCardProps> = (props) => {
         </Stack>
         <InputRightElement width="4.5rem">
           <Radio
-            onChange={() => props.setType(props.creditCardId.toString())}
+          onChange={() => props.setType(props.creditCardId.toString())}
             mt={8}
             borderColor={"brand.200"}
             size="lg"

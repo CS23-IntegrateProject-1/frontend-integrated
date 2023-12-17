@@ -1,5 +1,4 @@
 import { Box, Text,Spacer, Button } from "@chakra-ui/react";
-import React from "react";
 import { TextStyle } from "../../../theme/TextStyle";
 import colors from "../../../theme/foundations/colors";
 import { useNavigate } from "react-router-dom";

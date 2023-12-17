@@ -91,7 +91,8 @@ const DelIcon: React.FC = () => {
 };
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullAddress] = useState(false);
+  const [showFullAddress, setShowFullAddress] = useState(false);
+  setShowFullAddress(false);
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");

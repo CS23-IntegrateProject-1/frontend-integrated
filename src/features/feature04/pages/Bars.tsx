@@ -46,6 +46,7 @@ interface RegisteredData{
     const [savedData, setSavedData] = useState<LocationData[] | null>(null);
     const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
+    searchTerm;
     const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
     const [locations, setLocations] = useState<LocMap[] | null>(null);
 
@@ -70,7 +71,7 @@ interface RegisteredData{
       fetchRestaurantData();
       console.log(registered)
       console.log("hello")
-    }, [registered]);
+    });
   
     // Retrieve data from localStorage on component mount
     useEffect(() => {

@@ -10,7 +10,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
 } from "@chakra-ui/react";
 import { FC, useRef } from "react";
 
@@ -21,14 +20,18 @@ interface ShareModalProps {
 }
 
 export const ShareModal: FC<ShareModalProps> = ({ isOpen, onClose, url }) => {
-    const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    const copyToClipboard = () => {
+  const copyToClipboard = async () => {
+    try {
       if (inputRef.current) {
-        // inputRef.current.select();
-        document.execCommand('copy');
+        await navigator.clipboard.writeText(inputRef.current.value);
+        console.log("URL copied to clipboard!");
       }
-    };
+    } catch (error) {
+      console.error("Failed to copy URL to clipboard", error);
+    }
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />

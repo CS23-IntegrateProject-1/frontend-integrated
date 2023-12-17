@@ -1,7 +1,6 @@
-import { Box, Heading, Stack,Button, Show, Checkbox, UnorderedList, ListItem, Spacer, Flex, Divider, Text } from "@chakra-ui/react";
+import { Box, Heading, Stack,Button, UnorderedList, ListItem, Divider, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import { Axios } from "../../../../AxiosInstance";
 //function to scroll to the section
 function scrollToSection(sectionId : string) {

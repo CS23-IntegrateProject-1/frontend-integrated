@@ -40,6 +40,7 @@ export const Maps = () => {
   const [savedData, setSavedData] = useState<LocationData[] | null>(null);
   const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  searchTerm;
   const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
   const [locations, setLocations] = useState<LocMap[] | null>(null);
 

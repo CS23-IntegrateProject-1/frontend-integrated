@@ -1,44 +1,175 @@
-import { NavLink } from "react-router-dom";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Button, Text, Box } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 const starSortBox = {
   backgroundColor: "brand.300",
-  px: "3",
-  py: "2",
+  px: { base: "2", lg: "3" },
+  py: { base: "1", lg: "2" },
   mr: "2",
   borderRadius: "xl",
 };
 
 const starPlacement = {
   ml: "2",
-  mt: "0.5",
-  fontSize: "lg",
+  fontSize: { base: "sm", lg: "lg" },
 };
 
-export const StarSort = () => {
+export type IStarSort = {
+  reviewStars: string;
+  reviewTypes: string;
+}
+
+interface StarSortProps {
+  reviewFilter: IStarSort,
+  setReviewFilter: (updatedFilter: (updated: IStarSort) => IStarSort) => void
+}
+
+export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
+  const isActiveStar = (selectedRating: string) => {
+    return reviewFilter.reviewStars.includes(selectedRating)
+  }
+
+  const isActiveType = (selectedType: string) => {
+    return reviewFilter.reviewTypes.includes(selectedType)
+  }
+
+  const handleStarClick = (selectedRating: string) => {
+    setReviewFilter((prevReviewFilter) => {
+      if(prevReviewFilter.reviewStars.includes(selectedRating)){
+        const reviewStars = prevReviewFilter.reviewStars.split(",").filter(v => v !== "").filter((rating) => rating !== selectedRating).join(",")
+        return {
+          ...prevReviewFilter,
+          reviewStars
+        }
+      }else {
+        return {
+          ...prevReviewFilter,
+          reviewStars: [prevReviewFilter.reviewStars,selectedRating].filter(v => v !== "").join(",")
+        }
+      }
+    });
+  }
+
+  const handleTypeClick = (selectedType: string) => {
+    setReviewFilter((prevReviewFilter) => {
+      if(prevReviewFilter.reviewTypes.includes(selectedType)){
+        const reviewTypes = prevReviewFilter.reviewTypes.split(",").filter(v => v !== "").filter((type) => type !== selectedType).join(",")
+        return {
+          ...prevReviewFilter,
+          reviewTypes
+        }
+      }else {
+        return {
+          ...prevReviewFilter,
+          reviewTypes: [prevReviewFilter.reviewTypes,selectedType].filter(v => v !== "").join(",")
+        }
+      }
+    });
+  }
+
   return (
-    <Flex direction="row" mt="2">
-      <Flex direction="row" sx={starSortBox}>
-        5
-        <StarIcon sx={starPlacement} />
+    <Box>
+      <Flex direction="row" mt="2">
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveStar("5") ? "#fcda12" : "brand.300", textColor: isActiveStar("5") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleStarClick("5")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
+            5
+          </Text>
+          <StarIcon sx={starPlacement} />
+        </Button>
+        {/* ///////////////////////////////////////////////// */}
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveStar("4") ? "#fcda12" : "brand.300", textColor: isActiveStar("4") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleStarClick("4")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
+            4
+          </Text>
+          <StarIcon sx={starPlacement} />
+        </Button>
+        {/* ///////////////////////////////////////////////// */}
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveStar("3") ? "#fcda12" : "brand.300", textColor: isActiveStar("3") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleStarClick("3")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
+            3
+          </Text>
+          <StarIcon sx={starPlacement} />
+        </Button>
+        {/* ///////////////////////////////////////////////// */}
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveStar("2") ? "#fcda12" : "brand.300", textColor: isActiveStar("2") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleStarClick("2")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
+            2
+          </Text>
+          <StarIcon sx={starPlacement} />
+        </Button>
+        {/* ///////////////////////////////////////////////// */}
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveStar("1") ? "#fcda12" : "brand.300", textColor: isActiveStar("1") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleStarClick("1")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mt={0.5} ml={1}>
+            1
+          </Text>
+          <StarIcon sx={starPlacement} />
+        </Button>
       </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        4
-        <StarIcon sx={starPlacement} />
+      {/************************************************************ */}
+      <Flex mt={3}>
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveType("Reservation") ? "#fcda12" : "brand.300", textColor: isActiveType("Reservation") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleTypeClick("Reservation")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mx={1}>Reservation</Text>
+        </Button>
+        <Button
+          sx={{...starSortBox, backgroundColor: isActiveType("Delivery") ? "#fcda12" : "brand.300", textColor: isActiveType("Delivery") ? "black" : "white"}}
+          textColor={"white"}
+          _hover={{
+            backgroundColor: "brand.100",
+            textColor: "black",
+          }}
+          onClick={() => handleTypeClick("Delivery")}
+        >
+          <Text fontSize={{ base: "sm", lg: "lg" }} mx={1}>Delivery</Text>
+        </Button>
       </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        3
-        <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        2
-        <StarIcon sx={starPlacement} />
-      </Flex>
-      <Flex direction="row" sx={starSortBox}>
-        1
-        <StarIcon sx={starPlacement} />
-      </Flex>
-    </Flex>
+    </Box>
   );
 };
