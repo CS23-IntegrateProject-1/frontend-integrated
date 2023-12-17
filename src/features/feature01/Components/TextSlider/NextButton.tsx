@@ -21,7 +21,7 @@ export const NextButton: FC<NextButtonProps> = (props: NextButtonProps) => {
         bg={"none"}
         isDisabled={isDisabled}
         color={buttonColor}
-        onClick={(e) => {
+        onClick={() => {
             console.log(props.selectedFriends);
           }}
       >

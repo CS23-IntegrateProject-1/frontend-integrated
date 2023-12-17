@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
@@ -19,7 +21,7 @@ type Reservation = {
   status:            string
   userId :           number
   entry_time:        Date
-  isReview   :       Boolean             
+  isReview   :       boolean             
   reservationId :    number                 
   depositId      :   number
   isPaidDeposit  :   string
@@ -35,19 +37,20 @@ type advernoti = {
   advertisementId  :number
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatDate = (dateString: string) => {
   if (!dateString) {
     return "Invalid Date";
   }
 
-  const date = new Date(dateString);
+  const date: string = formatDate(dateString);
 
-  if (isNaN(date.getTime())) {
+  if (isNaN(new Date(date).getTime())) {
     return "Invalid Date";
   }
 
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
-  return date.toLocaleDateString(undefined, options);
+  return new Date(date).toLocaleDateString(undefined, options);
 };
 
 export const Notification = () => {

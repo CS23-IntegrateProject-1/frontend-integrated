@@ -1,5 +1,7 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box , Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { FC } from "react";
+import {MdOutlineQrCode2} from "react-icons/md"
 
 interface ButtonProps {
   bgColor?: string;
@@ -9,6 +11,10 @@ interface ButtonProps {
 }
 
 export const QrCodeButton: FC<ButtonProps> = ({
+    bgColor,
+    textColor,
+    borderColor,
+    bgHover,
 }) => {
   return (
     <Box
@@ -19,6 +25,20 @@ export const QrCodeButton: FC<ButtonProps> = ({
       margin={[3, 5, 7]} // Responsive margin for different screen sizes
       width={["100%", "80%", "70%"]} // Responsive width for different screen sizes
     >
+      <Button
+        width={"100%"}
+        height={"40px"}
+        bg={!bgColor ? "brand.200" : bgColor}
+        color={!textColor ? "white" : textColor}
+        borderColor={!borderColor ? "" : borderColor}
+        _hover={{ bg: !bgHover ? "brand.300" : bgHover }}
+        textColor={"#DEBEF6"}
+        leftIcon={<MdOutlineQrCode2 />}
+    >
+      <Link to={'/Notification/entercode'}>
+        QR PromptPay
+      </Link>
+    </Button>
       {/* <Image
         objectFit="cover"
         maxW={{ base: "100%", sm: "50%" }}

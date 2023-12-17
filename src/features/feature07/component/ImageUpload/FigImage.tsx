@@ -1,11 +1,7 @@
 import React from 'react';
 import { FC} from "react";
 
-interface Image {
-  width: number;
-  height: number;
-  color: string;
-}
+
 
 const FigImage: FC = ( ) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">

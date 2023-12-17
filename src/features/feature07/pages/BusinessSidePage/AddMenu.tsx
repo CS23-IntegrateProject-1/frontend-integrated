@@ -5,6 +5,7 @@ import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState } from 'react';
 import { Axios } from '../../../../AxiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useCustomToast } from '../../../../components/useCustomToast';
 
 export const AddMenu = () => {
 
@@ -12,6 +13,7 @@ export const AddMenu = () => {
   const { venueId } = useParams();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const toast = useCustomToast();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -53,6 +55,7 @@ export const AddMenu = () => {
         },
       });
       console.log('Menu added:', response.data);
+      toast.success("Menu Added Successfully");
       navigate(`/venue/${venueId}/menubusiness`);
       // Add logic for what happens after successfully adding menu item
     } catch (error) {

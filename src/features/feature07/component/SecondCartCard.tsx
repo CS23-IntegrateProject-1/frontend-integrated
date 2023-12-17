@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text,  VStack, HStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { FC} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,9 +11,9 @@ interface SecondCardProps {
   imageUrl: string;
   amount: number;
   type: string;
-};
+}
 
-export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,description,price,imageUrl,amount,type}) => {
+export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,amount,type}) => {
     const navigate = useNavigate();
     const { venueId } = useParams();
 
@@ -33,8 +33,11 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,description,pric
      >
       
     <Flex justifyContent="center" >
-      <Image src="/src/features/feature07/assets/test.jpg"
-      alt="integrate" 
+      <Image 
+      // src="/src/features/feature07/assets/test.jpg"
+      // alt="integrate" 
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 
