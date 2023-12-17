@@ -25,12 +25,10 @@ export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,ima
     cursor={onClick ? "pointer" : "default"} 
     onClick={onClick} >
       
-    <Flex jjustifyContent="center" width="140px" height="105px">
+    <Flex justifyContent="center" width="140px" height="105px">
       <Image 
-      src="/src/features/feature07/assets/test.jpg"
-      // alt="integrate" 
-      // src={imageUrl}
-      alt={foodName}
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 

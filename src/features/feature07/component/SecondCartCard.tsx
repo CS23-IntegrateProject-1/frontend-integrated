@@ -33,8 +33,11 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
      >
       
     <Flex justifyContent="center" >
-      <Image src="/src/features/feature07/assets/test.jpg"
-      alt="integrate" 
+      <Image 
+      // src="/src/features/feature07/assets/test.jpg"
+      // alt="integrate" 
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 

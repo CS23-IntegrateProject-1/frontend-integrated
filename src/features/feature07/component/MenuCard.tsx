@@ -27,10 +27,9 @@ export const MenuCard: FC<MenuCardProps>= ({foodName,description,price,imageUrl,
       
     <Flex justifyContent="center" width="140px" height="105px" >
       <Image 
-      src="/src/features/feature07/assets/test.jpg"
-      // alt="integrate" 
-      // src = {imageUrl}
-      alt = {foodName}
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
+      // alt = {foodName}
       objectFit="cover" 
       mt={0.5}
       width="140px" 

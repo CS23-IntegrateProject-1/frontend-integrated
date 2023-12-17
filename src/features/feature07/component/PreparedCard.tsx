@@ -25,8 +25,9 @@ export const PreparedMenuCard: FC<PreparedMenuCardProps>= ({foodName,description
      >
       
     <Flex justifyContent="center" >
-      <Image src="/src/features/feature07/assets/test.jpg"
-      alt="integrate" 
+      <Image 
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 

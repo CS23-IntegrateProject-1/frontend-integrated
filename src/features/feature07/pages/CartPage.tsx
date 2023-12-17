@@ -56,7 +56,7 @@ export const CartPage = () => {
     <Flex direction="column" align="center" justify="center">
     <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
       {cartItems.length===0 ? (
-        <Box><Text {...textStyles.h2}>No iterms in cart</Text></Box>
+        <Box><Text {...textStyles.h2}>No items in cart</Text></Box>
       ) : (
           cartItems.map((item, index)=> (
             <SecondCartCard
@@ -65,7 +65,7 @@ export const CartPage = () => {
               foodName={item.name}
               description={item.description}
               price={item.price}
-              imageUrl={item.imageUrl}
+              imageUrl={item.menuId !== null ? item.image : item.image_url}
               amount={item.quantity}
               type={item.menuId !== null ? 'Menu' : 'Set'}
             />
