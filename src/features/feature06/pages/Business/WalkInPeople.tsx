@@ -5,16 +5,18 @@ import { Link } from "react-router-dom";
 import { AmountOfPeopleIcon } from "../../components/AmountOfPeople";
 
 export const WalkInPeople = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
+  const venueId = 1;
+  const branchId = 1; 
 
   function increment() {
-    if (count < 10) {
+    if (count < 30) {
       setCount(count + 1);
     }
   }
 
   function decrement() {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   }
@@ -119,7 +121,7 @@ export const WalkInPeople = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/business/WalkInDetail?count=${count}`}>
+      <Link to={`/business/WalkInDetail/${branchId}/${venueId}?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}

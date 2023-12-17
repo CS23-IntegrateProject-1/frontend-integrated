@@ -16,20 +16,29 @@ import { Axios } from "../../../AxiosInstance";
 import { useCustomToast } from "../../../components/useCustomToast";
 
 interface IData {
-    name: string,
-    description: string,
-    category: string,
-    capacity: number,
-    chatRoomId: number,
-    locationId: number,
-    score: string,
-    venueId: number,
-    website_url: string,
-    Venue_photo: {
-        venueId: number,
-        image_url: string,
-        date_added: Date
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  chatRoomId: number;
+  locationId: number;
+  score: string;
+  venueId: number;
+  website_url: string;
+  Venue_photo: IPhotoData[] | undefined;
+  location: {
+        locationId: number,
+        name: string,
+        latitude: string,
+        longtitude: string,
+        address: string
+    }
 }
+
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
 }
 
 export const ReservationDetail = () => {
@@ -44,6 +53,7 @@ export const ReservationDetail = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const toast = useCustomToast()
+  
 
   useEffect(() => {
     fetchData();
@@ -51,20 +61,22 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(venueIdInt,1);
+    const response: IData = await getVenueById(venueIdInt,branchIdInt);
     console.log(response);
     setData(response);
   }
 
   const navigate = useNavigate();
 
-  const { venueId } = useParams<{ venueId: string }>();
-  const venueIdInt = parseInt(venueId || "0");
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
+        const venueIdInt = parseInt(venueId || "0");
+        const branchIdInt = parseInt(branchId || "0");
 
   const handleCreate = async () => {
     try {
-    
-      const venueIdInt = parseInt(venueId || "0")
       const seatsInt = parseInt(seats || "0")
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information")
@@ -74,12 +86,13 @@ export const ReservationDetail = () => {
         guest_amount: seatsInt,
         reserve_date: date,
         time: time ,
-        branchId: 1,
+        branchId: branchIdInt ,
         name: name,
         phonenumber: phonenumber,
       });
         // console.log(response);
       console.log("create reservation successfully");
+      console.log(response);
       navigate("/3/venue/3/payment");
     } catch (err : any) {
       toast.error(err.response.data.error)
@@ -96,7 +109,13 @@ export const ReservationDetail = () => {
         alignItems="center" // Center the content horizontally
         justifyContent="center"
       >
-        <RDetailCard name={data?.name} star={data?.score} location={"แก้ด่วน"}/>
+        <RDetailCard
+          // src={data?.venue.Venue_photo.image_url}
+          name={data?.name}
+          location={data?.location.address}
+          star={data?.score}
+          image_url={data?.Venue_photo}     
+        />
 
         {/* This will push the reservation detail to the bottom */}
         <Box
@@ -181,8 +200,7 @@ export const ReservationDetail = () => {
             >
               Phone Number :
             </Text>
-            <Box
-            mt={"5px"}>
+            <Box mt={"5px"}>
               <Input
                 required
                 placeholder="enter phone no."
@@ -217,23 +235,21 @@ export const ReservationDetail = () => {
             >
               Date :
             </Text>
-            <Box
-            marginLeft="120px"
-            marginTop="-20px">
-            <Input
-              required
-              placeholder="Select Date"
-              size="md"
-              type="date"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-            />
+            <Box marginLeft="120px" marginTop="-20px">
+              <Input
+                required
+                placeholder="Select Date"
+                size="md"
+                type="date"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
             </Box>
             <TimeIcon
               w={"20px"}
@@ -254,23 +270,21 @@ export const ReservationDetail = () => {
             >
               Time :
             </Text>
-            <Box
-            marginLeft="120px"
-            marginTop="-20px">
-            <Input
-              required
-              placeholder="Select Time"
-              size="md"
-              type="time"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              value={time}
-              onChange={(e) => {
-                setTime(e.target.value);
-              }}
-            />
+            <Box marginLeft="120px" marginTop="-20px">
+              <Input
+                required
+                placeholder="Select Time"
+                size="md"
+                type="time"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                value={time}
+                onChange={(e) => {
+                  setTime(e.target.value);
+                }}
+              />
             </Box>
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
               <MdOutlineEventSeat style={{ color: "black" }} />

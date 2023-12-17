@@ -16,9 +16,9 @@ export const Feature06Routes = () => {
     }, //page for choose the reservation details (date, time, etc.)
     { path: "/check-in", element: "ElementPlaceHolder" },
     { path: "/my-reservation", element: <MyReservation /> },
-    { path: "/table/:venueId", element: <TablePage /> },
+    { path: "/table/:branchId/:venueId", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
-    { path: "/reservation-detail/:venueId", element: <ReservationDetail /> },
+    { path: "/reservation-detail/:branchId/:venueId", element: <ReservationDetail /> },
     { path: "/getreservation-detail/:venueId/:reservationId", element: <GetReservationDetail /> },
     { path: "/qrcode", element: <QrcodeConfirm/> },
     { path: "/qrcode/display/:reservationId", element: <QrcodeGen /> },

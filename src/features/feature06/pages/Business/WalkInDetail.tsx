@@ -7,6 +7,12 @@ import { Axios } from "../../../../AxiosInstance";
 import { getVenueById } from "../../../../api/Reservation/getVenueById";
 import { useCustomToast } from "../../../../components/useCustomToast";
 
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
+}
+
 interface IData {
   name: string;
   description: string;
@@ -17,10 +23,13 @@ interface IData {
   score: string;
   venueId: number;
   website_url: string;
-  Venue_photo: {
-    venueId: number;
-    image_url: string;
-    date_added: Date;
+  Venue_photo: IPhotoData[] | undefined;
+  location: {
+    locationId: number;
+    name: string;
+    latitude: string;
+    longtitude: string;
+    address: string;
   };
 }
 
@@ -33,15 +42,19 @@ export const WalkInDetail = () => {
   const seats = searchParams.get("count");
   const seatsInt = parseInt(seats || "0");
 
-  const { venueId } = useParams<{ venueId: string }>();
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
   const venueIdInt = parseInt(venueId || "0");
+  const branchIdInt = parseInt(branchId || "0");
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(venueIdInt, 1); //ไม่ควรเป็น param
+    const response: IData = await getVenueById(venueIdInt, branchIdInt); //ไม่ควรเป็น param + ไม่ได้ใส่ branchId
     setData(response);
     setIsLoaded(true);
   };
@@ -61,7 +74,7 @@ export const WalkInDetail = () => {
         guest_amount: seatsInt,
         name: name,
         phonenumber: phonenumber,
-        branchId: 1,
+        branchId: branchIdInt,
       });
       console.log(response);
       console.log("create reservation successfully");
@@ -83,8 +96,7 @@ export const WalkInDetail = () => {
         <RDetailCard
           name={data?.name}
           star={data?.score}
-          location={"แก้ด่วน"}
-        />
+          location={data?.location.address} image_url={data?.Venue_photo}        />
 
         {/* This will push the reservation detail to the bottom */}
         <Box
