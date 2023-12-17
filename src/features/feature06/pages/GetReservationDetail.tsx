@@ -2,10 +2,12 @@ import { Box, Icon, Text, Button, Fade, } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-
+// 
 import { CalendarIcon,} from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { FC, useRef } from "react";
 
 interface ShareModalProps {
@@ -406,9 +408,4 @@ export const GetReservationDetail = () => {
     );
   };
 
-
-
-function useParams<T>(): { venueId: any; reservationId: any; } {
-  throw new Error("Function not implemented.");
-}
 
