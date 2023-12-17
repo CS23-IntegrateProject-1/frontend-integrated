@@ -12,7 +12,7 @@ interface ReceiptPageProps {
   itemCount: number;
 }
 
-export const ReceiptPage: React.FC<ReceiptPageProps> = ({ orderId, orderDate, itemCount }) => {
+export const ReceiptPage: React.FC<ReceiptPageProps> = () => {
 
   const { data: receipt } = useQuery(['orderReceipt'], async () => {
     const response = await Axios.get('/feature7/getReceipt');
@@ -39,8 +39,8 @@ export const ReceiptPage: React.FC<ReceiptPageProps> = ({ orderId, orderDate, it
                 <HStack display="flex" justifyContent="space-between">
                   <Text>{(index + 1).toString().padStart(2, '0')}</Text>
                   <Text>{order.menuName}</Text>
-                  <Text>PRICE</Text>
-                  <Text>Amount</Text>
+                  <Text>{order.menuPrice}</Text>
+                  <Text>{order.quantity}</Text>
                 </HStack>
           </Box>
         ))}
