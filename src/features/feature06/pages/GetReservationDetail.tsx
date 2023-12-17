@@ -4,6 +4,7 @@ import {
   Icon,
   Text,
   Button,
+  Fade,
 
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -15,13 +16,13 @@ import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { FC, useRef } from "react";
+// import { FC, useRef } from "react";
 
-interface ShareModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  url: string;
-}
+// interface ShareModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   url: string;
+// }
 
 
 interface IData {
@@ -81,6 +82,7 @@ interface IData {
 export const GetReservationDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
+  isLoaded;
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
 
@@ -90,6 +92,7 @@ export const GetReservationDetail = () => {
   const hour = dateObject.getUTCHours();
   const minute = dateObject.getUTCMinutes();
   const tensDigit = Math.floor(minute / 10);
+  tensDigit;
   const [showOverlay, setShowOverlay] = useState(false);
 
   const {venueId, reservationId} = useParams<{venueId: string, reservationId: string}>()

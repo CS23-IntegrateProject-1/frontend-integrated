@@ -36,6 +36,7 @@ type advernoti = {
   advertisementId  :number
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatDate = (dateString: string) => {
   if (!dateString) {
     return "Invalid Date";
@@ -95,7 +96,6 @@ const fetchData = async () => {
     console.error("Error fetching user data:", error);
   }
 };
-// eslint-disable-next-line react-hooks/exhaustive-deps
 const fetchReservationData = async () => {
   try {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -123,7 +123,6 @@ useEffect(() => {
   }, [reservation]);
   console.log(reservationIds)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const notiData = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -233,7 +232,6 @@ useEffect(() => {
     fetchAdvertisementData();
   }, []);
   //http://localhost:8080/feature8/notifications/advertisementbizId/1
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBusinessId = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;

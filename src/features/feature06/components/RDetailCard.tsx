@@ -4,6 +4,7 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
+import { FC } from "react";
 
 interface RDetailCardProps {
   name?: string;
@@ -17,7 +18,6 @@ export const RDetailCard: FC<RDetailCardProps> = ({
   name,
   star,
   location,
-  src,
 }) => {
   const images: string[] = ["1", "2", "3", "4", "5", "6"];
   

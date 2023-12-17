@@ -44,7 +44,6 @@ export const Receipt = () => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchOrderTimeFilterData = async () => {
     try {
       const orderResponseFilter = await Axios.get<OrderResponse>(`feature8/getTransactionReserveIdByVenueIdAndEqualToStatusCompletedAndFiltered/${venueId}`, {
