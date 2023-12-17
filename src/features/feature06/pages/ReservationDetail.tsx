@@ -12,92 +12,48 @@ import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
-
-
-interface IData {
-  venue: {
-    name: string;
-    description: string;
-    category: string;
-    capacity: number;
-    chatRoomId: number;
-    locationId: number;
-    score: string;
-    venueId: number;
-    website_url: string;
-    Venue_photo: string;
-  };
-  location: {
-    address: string;
-  };
-  reservations: [
-    {
-      venueId: number;
-      guest_amount: number;
-      reserved_time: string;
-      status: string;
-      userId: number;
-      entry_time: string;
-      isReview: boolean;
-      reservationId: number;
-      depositId: number;
-      isPaidDeposit: string;
-      user: {
-        username: string;
-        hashed_password: string;
-        fname: string;
-        lname: string;
-        email: string;
-        profile_picture: string;
-        addId: string;
-        phone: string;
-        tierId: number;
-        userId: number;
-        User_bio: string;
-      };
-      deposit: {
-        deposit_amount: string;
-        depositId: number;
-        venueId: number;
-      };
-    }
-  ];
-}
+import { Axios } from "axios";
 
 export const ReservationDetail = () => {
-  const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
   const url = useSearchParams();
-  console.log(url);
+  // console.log(url);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const seats = searchParams.get("count");
 
   useEffect(() => {
-    fetchData();
-    // console.log("FNAME" + data?.reservations[0].user.fname);
-  }, []);
-
-  const fetchData = async () => {
-    const response: IData = await getReservationDetail(1, 46);
-    setData(response);
     setIsLoaded(true);
-  };
+  }, []);
 
   const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  {console.log(name)}
-  {console.log(phonenumber)}
-  {console.log(date)}
-  {console.log(time)}
+  // {console.log(name)}
+  // {console.log(phonenumber)}
+  // {console.log(date)}
+  // {console.log(time)}
   let navigate = useNavigate();
-  const toGetRD = () => {
-    const path = "/getreservation-detail";
-    navigate(path);
+
+  const handleCreate = async () => {
+    try {
+      const response = await Axios.post(`/feature6/createreservation`, {
+        venueId: 3,
+        guest_amount: seats,
+        reserve_date: date,
+        time: time,
+        branchId:1,
+      });
+      console.log(response);
+      console.log("create reservation successfully");
+      navigate("/3/venue/3/payment");
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   const render = () => {
     return (
       <Box
@@ -153,6 +109,7 @@ export const ReservationDetail = () => {
             </Text>
             <Box mt={"5px"}>
               <Input
+                required
                 placeholder="enter your name"
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -193,6 +150,7 @@ export const ReservationDetail = () => {
             <Box
             mt={"5px"}>
               <Input
+                required
                 placeholder="enter phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -225,22 +183,11 @@ export const ReservationDetail = () => {
             >
               Date :
             </Text>
-            {/* <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft="120px"
-              marginTop="-14px"
-            >
-              11/11/23
-            </Text> */}
             <Box
             marginLeft="120px"
             marginTop="-20px">
             <Input
+              required
               placeholder="Select Date"
               size="md"
               type="date"
@@ -272,23 +219,11 @@ export const ReservationDetail = () => {
             >
               Time :
             </Text>
-
-            {/* <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft="120px"
-              marginTop="-14px"
-            >
-              11.11 pm
-            </Text> */}
             <Box
             marginLeft="120px"
             marginTop="-20px">
             <Input
+              required
               placeholder="Select Time"
               size="md"
               type="time"
@@ -381,7 +316,7 @@ export const ReservationDetail = () => {
             lineHeight="24px"
             marginTop="15px"
             marginLeft="133px"
-            onClick={toGetRD}
+            onClick={handleCreate}
           >
             Confirm
           </Button>
