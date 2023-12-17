@@ -4,6 +4,7 @@ import PaymentPage from "./pages/Payment";
 import { ShowTime } from "./pages/ShowTime";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import ScreenPage from "./pages/ScreenPage";
+import History from './pages/History';
 export const Feature10Routes = () => {
   return [
     {
@@ -34,6 +35,10 @@ export const Feature10Routes = () => {
     {
       path: '/screen/:filmId/:date/:showId/:theaterId',
       element: <ScreenPage />
+    },
+    {
+      path: '/History',
+      element: <History />
     }
   ];
 };

@@ -47,7 +47,7 @@ interface Seat {
   seatId: number;
   Seat_Types: SeatType;
   screenId: number;
-  showId: number;
+  id: number;
   seatRow: string;
   seatNo: number;
 }
@@ -67,8 +67,8 @@ const ScreenPage: React.FC = () => {
   const filmid = parseInt(filmId || "0");
   const theaterId = useParams<{ theaterId: string }>().theaterId;
   const theaterid = parseInt(theaterId || "0");
-  const showId = useParams<{ showId: string }>().showId;
-  const showid = parseInt(showId || "0");
+  const id = useParams<{ id: string }>().id;
+  const showid = parseInt(id || "0");
 
   console.log(showid);
 
@@ -183,9 +183,9 @@ const ScreenPage: React.FC = () => {
   console.log(error);
 
   useEffect(() => {
-    if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && showId) {
+    if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && id) {
       Axios.get(
-        `http://localhost:3000/seat/getSeatInfoByScreenId/${allShowDetails.show.screenId}/${showId}`
+        `http://localhost:8080/feature10/getSeatByScreenId/${id}`
       )
         .then((response) => {
           setSeats(response.data);
@@ -193,13 +193,13 @@ const ScreenPage: React.FC = () => {
         })
         .catch((error) => setError(error.message));
     }
-  }, [allShowDetails, showId]);
+  }, [allShowDetails, id]);
 
   
   const fetchAvailableSeats = () => {
-    if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && showId) {
+    if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && id) {
       Axios.get(
-        `http://localhost:3000/seat/getAvailableSeatIdByShowIdAndScreenId/${showId}/${allShowDetails.show.screenId}`
+        `http://localhost:3000/seat/getAvailableSeatIdByShowIdAndScreenId/${id}/${allShowDetails.show.screenId}`
       )
         .then((response) => {
           setAvailableSeats(response.data);
