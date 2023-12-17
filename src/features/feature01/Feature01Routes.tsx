@@ -78,7 +78,7 @@ export const Feature01Routes = () => {
     },
     {
       path: "/Friends",
-      element: <FriendMain />,
+      element: <FriendMain/>,
     },
     {
       path: "/AddFriend",

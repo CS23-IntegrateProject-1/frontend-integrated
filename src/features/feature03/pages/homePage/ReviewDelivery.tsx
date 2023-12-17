@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Flex,
   FormControl,
@@ -7,8 +7,6 @@ import {
   FormHelperText,
   Input,
   Button,
-  Box,
-  Text,
 
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -21,6 +19,7 @@ import { useParams } from "react-router-dom";
 export const ReviewDelivery = () => {
   const [input, setInput] = useState("");
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
   const { branchId } = useParams();
 
@@ -35,13 +34,13 @@ export const ReviewDelivery = () => {
 
   const handleSubmit = async () => {
     try {
-      await Axios.post(`/feature3/ReviewDelivery`, {
+      await Axios.post(`/feature3/ReviewDelivery/${branchId}`, {
         rating,
         review: input,
-        branchId: 1,
+        branchId: branchId,
       });
       console.log("Review posted successfully!");
-
+      navigate(`/Reviews/${branchId}`, { replace: true})
     } catch (error) {
       console.error("Error posting review:", error);
     }
@@ -65,18 +64,17 @@ export const ReviewDelivery = () => {
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="red"
-          type="email"
+          errorBorderColor="red.300"
+          type="text"
           value={input}
           onChange={handleInputChange}
         />
         {!isError ? (
           <FormHelperText></FormHelperText>
         ) : (
-          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
+          <FormErrorMessage borderColor="red" textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
-      <NavLink to={`/Reviews/${1}`}>
       <Button
         variant="solid"
         textColor="white"
@@ -85,10 +83,10 @@ export const ReviewDelivery = () => {
         w="200px"
         onClick={handleSubmit}
         isDisabled={input === "" || rating === 0}
+        
       >
         Confirm
       </Button>
-      </NavLink>
     </Flex>
   );
 };

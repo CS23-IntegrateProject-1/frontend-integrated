@@ -2,32 +2,25 @@ import { Box, Flex, IconButton, useDisclosure } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Text } from "@chakra-ui/react";
 import { FaPencilAlt } from "react-icons/fa";
-import { FC, useState } from "react";
-import {
-  // ArticleComment,
-  CommentItemProps,
-} from "../../../../interfaces/feature11/CommentType";
+import { FC } from "react";
+import { CommentItem } from "../../../../interfaces/feature11/CommentType";
 import { useNavigate } from "react-router-dom";
-import { set } from "date-fns";
 import { EditCommentModal } from "./EditCommentModal";
-// import { useParams } from "react-router-dom";
-// import { formatDate1 } from "../../../../functions/formatDatetime";
-// import { Axios } from "../../../../AxiosInstance";
-// import { useQuery } from "@tanstack/react-query";
-// import { CustomLoader } from "../../../../components/Loader/CustomLoader";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteCommentModal } from "./DeleteCommentModal";
 
-export const CommentBox: FC<CommentItemProps> = ({
-  article,
-  user,
-  create_date,
-  content,
+export const CommentBox: FC<CommentItem> = ({
+  article: { topic },
   articleId,
   commentId,
-  onClose,
-  isOpen,
-  onOpen
-}: CommentItemProps) => {
+  content,
+  create_date,
+  user: { profile_picture, username },
+  userId,
+}) => {
   const navigate = useNavigate();
+  const editModal = useDisclosure();
+  const deleteModal = useDisclosure();
   return (
     <Box
       display="flex"
@@ -37,7 +30,7 @@ export const CommentBox: FC<CommentItemProps> = ({
       height={"148px"}
       mb={"1em"}
       borderRadius={"20px"}
-      p="4"
+      p="1em"
       onClick={() => {
         navigate(`/article/${articleId}`);
       }}
@@ -51,25 +44,41 @@ export const CommentBox: FC<CommentItemProps> = ({
         mt={"-5px"}
       >
         <Text style={TextStyle.h2} color={"#191919"} ml={"10px"}>
-          {article?.topic}
+          {topic}
         </Text>
-        <IconButton
-          variant={"unstyled"}
-          size={"sm"}
-          color={"black"}
-          aria-label="Edit"
-          icon={<FaPencilAlt />}
-          alignSelf={"flex-end"}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            onOpen();
-          }}
-        />
+        <Flex>
+          <IconButton
+            display={"flex"}
+            variant={"unstyled"}
+            size={"md"}
+            color={"black"}
+            aria-label="Delete Comment"
+            icon={<DeleteIcon />}
+            alignSelf={"flex-end"}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              deleteModal.onOpen();
+            }}
+            mr={"0.5em"}
+          />
+          <IconButton
+            display={"flex"}
+            variant={"unstyled"}
+            size={"md"}
+            color={"black"}
+            aria-label="Edit Comment"
+            icon={<FaPencilAlt />}
+            alignSelf={"flex-end"}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              editModal.onOpen();
+            }}
+          />
+        </Flex>
       </Flex>
-      {/* <Box display="flex" alignItems="center"> */}
-      <Box ml={"30px"} mt={"-15px"} flexDirection="column">
+      <Box ml={"1em"} mt={"-15px"} flexDirection="column">
         <img
-          src="/src/features/feature11/img/Profile.png"
+          src={import.meta.env.BACKEND_URL + profile_picture}
           alt="Profile"
           width="32px"
           height="32px"
@@ -82,7 +91,7 @@ export const CommentBox: FC<CommentItemProps> = ({
           ml={"40px"}
           as={"b"}
         >
-          {user?.username}
+          {username}
         </Text>
         <Text
           display={"flex"}
@@ -93,15 +102,31 @@ export const CommentBox: FC<CommentItemProps> = ({
         >
           {create_date}
         </Text>
-        {/* </Box> */}
       </Box>
       <Box ml={"20px"} mt={"10px"} w={"100%"}>
         <Text display={"flex"} fontSize={"xs"} color={"#191919"}>
           {content}
-          {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            ut orci a lacus eleifend dapibus. */}
         </Text>
       </Box>
+      <EditCommentModal
+        article={{ topic }}
+        articleId={articleId}
+        commentId={commentId}
+        content={content}
+        create_date={create_date}
+        user={{ profile_picture, username }}
+        userId={userId}
+        key={commentId}
+        onClose={editModal.onClose}
+        isOpen={editModal.isOpen}
+        onOpen={editModal.onOpen}
+      />
+      <DeleteCommentModal
+        isOpen={deleteModal.isOpen}
+        onClose={deleteModal.onClose}
+        onOpen={deleteModal.onOpen}
+        commentId={commentId}
+      />
     </Box>
   );
 };

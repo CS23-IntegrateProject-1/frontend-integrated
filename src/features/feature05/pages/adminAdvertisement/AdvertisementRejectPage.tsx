@@ -1,4 +1,4 @@
-import { Box, Button, Input, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Textarea } from "@chakra-ui/react";
 
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const AdvertisementRejectPage = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/advertisement");
+    navigate("/admin/advertisement");
   };
 
   return (

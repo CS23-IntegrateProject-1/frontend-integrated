@@ -1,10 +1,10 @@
-import { Box, HStack, Button,Text, Center, Icon, VStack,Flex} from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, HStack, Text, Center, VStack,Flex} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { BusMenucard } from "../../component/BusMenucard";
 import { BusSetMenuCard } from "../../component/BusSetMenuCard";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { CustomCartIcon } from "../../component/CartIcon/createIcon";
 import { useNavigate } from "react-router-dom";
 import { RButton } from "../../component/RButton";
 import { Axios } from "../../../../AxiosInstance";

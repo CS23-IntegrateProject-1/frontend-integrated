@@ -1,4 +1,4 @@
-import { Box, Text, Input, Textarea, Button, Flex } from "@chakra-ui/react";
+import { Box, Text, Input, Textarea, Button } from "@chakra-ui/react";
 import { FormControl, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ export const CreateTable1 = () => {
   const [tablenumber, setTablenumber] = useState<number>();
   const [information, setInformation] = useState("");
   const [tabletype, setTabletype] = useState<TableType[]>([]);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();

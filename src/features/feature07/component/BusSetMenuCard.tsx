@@ -1,9 +1,7 @@
-import { Box, Flex, Image, Text,  VStack, HStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { Box, Flex, Image, Text,  VStack} from "@chakra-ui/react";
+import { FC } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
-import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { useNavigate, useParams } from "react-router-dom";
-import { EditIcon } from '@chakra-ui/icons'
+// import { useNavigate, useParams } from "react-router-dom";
 interface BusSetMenuCardProps {
   id:number;
   foodName: string;
@@ -13,11 +11,9 @@ interface BusSetMenuCardProps {
   amount: number;
   type: string;
   onClick?: () => void;
-};
+}
 
-export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,price,imageUrl,amount,onClick}) => {
-    const navigate = useNavigate();
-    const { venueId } = useParams();
+export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
     // const [isAvailable, setIsAvailable] = useState(true);
 
   //   const handleMenuEdit = () => {
@@ -39,7 +35,7 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({id,foodName,description,
     <Flex justifyContent="center" width="140px" height="105px" >
       <Image 
       // src="/src/features/feature07/assets/test.jpg"
-      src={`http://localhost:8080/uploads/${imageUrl}`}
+      src={`${import.meta.env.VITE_BACKEND_URL}${imageUrl}`}
       alt="integrate" 
       objectFit="cover" 
       mt={0.5}

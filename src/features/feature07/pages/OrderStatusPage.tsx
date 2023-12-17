@@ -9,6 +9,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
+interface OrderProps {
+  orderDetailId: number;
+  menuId: number | null;
+  setId: number | null;
+  additional_req: string;
+  unit_price: number;
+  imageUrl: string;
+  quantity: number;
+  menu: {
+    name: string;
+  };
+  set: {
+    name: string;
+  };
+}
 type OrderStatus = 'Preparing' | 'Completed';
 
 export const OrderStatusPage: React.FC = () => {
@@ -43,7 +58,7 @@ export const OrderStatusPage: React.FC = () => {
       case 'Preparing':
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
+            {ongoingOrderDetails && ongoingOrderDetails.map((order: OrderProps) => (
               <PreparedMenuCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -51,15 +66,14 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );
       case 'Completed':
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {completedOrderDetails && completedOrderDetails.map((order: any) => (
+            {completedOrderDetails && completedOrderDetails.map((order: OrderProps) => (
               <CompleteCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -67,8 +81,7 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );

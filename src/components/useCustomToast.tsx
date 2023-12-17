@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ToastId, useToast, UseToastOptions } from "@chakra-ui/react";
 import { useLayoutEffect, useState } from "react";
 
 const defaultToast: UseToastOptions = {
   position: "top-right",
   isClosable: true,
-  duration: 3000,
+  duration: 300000,
   variant: "solid",
 };
 

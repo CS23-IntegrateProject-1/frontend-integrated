@@ -32,7 +32,7 @@ export const ReviewReservation = () => {
 
   const handleSubmit = async () => {
     try {
-      await Axios.post(`/feature3/ReviewReservation`, {
+      await Axios.post(`/feature3/ReviewReservation/${branchId}`, {
         rating,
         review: input,
         branchId: 1,
@@ -61,18 +61,18 @@ export const ReviewReservation = () => {
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="red"
-          type="email"
+          errorBorderColor="red.300"
+          type="text"
           value={input}
           onChange={handleInputChange}
         />
         {!isError ? (
-          <FormHelperText>Tell us what you think</FormHelperText>
+          <FormHelperText></FormHelperText>
         ) : (
-          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
+          <FormErrorMessage borderColor="red" textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
-      <NavLink to={`/Reviews/${1}`}>
+      <NavLink to={`/Reviews/${branchId}`}>
       <Button
         variant="solid"
         textColor="white"
@@ -80,7 +80,7 @@ export const ReviewReservation = () => {
         _hover={{ bgColor: "brand.100", textColor: "black" }}
         w="200px"
         onClick={handleSubmit}
-        isDisabled={input === "" || rating === 0}
+        isDisabled={input === "" || rating < 1}
       >
         Confirm
       </Button>
