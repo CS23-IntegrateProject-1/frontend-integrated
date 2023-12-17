@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Text, Image, useMediaQuery, Flex ,Button } from "@chakra-ui/react";
 import DateSelection from "../Components/DateSelection";
-//import TimeSelection from "../Components/TimeSelection";
 import getTheaterDetail from "../../../api/movie/getTheaterDetail";
 import getMovieToday from "../../../api/movie/getMovieToday";
 interface TheaterDetail {
@@ -35,16 +34,15 @@ const CinemaDetailPage = () => {
   const day = thisDate.getDate();
   const month = thisDate.getMonth() + 1; // Months are zero-based, so add 1
   const year = thisDate.getFullYear();
-  const [date, setDate] = useState<number>(day);
-  const [selectedDate, setSelectedDate] = useState<number>(day);
-  const [clickedShowtime, setClickedShowtime] = useState<string | null>(null);
 
-  const handleShowtimeClick = (showtime: string) => {
-    setClickedShowtime(showtime);
-    const dateObject = new Date(showtime);
-    const hours = dateObject.getUTCHours();
-    const minutes = dateObject.getUTCMinutes();
-  };
+  const [selectedDate] = useState<number>(day);
+  // const [clickedShowtime, setClickedShowtime] = useState<string | null>(null);
+
+  // const handleShowtimeClick = (showtime: string) => {
+  //   setClickedShowtime(showtime);
+
+
+  // };
 
   // const [nearestCinemas, setNearestCinemas] = React.useState([
   //   {
@@ -103,10 +101,11 @@ const CinemaDetailPage = () => {
     // console.log(year);
   }, [theaterId]);
 
-  const handleDateChange = async (selectedDate:any) => {
+  const handleDateChange = async (selectedDate:string) => {
     try {
+      const numericDate = parseInt(selectedDate, 10);
       // Make a request to the server to get movie details for the selected date
-      const response = await getMovieToday(Number(theaterId), selectedDate, month, year);
+      const response = await getMovieToday(Number(theaterId), numericDate, month, year);
 
       // Update the state to include movies for the selected date
       setMovies(response);
@@ -189,7 +188,7 @@ const CinemaDetailPage = () => {
                     width="81px"
                     height="22px"
                     boxShadow="md"
-                    onClick={() => handleShowtimeClick(show.start_time)}
+                    // onClick={() => handleShowtimeClick(show.start_time)}
                   >
                     {`${new Date(show.start_time).getUTCHours()}:${String(new Date(show.start_time).getUTCMinutes()).padStart(2, '0')}`}
                     

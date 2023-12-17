@@ -1,19 +1,19 @@
 import { Search2Icon } from "@chakra-ui/icons"
-import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
+import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
 import TextStyle from "../../../../theme/foundations/textStyles"
 import { useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export const AddFriend = () => {
     const [username, setUsername] = useState('');
     const [userImg, setUserImg] = useState('');
     const [userId, setUserId] = useState('');
-    const [tabIndex, setTabIndex] = useState(0);
+    const [, setTabIndex] = useState(0);
     const toast = useToast()
     const [shouldShowChatButton, setShouldShowChatButton] = useState(false);
     const [phNoSearch, setPhNoSearch] = useState('');
     //get fri data from main page
-    const location = useLocation();
+    // const location = useLocation();
     // const {setFriData, friData} = location.state;
     
     const onClickHandler = () => {
@@ -64,18 +64,19 @@ export const AddFriend = () => {
       ) : (
         <Button onClick={onClickHandler} bg={'brand.100'} color={'brand.200'} colorScheme='brand.200' variant='solid'>
           Add Friend
-        </Button>
-      )}
+                </Button>
+            )}
 
-      if(shouldShowChatButton){
-        setTimeout(() => {
-            const text = document.getElementById('text');
-            text.style.visibility = 'visible';
-        }
-            , 800);
-        }
+            if(shouldShowChatButton){
+                setTimeout(() => {
+                        const text = document.getElementById('text');
+                        if (text) {
+                                text.style.visibility = 'visible';
+                        }
+                }, 800);
+            }
 
-    const handleSearch = () => {
+        const handleSearch = () => {
         console.log(username);
         const url = `/feature1/search/friends?username=${username}`;
         Axios.get(url, { withCredentials: true })
@@ -91,6 +92,7 @@ export const AddFriend = () => {
                      //give null no data
                      //change the state of the box to visible
                     const box = document.getElementById('box');
+                    if(box)
                     box.style.visibility = 'visible';
                     
                 }
@@ -116,7 +118,7 @@ export const AddFriend = () => {
                      //give null no data
                      //change the state of the box to visible
                 const box = document.getElementById('box');
-                box.style.visibility = 'visible';
+               if(box) box.style.visibility = 'visible';
                 }
                 
             })

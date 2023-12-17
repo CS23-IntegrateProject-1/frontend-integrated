@@ -9,7 +9,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { ArticlesBox } from "./ArticlesBox";
 import { MdAddCircle } from "react-icons/md";
@@ -41,7 +40,8 @@ export const ArticlesPage = () => {
   const [filteredAuthors, setFilteredAuthors] = useState<ArticlesPageProps[]>(
     []
   );
-
+  {filteredAuthors}
+  
   const articles = useQuery({ queryKey: ["articles"], queryFn: fetchArticles });
   useEffect(() => {
     const filtered = articles.data?.filter((article) =>
@@ -130,6 +130,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
+                      user={article.user}
                     />
                   );
                 })}
@@ -152,6 +153,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
+                      user={article.user}
                     />
                   );
                 })}

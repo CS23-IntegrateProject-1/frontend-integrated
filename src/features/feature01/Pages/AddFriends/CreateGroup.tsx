@@ -8,12 +8,9 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    RadioGroup,
-    Radio,
     Stack,
-    InputRightElement,
-    Spacer,
     Checkbox,
+    FormControl,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
@@ -34,15 +31,12 @@ interface SelectedFriend {
     name: string;
     avatar: string;
 }
-interface GroupList{
-    group_id: number;
-    group_name: string;
-}
+
 export const CreateGroup = () => {
-    const [friendname, setFriendname] = useState("");
+    //calling selectedFriID from main testesting
+    const [, setFriendname] = useState("");
     const [friendImg, setFriendImg] = useState("");
     const [friData, setFriData] = useState<FriendList[]>([]);
-    const [groupData , setGroupData] = useState<GroupList[]>([]);
     const [profileData, setProfileData] = useState("");
     const [username, setUsername] = useState("");
     const [selectedFriends, setSelectedFriends] = useState<SelectedFriend[]>([]);
@@ -105,7 +99,8 @@ export const CreateGroup = () => {
     };
 
     return (
-        <Box>
+        <FormControl>
+            <Box>
             {/* create group button next */}
             <Flex mt={-2} pb={2} justifyContent={'space-between'} >
                 <Box mt={2} fontSize={TextStyle.h2.fontSize}>
@@ -204,5 +199,6 @@ export const CreateGroup = () => {
                 ))}
             </Box>
         </Box>
+        </FormControl>
     );
 };
