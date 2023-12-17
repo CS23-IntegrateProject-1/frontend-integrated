@@ -47,6 +47,7 @@ export const VenueDetail: FC = () => {
       const { data } = await Axios.get(`/feature3/VenDetail/${branchId}`);
       return data;
     },
+    keepPreviousData: true
   });
 
   if (venueDetailLoading) {
@@ -61,12 +62,10 @@ export const VenueDetail: FC = () => {
     return <span>An error occurred: </span>;
   }
 
-  console.log(branchId);
-  console.log(venueDetailData);
 
 
   return (
-    <Box width={"100%"}>
+    <Box width={"100%"} >
       {venueDetailData.map((venue, index) => (
         <Box key={index}>
           <Image
@@ -79,7 +78,7 @@ export const VenueDetail: FC = () => {
             minH="300px"
             objectFit={"cover"}
             mb="5"
-            bgColor={"black"}
+            bgColor={"white"}
           />
           {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
           <Box display={"flex"} alignItems={"center"}>
@@ -242,7 +241,7 @@ export const VenueDetail: FC = () => {
       </Flex>
 
       <Flex direction="row" pb="10" justifyContent={"center"}>
-        <NavLink to="/table">
+        <NavLink to={`/table/${branchId}`}>
           <Button
             variant="solid"
             textColor="white"

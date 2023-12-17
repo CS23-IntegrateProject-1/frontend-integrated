@@ -3,7 +3,6 @@ import { IStarSort, StarSort } from "./F3_RVPCs/StarSort";
 import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import {  useState } from "react";
 
 interface MyReviewsData {
@@ -22,6 +21,7 @@ interface MyReviewsData {
 }
 
 export const MyReviews = () => {
+  
 
   const [reviewFilter, setReviewFilter] = useState<IStarSort>({
     reviewStars: "",
@@ -29,7 +29,6 @@ export const MyReviews = () => {
   })
 
   const {
-    isLoading: myReviewsLoading,
     isError: myReviewsError,
     data: myReviewsData,
   } = useQuery<MyReviewsData[]>({
@@ -38,15 +37,9 @@ export const MyReviews = () => {
       const { data } = await Axios.get(`/feature3/MyReviews?reviewStars=${reviewFilter.reviewStars}&reviewTypes=${reviewFilter.reviewTypes}`);
       return data;
     },
+    keepPreviousData: true
   });
 
-  if (myReviewsLoading) {
-    return (
-      <span>
-        <FullPageLoader />
-      </span>
-    );
-  }
 
   if (myReviewsError) {
     return <span>An error occurred: </span>;

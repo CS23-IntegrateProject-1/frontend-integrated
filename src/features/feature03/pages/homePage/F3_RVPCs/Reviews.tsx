@@ -27,7 +27,6 @@ export const Reviews: FC = () => {
   })
 
   const {
-    // isLoading: reviewsLoading,
     isError: reviewsError,
     data: reviewsData,
   } = useQuery<reviewsData[]>({
@@ -41,13 +40,6 @@ export const Reviews: FC = () => {
     keepPreviousData: true
   });
 
-  // if (reviewsLoading) {
-  //   return (
-  //     <span>
-  //       <FullPageLoader />
-  //     </span>
-  //   );
-  // }
 
   if (reviewsError) {
     return <span>An error occurred: </span>;
