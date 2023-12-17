@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-refresh/only-export-components */
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -80,7 +82,7 @@ export const VenuePage = () => {
 
   useEffect(() => {
     navigate(`?search=${searchFilter}`, { replace: true})  
-  }, [searchFilter])
+  }, [searchFildter])
   const searchFilterThrottle = useThrottleValue(searchFilter, 500);
   const priceMinThrottle = useThrottleValue(filter.priceMin, 500);
   const priceMaxThrottle = useThrottleValue(filter.priceMax, 500);
