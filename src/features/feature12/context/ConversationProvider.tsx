@@ -1,42 +1,40 @@
 import React, { useContext, FC, useState, useEffect, useCallback } from "react";
-import { Axios } from "../../../AxiosInstance";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";
+import { Axios } from "../../../AxiosInstance";
 interface ConversationsProviderProps {
-  // id: string;
   children: React.ReactNode;
 }
 interface ConversationContextValue {
-  // sendMessage: (text: string) => void;
-  // formattedConversations: { messages: { text: string }[] }[];
   conversations: Conversation[];
-  createConversation: (recipients: Recipient[]) => void;
-  contacts: Contact[] | undefined;
+  createConversation: (recipients: Recipient[],group_id: string) => void;
   selectedConversationIndex: React.Dispatch<React.SetStateAction<number>>;
   selectedConversation: Conversation;
   sendMessage: (message: SendMessageParams) => void;
 }
 
 interface Recipient {
-  id: string;
+  id: number;
   name: string;
+  avatar: string | null;
 }
 
 interface Conversation {
   recipients: Recipient[];
   messages: Message[];
   selected?: boolean;
+  group_name: string;
 }
 interface Message {
   recipients: Recipient[] | string[];
   text: string;
   sender: string;
   fromMe: boolean;
-  // senderName: string;
 }
 interface Contact {
   username: string;
-  addId: string;
+  id: number;
+  profile_picture: string;
 }
 
 interface SendMessageParams {
@@ -44,9 +42,7 @@ interface SendMessageParams {
   text: string;
 }
 
-const ConversationsContext = React.createContext<
-  ConversationContextValue | undefined
->(undefined);
+const ConversationsContext = React.createContext< ConversationContextValue | undefined >(undefined);
 
 export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   children,
@@ -54,28 +50,28 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
   const user = useContext(UserContext);
-  console.log("user", user);
   const [contacts, setContacts] = useState<Contact[] | undefined>([]);
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
     const newSocket = io("http://localhost:8000", {
-      query: { id: user.addId },
+      query: { id: user.username }
     });
     setSocket(newSocket);
     console.log("newSocket", newSocket);
     return () => { newSocket.close(); }
-  }, [user.addId]);
+  }, [user.username]);
 
   //Temporary Contacts from database
   useEffect(() => {
     Axios.get("/feature12/displayFriendList")
       .then((res) => {
-        console.log("API response:", res.data);
+        // console.log("API response:", res.data);
         if (Array.isArray(res.data)) {
           const contacts = res.data.map((c) => ({
-            addId: c.addId,
+            id: c.userId,
             username: c.username,
+            profile_picture : c.profile_picture
           }));
           setContacts(contacts);
         }
@@ -84,24 +80,33 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         console.log(err);
       });
   }, []);
-  console.log("contacts", contacts);
-
-  function createConversation(recipients: Recipient[]) {
-    socket?.emit("join-room", (recipients))
-    setConversations((prevConversations) => {
-      return [
-        ...prevConversations,
-        { recipients, messages: [], selected: false },
-      ];
-    });
+  // console.log("contacts", contacts);
+  
+  //To get all the privateConversationLog
+  // useEffect(() => {
+  //     Axios.get("/feature12/displayCategory").then((res) => {
+  //         setConversations(res.data);
+  //     });
+  // },[]);
+  
+  function createConversation(recipients: Recipient[],group_id: string) {
+    console.log("recipients", recipients);
+    console.log(conversations+ "<< conversations")
+    socket?.emit("join-room", ({recipients,group_id}))
+    // setConversations((prevConversations) => {
+    //   return [
+    //     ...prevConversations,
+    //     { recipients, messages: [], selected: false ,group_name },
+    //   ];
+    // });
   }
 
   const addMessageToConversation = useCallback(({ recipients, text, sender }: { recipients: Recipient[], text: string, sender: string },) => {
     setConversations((prevConversations) => {
       let madeChange = false;
-      const newMessage: Message = { sender, text, recipients: [], fromMe: user.addId === sender };
+      const newMessage: Message = { sender, text, recipients: [], fromMe: user.username === sender };
       const newConversations = prevConversations.map(conversation => {
-        if (arrayEquality(conversation.recipients.map(r => r.id), recipients.map(r => r.id))) {
+        if (arrayEquality(conversation.recipients.map(r => r.id.toString()), recipients.map(r => r.id.toString()))) {
           madeChange = true;
           return {
             ...conversation,
@@ -118,7 +123,6 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         { recipients, messages: [newMessage], selected: true}];
       }
     });
-    
   }, [setConversations]);
 
   // Socket Recieve message event listener
@@ -128,35 +132,36 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       return;
     }
 
-    socket.on("receive-message", addMessageToConversation );
+    // socket.on("receive-message", addMessageToConversation );
 
-    return () => {
-      socket.off("receive-message");
-    }
-  }, [socket, addMessageToConversation]);
+    // return () => {
+    //   socket.off("receive-message");
+    // }
+  }, [socket]);
 
   const sendMessage = ({ recipients, text }: { recipients: Recipient[], text: string }) => {
     socket?.emit("send-message", { recipients, text });
-    addMessageToConversation({recipients, text, sender: user.addId});
+    addMessageToConversation({recipients, text, sender: user.username});
   };
 
   const formattedConversations = conversations.map(
     (conversation, index: number) => {
       const recipients = conversation.recipients.map((recipient: Recipient) => {
         const contact = contacts?.find(
-          (contact) => contact.addId === recipient?.id
+          (contact) => contact.id === recipient?.id
         );
-        const name = (contact && contact.username) || recipient?.id; // Use recipient.name
-        return { id: recipient.id, name };
+        const name = (contact && contact?.username) || recipient?.name; // Use recipient.name
+        const avatar = contact?.profile_picture || 'default-avatar.png';
+        return { id: recipient.id, name , avatar};
       });
 
       const messages = conversation.messages.map((message) => {
-        // const contact = contacts?.find(
-        //   (contact) => contact.addId === message?.sender
-        // );
-        const name = message?.sender;
-        const fromMe = user.addId === message?.sender;
-        return { ...message, senderName: name, fromMe, recipients };
+      // const contact = contacts?.find(
+      //   (contact) => contact.addId === message?.sender
+      // );
+      const name = message?.sender;
+      const fromMe = user.username === message?.sender;
+      return { ...message, senderName: name, fromMe, recipients };
       });
 
       const selected = index === selectedConversationIndex;
@@ -172,8 +177,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         selectedConversationIndex: setSelectedConversationIndex,
         selectedConversation: formattedConversations[selectedConversationIndex],
         createConversation,
-        sendMessage,
-        contacts,
+        sendMessage
       }}
     >
       {children}

@@ -32,6 +32,7 @@ const sendButtonStyle = {
 export default function OpenConversations() {
   const [text, setText] = useState<string>("");
   const { sendMessage, selectedConversation } = useConversations();
+  
   const setRef = useCallback((node: HTMLElement | null) => {
     if (node) {
       node.scrollIntoView({ behavior: "smooth" });
@@ -46,6 +47,7 @@ export default function OpenConversations() {
       recipients: selectedConversation.recipients.map((r) => ({
         id: r.id,
         name: r.name,
+        avatar: r.avatar,
       })),
       text,
     });

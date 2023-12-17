@@ -5,6 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { AddIcon } from "@chakra-ui/icons";
 import { Axios } from "../../../../AxiosInstance";
+import { useConversations } from "../../../feature12/context/ConversationProvider";
 
 export const SetUpGroup = () => {
   const [groupName, setGroupName] = useState("");
@@ -17,6 +18,9 @@ export const SetUpGroup = () => {
   const isDisabled = groupName.length < 1;
   const buttonColor = isDisabled ? "" : "brand.200";
   //to refresh group list
+
+  //FROM GROUP 3
+  const { createConversation } = useConversations();
   
   const groupImageProfile = (e: any) => {
     const file = e.target.files[0];
@@ -46,6 +50,8 @@ export const SetUpGroup = () => {
                 if (response.status == 200) {
                     console.log(response.data);
                     console.log('successfully added')
+                    //FROM GROUP 3
+                    createConversation(response.data.members,response.data.group_id);
                 }
             })
             .catch((error) => {

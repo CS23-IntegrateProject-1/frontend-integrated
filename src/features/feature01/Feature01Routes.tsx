@@ -17,6 +17,7 @@ import { FriendMain } from './Pages/AddFriends/FriendMain'
 import { AddFriend } from './Pages/AddFriends/AddFriend'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
 import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
+import { ConversationsProvider } from '../feature12/context/ConversationProvider'
 export const Feature01Routes = () => {
   return [
     {
@@ -74,7 +75,10 @@ export const Feature01Routes = () => {
     },
     {
       path: "/Friends",
-      element: <FriendMain />,
+      element: 
+        <ConversationsProvider>
+          <FriendMain/>
+        </ConversationsProvider>,
     },
     {
       path: "/AddFriend",
@@ -86,7 +90,10 @@ export const Feature01Routes = () => {
   },
   {
     path: "/SetUpGroup",
-    element: <SetUpGroup/>,
+    element: 
+      <ConversationsProvider>
+        <SetUpGroup/>
+      </ConversationsProvider>
   }
   ];
 };

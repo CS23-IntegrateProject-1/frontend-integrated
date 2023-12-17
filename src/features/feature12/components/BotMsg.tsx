@@ -7,7 +7,6 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState,useCallback } from "react";
-import { da } from "date-fns/locale";
 
 interface BotMsgProps {
     data: any;
