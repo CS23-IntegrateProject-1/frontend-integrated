@@ -145,26 +145,30 @@ export const BusinessMenuDetail: FC = () => {
         </Box>
 
         <Text {...textStyles.body2}>{menuItem?.description}</Text>
-        <Text {...textStyles.h2}>Branch Availability</Text>
-        {type == "Menu" &&
-          branchAvailabilityData?.map((branch) => (
-            <Flex
-              key={branch.branchId}
-              justifyContent="space-between"
-              alignItems="center"
-              width="100%"
-            >
-              <Text {...textStyles.body1}> {branch.branchName}</Text>
 
-              <Switch
-                colorScheme="brand"
-                size="md"
-                marginLeft="auto"
-                isChecked={branch.availability}
-                onChange={() => handleBranchSwitch(branch.branchId)}
-              />
-            </Flex>
-          ))}
+        {type == "Menu" && branchAvailabilityData?.length > 0 && (
+          <>
+            <Text {...textStyles.h2}>Branch Availability</Text>
+            {branchAvailabilityData?.map((branch) => (
+              <Flex
+                key={branch.branchId}
+                justifyContent="space-between"
+                alignItems="center"
+                width="100%"
+              >
+                <Text {...textStyles.body1}> {branch.branchName}</Text>
+
+                <Switch
+                  colorScheme="brand"
+                  size="md"
+                  marginLeft="auto"
+                  isChecked={branch.availability}
+                  onChange={() => handleBranchSwitch(branch.branchId)}
+                />
+              </Flex>
+            ))}
+          </>
+        )}
 
         <HStack marginTop="2" bottom="4" position="fixed">
           <Box marginRight="4">
