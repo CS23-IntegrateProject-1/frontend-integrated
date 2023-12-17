@@ -4,7 +4,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 export const StarReviewD:FC<{
   setAvgRating: Function
@@ -35,8 +35,12 @@ export const StarReviewD:FC<{
       default:
         break;
     }
-    setAvgRating((food + deliver + order + service + rating) / 5);
+    
   };
+
+  useEffect(() => {
+    setAvgRating((food + deliver + order + service + rating) / 5);
+  }, [food, deliver, order, service, rating])
 
   return (
       <Flex

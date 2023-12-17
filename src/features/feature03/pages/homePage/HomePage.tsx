@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { SearchBar } from "./F3_HPCs/SearchBar";
 import { SliderAdvertisement } from "./F3_HPCs/SliderAdvertisement";
 import { Footer_HomePage } from "./F3_HPCs/Footer_HomePage";
 import { ButtonPenta } from "./F3_HPCs/ButtonPenta";
@@ -14,34 +13,38 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import { Advertisement } from "./F3_HPCs/Advertisement";
 import { ReviewModalDel } from "../../external/reviewModalDel";
 import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+// import { useQuery } from "@tanstack/react-query";
+// import { Axios } from "../../../../AxiosInstance"; 
+// import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import HomePageSearchBar from "../../../../components/homepage/SearchBar"; 
 
-interface VenueRecommended {
-  id: number;
-  venueId: number;
-  name: string;
-  description: string;
-  category: string;
-  capacity: string;
-  location: string;
-  score: string;
-  website_url: string;
-}
+// interface VenueRecommended {
+//   id: number;
+//   venueId: number;
+//   name: string;
+//   description: string;
+//   category: string;
+//   capacity: string;
+//   location: string;
+//   score: string;
+//   website_url: string;
+// }
 
 export const HomePage = () => {
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
   const modal3 = useDisclosure();
   useEffect(() => {
-    modal1.onOpen();
-  }, []);
+    const isAdAvailable = sessionStorage.getItem("is_ads_available") 
+    if(isAdAvailable == null) {  
+      modal1.onOpen(); 
+      sessionStorage.setItem("is_ads_available", "false")
+    }
+  }, [modal1]);
 
   return (
     <Box width={"100%"}>
@@ -62,22 +65,10 @@ export const HomePage = () => {
         Explore Venues
       </Text>
       <Box display="flex">
-        <SearchBar />
-        <NavLink to="/map">
-          <Box
-            _hover={{ color: "brand.100" }}
-            pl="15px"
-            display={{ base: "block", lg: "none" }}
-          >
-            <FaMapMarkerAlt fontSize="25px" />
-            <Text fontSize="15px" transform="translateX(-3px)">
-              Map
-            </Text>
-          </Box>
-        </NavLink>
+        <HomePageSearchBar/>
       </Box>
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-      <Box pt="10px" display={{ base: "none", lg: "block" }}>
+      <Box pt="10px" display={"block"}>
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold" pt={1}>
           Maps
         </Text>
@@ -87,7 +78,7 @@ export const HomePage = () => {
             alt="Map_Pic not load"
             borderRadius="xl"
             w="100%"
-            h="300px"
+            h={{base:"125px", lg:"300px"}}
             objectFit={"cover"}
           />
         </NavLink>

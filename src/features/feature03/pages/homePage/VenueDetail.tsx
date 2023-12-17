@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Box, Text, Image, Button, Flex, Divider } from "@chakra-ui/react";
 import { StarIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { FaMapMarkerAlt } from "react-icons/fa";
+
 import mockO from "../OF3mock.json";
 
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ interface VenueDetail {
   location: string;
   website_url: string;
   rating: string;
+  venue_picture: string;
 }
 
 interface OProps {
@@ -69,7 +70,7 @@ export const VenueDetail: FC = () => {
       {venueDetailData.map((venue, index) => (
         <Box key={index}>
           <Image
-            src={venue.pic}
+            src={venue.venue_picture}
             alt={venue.name + "_Pic"}
             borderRadius="2xl"
             w="100%"
@@ -85,18 +86,6 @@ export const VenueDetail: FC = () => {
             <Text fontSize={"3xl"} fontWeight={"bold"}>
               {venue.name} | {venue.branch_name}
             </Text>
-            {/* ******************* If have time ************************ */}
-            <Box ml="auto">
-              <Flex
-                direction="column"
-                alignItems="center"
-                _hover={{ color: "brand.100" }}
-              >
-                <FaMapMarkerAlt fontSize="25px" />
-                <Text fontSize="15px">Location</Text>
-              </Flex>
-            </Box>
-            {/* ******************************************************** */}
           </Box>
           <Box display={"flex"} pb={5}>
               <StarIcon color={"brand.100"} fontSize="20px" mr="2" />

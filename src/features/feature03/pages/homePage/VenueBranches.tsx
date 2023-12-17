@@ -2,11 +2,9 @@ import { NavLink } from "react-router-dom";
 import {
   Box,
   Stack,
-  Text,
   Card,
   CardBody,
   Heading,
-  Image,
   Button,
   Flex,
 } from "@chakra-ui/react";
@@ -33,7 +31,7 @@ export const VenueBranches = () => {
     isError: venueBranchPageError,
     data: venueBranchPageData,
   } = useQuery<VenueฺฺBranchPageData[]>({
-    queryKey: ["getVenBranchPage"],
+    queryKey: ["getVenBranchPage", venueId], 
     queryFn: async () => {
       const { data } = await Axios.get(`/feature3/venBranchPage/${venueId}`);
       return data;
@@ -102,7 +100,7 @@ export const VenueBranches = () => {
               borderRadius="2xl"
               border="3px solid white"
               bg="none"
-              key={venueD.venueId}
+              key={venueD.venueId + "@" + venueD.branchId}
               mb={8}
             >
               <CardBody>
