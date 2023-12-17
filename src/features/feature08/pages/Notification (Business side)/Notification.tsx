@@ -37,7 +37,6 @@ type advernoti = {
   advertisementId  :number
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatDate = (dateString: string) => {
   if (!dateString) {
     return "Invalid Date";
