@@ -18,7 +18,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({ cinemas }) => {
     // Add your additional logic or actions here
   };
 
-  const cinemaNames = cinemas.map((cinema) => cinema.name);
+  // const cinemaNames = cinemas.map((cinema) => cinema.name);
   
   return (
     <>
