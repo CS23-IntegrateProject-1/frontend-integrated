@@ -174,7 +174,7 @@ export const MenuDetail: FC = () => {
             width="200px"
             text="Add To Cart"
             bgColor={buttonBgColor}
-            bgColorHover={{ bgColor: hoverColor }}
+            bgColorHover={hoverColor}
             isDisabled={amount === 0}
             onClick={handleAddToCart}
           />
