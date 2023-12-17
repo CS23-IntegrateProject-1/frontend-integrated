@@ -14,15 +14,10 @@ import {
   ModalBody,
   Button,
   Divider,
-  Stack,
-  Input,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import textStyles from "../../../../../theme/foundations/textStyles";
-import colors from "../../../../../theme/foundations/colors";
 interface DeliveryLocationProps {
   mainAddress: string;
   subAddress: string;

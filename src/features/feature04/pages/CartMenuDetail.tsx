@@ -6,7 +6,6 @@ import {
   HStack,
   Flex,
   IconButton,
-  Button,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
@@ -14,46 +13,33 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 import { Axios } from "../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-const getCartMenuItem = async (type: string, menuid: string) => {
-  const response = await Axios.get(
-    `/feature7/show${type}DetailFromCart/${menuid}`
-  );
-  console.log(response.data); //debugging response
-  return response.data;
-};
-
 interface MenuDetailProps {
   id: number;
   name: string;
   price: number;
   description: string;
-  image_url: string;
 }
 export const CartMenuDetail: FC = () => {
-  // const { type, menuid } = useParams();
-  ////console.log(menuid);
-
-  // const {
-  //   data: menuItem,
-  //   isLoading,
-  //   isError,
-  // } = useQuery([type, menuid], () => getCartMenuItem(type, menuid));
-  // console.log(menuItem);
-  
   const [AmountInCart,setAmountInCart] = useState(0);
-  const addToCart=(amount)=>{
-    setAmountInCart(AmountInCart+amount);
-  }
 
-  // useEffect(() => {
-  //   if (menuItem) {
-  //     // Set the amount to the initial quantity from menuItem, assuming menuItem.quantity exists
-  //     setAmount(menuItem.quantity || 0);
-  //   }
-  // }, [menuItem]);
+  const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
+  const { menuId } = useParams();
+  useEffect(() => {
+    const fetchMenuDetail = async () => {
+      console.log("Fetching menu detail...");
+      try {
+        const response = await Axios.get(`/feature4/menu/${menuId}`);
+        console.log("Response:", response.data);
+        setMenuData(response.data);
+      } catch (error) {
+        console.error("Error fetching menu details:", error);
+      }
+    };
+  
+    fetchMenuDetail();
+  }, [menuId]);
 
   const increaseAmount = () => {
     setAmountInCart(AmountInCart + 1);
@@ -65,36 +51,18 @@ export const CartMenuDetail: FC = () => {
     }
   };
 
-  // const handleAddToCart = async () => {
-  //   try {
-  //     const response = await Axios.post(
-  //       `/feature7/add${type}ToCookie/${menuid}`,
-  //       {
-  //         quantity: amount,
-  //       }
-  //     );
-  //     console.log(response.data);
-  //     // setAmount(0);
-  //   } catch (error) {
-  //     console.error("Error adding to cart:", error);
-  //   }
-  // };
 
   const buttonBgColor = AmountInCart > 0 ? "brand.200" : "gray.300";
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
 
-  // if (isError) {
-  //   return <div>Error fetching {type} details</div>;
-  // }
-
+  console.log("menuData:", menuData);
   return (
     <Box>
+       {menuData && menuData.name && (
+        <>
 
       <Image
-        src="/src/features/feature07/assets/test.jpg"
+        src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
         // src={type == "Set" ? menuItem.image_url: menuItem.image}
         width="350px"
         height="250px"
@@ -103,8 +71,8 @@ export const CartMenuDetail: FC = () => {
       <VStack p={1.5} textAlign="start" alignItems="start">
         <HStack>
           <Text {...textStyles.h1} color="white" lineHeight="1.5">
-            {/* {menuItem.name} */}
-            lorem
+          {menuData.name}
+
           </Text>
           <Text
             {...textStyles.h3}
@@ -112,8 +80,8 @@ export const CartMenuDetail: FC = () => {
             lineHeight="1.5"
             marginLeft="70px"
           >
-            {/* {menuItem.price} baht */}
-            29 Baht
+             {menuData.price} Baht
+
           </Text>
         </HStack>
         <Text {...textStyles.body2}>
@@ -144,6 +112,7 @@ export const CartMenuDetail: FC = () => {
               />
               <Text {...textStyles.h2} marginX={2} color="black">
                 {AmountInCart}
+                
               </Text>
               <IconButton
                 icon={<AddIcon />}
@@ -165,6 +134,9 @@ export const CartMenuDetail: FC = () => {
           // onClick={handleAddToCart}
         />
       </HStack>
+      </>
+
+       )}
     </Box>
   );
 };
