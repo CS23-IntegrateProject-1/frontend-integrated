@@ -5,7 +5,7 @@ import { WalkInPeople } from "./pages/Business/WalkInPeople";
 import { CreateTable1 } from "./pages/Business/CreateTable1";
 import { CreateTable2 } from "./pages/Business/CreateTable2";
 import { ViewTable } from "./pages/Business/ViewTable";
-import { QrcodeConfirm } from "./pages/QrcodeConfirm";
+import { QrcodeConfirm } from "./pages/Business/QrcodeConfirm";
 
 export const Feature06BusinessPrivateRoutes = () => {
   return [

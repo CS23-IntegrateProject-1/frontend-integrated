@@ -66,6 +66,15 @@ interface IData {
 export const GetReservationDetail = () => {
   const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
+  const dateString = `${data?.reservations[0]?.reserved_time}`;
+  const dateObject = new Date(dateString);
+
+  const year = dateObject.getUTCFullYear();
+  const month = dateObject.getUTCMonth() + 1; // Month is zero-based, so add 1
+  const day = dateObject.getUTCDate();
+  const hour = dateObject.getUTCHours();
+  const minute = dateObject.getUTCMinutes();
+  const tensDigit = Math.floor(minute / 10);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -77,7 +86,7 @@ export const GetReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getReservationDetail(1, 46);
+    const response: IData = await getReservationDetail(3, 256);
     setData(response);
     setIsLoaded(true);
   };
@@ -89,7 +98,11 @@ export const GetReservationDetail = () => {
         alignItems="center" // Center the content horizontally
         justifyContent="center"
       >
-        <RDetailCard />
+        <RDetailCard
+          name={data?.venue.name}
+          location={data?.location.address}
+          star={data?.venue.score}
+        />
 
         {/* This will push the reservation detail to the bottom */}
         <Box
@@ -136,19 +149,6 @@ export const GetReservationDetail = () => {
               Name :
             </Text>
             <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft={34}
-            marginTop="10px"
-          >
-              Mr. Sunflower Vanila SKy
-            {/* {data?.reservations[0].user.fname} */}
-          </Text>
-            <Text
               color="#000"
               fontFamily="Roboto"
               fontSize="12px"
@@ -158,7 +158,7 @@ export const GetReservationDetail = () => {
               marginLeft={34}
               marginTop="10px"
             >
-              {/* {data?.reservations[0].user.fname} */}
+              {data?.reservations[0]?.user.fname} {data?.reservations[0]?.user.lname}
             </Text>
             <Text
               color="#000"
@@ -173,17 +173,17 @@ export const GetReservationDetail = () => {
               Phone Number :
             </Text>
             <Text
-            color="#000"
-            fontFamily="Roboto"
-            fontSize="12px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-            marginLeft={34}
-            marginTop="10px"
-          >
-            1169
-          </Text>
+              color="#000"
+              fontFamily="Roboto"
+              fontSize="12px"
+              fontStyle="normal"
+              fontWeight="400"
+              lineHeight="normal"
+              marginLeft={34}
+              marginTop="10px"
+            >
+              {data?.reservations[0]?.user.phone}
+            </Text>
             <CalendarIcon
               w={"20px"}
               h={"20px"}
@@ -213,9 +213,9 @@ export const GetReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              11/11/23
+              {day}/{month}/{year}
             </Text>
-            
+
             <TimeIcon
               w={"20px"}
               h={"20px"}
@@ -246,9 +246,9 @@ export const GetReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              11.11 pm
+              {hour}:{(minute < 10 ? "0" + minute : "" + minute)}
             </Text>
-            
+
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
               <MdOutlineEventSeat style={{ color: "black" }} />
             </Icon>
@@ -317,51 +317,35 @@ export const GetReservationDetail = () => {
             marginTop="18px"
             marginLeft="18px"
           ></Box>
-          {/* <Button
-            borderRadius="10px"
-            width="128px"
-            height="36px"
-            backgroundColor="#A533C8"
-            textColor="white"
-            fontSize="16px"
-            fontStyle="normal"
-            fontWeight="600"
-            lineHeight="24px"
-            marginTop="15px"
-            marginLeft="133px"
-          >
-            Check-in QR
-          </Button> */}
-          <Box mt="15px"
-          ml={"50px"}>
-      <Button
-        borderRadius="10px"
-        width="138px"
-        height="40px"
-        backgroundColor="white"
-        textColor="#A533C8"
-        fontSize="16px"
-        fontStyle="normal"
-        fontWeight="700"
-        lineHeight="24px"
-        mr={"17px"}
-      >
-        Cancel
-      </Button>
-      <Button
-        borderRadius="10px"
-        width="138px"
-        height="40px"
-        backgroundColor="#A533C8"
-        textColor="white"
-        fontSize="16px"
-        fontStyle="normal"
-        fontWeight="700"
-        lineHeight="24px"
-      >
-        Check-in QR
-      </Button>
-    </Box>
+          <Box mt="15px" ml={"50px"}>
+            <Button
+              borderRadius="10px"
+              width="138px"
+              height="40px"
+              backgroundColor="white"
+              textColor="#A533C8"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="24px"
+              mr={"17px"}
+            >
+              Cancel
+            </Button>
+            <Button
+              borderRadius="10px"
+              width="138px"
+              height="40px"
+              backgroundColor="#A533C8"
+              textColor="white"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="24px"
+            >
+              Check-in QR
+            </Button>
+          </Box>
         </Box>
       </Box>
     );
