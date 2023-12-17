@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   GoogleMap,
   Marker,
@@ -64,13 +64,13 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
   const [selectedMarkerInfo, setSelectedMarkerInfo] = React.useState<MarkerType | null>(null);
   console.log(selectedMarkerInfo)
 
-  const [savedData, setSavedData] = useState<string | null>(null);
+  // const [savedData, setSavedData] = useState<string | null>(null);
 
-  // Retrieve data from localStorage on component mount
-  useEffect(() => {
-    const storedData = localStorage.getItem("nearbyPositions");
-    setSavedData(storedData);
-  }, []);
+  // // Retrieve data from localStorage on component mount
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("nearbyPositions");
+  //   setSavedData(storedData);
+  // }, []);
 
   const { data: nearbyPositions } = useQuery(
     [clickedPos.lat, clickedPos.lng, type],

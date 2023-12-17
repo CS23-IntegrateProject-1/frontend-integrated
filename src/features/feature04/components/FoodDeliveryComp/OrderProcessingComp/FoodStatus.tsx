@@ -1,9 +1,12 @@
 import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
-import { StyledComponent } from "@emotion/styled";
 import styled from "styled-components";
+<<<<<<< HEAD
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
 export const FoodStatus = () => {
   const location = useLocation();
   const CheckoutIsActive = location.pathname === "/map/food-delivery/checkout";
@@ -44,8 +47,13 @@ position: relative;
   height: 4px;
   transition: 0.4s ease;
   transform: translateY(200%);
+<<<<<<< HEAD
   width: ${({ activeStep }) =>
     location.pathname === '/map/food-delivery/cart-detail' ? '46%' : location.pathname==='/map/food-delivery/checkout' ? '82%' : '100%'};
+=======
+  width: ${() =>
+    location.pathname === '/map/food-delivery/cart-detail' ? '47%' : location.pathname==='/map/food-delivery/checkout' ? '82%' : '100%'};
+>>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
   left: 20px;
 }
 `;

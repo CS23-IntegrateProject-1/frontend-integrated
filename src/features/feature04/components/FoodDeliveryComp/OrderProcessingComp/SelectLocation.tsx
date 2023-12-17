@@ -18,12 +18,49 @@ import {
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 interface DeliveryLocationProps {
   mainAddress: string;
   subAddress: string;
+=======
+import { Axios } from "../../../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
+
+interface SavedLocationItem {
+  userId:number;
+  name:string;
+  createdAt:Date;
+  address: string;
+  province: string;
+  district: string;
+  sub_district: string;
+  postcode: string;
+  savedLocId: number;
+>>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
 }
-export const SelectLocation = (props: DeliveryLocationProps) => {
+
+interface SavedLocationInterface{
+  message: string;
+  location: SavedLocationItem[];
+}
+
+// const queryClient = new QueryClient()
+
+export const SelectLocation = () => {
+  const [value, setValue] = useState("1");
+  // const [selectedValue, setSelectedValue] = useState("1");
   const { isOpen, onOpen, onClose } = useDisclosure()
+  // const [selectedLocation, setSelectedLocation] = useState<SavedLocationItem | null>(null);
+  const [name, setName] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [districtSubdistrict, setDistrictSubdistrict] = useState<string>("");
+  const { data: dataSaved} = useQuery<SavedLocationInterface>({
+    queryKey: ["dataSaved"], 
+    queryFn: async () => {
+      const result = await Axios.get("/feature4/saved-location");
+      return result.data;
+    },
+  });
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -37,6 +74,9 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
       </svg>
     );
   };
+  console.log("dataSaved");
+  console.log(dataSaved);
+  console.log("====");
 
   const EditIcon: React.FC = () => {
     return (
@@ -54,7 +94,21 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
       </svg>
     );
   };
-  const [value, setValue] = useState("1");
+
+  const handleApply = () => {
+    // Find the selected location based on the value
+    const selectedLocation = dataSaved?.location.find(loc => loc.savedLocId.toString() === value);
+    console.log("selectedLocation")
+    console.log(selectedLocation)
+    // Update the address and district/subdistrict values
+    setName(`${selectedLocation?.name}`);
+    setAddress(`${selectedLocation?.address}`);
+    setDistrictSubdistrict(`${selectedLocation?.district}, ${selectedLocation?.sub_district}, ${selectedLocation?.province}, ${selectedLocation?.postcode}`);
+
+    // Close the modal
+    onClose();
+  };
+
   const navigate = useNavigate();
   const navigateSavedLocation=()=>{
     navigate('/map/savedlocation')
@@ -90,105 +144,37 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
                   Delivery address
                 </ModalHeader>
                 <ModalBody>
-                  <RadioGroup onChange={setValue} value={value}>
+                <RadioGroup onChange={setValue} value={value}>
                     <Flex flexDirection="column" gap={3}>
-                      <Radio value="1">
-                        <Box
-                          display={"flex"}
-                          flexDirection={"column"}
-                          color={index.colors.black}
-                        >
+                      {dataSaved?.location.map((savedLocation) => (
+                        <Radio key={savedLocation.savedLocId} value={savedLocation.savedLocId.toString()}>
                           <Box
                             display={"flex"}
-                            flexDirection={"row"}
-                            justifyContent={"space-around"}
-                            gap={5}
+                            flexDirection={"column"}
+                            color={index.colors.black}
+                            border="1px solid #A533C8" // Add border style here
+                            borderRadius={5} // Optional: Add border radius
+                            paddingLeft={3} // Optional: Add padding
+                            paddingTop={1}
+                            paddingBottom={1}
                           >
-                            <Text maxW={300}>
-                              Passes value from saved delivery location
-                            </Text>
-
-
-
-
-
-                            <IconButton
-                              icon={<EditIcon />}
-                              aria-label="Call Segun"
-                              variant={"unstyled"}
-                              size={"sm"}
-                                onClick={navigateSavedLocation}
-                              //navigate to edit save location
-                            />
-                  
-
-
-
-
-
-
+                            <Box
+                              display={"flex"}
+                              flexDirection={"row"}
+                              justifyContent={"space-around"}
+                              gap={5}
+                            >
+                              <Text maxW={300}>
+                                <Text fontWeight="bold">{savedLocation.name}</Text>{savedLocation.address}, {savedLocation.sub_district}, {savedLocation.district}, {savedLocation.province}, {savedLocation.postcode}
+                              </Text>
+                            </Box>
                           </Box>
-                          <Text>Khlong Toei, Bangkok</Text>
-                        </Box>
-                      </Radio>
-                      <Radio value="2">
-                        <Box
-                          display={"flex"}
-                          flexDirection={"column"}
-                          color={index.colors.black}
-                        >
-                          <Box
-                            display={"flex"}
-                            flexDirection={"row"}
-                            justifyContent={"space-around"}
-                            gap={5}
-                          >
-                            <Text maxW={300}>
-                              Passes value from saved delivery location
-                            </Text>
-                            <IconButton
-                              icon={<EditIcon />}
-                              aria-label="Call Segun"
-                              variant={"unstyled"}
-                              size={"sm"}
-                              //   onClick={onOpen}
-                              //navigate to edit save location
-                            />
-                          </Box>
-                          <Text>Khlong Toei, Bangkok</Text>
-                        </Box>
-                      </Radio>
-                      <Radio value="3">
-                        <Box
-                          display={"flex"}
-                          flexDirection={"column"}
-                          color={index.colors.black}
-                        >
-                          <Box
-                            display={"flex"}
-                            flexDirection={"row"}
-                            justifyContent={"space-around"}
-                            gap={5}
-                          >
-                            <Text maxW={300}>
-                              Passes value from saved delivery location
-                            </Text>
-                            <IconButton
-                              icon={<EditIcon />}
-                              aria-label="Call Segun"
-                              variant={"unstyled"}
-                              size={"sm"}
-                              //   onClick={onOpen}
-                              //navigate to edit save location
-                            />
-                          </Box>
-                          <Text>Khlong Toei, Bangkok</Text>
-                        </Box>
-                      </Radio>
+                        </Radio>
+                      ))}
                     </Flex>
                   </RadioGroup>
 
-                  <Button variant={"unstyle"} color={index.colors.brand[200]}>
+                  <Button variant={"unstyle"} color={index.colors.brand[200]} onClick={navigateSavedLocation}>
                     + Add new address
                   </Button>
                   <Divider borderColor={index.colors.black} />
@@ -208,7 +194,7 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
                       color={index.colors.white}
                       backgroundColor={index.colors.brand[200]}
                       width={150}
-
+                      onClick={handleApply}
                     >
                       Apply
                     </Button>
@@ -218,9 +204,9 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
             </Modal>
           </Flex>
 
-          {/* Pass the saved location data from the Savedlocation card. Will do it later */}
-          <Text color={index.colors.black}>{props.mainAddress}</Text>
-          <Text color={index.colors.black}>{props.subAddress}</Text>
+          <Text fontSize="xl" fontWeight="bold" color={index.colors.black}>{name}</Text>
+          <Text color={index.colors.black}>{address}</Text>
+          <Text color={index.colors.black}>{districtSubdistrict}</Text>
 
           <br />
           <Textarea

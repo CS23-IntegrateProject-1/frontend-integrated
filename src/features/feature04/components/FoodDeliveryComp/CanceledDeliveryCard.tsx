@@ -1,4 +1,4 @@
-import { Box, Flex, Text, IconButton, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
 export const CanceledDeliveryCard = () => {

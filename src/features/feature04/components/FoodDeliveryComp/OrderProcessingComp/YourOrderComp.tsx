@@ -8,16 +8,16 @@ import {
   ModalOverlay,
   ModalHeader,
   ModalBody,
-  useDisclosure,extendTheme
+  useDisclosure
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 export const YourOrderComp = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate=useNavigate();
-  const navigateCancelOrder=()=>{
-    navigate('/map/food-delivery/your-order')
-  }
+  // const navigate=useNavigate();
+  // const navigateCancelOrder=()=>{
+  //   navigate('/map/food-delivery/your-order')
+  // }
   return (
     <Box display={"flex"} justifyContent={"center"}>
       <Flex flexDirection={"column"}>

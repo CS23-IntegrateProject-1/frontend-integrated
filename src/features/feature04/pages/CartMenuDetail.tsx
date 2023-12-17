@@ -21,6 +21,7 @@ interface MenuDetailProps {
   price: number;
   description: string;
 }
+
 export const CartMenuDetail: FC = () => {
   const [AmountInCart,setAmountInCart] = useState(0);
 
@@ -84,10 +85,7 @@ export const CartMenuDetail: FC = () => {
 
           </Text>
         </HStack>
-        <Text {...textStyles.body2}>
-          {/* {menuItem.description} */}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe, dolor?
-          </Text>
+        <Text {...textStyles.body2}>{/* {menuItem.description} */}</Text>
       </VStack>
       <HStack p={2} position="absolute" bottom="0" width="100%" spacing={15}>
         <HStack>
@@ -130,8 +128,8 @@ export const CartMenuDetail: FC = () => {
           width="200px"
           text="Add To Cart"
           bgColor={buttonBgColor}
-          // isDisabled={amount === 0}
-          // onClick={handleAddToCart}
+          isDisabled={AmountInCart === 0}
+          onClick={handleAddToCart}
         />
       </HStack>
       </>

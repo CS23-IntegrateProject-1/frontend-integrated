@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
+import { AiOutlineClockCircle } from "react-icons/ai"; 
 
 export const DeliveryTime = () => {
   const FoodsIcon: React.FC = () => {
@@ -33,6 +34,31 @@ export const DeliveryTime = () => {
     );
   };
 
+  const calculateDeliveryDateTime = () => {
+    const now = new Date();
+
+    // Assuming delivery is scheduled for 3 days from the current date
+    const deliveryDate = new Date(now);
+    deliveryDate.setDate(now.getDate() + 3);
+
+    // Calculate delivery time based on current user time
+    const deliveryTimeStart = new Date(now);
+    deliveryTimeStart.setMinutes(now.getMinutes() + 30);
+
+    const deliveryTimeEnd = new Date(deliveryTimeStart);
+    deliveryTimeEnd.setMinutes(deliveryTimeEnd.getMinutes() + 15);
+
+    // Format the date and time
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDeliveryDateTime = {
+      date: deliveryDate.toLocaleDateString(undefined, options),
+      timeStart: deliveryTimeStart.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }),
+      timeEnd: deliveryTimeEnd.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }),
+    };
+
+    return formattedDeliveryDateTime;
+  };
+
   return (
     <Box>
       <Flex flexDirection={"column"} alignItems={"center"}>
@@ -57,16 +83,27 @@ export const DeliveryTime = () => {
           flexDirection={"column"}
           color={index.colors.black}
         >
-          <Text
-           fontSize={index.textStyles.body2.fontSize}
-           fontWeight={index.textStyles.body2.fontWeight}
-          >Delivery time</Text>
-          <Text
-            fontSize={index.textStyles.h2.fontSize}
-            fontWeight={index.textStyles.h2.fontWeight}
-          >
-            Tuesday 10:30 - 10:45
-          </Text>
+           <Text
+              fontSize={index.textStyles.h2.fontSize}
+              fontWeight={index.textStyles.h2.fontWeight}
+              mb={5} 
+            >
+              {calculateDeliveryDateTime().date}
+            </Text>
+
+            <Text>
+              Delivery time
+            </Text>
+            <Flex alignItems="center">
+              <AiOutlineClockCircle size={24} color={index.colors.brand[200]} />
+              <Text
+                fontSize={index.textStyles.h1.fontSize}
+                fontWeight={index.textStyles.h1.fontWeight}
+                ml={2} // Add some margin to the left for spacing
+              >
+                {`${calculateDeliveryDateTime().timeStart} - ${calculateDeliveryDateTime().timeEnd}`}
+              </Text>
+            </Flex>
         </Box>
       </Box>
       </Flex>
