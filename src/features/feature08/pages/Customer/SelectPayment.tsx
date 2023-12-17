@@ -36,7 +36,13 @@ type creditCardUser = {
 //   borderColor,
 //   bgHover,
 // }) => {
-export const SelectPayment: FC<ButtonProps> = () => {
+export const SelectPayment: FC<ButtonProps> = ({
+  bgColor,
+    textColor,
+    borderColor,
+    bgHover,
+}) => {
+  
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
 

@@ -12,7 +12,7 @@ const CheckoutCancel: React.FC = () => {
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as const,
     alignItems: 'center',
     justifyContent: 'center',
     height: '50vh',
