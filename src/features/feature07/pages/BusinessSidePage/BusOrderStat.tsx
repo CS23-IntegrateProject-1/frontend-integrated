@@ -70,7 +70,7 @@ export const BusOrderStat: React.FC = () => {
     return <div>Something went wrong</div>
   }
   const invalidateOngoingOrderDetails = () => {
-    queryClient.invalidateQueries('ongoingOrderDetails');
+    queryClient.invalidateQueries(['ongoingOrderDetails']);
   };
 
   const renderCard = () => {
