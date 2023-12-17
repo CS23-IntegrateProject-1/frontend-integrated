@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Avatar, Stack, Flex, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
@@ -70,35 +69,52 @@ const defaultAvailability: Availability = {
 };
 export const BusiProfile = () => {
   //img upload
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedFile, setSelectedFile] = useState("");
+  selectedFile;
   //index for tabs open days
   //0 - Sun , 1 - Mon , 2 - Tue , 3 - Wed , 4 - Thu , 5 - Fri , 6 - Sat
   const [tabIndex, setTabIndex] = useState(0);
+  tabIndex;
+  setTabIndex;
   //name
   const [name, setName] = useState("");
+  name;
   //about us
   const [aboutUs, setAboutUs] = useState("");
+  aboutUs;
   //address
   const [address, setAddress] = useState("");
+  address;
   //ph no
   const [phNo, setphNo] = useState("");
+  phNo;
   //prompt pay no
   const [promptNo, setpromptNo] = useState("");
+  promptNo;
   //category
   const [category, setCategory] = useState("");
+  category;
   //capacity
   const [capacity, setCapacity] = useState("");
+  capacity;
   //deposti
   const [deposite, setDeposite] = useState("");
+  deposite;
   //website url
   const [website, setWebsite] = useState("");
+  website;
   //card id
   const [cardInfo, setcardInfo] = useState<string>("");
+  cardInfo;
+  setcardInfo;
   const [userid, setuserid] = useState<string>("");
+  userid;
+  setuserid;
   const [cardData, setcardData] = useState<CreditCard[]>([]);
+  cardData
   const [availability, setAvailability] =
     useState<Availability>(defaultAvailability);
+  availability;
 
   useEffect(() => {
     //img

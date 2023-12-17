@@ -3,17 +3,13 @@ import { MobileBankingList } from "../MobileBanking/MobileBankingList"
 import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
 import { Box, Button,} from "@chakra-ui/react";
-import {MdAttachMoney} from "react-icons/md"
 import { FC, useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import PayButton from "./PayButton";
-
-import { loadStripe } from '@stripe/stripe-js';
 import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 
-const stripePromise = loadStripe('pk_test_51OFf98BCLtNTpQNyKo7pOR2Oyl2N3LxLtvGO549ogZUwpqgAUY0ycFgCYGhJbNXXnnyy1eLxTC2czmCuZqRd5BKy00lHA8sWfw'); // replace 'your_publishable_key' with your actual publishable key
+// import { loadStripe } from '@stripe/stripe-js';
+
+// const stripePromise = loadStripe('pk_test_51OFf98BCLtNTpQNyKo7pOR2Oyl2N3LxLtvGO549ogZUwpqgAUY0ycFgCYGhJbNXXnnyy1eLxTC2czmCuZqRd5BKy00lHA8sWfw'); // replace 'your_publishable_key' with your actual publishable key
 
 interface ButtonProps {
   bgColor?: string;
@@ -33,12 +29,13 @@ type creditCardUser = {
   userId:string;
 
 }
-export const SelectPayment: FC<ButtonProps>= ({
-  bgColor,
-  textColor,
-  borderColor,
-  bgHover,
-}) => {
+// export const SelectPayment: FC<ButtonProps> = ({
+//   bgColor,
+//   textColor,
+//   borderColor,
+//   bgHover,
+// }) => {
+export const SelectPayment: FC<ButtonProps> = () => {
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
 
@@ -101,7 +98,7 @@ export const SelectPayment: FC<ButtonProps>= ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/feature8/creditcardU/${userId}`);
+        const response = await Axios.get(`/feature8/creditcardU/${userId}`);
         setCreditCardUser(response.data);
         console.log(response.data)
       } catch (error) {

@@ -6,7 +6,7 @@ import { Box, Button } from "@chakra-ui/react";
 import {MdAttachMoney} from "react-icons/md"
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { Axios } from "../../../../AxiosInstance";
   
   interface ButtonProps {
     bgColor?: string;
@@ -40,7 +40,7 @@ import axios from "axios";
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/feature8/venuecreditcard/${venueId}`);
+        const response = await Axios.get(`/feature8/venuecreditcard/${venueId}`);
         setCreditCardVenue(response.data);
         console.log(response.data)
       } catch (error) {

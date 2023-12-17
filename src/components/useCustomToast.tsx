@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ToastId, useToast, UseToastOptions } from "@chakra-ui/react";
 import { useLayoutEffect, useState } from "react";
 

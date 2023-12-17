@@ -1,33 +1,50 @@
+4;
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Radio,
-  RadioGroup,
-  Stack,
-  Tab,
-  Tabs,
+  Text,
   useDisclosure,
+  Icon,
 } from "@chakra-ui/react";
 import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
 import { Search2Icon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { GetInProgressBusinessAds } from "../../../../api/Advertisement/GetInProgressBusinessAds";
+import { MdSort } from "react-icons/md";
+import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
 
 export const AdvertisementListPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  //เอาไว้เปลี่ยน sort
+  const [sort, setSort] = useState("");
+  const [datas, setDatas] = useState([]);
+  console.log(sort);
+  const handleChangeSort = (sort: string) => {
+    console.log(sort);
+    setSort(sort);
+  };
+
+  const fetchBusinessAds = async () => {
+    const res = await GetInProgressBusinessAds();
+    setDatas(res);
+  };
+
+  useEffect(() => {
+    fetchBusinessAds();
+  }, []);
+
   return (
     <Box
       display={"flex"}
@@ -38,7 +55,7 @@ export const AdvertisementListPage = () => {
     >
       {/* Search */}
       <Box
-        width="50%"
+        width="90%"
         minWidth="250px"
         maxWidth="400px"
         display="flex"
@@ -63,15 +80,16 @@ export const AdvertisementListPage = () => {
           {/* <InputRightElement p={0} borderRadius={10}></InputRightElement> */}
 
           {/* Sort */}
-          <RadioGroup defaultValue="2" paddingLeft={3} paddingTop={2}>
-            <Stack spacing={5} direction="row">
-              <Box onClick={onOpen}>
-                <Radio colorScheme="purple" value="1">
-                  Sort
-                </Radio>
-              </Box>
-            </Stack>
-          </RadioGroup>
+          <Button
+            variant={"unstyled"}
+            onClick={onOpen}
+            display="flex"
+            alignItems="center"
+            ml={"10px"}
+          >
+            <Icon as={MdSort} />
+            <Text ml={"3px"}>Sort</Text>
+          </Button>
         </InputGroup>
       </Box>
 
@@ -82,7 +100,9 @@ export const AdvertisementListPage = () => {
           <ModalContent
             bgColor={"#FFFFFF"}
             color={"#200944"}
-            height={"40%"}
+            height={"250px"}
+            width={"30%"}
+            minWidth={"300px"}
             borderRadius={20}
           >
             <ModalHeader
@@ -91,37 +111,45 @@ export const AdvertisementListPage = () => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-             Sort By
+              Sort By
             </ModalHeader>
             <ModalCloseButton />
             <Divider />
 
             {/* Sort-checkbox */}
             <Box
-              width="50%"
+              width="100%"
               minWidth="250px"
               maxWidth="400px"
               display="flex"
               flexDirection={"column"}
               paddingLeft={5}
               paddingTop={5}
-              paddingBottom={8}
+              paddingBottom={2}
             >
-              <Tabs
+              <Button
                 fontWeight="bold"
                 color="black"
                 paddingBottom={2}
-                _selected={{color: "#5F0DBB"}}
+                variant={"unstyled"}
+                // _selected={{ color: "#5F0DBB" }}
+                onClick={() => handleChangeSort("AtoZ")}
+                textAlign={"start"}
+                w={"100%"}
               >
                 A to Z
-              </Tabs>
-              <Box
+              </Button>
+              <Button
                 fontWeight="bold"
                 color="black"
+                paddingBottom={2}
+                variant={"unstyled"}
+                onClick={() => handleChangeSort("ZtoA")}
+                textAlign={"start"}
+                w={"100%"}
               >
                 Z to A
-              </Box>
-
+              </Button>
             </Box>
 
             {/* Sort-Button */}
@@ -135,9 +163,14 @@ export const AdvertisementListPage = () => {
                 borderColor={"Red"}
                 bgColor={"#FFFFFF"}
                 color={"red"}
-                width="30%"
-                _hover={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }} // Add shadow on hover
+                width="100px"
+                _hover={{
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                }} // Add shadow on hover
                 boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)" // Add initial shadow
+                onClick={() => {
+                  setSort("");
+                }}
               >
                 Reset
               </Button>
@@ -146,11 +179,14 @@ export const AdvertisementListPage = () => {
         </Modal>
       </Box>
 
-        <AdvertisementCard />
-        <AdvertisementCard />
-        <AdvertisementCard />
-
-
+      {datas?.map((data: IAdvertisementCardProp) => (
+        <AdvertisementCard
+          key={data?.advertisementId}
+          name={data?.name}
+          description={data?.description}
+          advertisementId={data?.advertisementId}
+        />
+      ))}
     </Box>
   );
 };

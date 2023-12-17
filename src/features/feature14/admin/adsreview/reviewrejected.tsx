@@ -5,12 +5,9 @@ import {
     CSSReset,
     extendTheme,
     FormControl,
-    FormLabel,
-    Input,
     Textarea,
     Center,
     Text,
-    Box,
 } from '@chakra-ui/react';
 
 const customTheme = extendTheme({

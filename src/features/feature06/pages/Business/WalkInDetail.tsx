@@ -65,7 +65,7 @@ export const WalkInDetail = () => {
   useEffect(() => {
     fetchData();
     console.log("FNAME" + data?.reservations[0].user.fname);
-  }, []);
+  });
 
   const fetchData = async () => {
     const response: IData = await getReservationDetail(1, 46);

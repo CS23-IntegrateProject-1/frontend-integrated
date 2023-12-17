@@ -1,4 +1,4 @@
-import { Box, Icon, Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { FC } from "react";
 
 export const AdvertisementStatusCardCom: FC = () => {

@@ -22,17 +22,17 @@ ChakraProvider,Container,MenuButton, MenuItem, MenuList, Menu  } from "@chakra-u
 //     },
 //   },
 // });
-const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  if (event.target.files && event.target.files.length > 0) {
-    setProfilePhoto(event.target.files[0]);
-  }
-};
-const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    // Do something with the selected file, like uploading it to a server
-    // For now, just set it to state to display a preview
-    setSelectedImage(URL.createObjectURL(file));
-  };
+// const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   if (event.target.files && event.target.files.length > 0) {
+//     setProfilePhoto(event.target.files[0]);
+//   }
+// };
+// const handleImageChange = (event) => {
+//     const file = event.target.files[0];
+//     // Do something with the selected file, like uploading it to a server
+//     // For now, just set it to state to display a preview
+//     setSelectedImage(URL.createObjectURL(file));
+//   };
 const paymentMethodOptions = [
     'Credit Card',
     'Debit Card',
@@ -64,7 +64,8 @@ export const AccountEditPage: React.FC = () => {
   const [address, setAddress] = useState<string>("");
   const [acceptPeople, setAcceptPeople] = useState<string>("");
   const [paymentmethod, setPaymentMethod] = useState<string>("");
-  const [photo, setPhoto] = useState<string>("");
+  setPaymentMethod("");
+  // const [photo, setPhoto] = useState<string>("");
 
   const handleBusinessNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -110,14 +111,14 @@ export const AccountEditPage: React.FC = () => {
     setAcceptPeople(event.target.value);
   };
 
-  const handlepaymentmethodChange = (
-    event: React.ChangeEvent<HTMLInputElement>) => {
-    setPaymentMethod(event.target.value);
-  };
+  // const handlepaymentmethodChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPaymentMethod(event.target.value);
+  // };
 
-  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoto(event.target.value);
-  };
+  // const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPhoto(event.target.value);
+  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -253,7 +254,7 @@ export const AccountEditPage: React.FC = () => {
           <Select
           id="paymentmethod"
                 value={paymentmethod}
-                onChange={handlepaymentmethodChange}
+                // onChange={handlepaymentmethodChange}
                 placeholder="Select a payment method"
             
           >
@@ -292,7 +293,7 @@ export const AccountEditPage: React.FC = () => {
           <Input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                // onChange={handleImageChange}
             />
         </FormControl>
          <Button mt={4} color="white"textColor={"purple"} marginRight={100} borderRadius="lg" type="submit">

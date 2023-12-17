@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
@@ -55,13 +54,17 @@ const formatDate = (dateString: string) => {
 
 export const Notification = () => {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
-  const [userData,setUserData] = useState('');
+  const [userData, setUserData] = useState('');
+  userData;
   const [userId, setUserId] = useState('');
+  userId;
   const [reservation,setReservation] =useState<Reservation[]>([]);
   const { venueId } = useParams()
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
   const [advertisementData, setAdvertisementData] = useState<any[]>([]);
-  const [businessId,setBusinessId] = useState();
+  advertisementData;
+  const [businessId, setBusinessId] = useState();
+  businessId;
   const [businessAdver, setbusinessAdver] =useState<advernoti[]>([]); 
   const [businessAdMain, setBusinessAdMain ] = useState();
 
@@ -303,19 +306,19 @@ useEffect(() => {
 
 
   const allNotifications = useMemo(() => {
-    const pendingResNotifications = pendingReservations.map((pendingRes, index) => {
+    const pendingResNotifications = pendingReservations.map((pendingRes) => {
       const matchingReservation = reservation.find(res => res.reservationId === pendingRes.reserveId);
       return matchingReservation ? { ...pendingRes, time: matchingReservation.reserved_time } : null;
     });
 
-    const checkOutResNotifications = checkOutReservations.map((checkOutRes, index) => {
+    const checkOutResNotifications = checkOutReservations.map((checkOutRes) => {
       const tableNumberData = tableNumberMap[checkOutRes.reserveId];
       const tableNumber = tableNumberData ? tableNumberData.tableNo : 'N/A';
       const matchingReservation = reservation.find(res => res.reservationId === checkOutRes.reserveId);
       return matchingReservation ? { ...checkOutRes, time: matchingReservation.reserved_time, tableNumber } : null;
     });
 
-    const adNotifications = filteredAds.map((ad, index) => {
+    const adNotifications = filteredAds.map((ad) => {
       return { ...ad, time: new Date(ad.start_date) };
     });
 
