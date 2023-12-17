@@ -11,8 +11,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
-import { Axios } from "axios";
 import { getVenueById } from "../../../api/Reservation/getVenueById";
+import { Axios } from "../../../AxiosInstance";
 
 interface IData {
     name: string,
@@ -61,25 +61,16 @@ export const ReservationDetail = () => {
 
   const handleCreate = async () => {
     try {
-      console.log("Creating reservation with data:", {
+      const response = await Axios.post(`/feature6/createReservation`, {
         venueId: venueId,
         guest_amount: seats,
         reserve_date: date,
         time: time,
-        branchId: 1,
+        branchId:1,
         name: name,
         phonenumber: phonenumber,
       });
-      // const response = await Axios.post(`/feature6/createreservation`, {
-      //   venueId: venueId,
-      //   guest_amount: seats,
-      //   reserve_date: date,
-      //   time: time,
-      //   branchId:1,
-      //   name: name,
-      //   phonenumber: phonenumber,
-      // });
-      // console.log(response);
+      console.log(response);
       console.log("create reservation successfully");
       navigate("/3/venue/3/payment");
     } catch (err) {

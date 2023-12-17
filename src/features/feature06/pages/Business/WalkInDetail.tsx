@@ -4,7 +4,7 @@ import { RDetailCard } from "../../components/RDetailCard";
 import { getReservationDetail } from "../../../../api/Reservation/getReservationDetail";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineEventSeat } from "react-icons/md";
-import { Axios } from "axios";
+import { Axios } from "../../../../AxiosInstance";
 
 interface IData {
   venue: {
@@ -77,7 +77,7 @@ export const WalkInDetail = () => {
   const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleCreate = async () => {
     try {
