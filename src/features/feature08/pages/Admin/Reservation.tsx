@@ -4,9 +4,6 @@ import {
   Center,
   Text,
   Card,
-  Stack,
-  StackDivider,
-  CardBody,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -25,7 +22,6 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { Link, useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { IoConstructOutline } from "react-icons/io5";
 import { formatDate1 } from "../../../../functions/formatDatetime";
 
 interface transaction {
@@ -123,7 +119,7 @@ const fetchBusinessInsightTimeFilterData = async () => {
 };
 
 
-const { data, isLoading, isError } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
+const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
 console.log(data)
 
 
@@ -167,11 +163,6 @@ const groupByDate = (transactionDetails: transaction_detail[]) => {
     grouped[dateString].push(detail);
     return grouped;
   }, {} as Record<string, transaction_detail[]>);
-};
-
-// Step 3: Count the number of unique dates
-const countUniqueDates = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
-  return Object.keys(groupedTransactionDetails).length;
 };
 
 // Modify the groupByDate function to return an array of dates
@@ -534,7 +525,7 @@ console.log(selectedToDate)
                     revenueNormal.reduce((total, count) => total + count, 0) 
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={revenue} options={chartOptionsK as any} />
+          <Bar data={revenue} options={chartOptionsK as never} />
         </Card>
         <Card
           marginTop={10}
@@ -550,7 +541,7 @@ console.log(selectedToDate)
                   netProfitNormal.reduce((total, count) => total + count, 0)
                   }{" "} Baht</Text>
           </Box>
-          <Bar data={profit} options={chartOptionsK as any} />
+          <Bar data={profit} options={chartOptionsK as never} />
         </Card>
       </Box>
     </Center>
