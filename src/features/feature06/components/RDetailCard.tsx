@@ -19,6 +19,7 @@ interface RDetailCardProps {
   location?: string;
   reservationId?: number;
   venueId?: number;
+  src?: string;
 }
 
 export const RDetailCard: FC<RDetailCardProps> = ({
@@ -26,6 +27,7 @@ export const RDetailCard: FC<RDetailCardProps> = ({
   star,
   reservationId,
   location,
+  src
 }) => {
   const images: string[] = ["1", "2", "3", "4", "5", "6"];
   
@@ -49,6 +51,7 @@ export const RDetailCard: FC<RDetailCardProps> = ({
               height="168px"
               borderRadius="15px"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"
+              // src ={src}
               alt="Caffe Latte"
             />
           ))}
