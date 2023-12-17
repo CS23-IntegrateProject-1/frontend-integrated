@@ -1,4 +1,4 @@
-import {Box,Image,Text,VStack,HStack,Flex,IconButton,Button} from "@chakra-ui/react";
+import {Box,Image,Text,VStack,HStack,Flex,IconButton,Center} from "@chakra-ui/react";
 import {FC,useState} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon,MinusIcon} from '@chakra-ui/icons'
@@ -15,13 +15,13 @@ const getCartMenuItem = async (type: string, menuid: string) => {
     return response.data;
   };
 
-interface MenuDetailProps {
-    id:number;
-    name:string;
-    price:number;
-    description:string;
-    image_url:string;
-}
+// interface MenuDetailProps {
+//     id:number;
+//     name:string;
+//     price:number;
+//     description:string;
+//     image_url:string;
+// }
 export const CartMenuDetail: FC = () => {
     const {type, menuid} = useParams();
     //console.log(menuid);
@@ -46,21 +46,33 @@ export const CartMenuDetail: FC = () => {
         setAmount(amount - 1);
       }
     };
-
+    const handleDelete = async () =>{
+        try{
+            const response = await Axios.delete(`/feature7/delete${type}FromCookie/${menuid}`);
+            console.log("Item Deleted From Cart:",response.data);
+        } catch(error){
+            console.error("Error deleting item:", error);
+        }
+    }
+    
     const handleAddToCart = async () => {
         try {
-            const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
-                quantity : amount,
-            });
-            console.log(response.data);
-            // setAmount(0);
+            if (amount > 0) {
+                const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
+                    quantity : amount,
+                });
+                console.log(response.data);
+            } else if (amount == 0){
+                await handleDelete();
+            }
         } catch (error) {
             console.error("Error adding to cart:", error);
         }
       }
 
-    const buttonBgColor = amount > 0 ? "brand.200" : "gray.300";
-
+    const buttonBgColor = amount > 0 ? "brand.200" : "red";
+    const buttonText = amount > 0 ? "Update" : "Remove";
+   
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -70,20 +82,24 @@ export const CartMenuDetail: FC = () => {
     }
 
     return(
-        <Box>
+        <Flex direction="column" align="center" justify="center">
+        <VStack align="start">
+        <Center>
             <Image 
-                src="/src/features/feature07/assets/test.jpg" 
-                // src={type == "Set" ? menuItem.image_url: menuItem.image}
+                // src="/src/features/feature07/assets/test.jpg" 
+                src={type == "Set" ? menuItem.image_url: menuItem.image}
                 width="350px" 
                 height="250px" 
                 objectFit="cover"/>
-            <VStack p={1.5} textAlign="start" alignItems="start">
-                <HStack>
+         </Center>
+         <Box width="100%">
+          <Flex justifyContent="space-between" alignItems="flex-start">
                 <Text {...textStyles.h1} color="white" lineHeight="1.5">{menuItem.name}</Text>
                 <Text {...textStyles.h3} color="white" lineHeight="1.5" marginLeft="70px">{menuItem.price} baht</Text>
-                </HStack>
+                </Flex>
+        </Box>
                 <Text {...textStyles.body2}>{menuItem.description}</Text>
-            </VStack>
+           
             <HStack  p={2} position="absolute" bottom="0" width="100%" spacing={15}>
             <HStack>
             <Box border="solid" 
@@ -121,11 +137,12 @@ export const CartMenuDetail: FC = () => {
             </HStack>
             <ButtonComponent 
             width="200px"
-            text="Add To Cart" 
+            text={buttonText}
             bgColor={buttonBgColor}
-            isDisabled={amount === 0}
+            
             onClick={handleAddToCart}/>
             </HStack>
-        </Box>
+            </VStack>
+        </Flex>
     )
 }
