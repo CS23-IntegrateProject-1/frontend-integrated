@@ -44,11 +44,8 @@ export default function Conversation() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     sendMessage({
-      recipients: selectedConversation.recipients.map((r) => ({
-        id: r.id,
-        name: r.name,
-        avatar: r.avatar,
-      })),
+      recipients: selectedConversation.members,
+      id: selectedConversation.id,
       text,
     });
     console.log("text", text);

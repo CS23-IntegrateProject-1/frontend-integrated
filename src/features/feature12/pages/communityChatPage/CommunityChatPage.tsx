@@ -1,5 +1,5 @@
-import { Box,List,ListItem,Tab,TabList,TabPanel,TabPanels,Tabs} from "@chakra-ui/react";
-// import OpenConversations from "../../components/OpenConversations";
+import { Box,List,ListItem,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
+import Conversation from "../../components/Conversation";
 import { useConversations } from "../../context/ConversationProvider";
 
 interface Recipient {
@@ -28,7 +28,7 @@ interface Message {
 }
 export const CommunityChatPage = () => {
 
-  const { conversations, openConversation } = useConversations();
+  const { conversations, openConversation,selectedConversation} = useConversations();
   console.log("conversations", conversations);
   return (
     <Box display="flex">
@@ -55,9 +55,9 @@ export const CommunityChatPage = () => {
             onClick={() => {
               openConversation(
                 conversation.members,
-                conversation.group_name
+                conversation.group_name,
+                conversation.id,
               );
-              // selectedConversationIndex(index);
             }}
             background={conversation.selected ? "#DEBEF6" : "transparent"}
           >
@@ -74,7 +74,7 @@ export const CommunityChatPage = () => {
         </Tabs>
       </Box>
       <Box width="75%">
-        {/* {selectedConversation ? <OpenConversations /> : <Text>Select a conversation</Text>} */}
+        {selectedConversation ? <Conversation /> : <Text>Select a conversation</Text>}
         </Box>
     </Box>
   )

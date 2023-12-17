@@ -7,8 +7,9 @@ interface ConversationsProviderProps {
 }
 interface ConversationContextValue {
   conversations: Conversation[];
-  openConversation: (recipients: Recipient[], group_id: string) => void;
+  openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
   sendMessage: (message: SendMessageParams) => void;
+  selectedConversation: Conversation;
 }
 
 interface Recipient {
@@ -38,6 +39,7 @@ interface Message {
 
 interface SendMessageParams {
   recipients: Recipient[];
+  id: number;
   text: string;
 }
 
@@ -48,6 +50,8 @@ const ConversationsContext = React.createContext<
 export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   children,
 }) => {
+  const [selectedConversation, setSelectedConversation] = useState<Conversation>();
+
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const user = useContext(UserContext);
   const [socket, setSocket] = useState<Socket>();
@@ -84,16 +88,29 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     });
   }, [socket]);
 
-  function openConversation(recipients: Recipient[], group_id: string) {
+  function openConversation(recipients: Recipient[], group_name: string, id: number) {
     console.log("recipients", recipients);
     console.log(conversations + "<< conversations");
-    socket?.emit("join-room", { recipients, group_id });
+    socket?.emit("join-room", { recipients, group_name });
+    
+    //Get Specific Coversation
+    Axios.get(`/feature12/displayChatDetail/${id}`).then((res) => {
+      const newConversation = {
+        group_name: res.data.group_name,
+        group_profile: res.data.group_profile,
+        id: res.data.id,
+        members: res.data.members,
+        messages: [],
+        selected: true,
+      };
+      setSelectedConversation(newConversation);
+    });
   }
 
   const sendMessage = (
-    { recipients, text }:{recipients: Recipient[]; text: string; }
+    { recipients, id, text }:{recipients: Recipient[]; id:number, text: string; }
     ) => {
-    socket?.emit("send-message", { recipients, text });
+    socket?.emit("send-message", { recipients, text, id });
     // addMessageToConversation({ recipients, text, sender: user.username });
   };
 
@@ -169,6 +186,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         conversations,
         openConversation,
         sendMessage,
+        selectedConversation,
       }}
     >
       {children}
