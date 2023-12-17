@@ -17,7 +17,7 @@ export const Feature06Routes = () => {
     { path: "/table", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
     { path: "/reservation-detail", element: <ReservationDetail /> },
-    { path: "/getreservation-detail", element: <GetReservationDetail /> },
+    { path: "/getreservation-detail/:venueId/:reservationId", element: <GetReservationDetail /> },
     { path: "/qrcodeconfirmation", element: <QrcodeConfirm/> },
     
   ];

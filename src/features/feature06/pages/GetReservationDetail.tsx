@@ -8,10 +8,12 @@ import {
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 interface IData {
   venue: {
@@ -24,7 +26,11 @@ interface IData {
     score: string;
     venueId: number;
     website_url: string;
-    Venue_photo: string;
+    Venue_photo: {
+      date_added: string;
+      venueId: number;
+      image_url: string;
+    };
   };
   location: {
     address: string;
@@ -74,21 +80,29 @@ export const GetReservationDetail = () => {
   const day = dateObject.getUTCDate();
   const hour = dateObject.getUTCHours();
   const minute = dateObject.getUTCMinutes();
-  const tensDigit = Math.floor(minute / 10);
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const seats = searchParams.get("count");
+  const {venueId, reservationId} = useParams<{venueId: string, reservationId: string}>()
+  const venueIdInt = parseInt(venueId || "0");
+  const reservationIdInt = parseInt(reservationId || "0");
+
+  // ของ ReservationDetail.tsx
+  // const location = useLocation();
+  // const searchParams = new URLSearchParams(location.search);
+  // const seats = searchParams.get("count");
 
   useEffect(() => {
     fetchData();
-    console.log("FNAME" + data?.reservations[0].user.fname);
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getReservationDetail(3, 256);
-    setData(response);
-    setIsLoaded(true);
+      try {
+        const response: IData = await getReservationDetail(venueIdInt,reservationIdInt); // Default values for testing
+        setData(response);
+        setIsLoaded(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error, e.g., set an error state or display an error message
+      }
   };
   const render = () => {
     return (
@@ -99,11 +113,11 @@ export const GetReservationDetail = () => {
         justifyContent="center"
       >
         <RDetailCard
+          // src={data?.venue.Venue_photo.image_url}
           name={data?.venue.name}
           location={data?.location.address}
           star={data?.venue.score}
         />
-
         {/* This will push the reservation detail to the bottom */}
         <Box
           width="393px"
@@ -135,7 +149,7 @@ export const GetReservationDetail = () => {
             >
               Reservation information
             </Text>
-            <ExternalLinkIcon color={'black'} mt={"-85px"} ml={"340px"}/>
+            <ExternalLinkIcon color={"black"} mt={"-85px"} ml={"340px"} />
             <Text
               color="#000"
               fontFamily="Roboto"
@@ -158,7 +172,8 @@ export const GetReservationDetail = () => {
               marginLeft={34}
               marginTop="10px"
             >
-              {data?.reservations[0]?.user.fname} {data?.reservations[0]?.user.lname}
+              {data?.reservations[0]?.user.fname}{" "}
+              {data?.reservations[0]?.user.lname}
             </Text>
             <Text
               color="#000"
@@ -246,7 +261,7 @@ export const GetReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              {hour}:{(minute < 10 ? "0" + minute : "" + minute)}
+              {hour}:{minute < 10 ? "0" + minute : "" + minute}
             </Text>
 
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
@@ -274,7 +289,7 @@ export const GetReservationDetail = () => {
               marginLeft="120px"
               marginTop="-14px"
             >
-              {seats}
+              {data?.reservations[0]?.guest_amount}
             </Text>
             {/* Additional content goes here */}
           </Box>
@@ -318,20 +333,22 @@ export const GetReservationDetail = () => {
             marginLeft="18px"
           ></Box>
           <Box mt="15px" ml={"50px"}>
-            <Button
-              borderRadius="10px"
-              width="138px"
-              height="40px"
-              backgroundColor="white"
-              textColor="#A533C8"
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="700"
-              lineHeight="24px"
-              mr={"17px"}
-            >
-              Cancel
-            </Button>
+            <Link to={`/my-reservation`}>
+              <Button
+                borderRadius="10px"
+                width="138px"
+                height="40px"
+                backgroundColor="white"
+                textColor="#A533C8"
+                fontSize="16px"
+                fontStyle="normal"
+                fontWeight="700"
+                lineHeight="24px"
+                mr={"17px"}
+              >
+                Cancel
+              </Button>
+            </Link>
             <Button
               borderRadius="10px"
               width="138px"
