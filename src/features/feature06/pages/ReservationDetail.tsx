@@ -7,46 +7,79 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
-import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
-import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { Axios } from "axios";
+import { getVenueById } from "../../../api/Reservation/getVenueById";
+
+interface IData {
+    name: string,
+    description: string,
+    category: string,
+    capacity: number,
+    chatRoomId: number,
+    locationId: number,
+    score: string,
+    venueId: number,
+    website_url: string,
+    Venue_photo: {
+        venueId: number,
+        image_url: string,
+        date_added: Date
+}
+}
 
 export const ReservationDetail = () => {
+  const [data, setData] = useState<IData>();
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = useSearchParams();
-  // console.log(url);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const seats = searchParams.get("count");
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
   const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  // {console.log(name)}
-  // {console.log(phonenumber)}
-  // {console.log(date)}
-  // {console.log(time)}
-  let navigate = useNavigate();
+
+  useEffect(() => {
+    fetchData();
+    setIsLoaded(true);
+  }, []);
+
+  const fetchData = async () => {
+    const response: IData = await getVenueById(venueIdInt,1);
+    console.log(response);
+    setData(response);
+  }
+
+  const navigate = useNavigate();
+
+  const { venueId } = useParams<{ venueId: string }>();
+  const venueIdInt = parseInt(venueId || "0");
 
   const handleCreate = async () => {
     try {
-      const response = await Axios.post(`/feature6/createreservation`, {
-        venueId: 3,
+      console.log("Creating reservation with data:", {
+        venueId: venueId,
         guest_amount: seats,
         reserve_date: date,
         time: time,
-        branchId:1,
+        branchId: 1,
+        name: name,
+        phonenumber: phonenumber,
       });
-      console.log(response);
+      // const response = await Axios.post(`/feature6/createreservation`, {
+      //   venueId: venueId,
+      //   guest_amount: seats,
+      //   reserve_date: date,
+      //   time: time,
+      //   branchId:1,
+      //   name: name,
+      //   phonenumber: phonenumber,
+      // });
+      // console.log(response);
       console.log("create reservation successfully");
       navigate("/3/venue/3/payment");
     } catch (err) {
@@ -62,7 +95,7 @@ export const ReservationDetail = () => {
         alignItems="center" // Center the content horizontally
         justifyContent="center"
       >
-        <RDetailCard />
+        <RDetailCard name={data?.name} star={data?.score} location={"แก้ด่วน"}/>
 
         {/* This will push the reservation detail to the bottom */}
         <Box
