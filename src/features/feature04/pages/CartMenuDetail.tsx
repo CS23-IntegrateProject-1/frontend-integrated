@@ -16,7 +16,7 @@ import { Axios } from "../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 interface MenuDetailProps {
-  id: number;
+  menuId: number;
   name: string;
   price: number;
   description: string;
@@ -129,7 +129,7 @@ export const CartMenuDetail: FC = () => {
           text="Add To Cart"
           bgColor={buttonBgColor}
           isDisabled={AmountInCart === 0}
-          onClick={handleAddToCart}
+          // onClick={handleAddToCart}
         />
       </HStack>
       </>

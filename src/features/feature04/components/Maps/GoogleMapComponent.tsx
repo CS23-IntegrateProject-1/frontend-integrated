@@ -53,7 +53,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     console.log("Updated locations:", locMap);  
     console.log("hello1")
 
-  const mapRef = React.useRef<google.maps.Map<Element> | null>(null);
+  const mapRef = React.useRef<google.maps.Map | null>(null);
   const [clickedPos, setClickedPos] = React.useState<google.maps.LatLngLiteral>(
     {} as google.maps.LatLngLiteral
   );
@@ -99,7 +99,8 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     }
   };
 
-  const onLoad = (map: google.maps.Map<Element> | null): void => {
+
+  const onLoad = (map: google.maps.Map | null): void => {
     mapRef.current = map;
   };
 

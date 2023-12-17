@@ -18,11 +18,6 @@ import {
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-interface DeliveryLocationProps {
-  mainAddress: string;
-  subAddress: string;
-=======
 import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
@@ -36,7 +31,6 @@ interface SavedLocationItem {
   sub_district: string;
   postcode: string;
   savedLocId: number;
->>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
 }
 
 interface SavedLocationInterface{

@@ -5,12 +5,16 @@ import {
   Flex,
   Button,
   Card,
+  Image
 } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { useNavigate } from "react-router-dom";
 interface MenuCompCard {
-  menuName: string;
+  menuId: number;
+  name: string;
   price: number;
+  description: string;
+  image: string;
 }
 
 export const MenuComp: React.FC<MenuCompCard> = (props) => {
@@ -20,18 +24,21 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
     navigate('/map/food-delivery/food-detail');
   };
   
+  console.log("image:", props.image);
 
   return (
     <Box>
       <Box width={200} height={"auto"} m={2}>
         <Card width={"auto"} height={"auto"} style={{ borderRadius: "20px", margin: 0 }}>
           <Box style={{ width: "100%", height: "100%" }}>
-            <img
-              src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
+          <Image
+              src={`http://localhost:8080/uploads/${props.image}`}
+              alt="Menu Item"
+              objectFit="cover"
+              mt={0.5}
               width="100%"
               height="100%"
-              style={{ borderRadius: "20px", margin: 0 }}
-              alt="Menu Item"
+              borderRadius="20px"
             />
             <Box
               style={{
@@ -55,7 +62,7 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
             flexWrap={"wrap"}
             maxW={150}
           >
-            {props.menuName}
+            {props.name}
           </Text>
           <Flex justifyContent={"flex-end"}>
             <Button

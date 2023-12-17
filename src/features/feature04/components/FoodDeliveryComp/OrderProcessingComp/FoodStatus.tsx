@@ -1,12 +1,7 @@
 import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import styled from "styled-components";
-<<<<<<< HEAD
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
 export const FoodStatus = () => {
   const location = useLocation();
   const CheckoutIsActive = location.pathname === "/map/food-delivery/checkout";

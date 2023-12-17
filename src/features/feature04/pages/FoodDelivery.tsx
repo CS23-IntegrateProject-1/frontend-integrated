@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
 interface Menu {
-  id: number;
+  menuId: number;
   name: string;
   price: number;
+  description: string;
+  image: string;
 }
 const FoodDelivery = () => {
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ const FoodDelivery = () => {
         </Flex> */}
        <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
         {menuData.map((menu,index) => (
-          <MenuComp key={index} menuName={menu.name} price={menu.price} />
+          <MenuComp key={index} name={menu.name} price={menu.price} menuId={menu.menuId} description={menu.description} image={menu.image} />
         ))}
       </Flex>
       </Flex>
