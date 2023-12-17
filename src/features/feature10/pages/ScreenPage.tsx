@@ -88,7 +88,7 @@ const ScreenPage: React.FC = () => {
   const [allShowDetails, setAllShowDetails] = useState<ShowDetails>();
   useEffect(() => {
     if (showid) {
-      Axios.get(`http://localhost:3000/show/getShowByShowId/${showid}`)
+      Axios.get(`/show/getShowByShowId/${showid}`)
         .then((response) => {
           setAllShowDetails(response.data);
         })
@@ -108,7 +108,7 @@ const ScreenPage: React.FC = () => {
       const screenId = allShowDetails.show.Screens.screenId;
       console.log("Screen ID:", screenId); // Log screenId
       Axios.get(
-        `http://localhost:3000/seat/getUniqueSeatTypeByScreenId/${screenId}/${showid}`
+        `/seat/getUniqueSeatTypeByScreenId/${screenId}/${showid}`
       )
         .then((response) => {
           setSeatType(response.data);
@@ -136,7 +136,7 @@ const ScreenPage: React.FC = () => {
 
   useEffect(() => {
     try {
-      Axios.get(`http://localhost:8080/feature10/getFilmsById/${filmid}`).then(
+      Axios.get(`/feature10/getFilmsById/${filmid}`).then(
         (response) => {
           setMovieInfo(response.data);
           console.log(response.data);
@@ -162,7 +162,7 @@ const ScreenPage: React.FC = () => {
   useEffect(() => {
     try {
       Axios.get(
-        `http://localhost:8080/feature10/getTheaterById/${theaterid}`
+        `/feature10/getTheaterById/${theaterid}`
       ).then((response) => {
         setTheaterInfo(response.data);
       });
@@ -188,7 +188,7 @@ const ScreenPage: React.FC = () => {
   useEffect(() => {
     if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && id) {
       Axios.get(
-        `http://localhost:8080/feature10/getSeatByScreenId/${id}`
+        `/feature10/getSeatByScreenId/${id}`
       )
         .then((response) => {
           setSeats(response.data);
@@ -202,7 +202,7 @@ const ScreenPage: React.FC = () => {
   const fetchAvailableSeats = () => {
     if (allShowDetails && allShowDetails.show && allShowDetails.show.screenId && id) {
       Axios.get(
-        `http://localhost:3000/seat/getAvailableSeatIdByShowIdAndScreenId/${id}/${allShowDetails.show.screenId}`
+        `/seat/getAvailableSeatIdByShowIdAndScreenId/${id}/${allShowDetails.show.screenId}`
       )
         .then((response) => {
           setAvailableSeats(response.data);

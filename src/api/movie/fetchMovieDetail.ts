@@ -1,8 +1,8 @@
-import { Axios } from "../../AxiosInstance";
+import axios from "axios";
 
 const fetchMovieDetails = async (setMovie) => {
     try {
-      const response = await Axios.get(`/feature10//getFilmsById/${movieId}`);
+      const response = await axios.get(`/feature10/getFilmsById/${movieId}`);
       setMovie({
         title: response.data.name,
         imageUrl: response.data.poster_img,
