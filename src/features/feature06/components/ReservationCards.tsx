@@ -2,12 +2,8 @@ import {
   Box,
   Card,
   Image,
-  Stack,
-  CardBody,
   Heading,
   Text,
-  CardFooter,
-  Button,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
@@ -33,6 +29,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   venueId,
 }) => {
   const handleClick = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const navigate = useNavigate();
     const path = `/reservation-detail?reservationId=${reservationId}&venueId=${venueId}`;
     navigate(path);

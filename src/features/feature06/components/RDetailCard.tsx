@@ -1,20 +1,28 @@
 import {
   Box,
-  Card,
-  Image,
-  Stack,
-  CardBody,
-  Heading,
+  Image, 
   Text,
-  CardFooter,
-  Button,
   Flex,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
+import { FC } from "react";
 
-export const RDetailCard = () => {
+interface RDetailCardProps {
+  name?: string;
+  star?: string;
+  location?: string;
+  venueId?: number;
+  src?: string;
+}
+
+export const RDetailCard: FC<RDetailCardProps> = ({
+  name,
+  star,
+  location,
+  src,
+}) => {
   const images: string[] = ["1", "2", "3", "4", "5", "6"];
-
+  
   return (
     <Box
       width="320px"
@@ -35,6 +43,7 @@ export const RDetailCard = () => {
               height="168px"
               borderRadius="15px"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"
+              // src ={src}
               alt="Caffe Latte"
             />
           ))}
@@ -45,28 +54,27 @@ export const RDetailCard = () => {
         color="#FFF"
         /* H1 */
         fontFamily="Roboto"
-        fontSize="20px"
+        fontSize="22px"
         fontStyle="normal"
         fontWeight="700"
         line-height="normal"
         marginTop="20px"
-        
+        marginBottom="6px"
       >
-        Something Something
+        {name}
       </Text>
       <Text
         color="#FFF"
         /* H1 */
         fontFamily="Roboto"
-        fontSize="20px"
+        fontSize="16px"
         fontStyle="normal"
-        fontWeight="700"
+        fontWeight="400"
         line-height="normal"
         marginTop="-5px"
-      >
-        Place
+      >{location}
       </Text>
-      <Box marginLeft="4px">
+      <Box marginLeft="4px" marginTop="4px">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="17"
@@ -84,14 +92,14 @@ export const RDetailCard = () => {
           color="#F6F6F6"
           /* H5 */
           fontFamily="Roboto"
-          fontSize="10px"
+          fontSize="12px"
           fontStyle="normal"
           fontWeight="700"
           lineHeight="normal"
           marginTop="-13px"
           marginLeft="19px"
         >
-          4.7
+          {star}
         </Text>
       </Box>
     </Box>

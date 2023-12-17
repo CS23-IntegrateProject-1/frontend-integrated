@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
+import { Link } from "react-router-dom";
 
 interface IData {
   venueId: number;
@@ -25,7 +26,11 @@ interface IData {
     score: string;
     venueId: number;
     website_url: string;
-    Venue_photo: string;
+    Venue_photo: {
+      date_added: string;
+      venueId: number;
+      image_url: string;
+    };
     Menu: [
       {
         price: number;
@@ -49,24 +54,30 @@ export const MyReservation = () => {
   const renderCards = () => {
     return data.map((data, index: number) => {
       console.log(data);
+      console.log(data.userId);
+      console.log(data.venue.Venue_photo);
 
       return (
         (status === "" || data.status === status) && (
-          <Box key={index} marginBottom={"20px"}>
-            <ReservationCards
-              src={data.venue.Venue_photo}
-              text={data.venue.description}
-              name={data.venue.name}
-              star={data.venue.score}
-              startPrice={
-                data.venue.Menu.length > 0
-                  ? data.venue.Menu[0].price ?? undefined
-                  : undefined
-              }
-              reservationId={data.reservationId}
-              venueId={data.venueId}
-            />
-          </Box>
+          <Link
+            to={`/getreservation-detail/${data.venueId}/${data.reservationId}`}
+          >
+            <Box key={index} marginBottom={"20px"}>
+              <ReservationCards
+                // src={data.venue.Venue_photo}
+                text={data.venue.description}
+                name={data.venue.name}
+                star={data.venue.score}
+                startPrice={
+                  data.venue.Menu.length > 0
+                    ? data.venue.Menu[0].price ?? undefined
+                    : undefined
+                }
+                reservationId={data.reservationId}
+                venueId={data.venueId}
+              />
+            </Box>
+          </Link>
         )
       );
     });
