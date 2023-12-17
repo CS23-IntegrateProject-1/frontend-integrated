@@ -88,6 +88,12 @@ export const MenuAll = () => {
   };
   useEffect(() => {
     handleAllMenuClick();
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
   }, []);
 
   const renderMenuCards = () => {

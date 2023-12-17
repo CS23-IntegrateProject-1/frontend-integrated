@@ -145,7 +145,7 @@ export const BusinessMenuDetail: FC = () => {
         </Box>
 
         <Text {...textStyles.body2}>{menuItem?.description}</Text>
-
+        <Text {...textStyles.h2}>Branch Availability</Text>
         {type == "Menu" &&
           branchAvailabilityData?.map((branch) => (
             <Flex
@@ -154,7 +154,7 @@ export const BusinessMenuDetail: FC = () => {
               alignItems="center"
               width="100%"
             >
-              <Text {...textStyles.h3}> {branch.branchName}</Text>
+              <Text {...textStyles.body1}> {branch.branchName}</Text>
 
               <Switch
                 colorScheme="brand"
