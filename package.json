@@ -29,6 +29,7 @@
     "date-fns-tz": "^2.0.0",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "html5-qrcode": "^2.3.8",
     "leaflet": "^1.9.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
