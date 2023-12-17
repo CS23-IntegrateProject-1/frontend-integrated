@@ -31,6 +31,7 @@ interface Venue {
   location: string;
   website_url: string;
   rating: string;
+  venue_picture: string;
 }
 
 interface SearchFilter {
@@ -150,7 +151,7 @@ export const VenuePage = () => {
           >
             <CardBody pb={1}>
               <Image
-                src={venueD.pic}
+                src={venueD.venue_picture}
                 alt={venueD.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"

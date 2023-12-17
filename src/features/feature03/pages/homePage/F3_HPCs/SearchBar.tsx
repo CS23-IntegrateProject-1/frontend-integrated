@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, KeyboardEvent } from "react";
 
 interface SearchBarProps {
   searchFilter: string;
@@ -17,11 +17,11 @@ export const SearchBar: FC<SearchBarProps> = ({
     setSearchFilter(newFilter);
   };
 
-  const handleInputSubmit = (e: KeyboardEvent) => {
-    if(e.keyCode === 13){ 
+  const handleInputSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) {
       onSubmit?.();
     }
-  }
+  };
 
   return (
     <Input
