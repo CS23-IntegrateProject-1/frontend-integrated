@@ -15,13 +15,13 @@ const getCartMenuItem = async (type: string, menuid: string) => {
     return response.data;
   };
 
-interface MenuDetailProps {
-    id:number;
-    name:string;
-    price:number;
-    description:string;
-    image_url:string;
-}
+// interface MenuDetailProps {
+//     id:number;
+//     name:string;
+//     price:number;
+//     description:string;
+//     image_url:string;
+// }
 export const CartMenuDetail: FC = () => {
     const {type, menuid} = useParams();
     //console.log(menuid);
@@ -48,24 +48,23 @@ export const CartMenuDetail: FC = () => {
     };
     const handleDelete = async () =>{
         try{
-            const response = await Axios.delete(`/feature7/delete${type}/${menuid}`);
-            console.log("Menu Deleted:",response.data);
+            const response = await Axios.delete(`/feature7/delete${type}FromCookie/${menuid}`);
+            console.log("Item Deleted From Cart:",response.data);
         } catch(error){
-            console.error("Error deleting menu:", error);
+            console.error("Error deleting item:", error);
         }
-
-        }
+    }
     
     const handleAddToCart = async () => {
         try {
             if (amount > 0) {
-            const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
-                quantity : amount,
-            });
-            console.log(response.data);
-        }else{
-            await handleDelete();
-        }
+                const response = await Axios.post(`/feature7/add${type}ToCookie/${menuid}`, { 
+                    quantity : amount,
+                });
+                console.log(response.data);
+            } else if (amount == 0){
+                await handleDelete();
+            }
         } catch (error) {
             console.error("Error adding to cart:", error);
         }

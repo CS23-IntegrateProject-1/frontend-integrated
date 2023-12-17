@@ -11,13 +11,13 @@ interface foodItems {
 }
 
 interface BusCompleteCardProps {
-    id: number;
+    // id: number;
     items?: foodItems[];
     tableNo: number;
     orderDate: string;
-};
+}
 
-export const BusCompleteCard: FC<BusCompleteCardProps>= ({id,items,tableNo,orderDate}) => {
+export const BusCompleteCard: FC<BusCompleteCardProps>= ({items,tableNo,orderDate}) => {
     return (
         <Flex 
             flexDirection={"column"}
@@ -39,24 +39,26 @@ export const BusCompleteCard: FC<BusCompleteCardProps>= ({id,items,tableNo,order
                 <Text {...textStyles.h3} color="white" lineHeight="1.5" justifyContent="flex-end">
                     {/* 1/1/2021 */}
                     <Icon as={TimeIcon} w={4} h={4} color="white" mr={1} />
-                    {formatDatetime1(orderDate)}
+                    {orderDate}
                 </Text>
                
             </HStack>
             <VStack align="start" spacing={2} mt={1}>
+            {items?.map((item) => (
                 <Box width="100%">
                 <Flex justifyContent="space-between" alignItems="flex-start">
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" >
                         {/* Set food Name Integrate */}
-                        foodName steak steak
+                        {item.menuName || item.setName}
                     </Text>
                      <Spacer />
                     <Text {...textStyles.h3} color="white" lineHeight="1.5" alignItems="flex-end" >
                         {/* Set food Name Integrate */}
-                        x 1000000000
+                        x{item.quantity}
                     </Text>
                 </Flex>
                 </Box>
+                ))}
             </VStack>
         </Flex>
     )

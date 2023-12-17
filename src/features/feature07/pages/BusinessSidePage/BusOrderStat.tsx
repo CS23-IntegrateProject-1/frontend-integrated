@@ -4,9 +4,11 @@ import { RButton } from '../../component/RButton';
 import { useParams } from 'react-router-dom';
 
 import { Axios } from '../../../../AxiosInstance';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { BusOngoCard } from '../../component/BusOngoCard';
 import { BusCompleteCard } from '../../component/BusCompleteCard';
+import { FullPageLoader } from '../../../../components/Loader/FullPageLoader';
+import { formatDatetime1 } from '../../../../functions/formatDatetime';
 
 type OrderStatus = 'Preparing' | 'Completed';
 
@@ -17,6 +19,7 @@ export const BusOrderStat: React.FC = () => {
   const [status, setStatus] = useState<OrderStatus>('Preparing');
 
   const { venueId } = useParams();
+  const queryClient = useQueryClient();
 
   const handleButtonClick = (newStatus: OrderStatus) => {
     setStatus(newStatus);
@@ -25,17 +28,36 @@ export const BusOrderStat: React.FC = () => {
     setBorderColor(newStatus === 'Preparing' ? 'brand.200' : 'brand.400');
   };
 
-  const { data: ongoingOrderDetails } = useQuery(['ongoingOrderDetails'], async () => {
+
+
+  // const { data: tableNumber } = useQuery(['tableNumber'], async () => {
+  //   const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
+  //   console.log("Table:" ,response.data);
+  //   return response.data.getTable;
+  // });
+
+  const { data: ongoingOrderDetails, isLoading: ongoingLoading, isError: ongoingError } = useQuery(['ongoingOrderDetails'], async () => {
     const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
     console.log("Ongoing:" ,response.data);
     return response.data;
   });
+  
 
-  const { data: completedOrderDetails } = useQuery(['completedOrderDetails'], async () => {
+  const { data: completedOrderDetails, isLoading: completedLoading, isError: completedError } = useQuery(['completedOrderDetails'], async () => {
     const response = await Axios.get(`/feature7/completedOrderDetailsInBusiness/${venueId}`);
     console.log("Completed:" ,response.data);
     return response.data;
   });
+
+  if(ongoingLoading && completedLoading){
+    return <FullPageLoader />
+  }
+  if(ongoingError && completedError){
+    return <div>Something went wrong</div>
+  }
+  const invalidateOngoingOrderDetails = () => {
+    queryClient.invalidateQueries('ongoingOrderDetails');
+  };
 
   const renderCard = () => {
     switch (status) {
@@ -45,11 +67,15 @@ export const BusOrderStat: React.FC = () => {
             //     <BusOngoCard />
             // </VStack>
             <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-                {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
+                { ongoingOrderDetails && ongoingOrderDetails.map((order,index) => (
+                  // const orderDetails = ongoingOrderDetails[index];
+                  // return (
                     <BusOngoCard 
-                    key={order.orderDetailId} /* Use unique key */ 
-                    id={order.menuId !== null ? order.menuId : order.setId}
-
+                    key={index} /* Use unique key */ 
+                    tableNo={order.table.tableId}
+                    orderDate={formatDatetime1(order.table.orderDate)}
+                    items={order.orderDetails}
+                    invalidateOngoingOrderDetails={invalidateOngoingOrderDetails}
                      />
                 ))}
             </VStack>
@@ -60,12 +86,13 @@ export const BusOrderStat: React.FC = () => {
             //     <BusCompleteCard />
             // </VStack>
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {completedOrderDetails && completedOrderDetails.map((order: any) => (
+            {completedOrderDetails && completedOrderDetails.map((order, index) => (
               <BusCompleteCard 
-              key={order.orderDetailId} /* Use unique key */ 
-              id={order.menuId !== null ? order.menuId : order.setId}
-              tableNo={order.table.tableId}
-              orderDate={order.order_time}/>
+                key={index} /* Use unique key */ 
+                tableNo={order.table.tableId}
+                orderDate={formatDatetime1(order.table.orderDate)}
+                items={order.orderDetails}
+              />
             ))}
           </VStack>
         );
