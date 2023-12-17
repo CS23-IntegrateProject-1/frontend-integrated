@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-type Order = {
+interface Order  {
   userId: number;
   venueId: number;
   order_date: Date;
@@ -29,7 +29,7 @@ type Order = {
   orderId: number;
   status: string;
   reserveId: null;
-};
+}
 
 export const OrderUpdateNoti = () => {
   const [userData, setUserData] = useState('');
@@ -78,6 +78,7 @@ export const OrderUpdateNoti = () => {
   useEffect(() => {
     fetchOrderData();
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]); // Include orderId as a dependency to re-run the effect when it changes
 
   console.log('Order Data: ', order);
@@ -108,18 +109,18 @@ export const OrderUpdateNoti = () => {
               <TableContainer>
                 <Table variant={'simple'}>
                   <Tbody>
-                    {/* {Array.isArray(order) && order.length > 0 ? (
+                    {Array.isArray(order) && order.length > 0 ? (
                       order.map((item) => (
                         <Tr key={item.orderId}>
                           <Td>{item.status}</Td>
                           <Td>{item.total_amount}</Td>
                         </Tr>
                       ))
-                    ) : ( */}
+                    ) : (
                       <Tr>
                         <Td colSpan={2}>No orders found</Td>
                       </Tr>
-                    {/* )} */}
+                    )}
                   </Tbody>
                 </Table>
               </TableContainer>
