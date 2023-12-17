@@ -36,9 +36,10 @@ export const SetUpGroup = () => {
     const allData = new FormData();
     allData.append("group_name", groupName);
     allData.append("group_img", groupImg);
-    // allData.append("members", selectedFriends.map((friend: any) => {
-    //   return friend.user_id;
-    // }));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
+      return friend.user_id;
+    }));
     const url = `/feature1/group/add`;
     Axios.post(
       url,

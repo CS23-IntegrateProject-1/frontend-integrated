@@ -16,6 +16,7 @@ import { AddFriend } from './Pages/AddFriends/AddFriend'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
 import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
 import { QRScanner } from './Pages/AddFriends/QRScanner'
+import { HelpDesk } from './Pages/help/HelpDesk'
 export const Feature01Routes = () => {
   return [
     {
@@ -58,6 +59,10 @@ export const Feature01Routes = () => {
     {
       path: "/setting/help",
       element: <Help />,
+    },
+    {
+      path: "/setting/helpdesk",
+      element: <HelpDesk />,
     },
     {
       path: "/setting/about",

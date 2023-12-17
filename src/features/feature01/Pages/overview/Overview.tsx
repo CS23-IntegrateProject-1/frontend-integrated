@@ -252,7 +252,7 @@ export const Overview = () => {
         />
       </GridItem>
     </Grid>
-        {/* Drawer set primary method*/}
+        {/* Drawer for sign out*/}
       <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
         <DrawerContent
           bg={"brand.100"}
