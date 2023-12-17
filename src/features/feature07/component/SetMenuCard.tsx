@@ -1,5 +1,5 @@
-import { Box, Flex, Image, Text, IconButton, VStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
+import { FC } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 
 
@@ -10,7 +10,7 @@ interface SetMenuCardProps {
   price: number;
   imageUrl: string;
   onClick?: () => void;
-};
+}
 
 export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,imageUrl,onClick}) => {
 
@@ -25,12 +25,10 @@ export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,ima
     cursor={onClick ? "pointer" : "default"} 
     onClick={onClick} >
       
-    <Flex justifyContent="center" >
+    <Flex justifyContent="center" width="140px" height="105px">
       <Image 
-      src="/src/features/feature07/assets/test.jpg"
-      // alt="integrate" 
-      // src={imageUrl}
-      alt={foodName}
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 
@@ -40,7 +38,7 @@ export const SetMenuCard: FC<SetMenuCardProps>= ({foodName,description,price,ima
       />
     </Flex>
    
-    <VStack alignItems="left" mt={2} ml={2}>
+    <VStack alignItems="left" mt={2} ml={2} flex="1">
       <Box>
         <Text {...textStyles.h2} color="white" 
         lineHeight="1.5" >

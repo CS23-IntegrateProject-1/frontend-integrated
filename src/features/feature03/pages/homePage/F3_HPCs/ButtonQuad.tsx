@@ -55,7 +55,7 @@ export const ButtonQuad = () => {
         </Card>
       </NavLink>
 
-      <NavLink to="/Community">
+      <NavLink to="/communitychat">
         <Card sx={cardStyle}>
           <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
             <HStack justifyContent={"center"}>

@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text,  VStack } from "@chakra-ui/react";
-import { FC,useState } from "react";
+import { FC } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 
 
@@ -10,9 +10,9 @@ interface PreparedMenuCardProps {
   price: number;
   imageUrl: string;
   amount: number;
-};
+}
 
-export const PreparedMenuCard: FC<PreparedMenuCardProps>= ({id,foodName,description,price,imageUrl,amount}) => {
+export const PreparedMenuCard: FC<PreparedMenuCardProps>= ({foodName,description,price,imageUrl,amount}) => {
 
   return (
     <Flex 
@@ -25,8 +25,9 @@ export const PreparedMenuCard: FC<PreparedMenuCardProps>= ({id,foodName,descript
      >
       
     <Flex justifyContent="center" >
-      <Image src="/src/features/feature07/assets/test.jpg"
-      alt="integrate" 
+      <Image 
+      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
+      alt={imageUrl ? foodName : ''}
       objectFit="cover" 
       mt={0.5}
       width="140px" 

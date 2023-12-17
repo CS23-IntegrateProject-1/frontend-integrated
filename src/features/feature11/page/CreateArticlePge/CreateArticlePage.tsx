@@ -13,44 +13,29 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { AutoResizeTextarea } from "../../components/AutoResizeTextArea";
 import { Axios } from "../../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { TextStyle } from "../../../../theme/TextStyle";
-
-interface ImageProps {
-  url: string;
-  description: string;
-}
-interface VenueProps {
-  venueId: number;
-  name: string;
-}
-
-// const fetchVenues = async (): Promise<VenueProps[]> => {
-//   try {
-//     const venues = await Axios.get("/feature11/fetchAllVenueName");
-//     return venues.data; // Extract the data from the response
-//   } catch (error) {
-//     console.error("Error fetching venues:", error);
-//     throw new Error("Failed to fetch venues");
-//   }
-// };
+import { VenueProps } from "../../../../interfaces/feature11/ArticleType";
+import { useCustomToast } from "../../../../components/useCustomToast";
+import { useNavigate } from "react-router-dom";
 
 export const CreateArticlePage = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string>("Blog");
   const [selectedVenues, setSelectedVenues] = useState<VenueProps[]>([]);
   const [topic, setTopic] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
-  const [images, setImages] = useState<ImageProps[]>([]);
+  const [images, setImages] = useState<File[] | null>([]);
+  const toast = useCustomToast();
+  const navigate = useNavigate();
+
   const [venues, setVenues] = useState<VenueProps[]>([]);
   useEffect(() => {
     Axios.get("/feature11/fetchAllVenueName")
@@ -64,15 +49,6 @@ export const CreateArticlePage = () => {
   if (venues.length === 0) {
     return <FullPageLoader />;
   }
-
-  // const venues = useQuery({ queryKey: ["veueNames"], queryFn: fetchVenues });
-  // if (venues.status == "loading") {
-  //   return <span>Loading...</span>;
-  // }
-
-  // if (venues.error instanceof Error) {
-  //   return <div>An error occurred: {venues.error.message}</div>;
-  // }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTopic(e.target.value);
@@ -110,42 +86,62 @@ export const CreateArticlePage = () => {
     setTags(updatedTags);
   };
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileList = Array.from(e.target.files);
+      setImages(fileList);
+    }
+  };
+
   const handleCreateArticle = () => {
     if (
       topic === "" ||
       content === "" ||
       selectedVenues.length === 0 ||
-      authorName === "" 
-      // images.length === 0
+      authorName === "" ||
+      images?.length === 0
     ) {
-      alert("Please fill in all the fields");
+      toast.warning("Please fill in all fields");    
+      toast.error("Please fill in all fields");
+
       return;
     }
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
 
-    Axios.post("/feature11/addArticle", {
-      topic: topic,
-      content: content,
-      // category: category,
-      category: category,
-      // author_name: authorName,
-      author_name: authorName,
-      venueIds: selectedVenueIds,
-      tags: tags,
-      images: [
-        {
-          url: "/test.jpg",
-          description: "test",
-        },
-      ],
+    const formData = new FormData();
+    formData.append("topic", topic);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("author_name", authorName);
+    for (let i = 0; i < selectedVenueIds.length; i++) {
+      formData.append("venueIds[]", selectedVenueIds[i].toString());
+    }
+    tags.forEach((tag) => {
+      formData.append("tags[]", tag);
+    });
+    if (images) {
+      images.forEach((image) => {
+        formData.append("files", image);
+      });
+    } else {
+      console.log("no images");
+    }
+    Axios.post("/feature11/addArticle", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then((res) => {
         console.log(res);
-        // alert("Article created");
+        toast.success("Article created successfully");
+        setTimeout(() => {
+          navigate("/article/myarticles");
+        }, 500);
       })
       .catch((err) => {
+        toast.error("Error creating article");
         console.log("error", err);
       });
   };
@@ -174,6 +170,18 @@ export const CreateArticlePage = () => {
       </FormControl>
       <FormControl id="title" w={"95%"} isRequired></FormControl>
       <Divider />
+      {/* =============== Image ================== */}
+      <FormControl>
+        <FormLabel style={TextStyle.h3}>Images</FormLabel>
+        <Input
+          variant={"unstyled"}
+          type="file"
+          multiple //if single file remove "multiple"
+          onChange={handleFileChange}
+        />
+      </FormControl>
+
+      {/* =============== Author Name ================== */}
       <FormControl
         display={"flex"}
         flexDirection={"row"}
@@ -193,6 +201,8 @@ export const CreateArticlePage = () => {
           onChange={(e) => setAuthorName(e.target.value)}
         />
       </FormControl>
+
+      {/* =============== Category ==================*/}
       <FormControl
         display={"flex"}
         flexDirection={"row"}
@@ -216,56 +226,70 @@ export const CreateArticlePage = () => {
         </Select>
       </FormControl>
 
-      <Box mt={"10px"} w={"100%"} display={"flex"}>
-        <InputGroup
-          justifyContent="center"
-          alignItems="center"
-          mr={"0.5em"}
-          w={"40%"}
-          maxW={"250px"}
-        >
-          <Input
-            type="text"
-            size="sm"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            placeholder="add tag"
-          />
-          <InputRightElement>
-            <IconButton
-              textColor={"white"}
-              variant={"link"}
-              fontSize={"20px"}
-              isRound={true}
-              aria-label="add tag"
-              icon={<IoAddCircleSharp />}
-              size={"xs"}
-              onClick={() => {
-                handleAddTag(tagInput);
-              }}
+      {/* ============= TAG===========  */}
+      <FormControl display={"flex"} alignItems={"flex-end"}>
+        <Box>
+          <FormLabel display={"inline"} fontSize={"xs"}>
+            Add tag
+          </FormLabel>
+          <InputGroup
+            justifyContent="center"
+            alignItems="center"
+            mr={"0.5em"}
+            w={"150px"}
+            size={"sm"}
+          >
+            <Input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="add tag"
             />
-          </InputRightElement>
-        </InputGroup>
-        <HStack>
-          {tags.map((value) => (
+            <InputRightElement>
+              <IconButton
+                textColor={"white"}
+                variant={"unstyled"}
+                // isRound={true}
+                aria-label="add tag"
+                icon={<IoAddCircleSharp />}
+                size={"xs"}
+                fontSize={"xl"}
+                onClick={() => {
+                  handleAddTag(tagInput);
+                  setTagInput("");
+                }}
+              />
+            </InputRightElement>
+          </InputGroup>
+        </Box>
+        <HStack
+          spacing={2}
+          // overflow={"scroll"}
+          overflowX={"auto"} // Enable horizontal scrolling
+          maxW={"calc(100% - 150px)"} // Limit maximum width
+        >
+          {tags.map((value, index) => (
             <Tag
-              size={"sm"}
-              key={value}
+              key={index}
+              size="md"
               borderRadius="full"
-              variant="solid"
+              variant="subtle"
+              minWidth={"fit-content"}
               bgColor={"brand.200"}
+              color={"white"}
             >
               <TagLabel>{value}</TagLabel>
               <TagCloseButton onClick={() => handleRemoveTag(value)} />
             </Tag>
           ))}
         </HStack>
-      </Box>
+      </FormControl>
+      {/* ============= SELECT VENUE ===========  */}
 
       <FormControl display={"flex"}>
         <Box w={"150px"} mr={"0.5em"}>
           <FormLabel display={"inline"} fontSize={"xs"}>
-            Select Venue Names
+            Select Venue
           </FormLabel>
           <Select
             size={"sm"}

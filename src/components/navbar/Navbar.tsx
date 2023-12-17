@@ -9,12 +9,18 @@ import { HamburgerIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { NavbarContent } from "./NavbarContent";
 import { useLocation } from "react-router-dom";
 import { getPageTitle } from "../../functions/getPageTitle";
+import { FC } from "react";
+import { NavbarBusiness } from "./NavbarBusiness";
+import { NavbarAdmin } from "./NavbarAdmin";
 
-export const Navbar = () => {
+interface NavbarProps {
+  role?: string;
+}
+
+export const Navbar: FC<NavbarProps> = ({ role }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
-
   const handleOpenNav = () => {
     onOpen();
   };
@@ -64,7 +70,15 @@ export const Navbar = () => {
       />
 
       <Box position={"absolute"} top={"0"} left={"0"}>
-        <NavbarContent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        {role == "customer" ? (
+          <NavbarContent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        ) : role == "business" ? (
+          <NavbarBusiness isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        ) : role == "admin" ? (
+          <NavbarAdmin isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        ) : (
+          <NavbarContent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        )}
       </Box>
     </Flex>
   );
