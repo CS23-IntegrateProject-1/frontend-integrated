@@ -1,5 +1,5 @@
-import { Box, Text, Input, Button, Image  } from "@chakra-ui/react";
-
+import { Box, Image  } from "@chakra-ui/react";
+import qrcodehmoni from "./../../feature06/components/img/qrcodehamoni.png";
 
 export const QrcodeConfirm = () => {
   return (

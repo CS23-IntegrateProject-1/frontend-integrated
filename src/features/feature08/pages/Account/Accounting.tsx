@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Table,
   Thead,
@@ -120,7 +121,8 @@ export const Accounting = () => {
     const aggregatedData: Record<string, { total: number; details: unknown[] }> = {};
 
     // Aggregate amounts for transactions with the same date
-    Object.entries(appTransactionByMonth).forEach(([, detailsArray]) => {
+    Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
+      monthKey;
       detailsArray.forEach((details) => {
         const formattedDate = format(
             utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),

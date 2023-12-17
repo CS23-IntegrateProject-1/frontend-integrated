@@ -1,11 +1,9 @@
 import {
   Box,
-  Image, 
+  Image,
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
-import { FC } from "react";
 
 interface RDetailCardProps {
   name?: string;

@@ -64,15 +64,15 @@ export const ReviewDelivery = () => {
           isInvalid={isError}
           borderColor="white"
           focusBorderColor="brand.300"
-          errorBorderColor="red"
-          type="email"
+          errorBorderColor="red.300"
+          type="text"
           value={input}
           onChange={handleInputChange}
         />
         {!isError ? (
           <FormHelperText></FormHelperText>
         ) : (
-          <FormErrorMessage textColor="red">*Required</FormErrorMessage>
+          <FormErrorMessage borderColor="red" textColor="red">*Required</FormErrorMessage>
         )}
       </FormControl>
       <Button

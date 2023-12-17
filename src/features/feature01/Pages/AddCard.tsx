@@ -99,7 +99,7 @@ export const AddCard = () => {
     };
 
      useEffect(() => {
-        const url = `http://localhost:8080/feature8/creditcardU/${cardInfo}`;        
+        const url = `/feature8/creditcardU/${cardInfo}`;        
         Axios.get(url, {withCredentials: true})
         .then((res) => {
             if(res.status === 200){
@@ -116,9 +116,9 @@ export const AddCard = () => {
             console.log(err);
         });
         
-        },[]);
+        },[cardInfo, cardName]);
      const handleUpdate = () => {
-        const url = `http://localhost:8080/feature8/update_creditcard/${cardInfo}`;
+        const url = `/feature8/update_creditcard/${cardInfo}`;
         Axios.patch(url, {
             card_no: cardNumber,
             name: cardName,

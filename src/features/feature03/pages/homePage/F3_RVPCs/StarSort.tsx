@@ -71,7 +71,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
     <Box>
       <Flex direction="row" mt="2">
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveStar("5") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveStar("5") ? "#fcda12" : "brand.300", textColor: isActiveStar("5") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -86,7 +86,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
         </Button>
         {/* ///////////////////////////////////////////////// */}
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveStar("4") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveStar("4") ? "#fcda12" : "brand.300", textColor: isActiveStar("4") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -101,7 +101,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
         </Button>
         {/* ///////////////////////////////////////////////// */}
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveStar("3") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveStar("3") ? "#fcda12" : "brand.300", textColor: isActiveStar("3") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -116,7 +116,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
         </Button>
         {/* ///////////////////////////////////////////////// */}
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveStar("2") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveStar("2") ? "#fcda12" : "brand.300", textColor: isActiveStar("2") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -131,7 +131,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
         </Button>
         {/* ///////////////////////////////////////////////// */}
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveStar("1") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveStar("1") ? "#fcda12" : "brand.300", textColor: isActiveStar("1") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -148,7 +148,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
       {/************************************************************ */}
       <Flex mt={3}>
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveType("Reservation") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveType("Reservation") ? "#fcda12" : "brand.300", textColor: isActiveType("Reservation") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",
@@ -159,7 +159,7 @@ export const StarSort = ({reviewFilter, setReviewFilter }:StarSortProps) => {
           <Text fontSize={{ base: "sm", lg: "lg" }} mx={1}>Reservation</Text>
         </Button>
         <Button
-          sx={{...starSortBox, backgroundColor: isActiveType("Delivery") ? "brand.100" : "brand.300"}}
+          sx={{...starSortBox, backgroundColor: isActiveType("Delivery") ? "#fcda12" : "brand.300", textColor: isActiveType("Delivery") ? "black" : "white"}}
           textColor={"white"}
           _hover={{
             backgroundColor: "brand.100",

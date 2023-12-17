@@ -1,4 +1,11 @@
-import { Box, Icon, Text, Button, Fade, } from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  Box,
+  Icon,
+  Text,
+  Button,
+
+} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";

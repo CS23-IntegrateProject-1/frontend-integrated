@@ -1,8 +1,19 @@
-import { Box, Button, Center, FormControl, FormLabel, Icon, IconButton, Select, Stack, Text, useDisclosure} from "@chakra-ui/react";
+3;
+import {
+  Box,
+  Button,
+  Center,
+  FormControl,
+  FormLabel,
+  Icon,
+  IconButton,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Textarea } from "@chakra-ui/react";
-import { Radio, RadioGroup, Image } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -10,24 +21,38 @@ import {
   ModalHeader,
   ModalFooter,
   ModalCloseButton,
-} from '@chakra-ui/react'
-import { useNavigate } from "react-router-dom";
+} from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
+import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
+import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
+import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
 
 export const AdvertisementIDPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [data, setData] = useState<IAd_business>();
+  const id = Number(useParams<{ id: string }>().id);
+  const fetchDatas = async () => {
+    const result = await GetBusinessAdsById(id);
+    setData(result?.data);
+  };
+  useEffect(() => {
+    fetchDatas();
+  });
   const navigate = useNavigate();
   const handleClickReject = () => {
-    navigate("/advertisement/:id/reject");
+    navigate(`/admin/advertisement/${id}/reject`);
   };
   const handleClickConfirm = () => {
-    navigate("/advertisement");
+    ApproveAds(id);
+    navigate("/admin/advertisement");
+    location.reload();
   };
 
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -46,7 +71,7 @@ export const AdvertisementIDPage = () => {
       }
     };
   }, [imagePreview]);
-  
+  console.log(files);
   return (
     <Box
       display={"flex"}
@@ -55,7 +80,6 @@ export const AdvertisementIDPage = () => {
       alignItems={"center"}
       width={"100%"}
     >
-
       {/* Name * */}
       <Box
         paddingBottom={3}
@@ -69,12 +93,17 @@ export const AdvertisementIDPage = () => {
           {" "}
           Name *
         </Text>
-        <Input
+        {/* <Input
           variant="name"
           placeholder="Filled"
           style={{ width: "auto" }}
           color={"black"}
-        />
+        /> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            {data?.name}
+          </Text>
+        </Box>
       </Box>
 
       {/* Description * */}
@@ -90,12 +119,17 @@ export const AdvertisementIDPage = () => {
           {" "}
           Description *
         </Text>
-        <Textarea
+        {/* <Textarea
           variant="name"
           placeholder="Filled"
           width="auto"
           color={"black"}
-        />
+        /> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            {data?.description}
+          </Text>
+        </Box>
       </Box>
 
       {/* Starting Date * & Ending Date * */}
@@ -113,14 +147,24 @@ export const AdvertisementIDPage = () => {
             {" "}
             Starting Date *
           </Text>
-          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+          {/* <Input size={"xs"} type="date" color="black" bg={"white"}></Input> */}
+          <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+            <Text color={"#000000"} paddingLeft={"5px"}>
+              {data?.start_date.substring(0, 10)}
+            </Text>
+          </Box>
         </Box>
         <Box flex={"1"}>
           <Text style={TextStyle.h2} color={"white"}>
             {" "}
             Ending Date *
           </Text>
-          <Input size={"xs"} type="date" color="black" bg={"white"}></Input>
+          {/* <Input size={"xs"} type="date" color="black" bg={"white"}></Input> */}
+          <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+            <Text color={"#000000"} paddingLeft={"5px"}>
+              {data?.end_date.substring(0, 10)}
+            </Text>
+          </Box>
         </Box>
       </Box>
 
@@ -197,14 +241,24 @@ export const AdvertisementIDPage = () => {
         flexDirection={"column"}
         paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+        <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
           Target customer
         </FormLabel>
-        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+        {/* <Select
+          bgColor={"#FFFFFF"}
+          borderColor={"#FFFFFF"}
+          placeholder=" "
+          iconColor="black"
+        >
           <option value="option1">All</option>
           <option value="option2">Member</option>
-        </Select>
+        </Select> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            {data?.customer_type}
+          </Text>
+        </Box>
       </FormControl>
 
       {/* Target group */}
@@ -217,16 +271,26 @@ export const AdvertisementIDPage = () => {
         flexDirection={"column"}
         paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+        <FormLabel style={TextStyle.h2} color={"white"}>
           {" "}
           Target group
         </FormLabel>
-        <Select bgColor={"#FFFFFF"} borderColor={"#FFFFFF"} placeholder=" " iconColor="black">
+        {/* <Select
+          bgColor={"#FFFFFF"}
+          borderColor={"#FFFFFF"}
+          placeholder=" "
+          iconColor="black"
+        >
           <option value="option1">Teen</option>
           <option value="option2">young Adult</option>
           <option value="option3">adult</option>
           <option value="option4">elder</option>
-        </Select>
+        </Select> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            {data?.target_group}
+          </Text>
+        </Box>
       </FormControl>
 
       <Box
@@ -241,28 +305,18 @@ export const AdvertisementIDPage = () => {
           {" "}
           Advertisement plan
         </Text>
-        <RadioGroup defaultValue="2">
+        {/* <RadioGroup defaultValue="2">
           <Stack spacing={1} direction="column">
             <Radio value="1">100 Baht/Week</Radio>
             <Radio value="2">300 Baht/Month</Radio>
             <Radio value="3">3,600 Baht/Year</Radio>
           </Stack>
-        </RadioGroup>
-      </Box>
-
-      <Box
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={8}
-      >
-        <Select placeholder="Payment method" style={TextStyle.h1}>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
-        </Select>
+        </RadioGroup> */}
+        <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
+          <Text color={"#000000"} paddingLeft={"5px"}>
+            {data?.cost}
+          </Text>
+        </Box>
       </Box>
 
       <Box
@@ -274,17 +328,17 @@ export const AdvertisementIDPage = () => {
         paddingBottom={3}
         justifyContent={"space-evenly"}
       >
-        <Button 
-        colorScheme="gray" 
-        variant="solid" 
-        width="40%" 
-        color="#A533C8"
-        onClick={handleClickReject}
+        <Button
+          colorScheme="gray"
+          variant="solid"
+          width="40%"
+          color="#A533C8"
+          onClick={handleClickReject}
         >
           Reject
         </Button>
 
-        <Button 
+        <Button
           backgroundColor="#A533C8"
           variant="solid"
           width="40%"
@@ -294,18 +348,32 @@ export const AdvertisementIDPage = () => {
           Accept
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
-          <ModalHeader mt={3}>The request has been approved</ModalHeader>
-          <ModalCloseButton />
-          <ModalFooter>
-            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>
-            <Button bgColor={"#A533C8"} mr={3} onClick={handleClickConfirm} color={"white"} width="30%">
-              Confirm
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>The request has been approved</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickConfirm}
+                color={"white"}
+                width="30%"
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </Box>
   );

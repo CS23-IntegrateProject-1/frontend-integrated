@@ -81,7 +81,7 @@ export const CreateGroup = () => {
             .catch((error) => {
                 console.error("Error fetching user list data:", error);
             });
-    }, []);
+    }, [friData, profileData]);
 
     const handleSearch = () => {
         console.log("search");

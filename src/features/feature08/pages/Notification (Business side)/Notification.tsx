@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
@@ -54,13 +53,17 @@ const formatDate = (dateString: string) => {
 
 export const Notification = () => {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
-  const [,setUserData] = useState('');
-  const [, setUserId] = useState('');
+  const [userData, setUserData] = useState('');
+  userData;
+  const [userId, setUserId] = useState('');
+  userId;
   const [reservation,setReservation] =useState<Reservation[]>([]);
   const { venueId } = useParams()
   const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>({});
-  const [, setAdvertisementData] = useState<any[]>([]);
-  const [,setBusinessId] = useState();
+  const [advertisementData, setAdvertisementData] = useState<any[]>([]);
+  advertisementData;
+  const [businessId, setBusinessId] = useState();
+  businessId;
   const [businessAdver, setbusinessAdver] =useState<advernoti[]>([]); 
   const [businessAdMain, setBusinessAdMain ] = useState();
 

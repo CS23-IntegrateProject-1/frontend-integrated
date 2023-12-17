@@ -11,8 +11,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { center } from "../../../feature04/components/Maps/setting";
+import { Link } from "react-router-dom";
 
 interface ReservationCard {
   venueId: number;
@@ -47,8 +46,12 @@ export const Reservation = () => {
     offline: true,
     online: true,
   });
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
+  setFilterOptions({
+    offline: true,
+    online: true,
+  })
+  
   useEffect(() => {
     fetchData();
   }, []);

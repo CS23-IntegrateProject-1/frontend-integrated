@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -22,7 +22,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 import colors from "../../../theme/foundations/colors";
 import { Axios } from "../../../AxiosInstance";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 // Define interface for the saved location item
 interface SavedLocationItem {
@@ -42,7 +42,7 @@ interface SavedLocationInterface{
   location: SavedLocationItem[];
 }
 
-const queryClient = new QueryClient(); // Create a new instance of QueryClient
+// const queryClient = new QueryClient(); // Create a new instance of QueryClient
 
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

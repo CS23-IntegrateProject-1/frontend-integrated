@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import { Flex, Box, Text, Spacer } from '@chakra-ui/react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';

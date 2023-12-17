@@ -23,51 +23,65 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
   }
 
   return (
-    <Flex 
-    borderWidth="1px" 
-    borderRadius="md" 
-    width="319px" 
-    height="120px" 
-    p={1} 
-    borderColor={"brand.100"}
-     >
-      
-    <Flex justifyContent="center" >
-      <Image 
-      // src="/src/features/feature07/assets/test.jpg"
-      // alt="integrate" 
-      src={imageUrl ? `http://localhost:8080/uploads/${imageUrl}` : '/src/features/feature07/assets/test.jpg'}
-      alt={imageUrl ? foodName : ''}
-      objectFit="cover" 
-      mt={0.5}
-      width="140px" 
-      height="105px"
-      borderRadius="5px"
-      position="relative"
-      />
-    </Flex>
-   
-    <VStack alignItems="left" mt={2} ml={2}>
-      <Box>
-        <Text {...textStyles.h2} color="white" 
-        lineHeight="1.5" >
-           {/* Prepare food Name  */}
-          {foodName}
-        </Text>
-        <Text {...textStyles.body3} color="white"
-         lineHeight="2" >
-          {/* Price Integrate */}
-          {`${price*amount} baht`}
-        </Text>
-        <HStack justifyContent="space-between" alignItems="center" width="100%" mt={5}>
-        <ButtonComponent text="Edit" width={"100px"} height={"30px"} onClick={() => handleMenuEdit(type, `${id}`)}/>
-        <Text {...textStyles.h2} color="white" lineHeight="1" justifyContent="flex-end" ml={6} >
-              x{amount}
-        </Text>
-        </HStack>
-      </Box>
-    </VStack>
-    </Flex>
+		<Flex
+			borderWidth="1px"
+			borderRadius="md"
+			width="319px"
+			height="120px"
+			p={1}
+			borderColor={"brand.100"}>
+			<Flex justifyContent="center">
+				<Image
+					// src="/src/features/feature07/assets/test.jpg"
+					// alt="integrate"
+					src={
+						imageUrl
+							? `${import.meta.env.VITE_BACKEND_URL}${imageUrl}`
+							: "/src/features/feature07/assets/test.jpg"
+					}
+					alt={imageUrl ? foodName : ""}
+					objectFit="cover"
+					mt={0.5}
+					width="140px"
+					height="105px"
+					borderRadius="5px"
+					position="relative"
+				/>
+			</Flex>
+
+			<VStack alignItems="left" mt={2} ml={2}>
+				<Box>
+					<Text {...textStyles.h2} color="white" lineHeight="1.5">
+						{/* Prepare food Name  */}
+						{foodName}
+					</Text>
+					<Text {...textStyles.body3} color="white" lineHeight="2">
+						{/* Price Integrate */}
+						{`${price * amount} baht`}
+					</Text>
+					<HStack
+						justifyContent="space-between"
+						alignItems="center"
+						width="100%"
+						mt={5}>
+						<ButtonComponent
+							text="Edit"
+							width={"100px"}
+							height={"30px"}
+							onClick={() => handleMenuEdit(type, `${id}`)}
+						/>
+						<Text
+							{...textStyles.h2}
+							color="white"
+							lineHeight="1"
+							justifyContent="flex-end"
+							ml={6}>
+							x{amount}
+						</Text>
+					</HStack>
+				</Box>
+			</VStack>
+		</Flex>
   );
 };
 

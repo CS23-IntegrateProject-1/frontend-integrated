@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Checkbox, Button, Stack } from '@chakra-ui/react';
 
-const textColor = '#ffffff'; // สีข้อความ
+// const textColor = '#ffffff'; // สีข้อความ
 const checkboxColor = '#763FAF'; // สีกล่องเลือก
 
 

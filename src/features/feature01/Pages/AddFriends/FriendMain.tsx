@@ -114,7 +114,7 @@ export const FriendMain = () => {
     // .catch((error) => {
     //     console.error("Error fetching user list data:", error);
     // });
-  }, []);
+  }, [friData, groupData, profileData]);
   useEffect(() => {
     if (newGroup) {
       //group list
@@ -134,7 +134,7 @@ export const FriendMain = () => {
         });
       //setGroupData([...groupData, newGroup]);
     }
-  }, [newGroup]);
+  }, [groupData, newGroup]);
   //click frilist to show overlay
   const handleFriClick = (id: number) => {
     setSelectedFrigateId(id);
@@ -474,7 +474,6 @@ export const FriendMain = () => {
       {/* Overlay Box for friendlist search*/}
       <AlertDialog
         motionPreset="slideInBottom"
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         leastDestructiveRef={cancelRef as any}
         onClose={onClose}
         isOpen={isOpen}
@@ -577,7 +576,6 @@ export const FriendMain = () => {
       {/* Overlay Box for add fri*/}
       <AlertDialog
         motionPreset="slideInBottom"
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         leastDestructiveRef={cancelRef as any}
         onClose={onCloseAddFri}
         isOpen={isShowAddFri}

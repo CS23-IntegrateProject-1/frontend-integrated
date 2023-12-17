@@ -1,9 +1,9 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 export const StarReviewR:FC<{
-  setAvgRating: Function
+  setAvgRating: (AVGstarReviewD:number) => void
 }> = ({setAvgRating}) => {
   const [reserve, setReserveRating] = useState(1);
   const [table, setTableRating] = useState(1);
@@ -33,6 +33,10 @@ export const StarReviewR:FC<{
     }
     setAvgRating((reserve + table + ambiance + staff + rating) / 5);
   };
+
+  useEffect(() => {
+    setAvgRating((reserve + table + ambiance + staff + rating) / 5);
+  }, [reserve, table, ambiance, staff, rating, setAvgRating])
 
   return (
     <Flex
