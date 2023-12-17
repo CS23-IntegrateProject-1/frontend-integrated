@@ -6,6 +6,7 @@ import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingCom
 import index from "../../../../theme/foundations/index"
 export const CartDetail=()=>{
     return<Box>
+         <FoodStatus/>
         <Flex justifyContent={"center"}>
           <Text
             textAlign={"center"}
@@ -17,7 +18,6 @@ export const CartDetail=()=>{
           </Text>
         </Flex>
          <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)"/>
-         <FoodStatus/>
          <DeliveryTime/>
          <InCartMenu/>
     </Box>

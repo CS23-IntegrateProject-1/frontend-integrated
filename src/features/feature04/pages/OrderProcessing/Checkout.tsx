@@ -26,6 +26,8 @@ export const Checkout = () => {
   ];
   return (
     <Box>
+      <FoodStatus />
+<br/>
       <Flex justifyContent={"center"}>
         <Text
           textAlign={"center"}
@@ -37,7 +39,6 @@ export const Checkout = () => {
         </Text>
       </Flex>
       <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)" />
-      <FoodStatus />
       <SelectLocation
         mainAddress="69 Soi Chemchon Wat Khlong Toei Nai 1 Yaek 2"
         subAddress="Khlong Toei, Bangkok"

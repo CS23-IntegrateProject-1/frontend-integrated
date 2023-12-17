@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 interface MenuCompCard {
   menuName: string;
   price: number;
@@ -20,6 +20,7 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
   const navigateToDetail = () => {
     navigate('/map/food-delivery/food-detail');
   };
+  
 
   return (
     <Box>

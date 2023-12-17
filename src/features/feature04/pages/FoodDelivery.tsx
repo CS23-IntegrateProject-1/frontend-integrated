@@ -1,13 +1,19 @@
-import { Box, Button, Divider, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
-import { FaShoppingCart } from "react-icons/fa";
+// import { FaShoppingCart } from "react-icons/fa";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
 import index from "../../../theme/foundations/index";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const FoodDelivery = () => {
   const navigate = useNavigate();
   const navToCartDetail=()=>{
     navigate('/map/food-delivery/cart-detail')
+  }
+
+  const [numberInCart,setNumberInCart] = useState(0);
+  const addToCart=(amount)=>{
+    setNumberInCart(numberInCart+amount);
   }
   return (
     <Box>
@@ -47,7 +53,7 @@ const FoodDelivery = () => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            1
+            {numberInCart}
           </Text>
           <Text
             fontSize={index.textStyles.body1.fontSize}

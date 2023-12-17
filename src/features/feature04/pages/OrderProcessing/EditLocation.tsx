@@ -75,7 +75,7 @@ export const EditLocation = () => {
         </Box>
         <br />
         <FormControl>
-          <Input type="text" placeholder="Delivery instruction" />
+          <Input type="text" placeholder="Delivery instruction"/>
         </FormControl>
         <br />
         <Button

@@ -20,7 +20,8 @@ export const InCartMenu = () => {
   return (
     <Box mt={20}>
       <Box>
-        <Flex flexDir={"row"} justifyContent={"space-around"}>
+        <Flex flexDir={"row"} justifyContent={"space-around"} border={"solid 1.5px #DEBEF6"} borderRadius={10}p={3}>
+
           <img
             src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
             width="10%"

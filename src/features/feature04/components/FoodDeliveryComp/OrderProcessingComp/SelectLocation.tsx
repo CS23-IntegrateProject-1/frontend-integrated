@@ -14,16 +14,21 @@ import {
   ModalBody,
   Button,
   Divider,
+  Stack,
+  Input,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import textStyles from "../../../../../theme/foundations/textStyles";
+import colors from "../../../../../theme/foundations/colors";
 interface DeliveryLocationProps {
   mainAddress: string;
   subAddress: string;
 }
 export const SelectLocation = (props: DeliveryLocationProps) => {
-  const { isOpen,onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -55,10 +60,9 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
     );
   };
   const [value, setValue] = useState("1");
-
   const navigate = useNavigate();
-  const navigateEditLocation=()=>{
-    navigate('/map/food-delivery/edit-delivery-location')
+  const navigateSavedLocation=()=>{
+    navigate('/map/savedlocation')
   }
   return (
     <Box>
@@ -82,7 +86,7 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
               aria-label="Call Segun"
               variant={"unstyled"}
               size={"sm"}
-              onClick={navigateEditLocation}
+              onClick={onOpen}
             />
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
@@ -108,14 +112,26 @@ export const SelectLocation = (props: DeliveryLocationProps) => {
                             <Text maxW={300}>
                               Passes value from saved delivery location
                             </Text>
+
+
+
+
+
                             <IconButton
                               icon={<EditIcon />}
                               aria-label="Call Segun"
                               variant={"unstyled"}
                               size={"sm"}
-                              //   onClick={onOpen}
+                                onClick={navigateSavedLocation}
                               //navigate to edit save location
                             />
+                  
+
+
+
+
+
+
                           </Box>
                           <Text>Khlong Toei, Bangkok</Text>
                         </Box>

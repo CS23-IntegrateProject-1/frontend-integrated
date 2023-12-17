@@ -17,7 +17,6 @@ import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-
 const getCartMenuItem = async (type: string, menuid: string) => {
   const response = await Axios.get(
     `/feature7/show${type}DetailFromCart/${menuid}`
@@ -43,7 +42,11 @@ export const CartMenuDetail: FC = () => {
   //   isError,
   // } = useQuery([type, menuid], () => getCartMenuItem(type, menuid));
   // console.log(menuItem);
-  const [amount, setAmount] = useState(0);
+  
+  const [AmountInCart,setAmountInCart] = useState(0);
+  const addToCart=(amount)=>{
+    setAmountInCart(AmountInCart+amount);
+  }
 
   // useEffect(() => {
   //   if (menuItem) {
@@ -53,12 +56,12 @@ export const CartMenuDetail: FC = () => {
   // }, [menuItem]);
 
   const increaseAmount = () => {
-    setAmount(amount + 1);
+    setAmountInCart(AmountInCart + 1);
   };
 
   const decreaseAmount = () => {
-    if (amount > 0) {
-      setAmount(amount - 1);
+    if (AmountInCart > 0) {
+      setAmountInCart(AmountInCart - 1);
     }
   };
 
@@ -77,7 +80,7 @@ export const CartMenuDetail: FC = () => {
   //   }
   // };
 
-  const buttonBgColor = amount > 0 ? "brand.200" : "gray.300";
+  const buttonBgColor = AmountInCart > 0 ? "brand.200" : "gray.300";
 
   // if (isLoading) {
   //   return <div>Loading...</div>;
@@ -133,14 +136,14 @@ export const CartMenuDetail: FC = () => {
               <IconButton
                 icon={<MinusIcon />}
                 onClick={decreaseAmount}
-                isDisabled={amount === 0}
+                isDisabled={AmountInCart === 0}
                 aria-label="Decrease Amount"
                 width="30px"
                 height="28px"
                 borderRadius="5px 0 0 5px"
               />
               <Text {...textStyles.h2} marginX={2} color="black">
-                {amount}
+                {AmountInCart}
               </Text>
               <IconButton
                 icon={<AddIcon />}
