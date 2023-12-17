@@ -23,6 +23,7 @@ const Cart: React.FC = () => {
       <button onClick={() => handleAddToCart('Item 1', 10.99)}>Add Item 1 to Cart</button>
       <button onClick={() => handleAddToCart('Item 2', 19.99)}>Add Item 2 to Cart</button>
       <PayButton cartItems={cartItems} />
+      
     </div>
   );
 };
