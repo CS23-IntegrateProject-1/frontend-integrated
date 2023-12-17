@@ -3,8 +3,8 @@ import { TextStyle } from "../../../theme/TextStyle";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
-import { MovieSeat } from "../components/MovieSeat/MovieSeat";
-import { TypeOfSeatCard } from "../components/MovieSeat/TypeOfSeat";
+import { MovieSeat } from "../Components/MovieSeat/MovieSeat";
+import { TypeOfSeatCard } from "../Components/MovieSeat/TypeOfSeat";
 
 interface ShowDetails {
   show: Show;
@@ -37,7 +37,7 @@ interface Film {
   genre: string;
   language: string;
   name: string;
-  posterImg: string;
+  imageUrl: string;
   rate: number;
   releaseDate: string;
   synopsis: string;
@@ -75,7 +75,7 @@ const ScreenPage: React.FC = () => {
   interface film {
     filmId: number;
     name: string;
-    posterImg: string;
+    imageUrl: string;
     synopsis: string;
     releaseDate: string;
     duration: string;
@@ -133,9 +133,10 @@ const ScreenPage: React.FC = () => {
 
   useEffect(() => {
     try {
-      Axios.get(`http://localhost:3000/film/getFilmById/${filmid}`).then(
+      Axios.get(`http://localhost:8080/feature10/getFilmsById/${filmid}`).then(
         (response) => {
           setMovieInfo(response.data);
+          console.log(response.data);
         }
       );
     } catch (error) {
@@ -158,7 +159,7 @@ const ScreenPage: React.FC = () => {
   useEffect(() => {
     try {
       Axios.get(
-        `http://localhost:3000/theater/getTheaterById/${theaterid}`
+        `http://localhost:8080/feature10/getTheaterById/${theaterid}`
       ).then((response) => {
         setTheaterInfo(response.data);
       });
@@ -265,7 +266,7 @@ console.log('Seats:', seats);
       <Box display={"flex"} flexDirection={"row"} paddingBottom={"7"}>
         <Box>
           <Image
-            src={movieInfo.posterImg}
+            src={movieInfo.imageUrl}
             alt={movieInfo.name}
             borderRadius="lg"
             width={posterWidth}

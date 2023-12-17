@@ -32,7 +32,7 @@ export const Feature10Routes = () => {
       element: <PaymentSuccess />
     },
     {
-      path: '/screen',
+      path: '/screen/:filmId/:date/:showId/:theaterId',
       element: <ScreenPage />
     }
   ];
