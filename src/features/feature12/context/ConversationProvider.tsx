@@ -84,19 +84,22 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   
   //To get all the privateConversationLog
   useEffect(() => {
-      Axios.get("/feature12/displayGroupDetail").then((res) => {
-        setConversations(prevConversations => [
-          ...prevConversations,
-          {
-            group_name: res.data.group_name,
-            group_profile: res.data.group_profile,
-            recipients: res.data.members, // add appropriate recipients
-            messages: [], // add appropriate messages
-            selected: false, // or true, depending on your logic
-          }
-        ]);
-      });
-  },[socket]);
+  Axios.get("/feature12/displayGroupDetail").then((res) => {
+    setConversations([]);
+    const newConversations = res.data.map((group: any) => ({
+      group_name: group.group_name,
+      group_profile: group.group_profile,
+      recipients: group.members, // add appropriate recipients
+      messages: [], // add appropriate messages
+      selected: false, // or true, depending on your logic
+    }));
+
+    setConversations(prevConversations => [
+      ...prevConversations,
+      ...newConversations,
+    ]);
+  });
+}, [socket]);
 
   function openConversation(recipients: Recipient[],group_id: string) {
     console.log("recipients", recipients);
@@ -156,14 +159,14 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
 
   const formattedConversations = conversations.map(
     (conversation, index: number) => {
-      const recipients = conversation.recipients.map((recipient: Recipient) => {
-        const contact = contacts?.find(
-          (contact) => contact.id === recipient?.id
-        );
-        const name = (contact && contact?.username) || recipient?.name; // Use recipient.name
-        const avatar = contact?.profile_picture || 'default-avatar.png';
-        return { id: recipient.id, name , avatar};
-      });
+      // const recipients = conversation.recipients.map((recipient: Recipient) => {
+      //   const contact = contacts?.find(
+      //     (contact) => contact.id === recipient?.id
+      //   );
+      //   const name = (contact && contact?.username) || recipient?.name; // Use recipient.name
+      //   const avatar = contact?.profile_picture || 'default-avatar.png';
+      //   return { id: recipient.id, name , avatar};
+      // });
 
       const messages = conversation.messages.map((message) => {
       // const contact = contacts?.find(
@@ -171,12 +174,12 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
       // );
       const name = message?.sender;
       const fromMe = user.username === message?.sender;
-      return { ...message, senderName: name, fromMe, recipients };
+      return { ...message, senderName: name, fromMe};
       });
 
       const selected = index === selectedConversationIndex;
 
-      return { ...conversation, messages, recipients, selected };
+      return { ...conversation, messages, selected };
     }
   );
 

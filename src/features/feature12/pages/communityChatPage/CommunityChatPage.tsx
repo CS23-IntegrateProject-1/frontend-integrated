@@ -28,7 +28,6 @@ export const CommunityChatPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
-      {/* {selectedConversation && <OpenConversations />} */}
     </Box>
-  );
+  )
 };
