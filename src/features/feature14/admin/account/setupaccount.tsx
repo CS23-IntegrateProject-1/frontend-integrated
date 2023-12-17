@@ -1,5 +1,10 @@
 import React,{useState} from "react";
-import { Box, Flex, FormControl, FormLabel, Input,Textarea,Select, Button,Checkbox,CheckboxGroup, Stack, Image } from "@chakra-ui/react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
+import { Box, Flex, FormControl, FormLabel, Input,Textarea, Button, Radio, Stack, Image } from "@chakra-ui/react";
+
+const placeholderImage = "https://media.gettyimages.com/id/1295387240/photo/delicious-meal.jpg?s=612x612&w=gi&k=20&c=MVcagVTGWtQKWS7w6OwjxJMH8RUkMr7SFwyWYHfAKSQ=";
 
  export const AccountSetupPage: React.FC = () => {
   const [businessName, setBusinessName] = useState<string>("");
@@ -8,31 +13,80 @@ import { Box, Flex, FormControl, FormLabel, Input,Textarea,Select, Button,Checkb
   const [email, setemailName] = useState<string>("");
   const [fromTime, setFromTime] = useState<string>("");
   const [toTime, setToTime] = useState<string>("");
-  const [category, setCategory] = useState<string[]>([]);
+  const [category, setCategory] = useState<string>("");
+  const [restaurantSubcategory, setRestaurantSubcategory] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [acceptPeople, setAcceptPeople] = useState<string>("");
   const [paymentmethod, setPaymentMethod] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const initialFormData = {
+    businessName: "",
+    description: "",
+    phoneNo: "",
+    email: "",
+    fromTime: "",
+    toTime: "",
+    category: [],
+    state: "",
+    district: "",
+    address: "",
+    acceptPeople: "",
+    paymentmethod: "",
+    photo: "",
+    profilePhoto: null,
+  };
 
-const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  if (event.target.files && event.target.files.length > 0) {
-    setProfilePhoto(event.target.files[0]);
-  }
-};
+  const handleReset = () => {
+    setBusinessName(initialFormData.businessName);
+    setDescription(initialFormData.description);
+    setPhoneNo(initialFormData.phoneNo);
+    setemailName(initialFormData.email);
+    setFromTime(initialFormData.fromTime);
+    setToTime(initialFormData.toTime);
+    setCategory(initialFormData.category);
+    setState(initialFormData.state);
+    setDistrict(initialFormData.district);
+    setAddress(initialFormData.address);
+    setAcceptPeople(initialFormData.acceptPeople);
+    setPaymentMethod(initialFormData.paymentmethod);
+    setPhoto(initialFormData.photo);
+    setProfilePhoto(initialFormData.profilePhoto);
+    setSelectedImage(null); // Reset the selected image as well
+  };
+  
+  const customDatePickerStyles = {
+    input: {
+      backgroundColor: "white",
+      color: "black",
+      border: "1px solid #cbd5e0",
+      borderRadius: "0.375rem",
+      padding: "0.375rem 0.75rem",
+    },
+  };
+
+  const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setProfilePhoto(event.target.files[0]);
+    }
+  };
+
+  const handleProfilePhotoClick = () => {
+    // Trigger the click event of the file input when the profile photo is clicked
+    if (profilePhotoInputRef.current) {
+      profilePhotoInputRef.current.click();
+    }
+  };
+
+  const profilePhotoInputRef = React.useRef<HTMLInputElement | null>(null);
 
   const handleBusinessNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setBusinessName(event.target.value);
-  };
-
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(event.target.value);
   };
 
   const handlePhoneNoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,22 +95,11 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
   const handleemailNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setemailName(event.target.value);
   };
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    // Do something with the selected file, like uploading it to a server
-    // For now, just set it to state to display a preview
-    setSelectedImage(URL.createObjectURL(file));
-  };
-  const handleFromTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFromTime(event.target.value);
-  };
-
-  const handleToTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setToTime(event.target.value);
-  };
-
-  const handleCategoryChange = (newCategories: string[]) => {
-    setCategory(newCategories);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    }
   };
   const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState(event.target.value);
@@ -82,51 +125,96 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPhoto(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    
-  };
-  const UserProfile = () => {
-    return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        h="100vh" // Set the height of the container to the full viewport height
-      >
-        <Image
-          borderRadius="full"
-          boxSize="150px"
-          src="https://bit.ly/dan-abramov"
-          alt="Dan Abramov"
-        />
-      </Flex>
-    );
+  const handleRestaurantSubcategoryChange = (newSubcategory: string) => {
+    setRestaurantSubcategory(newSubcategory);
   };
   
+  const handleCategoryChange = (newCategory: string) => {
+    setCategory(newCategory);
+  
+    // If the selected category is "Restaurant", reset the subcategory
+    if (newCategory === "restaurant") {
+      setRestaurantSubcategory("");
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+  
+    try {
+      const formData = new FormData();
+      formData.append('businessName', businessName);
+      formData.append('description', description);
+      formData.append('phoneNo', phoneNo);
+      formData.append('email', email);
+      formData.append('fromTime', fromTime);
+      formData.append('toTime', toTime);
+  
+      // Append checkboxes (assuming category is an array of strings)
+      formData.append('category', category);
+        if (category === 'restaurant') {
+          formData.append('restaurantSubcategory', restaurantSubcategory);
+        }
+  
+      formData.append('state', state);
+      formData.append('district', district);
+      formData.append('address', address);
+      formData.append('acceptPeople', acceptPeople);
+      formData.append('paymentmethod', paymentmethod);
+  
+      // Append profile photo (if any)
+      if (profilePhoto) {
+        formData.append('profilePhoto', profilePhoto);
+      }
+  
+      // Append business photos (assuming 'photo' is an array of files)
+      if (photo && photo.length > 0) {
+        photo.forEach((businessPhoto, index) => {
+          formData.append(`businessPhotos[${index}]`, businessPhoto);
+        });
+      }
+  
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      console.log('Response from the server:', response.data);
+  
+      // Optionally, you can handle success and reset the form
+      handleReset();
+    } catch (error) {
+      console.error('Error while submitting data:', error);
+      // Handle error accordingly, e.g., show an error message to the user
+    }
+  };
+
   return (
-    <Box p={4}>
+    <Box p={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
         <form onSubmit={handleSubmit}>
             {/* ... (other form controls) */}
 
             <FormControl mt={4}>
             <FormLabel>Profile Photo</FormLabel>
-            <Input
+              <Input
                 type="file"
                 accept="image/*"
                 onChange={handleProfilePhotoChange}
-            />
-            </FormControl>
-
-            {profilePhoto && (
-            <Image
+                ref={profilePhotoInputRef}
+                style={{ display: 'none' }} // Hide the file input
+              />
+              <Image
                 mt={4}
                 borderRadius="full"
                 boxSize="150px"
-                src={URL.createObjectURL(profilePhoto)}
+                src={profilePhoto ? URL.createObjectURL(profilePhoto) : "https://bit.ly/dan-abramov"}
                 alt="Profile Photo"
-            />
-            )}
+                onClick={handleProfilePhotoClick}
+                cursor="pointer"
+                mx="auto"
+                title="Edit"
+              />
             <FormLabel>Business Name*</FormLabel>
             <Input
                 type="text" bg={"white"} textColor={"black"}
@@ -162,31 +250,80 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
                 placeholder="Business Name"
             />
             </FormControl>
-
             <FormControl mt={4}>
-            <FormLabel>Open Hour*</FormLabel>
-            <FormLabel>From</FormLabel>
-                <Select value={fromTime} bg={"white"} marginRight={100} onChange={handleFromTimeChange}>
-                <option value=""></option>
-                {/* Add time options for "From" */}
-            </Select>
-            <FormLabel>To</FormLabel>
-            <Select value={toTime} onChange={handleToTimeChange}>
-                <option value=""></option>
-                {/* Add time options for "To" */}
-            </Select>
+              <FormLabel>Open Hour*</FormLabel>
+              <FormLabel>From</FormLabel>
+              <DatePicker
+                selected={fromTime}
+                onChange={(date) => setFromTime(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                customInput={<Input style={customDatePickerStyles.input} />}
+              />
+              <FormLabel>To</FormLabel>
+              <DatePicker
+                selected={toTime}
+                onChange={(date) => setToTime(date)}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                customInput={<Input style={customDatePickerStyles.input} />}
+              />
             </FormControl>
             <Box >
             <FormControl mt={4}>
-            <FormLabel>Category</FormLabel>
-            <CheckboxGroup value={category} onChange={handleCategoryChange}>
-                <Stack direction="row" spacing={4}>
-                <Checkbox value="club">Club</Checkbox>
-                <Checkbox value="bar">Bar</Checkbox>
-                <Checkbox value="restaurant">Restaurant</Checkbox>
-                </Stack>
-            </CheckboxGroup>
+              <FormLabel>Category</FormLabel>
+              <Stack direction="row" spacing={4}>
+                <Radio
+                  value="club"
+                  isChecked={category === "club"}
+                  onChange={() => handleCategoryChange("club")}
+                >
+                  Club
+                </Radio>
+                <Radio
+                  value="bar"
+                  isChecked={category === "bar"}
+                  onChange={() => handleCategoryChange("bar")}
+                >
+                  Bar
+                </Radio>
+                <Radio
+                  value="restaurant"
+                  isChecked={category === "restaurant"}
+                  onChange={() => handleCategoryChange("restaurant")}
+                >
+                  Restaurant
+                </Radio>
+              </Stack>
             </FormControl>
+
+            {category === "restaurant" && (
+              <FormControl mt={4}>
+                <FormLabel>Restaurant Subcategory</FormLabel>
+                <Stack direction="row" spacing={4}>
+                  <Radio
+                    value="ala-carte"
+                    isChecked={restaurantSubcategory === "ala-carte"}
+                    onChange={() => handleRestaurantSubcategoryChange("ala-carte")}
+                  >
+                    A La Carte
+                  </Radio>
+                  <Radio
+                    value="buffet"
+                    isChecked={restaurantSubcategory === "buffet"}
+                    onChange={() => handleRestaurantSubcategoryChange("buffet")}
+                  >
+                    Buffet
+                  </Radio>
+                </Stack>
+              </FormControl>
+            )}
             </Box>
 
         <FormControl mt={4}>
@@ -238,20 +375,28 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
                 placeholder=""
             />
             </FormControl>
-            <FormControl mt={4}>
-            <FormLabel>Photo of Business</FormLabel>
-            <Input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-            />
+            <FormControl>
+              <FormLabel>Photo of Business</FormLabel>
+              <Input type="file" accept="image/*" onChange={handleImageChange} />
             </FormControl>
-            <Button mt={4} color="white"textColor={"purple"} marginRight={100} borderRadius="lg" type="submit">
-            Cancel
+
+            {selectedImage && (
+              <Box mt={4} position="relative">
+                <Image
+                  borderRadius="md"
+                  boxSize="250px"
+                  src={selectedImage}
+                  alt="Selected Photo"
+                />
+              </Box>
+            )}
+            <Button mt={4} color="white" textColor={"purple"} marginRight={100} borderRadius="lg" type="button" onClick={handleReset}>
+              Cancel
             </Button>
-            <Button mt={4} bg={"brand.200"} textColor={"white"}type="submit">
-            Submit
+            <Button mt={4} bg={"brand.200"} textColor={"white"} type="submit">
+              Submit
             </Button>
+            </FormControl>
         </form>
     </Box>
   );
