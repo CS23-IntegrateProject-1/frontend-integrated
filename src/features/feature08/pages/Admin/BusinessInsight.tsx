@@ -26,6 +26,7 @@ import { Link, useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate1 } from "../../../../functions/formatDatetime";
+
 interface transaction {
   // Define the properties of the business insight here
   transactionId: number;
@@ -629,7 +630,12 @@ console.log('Filtered Net Profit:', filteredCommision);
           </Box>
           <Bar data={revenue} options={chartOptionsK as never} />
         </Card>
-        <Link to={`/venue/${venueId}/admin/receipt`}>
+        <Link
+          to={{
+            pathname: `/venue/${venueId}/admin/receipt`,
+            search: `?fromDate=${isFiltered ? selectedFromDate : 'All time'}&toDate=${isFiltered ? selectedToDate : 'All time'}`
+          }}
+        >
           <ButtonComponent
             text="See All Receipts"
             bgColor="#F6F6F6"
