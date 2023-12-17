@@ -40,6 +40,7 @@ export const UserArticlesPage = () => {
       alignItems={"center"}
       m={{ base: "-1em", md: "auto" }}
       ml={{ base: "0", md: "auto" }}
+      mt={{ base: "-1em", md: "-2em" }}
     >
       <Box
         w={"100%"}
@@ -49,20 +50,14 @@ export const UserArticlesPage = () => {
         alignItems={"center"}
         display={"flex"}
       >
-        <Box mt={"-10px"}>
+        <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
           <img
             src="/src/features/feature11/img/Ellipse 43.png"
             alt="Profile"
             width="91px"
             height="91px"
           />
-          <Text
-            ml="35px"
-            color={"#C5C4C7"}
-            fontSize={"md"}
-            mt={"20px"}
-            as={"b"}
-          >
+          <Text color={"#C5C4C7"} fontSize={"md"} mt={"10px"} as={"b"}>
             {UserArticles.data?.[0].author_name}
           </Text>
         </Box>
