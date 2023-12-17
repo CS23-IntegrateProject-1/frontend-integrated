@@ -44,7 +44,7 @@ export const CartMenuDetail: FC = () => {
   // console.log(menuItem);
   
   const [AmountInCart,setAmountInCart] = useState(0);
-  const addToCart=(amount)=>{
+  const addToCart=(amount:number)=>{
     setAmountInCart(AmountInCart+amount);
   }
 

@@ -1,4 +1,4 @@
-import { Box,Flex,Text,Divider } from "@chakra-ui/react"
+import { Box,Flex,Text } from "@chakra-ui/react"
 import index from "../../../../../theme/foundations/index"
 
 interface resName{

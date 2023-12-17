@@ -4,9 +4,9 @@ import { TextStyle } from "../../../theme/TextStyle";
 import colors from "../../../theme/foundations/colors";
 import { useNavigate } from "react-router-dom";
 const PlaceTypes = () => {
-    const isRestaurants = location.pathname === "/map";
-    const isCinemas = location.pathname === "/map/cinemas";
-    const isBars = location.pathname === "/map/bars";
+    // const isRestaurants = location.pathname === "/map";
+    // const isCinemas = location.pathname === "/map/cinemas";
+    // const isBars = location.pathname === "/map/bars";
     const navigate = useNavigate();
     const navigateRestaurant=()=>{
         navigate('/map');

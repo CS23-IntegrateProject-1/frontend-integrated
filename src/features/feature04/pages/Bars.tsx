@@ -29,6 +29,7 @@ interface LocMap{
   locationId : number;
   longtitude : number;
   name: string;
+  location:string
 }
 
 interface RegisteredData{
@@ -53,7 +54,7 @@ interface RegisteredData{
         const response = await Axios.get("/feature4/bars"); 
         setRegistered(response.data.bars);
         console.log(response.data)
-        setLocations(response.data.bars.map((item : any) => item.location));
+        setLocations(response.data.bars.map((item: LocMap) => item.location));
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
       }
@@ -69,7 +70,7 @@ interface RegisteredData{
       fetchRestaurantData();
       console.log(registered)
       console.log("hello")
-    }, []);
+    }, [registered]);
   
     // Retrieve data from localStorage on component mount
     useEffect(() => {

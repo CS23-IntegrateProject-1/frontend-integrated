@@ -1,21 +1,21 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text} from "@chakra-ui/react";
 import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
 import index from "../../../../theme/foundations/index"
-interface Order {
-  amount: number;
-  restaurant: string;
-  size: string;
-  price: number;
-}
+// interface Order {
+//   amount: number;
+//   restaurant: string;
+//   size: string;
+//   price: number;
+// }
 export const CancelOrder = () => {
-  const orders: Order[] = [
-    {
-      amount: 1,
-      restaurant: "MK Roasted Duck",
-      size: "Large",
-      price: 20,
-    },
-  ];
+  // const orders: Order[] = [
+  //   {
+  //     amount: 1,
+  //     restaurant: "MK Roasted Duck",
+  //     size: "Large",
+  //     price: 20,
+  //   },
+  // ];
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <YourOrderStatusComp

@@ -25,7 +25,6 @@ import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 import {
   useMutation,
-  useQuery
 } from "@tanstack/react-query";
 
 interface SavedCardProps {
@@ -38,9 +37,9 @@ interface SavedCardProps {
   postcode: string;
 
 }
-interface SavedLocationInterface{
-  message: string;
-}
+// interface SavedLocationInterface{
+//   message: string;
+// }
 
 const PinIcon: React.FC<{ fillColor: string }> = (props) => {
   return (
@@ -92,7 +91,7 @@ const DelIcon: React.FC = () => {
 };
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullAddress, setShowFullAddress] = useState(false);
+  const [showFullAddress] = useState(false);
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");

@@ -1,7 +1,5 @@
 import { Box, Text, Flex, Divider } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
-import { CartMenuDetail } from "../../pages/CartMenuDetail";
-import { useNavigate } from "react-router-dom";
 interface resName {
   RestaurantName: string;
   DeliveryMinute: number;
