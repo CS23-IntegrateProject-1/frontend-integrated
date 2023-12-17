@@ -78,7 +78,7 @@ export const CommentBox: FC<CommentItem> = ({
       </Flex>
       <Box ml={"1em"} mt={"-15px"} flexDirection="column">
         <img
-          src="/src/features/feature11/img/Profile.png"
+          src={import.meta.env.BACKEND_URL + profile_picture}
           alt="Profile"
           width="32px"
           height="32px"

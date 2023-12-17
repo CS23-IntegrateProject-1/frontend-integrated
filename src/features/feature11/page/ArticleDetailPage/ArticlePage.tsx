@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Image,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -71,13 +72,15 @@ export const ArticlePage = () => {
     shareDisclosure.onOpen();
   };
   return (
-    <Box>
+    <Box display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}>
+      
       {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
-        <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box>
+        {/* <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box> */}
+        <Image width={"45px"} height={"45px"} mr={"1em"} src={import.meta.env.BACKEND_URL + article.data?.user.profile_picture}/>
         <Box>
-          <Text style={TextStyle.h3}>{article.data?.author_name}</Text>
+          <Text style={TextStyle.h3}>{article.data?.user.username}</Text>
           <Text style={TextStyle.body3}>{article.data?.created_date}</Text>
         </Box>
       </Box>
@@ -90,7 +93,6 @@ export const ArticlePage = () => {
       ></Box> */}
       <Box>
         <PhotoDisplayer images={article.data?.Image || []} />
-
       </Box>
 
       <Box minH={"80px"} mb={"2em"}>

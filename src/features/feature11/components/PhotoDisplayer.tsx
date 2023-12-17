@@ -117,6 +117,8 @@ const PhotoDisplayer: React.FC<PhotoDisplayerProps> = ({images}) => {
                   top="50%"
                   right={0}
                   transform="translateY(-50%)"
+                  borderRadius={"none"}
+
                   h={"100%"}
                   bg={"transparent"}
                   _hover={{ bg: "rgba(0, 0, 0, 0.2)" }}

@@ -8,11 +8,11 @@ export const ArticleFooter: React.FC<ArticleFooterProps> = (props) => {
     <Box
       p={{ base: "1em", md: "2em" }}
       bg={"#A533C8"}
-      bottom={"0"}
+      // bottom={"0"}
 
       mx={{ base: "-1em", md: "-2em" }}
     >
-      <Box w={"60px"} h={"60px"} mb={"1em"} bg={"red"} rounded={"50%"}></Box>
+      {/* <Box w={"60px"} h={"60px"} mb={"1em"} bg={"red"} rounded={"50%"}></Box> */}
       <Heading style={TextStyle.h1} mb={"1em"}>
         Written by {props.author_name}
       </Heading>

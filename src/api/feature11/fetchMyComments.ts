@@ -11,8 +11,6 @@ export const fetchMyComments = async () => {
         comment.create_date ? comment.create_date : ""
       );
     });
-
-    console.log(comments.data);
     return comments.data as CommentItem[];
   } catch (error) {
     console.error("Error fetching comment history:", error);

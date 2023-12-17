@@ -89,10 +89,7 @@ export const CreateArticlePage = () => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const fileList = Array.from(e.target.files);
-      console.log(fileList);
       setImages(fileList);
-      // const previewURL = URL.createObjectURL(e.target.files[0]);
-      // setImagePreview(previewURL);
     }
   };
 
@@ -104,14 +101,15 @@ export const CreateArticlePage = () => {
       authorName === "" ||
       images?.length === 0
     ) {
-      alert("Please fill in all the fields");
+      toast.warning("Please fill in all fields");    
+      toast.error("Please fill in all fields");
+
       return;
     }
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
-    
-    console.log("images: ", images);
+
     const formData = new FormData();
     formData.append("topic", topic);
     formData.append("content", content);
@@ -120,50 +118,30 @@ export const CreateArticlePage = () => {
     for (let i = 0; i < selectedVenueIds.length; i++) {
       formData.append("venueIds[]", selectedVenueIds[i].toString());
     }
-    console.log("venueID in ",formData.get("venueIds"));
     tags.forEach((tag) => {
-      formData.append("tags", tag);
+      formData.append("tags[]", tag);
     });
-
     if (images) {
-      images.forEach((image, index) => {
+      images.forEach((image) => {
         formData.append("files", image);
       });
     } else {
       console.log("no images");
     }
-
-    console.log("formData: ", formData.values);
-    Axios.post(
-      "/feature11/addArticle",
-      // {
-      //   topic: topic,
-      //   content: content,
-      //   // category: category,
-      //   category: category,
-      //   // author_name: authorName,
-      //   author_name: authorName,
-      //   venueIds: selectedVenueIds,
-      //   tags: tags,
-      //   files: images,
-      // },
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
+    Axios.post("/feature11/addArticle", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then((res) => {
         console.log(res);
-
-        // alert("Article created");
         toast.success("Article created successfully");
         setTimeout(() => {
           navigate("/article/myarticles");
         }, 500);
       })
       .catch((err) => {
+        toast.error("Error creating article");
         console.log("error", err);
       });
   };
@@ -198,7 +176,7 @@ export const CreateArticlePage = () => {
         <Input
           variant={"unstyled"}
           type="file"
-          multiple
+          multiple //if single file remove "multiple"
           onChange={handleFileChange}
         />
       </FormControl>

@@ -31,7 +31,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
   onClose,
   isOpen,
 }) => {
-  const [comment, setComment] = useState<CommentItem | null>(null);
+  const [, setComment] = useState<CommentItem | null>(null);
   const [newContent, setNewContent] = useState<string>("");
   const queryClient = useQueryClient();
 
@@ -100,7 +100,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
         >
           <Box flexDirection="column">
             <img
-              src="/src/features/feature11/img/Profile.png"
+              src={import.meta.env.VITE_BACKEND_URL + profile_picture}
               alt="Profile"
               width="32px"
               height="32px"

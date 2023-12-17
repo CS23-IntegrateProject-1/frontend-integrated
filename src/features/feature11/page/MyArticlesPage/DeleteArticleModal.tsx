@@ -18,7 +18,6 @@ import { deleteArticle } from "../../../../api/feature11/deleteArticle";
 export const DeleteArticleModal: FC<ModalDeleteArticle> = ({
   isOpen,
   onClose,
-  onOpen,
   articleId,
 }) => {
   const toast = useCustomToast();

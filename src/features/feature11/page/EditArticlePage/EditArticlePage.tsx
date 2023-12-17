@@ -14,7 +14,7 @@ import {
   TagCloseButton,
   TagLabel,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { AutoResizeTextarea } from "../../components/AutoResizeTextArea";
 import { Axios } from "../../../../AxiosInstance";
@@ -29,16 +29,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
 import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
-
-// const fetchAllArticle = async (): Promise<VenueProps[]> => {
-//   try {
-//     const venues = await Axios.get("/feature11/fetchAllVenueName");
-//     return venues.data; // Extract the data from the response
-//   } catch (error) {
-//     console.error("Error fetching venues:", error);
-//     throw new Error("Failed to fetch venues");
-//   }
-// };
 
 export const EditArticlePage = () => {
   const article = useQuery({
@@ -135,7 +125,7 @@ export const EditArticlePage = () => {
         ...tags,
         {
           articleId: parseInt(articleId || "0"),
-          tagId: newTagId, // Assign the value of 4 to tagId
+          tagId: newTagId,
           tag: {
             tagId: newTagId,
             tag_name: tagInput,
@@ -149,29 +139,13 @@ export const EditArticlePage = () => {
     setTags(updatedTags);
   };
 
-  // const handleImageUpload = async (e: { target: { files: any; }; }) => {
-  //   const files = e.target.files;
-  //   if (files && files.length > 0) {
-  //     const formData = new FormData();
-
-  //     Array.from(files).forEach((file) => {
-  //       formData.append("images", file);
-  //     });
-
-  //     try {
-  //       const response = await Axios.post("/api/images/upload", formData, {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       });
-
-  //       const uploadedFilesData = response.data.uploadedFiles;
-  //       setUploadedFiles(uploadedFilesData);
-  //     } catch (error) {
-  //       console.error("Error uploading images:", error);
-  //     }
-  //   }
-  // };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileList = Array.from(e.target.files);
+      console.log(fileList);
+      setImages(fileList);
+    }
+  };
   const handleEditArticle = () => {
     if (
       topic === "" ||
@@ -186,31 +160,55 @@ export const EditArticlePage = () => {
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
-    console.log("before: ", tags )
     const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
-    console.log("after: ", formattedTags)
-    Axios.patch("/feature11/editArticle", {
-      articleId: parseInt(articleId || "0"),
-      topic: topic,
-      content: content,
-      // category: category,
-      category: category,
-      // author_name: authorName,
-      author_name: authorName,
-      venueIds: selectedVenueIds,
-      tags: formattedTags,
-      images: [
-        {
-          url: "/test.jpg",
-          description: "test",
-        },
-      ],
-    })
+
+    // const formData = new FormData();
+    // formData.append("articleId", articleId || "0");
+    // formData.append("topic", topic);
+    // formData.append("content", content);
+    // formData.append("category", category);
+    // formData.append("author_name", authorName);
+    // for (let i = 0; i < selectedVenueIds.length; i++) {
+    //   formData.append("venueIds[]", selectedVenueIds[i].toString());
+    // }
+    // formattedTags.forEach((tag) => {
+    //   formData.append("tags[]", tag);
+    // });
+
+    // if (images) {
+    //   images.forEach((image) => {
+    //     formData.append("files", image);
+    //   });
+    // } else {
+    //   console.log("no images");
+    // }
+    // console.log("topic1",topic)
+    // console.log("topic" ,formData.get("topic"))
+    Axios.patch(
+      "/feature11/editArticle",
+      {
+        articleId: parseInt(articleId || "0"),
+        topic: topic,
+        content: content,
+        category: category,
+        author_name: authorName,
+        venueIds: selectedVenueIds,
+        tags: formattedTags,
+        images: images
+      },
+      // formData,
+
+      // {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // }
+      // formData,
+    )
       .then((res) => {
         console.log(res);
         toast.success("Edit article successfully");
         navigate(`/article/${articleId}`);
-        
       })
       .catch((err) => {
         console.log("error", err);
@@ -250,7 +248,7 @@ export const EditArticlePage = () => {
           variant={"unstyled"}
           type="file"
           multiple
-          // onChange={handleImageUpload}
+          onChange={handleFileChange}
           // value={images.map((image) => image.url)}
         />
       </FormControl>

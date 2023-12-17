@@ -74,6 +74,7 @@ export const MyArticlesPage = () => {
                     isLike={article.isLike}
                     Article_tags={article.Article_tags}
                     Article_venue={article.Article_venue}
+                    user={article.user}
                   />
                 );
               })}
