@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import FoodStatus from "../../components/FoodDeliveryComp/FoodStatus";
+import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
 import Ongoing from "../../components/FoodDeliveryComp/Ongoing";
 function OngoingPage() {
   return <Box>
