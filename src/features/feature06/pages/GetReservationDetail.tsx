@@ -16,6 +16,7 @@ import { CancelModal } from "../components/CancelModal";
 //   url: string;
 // }
 import { FC} from "react";
+import { Axios } from "../../../AxiosInstance";
 
 interface IPhotoData {
   date_added: string;
@@ -123,16 +124,14 @@ export const GetReservationDetail: FC = ({}) => {
     }, 600);
   };
 
-  // const copyToClipboard = async () => {
-  //   try {
-  //     if (inputRef.current) {
-  //       await navigator.clipboard.writeText(inputRef.current.value);
-  //       console.log("URL copied to clipboard!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to copy URL to clipboard", error);
-  //   }
-  // };
+  const confirmCheckin = async () => {
+    try{
+      const response = await Axios.get(`/api/mik/checkInStatus/${reservationId}`)
+      console.log(response);
+    }catch (error){
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <Box
@@ -433,6 +432,23 @@ export const GetReservationDetail: FC = ({}) => {
               </Button>
             </Link>
           </Box>
+        ) : data?.venue.name === "MIK" ? (
+          <Button
+            borderRadius="10px"
+            width="138px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"132px"}
+            mt={"15px"}
+            onClick={() => confirmCheckin()}
+          >
+            Confirm
+          </Button>
         ) : (
           ""
         )}

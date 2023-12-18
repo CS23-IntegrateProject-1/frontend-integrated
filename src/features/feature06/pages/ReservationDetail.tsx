@@ -80,6 +80,12 @@ export const ReservationDetail = () => {
   const handleCreate = async () => {
     try {
       const seatsInt = parseInt(seats || "0")
+      const currentDate = new Date();
+      const selectedDateTime = new Date(`${date}T${time}`);
+      if (selectedDateTime < currentDate) {
+        toast.warning("Please select a future date and time");
+        return;
+      }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information")
       }
