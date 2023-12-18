@@ -5,40 +5,44 @@ import {
   Flex,
   Button,
   Card,
-  Image
 } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+
 interface MenuCompCard {
-  menuId: number;
-  name: string;
+  menuName: string;
   price: number;
-  description: string;
-  image: string;
+  id:number|string;
+  
 }
 
-export const MenuComp: React.FC<MenuCompCard> = (props) => {
-  const navigate = useNavigate();
 
+export const MenuComp: React.FC<MenuCompCard> = (props) => {
+  const { id, menuName, price } = props;
+  const navigate = useNavigate();
   const navigateToDetail = () => {
-    navigate('/map/food-delivery/food-detail');
+    navigate(`/map/food-delivery/food-detail/${id}`);
   };
   
-  console.log("image:", props.image);
+  // console.log("MenuName: ",menuName);
+  // console.log("MenuId: ",id);
+
+  
 
   return (
     <Box>
       <Box width={200} height={"auto"} m={2}>
         <Card width={"auto"} height={"auto"} style={{ borderRadius: "20px", margin: 0 }}>
+          <Box borderRadius={"100%"} height={"auto"} width={"auto"} >
+            
+          </Box>
           <Box style={{ width: "100%", height: "100%" }}>
-          <Image
-              src={`http://localhost:8080/uploads/${props.image}`}
-              alt="Menu Item"
-              objectFit="cover"
-              mt={0.5}
+            <img
+              src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
               width="100%"
               height="100%"
-              borderRadius="20px"
+              style={{ borderRadius: "20px", margin: 0 }}
+              alt="Menu Item"
             />
             <Box
               style={{
@@ -62,7 +66,7 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
             flexWrap={"wrap"}
             maxW={150}
           >
-            {props.name}
+            {menuName}
           </Text>
           <Flex justifyContent={"flex-end"}>
             <Button
@@ -82,7 +86,7 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
                 fontWeight={index.textStyles.h4.fontWeight}
                 p={2}
               >
-                For ${props.price}
+                For ${price}
               </Text>
             </Button>
           </Flex>

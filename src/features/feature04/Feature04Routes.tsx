@@ -22,7 +22,7 @@ export const Feature04Routes = () => {
     { path: "/map/bars", element: <Bars /> },
     { path: "/map/bars", element: <Bars /> },
     {path:"/map/food-delivery", element:<FoodDelivery/>},
-    {path:"/map/food-delivery/food-detail", element:<CartMenuDetail/>},
+    {path:"/map/food-delivery/food-detail/:id", element:<CartMenuDetail/>},
     {path:"/map/food-delivery/ongoing",element:<OngoingPage/>},
     {path:"/map/food-delivery/completed",element:<CompletedStatusPage/>},
     {path:"/map/food-delivery/canceled",element:<CanceledMyDelivery/>},
