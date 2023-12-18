@@ -1,9 +1,11 @@
 import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
-export const CancledMyDelivery=()=>{
+import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
+export const CanceledMyDelivery=()=>{
     return(
         <Box>
+          <FoodStatus/>
             <Flex justifyContent={"center"}>
         <Box
           border={"solid 1.5px"}
