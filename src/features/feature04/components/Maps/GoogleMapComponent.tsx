@@ -20,7 +20,7 @@ import { fetchNearbyPlaces } from "./api.ts";
 import plate from "../../images/Plate.svg";
 import cinema from "../../images/cinema.svg";
 import beer from "../../images/beer.svg";
-import star from "../../images/star.svg";
+import star from "../../images/star.svg"
 
 // Styles
 import { Wrapper, LoadingView } from "./map.styles.ts";
@@ -134,7 +134,8 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     setSelectedMarkerInfo(marker);
   };
 
-  console.log()
+  console.log("Star icon URL:", star);
+
 
   if (!isLoaded) return <LoadingView>Loading...</LoadingView>;
 
