@@ -6,7 +6,7 @@ import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
 // import { FC, useRef } from "react";
 
@@ -74,7 +74,7 @@ interface IData {
   ];
 }
 
-export const GetReservationDetail: FC = ({}) => {
+export const GetReservationDetail: FC = () => {
   const [data, setData] = useState<IData>();
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
@@ -399,7 +399,7 @@ export const GetReservationDetail: FC = ({}) => {
           marginTop="18px"
           marginLeft="18px"
         ></Box>
-        {data?.reservations[0]?.status === "Pending" ? (
+        {data?.reservations[0]?.status === "Pending" && data?.venue.name !== "MIK" ? (
           <Box mt="15px" ml={"50px"}>
             <Button
               borderRadius="10px"
@@ -432,10 +432,10 @@ export const GetReservationDetail: FC = ({}) => {
               </Button>
             </Link>
           </Box>
-        ) : data?.venue.name === "MIK" ? (
+        ) : data?.reservations[0]?.status === "Check_in" && data?.venue.name === "MIK" ? (
           <Button
             borderRadius="10px"
-            width="138px"
+            width="200px"
             height="40px"
             backgroundColor="#A533C8"
             textColor="white"
@@ -443,11 +443,11 @@ export const GetReservationDetail: FC = ({}) => {
             fontStyle="normal"
             fontWeight="700"
             lineHeight="24px"
-            ml={"132px"}
+            ml={"96px"}
             mt={"15px"}
             onClick={() => confirmCheckin()}
           >
-            Confirm
+            Confirm Check-in
           </Button>
         ) : (
           ""
