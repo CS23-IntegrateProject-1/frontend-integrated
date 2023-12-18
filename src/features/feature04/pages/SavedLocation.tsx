@@ -156,7 +156,7 @@ export const SavedLocation = () => {
                 />
                 <Input
                   variant="outline"
-                  placeholder="Name"
+                  placeholder="Name (eg. Home, Office)"
                   onChange={(e) => setName(e.target.value)}
                 />
                 <Input
