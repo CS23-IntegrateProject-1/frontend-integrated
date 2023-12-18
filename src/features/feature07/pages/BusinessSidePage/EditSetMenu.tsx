@@ -46,7 +46,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   }, [menuData]);
 
   const getMenu = async () => {
-    const response = await Axios.get('/feature7/getAllMenus');
+    const response = await Axios.get(`/feature7/getMenuByVenueIdNotInSet/${menuid}`);
     const menus = response.data;
     //console.log(menuData);
     return menus;
@@ -78,14 +78,25 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     setSelectId(selectedMenuId);
     try {
       const addResponse = await Axios.post(`/feature7/addMenuItemsToSetsInCookies/${menuid}`, { menuId: selectedMenuId });
+      console.log('menuId:', selectedMenuId);
       if (addResponse.status === 200) {
         const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
         const selectedItems = response.data;
         console.log('Selected items:', selectedItems);
-        setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
-        });
+        console.log('Selected menus before update:', selectedMenus);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
+
+        // Find the selected item by its id
+      const selectedItem = selectedItems.find((item : any) => item.menuId == selectedMenuId);
+      console.log('Selected item:', selectedItem);
+      if (selectedItem) {
+        console.log('Selected item:', selectedItem);
+        // Update selectedMenus using the selectedItem directly
+        setSelectedMenus(prevSelectedMenus => [...prevSelectedMenus, selectedItem]);
+      }
       }
     } catch (error) {
       console.error("Error adding menu items to cookies or fetching items", error);
@@ -97,31 +108,24 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     try {
       const response = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
       if (response.status === 200) {
-        const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
-        const selectedItems = response.data;
-        console.log('Selected items:', selectedItems);
+        // const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
+        // const selectedItems = response.data;
+        // console.log('Selected items:', selectedItems);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
         setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
+          // Filter out the selectedMenuId from the previous state
+          const updatedMenus = prevSelectedMenus.filter((menu: any) => menu.menuId !== selectedMenuId);
+          return updatedMenus;
         });
       }
-      // const updatedMenus = [...selectedMenus];
-      // updatedMenus.splice(selectedMenuId, 1);
-      // setSelectedMenus(updatedMenus);
   } catch (error) {
     console.error("Error deleting items in cookies", error);
   }
   };
-
-  // useEffect(() => {
-  //   console.log('Location state:', location.state);
-  //   if (location.state && location.state.selectedMenus) {
-  //     console.log('Selected Menus:', location.state.selectedMenus);
-  //     setSelectedMenus(location.state.selectedMenus);
-  //   }
-  // }, [location.state]);
   
-
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
@@ -132,11 +136,6 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     console.log('Selected file:', selectedFile);
   };
 
-  // const handleAddMenuClick = () => {
-  //   const targetPath = '/venue/:venueId/choosemenu';
-  //   console.log('Navigating to:', targetPath);
-  //   navigate(targetPath);
-  // };
   const handleCancel = async () => {
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
@@ -275,22 +274,6 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               placeholder="Add a menu"
               value={selectId}
               onChange={(e) => handleDropdownChange(e.target.value)}
-              // styles={{
-              //   control: (styles) => ({
-              //     ...styles,
-              //     backgroundColor: 'brand.300',
-              //     borderColor: 'brand.300',
-              //   }),
-              //   option: (styles, { isFocused, isSelected }) => ({
-              //     ...styles,
-              //     backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
-              //     color: isSelected ? 'white' : 'black',
-              //   }),
-              //   singleValue: (styles) => ({
-              //     ...styles,
-              //     color: 'black',
-              //   }),
-              // }}
               sx={{
                 '> option': {
                   background: 'brand.300',
