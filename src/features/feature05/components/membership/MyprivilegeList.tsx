@@ -18,7 +18,7 @@ const MyprivilegeList = () => {
 
   useEffect(() => {
     fetchMyprivilegeList();
-  });
+  }, []);
 
   return (
     <Stack mt="-15px" padding="10px">

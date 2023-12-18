@@ -22,13 +22,12 @@ export const VoucherPage = () => {
   const fetchDatas = async () => {
     try {
       const result = await GetVoucherDetail(voucherId);
-      setData(result?.data[0]);
+      setData(result?.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  console.log(data);
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center">

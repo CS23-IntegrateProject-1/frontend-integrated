@@ -18,7 +18,7 @@ const MembershipRedeemList = () => {
 
   useEffect(() => {
     fetchRedeemList();
-  });
+  }, []);
 
   return (
     <HStack
