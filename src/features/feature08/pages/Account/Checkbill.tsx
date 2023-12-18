@@ -156,7 +156,7 @@ export const Checkbill: React.FC = () => {
                     </Td>
                     <Td></Td>
                     <Td textAlign="center" fontSize="lg" color="white">
-                      {data.orderData && data.orderData.totalAmount}
+                    {data.orderData && data.orderData.totalCount}
                     </Td>
                   </Tr>
                   <Tr borderBottom="none">
@@ -165,7 +165,7 @@ export const Checkbill: React.FC = () => {
                     </Td>
                     <Td></Td>
                     <Td textAlign="center" fontSize="lg" color="white">
-                      {data.orderData && data.orderData.totalCount}
+                      {data.orderData && data.orderData.totalAmount}
                     </Td>
                   </Tr>
                   <Divider width={"300%"} variant={"dashed"} marginTop={3} />
