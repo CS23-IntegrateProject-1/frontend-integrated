@@ -18,7 +18,7 @@ const FoodDelivery = () => {
     navigate('/map/food-delivery/cart-detail')
   }
 
-  const [numberInCart, setNumberInCart] = useState(0);
+  // const [numberInCart, setNumberInCart] = useState(0);
   const [menuData, setMenuData] = useState<Menu[]>([]);
 
   useEffect(() => {
@@ -36,9 +36,9 @@ const FoodDelivery = () => {
     fetchMenuData();
   }, []); // Empty dependency array to run the effect only once on component mount
 
-  const addToCart = (amount) => {
-    setNumberInCart(numberInCart + amount);
-  };
+  // const addToCart = (amount) => {
+  //   setNumberInCart(numberInCart + amount);
+  // };
   return (
     <Box>
       <FoodDeliNavbar RestaurantName="MK Restaurant (Big C Rama 4)" DeliveryMinute={30}/>
@@ -82,7 +82,7 @@ const FoodDelivery = () => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            {numberInCart}
+            {/* {numberInCart} */}
           </Text>
           <Text
             fontSize={index.textStyles.body1.fontSize}

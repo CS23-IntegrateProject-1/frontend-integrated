@@ -20,38 +20,38 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
   };
 
   
-const StepContainer = styled.div`
-display: flex;
-justify-content: space-between;
-margin-top: 70px;
-position: relative;
+  const StepContainer = styled.div<{ activeStep: string }>`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 70px;
+  position: relative;
 
-&:before,
-&:after {
-  content: '';
-  position: absolute;
-  background: #d9d9d9;
-  height: 4px;
-  width: calc(100% - 40px);
-  transform: translateY(200%);
-  left: 20px;
-}
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    background: #d9d9d9;
+    height: 4px;
+    width: calc(100% - 40px);
+    transform: translateY(200%);
+    left: 20px;
+  }
 
-&:after {
-  background: #a533c8;
-  height: 4px;
-  transition: 0.4s ease;
-  transform: translateY(200%);
-<<<<<<< HEAD
-  width: ${({ activeStep }) =>
-    location.pathname === '/map/food-delivery/cart-detail' ? '46%' : location.pathname==='/map/food-delivery/checkout' ? '82%' : '100%'};
-=======
-  width: ${() =>
-    location.pathname === '/map/food-delivery/cart-detail' ? '47%' : location.pathname==='/map/food-delivery/checkout' ? '82%' : '100%'};
->>>>>>> 48f2d41f42c6b1a4cafddf35f256e5a35662c9a8
-  left: 20px;
-}
+  &:after {
+    background: #a533c8;
+    height: 4px;
+    transition: 0.4s ease;
+    transform: translateY(200%);
+    width: ${({ activeStep }) =>
+      activeStep === '/map/food-delivery/cart-detail'
+        ? '46%'
+        : activeStep === '/map/food-delivery/checkout'
+        ? '82%'
+        : '100%'};
+    left: 20px;
+  }
 `;
+
 
 
 return (

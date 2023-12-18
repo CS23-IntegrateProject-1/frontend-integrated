@@ -18,6 +18,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
 import { utcToZonedTime } from 'date-fns-tz'; // new import
+// import { formatTime1 } from "../../../../functions/formatDatetime";
 
 export const Timestamp = () => {
   const [appTrans, setAppTrans] = useState<any[] | undefined>(undefined);
@@ -76,6 +77,7 @@ export const Timestamp = () => {
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds, selectedDate]);
   const ThailandTimeZone = 'Asia/Bangkok'; // Thailand time zone
+  console.log(appTransactionByDate)
 
   return (
     <Center>
@@ -117,6 +119,7 @@ export const Timestamp = () => {
             'dd MMMM yyyy',
           );
           const formattedAmount = `${details.total_amount} Baht`;
+          const appTransactionDetailId = `${details.appTransactionDetailId}`;
           // const appTransactionId = details.appTransactionId;
           console.log(details)
           return (
@@ -124,7 +127,7 @@ export const Timestamp = () => {
               <CardBody textAlign="center">
                 <Stack divider={<StackDivider />} color={"#C5C4C7"}>
                   <Box>
-                  <Link to="/">
+                  <Link to={`/${venueId}/Account/Checkbill/${appTransactionDetailId}`}>
                     <TableContainer>
                       <Table width="100%" variant="unstyled">
                         <Thead>
