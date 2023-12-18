@@ -245,15 +245,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Target customer
         </FormLabel>
-        {/* <Select
-          bgColor={"#FFFFFF"}
-          borderColor={"#FFFFFF"}
-          placeholder=" "
-          iconColor="black"
-        >
-          <option value="option1">All</option>
-          <option value="option2">Member</option>
-        </Select> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.customer_type}

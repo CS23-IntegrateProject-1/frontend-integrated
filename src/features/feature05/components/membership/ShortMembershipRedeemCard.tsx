@@ -5,15 +5,16 @@ interface ICard {
   voucher_image: string;
 }
 
-export const ShortRedeemCard: FC<ICard> = (cardInfo) => {
+export const ShortMembershipRedeemCard: FC<ICard> = (cardInfo) => {
   return (
     <Card
       variant="filled"
       backgroundColor="brand.100"
       overflow={"hidden"}
-      h={"100px"}
+      h={"200px"}
+      minW={"350px"}
     >
-      <Image src={cardInfo.voucher_image} />
+      <Image h={"100%"} src={cardInfo.voucher_image} objectFit={"cover"} />
     </Card>
   );
 };

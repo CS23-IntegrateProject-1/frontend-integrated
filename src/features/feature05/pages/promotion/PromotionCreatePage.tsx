@@ -137,6 +137,7 @@ export const PromotionCreatePage = () => {
   const handleSubmit = async () => {
     console.log(promotion);
 
+    
     try {
       // Ensure this ID is valid
       console.log(promotion);

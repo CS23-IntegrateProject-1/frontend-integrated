@@ -1,10 +1,10 @@
-import { Stack } from "@chakra-ui/react";
-import { ShortRedeemCard } from "../../components/membership/ShortRedeemCard";
+import { HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import IRedeemList from "../../../../interfaces/Redeem/IRedeemList";
 import { Axios } from "../../../../AxiosInstance";
+import { ShortMembershipRedeemCard } from "./ShortMembershipRedeemCard";
 
-const RedeemList = () => {
+const MembershipRedeemList = () => {
   const [voucherList, setVoucherList] = useState<IRedeemList[]>([]);
   const fetchRedeemList = async () => {
     try {
@@ -19,13 +19,20 @@ const RedeemList = () => {
   useEffect(() => {
     fetchRedeemList();
   });
+
   return (
-    <Stack mt="-15px" padding="10px">
+    <HStack
+      mt="-15px"
+      padding="10px"
+      spacing="20px"
+      w={"100%"}
+      overflowX="scroll"
+    >
       {voucherList?.map((voucher_image: IRedeemList) => (
-        <ShortRedeemCard {...voucher_image} />
+        <ShortMembershipRedeemCard {...voucher_image} />
       ))}
-    </Stack>
+    </HStack>
   );
 };
 
-export default RedeemList;
+export default MembershipRedeemList;

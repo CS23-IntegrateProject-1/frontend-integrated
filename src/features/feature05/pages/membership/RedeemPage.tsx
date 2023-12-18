@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import Tags from "../../components/membership/Tags";
 import RedeemList from "../../components/membership/RedeemList";
 
+
 export const RedeemPage = () => {
   return (
     <Box display="flex" flexDirection="column" padding="0px" rowGap="40px">

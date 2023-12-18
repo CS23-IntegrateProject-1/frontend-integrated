@@ -1,5 +1,5 @@
-export default interface IVoucher_Business {
-	voucher_name: string;
+export default interface IRedeemList {
+     voucher_name: string;
 	voucher_image: string;
 	start_date: string;
 	end_date: string;
@@ -10,3 +10,4 @@ export default interface IVoucher_Business {
 	voucherId: number;
 	target?: string;
 }
+

@@ -13,6 +13,7 @@ import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
 //   return data;
 // };
 
+
 interface PromotionStatusCardProps {
   data: {
     promotionId: number; // Assuming promotionId is a number

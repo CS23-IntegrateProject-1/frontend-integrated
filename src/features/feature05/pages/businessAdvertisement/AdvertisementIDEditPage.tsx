@@ -39,6 +39,7 @@ interface AdvertisementProps {
 export const AdvertisementIDEditPage = () => {
   const { id } = useParams();
 
+  
   const navigate = useNavigate();
   const deleteModal = useDisclosure();
   const submitModal = useDisclosure();

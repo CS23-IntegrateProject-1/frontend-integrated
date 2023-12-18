@@ -16,7 +16,7 @@ export const PromotionDetail = () => {
       const result = await Axios.get(
         `/feature5/GetDetailPromotion/${promotionId}`
       );
-      console.log(result.data.getVeuneList);
+      console.log(result);
       setBranchList(result.data.getVeuneList);
       console.log(result);
       setImage(result.data.getDetail.image_url);

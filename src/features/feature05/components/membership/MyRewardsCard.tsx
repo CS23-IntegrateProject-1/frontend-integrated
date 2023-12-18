@@ -1,11 +1,15 @@
-2
-import { Box, Icon, Image } from "@chakra-ui/react";
+2;
+import { Box, Image } from "@chakra-ui/react";
 import { FC } from "react";
-import { FaRegEdit } from "react-icons/fa";
+// import { FaRegEdit } from "react-icons/fa";
 //import { useNavigate } from "react-router-dom";
 
 interface RewardData {
-  isApprove: string;
+  User_voucher: [
+    {
+      isUsed: boolean;
+    }
+  ];
   voucher_image: string;
   // Add other properties as needed
 }
@@ -16,10 +20,10 @@ export const MyRewardsCard: FC<{
   //const navigate = useNavigate();
   //const rewardId = data.voucherId;
 
-  const status = data.isApprove;
+  const status = data.User_voucher[0].isUsed;
   const img = data.voucher_image;
-  const color =
-    status === "Rejected" ? "red" : status === "In_progress" ? "blue" : "green";
+  // const color =
+  //   status === "!isUsed" ? "red" : status === "In_progress" ? "blue" : "green";
 
   return (
     <Box
@@ -40,7 +44,7 @@ export const MyRewardsCard: FC<{
         <Image objectFit={"cover"} src={img} />
         <Box
           pos={"absolute"}
-          bg={color}
+          // bg={color}
           bottom={2}
           right={2}
           borderRadius={10}
@@ -48,7 +52,7 @@ export const MyRewardsCard: FC<{
         >
           {status}
         </Box>
-        <Box pos={"absolute"} top={2} right={1} borderRadius={10} px={"10px"}>
+        {/* <Box pos={"absolute"} top={2} right={1} borderRadius={10} px={"10px"}>
           {status === "In_progress" && (
             <Icon
               as={FaRegEdit}
@@ -56,7 +60,7 @@ export const MyRewardsCard: FC<{
           //     onClick={handleClickEdit}
             ></Icon>
           )}
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
