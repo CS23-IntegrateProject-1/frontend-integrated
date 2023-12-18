@@ -6,6 +6,7 @@ import { OrderUpdateNoti } from "./pages/NotificationBusinessSide/OrderUpdateNot
 import { UpdateNoti } from "./pages/NotificationBusinessSide/UpdateNoti";
 import { SelectPayment } from "./pages/Customer/SelectPayment";
 import { SelectPaymentD } from "./pages/Customer/SelectPaymentD";
+import { SelectPaymentS } from "./pages/Customer/SelectPaymentS";
 import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
 import { AddCardNoti } from "./pages/NotificationBusinessSide/AddCardNoti";
 import { AddCard } from "./pages/AddCard/AddCard";
@@ -38,6 +39,7 @@ export const Feature08Routes = () => {
     //customer side
     { path: ":userId/venue/:venueId/payment", element: <SelectPayment /> },
     { path: ":userId/venue/:venueId/paymentD", element: <SelectPaymentD /> },
+    { path: ":userId/venue/:venueId/paymentS", element: <SelectPaymentS /> },
     { path: ":userId/venue/:venueId/payment/checkout", element: <ProductDisplay /> },
     { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
