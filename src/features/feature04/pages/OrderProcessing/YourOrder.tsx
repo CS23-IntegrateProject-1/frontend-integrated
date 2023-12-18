@@ -3,12 +3,12 @@ import { CartDetailNavbar } from "../../components/FoodDeliveryComp/CartDetail/C
 import { DeliveryTime } from "../../components/FoodDeliveryComp/CartDetail/DeliveryTime"
 import { YourOrderComp } from "../../components/FoodDeliveryComp/OrderProcessingComp/YourOrderComp"
 import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingComp/FoodStatus"
-interface Order {
-    amount: number;
-    restaurant: string;
-    size: string;
-    price: number;
-  }
+// interface Order {
+//     amount: number;
+//     restaurant: string;
+//     size: string;
+//     price: number;
+//   }
 export const YourOrder=()=>{
     return(
         <Box>

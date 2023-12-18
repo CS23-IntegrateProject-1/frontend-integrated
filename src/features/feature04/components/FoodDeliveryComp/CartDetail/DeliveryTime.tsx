@@ -49,9 +49,8 @@ export const DeliveryTime = () => {
     deliveryTimeEnd.setMinutes(deliveryTimeEnd.getMinutes() + 15);
 
     // Format the date and time
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDeliveryDateTime = {
-      date: deliveryDate.toLocaleDateString(undefined, options),
+      date: deliveryDate.toLocaleDateString(undefined,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
       timeStart: deliveryTimeStart.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }),
       timeEnd: deliveryTimeEnd.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }),
     };

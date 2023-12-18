@@ -48,6 +48,7 @@ export const Bars = () => {
     try {
       const response = await Axios.get("/feature4/bars");
       setRegistered1(response.data.bars);
+      console.log("Registered Data Response:", response.data.bars);
       setLocations1(response.data.bars.map((item:any) => item.location));
       
     } catch (error) {
