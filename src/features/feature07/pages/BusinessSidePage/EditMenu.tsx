@@ -68,9 +68,11 @@ export const EditMenu = () => {
     }));
     e.target.setCustomValidity(""); 
   };
+
   const isFormValid = () => {
-    return formData.name && formData.description && formData.price;
+    return editFormData.name && editFormData.description && editFormData.price;
   };
+  
   const handleUpdate = async () => {
     setFormSubmitted(true);
     if (!isFormValid()) {
@@ -130,7 +132,8 @@ export const EditMenu = () => {
               onChange={handleInputChange}
               required
               onInvalid={handleInvalid}
-              isInvalid={formSubmitted && !formData.name}
+              isInvalid={formSubmitted && !editFormData.name}
+
             />
           </Box>
         </Center>
@@ -151,7 +154,8 @@ export const EditMenu = () => {
               onChange={handleInputChange}
               required
               onInvalid={handleInvalid}
-              isInvalid={formSubmitted && !formData.description}
+              isInvalid={formSubmitted && !editFormData.description}
+
             />
           </Box>
         </Center>
@@ -172,6 +176,9 @@ export const EditMenu = () => {
               name='price'
               value={editFormData.price}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !editFormData.price}
             />
           </Box>
         </Center>
