@@ -1,6 +1,7 @@
-import { Box,List,ListItem,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
+import { Box,Card,Flex,Stack,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
 import Conversation from "../../components/Conversation";
 import { useConversations } from "../../context/ConversationProvider";
+import { useState } from "react";
 
 interface Recipient {
   member: {
@@ -27,12 +28,11 @@ interface Message {
   fromMe: boolean;
 }
 export const CommunityChatPage = () => {
-
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const { conversations, openConversation,selectedConversation} = useConversations();
-  console.log("conversations", conversations);
   return (
-    <Box display="flex">
-      <Box width="25%" mr="4px">
+    <Box display="flex" height={"83vh"}>
+      <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"}> 
         <Tabs isFitted>
           <TabList >
             <Tab>Private Chat</Tab>
@@ -40,32 +40,22 @@ export const CommunityChatPage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <>
-      <List
-        spacing={3}
-        variant="flush"
-        width="100%"
-        borderBottom="0.5px solid black"
-      >
-        {conversations.map((conversation:Conversation, index: number) => (
-          <ListItem
-            key={index}
-            cursor={"pointer"}
-            padding={3}
-            onClick={() => {
-              openConversation(
-                conversation.members,
-                conversation.group_name,
-                conversation.id,
-              );
-            }}
-            background={conversation.selected ? "#DEBEF6" : "transparent"}
-          >
-            {conversation.group_name}
-          </ListItem>
-        ))}
-      </List>
-    </>
+              <Stack>
+                {conversations.map((conversation : Conversation, index : number) => (
+                  <Card
+                    key={index}
+                    onClick={() => {openConversation(conversation.members, conversation.group_name,conversation.id);
+                    setSelectedCard(index);}}
+                    background={selectedCard === index ? "#DEBEF6" : "transparent"}>
+                      <Flex margin={"10px"}>
+                        <Text color={"white"}>
+                          {conversation.group_name}
+                        </Text>
+                      </Flex>
+                    </Card>
+                )
+                )}
+              </Stack>
             </TabPanel>
             <TabPanel>
               {/* <ConversationsLog /> */}

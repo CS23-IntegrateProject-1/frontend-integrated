@@ -116,6 +116,10 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
     console.log("selectedConversation after sending", selectedConversation?.messages);
   };
 
+  useEffect(() => {
+    console.log("selectedConversation", selectedConversation);
+  }
+  , [selectedConversation?.messages]);
 const addMessageToConversation = useCallback(({
   recipients,
   text,
@@ -126,12 +130,16 @@ const addMessageToConversation = useCallback(({
   sender: string;
 }) => {
   if(selectedConversation){
-      selectedConversation.messages.push({
-      recipients,
-      text,
-      sender,
-      fromMe: sender === user.username,
-  })
+      setSelectedConversation(
+        {...selectedConversation,
+          messages: [...selectedConversation.messages, { recipients, text, sender, fromMe: sender === user.username }]
+        });
+  //     selectedConversation.messages.push({
+  //     recipients,
+  //     text,
+  //     sender,
+  //     fromMe: sender === user.username,
+  // })
   }
 }, [selectedConversation,user.username]);
   // Socket Recieve message event listener
@@ -141,7 +149,13 @@ const addMessageToConversation = useCallback(({
       return;
     }
     socket.on("receive-message", ({ recipients, text, sender }) => {
-      addMessageToConversation({ recipients, text, sender });
+      // addMessageToConversation({ recipients, text, sender });
+      if(selectedConversation){
+      setSelectedConversation(
+        {...selectedConversation,
+          messages: [...selectedConversation.messages, { recipients, text, sender, fromMe: sender === user.username }]
+        });
+      }
     });
     return () => {
       socket.off("receive-message");

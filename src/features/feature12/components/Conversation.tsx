@@ -10,12 +10,13 @@ import {
   VStack,
   Flex,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { BiSolidCamera } from "react-icons/bi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { Form } from "react-router-dom";
 import { useConversations } from "../context/ConversationProvider";
 import { UserContext } from "../../../contexts/userContext/UserContext";
+import { Axios } from "../../../AxiosInstance";
 
 const cameraIconStyle = {
   borderRadius: "50%",
@@ -29,17 +30,29 @@ const sendButtonStyle = {
   color: "#A533C8",
   fontSize: "30px",
 };
+interface User {
+  username: string,
+  fname: string,
+  lname: string,
+  profile_picture: string | null,
+}
+interface LoadMessage {
+  userId: number,
+  user: User,
+  message : string,
+  date_time: string,
+}
 export default function Conversation() {
   const user = useContext(UserContext);
   const [text, setText] = useState<string>("");
   const { sendMessage, selectedConversation } = useConversations();
-  
+  const[loadMessages,setLoadMessages] = useState<LoadMessage[]>([]);
   const setRef = useCallback((node: HTMLElement | null) => {
     if (node) {
-      node.scrollIntoView({ behavior: "smooth" });
+      node.scrollIntoView({ behavior: "instant" });
     }
   }, []);
-
+  console.log(selectedConversation, "selectedConversation")
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if(selectedConversation){
@@ -53,6 +66,11 @@ export default function Conversation() {
     setText("");
   }
 
+  useEffect(() => {
+    Axios.get(`feature12/displayAllMessage/${selectedConversation?.id}`).then((response) => {
+      setLoadMessages(response.data);
+    });
+  }, []);
   return (
     <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
       <Box flexGrow="1" overflow="auto">
@@ -63,10 +81,43 @@ export default function Conversation() {
           justifyContent="start"
           px="12px"
         >
+          {loadMessages && loadMessages.map((message, index) => {
+            const lastMessage = loadMessages.length - 1 === index;
+            return (
+              <Flex
+                key={index}
+                ref={lastMessage ? setRef : null}
+                my="4px"
+                display="flex"
+                flexDirection={message.user.username === user.username ? "row-reverse" : "row"}
+                width="100%"
+              >
+                <Box 
+                  flexDirection="column">
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    textAlign={message.user.username === user.username ? "end" : "start"}
+                  >
+                    {message.user.username}
+                  </Text>
+                  <Box
+                    rounded={"md"}
+                    py="1"
+                    px="2"
+                    bg={message.user.username === user.username ? "#DEBEF6" : "red"}
+                    color={message.user.username === user.username ? "black" : "white"}
+                    borderWidth={message.user.username === user.username ? "0px" : "1px"}
+                  >
+                    {message.message}
+                  </Box> 
+                </Box>
+              </Flex>
+            );
+          })}
           {/* Each message placing for sender or receiver */}
           {selectedConversation?.messages.map((message, index) => {
-            const lastMessage =
-              selectedConversation.messages.length - 1 === index;
+            const lastMessage = selectedConversation.messages.length - 1 === index;
             return (
               <Flex
                 key={index}
@@ -77,6 +128,13 @@ export default function Conversation() {
                 width="100%"
               >
                 <Box flexDirection="column">
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    textAlign={message.fromMe ? "end" : "start"}
+                  >
+                    {message.sender}
+                  </Text>
                   <Box
                     rounded={"md"}
                     py="1"
@@ -87,17 +145,6 @@ export default function Conversation() {
                   >
                     {message.text}
                   </Box>
-                  <Text
-                    fontSize="sm"
-                    color="gray.500"
-                    textAlign={message.fromMe ? "end" : "start"}
-                  >
-                    {lastMessage
-                      ? message.fromMe
-                        ? "You"
-                        : message.sender
-                      : ""}
-                  </Text>
                 </Box>
               </Flex>
             );
