@@ -6,33 +6,30 @@ import {
   HStack,
   Flex,
   IconButton,
-  Button,
+  // Button,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
-import { Axios } from "../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+// import { Axios } from "../../../AxiosInstance";
 
-const getCartMenuItem = async (type: string, menuid: string) => {
-  const response = await Axios.get(
-    `/feature7/show${type}DetailFromCart/${menuid}`
-  );
-  console.log(response.data); //debugging response
-  return response.data;
-};
+// const getCartMenuItem = async (type: string, menuid: string) => {
+//   const response = await Axios.get(
+//     `/feature7/show${type}DetailFromCart/${menuid}`
+//   );
+//   console.log(response.data); //debugging response
+//   return response.data;
+// };
 
-interface MenuDetailProps {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image_url: string;
-}
+// interface MenuDetailProps {
+//   id: number;
+//   name: string;
+//   price: number;
+//   description: string;
+//   image_url: string;
+// }
 export const CartMenuDetail: FC = () => {
   // const { type, menuid } = useParams();
   ////console.log(menuid);

@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Box, Flex, FormControl, FormLabel, Input,Textarea,Select, Button,Checkbox,CheckboxGroup, Stack, Image } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Input,Textarea,Select, Button,Checkbox,CheckboxGroup, Stack, Image } from "@chakra-ui/react";
 
  export const AccountSetupPage: React.FC = () => {
   const [businessName, setBusinessName] = useState<string>("");
@@ -14,7 +14,7 @@ import { Box, Flex, FormControl, FormLabel, Input,Textarea,Select, Button,Checkb
   const [address, setAddress] = useState<string>("");
   const [acceptPeople, setAcceptPeople] = useState<string>("");
   const [paymentmethod, setPaymentMethod] = useState<string>("");
-  const [photo, setPhoto] = useState<string>("");
+  // const [photo, setPhoto] = useState<string>("");
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
 
 const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +29,11 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setBusinessName(event.target.value);
   };
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(event.target.value);
-  };
+  // const handleDescriptionChange = (
+  //   event: React.ChangeEvent<HTMLTextAreaElement>
+  // ) => {
+  //   setDescription(event.target.value);
+  // };
 
   const handlePhoneNoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneNo(event.target.value);
@@ -41,12 +41,12 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
   const handleemailNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setemailName(event.target.value);
   };
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    // Do something with the selected file, like uploading it to a server
-    // For now, just set it to state to display a preview
-    setSelectedImage(URL.createObjectURL(file));
-  };
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   // Do something with the selected file, like uploading it to a server
+  //   // For now, just set it to state to display a preview
+  //   setSelectedImage(URL.createObjectURL(file));
+  // };
   const handleFromTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFromTime(event.target.value);
   };
@@ -78,31 +78,31 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPaymentMethod(event.target.value);
   };
 
-  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoto(event.target.value);
-  };
+  // const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPhoto(event.target.value);
+  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     
   };
-  const UserProfile = () => {
-    return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        h="100vh" // Set the height of the container to the full viewport height
-      >
-        <Image
-          borderRadius="full"
-          boxSize="150px"
-          src="https://bit.ly/dan-abramov"
-          alt="Dan Abramov"
-        />
-      </Flex>
-    );
-  };
+  // const UserProfile = () => {
+  //   return (
+  //     <Flex
+  //       direction="column"
+  //       align="center"
+  //       justify="center"
+  //       h="100vh" // Set the height of the container to the full viewport height
+  //     >
+  //       <Image
+  //         borderRadius="full"
+  //         boxSize="150px"
+  //         src="https://bit.ly/dan-abramov"
+  //         alt="Dan Abramov"
+  //       />
+  //     </Flex>
+  //   );
+  // };
   
   return (
     <Box p={4}>
@@ -243,7 +243,7 @@ const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
             <Input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                // onChange={handleImageChange}
             />
             </FormControl>
             <Button mt={4} color="white"textColor={"purple"} marginRight={100} borderRadius="lg" type="submit">

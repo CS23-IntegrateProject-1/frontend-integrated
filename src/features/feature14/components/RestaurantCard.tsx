@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import React from 'react';
+import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { FaAngleRight } from 'react-icons/fa';
 

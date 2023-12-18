@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Center,
@@ -134,7 +135,7 @@ useEffect(() => {
       });
   }
   // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 

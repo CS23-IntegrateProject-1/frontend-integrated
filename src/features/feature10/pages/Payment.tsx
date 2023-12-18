@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PaymentSuccess from './PaymentSuccess';
 import { Box, Text, Button } from '@chakra-ui/react';
 
 const PaymentPage = () => {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Thead,
@@ -65,7 +64,7 @@ export const Accounting = () => {
     };
     console.log(appTrans)
     fetchTableNumber();
-  }, [venueId]);
+  }, [appTrans, venueId]);
 
   useEffect(() => {
     const fetchData = async (transactionId: number) => {
@@ -122,6 +121,7 @@ export const Accounting = () => {
 
     // Aggregate amounts for transactions with the same date
     Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
+      monthKey;
       detailsArray.forEach((details) => {
         const formattedDate = format(
             utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),

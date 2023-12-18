@@ -15,17 +15,17 @@ interface IData {
 
 export const DashboardPage = () => {
   const [venueId, setVenueId] = useState<number | null>(1);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const confirmCheckin = () => {
-    let path = "/business/qrcodeconfirm";
+    const path = "/business/qrcodeconfirm";
     navigate(path);
   };
   const menu = () => {
-    let path = `/business/venue/${venueId}/menubusiness`;
+    const path = `/business/venue/${venueId}/menubusiness`;
     navigate(path);
   };
   const tableList = () => {
-    let path = "/business/tablelist";
+    const path = "/business/tablelist";
     navigate(path);
   };
   const [data, setData] = useState<IData>({});

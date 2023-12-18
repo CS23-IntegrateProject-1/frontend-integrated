@@ -1,6 +1,5 @@
-import { Box, Button, Divider, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
-import { FaShoppingCart } from "react-icons/fa";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
 import index from "../../../theme/foundations/index";
 const FoodDelivery = () => {

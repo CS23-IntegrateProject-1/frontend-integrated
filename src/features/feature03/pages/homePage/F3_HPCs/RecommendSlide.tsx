@@ -1,6 +1,5 @@
 import {
   Box,
-  Stack,
   Text,
   Card,
   CardBody,
@@ -9,27 +8,54 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
-import { FaHeart } from "react-icons/fa";
+// import { FaHeart } from "react-icons/fa";
 
-import mockR from "../../RF3mock.json";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
 
-interface RProps {
+interface RecommendSlide {
   id: number;
+  venueId: number;
+  branchId: number;
   name: string;
   description: string;
-  picR: string;
+  category: string;
+  capacity: string;
+  location: string;
+  website_url: string;
+  rating: string;
+  venue_picture: string;
 }
 
 export const RecommendSlide = () => {
-  const R: RProps[] = mockR;
-  const [isFav, setIsFav] = useState(false);
+  const {
+    isLoading: recommendSlideLoading,
+    isError: recommendSlideError,
+    data: recommendSlideData,
+  } = useQuery<RecommendSlide[]>({
+    queryKey: ["getRPSlideVen"],
+    queryFn: async () => {
+      const { data } = await Axios.get(`/feature3/RecommendedPlaces`);
+      return data;
+    },
+    keepPreviousData: true,
+  });
 
-  const toggleFav = () => {
-    setIsFav((prevIsFav) => !prevIsFav);
-  };
+  if (recommendSlideLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (recommendSlideError) {
+    return <span>An error occurred: </span>;
+  }
+
   return (
     <Box
       overflowX="auto"
@@ -48,82 +74,61 @@ export const RecommendSlide = () => {
       w={"100%"}
       pt={1}
     >
-      {R.filter((R) => R).map((R, index) => (
+      {(recommendSlideData || []).map((RPS) => (
         <Card
-          minW={{ base: "300px", lg: "350px" }}
+          minW={{ base: "250px", lg: "350px" }}
           width="sm"
-          borderRadius="xl"
+          borderRadius="2xl"
           bg="brand.200"
-          key={index}
-          marginRight="5"
+          key={RPS.venueId}
+          mr="5"
         >
-          <Button
-            position="absolute"
-            right="0"
-            mt="1.5"
-            mr="1.5"
-            borderRadius="100%"
-            paddingY="3"
-            paddingX="0"
-            bgColor={isFav ? "#f0608d" : "white"}
-            color={isFav ? "white" : "#f0608d"}
-            _hover={{
-              bgColor: isFav ? "black" : "white",
-              color: isFav ? "white" : "black",
-            }}
-            onClick={toggleFav}
-          >
-            <FaHeart fontSize="20px" />
-          </Button>
-          <CardBody>
+          <CardBody pb={1}>
             <Image
-              src={R.picR}
-              alt="BarButPic not load"
-              borderRadius="xl"
+              src={RPS.venue_picture}
+              alt={RPS.name + "_Pic"}
+              borderRadius="lg"
               w="100%"
               h="160px"
+              bgColor={"white"}
             />
-            <Stack mt="4" spacing="3">
-              <Heading display={"flex"} color="white" size="md">
-                {R.name}
-
-                <Text ml={"auto"}>5</Text>
-                <StarIcon display={"flex"} ml="1" />
+            <Flex mt="4">
+              <Heading color="white" size="md">
+                {RPS.name}
               </Heading>
-              <Text color="grey.200">{R.description}</Text>
-            </Stack>
+              <Flex
+                direction="row"
+                mr="2"
+                borderRadius="14"
+                ml={"auto"}
+                color="white"
+                transform="translateY(2px)"
+              >
+                {RPS.rating != "0" ? RPS.rating : "N/A"}
+                <StarIcon ml="2" transform="translateY(2px)" />
+              </Flex>
+            </Flex>
           </CardBody>
           <Flex
-            direction="row"
+            direction="column"
             justify="space-between"
             width="100%"
             pl="5"
             pr="5"
             pb="5"
           >
-            <NavLink to="/Temp_RestaurantDetail">
-              <Button
-                variant="outline"
-                textColor="white"
-                _hover={{
-                  textColor: "black",
-                  borderColor: "black",
-                  bgColor: "brand.100",
-                }}
-                w={{ base: "120px", lg: "145px" }}
-              >
-                More Info
-              </Button>
-            </NavLink>
-            <NavLink to="/IDK_PathRRRRR">
+            <Text mb={3} textColor={"gray.300"}>
+              {RPS.description}
+            </Text>
+            <NavLink to={`/Branches/${RPS.venueId}`}>
               <Button
                 variant="solid"
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w={{ base: "120px", lg: "145px" }}
+                w="350px"
               >
-                Reserve Now
+                Branches
               </Button>
             </NavLink>
           </Flex>

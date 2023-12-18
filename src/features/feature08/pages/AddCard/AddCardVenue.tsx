@@ -17,7 +17,7 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
-import axios from "axios"
+import {Axios} from "../../../../AxiosInstance"
 import { useParams } from "react-router-dom";
 
 interface ButtonProps {
@@ -53,25 +53,27 @@ export const AddCardVenue: FC<ButtonProps> = ({
   const [bank, setBank] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addCardData, setAddCardData] = useState<AddCard[]>([]);
-  const {userId, venueId} = useParams();
+  addCardData;
+  const { userId, venueId } = useParams();
+  userId;
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let name = event.target.value;
+    const name = event.target.value;
     setName(name);
   }
 
   const handleCountryChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let country = event.target.value;
+    const country = event.target.value;
     setCountry(country);
   }
 
   const handleBankChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let bank = event.target.value;
+    const bank = event.target.value;
     setBank(bank);
   }
 
@@ -191,8 +193,8 @@ export const AddCardVenue: FC<ButtonProps> = ({
       event.preventDefault(); // Prevent default form submission behavior
     
       try {
-        const response = await axios.post(
-          "http://localhost:8080/feature8/add_venue_creditcard",
+        const response = await Axios.post(
+          "/feature8/add_venue_creditcard",
           {
             // Need to add extra information 
             // 1. Make more input field for country , bank, (done)
@@ -203,7 +205,7 @@ export const AddCardVenue: FC<ButtonProps> = ({
             cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            venueId: parseInt(venueId),
+            venueId: parseInt(venueId!),
           }
         );
     

@@ -361,7 +361,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
                  borderColor="brand.300"
                  bgColor="brand.300"
                  style={{
-                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image_url})`,
+                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image_url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

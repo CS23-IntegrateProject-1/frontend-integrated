@@ -1,10 +1,9 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
 import { useParams } from "react-router-dom";
 
 interface StarGraphData {
@@ -22,6 +21,8 @@ const starGraph = {
 };
 
 export const StarGraph = () => {
+  const starWidth = useBreakpointValue({ base: 150, md: 300 }) ?? 0;
+
   const { branchId } = useParams();
 
   const {
@@ -63,7 +64,7 @@ export const StarGraph = () => {
                 <Box
                   backgroundColor="white"
                   w={`${
-                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * starWidth
                   }px`}
                   h="9px"
                   ml="0.5rem"
@@ -84,7 +85,7 @@ export const StarGraph = () => {
                 <Box
                   backgroundColor="white"
                   w={`${
-                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * starWidth
                   }px`}
                   h="9px"
                   ml="1.25rem"
@@ -104,7 +105,7 @@ export const StarGraph = () => {
                 <Box
                   backgroundColor="white"
                   w={`${
-                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * starWidth
                   }px`}
                   h="9px"
                   ml="2rem"
@@ -123,7 +124,7 @@ export const StarGraph = () => {
                 <Box
                   backgroundColor="white"
                   w={`${
-                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * starWidth
                   }px`}
                   h="9px"
                   ml="2.75rem"
@@ -141,7 +142,7 @@ export const StarGraph = () => {
                 <Box
                   backgroundColor="white"
                   w={`${
-                    (SG.total_per_rating / SG.total_ratings_per_branch) * 300
+                    (SG.total_per_rating / SG.total_ratings_per_branch) * starWidth
                   }px`}
                   h="9px"
                   ml="3.5rem"

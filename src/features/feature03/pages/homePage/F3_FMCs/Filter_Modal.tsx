@@ -9,9 +9,10 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { FilterCap } from "./FilterCap";
-import { FilterDistance } from "./FilterDistance";
 import { FilterPrice } from "./FilterPrice";
 import { FilterType } from "./FilterType";
+import { useContext } from "react";
+import { DEFAULT_FILTER, FilterContext } from "../VenuePage";
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,6 +27,10 @@ interface Filter_Modal extends ModalProps {
 }
 
 export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
+  const context = useContext(FilterContext);
+  const handleFilterReset = () => {
+    context.setFilter(() => DEFAULT_FILTER);
+  }
   return (
     <Modal
       isOpen={isOpen}
@@ -48,7 +53,6 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
         <ModalBody>
           <FilterType />
           <FilterPrice />
-          <FilterDistance />
           <FilterCap />
         </ModalBody>
         <ModalFooter>
@@ -61,6 +65,7 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
               borderColor: "red",
               bgColor: "red",
             }}
+            onClick={handleFilterReset}
           >
             Reset
           </Button>

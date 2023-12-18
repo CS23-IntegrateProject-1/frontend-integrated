@@ -37,7 +37,7 @@ export const BusMenucard: FC<BusMenuCardProps>= ({foodName,description,price,ima
     <Flex justifyContent="center" width="140px" height="105px" >
       <Image 
       // src="/src/features/feature07/assets/test.jpg"
-      src={`http://localhost:8080/uploads/${imageUrl}`}
+      src={`${import.meta.env.VITE_BACKEN_URL}${imageUrl}`}
       alt="integrate" 
       objectFit="cover" 
       mt={0.5}

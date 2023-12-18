@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input} from "@chakra-ui/react"
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
@@ -97,7 +98,7 @@ export const BusiUpdateCard = () => {
     };
 
      useEffect(() => {
-        const url = `http://localhost:8080/feature8/creditcardU/${cardInfo}`;        
+        const url = `/feature8/creditcardU/${cardInfo}`;        
         Axios.get(url, {withCredentials: true})
         .then((res) => {
             if(res.status === 200){
@@ -116,7 +117,7 @@ export const BusiUpdateCard = () => {
         
         },[]);
      const handleUpdate = () => {
-        const url = `http://localhost:8080/feature8/update_creditcard/${cardInfo}`;
+        const url = `/feature8/update_creditcard/${cardInfo}`;
         Axios.patch(url, {
             card_no: cardNumber,
             name: cardName,

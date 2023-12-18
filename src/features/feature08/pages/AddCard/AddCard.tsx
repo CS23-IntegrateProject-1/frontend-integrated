@@ -17,7 +17,7 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
-import axios from "axios"
+import {Axios} from "../../../../AxiosInstance"
 import { useParams } from "react-router-dom";
 
 interface ButtonProps {
@@ -191,8 +191,8 @@ export const AddCard: FC<ButtonProps> = ({
       event.preventDefault(); // Prevent default form submission behavior
     
       try {
-        const response = await axios.post(
-          "http://localhost:8080/feature8/add_creditcard",
+        const response = await Axios.post(
+          "/feature8/add_creditcard",
           {
             // Need to add extra information 
             // 1. Make more input field for country , bank, (done)
