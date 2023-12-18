@@ -47,11 +47,8 @@ export const Reservation = () => {
     offline: true,
     online: true,
   });
+   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  setFilterOptions({
-    offline: true,
-    online: true,
-  })
   
   useEffect(() => {
     fetchData();
