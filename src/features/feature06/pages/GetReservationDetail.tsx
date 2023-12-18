@@ -1,4 +1,4 @@
-import { Box, Icon, Text, Button, Fade } from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Fade, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
@@ -7,6 +7,7 @@ import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { CancelModal } from "../components/CancelModal";
 // import { FC, useRef } from "react";
 
 // interface ShareModalProps {
@@ -14,6 +15,8 @@ import { Link } from "react-router-dom";
 //   onClose: () => void;
 //   url: string;
 // }
+import { FC} from "react";
+import { Axios } from "../../../AxiosInstance";
 
 interface IPhotoData {
   date_added: string;
@@ -71,7 +74,7 @@ interface IData {
   ];
 }
 
-export const GetReservationDetail = () => {
+export const GetReservationDetail: FC = ({}) => {
   const [data, setData] = useState<IData>();
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
@@ -89,7 +92,7 @@ export const GetReservationDetail = () => {
   }>();
   const venueIdInt = parseInt(venueId || "0");
   const reservationIdInt = parseInt(reservationId || "0");
-
+  const cancelModal = useDisclosure();
 
   useEffect(() => {
     fetchData();
@@ -103,19 +106,32 @@ export const GetReservationDetail = () => {
       );
       setData(response);
       console.log(response);
-      console.log(data?.reservations[0]?.status)
+      console.log(data?.reservations[0]?.status);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  const handleCopyClick = () => {
-    // Logic to copy link
-    // Show overlay for 2 seconds
-    setShowOverlay(true);
+  const handleCopyClick = async () => {
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        setShowOverlay(true);
+
+    } catch (error) {
+      console.error("Failed to copy URL to clipboard", error);
+    }
     setTimeout(() => {
       setShowOverlay(false);
     }, 600);
   };
+
+  const confirmCheckin = async () => {
+    try{
+      const response = await Axios.get(`/api/mik/checkInStatus/${reservationId}`)
+      console.log(response);
+    }catch (error){
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <Box
@@ -385,22 +401,21 @@ export const GetReservationDetail = () => {
         ></Box>
         {data?.reservations[0]?.status === "Pending" ? (
           <Box mt="15px" ml={"50px"}>
-            <Link to={`/my-reservation`}>
-              <Button
-                borderRadius="10px"
-                width="138px"
-                height="40px"
-                backgroundColor="white"
-                textColor="#A533C8"
-                fontSize="16px"
-                fontStyle="normal"
-                fontWeight="700"
-                lineHeight="24px"
-                mr={"17px"}
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              borderRadius="10px"
+              width="138px"
+              height="40px"
+              backgroundColor="#C83333"
+              textColor="white"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="24px"
+              mr={"17px"}
+              onClick={() => cancelModal.onOpen()}
+            >
+              Cancel
+            </Button>
             <Link to={`/qrcode/display/${reservationId}`}>
               <Button
                 borderRadius="10px"
@@ -417,10 +432,32 @@ export const GetReservationDetail = () => {
               </Button>
             </Link>
           </Box>
+        ) : data?.venue.name === "MIK" ? (
+          <Button
+            borderRadius="10px"
+            width="138px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"132px"}
+            mt={"15px"}
+            onClick={() => confirmCheckin()}
+          >
+            Confirm
+          </Button>
         ) : (
           ""
         )}
       </Box>
+      <CancelModal
+        reservationIdInt={data?.reservations[0].reservationId}
+        isOpen={cancelModal.isOpen}
+        onClose={cancelModal.onClose}
+      />
     </Box>
   );
 };

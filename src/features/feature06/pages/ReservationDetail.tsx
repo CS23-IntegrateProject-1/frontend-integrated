@@ -63,7 +63,7 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(venueIdInt,branchIdInt);
+    const response: IData = await getVenueById(branchIdInt,venueIdInt);
     console.log(response);
     setData(response);
   }
@@ -80,6 +80,12 @@ export const ReservationDetail = () => {
   const handleCreate = async () => {
     try {
       const seatsInt = parseInt(seats || "0")
+      const currentDate = new Date();
+      const selectedDateTime = new Date(`${date}T${time}`);
+      if (selectedDateTime < currentDate) {
+        toast.warning("Please select a future date and time");
+        return;
+      }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information")
       }
@@ -178,18 +184,6 @@ export const ReservationDetail = () => {
                 }}
               />
             </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop="10px"
-            >
-              {/* {data?.reservations[0].user.fname} */}
-            </Text>
             <Text
               color="#000"
               fontFamily="Roboto"
