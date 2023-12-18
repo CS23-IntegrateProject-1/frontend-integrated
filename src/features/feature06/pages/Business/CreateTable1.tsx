@@ -76,6 +76,7 @@ export const CreateTable1 = () => {
             <Select
               isRequired
               placeholder="select your table type"
+             
               onChange={(e) => {
                 setTabletypeId(Number(e.target.value));
               }}
@@ -86,6 +87,8 @@ export const CreateTable1 = () => {
                 <option
                   key={tabletype.tableTypeDetailId}
                   value={tabletype.tableTypeDetailId}
+                  style={{ color:"#000000", 
+                background: "#FFFFFF"}}
                 >
                   {tabletype.name}
                 </option>
