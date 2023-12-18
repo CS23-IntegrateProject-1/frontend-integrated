@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
+import { parseISO } from "date-fns";
 
 interface appTransaction {
   // Define the properties of the business insight here
@@ -35,14 +36,29 @@ interface appTransactionDetail {
   appTransactionId: number;
 }
 
+
+
+
 export const Accounting = () => {
   const [appTrans, setAppTrans] = useState();
+  appTrans;
   const { venueId, month } = useParams();
   const urlMonth = decodeURIComponent(month || "").split(" ")[0];
   const [allTransactionIds, setAllTransactionIds] = useState([]);
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<
     Record<string, unknown[]>
   >({});
+
+
+
+   const formatDate12 = (datetime: string) => {
+    const originalISO = parseISO(datetime);
+    const utcDate = utcToZonedTime(originalISO, "UTC");
+    const formattedDate = format(utcDate, "dd MMMM yyyy", {
+      timeZone: "UTC",
+    } as any).toUpperCase(); // Convert the month to uppercase
+    return formattedDate;
+  };
 
   useEffect(() => {
     const fetchTableNumber = async () => {
@@ -62,9 +78,11 @@ export const Accounting = () => {
         console.error("Error fetching table number:", error);
       }
     };
-    console.log(appTrans)
+    
     fetchTableNumber();
-  }, [appTrans, venueId]);
+  }, [venueId]);
+// }, [appTrans, venueId]);
+
 
   useEffect(() => {
     const fetchData = async (transactionId: number) => {
@@ -118,29 +136,34 @@ export const Accounting = () => {
 
   const aggregateAmountsByDate = () => {
     const aggregatedData: Record<string, { total: number; details: unknown[] }> = {};
-
+  
     // Aggregate amounts for transactions with the same date
-    Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
-      monthKey;
+    // Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
+    Object.entries(appTransactionByMonth).forEach(([, detailsArray]) => {
       detailsArray.forEach((details) => {
-        const formattedDate = format(
-            utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),
-          "dd MMMM yyyy"
-        );
-
-        if (aggregatedData[formattedDate]) {
+        const formattedDate = new Date(
+          utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone)
+        ).toISOString();
+  
+        console.log('Formatted Date:', formatDate12(formattedDate));
+  
+        if (aggregatedData[formatDate12(formattedDate)]) {
           // Add the amount to the existing date
-          aggregatedData[formattedDate].total += Number((details as appTransactionDetail).total_amount);
-          aggregatedData[formattedDate].details.push(details);
+          aggregatedData[formatDate12(formattedDate)].total += Number((details as appTransactionDetail).total_amount);
+          aggregatedData[formatDate12(formattedDate)].details.push(details);
         } else {
           // Initialize the amount for a new date
-          aggregatedData[formattedDate] = { total: Number((details as appTransactionDetail).total_amount), details: [details] };
-        }        
+          aggregatedData[formatDate12(formattedDate)] = {
+            total: Number((details as appTransactionDetail).total_amount),
+            details: [details],
+          };
+        }
       });
     });
-
+  
     return aggregatedData;
   };
+  
 
       const aggregatedAmountsByDate = aggregateAmountsByDate();
 

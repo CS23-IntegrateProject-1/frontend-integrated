@@ -16,16 +16,37 @@ import { Link, useParams } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
+import { parseISO } from "date-fns";
+import { format, utcToZonedTime } from "date-fns-tz";
 
+
+
+interface appTransactionDetail {
+  // Define the properties of the business insight here
+  appTransactionDetailId: number;
+  detail: string;
+  monthly: Date;
+  total_amount: number;
+  timestamp: Date;
+  appTransactionId: number;
+}
 
 export const AccountingMain = () => {
   const [appTrans, setAppTrans] = useState();
   appTrans;
   const { venueId } = useParams();
   const [allTransactionIds, setAllTransactionIds] = useState([]);
-  // const [appTransaction, setAppTransaction] = useState([]);
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<Record<string, any[]>>({});
-  
+
+
+  const formatDateMain = (datetime: string) => {
+    const originalISO = parseISO(datetime);
+    const zonedDate = utcToZonedTime(originalISO, "UTC");
+    const formattedDate = format(zonedDate, "MMMM yyyy", {
+      timeZone: "UTC",
+    }).toUpperCase(); // Convert the month to uppercase
+    return formattedDate;
+  };
 
   useEffect(() => {
     const fetchTableNumber = async () => {
@@ -61,10 +82,7 @@ export const AccountingMain = () => {
 
         // Update state based on month and year, avoiding duplicate details
         detailsArray.forEach((detail) => {
-          const monthKey = new Date(detail.monthly).toLocaleString('en-US', {
-            month: 'long',
-            year: 'numeric', // Include the year
-          });
+          const monthKey = formatDateMain(detail.monthly)
 
           setAppTransactionByMonth((prevData) => {
             const existingDetails = prevData[monthKey] || [];
@@ -92,8 +110,31 @@ export const AccountingMain = () => {
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds]);
 
-  console.log(appTransactionByMonth);
+  const aggregateAmountsByDate = () => {
+    const aggregatedData: Record<string, { total: number; details: appTransactionDetail[] }> = {};
 
+    Object.entries(appTransactionByMonth).forEach(([, detailsArray]) => {
+      detailsArray.forEach((details) => {
+        const formattedDate = new Date(
+          utcToZonedTime(new Date(details.monthly), "UTC")
+        ).toISOString();
+
+        if (aggregatedData[formatDateMain(formattedDate)]) {
+          aggregatedData[formatDateMain(formattedDate)].total += Number(details.total_amount);
+          aggregatedData[formatDateMain(formattedDate)].details.push(details);
+        } else {
+          aggregatedData[formatDateMain(formattedDate)] = {
+            total: Number(details.total_amount),
+            details: [details],
+          };
+        }
+      });
+    });
+
+    return aggregatedData;
+  };
+
+  const aggregatedData = aggregateAmountsByDate();
 
   return (
     <Center>
@@ -158,55 +199,43 @@ export const AccountingMain = () => {
         </Card>
 
         {/* Render cards dynamically based on appTransactionByMonth */}
-        {Object.entries(appTransactionByMonth).map(([monthKey, transactions]) => {
-          // Extract unique years for the month
-          const uniqueYears = Array.from(new Set(transactions.map(transaction => new Date(transaction.monthly).getFullYear())));
+        {Object.entries(aggregatedData).map(([date, data]) => {
+          const [month, year] = date.split(' ');
 
           return (
-            <Box key={monthKey}>
-              {uniqueYears.map(year => (
-                <Link key={year} to={`/${venueId}/Account/${year}/${monthKey}`}>
-                  <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"}>
-                    <CardBody textAlign="center">
-                      <Stack divider={<StackDivider />} color={"#C5C4C7"}>
-                        <Box>
-                          <TableContainer>
-                            <Table variant="unstyled">
-                              <Thead>
-                                <Tr borderBottom="none">
-                                  <Th
-                                    textAlign="center"
-                                    borderRight="1px solid white"
-                                    style={TextStyle.h4}
-                                    color="black"
-                                  >
-                                    {monthKey}
-                                  </Th>
-                                  <Th textAlign="center" style={TextStyle.h1} color="black">
-                                    {transactions
-                                      .filter(transaction => new Date(transaction.monthly).getFullYear() === year)
-                                      .reduce((total, transaction) => total + parseFloat(transaction.total_amount), 0)}
-                                    <Text
-                                      textAlign="center"
-                                      display="inline-block"
-                                      marginLeft={2}
-                                      style={TextStyle.h4}
-                                      color="black"
-                                    >
-                                      Baht
-                                    </Text>
-                                  </Th>
-                                </Tr>
-                              </Thead>
-                            </Table>
-                          </TableContainer>
-                        </Box>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </Link>
-              ))}
-            </Box>
+            <Link to={`/${venueId}/Account/${year}/${month}`}>
+              <Box key={date} marginBottom={4}>
+                <Card width={"100%"} backgroundColor={"#D9D9D9"} color={"black"}>
+                  <CardBody textAlign="center">
+                    <Stack divider={<StackDivider />} color={"#C5C4C7"}>
+                      <TableContainer>
+                        <Table variant="unstyled">
+                          <Thead>
+                            <Tr borderBottom="none">
+                              <Th textAlign="center" style={TextStyle.h4} color="black">
+                                {date}
+                              </Th>
+                              <Th textAlign="center" style={TextStyle.h1} color="black">
+                                {data.total}
+                                <Text
+                                  textAlign="center"
+                                  display="inline-block"
+                                  marginLeft={2}
+                                  style={TextStyle.h4}
+                                  color="black"
+                                >
+                                  Baht
+                                </Text>
+                              </Th>
+                            </Tr>
+                          </Thead>
+                        </Table>
+                      </TableContainer>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </Box>
+            </Link>
           );
         })}
       </Box>
