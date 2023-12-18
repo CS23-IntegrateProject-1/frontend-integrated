@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import { center } from "../../../feature04/components/Maps/setting";
 
 interface ReservationCard {
   venueId: number;
@@ -47,11 +48,7 @@ export const Reservation = () => {
     offline: true,
     online: true,
   });
-
-  setFilterOptions({
-    offline: true,
-    online: true,
-  })
+   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   
   useEffect(() => {
     fetchData();
@@ -85,6 +82,7 @@ export const Reservation = () => {
       return shouldRender && isMatchingDate ? (
         <Box key={index} marginBottom={"20px"}>
           <BusinessReservationCard
+            reservationIdInt={reservation.reservationId}
             name={reservation.user.fname + " " + reservation.user.lname}
             type={reservation.user.userId === 0 ? "offline" : "online"}
             status={reservation.status}
@@ -102,7 +100,7 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Link to={"/business/WalkInPeople"}>
+        <Link to={`/business/WalkInPeople/${data[0]?.branchId}/${data[0]?.venueId}`}>
           <Button
             display={"flex"}
             height={"40px"}
@@ -111,9 +109,6 @@ export const Reservation = () => {
             color={"#F6F6F6"}
             fontWeight={"600"}
             _hover={{ background: "#A533C8" }}
-            onClick={() => {
-              <Link to={"business/WalkInDetail"} />;
-            }}
           >
             Walk-in customer
           </Button>
