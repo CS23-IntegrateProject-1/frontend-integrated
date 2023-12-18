@@ -70,11 +70,8 @@ export const WalkInDetail = () => {
         toast.warning("Please fill in all information");
       }
       const response = await Axios.post(`/feature6/createOfflineReservation`, {
-        venueId: venueIdInt,
-        guest_amount: seatsInt,
-        name: name,
-        phonenumber: phonenumber,
-        branchId: branchIdInt,
+        // venueId: venueIdInt,
+         
       });
       console.log(response);
       console.log("create reservation successfully");
@@ -96,9 +93,7 @@ export const WalkInDetail = () => {
         <RDetailCard
           name={data?.name}
           star={data?.score}
-          location={data?.location.address} image_url={data?.Venue_photo}        />
-
-        {/* This will push the reservation detail to the bottom */}
+          location={data?.location.address} image_url={data?.Venue_photo}/>
         <Box
           width="393px"
           height="480px"
@@ -107,7 +102,6 @@ export const WalkInDetail = () => {
           background="var(--Dark-background, #200944)"
           boxShadow="0px -4px 30px 0px #B921B2"
         >
-          {/* Your Reservation Detail content goes here */}
           <Box
             width="369px"
             height="240px"
@@ -156,18 +150,6 @@ export const WalkInDetail = () => {
                 }}
               />
             </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop="10px"
-            >
-              {/* {data?.reservations[0].user.fname} */}
-            </Text>
             <Text
               color="#000"
               fontFamily="Roboto"
