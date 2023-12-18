@@ -32,7 +32,7 @@ interface SavedLocationItem {
   address: string;
   province: string;
   district: string;
-  subdistrict: string;
+  sub_district: string;
   postcode: string;
   savedLocId: number;
 }
@@ -101,7 +101,15 @@ export const SavedLocation = () => {
         <Flex flexWrap="wrap" justifyContent="center" maxW="800px">
 
           {savedData.location.map((location,index) => (
-            <SavedLocationCard key={index} savedLocId={location.savedLocId} name={location.name} address={location.address}/> 
+            <SavedLocationCard key={index} 
+            savedLocId={location.savedLocId} 
+            name={location.name} 
+            address={location.address}
+            province={location.province}
+            district={location.district}
+            sub_district={location.sub_district}
+            postcode={location.postcode}
+            /> 
           ))}
         </Flex>
       </Flex>
@@ -148,7 +156,7 @@ export const SavedLocation = () => {
                 />
                 <Input
                   variant="outline"
-                  placeholder="Name"
+                  placeholder="Name (eg. Home, Office)"
                   onChange={(e) => setName(e.target.value)}
                 />
                 <Input

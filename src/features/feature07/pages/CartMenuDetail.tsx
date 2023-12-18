@@ -26,7 +26,12 @@ export const CartMenuDetail: FC = () => {
     const {type, menuid} = useParams();
     //console.log(menuid);
 
-    const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => getCartMenuItem(type, menuid));
+    const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => {
+        if (type !== undefined && menuid !== undefined) {
+          return getCartMenuItem(type, menuid);
+        }
+        return Promise.reject(new Error('type or menuid is undefined'));
+  });
     console.log(menuItem);
     const [amount, setAmount] = useState(0);
 

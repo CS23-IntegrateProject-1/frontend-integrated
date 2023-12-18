@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { FC} from "react";
 
 interface Cart {
@@ -7,7 +7,7 @@ interface Cart {
   color: string;
 }
 
-const Cart: FC = ( ) => (
+const Cart: FC<Cart> = () => (
     <svg  viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: '50%' }}>
     <g filter="url(#filter0_d_535_11627)">
     <circle cx="47.5" cy="43.5" r="43.5" fill="#A533C8"/>
