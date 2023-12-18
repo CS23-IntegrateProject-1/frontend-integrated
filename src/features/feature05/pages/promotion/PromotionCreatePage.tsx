@@ -25,7 +25,6 @@ import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 import { useCustomToast } from "../../../../components/useCustomToast";
-import { RxValue } from "react-icons/rx";
 
 interface PromotionProps {
   name: string;
@@ -111,22 +110,12 @@ export const PromotionCreatePage = () => {
     // }
 
     if (name === "start_date") {
-      // const dateValue = new Date(value);
-      // setPromotion((prevPromotion) => ({
-      //   ...prevPromotion,
-      //   [name]: dateValue.toISOString(),
-      // }));
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
         [name]: e.target.value,
       }));
     }
     if (name === "end_date") {
-      // const dateValue = new Date(value);
-      // setPromotion((prevPromotion) => ({
-      //   ...prevPromotion,
-      //   [name]: dateValue.toISOString(),
-      // }));
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
         [name]: e.target.value,
@@ -139,13 +128,6 @@ export const PromotionCreatePage = () => {
         [name]: parseFloat(value),
       }));
     }
-
-    // if (name === "venueId") {
-    //   setPromotion((prevPromotion) => ({
-    //     ...prevPromotion,
-    //     [name]: parseInt(value),
-    //   }));
-    // }
 
     if (name === "menuId") {
       setPromotion((prevPromotion) => ({
@@ -165,12 +147,6 @@ export const PromotionCreatePage = () => {
       }));
     }
   };
-
-  // 	setPromotion((prevPromotion) => ({
-  // 		...prevPromotion,
-  // 		[name]: value,
-  // 	}));
-  // };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -210,11 +186,6 @@ export const PromotionCreatePage = () => {
       if (image) {
         formData.append("file", image);
       }
-      // formData.append("start_date", promotion.start_date?.toString());
-      // formData.append("end_date", promotion.end_date);
-      // formData.append("menuId", promotion.menuId);
-      // formData.append("venueId", promotion.venueId);
-      // formData.append("discount_price", promotion.discount_price);
       const response = await Axios.post(
         `feature5/Promotion`,
         formData,
@@ -223,11 +194,7 @@ export const PromotionCreatePage = () => {
             "Content-Type": "multipart/form-data",
           },
         }
-        // ...promotion,
-        //advertisementPlan: Number(advertise.cost),
-        // Tags: [],
-        // start_date: promotion.start_date,
-        // end_date: formattedEndDate,
+      
       );
       console.log(response.data); // Log the response data
       navigate("/business/promotion/status");
