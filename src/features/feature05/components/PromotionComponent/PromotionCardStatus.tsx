@@ -4,29 +4,25 @@ import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 interface PromotionStatusCardProps {
-	data: {
-		promotionId: number; // Assuming promotionId is a number
-		isApprove: string;
-		image_url: string;
-		// Add other properties as needed
-	};
+  data: {
+    promotionId: number; // Assuming promotionId is a number
+    isApprove: string;
+    image_url: string;
+    // Add other properties as needed
+  };
 }
 
 export const PromotionStatusCard: FC<PromotionStatusCardProps> = ({ data }) => {
-	const navigate = useNavigate();
-    const handleClickEdit = () => {
-        const { promotionId } = data;
-		navigate(`/business/promotion/edit/${promotionId}`);
-	};
-	const status = data.isApprove;
-	const img = data.image_url;
-	const color =
-		status === "Rejected"
-			? "red"
-			: status === "In_progress"
-			? "blue"
-			: "green";
-	return (
+  const navigate = useNavigate();
+  const handleClickEdit = () => {
+    const { promotionId } = data;
+    navigate(`/business/promotion/edit/${promotionId}`);
+  };
+  const status = data.isApprove;
+  const img = data.image_url;
+  const color =
+    status === "Rejected" ? "red" : status === "In_progress" ? "blue" : "green";
+  return (
     <Box
       display={"flex"}
       flexDirection={"column"}

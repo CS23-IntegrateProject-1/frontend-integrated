@@ -25,12 +25,13 @@ import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 import { useCustomToast } from "../../../../components/useCustomToast";
+import { RxValue } from "react-icons/rx";
 
 interface PromotionProps {
   name: string;
   description: string;
-  start_date: Date | null;
-  end_date: Date | null;
+  start_date: string;
+  end_date: string;
   image_url: string;
   menuId: number;
   venueId: number;
@@ -40,25 +41,25 @@ interface PromotionProps {
 export const PromotionCreatePage = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [promotion, setPromotion] = useState<PromotionProps>({
     name: "",
     description: "",
     image_url: "",
-    start_date: new Date(),
-    end_date: new Date(),
-    menuId: 3,
-    venueId: 3,
+    start_date: "",
+    end_date: "",
+    menuId: 0,
+    venueId: 0,
     branchId: 0,
-    discount_price: 10,
+    discount_price: 0,
   });
   const [branches, setBranches] = useState<
     { branch_name: string; branchId: number }[]
   >([]);
   const [menus, setMenus] = useState<{ name: string; menuId: number }[]>([]);
   const toast = useCustomToast();
+
   const handleCloseImage = () => {
     setImagePreview(null);
   };
@@ -87,7 +88,6 @@ export const PromotionCreatePage = () => {
     };
   }, [imagePreview]);
 
-  console.log(file);
   //gpt
   const handleChange = (
     e: React.ChangeEvent<
@@ -110,16 +110,26 @@ export const PromotionCreatePage = () => {
     // 	setFormattedEndDate(formattedValue);
     // }
 
-    if (name === "start_date" || name === "end_date") {
-      const dateValue = new Date(value);
+    if (name === "start_date") {
+      // const dateValue = new Date(value);
+      // setPromotion((prevPromotion) => ({
+      //   ...prevPromotion,
+      //   [name]: dateValue.toISOString(),
+      // }));
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
-        [name]: dateValue.toISOString(),
+        [name]: e.target.value,
       }));
-    } else {
+    }
+    if (name === "end_date") {
+      // const dateValue = new Date(value);
+      // setPromotion((prevPromotion) => ({
+      //   ...prevPromotion,
+      //   [name]: dateValue.toISOString(),
+      // }));
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
-        [name]: value,
+        [name]: e.target.value,
       }));
     }
 
@@ -143,11 +153,16 @@ export const PromotionCreatePage = () => {
         [name]: parseInt(value),
       }));
     }
-    if (name === "branchId"){
+    if (name === "branchId") {
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
-        [name]: parseInt(value)
-      }))
+        [name]: parseInt(value),
+      }));
+    } else {
+      setPromotion((prevPromotion) => ({
+        ...prevPromotion,
+        [name]: value,
+      }));
     }
   };
 
@@ -166,29 +181,54 @@ export const PromotionCreatePage = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(promotion);
-
+    if (
+      promotion.name == "" ||
+      promotion.description == "" ||
+      promotion.start_date == "" ||
+      promotion.end_date == "" ||
+      promotion.discount_price == 0 ||
+      promotion.branchId == 0 ||
+      promotion.menuId == 0 ||
+      image == null
+    ) {
+      toast.warning("Please fill all the fields");
+      onClose();
+      return;
+    }
     try {
       // Ensure this ID is valid
-      console.log(promotion);
-      console.log(`Sending request to /Promotion`);
-      const formData = new FormData;
+      // console.log(promotion);
+      // console.log(`Sending request to /Promotion`);
+      const formData = new FormData();
       formData.append("name", promotion.name);
       formData.append("description", promotion.description);
-      formData.append("brandId", promotion.branchId);
-      formData.append("image_url", promotion.image_url);
       formData.append("start_date", promotion.start_date);
       formData.append("end_date", promotion.end_date);
-      formData.append("menuId", promotion.menuId);
-      formData.append("venueId", promotion.venueId);
-      formData.append("discount_price", promotion.discount_price);
-      const response = await Axios.post(`feature5/Promotion`, {
-        ...promotion,
+      formData.append("discount_price", promotion.discount_price.toString());
+      formData.append("brandId", promotion.branchId.toString());
+      formData.append("menuId", promotion.menuId.toString());
+      if (image) {
+        formData.append("file", image);
+      }
+      // formData.append("start_date", promotion.start_date?.toString());
+      // formData.append("end_date", promotion.end_date);
+      // formData.append("menuId", promotion.menuId);
+      // formData.append("venueId", promotion.venueId);
+      // formData.append("discount_price", promotion.discount_price);
+      const response = await Axios.post(
+        `feature5/Promotion`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        // ...promotion,
         //advertisementPlan: Number(advertise.cost),
-        Tags: [],
+        // Tags: [],
         // start_date: promotion.start_date,
         // end_date: formattedEndDate,
-      });
+      );
       console.log(response.data); // Log the response data
       navigate("/business/promotion/status");
     } catch (err) {
@@ -228,6 +268,7 @@ export const PromotionCreatePage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
+          value={promotion.name}
         />
       </FormControl>
 
@@ -254,6 +295,7 @@ export const PromotionCreatePage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
+          value={promotion.description}
         />
       </FormControl>
 
@@ -312,6 +354,7 @@ export const PromotionCreatePage = () => {
             borderRadius={5}
             borderColor={"#5F0DBB"}
             isRequired
+            value={promotion.start_date}
           />
         </Box>
 
@@ -330,6 +373,7 @@ export const PromotionCreatePage = () => {
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
+            value={promotion.end_date}
           />
         </Box>
       </FormControl>
@@ -385,7 +429,8 @@ export const PromotionCreatePage = () => {
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          type="float"
+          type="number"
+          value={promotion.discount_price}
         />
       </FormControl>
 
