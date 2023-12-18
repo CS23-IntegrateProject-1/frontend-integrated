@@ -10,11 +10,12 @@ import {
   VStack,
   Flex,
 } from "@chakra-ui/react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { BiSolidCamera } from "react-icons/bi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { Form } from "react-router-dom";
 import { useConversations } from "../context/ConversationProvider";
+import { UserContext } from "../../../contexts/userContext/UserContext";
 
 const cameraIconStyle = {
   borderRadius: "50%",
@@ -28,8 +29,8 @@ const sendButtonStyle = {
   color: "#A533C8",
   fontSize: "30px",
 };
-
 export default function Conversation() {
+  const user = useContext(UserContext);
   const [text, setText] = useState<string>("");
   const { sendMessage, selectedConversation } = useConversations();
   
@@ -39,16 +40,16 @@ export default function Conversation() {
     }
   }, []);
 
-  console.log("selectedConversation", selectedConversation);
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    sendMessage({
+    if(selectedConversation){
+      sendMessage({
       recipients: selectedConversation.members,
       id: selectedConversation.id,
       text,
+      sender: user.username
     });
-    console.log("text", text);
+    }
     setText("");
   }
 
@@ -63,7 +64,7 @@ export default function Conversation() {
           px="12px"
         >
           {/* Each message placing for sender or receiver */}
-          {selectedConversation.messages.map((message, index) => {
+          {selectedConversation?.messages.map((message, index) => {
             const lastMessage =
               selectedConversation.messages.length - 1 === index;
             return (

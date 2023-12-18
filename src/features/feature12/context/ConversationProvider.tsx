@@ -1,4 +1,4 @@
-import React, { useContext, FC, useState, useEffect, useCallback } from "react";
+import React, { useContext, FC, useState, useEffect, useCallback} from "react";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";
 import { Axios } from "../../../AxiosInstance";
@@ -9,7 +9,7 @@ interface ConversationContextValue {
   conversations: Conversation[];
   openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
   sendMessage: (message: SendMessageParams) => void;
-  selectedConversation: Conversation;
+  selectedConversation: Conversation | undefined;
 }
 
 interface Recipient {
@@ -41,6 +41,7 @@ interface SendMessageParams {
   recipients: Recipient[];
   id: number;
   text: string;
+  sender: string;
 }
 
 const ConversationsContext = React.createContext<
@@ -91,7 +92,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   function openConversation(recipients: Recipient[], group_name: string, id: number) {
     console.log("recipients", recipients);
     console.log(conversations + "<< conversations");
-    socket?.emit("join-room", { recipients, group_name });
+    socket?.emit("join-room", { recipients, group_name,id });
     
     //Get Specific Coversation
     Axios.get(`/feature12/displayChatDetail/${id}`).then((res) => {
@@ -108,77 +109,44 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   }
 
   const sendMessage = (
-    { recipients, id, text }:{recipients: Recipient[]; id:number, text: string; }
+    { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
     ) => {
-    socket?.emit("send-message", { recipients, text, id });
-    // addMessageToConversation({ recipients, text, sender: user.username });
+    socket?.emit("send-message", { recipients, text, id, sender });
+    addMessageToConversation({ recipients, text, sender});
+    console.log("selectedConversation after sending", selectedConversation?.messages);
   };
 
-  const addMessageToConversation = useCallback(
-    ({
+const addMessageToConversation = useCallback(({
+  recipients,
+  text,
+  sender,
+}: {
+  recipients: Recipient[];
+  text: string;
+  sender: string;
+}) => {
+  if(selectedConversation){
+      selectedConversation.messages.push({
       recipients,
       text,
       sender,
-    }: {
-      recipients: Recipient[];
-      text: string;
-      sender: string;
-    }) => {
-      setConversations((prevConversations) => {
-        let madeChange = false;
-        const newMessage: Message = {
-          sender,
-          text,
-          recipients: [],
-          fromMe: user.username === sender,
-        };
-        const newConversations = prevConversations.map((conversation) => {
-          if (
-            arrayEquality(
-              conversation.recipients.map((r) => r.id.toString()),
-              recipients.map((r) => r.id.toString())
-            )
-          ) {
-            madeChange = true;
-            return {
-              ...conversation,
-              messages: [...conversation.messages, newMessage],
-            };
-          }
-          return conversation;
-        });
-        // If the conversation already exists, add the message to the conversation, otherwise create a new conversation with the message
-        if (madeChange) {
-          return newConversations; // Return the previous state
-        } else {
-          return [
-            ...prevConversations,
-            {
-              recipients,
-              messages: [newMessage],
-              selected: true,
-              group_name: "",
-              group_profile: "",
-              id: 0,
-            },
-          ];
-        }
-      });
-    },
-    [user.username]
-  );
-
+      fromMe: sender === user.username,
+  })
+  }
+}, [selectedConversation,user.username]);
   // Socket Recieve message event listener
   useEffect(() => {
     if (socket == null) {
       console.log("socket is null");
       return;
     }
-    // socket.on("receive-message", addMessageToConversation);
+    socket.on("receive-message", ({ recipients, text, sender }) => {
+      addMessageToConversation({ recipients, text, sender });
+    });
     return () => {
       socket.off("receive-message");
     };
-  }, [socket]);
+  }, [socket,addMessageToConversation]);
 
   return (
     <ConversationsContext.Provider
@@ -194,15 +162,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   );
 };
 
-function arrayEquality(a: string[], b: string[]) {
-  if (a.length !== b.length) return false;
-  a.sort();
-  b.sort();
-  return a.every((element: string, index: number) => {
-    return element === b[index];
-  });
-}
-
+// eslint-disable-next-line react-refresh/only-export-components
 export function useConversations() {
   const context = useContext(ConversationsContext);
 
