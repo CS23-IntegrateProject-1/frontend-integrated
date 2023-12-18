@@ -15,6 +15,7 @@ import { CancelModal } from "../components/CancelModal";
 //   onClose: () => void;
 //   url: string;
 // }
+import { FC} from "react";
 
 interface IPhotoData {
   date_added: string;
@@ -72,7 +73,7 @@ interface IData {
   ];
 }
 
-export const GetReservationDetail = () => {
+export const GetReservationDetail: FC = ({}) => {
   const [data, setData] = useState<IData>();
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
@@ -109,14 +110,29 @@ export const GetReservationDetail = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const handleCopyClick = () => {
-    // Logic to copy link
-    // Show overlay for 2 seconds
-    setShowOverlay(true);
+  const handleCopyClick = async () => {
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        setShowOverlay(true);
+
+    } catch (error) {
+      console.error("Failed to copy URL to clipboard", error);
+    }
     setTimeout(() => {
       setShowOverlay(false);
     }, 600);
   };
+
+  // const copyToClipboard = async () => {
+  //   try {
+  //     if (inputRef.current) {
+  //       await navigator.clipboard.writeText(inputRef.current.value);
+  //       console.log("URL copied to clipboard!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to copy URL to clipboard", error);
+  //   }
+  // };
 
   return (
     <Box
