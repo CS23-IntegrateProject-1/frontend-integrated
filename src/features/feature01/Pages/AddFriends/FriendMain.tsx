@@ -53,7 +53,6 @@ export const FriendMain = () => {
   const [profileData, setProfileData] = useState("");
   //to show overlay box to integrate with chat group
   const [selectedFrigateId, setSelectedFrigateId] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedGroupId, setSelectedGroupId] = useState(0);
   if(selectedGroupId){console.log(selectedGroupId)}// testing to see id
   const location = useLocation();

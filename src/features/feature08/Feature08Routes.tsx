@@ -1,15 +1,15 @@
-import { AdvertiseNoti } from "./pages/Notification (Business side)/AdvertiseNoti";
-import { CheckOutNoti } from "./pages/Notification (Business side)/CheckOutNoti";
-import { NewReserveNoti } from "./pages/Notification (Business side)/NewReserveNoti";
-import { Notification } from "./pages/Notification (Business side)/Notification";
-import { OrderUpdateNoti } from "./pages/Notification (Business side)/OrderUpdateNoti";
-import { UpdateNoti } from "./pages/Notification (Business side)/UpdateNoti";
+import { AdvertiseNoti } from "./pages/NotificationBusinessSide/AdvertiseNoti";
+import { CheckOutNoti } from "./pages/NotificationBusinessSide/CheckOutNoti";
+import { NewReserveNoti } from "./pages/NotificationBusinessSide/NewReserveNoti";
+import { Notification } from "./pages/NotificationBusinessSide/Notification";
+import { OrderUpdateNoti } from "./pages/NotificationBusinessSide/OrderUpdateNoti";
+import { UpdateNoti } from "./pages/NotificationBusinessSide/UpdateNoti";
 import { SelectPayment } from "./pages/Customer/SelectPayment";
 import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
-import { AddCardNoti } from "./pages/Notification (Business side)/AddCardNoti";
+import { AddCardNoti } from "./pages/NotificationBusinessSide/AddCardNoti";
 import { AddCard } from "./pages/AddCard/AddCard";
-import { EnterCode } from "./pages/Notification (Business side)/EnterCode";
-import { PromotionNoti } from "./pages/Notification (Business side)/PromotionNoti";
+import { EnterCode } from "./pages/NotificationBusinessSide/EnterCode";
+import { PromotionNoti } from "./pages/NotificationBusinessSide/PromotionNoti";
 import { PaymentHistory } from "./pages/Payment/PaymentHistory";
 import { DeliveryPayment } from "./pages/Customer/DeliveryPayment";
 import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
@@ -25,6 +25,8 @@ import { FoodOrder } from "./pages/Admin/FoodOrder";
 import { FoodDelivery } from "./pages/Admin/FoodDelivery";
 import { Receipt } from "./pages/Admin/Receipt";
 import { ProductDisplay } from "./pages/Customer/ProductDisplay";
+import CheckoutCancel from "./pages/Customer/CheckoutCancel";
+import CheckoutSuccess from "./pages/Customer/CheckoutSuccess";
 
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
@@ -35,6 +37,8 @@ export const Feature08Routes = () => {
     { path: ":userId/venue/:venueId/payment/checkout", element: <ProductDisplay /> },
     { path: "/customer/history", element: <PaymentHistory /> },
     { path: "/customer/:userId/addcard", element: <AddCard /> },
+    { path: "/checkout-cancel", element: <CheckoutCancel /> },
+    { path: "/checkout-success", element: <CheckoutSuccess /> },
     //payment to venue by using venueId?
     { path: ":userId/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     //Action
@@ -63,7 +67,7 @@ export const Feature08Routes = () => {
     { path: "/:venueId/Account/eachmonth", element: <AccountingMain /> },
     { path: "/:venueId/Account/:year/:month", element: <Accounting /> },
     { path: "/:venueId/Account/datexpand/:year/:month/:day", element: <Timestamp /> },
-    { path: "/:venueId/Account/Checkbill/:transactionId", element: <Checkbill />,},
+    { path: "/:venueId/Account/Checkbill/:appTransactionDetailId", element: <Checkbill />,},
 
     // admin side
     {
@@ -73,11 +77,12 @@ export const Feature08Routes = () => {
     { path: "/venue/:userId/admin/qr-payment", element: <QrCodeScan /> },
     { path: "/venue/:userId/admin/addcard", element: <AddCard /> },
     { path: "/venue/:venueId/admin/insight", element: <BusinessInsight /> },
-    { path: "/venue/:userId/admin/dashboard", element: <AllData /> },
-    { path: "/venue/:userId/admin/reservation", element: <Reservation /> },
-    { path: "/venue/:userId/admin/FoodOrder", element: <FoodOrder /> },
-    { path: "/venue/:userId/admin/FoodDelivery", element: <FoodDelivery /> },
+    { path: "/venue/:venueId/admin/dashboard", element: <AllData /> },
+    { path: "/venue/:venueId/admin/reservation", element: <Reservation /> },
+    { path: "/venue/:venueId/admin/FoodOrder", element: <FoodOrder /> },
+    { path: "/venue/:venueId/admin/FoodDelivery", element: <FoodDelivery /> },
     { path: "/venue/:venueId/admin/receipt", element: <Receipt /> },
+    { path: "/venue/:venueId/admin/checkbill/:orderId", element: <Checkbill />,},
     
     { path: "/Notification/BusinessNoti/:venueId", element: <Notification /> },
     { path: "/Notification/advertisement/:advertisementId", element: <AdvertiseNoti /> },

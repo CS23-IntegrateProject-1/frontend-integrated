@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { Box, Text, HStack, VStack, Flex, Center } from "@chakra-ui/react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
@@ -6,6 +6,12 @@ import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate1, formatTime1 } from "../../../functions/formatDatetime";
 import { FullPageLoader } from "../../../components/Loader/FullPageLoader";
+
+interface orderDetailsProps {
+  menuName: string;
+  menuPrice: number;
+  quantity: number;
+}
 
 export const ReceiptPage = () => {
   const {
@@ -45,7 +51,7 @@ export const ReceiptPage = () => {
         </HStack>
         <Box borderTop="1px dotted" mt={2} mb={2} />
         <VStack spacing={2} align="start">
-          {receipt?.orderDetails?.map((order, index) => (
+          {receipt?.orderDetails?.map((order: orderDetailsProps, index: number) => (
             <Box key={index} width="100%">
               <HStack display="flex" justifyContent="space-between">
                 <Text flex="3">{(index + 1).toString().padStart(2, "0")}</Text>

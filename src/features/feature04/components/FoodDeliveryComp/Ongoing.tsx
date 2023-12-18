@@ -1,7 +1,12 @@
-import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton, Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 function Ongoing() {
+  const navigate = useNavigate();
+  const CancelOrder = () => {
+    navigate("/map/food-delivery/canceled");
+  };
   return (
     <Box>
       <Flex justifyContent={"center"}>
@@ -42,9 +47,15 @@ function Ongoing() {
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-             $210
+              $210
             </Text>
-           
+            <Button
+              variant={"unstyle"}
+              backgroundColor={index.colors.brand[200]}
+              onClick={CancelOrder}
+            >
+              Cancel
+            </Button>
           </Box>
           <IconButton
             size="sm"

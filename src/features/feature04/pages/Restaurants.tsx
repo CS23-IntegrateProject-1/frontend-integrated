@@ -19,6 +19,14 @@ interface LocationData {
   // Add other properties as needed
 }
 
+interface LocMap{
+  address : string;
+  latitude : number; 
+  locationId : number;
+  longtitude : number;
+  name: string;
+}
+
 interface RegisteredData{
   name: string;
   description: string;
@@ -34,20 +42,29 @@ export const Maps = () => {
   const [searchTerm, setSearchTerm] = useState("");
   searchTerm;
   const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+  const [locations, setLocations] = useState<LocMap[] | null>(null);
 
   const fetchRestaurantData = async () => {
     try {
       const response = await Axios.get("/feature4/restaurants");
       setRegistered(response.data.restaurant);
-      console.log(response.data)
+      // console.log(response.data.restaurant);
+      // console.log(response.data.restaurant[0].location);
+      setLocations(response.data.restaurant.map((item:any) => item.location));
+      
     } catch (error) {
       console.error("Error fetching restaurant data:", error);
     }
   };
 
   useEffect(() => {
-    fetchRestaurantData();
     console.log("hello")
+    console.log("Updated locations:", locations);
+    console.log("hello1")
+  }, [locations]); // This effect will run whenever locations change
+
+  useEffect(() => {
+    fetchRestaurantData();
   }, []);
   
   // Retrieve data from localStorage on component mount
@@ -76,6 +93,7 @@ export const Maps = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
+    console.log(searchTerm);
 
     // Filter the data based on the search term
     const filtered =
@@ -86,7 +104,7 @@ export const Maps = () => {
   };
 
   return (
-    <Box>
+    <Box >
       <Header />
       <Text
         fontSize={index.textStyles.h1.fontSize}
@@ -101,7 +119,6 @@ export const Maps = () => {
         overflowX="auto"
         whiteSpace="nowrap"
         paddingRight={10}
-        maxWidth="1400px"
       >
         {/* Render RecommendLocation com  onents based on registeredData */}
         <HStack spacing={2} overflowX="auto">
@@ -123,7 +140,7 @@ export const Maps = () => {
       <br />
       <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="restaurant" />
+        <GoogleMapComponent type="restaurant" locMap ={locations} />
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}
