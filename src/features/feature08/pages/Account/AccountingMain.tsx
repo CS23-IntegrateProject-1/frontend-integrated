@@ -25,6 +25,7 @@ export const AccountingMain = () => {
   const [allTransactionIds, setAllTransactionIds] = useState([]);
   // const [appTransaction, setAppTransaction] = useState([]);
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<Record<string, any[]>>({});
+  
 
   useEffect(() => {
     const fetchTableNumber = async () => {
@@ -48,9 +49,8 @@ export const AccountingMain = () => {
   useEffect(() => {
     const fetchData = async (transactionId: any) => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
         const response = await Axios.get(
-          `${backendUrl}/feature8/apptransaction_details/bytransactionId/${transactionId}`
+          `/feature8/apptransaction_details/bytransactionId/${transactionId}`
         );
         const appTransactionDetails = response.data;
 

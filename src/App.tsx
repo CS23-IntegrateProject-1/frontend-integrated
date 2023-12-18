@@ -1,9 +1,4 @@
-import { RouterProvider } from "react-router-dom";
-import { PrivateRoutes } from "./routes/PrivateRoutes";
-import { PrivateAdminRoutes } from "./routes/PrivateAdminRoutes";
-import { PrivateBusinessRoutes } from "./routes/PrivateBusinessRoutes";
-import { PublicRoutes } from "./routes/PublicRoutes";
-import { Verify } from "./api/Auth/Verify";
+import { IVerifyResponse } from "./api/Auth/Verify";
 import { useEffect, useState } from "react";
 import { Axios } from "./AxiosInstance";
 import { IUser } from "./interfaces/IUsers/IUser.interface";
@@ -12,19 +7,15 @@ import { IBusinessUser } from "./interfaces/IUsers/IBusinessUser.interface";
 import { UserContext as CUserContext } from "./contexts/userContext/UserContext";
 import { BusinessUserContext as CBusinessUserContext } from "./contexts/userContext/BusinessUserContext";
 import { AdminUserContext as CAdminUserContext } from "./contexts/userContext/AdminUserContext";
+import VerifyProvider from "./VerifyProvider";
 
-const privateRouter = PrivateRoutes;
-const publicRouter = PublicRoutes;
-const privateAdminRouter = PrivateAdminRoutes;
-const privateBusinessRouter = PrivateBusinessRoutes;
-const isLogin = await Verify();
 const Contexts = {
 	UserContext: CUserContext,
 	BusinessUserContext: CBusinessUserContext,
 	AdminUserContext: CAdminUserContext,
 };
 
-export default function App() {
+const App = () => {
 	const mockUser: IUser = {
 		userId: -1,
 		username: "",
@@ -46,6 +37,7 @@ export default function App() {
 		phone_num: "",
 		profile_picture: "",
 	};
+	const [isLogin, setIsLogin] = useState<IVerifyResponse>();
 	const [user, setUser] = useState<IUser>(mockUser);
 	const [adminUser, setAdminUser] = useState<IAdminUser>(mockAdminUser);
 	const [businessUser, setBusinessUser] =
@@ -97,32 +89,34 @@ export default function App() {
 	if (!isLogin || isLogin.status !== 200) {
 		return (
 			<Contexts.UserContext.Provider value={user}>
-				<RouterProvider router={publicRouter} />
+				<VerifyProvider setIsLogin={setIsLogin} />
 			</Contexts.UserContext.Provider>
 		);
 	} else if (isLogin.userType === "user") {
 		return (
 			<Contexts.UserContext.Provider value={user}>
-				<RouterProvider router={privateRouter} />
+				<VerifyProvider setIsLogin={setIsLogin} />
 			</Contexts.UserContext.Provider>
 		);
 	} else if (isLogin.userType === "admin") {
 		return (
 			<Contexts.AdminUserContext.Provider value={adminUser}>
-				<RouterProvider router={privateAdminRouter} />
+				<VerifyProvider setIsLogin={setIsLogin} />
 			</Contexts.AdminUserContext.Provider>
 		);
 	} else if (isLogin.userType === "business") {
 		return (
 			<Contexts.BusinessUserContext.Provider value={businessUser}>
-				<RouterProvider router={privateBusinessRouter} />
+				<VerifyProvider setIsLogin={setIsLogin} />
 			</Contexts.BusinessUserContext.Provider>
 		);
 	} else {
 		return (
 			<Contexts.UserContext.Provider value={user}>
-				<RouterProvider router={publicRouter} />
+				<VerifyProvider setIsLogin={setIsLogin} />
 			</Contexts.UserContext.Provider>
 		);
 	}
-}
+};
+
+export default App;

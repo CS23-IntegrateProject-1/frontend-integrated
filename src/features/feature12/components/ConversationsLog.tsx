@@ -12,7 +12,7 @@ const ConversationsLog: React.FC = () => {
           <ListItem key={index} 
                     cursor={"pointer"} 
                     padding={3} 
-                    onClick={() => openConversation(conversation.recipients,conversation.group_name)}
+                    onClick={() => openConversation(conversation.members,conversation.group_name,conversation.id)}
                     background={conversation.selected ? '#DEBEF6' : 'transparent'}>
             {conversation.group_name}
           </ListItem>

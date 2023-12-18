@@ -102,8 +102,6 @@ export const CreateArticlePage = () => {
       images?.length === 0
     ) {
       toast.warning("Please fill in all fields");    
-      toast.error("Please fill in all fields");
-
       return;
     }
     const selectedVenueIds = Array.from(

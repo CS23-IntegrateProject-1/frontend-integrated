@@ -77,6 +77,7 @@ export const UserArticlesPage = () => {
             content={""}
             category={""}
             userId={0}
+            user={article.user}
             isLike={article.isLike}
             Article_tags={article.Article_tags}
             Article_venue={article.Article_venue}
