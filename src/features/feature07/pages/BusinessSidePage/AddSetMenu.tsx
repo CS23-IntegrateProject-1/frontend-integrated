@@ -24,7 +24,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 
 
 export const AddSetMenu: React.FC = () => {
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export const AddSetMenu: React.FC = () => {
     // isError,
   } = useQuery(["menuData"], () => getMenu());
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -88,9 +88,9 @@ export const AddSetMenu: React.FC = () => {
 
   //for image upload
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log("Selected file:", selectedFile);
@@ -103,40 +103,33 @@ export const AddSetMenu: React.FC = () => {
   //   navigate(targetPath);
   // };
 
-  const handleAddSetMenuClick = async (e) => {
-    e.preventDefault();
+  const handleAddSetMenuClick =  () => {
+    // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append("name", formData.name);
     formDataWithFile.append("description", formData.description);
     formDataWithFile.append("price", formData.price);
-    formDataWithFile.append("menuImage", selectedFile);
+    formDataWithFile.append("menuImage", selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    try {
-      const response = await Axios.post(
-        `/feature7/addSetWithMenuItems/${venueId}`,
-        formDataWithFile,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    Axios.post(`/feature7/addSetWithMenuItems/${venueId}`, formDataWithFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("SetMenu added:", response.data);
+          toast.success("Set Menu Added");
+          const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
+          console.log("Navigating to:", targetPath);
+          navigate(targetPath);
         }
-      );
-      if (response.status === 200) {
-        // const ClearResponse = await Axios.get('/feature7/clearSetItemsInCookies/');
-        // console.log('Clear set items in cookies:', ClearResponse.data);
-        console.log("SetMenu added:", response.data);
-        toast.success("Set Menu Added");
-        const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
-        console.log("Navigating to:", targetPath);
-        navigate(targetPath);
-      }
-
-      // navigate(`/venue/${venueId}/menubusiness`);
-    } catch (error) {
-      console.error("Error adding setmenu:", error);
-    }
+      })
+      .catch((error) => {
+        console.error("Error adding setmenu:", error);
+      });
   };
 
   const handleDropdownChange = async (selectedMenuId: string) => {
@@ -243,7 +236,7 @@ export const AddSetMenu: React.FC = () => {
           <Box>
             <FormLabel>Selected Food in set:</FormLabel>
             <VStack align="start" spacing={2}>
-              {selectedMenus?.map((item) => (
+              {selectedMenus?.map((item: any) => (
                 <Box width={"307px"} key={item.menuId}>
                   <HStack justify={"space-between"} align="center">
                     <Box>{item.menuName}</Box>
@@ -292,7 +285,7 @@ export const AddSetMenu: React.FC = () => {
                 bg={"brand.300"}
                 as="select"
               >
-                {menuOptions?.map((menu) => (
+                {menuOptions?.map((menu: any) => (
                   <option key={menu.menuId} value={menu.menuId}>
                     {menu.name}
                   </option>

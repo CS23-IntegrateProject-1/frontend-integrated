@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Box,Flex, VStack, Text,Center} from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
@@ -7,6 +7,17 @@ import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import textStyles from '../../../theme/foundations/textStyles';
+
+interface cartItemProps {
+  menuId: number;
+  setId: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  image_url: string;
+  quantity: number;
+}
 
 const fetchCartItems = async () => {
   // const userId = 4;
@@ -58,7 +69,7 @@ export const CartPage = () => {
       {cartItems.length===0 ? (
         <Box><Text {...textStyles.h2}>No items in cart</Text></Box>
       ) : (
-          cartItems.map((item, index)=> (
+          cartItems.map((item: cartItemProps, index: number)=> (
             <SecondCartCard
               key={index}
               id={item.menuId !== null ? item.menuId : item.setId}
