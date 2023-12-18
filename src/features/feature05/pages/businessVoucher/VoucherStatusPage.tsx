@@ -79,11 +79,14 @@ export const VoucherStatusPage: FC = () => {
 
       {data?.map((data: IVoucher_Business, index: number) => {
         if (selector === "ongoing") {
-
           return (
             (data.isApprove === "Rejected" ||
               data.isApprove === "In_progress") && (
-              <VoucherStatusCard key={index} data={data} />
+              <VoucherStatusCard
+                key={index}
+                data={data}
+          
+              />
             )
           );
         } else

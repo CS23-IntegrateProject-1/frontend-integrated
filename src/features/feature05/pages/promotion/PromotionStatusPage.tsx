@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Tabs, TabList, Tab, Box, Stack, Icon} from "@chakra-ui/react";
 import { PromotionStatusCard } from "../../components/PromotionComponent/PromotionCardStatus";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { useQuery } from "@tanstack/react-query";
 
 interface PromotionStatusCardProps {
   promotionId: number;
@@ -15,8 +17,9 @@ interface PromotionStatusPageProps {}
 
 export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [data, setData] = useState<PromotionStatusCardProps[]>([]);
   const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
   const handleClickCreate = () => {
     navigate("/business/promotion/create");
@@ -25,22 +28,33 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const fetchBusinessPromotion = async () => {
     try {
       const res = await GetAllPromotion();
-      setData(res);
+      // setData(res);
+      return res
     } catch (error) {
       console.error("Failed to fetch promotions", error);
     }
   };
+  const promotionStatus = useQuery({
+    queryKey: ["promotionStatus"],
+    queryFn: () => fetchBusinessPromotion(),
+  });
+  if (promotionStatus.status === "loading") {
+    return <FullPageLoader />;
+  }
 
-  useEffect(() => {
-    fetchBusinessPromotion();
-    // console.log(data);
-  }, []);
+  if (promotionStatus.error instanceof Error) {
+    return <div>An error occurred: {promotionStatus.error.message}</div>;
+  }
+  // useEffect(() => {
+  //   fetchBusinessPromotion();
+  //   // setIsLoading(false);
+
+  //   // console.log(data);
+  // }, []);
 
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
   };
-
-  console.log(data);
 
   return (
     <Box
@@ -90,7 +104,7 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
         </TabList>
       </Tabs>
 
-      {data?.map((data: PromotionStatusCardProps, index: number) => {
+      {promotionStatus.data?.map((data: PromotionStatusCardProps, index: number) => {
         if (selector === "ongoing") {
           return (
             (data.isApprove === "Rejected" ||
