@@ -1,4 +1,4 @@
-import { Box, Icon, Text, Button, Fade } from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Fade, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
@@ -7,6 +7,7 @@ import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { CancelModal } from "../components/CancelModal";
 // import { FC, useRef } from "react";
 
 // interface ShareModalProps {
@@ -89,7 +90,7 @@ export const GetReservationDetail = () => {
   }>();
   const venueIdInt = parseInt(venueId || "0");
   const reservationIdInt = parseInt(reservationId || "0");
-
+  const cancelModal = useDisclosure();
 
   useEffect(() => {
     fetchData();
@@ -103,7 +104,7 @@ export const GetReservationDetail = () => {
       );
       setData(response);
       console.log(response);
-      console.log(data?.reservations[0]?.status)
+      console.log(data?.reservations[0]?.status);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -385,22 +386,21 @@ export const GetReservationDetail = () => {
         ></Box>
         {data?.reservations[0]?.status === "Pending" ? (
           <Box mt="15px" ml={"50px"}>
-            <Link to={`/my-reservation`}>
-              <Button
-                borderRadius="10px"
-                width="138px"
-                height="40px"
-                backgroundColor="white"
-                textColor="#A533C8"
-                fontSize="16px"
-                fontStyle="normal"
-                fontWeight="700"
-                lineHeight="24px"
-                mr={"17px"}
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              borderRadius="10px"
+              width="138px"
+              height="40px"
+              backgroundColor="#C83333"
+              textColor="white"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="24px"
+              mr={"17px"}
+              onClick={() => cancelModal.onOpen()}
+            >
+              Cancel
+            </Button>
             <Link to={`/qrcode/display/${reservationId}`}>
               <Button
                 borderRadius="10px"
@@ -421,6 +421,11 @@ export const GetReservationDetail = () => {
           ""
         )}
       </Box>
+      <CancelModal
+        reservationIdInt={data?.reservations[0].reservationId}
+        isOpen={cancelModal.isOpen}
+        onClose={cancelModal.onClose}
+      />
     </Box>
   );
 };
