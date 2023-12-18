@@ -1,16 +1,15 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
+// import { FaShoppingCart } from "react-icons/fa";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
 import index from "../../../theme/foundations/index";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
 interface Menu {
-  menuId: number;
+  menuId: number | string;
   name: string;
   price: number;
-  description: string;
-  image: string;
 }
 const FoodDelivery = () => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const FoodDelivery = () => {
     
 
     fetchMenuData();
-  }, []); // Empty dependency array to run the effect only once on component mount
+  }, []);
 
   // const addToCart = (amount) => {
   //   setNumberInCart(numberInCart + amount);
@@ -43,17 +42,10 @@ const FoodDelivery = () => {
     <Box>
       <FoodDeliNavbar RestaurantName="MK Restaurant (Big C Rama 4)" DeliveryMinute={30}/>
       <Flex flexDir={"column"} alignItems="center">
-        {/* <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-        </Flex> */}
        <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
+        
         {menuData.map((menu,index) => (
-          <MenuComp key={index} name={menu.name} price={menu.price} menuId={menu.menuId} description={menu.description} image={menu.image} />
+          <MenuComp key={index} menuName={menu.name} price={menu.price} id={menu.menuId} />
         ))}
       </Flex>
       </Flex>
@@ -83,6 +75,7 @@ const FoodDelivery = () => {
             alignItems={"center"}
           >
             {/* {numberInCart} */}
+            1
           </Text>
           <Text
             fontSize={index.textStyles.body1.fontSize}
