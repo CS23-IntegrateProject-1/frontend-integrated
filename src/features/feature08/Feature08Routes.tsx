@@ -28,6 +28,8 @@ import { Receipt } from "./pages/Admin/Receipt";
 import { ProductDisplay } from "./pages/Customer/ProductDisplay";
 import CheckoutCancel from "./pages/Customer/CheckoutCancel";
 import CheckoutSuccess from "./pages/Customer/CheckoutSuccess";
+import DepositCancel from "./pages/Customer/DepositCancel";
+import DepositSuccess from "./pages/Customer/DepositSuccess";
 
 // import { SelectPaymentForPromotionOrAdvertisement } from "./pages/Notification (Business side)/SelectPaymentForPromotionOrAdvertisement";
 
@@ -41,6 +43,8 @@ export const Feature08Routes = () => {
     { path: "/customer/:userId/addcard", element: <AddCard /> },
     { path: "/checkout-cancel", element: <CheckoutCancel /> },
     { path: "/checkout-success", element: <CheckoutSuccess /> },
+    { path: "/deposit-cancel", element: <DepositCancel /> },
+    { path: "/deposit-success", element: <DepositSuccess /> },
     //payment to venue by using venueId?
     { path: ":userId/venue/:venueId/qr-payment", element: <QrCodeScan /> },
     //Action
