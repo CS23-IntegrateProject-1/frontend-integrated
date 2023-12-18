@@ -45,6 +45,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
+  const { venueId } = useParams();
 
   const redirectToDeposit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -56,7 +57,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
     //   method: "POST",
     // });
 
-    Axios.post("/feature8/create-deposit-session", {})
+    Axios.post(`/feature8/create-deposit-session/${venueId}`)
       .then(async (res) => {
         // const session = res;
         // const result = await stripe?.redirectToCheckout({
