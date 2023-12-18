@@ -38,7 +38,7 @@ export const Overview = () => {
     }
     //Data 
     const [profileData, setProfileData] = useState({
-        name:"",
+        username:"",
         member_level:"",
         member_points:"",
         profile_img:"",
@@ -77,7 +77,7 @@ export const Overview = () => {
           <Box width={"60%"}>
             <VStack>
               <Box display={"flex"} width={"100%"}>
-                <Text> {profileData.name ? profileData.name : "Demo Name"}</Text>
+                <Text> {profileData.username ? profileData.username : "Demo Name"}</Text>
               </Box>
               {/* Progress Bar */}
               <Box width={"100%"}>
@@ -132,24 +132,50 @@ export const Overview = () => {
               {profileData.member_points ? profileData.member_points : "500"}
             </Badge>
           </Box>
-
-          <Box width={"100%"} display={"flex"}>
+          <Box width={"100%"}>              
+          <NavLink to="/customer/history">
+          <Box  display={"flex"}>
             {/* to link with group 8 history payment */}
-            <Text> Payment History</Text> 
+           
+            <Text 
+            fontWeight={TextStyle.body1.fontWeight}
+            fontSize={TextStyle.body1.fontSize}> Payment History</Text> 
             <Spacer />
             <ChevronRightIcon />
+            
           </Box>
-          <Box width={"100%"} display={"flex"}>
+          </NavLink>
+          </Box>
+
+          <Box width={"100%"}>              
+          <NavLink to="/ticketHistory">
+          <Box  display={"flex"}>
+            {/* to link with group 8 history payment */}
+           
+            <Text  
+            fontWeight={TextStyle.body1.fontWeight}
+            fontSize={TextStyle.body1.fontSize}> My Tickets</Text> 
+            <Spacer />
+            <ChevronRightIcon />
+            
+          </Box>
+          </NavLink>
+          </Box>          
+
+          {/* <Box width={"100%"}>
+            <NavLink to="/ticketHistory">
+            <Box display={"flex"}>
             <Text
               fontWeight={TextStyle.body1.fontWeight}
               fontSize={TextStyle.body1.fontSize}
             >
-              {" "}
               My Tickets
             </Text>
             <Spacer />
             <ChevronRightIcon />
-          </Box>
+            </NavLink>
+            </Box>
+          </Box> */}
 
           <Box ml={-2} width={"100%"} display={"flex"}>
             <Accordion allowMultiple width={"100%"}>
@@ -208,7 +234,7 @@ export const Overview = () => {
                   borderBottomEndRadius={"25px"}
                   borderBottomLeftRadius={"25px"}
                 >
-                  <NavLink to="/map/savedlocation">
+                  <NavLink to="/map/food-delivery/my-delivery/completed">
                     <Flex
                       px={2}
                       bg={"#DEBEF6"}
