@@ -103,8 +103,8 @@ export const AddSetMenu: React.FC = () => {
   //   navigate(targetPath);
   // };
 
-  const handleAddSetMenuClick = async (e: any) => {
-    e.preventDefault();
+  const handleAddSetMenuClick =  () => {
+    // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append("name", formData.name);
@@ -113,30 +113,23 @@ export const AddSetMenu: React.FC = () => {
     formDataWithFile.append("menuImage", selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    try {
-      const response = await Axios.post(
-        `/feature7/addSetWithMenuItems/${venueId}`,
-        formDataWithFile,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    Axios.post(`/feature7/addSetWithMenuItems/${venueId}`, formDataWithFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("SetMenu added:", response.data);
+          toast.success("Set Menu Added");
+          const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
+          console.log("Navigating to:", targetPath);
+          navigate(targetPath);
         }
-      );
-      if (response.status === 200) {
-        // const ClearResponse = await Axios.get('/feature7/clearSetItemsInCookies/');
-        // console.log('Clear set items in cookies:', ClearResponse.data);
-        console.log("SetMenu added:", response.data);
-        toast.success("Set Menu Added");
-        const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
-        console.log("Navigating to:", targetPath);
-        navigate(targetPath);
-      }
-
-      // navigate(`/venue/${venueId}/menubusiness`);
-    } catch (error) {
-      console.error("Error adding setmenu:", error);
-    }
+      })
+      .catch((error) => {
+        console.error("Error adding setmenu:", error);
+      });
   };
 
   const handleDropdownChange = async (selectedMenuId: string) => {

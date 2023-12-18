@@ -38,8 +38,8 @@ export const AddMenu = () => {
     }));
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const handleSubmit =  () => {
+    // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append('name', formData.name);
@@ -48,20 +48,21 @@ export const AddMenu = () => {
     formDataWithFile.append('menuImage', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    try {
-      const response = await Axios.post(`/feature7/addMenu/${venueId}`, formDataWithFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    Axios.post(`/feature7/addMenu/${venueId}`, formDataWithFile, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+        console.log('Menu added:', response.data);
+        toast.success("Menu Added Successfully");
+        navigate(`/venue/${venueId}/menubusiness`);
+        // Add logic for what happens after successfully adding menu item
+      })
+      .catch((error) => {
+        console.error('Error adding menu:', error);
+        // Add logic for error handling
       });
-      console.log('Menu added:', response.data);
-      toast.success("Menu Added Successfully");
-      navigate(`/venue/${venueId}/menubusiness`);
-      // Add logic for what happens after successfully adding menu item
-    } catch (error) {
-      console.error('Error adding menu:', error);
-      // Add logic for error handling
-    }
   };
 
   return (
