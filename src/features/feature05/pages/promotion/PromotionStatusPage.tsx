@@ -6,11 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
 
 interface PromotionStatusCardProps {
-  data: {
-    promotionId: number;
-    isApprove: string;
-    image_url: string;
-  };
+  promotionId: number;
+  isApprove: string;
+  image_url: string;
 }
 
 interface PromotionStatusPageProps {}
@@ -41,6 +39,8 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
   };
+
+  console.log(data);
 
   return (
     <Box
@@ -93,15 +93,15 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
       {data?.map((data: PromotionStatusCardProps, index: number) => {
         if (selector === "ongoing") {
           return (
-            (data.data.isApprove === "Rejected" ||
-              data.data.isApprove === "In_progress") && (
-              <PromotionStatusCard key={index} data={data.data} />
+            (data.isApprove === "Rejected" ||
+              data.isApprove === "In_progress") && (
+              <PromotionStatusCard key={index} data={data} />
             )
           );
         } else
           return (
-            data.data.isApprove === "Completed" && (
-              <PromotionStatusCard key={index} data={data.data} />
+            data.isApprove === "Completed" && (
+              <PromotionStatusCard key={index} data={data} />
             )
           );
       })}
