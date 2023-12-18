@@ -48,7 +48,6 @@ export const Reservation = () => {
     online: true,
   });
    const [selectedDate, setSelectedDate] = useState<string | null>(null);
-
   
   useEffect(() => {
     fetchData();
@@ -99,7 +98,7 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Link to={"/business/WalkInPeople"}>
+        <Link to={`/business/WalkInPeople/${data[0]?.branchId}/${data[0]?.venueId}`}>
           <Button
             display={"flex"}
             height={"40px"}

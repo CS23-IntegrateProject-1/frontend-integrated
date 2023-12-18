@@ -14,8 +14,14 @@ export const Feature06BusinessPrivateRoutes = () => {
       element: <TableList />,
     },
     { path: "business/Reservation", element: <Reservation /> },
-    { path: "business/WalkInDetail/:branchId/:venueId", element: <WalkInDetail /> },
-    { path: "business/WalkInPeople", element: <WalkInPeople /> },
+    {
+      path: "business/WalkInDetail/:branchId/:venueId",
+      element: <WalkInDetail />,
+    },
+    {
+      path: "business/WalkInPeople/:branchId/:venueId",
+      element: <WalkInPeople />,
+    },
     // { path: "business/viewtable", element: <ViewTable /> },
     { path: "business/viewtable/:tableId", element: <ViewTable /> },
     { path: "business/createtable1", element: <CreateTable1 /> },

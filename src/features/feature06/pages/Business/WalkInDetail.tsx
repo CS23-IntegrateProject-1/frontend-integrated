@@ -70,7 +70,6 @@ export const WalkInDetail = () => {
         toast.warning("Please fill in all information");
       }
       const response = await Axios.post(`/feature6/createOfflineReservation`, {
-        // venueId: venueIdInt,
         guest_amount: seatsInt,
         branchId: branchIdInt,
         phone_num: phonenumber,
