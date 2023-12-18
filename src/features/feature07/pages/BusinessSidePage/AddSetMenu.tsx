@@ -27,6 +27,7 @@ export const AddSetMenu: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const toast = useCustomToast();
   // const { venueId } = useParams();
@@ -102,8 +103,23 @@ export const AddSetMenu: React.FC = () => {
   //   console.log('Navigating to:', targetPath);
   //   navigate(targetPath);
   // };
+  const isFormValid = () => {
+    return (
+      formData.name &&
+      formData.description &&
+      formData.price &&
+      selectedMenus.length > 0
+    );
+  };
+  
 
   const handleAddSetMenuClick =  () => {
+    setFormSubmitted(true);
+
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
     // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
@@ -153,7 +169,7 @@ export const AddSetMenu: React.FC = () => {
     }
     setSelectId(""); // reset dropdown
   };
-
+  
   // const handleMenuSelect = (selectedMenu: Menu) => {
   //   setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
   //   setInputFieldValue('');
@@ -172,13 +188,14 @@ export const AddSetMenu: React.FC = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
+              isInvalid={formSubmitted && !formData.name}
             />
           </Box>
         </Center>
@@ -192,11 +209,12 @@ export const AddSetMenu: React.FC = () => {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              isInvalid={formSubmitted && !formData.description}
             />
           </Box>
         </Center>
@@ -250,7 +268,7 @@ export const AddSetMenu: React.FC = () => {
                 </Box>
               ))}
             </VStack>
-            <InputGroup>
+            <InputGroup >
               {/* <InputLeftElement>
                 <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
               </InputLeftElement> */}
@@ -259,6 +277,8 @@ export const AddSetMenu: React.FC = () => {
                 width="307px"
                 placeholder="Add a menu"
                 value={selectId}
+                borderColor={(formSubmitted &&  selectedMenus.length === 0) ? "red.300" : "brand.300"}
+                isInvalid={formSubmitted && selectedMenus.length === 0}
                 onChange={(e) => handleDropdownChange(e.target.value)}
                 // style={{
                 //   control: (styles) => ({
@@ -286,7 +306,9 @@ export const AddSetMenu: React.FC = () => {
                 as="select"
               >
                 {menuOptions?.map((menu: any) => (
-                  <option key={menu.menuId} value={menu.menuId}>
+                  <option key={menu.menuId} value={menu.menuId}
+                  
+                  >
                     {menu.name}
                   </option>
                 ))}
@@ -305,12 +327,13 @@ export const AddSetMenu: React.FC = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name="price"
               value={formData.price}
               onChange={handleInputChange}
+              isInvalid={formSubmitted && !formData.price}
             />
           </Box>
         </Center>
