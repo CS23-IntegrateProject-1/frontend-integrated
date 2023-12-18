@@ -2,6 +2,7 @@ import { Flex, HStack, Text, VStack, Box, Spacer, Icon } from "@chakra-ui/react"
 import textStyles from "../../../theme/foundations/textStyles";
 import { FC } from "react";
 import { TimeIcon } from "@chakra-ui/icons";
+import { formatDatetime1 } from "../../../functions/formatDatetime";
 
 interface foodItems {
     menuName: string;

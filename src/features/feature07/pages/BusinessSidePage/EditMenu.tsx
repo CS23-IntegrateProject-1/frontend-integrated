@@ -17,6 +17,7 @@ export const EditMenu = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const toast = useCustomToast();
   const { menuid } = useParams();
@@ -25,7 +26,14 @@ export const EditMenu = () => {
     description: '',
     price: '',
   });
-  
+
+  const handleInvalid = (e) => {
+    e.preventDefault();
+    const { name } = e.target;
+    e.target.setCustomValidity(`Please fill in the ${name} field`);
+    toast.error(`Please fill in the ${name} field`);
+  };
+
   const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () =>{
     if (menuid !== undefined) {
       return getMenuItem(menuid);
@@ -58,9 +66,17 @@ export const EditMenu = () => {
       ...prevData,
       [name]: value,
     }));
+    e.target.setCustomValidity(""); 
   };
-
+  const isFormValid = () => {
+    return formData.name && formData.description && formData.price;
+  };
   const handleUpdate = async () => {
+    setFormSubmitted(true);
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
     const formData = new FormData();
     formData.append('name', editFormData.name);
     formData.append('description', editFormData.description);
@@ -112,6 +128,9 @@ export const EditMenu = () => {
               name='name'
               value={editFormData.name}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !formData.name}
             />
           </Box>
         </Center>
@@ -130,6 +149,9 @@ export const EditMenu = () => {
               name='description'
               value={editFormData.description}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !formData.description}
             />
           </Box>
         </Center>
