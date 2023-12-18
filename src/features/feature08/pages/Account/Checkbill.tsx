@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate1 } from "../../../../functions/formatDatetime";
+import { useState, useEffect } from "react";
 
 interface order {
   orderDetails: orderDetail[];
@@ -31,16 +32,45 @@ interface orderDetail {
   quantity: number;
 }
 
-
-
+interface orders {
+  orderId: number;
+}
 
 export const Checkbill: React.FC = () => {
+  const { appTransactionDetailId } = useParams();
+  const [newOrderId, setNewOrderId] = useState<string | undefined>();
   const { orderId } = useParams();
+  
+
+  useEffect(() => {
+    const fetchOrderId = async () => {
+      try {
+        const response = await Axios.get<orders>(
+          `/feature8/getOrderIdByAppTransactionDetailId/${appTransactionDetailId}`
+        );
+        const orderIdData = response.data;
+        setNewOrderId(orderIdData.orderId.toString());
+      } catch (error) {
+        console.error("Error fetching order ID:", error);
+        setNewOrderId(undefined);
+      }
+    };
+
+    if (orderId === undefined) {
+      fetchOrderId();
+      
+    }else{
+      setNewOrderId(orderId);
+    }
+  }, [orderId, appTransactionDetailId]);
+
+  
+  
 
   const fetchOrderData = async () => {
     try {
       const [orderResponse] = await Promise.all([
-        Axios.get<order>(`/feature8/getReceipt/${orderId}`)
+        Axios.get<order>(`/feature8/getReceipt/${newOrderId}`)
       ]);
       const orderData = orderResponse.data;
       return { orderData };
@@ -50,7 +80,7 @@ export const Checkbill: React.FC = () => {
     }
   };
 
-  const { data } = useQuery(["fetchOrderData", orderId || ""], () => fetchOrderData());
+  const { data } = useQuery(["fetchOrderData", newOrderId || ""], () => fetchOrderData());
   console.log(data);
 
   return (
@@ -147,4 +177,4 @@ export const Checkbill: React.FC = () => {
       </Box>
     </Center>
   );
-};
+}
