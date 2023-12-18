@@ -37,7 +37,7 @@ export const CreateTable1 = () => {
   };
 
   const tocreatetable2 = () => {
-    const path = "/business/createtable2";
+    const path = `/business/createtable2/${tabletype[0].venueId}`;
     navigate(path);
   };
 
