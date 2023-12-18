@@ -24,6 +24,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface PromotionProps {
   name: string;
@@ -33,6 +34,7 @@ interface PromotionProps {
   image_url: string;
   menuId: number;
   venueId: number;
+  branchId: number;
   discount_price: number;
 }
 export const PromotionCreatePage = () => {
@@ -40,6 +42,7 @@ export const PromotionCreatePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [promotion, setPromotion] = useState<PromotionProps>({
     name: "",
     description: "",
@@ -48,13 +51,35 @@ export const PromotionCreatePage = () => {
     end_date: new Date(),
     menuId: 3,
     venueId: 3,
+    branchId: 0,
     discount_price: 10,
   });
-
+  const [branches, setBranches] = useState<
+    { branch_name: string; branchId: number }[]
+  >([]);
+  const [menus, setMenus] = useState<{ name: string; menuId: number }[]>([]);
+  const toast = useCustomToast();
   const handleCloseImage = () => {
     setImagePreview(null);
   };
   useEffect(() => {
+    // try {
+    Axios.get("/feature5/Showbranch")
+      .then((res) => {
+        setBranches(res.data);
+      })
+      .catch((err) => {
+        toast.error("Error fetching branches");
+        throw err;
+      });
+    Axios.get("/feature5/ShowMenu")
+      .then((res) => {
+        setMenus(res.data);
+      })
+      .catch((err) => {
+        toast.error("Error fetching menus");
+        throw err;
+      });
     return () => {
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
@@ -105,18 +130,24 @@ export const PromotionCreatePage = () => {
       }));
     }
 
-    if (name === "venueId") {
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: parseInt(value),
-      }));
-    }
+    // if (name === "venueId") {
+    //   setPromotion((prevPromotion) => ({
+    //     ...prevPromotion,
+    //     [name]: parseInt(value),
+    //   }));
+    // }
 
     if (name === "menuId") {
       setPromotion((prevPromotion) => ({
         ...prevPromotion,
         [name]: parseInt(value),
       }));
+    }
+    if (name === "branchId"){
+      setPromotion((prevPromotion) => ({
+        ...prevPromotion,
+        [name]: parseInt(value)
+      }))
     }
   };
 
@@ -127,21 +158,30 @@ export const PromotionCreatePage = () => {
   // };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+    if (e.target.files) {
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
+      setImage(e.target.files[0]);
     }
   };
 
   const handleSubmit = async () => {
     console.log(promotion);
 
-    
     try {
       // Ensure this ID is valid
       console.log(promotion);
       console.log(`Sending request to /Promotion`);
+      const formData = new FormData;
+      formData.append("name", promotion.name);
+      formData.append("description", promotion.description);
+      formData.append("brandId", promotion.branchId);
+      formData.append("image_url", promotion.image_url);
+      formData.append("start_date", promotion.start_date);
+      formData.append("end_date", promotion.end_date);
+      formData.append("menuId", promotion.menuId);
+      formData.append("venueId", promotion.venueId);
+      formData.append("discount_price", promotion.discount_price);
       const response = await Axios.post(`feature5/Promotion`, {
         ...promotion,
         //advertisementPlan: Number(advertise.cost),
@@ -232,17 +272,17 @@ export const PromotionCreatePage = () => {
           Branch
         </FormLabel>
         <Select
-          name="venueId"
+          name="branchId"
           onChange={handleChange}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           placeholder=""
         >
-          <option value="1">PrachaUthit</option>
-          <option value="2">Bang pakok</option>
-          <option value="3">Tha kham</option>
-          <option value="4">Bang bon</option>
-          <option value="5">Bang khae</option>
+          {branches.map((branch, index) => (
+            <option value={branch.branchId} key={index}>
+              {branch.branch_name}
+            </option>
+          ))}
         </Select>
       </FormControl>
 
@@ -315,8 +355,11 @@ export const PromotionCreatePage = () => {
           borderColor={"#5F0DBB"}
           placeholder=""
         >
-          <option value="3">3</option>
-          <option value="3">3</option>
+          {menus.map((menu, index) => (
+            <option key={index} value={menu.menuId}>
+              {menu.name}
+            </option>
+          ))}
         </Select>
       </FormControl>
 

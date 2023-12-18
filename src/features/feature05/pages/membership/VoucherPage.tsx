@@ -11,7 +11,7 @@ export const VoucherPage = () => {
 
   useEffect(() => {
     fetchDatas();
-  });
+  },[]);
 
   if (voucherId == undefined) {
     console.error("Voucher id is undefined");

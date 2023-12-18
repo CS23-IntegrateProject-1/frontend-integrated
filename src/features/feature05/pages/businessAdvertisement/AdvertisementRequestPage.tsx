@@ -104,6 +104,7 @@ export const AdvertisementRequestPage = () => {
       setImagePreview(previewURL);
     }
   };
+  
   const handleCloseImage = () => {
     setImagePreview(null);
   };
