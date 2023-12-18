@@ -75,7 +75,7 @@ export const BusOngoCard: FC<BusOngoCardProps>= ({items,tableNo,invalidateOngoin
                         textStyle={"h3"}
                         width={"150px"}
                         height={"30px"}
-                        alignItems="flex-end"
+                        // alignItems="flex-end"
                         bgColorHover={"green"}
                         onClick={()=>handleComplete(item.orderDetailId)}
                     />

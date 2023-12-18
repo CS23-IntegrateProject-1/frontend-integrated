@@ -20,7 +20,7 @@ export const AddMenu = () => {
     description: '',
     price: '',
   });
-  const handleInvalid = (e) => {
+  const handleInvalid = (e: any) => {
     e.preventDefault();
     const { name } = e.target;
     e.target.setCustomValidity(`Please fill in the ${name} field`);
