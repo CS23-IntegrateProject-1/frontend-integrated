@@ -63,7 +63,7 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(venueIdInt,branchIdInt);
+    const response: IData = await getVenueById(branchIdInt,venueIdInt);
     console.log(response);
     setData(response);
   }
@@ -178,18 +178,6 @@ export const ReservationDetail = () => {
                 }}
               />
             </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop="10px"
-            >
-              {/* {data?.reservations[0].user.fname} */}
-            </Text>
             <Text
               color="#000"
               fontFamily="Roboto"
