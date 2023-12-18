@@ -8,7 +8,7 @@ on:
 jobs:
     lint:
         name: Check lint
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         container: node:lts
         steps:
             - name: Checkout
@@ -19,14 +19,15 @@ jobs:
               run: npm run lint
 
     check-build:
+        needs: [lint]
         name: Check Build
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         timeout-minutes: 5
-        container: node:lts
+        container: node:20-alpine
         steps:
             - name: Checkout
               uses: actions/checkout@v3
-            - name: Compile build & Check for compatibility
-              run: |
-                  npm i
-                  npm run build
+            - name: install packages
+              run: npm ci
+            - name: run build
+              run: npm run build

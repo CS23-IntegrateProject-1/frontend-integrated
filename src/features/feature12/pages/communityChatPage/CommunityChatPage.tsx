@@ -1,34 +1,81 @@
-import { Box,Tab,TabList,TabPanel,TabPanels,Tabs,Text } from "@chakra-ui/react";
+import { Box,List,ListItem,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
+import Conversation from "../../components/Conversation";
+import { useConversations } from "../../context/ConversationProvider";
 
-// import OpenConversations from "../../components/OpenConversations";
-// import { useConversations } from "../../context/ConversationProvider";
-import ConversationsLog from "../../components/ConversationsLog";
-// import { TextStyle } from "../../../../theme/TextStyle";
+interface Recipient {
+  member: {
+    username: string;
+    userId: number;
+    addId: string;
+    profile_picture: string | null;
+  },
+  memberId: number;
+}
 
+interface Conversation {
+  group_name: string;
+  group_profile: string;
+  id:number;
+  members: Recipient[];
+  messages: Message[];
+  selected?: boolean;
+}
+interface Message {
+  recipients: Recipient[] | string[];
+  text: string;
+  sender: string;
+  fromMe: boolean;
+}
 export const CommunityChatPage = () => {
 
-  // const { selectedConversation } = useConversations();
-
+  const { conversations, openConversation,selectedConversation} = useConversations();
+  console.log("conversations", conversations);
   return (
     <Box display="flex">
       <Box width="25%" mr="4px">
         <Tabs isFitted>
           <TabList >
-            <Tab>Community Chat</Tab>
             <Tab>Private Chat</Tab>
+            <Tab>Community Chat</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <ConversationsLog />
+              <>
+      <List
+        spacing={3}
+        variant="flush"
+        width="100%"
+        borderBottom="0.5px solid black"
+      >
+        {conversations.map((conversation:Conversation, index: number) => (
+          <ListItem
+            key={index}
+            cursor={"pointer"}
+            padding={3}
+            onClick={() => {
+              openConversation(
+                conversation.members,
+                conversation.group_name,
+                conversation.id,
+              );
+            }}
+            background={conversation.selected ? "#DEBEF6" : "transparent"}
+          >
+            {conversation.group_name}
+          </ListItem>
+        ))}
+      </List>
+    </>
             </TabPanel>
             <TabPanel>
-              <Text>Groups</Text>
-              <ConversationsLog />
+              {/* <ConversationsLog /> */}
             </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
-      {/* {selectedConversation && <OpenConversations />} */}
+      <Box width="75%">
+        {selectedConversation ? <Conversation /> : <Text>Select a conversation</Text>}
+        </Box>
     </Box>
-  );
+  )
 };

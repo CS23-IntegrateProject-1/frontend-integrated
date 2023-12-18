@@ -22,7 +22,7 @@ export const CinemaMain = () => {
   const [soonMovies, setSoonMovies] = useState<Movie[]>([]);
   const [isDesktop] = useMediaQuery('(min-width: 768px)');
 
-  const handleClick = (index) => {
+  const handleClick = (index: any) => {
     setActiveButton(index);
   };
 
@@ -32,7 +32,7 @@ export const CinemaMain = () => {
     try {
       const response = await Axios.get(url);
       setState(
-        response.data.map((film) => ({
+        response.data.map((film: any) => ({
           title: film.name,
           imageUrl: film.poster_img, // Adjust the property name based on your Prisma model
           id: film.filmId, // Adjust the property name based on your Prisma model
