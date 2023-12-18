@@ -13,16 +13,7 @@ export const PromotionListCard: React.FC<IPromotionCardListProp> = ({
   };
 
   return (
-    // <Box
-    //   display={"flex"}
-    //   flexDirection={"column"}
-    //   justifyContent={"center"}
-    //   alignItems={"center"}
-    //   width={"100%"}
 
-    //   paddingBottom={4}
-    // >
-    //   {/* AdvertisementCard */}
     <Card
       width="90%"
       minWidth="250px"

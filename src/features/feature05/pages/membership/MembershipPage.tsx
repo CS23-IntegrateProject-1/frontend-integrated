@@ -6,6 +6,7 @@ import MembershipRedeemList from "../../components/membership/MembershipRedeemLi
 import MembershipMyprivilegeList from "../../components/membership/MembershipMyprivilegeList";
 
 export const MemberShipPage = () => {
+
   const navigate = useNavigate();
   const handleClick = (path: string) => {
     navigate(path);

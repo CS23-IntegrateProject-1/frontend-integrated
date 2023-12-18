@@ -76,15 +76,8 @@ export const MyRewardsPage = () => {
             </Stack>
           </TabList>
 
-          {/* <TabPanels>
-            <TabPanel>
-              <MyRewardsCard data={{ isApprove: "", voucher_image: "" }} />
-            </TabPanel>
-          </TabPanels> */}
-
           {data?.map((data: IReward, index: number) => {
             if (selector === "Active Rewards") {
-              //console.log(data.isUsed)
               console.log(data.User_voucher[0].isUsed);
               return (
                 !data.User_voucher[0].isUsed && (
@@ -93,7 +86,6 @@ export const MyRewardsPage = () => {
               );
             } else
               return (
-                
                 data.User_voucher[0].isUsed && (
                   <MyRewardsCard key={index} data={data} />
                 )

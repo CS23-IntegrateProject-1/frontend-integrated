@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
-
 import { PromotionStatusCard } from "../../components/PromotionComponent/PromotionCardStatus";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
 
-// const fetchData = async (status: string): Promise<string[]> => {
-//   // Assume this is your backend API endpoint to fetch data based on the status
-//   const response = await fetch(/api/data?status=${status});
-//   const data = await response.json();
-//   return data;
-// };
-
-
 interface PromotionStatusCardProps {
   data: {
-    promotionId: number; // Assuming promotionId is a number
+    promotionId: number;
     isApprove: string;
     image_url: string;
-    // Add other properties as needed
   };
 }
 
@@ -33,7 +23,6 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const handleClickCreate = () => {
     navigate("/business/promotion/create");
   };
-  // const businessId = 2;
 
   const fetchBusinessPromotion = async () => {
     try {

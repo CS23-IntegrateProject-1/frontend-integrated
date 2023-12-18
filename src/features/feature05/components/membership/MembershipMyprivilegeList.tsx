@@ -9,8 +9,10 @@ const MembershipMyprivilegeList = () => {
   const fetchMyprivilegeList = async () => {
     try {
       const result = await Axios.get(`/feature5/GetRedeem/`);
-      setRedeemList(result?.data);
-      console.log(redeemList[1]);
+      // setRedeemList(result?.data);
+      // console.log(redeemList[1]);
+      setRedeemList(result.data);
+      console.log(redeemList);
     } catch (e) {
       console.error(e);
     }
@@ -19,8 +21,17 @@ const MembershipMyprivilegeList = () => {
   useEffect(() => {
     fetchMyprivilegeList();
   });
+  
 
   return (
+    // <HStack mt="-15px" padding="10px">
+    //   {redeemList?.map((myprivilege: IMyprivilege) => (
+    //     <ShortMembershipMyPrivilegeCard
+    //       key={myprivilege.redeemId}
+    //       image_url={myprivilege.image_url}
+    //     />
+    //   ))}
+    // </HStack>
     <HStack
       mt="-15px"
       padding="10px"
@@ -28,12 +39,10 @@ const MembershipMyprivilegeList = () => {
       w={"100%"}
       overflowX="scroll"
     >
-      {redeemList?.map((myprivilege: IMyprivilege) => (
-        <ShortMembershipMyPrivilegeCard
-          key={myprivilege.redeemId}
-          image_url={myprivilege.image_url}
-        />
-      ))}
+      {redeemList &&
+        redeemList?.map((image_url: IMyprivilege) => (
+          <ShortMembershipMyPrivilegeCard {...image_url} />
+        ))}
     </HStack>
   );
 };

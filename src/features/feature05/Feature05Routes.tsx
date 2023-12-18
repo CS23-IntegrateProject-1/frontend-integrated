@@ -9,6 +9,7 @@ import { PromotionDetail } from "./pages/promotion/PromotionDetail";
 import { MyprivilegePage } from "./pages/membership/MyprivilegePage";
 import { MyRewardsPage } from "./pages/membership/MyRewardsPage";
 import { VoucherPage } from "./pages/membership/VoucherPage";
+import { RedeemDetailPage } from "./pages/membership/RedeemDetailPage";
 
 export const Feature05Routes = () => {
   return [
@@ -25,5 +26,8 @@ export const Feature05Routes = () => {
 
     //Voucher ( Customer )
     { path: "/voucher/:voucherId", element: <VoucherPage /> },
+
+    //Redeem ( Customer )
+    { path: "/redeem/:redeemId", element: <RedeemDetailPage /> },
   ];
 };

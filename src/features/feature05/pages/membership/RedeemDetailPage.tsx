@@ -1,19 +1,20 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 import { Image, Circle } from "@chakra-ui/react";
-import IVoucherDetail from "../../../../interfaces/Voucher/IVoucherDetail";
 import { useEffect, useState } from "react";
-import { GetVoucherDetail } from "../../../../api/Voucher/GetVoucherDetail";
 import { useParams } from "react-router-dom";
+import IRedeemDetail from "../../../../interfaces/Redeem/IRedeemDetail";
+import { GetRedeemDetail } from "../../../../api/Voucher/GetRedeemDetail";
 
-export const VoucherPage = () => {
-  const [data, setData] = useState<IVoucherDetail>();
-  const { voucherId } = useParams();
+export const RedeemDetailPage = () => {
+     
+  const [data, setData] = useState<IRedeemDetail>();
+  const { redeemId } = useParams();
 
   useEffect(() => {
     fetchDatas();
   });
 
-  if (voucherId == undefined) {
+  if (redeemId == undefined) {
     console.error("Voucher id is undefined");
     return;
   }
@@ -21,8 +22,7 @@ export const VoucherPage = () => {
   const fetchDatas = async () => {
     try {
       // Call the function to get the data
-      const result = await GetVoucherDetail(voucherId);
-      console.log(result);
+      const result = await GetRedeemDetail(redeemId);
       setData(result?.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -39,7 +39,7 @@ export const VoucherPage = () => {
           maxW={"400px"}
           w={"100%"}
         >
-          <Image w={"100%"} src={data?.voucher_image} />
+          <Image w={"100%"} src={data?.image_url} />
         </Box>
 
         {/* coupon */}
@@ -55,11 +55,11 @@ export const VoucherPage = () => {
           maxW={"400px"}
         >
           <Text fontSize="24px" marginLeft="20px" fontWeight="bold">
-            {data?.voucher_name}
+            {data?.title}
           </Text>
-          <Text fontSize="16px" marginLeft="20px">
+          {/* <Text fontSize="16px" marginLeft="20px">
             Use {data?.point_use} points
-          </Text>
+          </Text> */}
           <Circle
             size="56px"
             bg="#200944"

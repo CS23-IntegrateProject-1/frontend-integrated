@@ -3,5 +3,5 @@ export default interface IMyprivilege {
   title: string;
   description: string;
   memberTier: number;
-  image_url?: string;
+  image_url: string;
 }

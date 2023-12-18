@@ -28,9 +28,10 @@ const MembershipRedeemList = () => {
       w={"100%"}
       overflowX="scroll"
     >
-      {voucherList?.map((voucher_image: IRedeemList) => (
-        <ShortMembershipRedeemCard {...voucher_image} />
-      ))}
+      {voucherList &&
+        voucherList?.map((voucher_image: IRedeemList) => (
+          <ShortMembershipRedeemCard {...voucher_image} />
+        ))}
     </HStack>
   );
 };
