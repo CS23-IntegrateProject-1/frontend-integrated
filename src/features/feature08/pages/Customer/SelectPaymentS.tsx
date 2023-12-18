@@ -46,7 +46,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
 
-  const redirectToDeposit = async (event: React.FormEvent) => {
+  const redirectToSeat = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // const stripe = await stripePromise;
@@ -56,7 +56,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
     //   method: "POST",
     // });
 
-    Axios.post("/feature8/", {})
+    Axios.post("/feature8/create-seat-session", {})
       .then(async (res) => {
         // const session = res;
         // const result = await stripe?.redirectToCheckout({
@@ -143,7 +143,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
         </Button> */}
       {/* <button type="submit">Check Out</button> */}
       <Button
-        onClick={redirectToDeposit}
+        onClick={redirectToSeat}
         width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
