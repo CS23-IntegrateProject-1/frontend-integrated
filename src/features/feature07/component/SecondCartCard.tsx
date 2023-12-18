@@ -15,10 +15,10 @@ interface SecondCardProps {
 
 export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,amount,type}) => {
     const navigate = useNavigate();
-    const { venueId } = useParams();
+    // const { venueId } = useParams();
 
   const handleMenuEdit = (type: string, id: string) => {
-    navigate(`/venue/${venueId}/cartdetail/${type}/${id}`);
+    navigate(`/venue/cartdetail/${type}/${id}`);
     console.log("Clicked menu. Menu ID:", id);
   }
 
