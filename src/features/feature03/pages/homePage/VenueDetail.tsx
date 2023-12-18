@@ -213,7 +213,7 @@ export const VenueDetail: FC = () => {
             p={4}
             display={"flex"}
             alignItems={"center"}
-            maxW={"450px"}
+            maxW={"360px"}
             bgColor={"brand.300"}
           >
             <Box
