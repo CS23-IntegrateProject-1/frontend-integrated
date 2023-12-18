@@ -34,6 +34,7 @@ export const OrderUpdateNoti = () => {
   // const [userData, setUserData] = useState('');
   // const [userId, setUserId] = useState('');
   const [order, setOrder] = useState([]);
+  const [orderDetail, setOrderDetail] = useState([]);
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
      
@@ -67,8 +68,11 @@ export const OrderUpdateNoti = () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
       const OrderResponse = await axios.get(`${backendUrl}/feature8/orders/${orderId}`);
+      const OrderDetailResponse = await axios.get(`${backendUrl}/feature8/orderdetail/${orderId}`);
       const orderData = OrderResponse.data;
+      const orderDetailData = OrderDetailResponse.data;
       setOrder(orderData);
+      setOrderDetail(orderDetailData);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching Order data:', error);
@@ -83,6 +87,8 @@ export const OrderUpdateNoti = () => {
   }, [orderId]); // Include orderId as a dependency to re-run the effect when it changes
 
   console.log('Order Data: ', order);
+  console.log('Order Detail Data: ', orderDetail);
+  
 
   if (loading) {
     return <div>Loading...</div>;
