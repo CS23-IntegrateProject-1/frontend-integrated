@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text,  VStack, HStack } from "@chakra-ui/react";
 import { FC} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface SecondCardProps {
   id:number;
   foodName: string;

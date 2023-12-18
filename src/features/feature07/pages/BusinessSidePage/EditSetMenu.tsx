@@ -25,7 +25,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   const [selectedMenus, setSelectedMenus] = useState<any[]>([]);
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const { venueId, menuid } = useParams();
+  const { menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
     description: '',
@@ -46,7 +46,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   }, [menuData]);
 
   const getMenu = async () => {
-    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const response = await Axios.get('/feature7/getAllMenus');
     const menus = response.data;
     //console.log(menuData);
     return menus;
@@ -141,7 +141,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
       console.log('Clear cookies:', response.data);
-      navigate(`/venue/${venueId}/menubusiness`);
+      navigate(`/business/venue/menubusiness`);
     }catch (error) {
       console.error('Error clearing cookie:', error);
     }
@@ -159,14 +159,14 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     }
 
     try {
-      const response = await Axios.post(`/feature7/editSet/${venueId}/${menuid}`, formData, {
+      const response = await Axios.post(`/feature7/editSet/${menuid}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       console.log('Menu edited:', response.data);
       toast.success("Menu Edited");
-      const targetPath = `/venue/${venueId}/bmenudetail/Set/${menuid}`;
+      const targetPath = `/business/venue/bmenudetail/Set/${menuid}`;
       navigate(targetPath);
     } catch (error) {
         console.error('Error editing menu:', error);

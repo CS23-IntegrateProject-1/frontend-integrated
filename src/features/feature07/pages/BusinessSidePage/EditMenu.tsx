@@ -19,7 +19,7 @@ export const EditMenu = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const { venueId, menuid } = useParams();
+  const { menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
     description: '',
@@ -77,7 +77,7 @@ export const EditMenu = () => {
       });
       console.log('Menu edited:', response.data);
       toast.success("Menu Edited");
-      const targetPath = `/venue/${venueId}/bmenudetail/Menu/${menuid}`;
+      const targetPath = `/business/venue/bmenudetail/Menu/${menuid}`;
       navigate(targetPath);
     } catch (error) {
         console.error('Error editing menu:', error);
@@ -211,7 +211,7 @@ export const EditMenu = () => {
               bgColor="white"
               textColor="brand.200"
               // onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
-              onClick={() => navigate(`/venue/${venueId}/menubusiness`)}
+              onClick={() => navigate(`/business/venue/menubusiness`)}
             />
           </Box>
           <Box>

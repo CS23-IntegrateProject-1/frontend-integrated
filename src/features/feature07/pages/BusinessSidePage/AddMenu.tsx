@@ -4,13 +4,13 @@ import { ButtonComponent } from '../../../../components/buttons/ButtonComponent'
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState } from 'react';
 import { Axios } from '../../../../AxiosInstance';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCustomToast } from '../../../../components/useCustomToast';
 
 export const AddMenu = () => {
 
   const navigate = useNavigate();
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const toast = useCustomToast();
@@ -48,7 +48,7 @@ export const AddMenu = () => {
     formDataWithFile.append('menuImage', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    Axios.post(`/feature7/addMenu/${venueId}`, formDataWithFile, {
+    Axios.post(`/feature7/addMenu`, formDataWithFile, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -56,7 +56,7 @@ export const AddMenu = () => {
       .then((response) => {
         console.log('Menu added:', response.data);
         toast.success("Menu Added Successfully");
-        navigate(`/venue/${venueId}/menubusiness`);
+        navigate('/business/venue/menubusiness');
         // Add logic for what happens after successfully adding menu item
       })
       .catch((error) => {

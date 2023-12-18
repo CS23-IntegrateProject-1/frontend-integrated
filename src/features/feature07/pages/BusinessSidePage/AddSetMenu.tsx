@@ -16,7 +16,7 @@ import { ButtonComponent } from "../../../../components/buttons/ButtonComponent"
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef, useState} from "react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
@@ -29,7 +29,7 @@ export const AddSetMenu: React.FC = () => {
   const [selectedMenus, setSelectedMenus] = useState([]);
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -38,7 +38,7 @@ export const AddSetMenu: React.FC = () => {
   const [selectId, setSelectId] = useState("");
 
   const getMenu = async () => {
-    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const response = await Axios.get('/feature7/getAllMenus');
     const menuData = response.data;
     //console.log(menuData);
     return menuData;
@@ -113,7 +113,7 @@ export const AddSetMenu: React.FC = () => {
     formDataWithFile.append("menuImage", selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    Axios.post(`/feature7/addSetWithMenuItems/${venueId}`, formDataWithFile, {
+    Axios.post(`/feature7/addSetWithMenuItems`, formDataWithFile, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -122,7 +122,7 @@ export const AddSetMenu: React.FC = () => {
         if (response.status === 200) {
           console.log("SetMenu added:", response.data);
           toast.success("Set Menu Added");
-          const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
+          const targetPath = `/business/venue/menubusiness?section=setmenu`;
           console.log("Navigating to:", targetPath);
           navigate(targetPath);
         }

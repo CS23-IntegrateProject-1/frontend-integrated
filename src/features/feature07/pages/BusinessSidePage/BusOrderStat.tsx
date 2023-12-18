@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flex, HStack, VStack } from '@chakra-ui/react';
 import { RButton } from '../../component/RButton';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -32,7 +32,7 @@ export const BusOrderStat: React.FC = () => {
   const [borderColor, setBorderColor] = useState('brand.200');
   const [status, setStatus] = useState<OrderStatus>('Preparing');
 
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   const queryClient = useQueryClient();
 
   const handleButtonClick = (newStatus: OrderStatus) => {
@@ -51,14 +51,14 @@ export const BusOrderStat: React.FC = () => {
   // });
 
   const { data: ongoingOrderDetails, isLoading: ongoingLoading, isError: ongoingError } = useQuery(['ongoingOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
+    const response = await Axios.get('/feature7/onGoingOrderDetailsInBusiness');
     console.log("Ongoing:" ,response.data);
     return response.data;
   });
   
 
   const { data: completedOrderDetails, isLoading: completedLoading, isError: completedError } = useQuery(['completedOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/completedOrderDetailsInBusiness/${venueId}`);
+    const response = await Axios.get('/feature7/completedOrderDetailsInBusiness');
     console.log("Completed:" ,response.data);
     return response.data;
   });
