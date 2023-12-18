@@ -5,7 +5,7 @@ import { useLayoutEffect, useState } from "react";
 const defaultToast: UseToastOptions = {
   position: "top-right",
   isClosable: true,
-  duration: 300000,
+  duration: 3000,
   variant: "solid",
 };
 
