@@ -195,6 +195,7 @@ export const AddSetMenu: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
+              required
               isInvalid={formSubmitted && !formData.name}
             />
           </Box>
@@ -214,6 +215,7 @@ export const AddSetMenu: React.FC = () => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              required
               isInvalid={formSubmitted && !formData.description}
             />
           </Box>
@@ -333,6 +335,7 @@ export const AddSetMenu: React.FC = () => {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
+              required
               isInvalid={formSubmitted && !formData.price}
             />
           </Box>

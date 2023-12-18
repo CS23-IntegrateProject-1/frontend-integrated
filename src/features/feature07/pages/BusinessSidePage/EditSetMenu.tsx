@@ -23,6 +23,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState<any[]>([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const toast = useCustomToast();
   const { menuid } = useParams();
@@ -73,6 +74,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
       [name]: value,
     }));
   };
+
 
   const handleDropdownChange = async (selectedMenuId: string) => {
     setSelectId(selectedMenuId);
@@ -145,10 +147,23 @@ import { useCustomToast } from "../../../../components/useCustomToast";
       console.error('Error clearing cookie:', error);
     }
   };
-
+  const isFormValid = () => {
+    return (
+      editFormData.name &&
+      editFormData.description &&
+      editFormData.price &&
+      selectedMenus.length > 0
+    );
+  };
+  
   const handleUpdate = async () => {
     // const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
     // navigate(targetPath);
+    setFormSubmitted(true);
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
     const formData = new FormData();
     formData.append('name', editFormData.name);
     formData.append('description', editFormData.description);
@@ -185,13 +200,15 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name='name'
               value={editFormData.name}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.name}
             />
           </Box>
         </Center>
@@ -205,11 +222,13 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name='description'
               value={editFormData.description}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.description}
             />
           </Box>
         </Center>
@@ -273,6 +292,8 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               width="307px"
               placeholder="Add a menu"
               value={selectId}
+              borderColor={(formSubmitted &&  selectedMenus.length === 0) ? "red.300" : "brand.300"}
+              isInvalid={formSubmitted && selectedMenus.length === 0}
               onChange={(e) => handleDropdownChange(e.target.value)}
               sx={{
                 '> option': {
@@ -305,12 +326,14 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name='price'
               value={editFormData.price}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.price}
             />
           </Box>
         </Center>

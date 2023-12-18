@@ -123,7 +123,7 @@ export const EditMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
@@ -147,7 +147,7 @@ export const EditMenu = () => {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name='description'
               value={editFormData.description}
@@ -170,7 +170,7 @@ export const EditMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name='price'
