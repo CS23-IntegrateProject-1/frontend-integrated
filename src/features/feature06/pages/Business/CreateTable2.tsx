@@ -15,27 +15,42 @@ export const CreateTable2 = () => {
   const [capacity, setCapacity] = useState("");
   const [detail, setDetail] = useState("");
   const [name, setName] = useState("");
+  const [filesSelection , setFiles] = useState<File>();
   const [image_url, setImage_url] = useState("");
   const navigate = useNavigate();
 
   const{venueId} = useParams();
   const venueIdInt = parseInt(venueId || "0");
+
+  const handleFileChange = async (event : React.ChangeEvent<HTMLInputElement>) => {
+    const taget = event.target as HTMLInputElement;
+    if (taget.files && taget.files.length > 0){
+      const files = taget.files[0]
+      setFiles(files)
+      setImage_url(URL.createObjectURL(files));
+    }
+  }
   
   const handleCreate = async () => {
     try {
+      const formData = new FormData();
+      if(filesSelection){
+        formData.append('file', filesSelection);
+      }
+
 		console.log("venueIdInt", venueIdInt);
 		console.log("capacity", capacity);
 		console.log("detail", detail);
 		console.log("name", name);
 		console.log("image_url", image_url);
 		const capacityNumber = parseInt(capacity, 10);
-
+      const upload = await Axios.post('/feature6/uploadTableTypeImage')
       const response: create2 = await Axios.post(`/feature6/createTableType`, {
         capacity: capacityNumber,
         detail: detail,
         name: name,
         venueId: venueIdInt,
-        image_url: image_url,
+        image_url: `/upload/${filesSelection?.name}`,
       });
       console.log(response);
       console.log("create table Type success");
@@ -74,6 +89,7 @@ export const CreateTable2 = () => {
             setCapacity(e.target.value);
           }}
         />
+        <input type="file" multiple accept="image/*" onChange={handleFileChange}/>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"32px"} mt={"17px"}>
           Upload image
         </Text>
@@ -101,3 +117,7 @@ export const CreateTable2 = () => {
     </Box>
   );
 };
+function dataURItoBlob(image_url: string) {
+  throw new Error("Function not implemented.");
+}
+
