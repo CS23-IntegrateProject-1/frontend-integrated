@@ -56,16 +56,16 @@ export const BusOngoCard: FC<BusOngoCardProps>= ({items,tableNo,invalidateOngoin
                 </Text>
                 
             </HStack>
-            <VStack align="start" spacing={2} mt={1}>
+            <VStack align="start" spacing={3} mt={1}>
                 {items?.map((item) => (
                 <Box width="100%" key={item.orderDetailId}>
-                <Flex justifyContent="space-between" alignItems="flex-start">  
-                    <Text {...textStyles.h3} color="white" lineHeight="1.5" >
+                 <HStack display="flex" justifyContent="space-between">
+                    <Text {...textStyles.h3} color="white" lineHeight="1.5" flex="3">
                         {/* Set food Name Integrate */}
                         {item.menuName || item.setName} 
                     </Text>
                     <Spacer />
-                            <Text {...textStyles.h3} color="white" lineHeight="1.5">
+                            <Text {...textStyles.h3} color="white" lineHeight="1.5" flex="1">
                                 x{item.quantity}
                             </Text>
                    
@@ -75,9 +75,11 @@ export const BusOngoCard: FC<BusOngoCardProps>= ({items,tableNo,invalidateOngoin
                         textStyle={"h3"}
                         width={"150px"}
                         height={"30px"}
+                        alignItems="flex-end"
+                        bgColorHover={"green"}
                         onClick={()=>handleComplete(item.orderDetailId)}
                     />
-                </Flex>
+                </HStack>
                 </Box>
                 ))}
             </VStack>
