@@ -81,6 +81,7 @@ export const Reservation = () => {
       return shouldRender && isMatchingDate ? (
         <Box key={index} marginBottom={"20px"}>
           <BusinessReservationCard
+            reservationIdInt={reservation.reservationId}
             name={reservation.user.fname + " " + reservation.user.lname}
             type={reservation.user.userId === 0 ? "offline" : "online"}
             status={reservation.status}

@@ -1,17 +1,36 @@
 import { Box,Button,Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { Axios } from "../../../AxiosInstance";
+import { useNavigate } from "react-router-dom";
+
 interface ReservationCardsProps {
   name?: string;
   type?: string;
   status?: string;
   date?: string;
+  reservationIdInt?: number;
 }
+
 export const BusinessReservationCard: FC<ReservationCardsProps> = ({
     name,
     type,
     status,
     date,
+    reservationIdInt
 }) => {
+    // const navigate = useNavigate();
+    const CheckoutActivate = async () => {
+      try {
+        const response = Axios.post(`feature6/checkout/${reservationIdInt}`, {
+          reservationId: reservationIdInt,
+        });
+        console.log(response);
+        console.log("checkout reservation success");
+        window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
     const ShowButton = () => {
       return (
         <Button
@@ -19,6 +38,7 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
           height={"25px"}
           borderRadius={"6px"}
           background={"var(--Dark-second, #A533C8)"}
+          onClick={() => CheckoutActivate()}
         >
           <Text
             fontSize={"12px"}
