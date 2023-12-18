@@ -1,19 +1,15 @@
-import {
-    Box,
-    Text,
-    SimpleGrid,
-    HStack
-  } from "@chakra-ui/react";
-  import PlaceTypes from "../components/PlaceTypes";
-  import { useEffect, useState } from "react";
-  import Cards from "../components/Card";
-  import Header from "../components/Header";
-  import index from "../../../theme/foundations/index";
-  import RecommendLocation from "../components/RecommendLocation";
-  import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
-  import SearchBar from "../components/Search";
-  import { Axios } from "../../../AxiosInstance";
-  
+import { useEffect, useState } from "react";
+import { Box, Text, SimpleGrid,HStack } from "@chakra-ui/react";
+import PlaceTypes from "../components/PlaceTypes";
+import Cards from "../components/Card";
+import SearchBar from "../components/Search";
+import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+import Header from "../components/Header";
+import RecommendLocation from "../components/RecommendLocation";
+import index from "../../../theme/foundations/index";
+import { Axios } from "../../../AxiosInstance";
+
+
 interface LocationData {
   id: string;
   image: string;
@@ -21,6 +17,14 @@ interface LocationData {
   address: string;
   distance: number;
   // Add other properties as needed
+}
+
+interface LocMap{
+  address : string;
+  latitude : number; 
+  locationId : number;
+  longtitude : number;
+  name: string;
 }
 
 interface RegisteredData{
@@ -32,90 +36,94 @@ interface RegisteredData{
   website_url: string;
 }
 
+export const Bars = () => {
+  const [savedData, setSavedData] = useState<LocationData[] | null>(null);
+  const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  searchTerm;
+  const [registered1, setRegistered1] = useState<RegisteredData[] | null>(null);
+  const [locations1, setLocations1] = useState<LocMap[] | null>(null);
 
-  export const Bars = () => {
-    const [savedData, setSavedData] = useState<LocationData[] | null>(null);
-    const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
-    searchTerm;
-    const [registered, setRegistered] = useState<RegisteredData[] | null>(null);
+  const fetchRestaurantData = async () => {
+    try {
+      const response = await Axios.get("/feature4/bars");
+      setRegistered1(response.data.bars);
+      setLocations1(response.data.bars.map((item:any) => item.location));
+      
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+    }
+  };
 
-    const fetchRestaurantData = async () => {
-      try {
-        const response = await Axios.get("/feature4/bars"); 
-        setRegistered(response.data.bars);
-        console.log(response.data)
-      } catch (error) {
-        console.error("Error fetching restaurant data:", error);
-      }
-    };
+  useEffect(() => {
+    console.log("hello")
+    console.log("Updated locations:", locations1);
+    console.log("hello1")
+  }, [locations1]); // This effect will run whenever locations change
+
+  useEffect(() => {
+    fetchRestaurantData();
+  }, []);
   
-    useEffect(() => {
-      fetchRestaurantData();
-      console.log(registered)
-      console.log("hello")
-    });
-  
-    // Retrieve data from localStorage on component mount
-    useEffect(() => {
+  // Retrieve data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("nearbyPositions");
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+    setSavedData(parsedData);
+    setFilteredData(parsedData);
+  }, []);
+
+  // Listen for changes in localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
       const storedData = localStorage.getItem("nearbyPositions");
       const parsedData = storedData ? JSON.parse(storedData) : null;
       setSavedData(parsedData);
       setFilteredData(parsedData);
-    }, []);
-  
-    // Listen for changes in localStorage
-    useEffect(() => {
-      const handleStorageChange = () => {
-        const storedData = localStorage.getItem("nearbyPositions");
-        const parsedData = storedData ? JSON.parse(storedData) : null;
-        setSavedData(parsedData);
-        setFilteredData(parsedData);
-      };
-  
-      window.addEventListener("storage", handleStorageChange);
-  
-      return () => {
-        window.removeEventListener("storage", handleStorageChange);
-      };
-    }, []); // Empty dependency array means this effect will run once on mount and clean up on unmount
-  
-    const handleSearch = (term: string) => {
-      setSearchTerm(term);
-  
-      // Filter the data based on the search term
-      const filtered =
-        savedData?.filter((location) =>
-          location.name.toLowerCase().includes(term.toLowerCase())
-        ) || null;
-      setFilteredData(filtered);
     };
 
-    
-    return (
-      <Box>
-        <Header />
-        <Text
-          fontSize={index.textStyles.h1.fontSize}
-          fontWeight={index.textStyles.h1.fontWeight}
-          color={index.colors.white}
-          m={2}
-        >
-          Recommended Locations
-        </Text>
-        <Box
-          display="flex"
-          overflowX="auto"
-          whiteSpace="nowrap"
-          paddingRight={4}
-          maxWidth="1500px"
-        >
-          {/* Render RecommendLocation components based on savedData */}
-          <HStack spacing={2} overflowX="auto">
-          {registered &&
-            registered.map((location,index) => (
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []); // Empty dependency array means this effect will run once on mount and clean up on unmount
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    console.log(searchTerm);
+
+    // Filter the data based on the search term
+    const filtered =
+      savedData?.filter((location) =>
+        location.name.toLowerCase().includes(term.toLowerCase())
+      ) || null;
+    setFilteredData(filtered);
+  };
+
+  return (
+    <Box >
+      <Header />
+      <Text
+        fontSize={index.textStyles.h1.fontSize}
+        fontWeight={index.textStyles.h1.fontWeight}
+        color={index.colors.white}
+        m={2}
+      >
+        Recommended Locations
+      </Text>
+      <Box
+        display="flex"
+        overflowX="auto"
+        whiteSpace="nowrap"
+        paddingRight={10}
+      >
+        {/* Render RecommendLocation com  onents based on registeredData */}
+        <HStack spacing={2} overflowX="auto">
+          {registered1 &&
+            registered1.map((location) => (
               <RecommendLocation
-                key={index}
+                key={location.name}
                 name={location.name}
                 description={location.description}
                 category={location.category}
@@ -125,12 +133,12 @@ interface RegisteredData{
               />
             ))}
         </HStack>
-        </Box>
-  
-        <br/>
-        <PlaceTypes />
+       
+      </Box>
+      <br />
+      <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="bar" />
+        <GoogleMapComponent type="bar" locMap ={locations1} />
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}
@@ -152,7 +160,8 @@ interface RegisteredData{
             ))}
         </SimpleGrid>
       </Box>
-      </Box>
-    );
-  };
-  
+    </Box>
+  );
+};
+
+export default Bars;
