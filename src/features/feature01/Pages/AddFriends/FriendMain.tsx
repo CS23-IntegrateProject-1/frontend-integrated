@@ -44,7 +44,7 @@ interface FriendList {
 interface GroupList {
   group_id: number;
   group_name: string;
-  avatar: string;
+  group_avatar: string;
 }
 export const FriendMain = () => {
   const [isShowAddFri, setisShowAddFri] = useState(false);
@@ -94,9 +94,10 @@ export const FriendMain = () => {
       .then((response) => {
         if (response.status == 200) {
           setGroupData(response.data);
-          console.log("list of group" + groupData);
           groupData.map((item) => {
             console.log(item.group_name);
+            console.log(item.group_id);
+            console.log(item.group_avatar);
           });
         }
       })
@@ -104,18 +105,6 @@ export const FriendMain = () => {
         console.error("Error fetching group list data:", error);
       });
 
-    // const url1 = `/feature1/profile`;
-    // Axios.get(url1, { withCredentials: true })
-    // .then((response) => {
-    //     if (response.status == 200) {
-    //         setProfileData(response.data);
-    //         console.log(profileData + 'profile');
-
-    //     }
-    // })
-    // .catch((error) => {
-    //     console.error("Error fetching user list data:", error);
-    // });
   }, []);
   useEffect(() => {
     if (newGroup) {
@@ -376,8 +365,8 @@ export const FriendMain = () => {
                               alignItems={"center"}
                             >
                               <Box>
-                                {item.avatar ? (
-                                  <Avatar src={"friendImg"} size={"md"} />
+                                {item.group_avatar !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.group_avatar}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"
