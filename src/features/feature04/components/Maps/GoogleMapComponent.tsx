@@ -179,7 +179,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
           {locMap?.map((location) => (
           <Marker
             key={location.locationId.toString()}
-            position={{ lat: parseFloat(location.latitude), lng: parseFloat(location.longtitude) }}
+            position={{ lat: parseFloat(location.latitude.toString()), lng: parseFloat(location.longtitude.toString()) }}
             
             icon={{
               url: star,
@@ -190,7 +190,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
             onClick={() => onMarkerClick2({
               id: location.locationId.toString(),
               address: location.address,
-              location: { lat: parseFloat(location.latitude), lng: parseFloat(location.longtitude) },
+              location: { lat: parseFloat(location.latitude.toString()), lng: parseFloat(location.longtitude.toString()) },
               name: location.name,
               phone_number: '',  // You may need to get this information from your data
               website: '',       // You may need to get this information from your data
