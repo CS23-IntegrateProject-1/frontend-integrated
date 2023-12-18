@@ -4,7 +4,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 
 
 interface PreparedMenuCardProps {
-  id:number;
+  id:number | null;
   foodName: string;
   description: string;
   price: number;
