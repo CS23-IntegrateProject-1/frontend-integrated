@@ -1,7 +1,6 @@
 import { Box,Button,Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
-import { useNavigate } from "react-router-dom";
 
 interface ReservationCardsProps {
   name?: string;
@@ -18,7 +17,6 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
     date,
     reservationIdInt
 }) => {
-    // const navigate = useNavigate();
     const CheckoutActivate = async () => {
       try {
         const response = Axios.post(`feature6/checkout/${reservationIdInt}`, {

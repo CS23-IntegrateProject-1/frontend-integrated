@@ -75,7 +75,7 @@ export const CancelModal: FC<ICancelModal> = ({
             type="submit"
             colorScheme="none"
             backgroundColor="#5F0DBB"
-            onClick={() => navigate("/my-reservation")}
+            onClick={() => onClose()}
             width={"100px"}
             height={"40px"}
           >

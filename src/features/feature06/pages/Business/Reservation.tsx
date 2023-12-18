@@ -108,9 +108,6 @@ export const Reservation = () => {
             color={"#F6F6F6"}
             fontWeight={"600"}
             _hover={{ background: "#A533C8" }}
-            onClick={() => {
-              <Link to={"business/WalkInDetail"} />;
-            }}
           >
             Walk-in customer
           </Button>

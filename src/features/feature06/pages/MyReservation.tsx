@@ -45,6 +45,7 @@ interface IPhotoData{
 export const MyReservation = () => {
   const [status, setStatus] = useState("");
   const [data, setData] = useState<IData[]>([]);
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -55,7 +56,7 @@ export const MyReservation = () => {
   };
 
   const renderCards = () => {
-    return data.map((data:IData, index: number) => {
+    return data?.map((data:IData, index: number) => {
       return (
         (status === "" || data.status === status) && (
           <Link
@@ -67,11 +68,13 @@ export const MyReservation = () => {
                 text={data.venue.description}
                 name={data.venue.name}
                 star={data.venue.score}
+                status={data.status}
                 startPrice={
                   data.venue.Menu.length > 0
                     ? data.venue.Menu[0].price ?? undefined
                     : undefined
                 }
+                isReview={data.isReview}
                 reservationId={data.reservationId}
                 venueId={data.venueId}
               />
@@ -81,6 +84,7 @@ export const MyReservation = () => {
       );
     });
   };
+  // console.log("DATA: ", data);
   console.log("RENDER PAGES ----------------------------");
   return (
     <Box
