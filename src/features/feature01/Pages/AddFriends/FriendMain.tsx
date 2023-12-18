@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -115,7 +116,7 @@ export const FriendMain = () => {
     // .catch((error) => {
     //     console.error("Error fetching user list data:", error);
     // });
-  }, [friData, groupData, profileData]);
+  }, []);
   useEffect(() => {
     if (newGroup) {
       //group list
@@ -135,7 +136,7 @@ export const FriendMain = () => {
         });
       //setGroupData([...groupData, newGroup]);
     }
-  }, [groupData, newGroup]);
+  }, [ ]);
   //click frilist to show overlay
   const handleFriClick = (id: number) => {
     setSelectedFrigateId(id);

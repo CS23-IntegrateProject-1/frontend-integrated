@@ -17,7 +17,6 @@ interface CreditCard {
 }
 
 interface Availability {
-    venueId: number;
     openingDay: OpeningDay;
 }
 
@@ -37,7 +36,6 @@ interface AvailabilityTime {
 }
 
 const defaultAvailability: Availability = {
-    venueId: 0,
     openingDay: {
         Mon: {
             openingTime: "",
@@ -120,16 +118,21 @@ export const BusiProfileEdit = () => {
 
     //load the data when the page is loaded
     useEffect(() => {
-        // const fetchData = async () => {
-        //     const venueData = await Axios.get('url');
-        //     const venueImage = await Axios.get('url');
-        //     const venueAvailability = await Axios.get('url');
-        //     const venuePromptPay = await Axios.get('url');
-        //     const venuePhone = await Axios.get('url');
-        //     const venueCreditCard = await Axios.get('url');
-
-        // };
-        // fetchData();
+        //venue data
+        const url = `/feature1/venue`;
+        Axios.get(url, { withCredentials: true })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data);
+                setName(response.data.name);
+                setAboutUs(response.data.description);
+                setAddress(response.data.address);
+                setCategory(response.data.category);
+                setCapacity(response.data.capacity);
+                setWebsite(response.data.website);
+            }
+        });
+        
     }, []);
     const handleProfileImageChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         if(!e.target.files) {
@@ -154,50 +157,50 @@ export const BusiProfileEdit = () => {
         
         // console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
         // Log form data to console
-        const venueData = new FormData();
         const venueImage = new FormData();
-        const venueCreditCard = new FormData();
-        const venuePhoneNPrompt = new FormData();
-        const venueDeposit = new FormData();
-        const venueAvailability = new FormData();
-        const venueAddress = new FormData();
+        // const venueCreditCard = new FormData();
+        // const venuePhoneNPrompt = new FormData();
+        // const venueDeposit = new FormData();
+        //const venueAvailability = new FormData();
         //console.log(formData);
         venueImage.append('image_url', selectedFile);
 
-        venueData.append('name', name);
-        venueData.append('description', aboutUs);
-        venueData.append('category', category);
-        venueData.append('capacity', capacity);
-        venueData.append('website_url', website);
+       
 
-        venueAddress.append('address', address); //use table location
         //date and time
-        venueAvailability.append('MON_OpeningTime', JSON.stringify(availability.openingDay.Mon.openingTime));
-        venueAvailability.append('MON_ClosingTime', JSON.stringify(availability.openingDay.Mon.closingTime));
-        venueAvailability.append('TUE_OpeningTime', JSON.stringify(availability.openingDay.Tue.openingTime));
-        venueAvailability.append('TUE_ClosingTime', JSON.stringify(availability.openingDay.Tue.closingTime));
-        venueAvailability.append('WED_OpeningTime', JSON.stringify(availability.openingDay.Wed.openingTime));
-        venueAvailability.append('WED_ClosingTime', JSON.stringify(availability.openingDay.Wed.closingTime));
-        venueAvailability.append('THU_OpeningTime', JSON.stringify(availability.openingDay.Thu.openingTime));
-        venueAvailability.append('THU_ClosingTime', JSON.stringify(availability.openingDay.Thu.closingTime));
-        venueAvailability.append('FRI_OpeningTime', JSON.stringify(availability.openingDay.Fri.openingTime));
-        venueAvailability.append('FRI_ClosingTime', JSON.stringify(availability.openingDay.Fri.closingTime));
-        venueAvailability.append('SAT_OpeningTime', JSON.stringify(availability.openingDay.Sat.openingTime));
-        venueAvailability.append('SAT_ClosingTime', JSON.stringify(availability.openingDay.Sat.closingTime));
-        venueAvailability.append('SUN_OpeningTime', JSON.stringify(availability.openingDay.Sun.openingTime));
-        venueAvailability.append('SUN_ClosingTime', JSON.stringify(availability.openingDay.Sun.closingTime));
+        // venueAvailability.append('MON_OpeningTime', JSON.stringify(availability.openingDay.Mon.openingTime));
+        // venueAvailability.append('MON_ClosingTime', JSON.stringify(availability.openingDay.Mon.closingTime));
+        // venueAvailability.append('TUE_OpeningTime', JSON.stringify(availability.openingDay.Tue.openingTime));
+        // venueAvailability.append('TUE_ClosingTime', JSON.stringify(availability.openingDay.Tue.closingTime));
+        // venueAvailability.append('WED_OpeningTime', JSON.stringify(availability.openingDay.Wed.openingTime));
+        // venueAvailability.append('WED_ClosingTime', JSON.stringify(availability.openingDay.Wed.closingTime));
+        // venueAvailability.append('THU_OpeningTime', JSON.stringify(availability.openingDay.Thu.openingTime));
+        // venueAvailability.append('THU_ClosingTime', JSON.stringify(availability.openingDay.Thu.closingTime));
+        // venueAvailability.append('FRI_OpeningTime', JSON.stringify(availability.openingDay.Fri.openingTime));
+        // venueAvailability.append('FRI_ClosingTime', JSON.stringify(availability.openingDay.Fri.closingTime));
+        // venueAvailability.append('SAT_OpeningTime', JSON.stringify(availability.openingDay.Sat.openingTime));
+        // venueAvailability.append('SAT_ClosingTime', JSON.stringify(availability.openingDay.Sat.closingTime));
+        // venueAvailability.append('SUN_OpeningTime', JSON.stringify(availability.openingDay.Sun.openingTime));
+        // venueAvailability.append('SUN_ClosingTime', JSON.stringify(availability.openingDay.Sun.closingTime));
 
-        venueDeposit.append('deposite', deposite);
+        // venueDeposit.append('deposite', deposite);
 
-        venuePhoneNPrompt.append('phone_number', phNo);
-        venuePhoneNPrompt.append('promptpay_number', promptNo);
-        venueCreditCard.append('credit_card_id', cardInfo);
+        // venuePhoneNPrompt.append('phone_number', phNo);
+        // venuePhoneNPrompt.append('promptpay_number', promptNo);
+        // venueCreditCard.append('credit_card_id', cardInfo);
         //Venue Data
-        const url = `/feature1/venueData`;
+        const venueDataUrl = `/feature1/venue/info`;
         //send a put request to the backend to update a new payment method
         Axios.put(
-            url,
-            venueData,
+            venueDataUrl,
+            {
+                name: name,
+                description: aboutUs,
+                address: address,
+                category: category,
+                capacity: capacity,
+                website: website
+            },
             { withCredentials: true }
         )
             .then((response) => {
@@ -206,73 +209,50 @@ export const BusiProfileEdit = () => {
                 }
             })
             .catch((error) => {
-                console.error("Error saving venude data:", error);
-            });
-        // //Venue Image
-        const url2 = `/feature1/venueImage`;
-        //send a put request to the backend to update a new payment method
-        Axios.put(
-            url2,
-            venueImage,
-            { withCredentials: true }
-        )
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(" venue image updated");
-                }
-            })
-            .catch((error) => {
-                console.error("Error saving venude image:", error);
-            });
-        //Venue availability
-        const url3 = `/feature1/venueAvailability`;
-        //send a put request to the backend to update a new payment method
-        Axios.put(
-            url3,
-            venueAvailability,
-            { withCredentials: true }
-        )
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(" venue availability updated");
-                }
-            })
-            .catch((error) => {
-                console.error("Error saving venude availability:", error);
-            });
-        //venue prompt pay
-        const url4 = `/feature1/venuePromptPay`;
-        //send a put request to the backend to update a new payment method
-        Axios.put(
-            url4,
-            venuePhoneNPrompt,
-            { withCredentials: true }
-        )
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(" venue prompt pay updated");
-                }
-            })
-            .catch((error) => {
-                console.error("Error saving venude prompt pay:", error);
+                console.error("Error saving data :", error);
             });
 
-        // //venue creditCard
-        const url5 = `/feature1/venuePhone`;
-        //send a put request to the backend to update a new payment method
-        Axios.put(
-            url5,
-            venueCreditCard,
-            { withCredentials: true }
-        )
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(" venue phone updated");
-                }
-            })
-            .catch((error) => {
-                console.error("Error saving venude phone:", error);
-            });
+            //venue opening time
+        const venueTime = `/feature1/venue/opening_hours`;
+        Axios.put(venueTime,
+            {
+             "Mon": {
+                 "open": "13:00:00",
+                 "close": "13:00:00"
+             },
+             "Tue": {
+                 "open": "00:00:00",
+                 "close": "00:00:00"
+             },
+             "Wed": {
+                 "open": "00:00:00",
+                 "close": "00:00:00"
+             },
+             "Thu": {
+                 "open": "00:00:00",
+                 "close": "00:00:00"
+             },
+             "Fri": {
+                 "open": "00:00:00",
+                 "close": "00:00:00"
+             },
+             "Sat": {
+                 "open": "00:00:00",
+                 "close": "00:00:00"
+             },
+             "Sun": {
+                 "open": "13:00:00",
+                 "close": "13:00:00"
+             }
+            }
+            , 
+            { withCredentials: true })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data);
+                //setAvailability(response.data);
+            }
+        });
     }
 
 
@@ -657,7 +637,7 @@ export const BusiProfileEdit = () => {
                         display="block"
                         margin="auto"
                         marginTop="5vh"
-                        onSubmit={handleSave}
+                        onClick={handleSave}
                     >
                         Save
                     </Button>

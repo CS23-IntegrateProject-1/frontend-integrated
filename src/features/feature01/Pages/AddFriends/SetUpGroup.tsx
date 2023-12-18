@@ -4,12 +4,13 @@ import textStyles from "../../../../theme/foundations/textStyles";
 import { NavLink, useLocation } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Axios } from "../../../../AxiosInstance";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 export const SetUpGroup = () => {
   // const [newGroup, setNewGroup] = useState();
   const [groupName, setGroupName] = useState("");
-  const [groupImg, setGroupImg] = useState("");
-  const navigate = useNavigate();
+  const [groupImg, setGroupImg] = useState<File>();
+  const [preview, setPreview] = useState<string>("");
+  // const navigate = useNavigate();
   // const [groupData, setGroupData] = useState<any[]>([]);
   //use location to call state of array
   const location = useLocation();
@@ -24,34 +25,52 @@ export const SetUpGroup = () => {
     if (!e.target.files) {
       return;
     }
-    
     const file = e.target.files[0];
     const objUrl = URL.createObjectURL(file);
-    console.log(objUrl);
-    setGroupImg(objUrl);
+    setGroupImg(file);
+    //set preview
+    setPreview(objUrl);
   };
 
   const createGroupHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const allData = new FormData();
     allData.append("group_name", groupName);
-    allData.append("group_img", groupImg);
+    selectedFriends.map((friend: { user_id: any; }) => {
+      allData.append("members", friend.user_id);
+    }
+    );
+    allData.append("avatar", groupImg as Blob);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
-      return friend.user_id;
-    }));
+    // allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
+    //   return friend.user_id;
+    // }));
+    
+    console.log(`Group Name: ${allData.get("group_name")}`);
+    console.log(`Group Image: ${allData.get("avatar")}`); // This might show file details
+    console.log(allData.get("avatar"), 'below form')
+
+    const memberIds = [];
+    for (const memberId of allData.getAll("members")) {
+      memberIds.push(memberId);
+    }
+    console.log(`Member IDs: ${memberIds.join(", ")}`);
     const url = `/feature1/group/add`;
-    Axios.post(
+    Axios.postForm(
       url,
       allData,
-      { withCredentials: true }
+      {
+        withCredentials: true
+      }
     )
       .then((response) => {
         if (response.status == 200) {
           console.log(response.data);
           console.log("successfully added");
-          const newGroup = response.data;
-          navigate("/Friends", { state: { newGroup } });
+          // const newGroup = response.data;
+          // navigate("/Friends", { state: { newGroup } });
+          //go to group chat******
         }
       })
       .catch((error) => {
@@ -100,8 +119,8 @@ export const SetUpGroup = () => {
         </Box>
         {/* NavLink to ..chat group */}
         <Box>
-          <Button
-            onSubmit={createGroupHandler}
+          <Button type="submit"
+            onClick={createGroupHandler}
             isDisabled={isDisabled}
             bg={"none"}
             color={buttonColor}
@@ -114,7 +133,7 @@ export const SetUpGroup = () => {
         {/* img */}
         <Box cursor={"pointer"}>
           {groupImg ? (
-            <Avatar src={groupImg} width={84} height={84} />
+            <Avatar src={preview} width={84} height={84} />
           ) : (
             <svg
               width="84"
