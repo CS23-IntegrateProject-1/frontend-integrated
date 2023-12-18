@@ -35,11 +35,7 @@ interface SavedCardProps {
   district: string;
   sub_district: string;
   postcode: string;
-
 }
-// interface SavedLocationInterface{
-//   message: string;
-// }
 
 const PinIcon: React.FC<{ fillColor: string }> = (props) => {
   return (
@@ -91,8 +87,7 @@ const DelIcon: React.FC = () => {
 };
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullAddress, setShowFullAddress] = useState(false);
-  setShowFullAddress(false);
+  const [showFullAddress] = useState(false);
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -104,7 +99,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
   const AddressToShow = showFullAddress
     ? props.address
     : `${props.address.slice(0, 10)}...`;
-    const mutation = useMutation(
+    const mutation = useMutation<void, any, any, any>(
       async (updatedData) => {
         // Use the same endpoint for the update
         const response = await Axios.put(`/feature4/saved-location/`, updatedData);
@@ -142,7 +137,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
     
 
 
-    const deleteMutation = useMutation(
+    const deleteMutation = useMutation<void, void, void>(
       async () => {
         // Use the appropriate endpoint for the delete action
         const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}/1`);
@@ -235,44 +230,44 @@ const SavedLocationCard = (props: SavedCardProps) => {
                 />
                 <Input
                   variant="outline"
-                  placeholder="Name (eg. Home, Office)"
-                  defaultValue={`${props.name}`}
+                  placeholder="name"
+                  defaultValue={props.name}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Address"
-                  defaultValue={`${props.address}`}
+                  defaultValue={props.address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Province"
-                  defaultValue={`${props.province}`}
+                  defaultValue={props.province}
                   onChange={(e) => setProvince(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="District"
-                  defaultValue={`${props.district}`}
+                  defaultValue={props.district}
                   onChange={(e) => setDistrict(e.target.value)}
-                />
+                />  
                 <Input
                   variant="outline"
                   placeholder="Subdistrict"
-                  defaultValue={`${props.sub_district}`}
+                  defaultValue={props.sub_district}
                   onChange={(e) => setSubdistrict(e.target.value)}
                 />
                 <Input
                   variant="outline"
                   placeholder="Postcode"
-                  defaultValue={`${props.postcode}`}  
+                  defaultValue={props.postcode}
                   onChange={(e) => setPostcode(e.target.value)}
                 />
               </Stack>
               </ModalBody>
               <Divider borderColor={colors.brand[200]} />
-              <Flex justifyContent={"center"} m={5} >
+              <Flex justifyContent={"center"} m={5}>
               <Button
                 variant={"unstyled"}
                 backgroundColor={colors.brand[200]}

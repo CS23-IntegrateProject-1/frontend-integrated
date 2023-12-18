@@ -135,7 +135,7 @@ useEffect(() => {
       });
   }
   // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 

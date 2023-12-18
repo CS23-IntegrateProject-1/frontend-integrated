@@ -137,7 +137,7 @@ if (selectedFromDate !== undefined && selectedToDate !== undefined) {
     });
 }
 // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 if(selectedFromDate !== undefined){

@@ -7,7 +7,7 @@ import mockO from "../OF3mock.json";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 
 interface VenueDetail {
@@ -37,6 +37,8 @@ export const VenueDetail: FC = () => {
   const O: OProps[] = mockO;
   const { branchId } = useParams();
 
+  const [venueId, setVenueId] = useState<number | null>(null);
+
   const {
     isLoading: venueDetailLoading,
     isError: venueDetailError,
@@ -45,6 +47,7 @@ export const VenueDetail: FC = () => {
     queryKey: ["getVenueXRates"],
     queryFn: async () => {
       const { data } = await Axios.get(`/feature3/VenDetail/${branchId}`);
+      setVenueId(data[0]?.venueId);
       return data;
     },
     keepPreviousData: true
@@ -241,7 +244,7 @@ export const VenueDetail: FC = () => {
       </Flex>
 
       <Flex direction="row" pb="10" justifyContent={"center"}>
-        <NavLink to={`/table/${branchId}`}>
+        <NavLink to={`/table/${branchId}/${venueId}`}>
           <Button
             variant="solid"
             textColor="white"

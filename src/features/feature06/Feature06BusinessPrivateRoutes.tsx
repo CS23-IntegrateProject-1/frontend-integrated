@@ -2,10 +2,10 @@ import { Reservation } from "./pages/Business/Reservation";
 import { TableList } from "./pages/Business/TableList";
 import { WalkInDetail } from "./pages/Business/WalkInDetail";
 import { WalkInPeople } from "./pages/Business/WalkInPeople";
-import { CreateTable1 } from "./pages/CreateTable1";
-import { CreateTable2 } from "./pages/CreateTable2";
-import { ViewTable } from "./pages/ViewTable";
-import { QrcodeConfirm } from "./pages/QrcodeConfirm";
+import { CreateTable1 } from "./pages/Business/CreateTable1";
+import { CreateTable2 } from "./pages/Business/CreateTable2";
+import { ViewTable } from "./pages/Business/ViewTable";
+import { QrcodeConfirm } from "./pages/Business/QrcodeConfirm";
 
 export const Feature06BusinessPrivateRoutes = () => {
   return [

@@ -109,7 +109,7 @@ const fetchReservationData = async () => {
 
 useEffect(() => {
   fetchReservationData();
-}, []);
+}, [fetchReservationData]);
 
 // console.log(reservation)
 
@@ -148,7 +148,7 @@ useEffect(() => {
   useEffect(() => {
     notiData();
     
-  }, [reservationIds]); // Run once when the component mounts
+  }, [notiData, reservationIds]); // Run once when the component mounts
   
   const reserveIdMap = useMemo(() => {
     const map: Record<number, Notification> = {};
@@ -209,7 +209,7 @@ useEffect(() => {
     
     // Fetch table numbers when reserveIdMap changes
     fetchTableNumbers();
-  }, [reserveIdMap, venueId]);
+  }, [reserveIdMap, tableNumberMap, venueId]);
 
 
   // console.log(tableNumberMap)
@@ -245,7 +245,7 @@ useEffect(() => {
 
   useEffect(() => {
     fetchBusinessId();
-  }, []);
+  }, [fetchBusinessId]);
 
   const bizAdverAd = async () => {
     try {

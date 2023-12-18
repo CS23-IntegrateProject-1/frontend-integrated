@@ -4,9 +4,9 @@ import { FC } from "react";
 import { TimeIcon } from "@chakra-ui/icons";
 
 interface foodItems {
-    foodName: string;
-    amount: number;
-    status: number;
+    menuName: string;
+    setName: string;
+    quantity: number;
 }
 
 interface BusCompleteCardProps {
