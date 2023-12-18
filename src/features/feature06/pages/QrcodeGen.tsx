@@ -15,7 +15,7 @@ const QrcodeGen: FC = () => {
             const response = await Axios.get(
                 `/feature6/checkin/status/${reservationId}`
             );
-            if (response.data== "Check_in") {
+            if (response.data.status== "Check_in") {
                 toast.success("Check in successful")
             }else {
               toast.error("Check in failed")
