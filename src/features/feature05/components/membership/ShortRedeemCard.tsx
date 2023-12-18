@@ -21,7 +21,11 @@ export const ShortRedeemCard: FC<ICard> = ({ voucherId, voucher_image }) => {
       h={"100px"}
       onClick={handleClick}
     >
-      <Image h={"100%"} src={voucher_image} objectFit={"cover"} />
+      <Image
+        h={"100%"}
+        src={`${import.meta.env.VITE_BACKEND_URL}${voucher_image}`}
+        objectFit={"cover"}
+      />
     </Card>
   );
 };

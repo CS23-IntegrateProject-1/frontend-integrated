@@ -44,7 +44,11 @@ export const MyRewardsCard: FC<{
         marginTop={8}
         borderRadius={6}
       >
-        <Image onClick={handleClick} objectFit={"cover"} src={img} />
+        <Image
+          onClick={handleClick}
+          objectFit={"cover"}
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
+        />
         <Box
           pos={"absolute"}
           // bg={color}

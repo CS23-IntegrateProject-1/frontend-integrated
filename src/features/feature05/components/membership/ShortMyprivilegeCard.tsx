@@ -27,7 +27,11 @@ export const ShortMyPrivilegeCard: FC<IRedeemCard> = ({ redeemId, image_url }) =
       minW={"350px"}
       onClick={handleClick}
     >
-      <Image h={"100%"} src={image_url} objectFit={"cover"} />
+      <Image
+        h={"100%"}
+        src={`${import.meta.env.VITE_BACKEND_URL}${image_url}`}
+        objectFit={"cover"}
+      />
     </Card>
   );
 };

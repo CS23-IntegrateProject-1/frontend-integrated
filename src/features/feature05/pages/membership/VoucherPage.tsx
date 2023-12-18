@@ -32,7 +32,10 @@ export const VoucherPage = () => {
     <>
       <Box display="flex" flexDirection="column" alignItems="center">
         <Box display="flex" maxW={"400px"} w={"100%"}>
-          <Image w={"100%"} src={data?.voucher_image} />
+          <Image
+            w={"100%"}
+            src={`${import.meta.env.VITE_BACKEND_URL}${data?.voucher_image}`}
+          />
         </Box>
         <Box
           height="102px"

@@ -30,8 +30,11 @@ export const ShortMembershipMyPrivilegeCard: FC<IRedeemCard> = ({
       minW={"350px"}
       onClick={handleClick}
     >
-      <Image h={"100%"} src={image_url} objectFit={"cover"} />
+      <Image
+        h={"100%"}
+        src={`${import.meta.env.VITE_BACKEND_URL}${image_url}`}
+        objectFit={"cover"}
+      />
     </Card>
   );
 };
-

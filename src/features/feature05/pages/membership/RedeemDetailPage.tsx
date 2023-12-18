@@ -39,7 +39,10 @@ export const RedeemDetailPage = () => {
           maxW={"400px"}
           w={"100%"}
         >
-          <Image w={"100%"} src={data?.image_url} />
+          <Image
+            w={"100%"}
+            src={`${import.meta.env.VITE_BACKEND_URL}${data?.image_url}`}
+          />
         </Box>
 
         {/* coupon */}
