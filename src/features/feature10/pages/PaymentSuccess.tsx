@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Text} from '@chakra-ui/react';
 import QRCode from 'qrcode.react'; // Import the QRCode library
 
