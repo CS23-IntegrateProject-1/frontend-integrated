@@ -38,14 +38,15 @@ interface AdvertisementProps {
 }
 export const AdvertisementIDEditPage = () => {
   const { id } = useParams();
-
-  
   const navigate = useNavigate();
   const deleteModal = useDisclosure();
   const submitModal = useDisclosure();
-  const handleClickSubmit = () => {
-    navigate("/business/advertisement/status");
-  };
+
+  // const handleClickSubmit = async () => {
+  //   await deleteVoucher();
+  //   // navigate("/business/advertisement/status");
+  // };
+  
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
@@ -58,9 +59,7 @@ export const AdvertisementIDEditPage = () => {
     targetGroup: "",
     advertisementPlan: 0,
   });
-  // const handleClick = () => {
-  // 	navigate("/business/advertisement/status");
-  // };
+
   console.log(file);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -81,13 +80,11 @@ export const AdvertisementIDEditPage = () => {
     };
   });
 
+  
+
   const fetchPlaceHolder = async () => {
     try {
       const { data } = await Axios.get(`/feature5/AdBSN/${id}`);
-
-      console.log(data);
-
-      console.log(advertise);
 
       setAdvertise((prevAdvertise) => ({
         ...prevAdvertise,
@@ -100,10 +97,28 @@ export const AdvertisementIDEditPage = () => {
         targetGroup: data.target_group,
         advertisementPlan: parseInt(data.cost),
       }));
-
-      console.log(advertise);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const deleteAdvertisement = async () => {
+    try {
+      const result = await Axios.delete(`/feature5/DeleteAdBSN/${id}`);
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error deleting advertisement:", error);
+    }
+  };
+
+  const handleClickSubmit = async () => {
+    try {
+      await deleteAdvertisement();
+      // Optionally, perform any additional actions after successful deletion
+      navigate("/business/advertisement/status"); // Redirect to a different page, for instance
+    } catch (error) {
+      console.error(error);
+      // Handle errors, if any, during the deletion process
     }
   };
 
