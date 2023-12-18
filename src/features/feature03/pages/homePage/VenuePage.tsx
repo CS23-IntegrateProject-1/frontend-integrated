@@ -44,10 +44,10 @@ interface SearchFilter {
 }
 
 export const DEFAULT_FILTER = {
-  type: "Bar,Restaurant,Club",
+  type: "Restaurant, Bar, Club",
   priceMin: 0,
   priceMax: 1000,
-  capacity: "1-4,4-6,6-10,10M",
+  capacity: "1TO4, 5TO6, 7TO10, 11M",
 };
 
 export const FilterContext = createContext<{ filter: SearchFilter, setFilter: (fn: (update: SearchFilter) => SearchFilter) => void }>({

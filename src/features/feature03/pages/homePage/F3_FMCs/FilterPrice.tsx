@@ -12,17 +12,17 @@ import { FilterContext } from "../VenuePage";
 export const FilterPrice = () => {
   const context = useContext(FilterContext);
   const handlePriceMinChange = (value: number) => {
-    context.setFilter(filter => ({
+    context.setFilter((filter) => ({
       ...filter,
-      priceMin: value
-    }))
+      priceMin: value,
+    }));
   };
 
   const handlePriceMaxChange = (value: number) => {
-    context.setFilter(filter => ({
+    context.setFilter((filter) => ({
       ...filter,
-      priceMax: value
-    }))
+      priceMax: value,
+    }));
   };
 
   return (
@@ -30,16 +30,27 @@ export const FilterPrice = () => {
       <Text fontWeight={"semibold"} mb="3">
         Price range
       </Text>
-      <RangeSlider aria-label={["min", "max"]} value={[context.filter.priceMin, context.filter.priceMax]} min={0} max={1000} onChange={([min, max]) => {
-        handlePriceMinChange(min);
-        handlePriceMaxChange(max);
-      }}>
+      <RangeSlider
+        aria-label={["min", "max"]}
+        value={[context.filter.priceMin, context.filter.priceMax]}
+        min={0}
+        max={1000}
+        onChange={([min, max]) => {
+          handlePriceMinChange(min);
+          handlePriceMaxChange(max);
+        }}
+      >
         <RangeSliderTrack>
-          <RangeSliderFilledTrack bg="brand.200"/>
+          <RangeSliderFilledTrack bg="brand.200" />
         </RangeSliderTrack>
         <RangeSliderThumb index={0} />
         <RangeSliderThumb index={1} />
       </RangeSlider>
+      <Flex>
+        {" "}
+        <Text>0 ฿</Text>
+        <Text ml={"auto"}>1000 ฿</Text>
+      </Flex>
     </Flex>
   );
 };
