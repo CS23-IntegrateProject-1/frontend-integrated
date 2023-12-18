@@ -7,12 +7,13 @@ import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+// import { FC, useRef } from "react";
 
-interface ShareModalProps {
-  isOpen: boolean;
-  onClose: () => void; 
-  url: string;
-}
+// interface ShareModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   url: string;
+// }
 
 interface IPhotoData {
   date_added: string;
@@ -80,7 +81,6 @@ export const GetReservationDetail = () => {
   const day = dateObject.getUTCDate();
   const hour = dateObject.getUTCHours();
   const minute = dateObject.getUTCMinutes();
-
   const [showOverlay, setShowOverlay] = useState(false);
 
   const { venueId, reservationId } = useParams<{

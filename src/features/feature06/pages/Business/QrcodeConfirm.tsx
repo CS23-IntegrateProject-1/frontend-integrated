@@ -1,4 +1,4 @@
-import { Box, Text, Flex, } from "@chakra-ui/react";
+import { Box, Text, } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Html5QrcodeScanner, QrcodeErrorCallback } from "html5-qrcode";
 import checkIn from "../../../../api/Reservation/checkIn";

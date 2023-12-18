@@ -20,9 +20,9 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 
   export const EditSetMenu: React.FC = () => {
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedMenus, setSelectedMenus] = useState([]);
+  const [selectedMenus, setSelectedMenus] = useState<any[]>([]);
   const navigate = useNavigate();
   const toast = useCustomToast();
   const { venueId, menuid } = useParams();
@@ -33,7 +33,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   });
   const [selectId, setSelectId] = useState('');
 
-  const { data: menuData} = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData} = useQuery(['menuItem', menuid], () => getMenuItem(menuid!));
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -59,14 +59,14 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     // console.log(setItems);
     return setItems;
   }
-  const { data : setItems } = useQuery(["setItems", menuid], () => getSetItems(menuid));
+  const { data : setItems } = useQuery(["setItems", menuid], () => getSetItems(menuid!));
   useEffect(() => {
     if (setItems) {
       setSelectedMenus(setItems);
     }
   }, [setItems]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
       ...prevData,
@@ -123,10 +123,10 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
@@ -300,7 +300,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               bg={'brand.300'}
               as="select"
             >
-              {menuOptions?.map((menu) => (
+              {menuOptions?.map((menu: any) => (
                 <option 
                 key={menu.menuId} 
                 value={menu.menuId}>
@@ -361,7 +361,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
                  borderColor="brand.300"
                  bgColor="brand.300"
                  style={{
-                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image_url})`,
+                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image_url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

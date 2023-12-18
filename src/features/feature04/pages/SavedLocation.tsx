@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -22,7 +22,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 import colors from "../../../theme/foundations/colors";
 import { Axios } from "../../../AxiosInstance";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 // Define interface for the saved location item
 interface SavedLocationItem {
@@ -32,7 +32,7 @@ interface SavedLocationItem {
   address: string;
   province: string;
   district: string;
-  subdistrict: string;
+  sub_district: string;
   postcode: string;
   savedLocId: number;
 }
@@ -42,7 +42,7 @@ interface SavedLocationInterface{
   location: SavedLocationItem[];
 }
 
-const queryClient = new QueryClient(); // Create a new instance of QueryClient
+// const queryClient = new QueryClient(); // Create a new instance of QueryClient
 
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -101,7 +101,15 @@ export const SavedLocation = () => {
         <Flex flexWrap="wrap" justifyContent="center" maxW="800px">
 
           {savedData.location.map((location,index) => (
-            <SavedLocationCard key={index} savedLocId={location.savedLocId} name={location.name} address={location.address}/> 
+            <SavedLocationCard key={index} 
+            savedLocId={location.savedLocId} 
+            name={location.name} 
+            address={location.address}
+            province={location.province}
+            district={location.district}
+            sub_district={location.sub_district}
+            postcode={location.postcode}
+            /> 
           ))}
         </Flex>
       </Flex>
@@ -148,7 +156,7 @@ export const SavedLocation = () => {
                 />
                 <Input
                   variant="outline"
-                  placeholder="Name"
+                  placeholder="Name (eg. Home, Office)"
                   onChange={(e) => setName(e.target.value)}
                 />
                 <Input

@@ -71,7 +71,10 @@ export const WalkInDetail = () => {
       }
       const response = await Axios.post(`/feature6/createOfflineReservation`, {
         // venueId: venueIdInt,
-         
+        guest_amount: seatsInt,
+        branchId: branchIdInt,
+        phone_num: phonenumber,
+        name: name
       });
       console.log(response);
       console.log("create reservation successfully");

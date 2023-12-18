@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-refresh/only-export-components */
 import React, { useContext, FC, useState, useEffect} from "react";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";

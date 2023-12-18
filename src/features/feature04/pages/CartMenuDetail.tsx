@@ -6,25 +6,23 @@ import {
   HStack,
   Flex,
   IconButton,
-  Button,
+  // Button,
 } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 import { Axios } from "../../../AxiosInstance";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 
-const getCartMenuItem = async (type: string, menuid: string) => {
-  const response = await Axios.get(
-    `/feature7/show${type}DetailFromCart/${menuid}`
-  );
-  console.log(response.data); //debugging response
-  return response.data;
-};
+// const getCartMenuItem = async (type: string, menuid: string) => {
+//   const response = await Axios.get(
+//     `/feature7/show${type}DetailFromCart/${menuid}`
+//   );
+//   console.log(response.data); //debugging response
+//   return response.data;
+// };
 
 interface MenuDetailProps {
   id: number;
@@ -34,64 +32,47 @@ interface MenuDetailProps {
   image_url: string;
 }
 export const CartMenuDetail: FC = () => {
-  // const { type, menuid } = useParams();
-  ////console.log(menuid);
+  const [AmountInCart,setAmountInCart] = useState(0);
 
-  // const {
-  //   data: menuItem,
-  //   isLoading,
-  //   isError,
-  // } = useQuery([type, menuid], () => getCartMenuItem(type, menuid));
-  // console.log(menuItem);
-  const [amount, setAmount] = useState(0);
-
-  // useEffect(() => {
-  //   if (menuItem) {
-  //     // Set the amount to the initial quantity from menuItem, assuming menuItem.quantity exists
-  //     setAmount(menuItem.quantity || 0);
-  //   }
-  // }, [menuItem]);
+  const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
+  const { menuId } = useParams();
+  useEffect(() => {
+    const fetchMenuDetail = async () => {
+      console.log("Fetching menu detail...");
+      try {
+        const response = await Axios.get(`/feature4/menu/${menuId}`);
+        console.log("Response:", response.data);
+        setMenuData(response.data);
+      } catch (error) {
+        console.error("Error fetching menu details:", error);
+      }
+    };
+  
+    fetchMenuDetail();
+  }, [menuId]);
 
   const increaseAmount = () => {
-    setAmount(amount + 1);
+    setAmountInCart(AmountInCart + 1);
   };
 
   const decreaseAmount = () => {
-    if (amount > 0) {
-      setAmount(amount - 1);
+    if (AmountInCart > 0) {
+      setAmountInCart(AmountInCart - 1);
     }
   };
 
-  // const handleAddToCart = async () => {
-  //   try {
-  //     const response = await Axios.post(
-  //       `/feature7/add${type}ToCookie/${menuid}`,
-  //       {
-  //         quantity: amount,
-  //       }
-  //     );
-  //     console.log(response.data);
-  //     // setAmount(0);
-  //   } catch (error) {
-  //     console.error("Error adding to cart:", error);
-  //   }
-  // };
 
-  const buttonBgColor = amount > 0 ? "brand.200" : "gray.300";
+  const buttonBgColor = AmountInCart > 0 ? "brand.200" : "gray.300";
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
 
-  // if (isError) {
-  //   return <div>Error fetching {type} details</div>;
-  // }
-
+  console.log("menuData:", menuData);
   return (
     <Box>
+       {menuData && menuData.name && (
+        <>
 
       <Image
-        src="/src/features/feature07/assets/test.jpg"
+        src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
         // src={type == "Set" ? menuItem.image_url: menuItem.image}
         width="350px"
         height="250px"
@@ -100,8 +81,8 @@ export const CartMenuDetail: FC = () => {
       <VStack p={1.5} textAlign="start" alignItems="start">
         <HStack>
           <Text {...textStyles.h1} color="white" lineHeight="1.5">
-            {/* {menuItem.name} */}
-            lorem
+          {menuData.name}
+
           </Text>
           <Text
             {...textStyles.h3}
@@ -109,14 +90,11 @@ export const CartMenuDetail: FC = () => {
             lineHeight="1.5"
             marginLeft="70px"
           >
-            {/* {menuItem.price} baht */}
-            29 Baht
+             {menuData.price} Baht
+
           </Text>
         </HStack>
-        <Text {...textStyles.body2}>
-          {/* {menuItem.description} */}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe, dolor?
-          </Text>
+        <Text {...textStyles.body2}>{/* {menuItem.description} */}</Text>
       </VStack>
       <HStack p={2} position="absolute" bottom="0" width="100%" spacing={15}>
         <HStack>
@@ -133,14 +111,15 @@ export const CartMenuDetail: FC = () => {
               <IconButton
                 icon={<MinusIcon />}
                 onClick={decreaseAmount}
-                isDisabled={amount === 0}
+                isDisabled={AmountInCart === 0}
                 aria-label="Decrease Amount"
                 width="30px"
                 height="28px"
                 borderRadius="5px 0 0 5px"
               />
               <Text {...textStyles.h2} marginX={2} color="black">
-                {amount}
+                {AmountInCart}
+                
               </Text>
               <IconButton
                 icon={<AddIcon />}
@@ -158,10 +137,13 @@ export const CartMenuDetail: FC = () => {
           width="200px"
           text="Add To Cart"
           bgColor={buttonBgColor}
-          // isDisabled={amount === 0}
+          isDisabled={AmountInCart === 0}
           // onClick={handleAddToCart}
         />
       </HStack>
+      </>
+
+       )}
     </Box>
   );
 };

@@ -91,7 +91,8 @@ const StarIcon: React.FC = () => {
 
 const RecommendLocation = (props: RecommendLocationCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullDescription] = useState(false);
+  
   // const [liked, setLiked] = useState(false);
 
   // const descriptionToShow = showFullDescription

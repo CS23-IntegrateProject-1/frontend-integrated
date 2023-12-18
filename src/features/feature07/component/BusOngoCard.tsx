@@ -7,10 +7,10 @@ import { Axios } from "../../../AxiosInstance";
 
 
 interface foodItems {
-    foodName: string;
-    amount: number;
-    status: number;
-    onClick: () => void;
+    menuName: string;
+    setName: string;
+    quantity: number;
+    orderDetailId: number;
 }
 
 interface BusOngoCardProps {
@@ -21,7 +21,7 @@ interface BusOngoCardProps {
     invalidateOngoingOrderDetails: () => void;
 }
 
-export const BusOngoCard: FC<BusOngoCardProps, foodItems>= ({items,tableNo,invalidateOngoingOrderDetails,orderDate}) => {
+export const BusOngoCard: FC<BusOngoCardProps>= ({items,tableNo,invalidateOngoingOrderDetails,orderDate}) => {
 
     const handleComplete = async (orderDetailId:number) => {
         try{
@@ -57,7 +57,7 @@ export const BusOngoCard: FC<BusOngoCardProps, foodItems>= ({items,tableNo,inval
             </HStack>
             <VStack align="start" spacing={2} mt={1}>
                 {items?.map((item) => (
-                <Box width="100%" id={item.orderDetailId}>
+                <Box width="100%">
                 <Flex justifyContent="space-between" alignItems="flex-start">  
                     <Text {...textStyles.h2} color="white" lineHeight="1.5" >
                         {/* Set food Name Integrate */}

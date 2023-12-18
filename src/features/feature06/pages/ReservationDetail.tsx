@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Icon,
@@ -43,6 +44,7 @@ interface IPhotoData {
 
 export const ReservationDetail = () => {
   const [data, setData] = useState<IData>();
+  data;
   const [isLoaded, setIsLoaded] = useState(false);
 
   const location = useLocation();

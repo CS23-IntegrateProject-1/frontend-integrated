@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
@@ -15,8 +15,8 @@ const getMenuItem = async (menuid: string) => {
 
 export const EditMenu = () => {
 
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const toast = useCustomToast();
   const { venueId, menuid } = useParams();
@@ -26,7 +26,11 @@ export const EditMenu = () => {
     price: '',
   });
   
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () =>{
+    if (menuid !== undefined) {
+      return getMenuItem(menuid);
+    }return Promise.reject(new Error('menuid is undefined'));
+  } );
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -39,16 +43,16 @@ export const EditMenu = () => {
   }, [menuData]);
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0] ? event.target.files?.[0] : null;
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
       ...prevData,
@@ -179,7 +183,7 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
-                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image})`,
+                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',

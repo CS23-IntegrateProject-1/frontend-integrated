@@ -28,9 +28,8 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   reservationId,
   venueId,
 }) => {
+  const navigate = useNavigate();
   const handleClick = () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const navigate = useNavigate();
     const path = `/reservation-detail?reservationId=${reservationId}&venueId=${venueId}`;
     navigate(path);
   };
