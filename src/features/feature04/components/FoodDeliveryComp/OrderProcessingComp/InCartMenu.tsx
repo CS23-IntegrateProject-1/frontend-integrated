@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Flex, Text, IconButton, Divider, Button } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -35,9 +35,7 @@ export const InCartMenu = () => {
   };
 
   const {
-    data: cartItems,
-    isLoading,
-    isError,
+    data: cartItems
   } = useQuery(["cartItem"], () => fetchCartItems());
 
   const calculateSubtotal = (items: typeof cartItems) => {
