@@ -51,7 +51,7 @@ export const WalkInDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, );
 
   const fetchData = async () => {
     const response: IData = await getVenueById(venueIdInt, branchIdInt); //ไม่ควรเป็น param + ไม่ได้ใส่ branchId
