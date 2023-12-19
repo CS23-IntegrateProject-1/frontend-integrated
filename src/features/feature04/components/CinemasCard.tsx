@@ -5,18 +5,7 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
-
-// import {
-//   Modal,
-//   ModalOverlay,
-//   ModalContent,
-//   ModalHeader,
-//   ModalFooter,
-//   ModalBody,
-//   ModalCloseButton,
-// } from "@chakra-ui/react";
-// import { modalAnatomy as parts } from "@chakra-ui/anatomy";
+import { useState } from "react"; 
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 
@@ -26,22 +15,22 @@ interface CinemasCardProps {
 }
 
 
-const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
-    return (
-      <svg
-        width="19"
-        height="17"
-        viewBox="0 0 19 17"
-        fill={isLiked ? "red" : "none"}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
-          stroke={isLiked ? "red" : "#A533C8"}
-        />
-      </svg>
-    );
-  };
+// const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
+//     return (
+//       <svg
+//         width="19"
+//         height="17"
+//         viewBox="0 0 19 17"
+//         fill={isLiked ? "red" : "none"}
+//         xmlns="http://www.w3.org/2000/svg"
+//       >
+//         <path
+//           d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
+//           stroke={isLiked ? "red" : "#A533C8"}
+//         />
+//       </svg>
+//     );
+//   };
 const ShareIcon: React.FC = () => {
   return (
     <svg

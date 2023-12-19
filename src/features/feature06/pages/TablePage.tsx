@@ -1,23 +1,27 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AmountOfPeopleIcon } from "../components/AmountOfPeople";
 
 export const TablePage = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   function increment() {
-    if (count < 10) {
+    if (count < 30) {
       setCount(count + 1);
     }
   }
 
   function decrement() {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   }
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
 
   return (
     <Box
@@ -119,7 +123,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/getreservation-detail?count=${count}`}>
+      <Link to={`/reservation-detail/${branchId}/${venueId}?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}

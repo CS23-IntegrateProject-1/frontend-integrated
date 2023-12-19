@@ -1,4 +1,6 @@
-import { NavLink } from "react-router-dom";
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -17,8 +19,8 @@ import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
+// import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { useState, useEffect, createContext, useRef } from "react";
 
 interface RecommendedPlaces {
   id: number;
@@ -31,30 +33,80 @@ interface RecommendedPlaces {
   location: string;
   website_url: string;
   rating: string;
+  venue_picture: string;
 }
 
-export const RecommendedPlacesPage: FC = (props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface SearchFilter {
+  type: string;
+  priceMin: number;
+  priceMax: number;
+  capacity: string;
+}
+
+export const DEFAULT_FILTER = {
+  type: "Bar,Restaurant,Club",
+  priceMin: 0,
+  priceMax: 1000,
+  capacity: "1-4,4-6,6-10,10M",
+};
+
+export const FilterContext = createContext<{ filter: SearchFilter, setFilter: (fn: (update: SearchFilter) => SearchFilter) => void }>({
+  filter: DEFAULT_FILTER,
+  setFilter: () => {}
+});
+
+function useThrottleValue<T>(value: T, delay: number = 500) {
+  const [throttleValue, setThrottleValue] = useState<T>(value);
+  const throttling = useRef(false);
+  useEffect(() => {
+    if (throttling.current === false) {
+      setThrottleValue(value);
+      throttling.current = true;
+      setTimeout(() => {
+        if (throttling?.current) throttling.current = false;
+      }, delay);
+    }
+  }, [value, delay]);
+  return throttleValue;
+}
+
+export const RecommendedPlacesPage = () => {
+  const params = new URL(String(window.location)).searchParams;
+  const search = params.get("search");
+  const navigate = useNavigate() 
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
+  const [searchFilter, setSearchFilter] = useState(search || "");
+  
+  const [filter, setFilter] = useState<SearchFilter>(DEFAULT_FILTER)
+
+  useEffect(() => {
+    navigate(`?search=${searchFilter}`, { replace: true})  
+  }, [searchFilter])
+  const searchFilterThrottle = useThrottleValue(searchFilter, 500);
+  const priceMinThrottle = useThrottleValue(filter.priceMin, 500);
+  const priceMaxThrottle = useThrottleValue(filter.priceMax, 500);
 
   const {
     isLoading: recommendedPlacesLoading,
     isError: recommendedPlacesError,
     data: recommendedPlacesData,
   } = useQuery<RecommendedPlaces[]>({
-    queryKey: ["getVen"],
+    queryKey: ["getRPVen", searchFilterThrottle, filter.capacity, priceMaxThrottle, priceMinThrottle, filter.type],
     queryFn: async () => {
-      const { data } = await Axios.get("/feature3/RecommendedPlaces");
+      const { data } = await Axios.get(`/feature3/RecommendedPlaces?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&type=${filter.type}`);
       return data;
     },
+    keepPreviousData: true
   });
 
-  if (recommendedPlacesLoading) {
-    return (
-      <span>
-        <FullPageLoader />
-      </span>
-    );
-  }
+
+  // if (recommendedPlacesLoading) {
+  //   return (
+  //     <span>
+  //       <FullPageLoader />
+  //     </span>
+  //   );
+  // }
 
   if (recommendedPlacesError) {
     return <span>An error occurred: </span>;
@@ -62,9 +114,10 @@ export const RecommendedPlacesPage: FC = (props) => {
 
 
   return (
+    <FilterContext.Provider value={{ filter, setFilter}}>
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
-      <Flex direction="row" pt={{ base: "2", lg: "0" }}>
-        <SearchBar />
+      <Flex direction="row" pt={{ base: "2", lg: "0" }} px={{base:"0", lg:"24"}} transform={{base:"0" ,lg:"translateX(24px)"}}>
+        <SearchBar searchFilter={searchFilter} setSearchFilter={setSearchFilter} />
         <Flex
           direction="column"
           ml="3"
@@ -87,8 +140,9 @@ export const RecommendedPlacesPage: FC = (props) => {
         mt={{ base: "3", lg: "8" }}
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
+        sx={{ opacity: recommendedPlacesLoading ? .7 : 1, transition: 'all .25s ease-in-out'}}
       >
-        {recommendedPlacesData.map((RP) => (
+        {(recommendedPlacesData || []).map((RP) => (
           <Card
             minW={{ base: "250px", lg: "350px" }}
             width="sm"
@@ -99,7 +153,7 @@ export const RecommendedPlacesPage: FC = (props) => {
           >
             <CardBody pb={1}>
               <Image
-                src={RP.pic}
+                src={RP.venue_picture}
                 alt={RP.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
@@ -142,5 +196,6 @@ export const RecommendedPlacesPage: FC = (props) => {
         ))}
       </Box>
     </Box>
+    </FilterContext.Provider>
   );
 };

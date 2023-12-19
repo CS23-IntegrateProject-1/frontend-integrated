@@ -17,7 +17,7 @@ import {
   ChakraProvider,
 } from "@chakra-ui/react";
 import React, { useState, FC } from "react";
-import axios from "axios"
+import {Axios} from "../../../../AxiosInstance"
 import { useParams } from "react-router-dom";
 
 interface ButtonProps {
@@ -57,21 +57,21 @@ export const AddCard: FC<ButtonProps> = ({
   const handleNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let name = event.target.value;
-    setName(name);
-  }
+      const name = event.target.value;
+      setName(name);
+    }
 
-  const handleCountryChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let country = event.target.value;
-    setCountry(country);
-  }
+    const handleCountryChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const country = event.target.value;
+      setCountry(country);
+    }
 
-  const handleBankChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let bank = event.target.value;
+    const handleBankChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const bank = event.target.value;
     setBank(bank);
   }
 
@@ -191,8 +191,8 @@ export const AddCard: FC<ButtonProps> = ({
       event.preventDefault(); // Prevent default form submission behavior
     
       try {
-        const response = await axios.post(
-          "http://localhost:8080/feature8/add_creditcard",
+        const response = await Axios.post(
+          "/feature8/add_creditcard",
           {
             // Need to add extra information 
             // 1. Make more input field for country , bank, (done)
@@ -203,8 +203,8 @@ export const AddCard: FC<ButtonProps> = ({
             cvc: parseInt(cvc),
             country: country,
             bank: bank,
-            userId: parseInt(userId),
-            venueId: parseInt(venueId),
+            userId: parseInt(userId ?? ''),
+            venueId: parseInt(venueId ?? ''),
           }
         );
     
@@ -213,6 +213,7 @@ export const AddCard: FC<ButtonProps> = ({
     
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
+        console.log(addCardData)
         window.location.href = `/${userId}/venue/${venueId}/payment`;
       } catch (error) {
         console.error("POST error:", error);

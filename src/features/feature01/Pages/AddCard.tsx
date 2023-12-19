@@ -1,4 +1,4 @@
-import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Modal,ModalOverlay, ModalContent, ModalHeader,ModalCloseButton, ModalBody, ModalFooter, Center, Button, Input, background} from "@chakra-ui/react"
+import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input} from "@chakra-ui/react"
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -84,6 +84,9 @@ export const AddCard = () => {
     // Perform simple expiry date validation
     const isValidExpiryDate = /^(0[1-9]|1[0-2])\/\d{2}$/.test(inputExpiryDate);
     setIsValid(isValidExpiryDate);
+    if(isValid){
+        console.log("valid");
+    }
   };
 
    const handleCardNameChange = (
@@ -96,7 +99,7 @@ export const AddCard = () => {
     };
 
      useEffect(() => {
-        const url = `http://localhost:8080/feature8/creditcardU/${cardInfo}`;        ;
+        const url = `/feature8/creditcardU/${cardInfo}`;        
         Axios.get(url, {withCredentials: true})
         .then((res) => {
             if(res.status === 200){
@@ -113,9 +116,9 @@ export const AddCard = () => {
             console.log(err);
         });
         
-        },[]);
+        },[cardInfo, cardName]);
      const handleUpdate = () => {
-        const url = `http://localhost:8080/feature8/update_creditcard/${cardInfo}`;
+        const url = `/feature8/update_creditcard/${cardInfo}`;
         Axios.patch(url, {
             card_no: cardNumber,
             name: cardName,

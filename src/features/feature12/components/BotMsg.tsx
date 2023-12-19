@@ -7,10 +7,10 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC, useEffect, useState,useCallback } from "react";
-import { da } from "date-fns/locale";
 
 interface BotMsgProps {
-    data: any;
+    consequences: string | undefined;
+    text: string;
 }
 
 interface Ibot{
@@ -18,7 +18,7 @@ interface Ibot{
     img: string;
 }
 
-export const BotMsg : FC<BotMsgProps> = ({ data }) => {
+export const BotMsg : FC<BotMsgProps> = ( {consequences,text}) => {
 
     const bot: Ibot = {
         name: "MONIQUE",
@@ -63,10 +63,10 @@ export const BotMsg : FC<BotMsgProps> = ({ data }) => {
                             color={"brand.200"}
                             p={3}>
                             {/* Client's asking Message */}
-                            {data.text} 
+                            {text} 
                         </Text>
                     </Box>
-                    {data.consequences !== undefined ? (
+                    {consequences !== undefined ? (
                         <Box 
                         ref={setRef} 
                         borderRadius={'10px'}
@@ -77,7 +77,7 @@ export const BotMsg : FC<BotMsgProps> = ({ data }) => {
                             color={"brand.200"}
                             p={3}>
                             {/* Client's asking Message */}
-                            {data.consequences} 
+                            {consequences} 
                         </Text>
                     </Box>
                     ) : null}

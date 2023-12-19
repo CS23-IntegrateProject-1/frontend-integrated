@@ -44,7 +44,7 @@ export const QrCodeScan = () => {
     if (!accessToken || isTokenExpired(expireAt)) {
       fetchDataAndQrGen();
     }
-  }, []); // Dependency on accessToken and expireAt to run the effect when they change
+  }, [accessToken, expireAt]); // Dependency on accessToken and expireAt to run the effect when they change
 
   useEffect(() => {
     const qrGen = async () => {
@@ -86,7 +86,7 @@ export const QrCodeScan = () => {
         console.log(expireAt)
         qrGen();
     }
-  }, [accessToken]); // Dependency on accessToken and expireAt to run the effect when they change
+  }, [accessToken, expireAt]); // Dependency on accessToken and expireAt to run the effect when they change
 
   // Function to check if the token is expired
   const isTokenExpired = (expireAt: number) => { // Explicitly specify the type as number

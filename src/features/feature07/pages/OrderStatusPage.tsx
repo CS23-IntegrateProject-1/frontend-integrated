@@ -4,11 +4,26 @@ import { RButton } from '../component/RButton';
 import { PreparedMenuCard } from '../component/PreparedCard';
 import { CompleteCard } from '../component/CompleteCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Axios } from '../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
+interface OrderProps {
+  orderDetailId: number;
+  menuId: number | null;
+  setId: number | null;
+  additional_req: string;
+  unit_price: number;
+  imageUrl: string;
+  quantity: number;
+  menu: {
+    name: string;
+  };
+  set: {
+    name: string;
+  };
+}
 type OrderStatus = 'Preparing' | 'Completed';
 
 export const OrderStatusPage: React.FC = () => {
@@ -18,7 +33,7 @@ export const OrderStatusPage: React.FC = () => {
   const [status, setStatus] = useState<OrderStatus>('Preparing');
   const navigate = useNavigate();
 
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
 
   const handleButtonClick = (newStatus: OrderStatus) => {
     setStatus(newStatus);
@@ -27,23 +42,34 @@ export const OrderStatusPage: React.FC = () => {
     setBorderColor(newStatus === 'Preparing' ? 'brand.200' : 'brand.400');
   };
 
-  const { data: ongoingOrderDetails } = useQuery(['ongoingOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/showOngoingOrderDetails/${venueId}`);
-    console.log("Ongoing:" ,response.data);
-    return response.data;
-  });
-
-  const { data: completedOrderDetails } = useQuery(['completedOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/showCompletedOrderDetails/${venueId}`);
-    return response.data;
-  });
+  const { data: ongoingOrderDetails } = useQuery(
+    ['ongoingOrderDetails'],
+    async () => {
+      const response = await Axios.get('/feature7/showOngoingOrderDetails');
+      return response.data;
+    },
+    {
+      enabled: status === 'Preparing',
+    }
+  );
+  
+  const { data: completedOrderDetails } = useQuery(
+    ['completedOrderDetails'],
+    async () => {
+      const response = await Axios.get('/feature7/showCompletedOrderDetails');
+      return response.data;
+    },
+    {
+      enabled: status === 'Completed',
+    }
+  );
 
   const renderCard = () => {
     switch (status) {
       case 'Preparing':
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
+            {ongoingOrderDetails && ongoingOrderDetails.map((order: OrderProps) => (
               <PreparedMenuCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -51,15 +77,14 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );
       case 'Completed':
         return (
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {completedOrderDetails && completedOrderDetails.map((order: any) => (
+            {completedOrderDetails && completedOrderDetails.map((order: OrderProps) => (
               <CompleteCard 
               key={order.orderDetailId} /* Use unique key */ 
               id={order.menuId !== null ? order.menuId : order.setId}
@@ -67,8 +92,7 @@ export const OrderStatusPage: React.FC = () => {
               description={order.additional_req}
               price={order.unit_price}
               imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
+              amount={order.quantity} />
             ))}
           </VStack>
         );
@@ -115,7 +139,7 @@ export const OrderStatusPage: React.FC = () => {
            borderRadius="5px">
                
            <ButtonComponent width={"160px"} text="View Receipt"
-           onClick={() => navigate("/venue/:venueId/receipt")} />
+           onClick={() => navigate("/venue/receipt")} />
             
          </Box>
          </Flex>

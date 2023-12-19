@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
+import { Link } from "react-router-dom";
 
 interface IData {
   venueId: number;
@@ -25,7 +26,7 @@ interface IData {
     score: string;
     venueId: number;
     website_url: string;
-    Venue_photo: string;
+    Venue_photo: IPhotoData[] | undefined;
     Menu: [
       {
         price: number;
@@ -34,9 +35,17 @@ interface IData {
   };
 }
 
+interface IPhotoData{
+      venuePhotoId: number,
+      venueId: number,
+      image_url: string,
+      date_added: string
+}
+
 export const MyReservation = () => {
   const [status, setStatus] = useState("");
   const [data, setData] = useState<IData[]>([]);
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -47,30 +56,35 @@ export const MyReservation = () => {
   };
 
   const renderCards = () => {
-    return data.map((data, index: number) => {
-      console.log(data);
-
+    return data?.map((data:IData, index: number) => {
       return (
         (status === "" || data.status === status) && (
-          <Box key={index} marginBottom={"20px"}>
-            <ReservationCards
-              src={data.venue.Venue_photo}
-              text={data.venue.description}
-              name={data.venue.name}
-              star={data.venue.score}
-              startPrice={
-                data.venue.Menu.length > 0
-                  ? data.venue.Menu[0].price ?? undefined
-                  : undefined
-              }
-              reservationId={data.reservationId}
-              venueId={data.venueId}
-            />
-          </Box>
+          <Link
+            to={`/getreservation-detail/${data.venueId}/${data.reservationId}`}
+          >
+            <Box key={index} marginBottom={"20px"}>
+              <ReservationCards
+                src={data.venue.Venue_photo?.[0]?.image_url}
+                text={data.venue.description}
+                name={data.venue.name}
+                star={data.venue.score}
+                status={data.status}
+                startPrice={
+                  data.venue.Menu.length > 0
+                    ? data.venue.Menu[0].price ?? undefined
+                    : undefined
+                }
+                isReview={data.isReview}
+                reservationId={data.reservationId}
+                venueId={data.venueId}
+              />
+            </Box>
+          </Link>
         )
       );
     });
   };
+  // console.log("DATA: ", data);
   console.log("RENDER PAGES ----------------------------");
   return (
     <Box
@@ -96,11 +110,11 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_in")}
-          text="Check_in"
+          text="Check-in"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_out")}
-          text="Check_out"
+          text="Completed"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Cancel")}

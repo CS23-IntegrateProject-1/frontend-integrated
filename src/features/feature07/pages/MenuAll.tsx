@@ -1,4 +1,5 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex,Center} from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, HStack, Text,  Icon, VStack,Flex,Center} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
@@ -10,7 +11,7 @@ import { RButton } from "../component/RButton";
 
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 interface Menu {
   menuId: number;
@@ -38,10 +39,10 @@ interface SetMenu {
 //   }
 // }
 
-const fetchMenuAndSetData = async (venueId: string) => {
+const fetchMenuAndSetData = async () => {
     const [menuResponse, setResponse] = await Promise.all([
-      Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
-      Axios.get<SetMenu[]>(`/feature7/getSetsByVenueId/${venueId}`),
+      Axios.get<Menu[]>('/feature7/getMenusByVenueId'),
+      Axios.get<SetMenu[]>('/feature7/getSetsByVenueId'),
     ]);
 
     const menuData = menuResponse.data;
@@ -57,10 +58,10 @@ export const MenuAll = () => {
   const [borderColor, setBorderColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData"], () => fetchMenuAndSetData());
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -80,14 +81,20 @@ export const MenuAll = () => {
     }
   };
   const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
+    navigate(`/venue/menudetail/${type}/${menuid}`);
     console.log("Clicked menu. Menu ID:", menuid);
   }  
   const handleCartClick = () => {
-    navigate(`/venue/${venueId}/cart`); 
+    navigate('/venue/cart'); 
   };
   useEffect(() => {
     handleAllMenuClick();
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
   }, []);
 
   const renderMenuCards = () => {
@@ -215,7 +222,7 @@ export const MenuAll = () => {
         borderRadius="5px">
             
         <ButtonComponent text="Order Status"
-        onClick={() => navigate(`/venue/${venueId}/order`)} />
+        onClick={() => navigate('/venue/order')} />
       </Box>
       </Center>
       </Box>

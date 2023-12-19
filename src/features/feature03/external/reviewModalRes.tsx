@@ -8,8 +8,10 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export function ReviewModalRes({ isOpen = false, onClose = () => {} }) {
+  const { branchId } = useParams();
   return (
     <Modal
       isOpen={isOpen}
@@ -49,7 +51,7 @@ export function ReviewModalRes({ isOpen = false, onClose = () => {} }) {
             >
               Later
             </Button>
-            <NavLink to="/ReviewReservation">
+            <NavLink to={`/ReviewReservation/${branchId}`}>
               <Button
                 variant="solid"
                 textColor="white"

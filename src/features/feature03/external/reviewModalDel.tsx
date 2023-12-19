@@ -9,7 +9,12 @@ import {
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
+import { useParams } from "react-router-dom";
+
 export function ReviewModalDel({ isOpen = false, onClose = () => {} }) {
+
+  const { branchId } = useParams();
+  
   return (
     <Modal
       isOpen={isOpen}
@@ -49,7 +54,7 @@ export function ReviewModalDel({ isOpen = false, onClose = () => {} }) {
             >
               Later
             </Button>
-            <NavLink to="/ReviewDelivery">
+            <NavLink to={`/ReviewDelivery/${branchId}`}>
               <Button
                 variant="solid"
                 textColor="white"

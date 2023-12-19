@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Flex,
@@ -58,7 +59,7 @@ export const PaymentMethodSetting = () => {
           console.error("Error fetching user data:", error);
         });
 
-        const cardurl = `http://localhost:8080/feature8/creditcardU/${userid}`;
+        const cardurl = `/feature8/creditcardU/${userid}`;
         Axios.get(cardurl, { withCredentials: true })
         .then((response) => {
           if (response.status == 200) {

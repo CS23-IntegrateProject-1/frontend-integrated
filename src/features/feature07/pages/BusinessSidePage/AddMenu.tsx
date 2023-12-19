@@ -1,64 +1,86 @@
-import React from 'react';
+// import React from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon,InputGroup, InputRightElement } from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState } from 'react';
 import { Axios } from '../../../../AxiosInstance';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useCustomToast } from '../../../../components/useCustomToast';
 
 export const AddMenu = () => {
 
   const navigate = useNavigate();
-  const { venueId } = useParams();
-  const fileInputRef = useRef(null);
+  // const { venueId } = useParams();
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const toast = useCustomToast();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
   });
-
-  const handleImageClick = () => {
-    fileInputRef.current.click();
+  const handleInvalid = (e: any) => {
+    e.preventDefault();
+    const { name } = e.target;
+    e.target.setCustomValidity(`Please fill in the ${name} field`);
+    toast.error(`Please fill in the ${name} field`);
   };
 
-  const handleFileChange = (event) => {
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    e.target.setCustomValidity(""); 
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const isFormValid = () => {
+    return formData.name && formData.description && formData.price;
+  };
+
+  const handleSubmit =  () => {
+    setFormSubmitted(true);
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append('name', formData.name);
     formDataWithFile.append('description', formData.description);
     formDataWithFile.append('price', formData.price);
-    formDataWithFile.append('menuImage', selectedFile);
+    formDataWithFile.append('menuImage', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    try {
-      const response = await Axios.post(`/feature7/addMenu/${venueId}`, formDataWithFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    Axios.post(`/feature7/addMenu`, formDataWithFile, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+        console.log('Menu added:', response.data);
+        toast.success("Menu Added Successfully");
+        navigate('/business/venue/menubusiness');
+        // Add logic for what happens after successfully adding menu item
+      })
+      .catch((error) => {
+        console.error('Error adding menu:', error);
+        // Add logic for error handling
       });
-      console.log('Menu added:', response.data);
-      navigate(`/venue/${venueId}/menubusiness`);
-      // Add logic for what happens after successfully adding menu item
-    } catch (error) {
-      console.error('Error adding menu:', error);
-      // Add logic for error handling
-    }
   };
 
   return (
@@ -74,13 +96,16 @@ export const AddMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name='name'
               value={formData.name}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !formData.name}
             />
           </Box>
         </Center>
@@ -94,11 +119,14 @@ export const AddMenu = () => {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name='description'
               value={formData.description}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !formData.description}
             />
           </Box>
         </Center>
@@ -113,12 +141,15 @@ export const AddMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name='price'
               value={formData.price}
               onChange={handleInputChange}
+              required
+              onInvalid={handleInvalid}
+              isInvalid={formSubmitted && !formData.price}
             />
           </Box>
         </Center>

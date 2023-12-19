@@ -1,14 +1,16 @@
-import { Avatar, Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Avatar, Box, Button, Flex, FormControl, Input, Text } from "@chakra-ui/react";
+import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { NavLink, useLocation } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { AddIcon } from "@chakra-ui/icons";
 import { Axios } from "../../../../AxiosInstance";
-
+import { useNavigate } from "react-router-dom";
 export const SetUpGroup = () => {
+  // const [newGroup, setNewGroup] = useState();
   const [groupName, setGroupName] = useState("");
   const [groupImg, setGroupImg] = useState("");
+  const navigate = useNavigate();
+  // const [groupData, setGroupData] = useState<any[]>([]);
   //use location to call state of array
   const location = useLocation();
   const selectedFriends = location.state.selectedFriends;
@@ -17,53 +19,96 @@ export const SetUpGroup = () => {
   const isDisabled = groupName.length < 1;
   const buttonColor = isDisabled ? "" : "brand.200";
   //to refresh group list
-  
-  const groupImageProfile = (e: any) => {
+
+  const groupImageProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    
     const file = e.target.files[0];
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   setGroupImg(reader.result as string);
-    // };
-    // reader.readAsDataURL(file);
-    // console.log(file);
     const objUrl = URL.createObjectURL(file);
     console.log(objUrl);
     setGroupImg(objUrl);
   };
 
-  const createGroupHandler = () => {
-    console.log(groupName, groupImg);
+  const createGroupHandler = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    const allData = new FormData();
+    allData.append("group_name", groupName);
+    allData.append("group_img", groupImg);
+    allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
+      return friend.user_id;
+    }));
     const url = `/feature1/group/add`;
-    Axios.post(url,{
-        group_name: groupName,
-        // group_img: groupImg, later
-        members: selectedFriends.map((friend :any) => {
-            return friend.user_id;
+    Axios.post(
+      url,
+      allData,
+      { withCredentials: true }
+    )
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(response.data);
+          console.log("successfully added");
+          const newGroup = response.data;
+          navigate("/Friends", { state: { newGroup } });
         }
-        )} ,
-        { withCredentials: true })
-            .then((response) => {
-                if (response.status == 200) {
-                    console.log(response.data);
-                    console.log('successfully added')
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching fir list data:", error);
-            });
-    }
+      })
+      .catch((error) => {
+        console.error("Error fetching fir list data:", error);
+      });
+   // console.log(groupName, groupImg);
+    // const url = `/feature1/group/add`;
+    // Axios.post(
+    //   url,
+    //   {
+    //     group_name: groupName,
+    //     // group_img: groupImg, later
+    //     members: selectedFriends.map((friend: any) => {
+    //       return friend.user_id;
+    //     }),
+    //   },
+    //   { withCredentials: true }
+    // )
+    //   .then((response) => {
+    //     if (response.status == 200) {
+    //       console.log(response.data);
+    //       console.log("successfully added");
+    //       const newGroup = response.data;
+    //       const navigate = useNavigate();
+    //       navigate("/Friends", { state: { newGroup } });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching fir list data:", error);
+    //   });
+      
+  };
+  
   return (
-    <Box position={"relative"}>
-        {/* top text */}
-        <Flex mt={-2} alignItems={'center'} justifyContent={'space-between'}>
-            <Box>
-                <Text fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h2.fontWeight}>Set up group profile</Text>
-            </Box>
-            {/* NavLink to ..chat group */}
-            <Box>
-                <Button  onClick={createGroupHandler}  isDisabled={isDisabled} bg={'none'} color={buttonColor}>Create</Button>
-            </Box>
-        </Flex>
+    <FormControl>
+         <Box position={"relative"}>
+      {/* top text */}
+      <Flex mt={-2} alignItems={"center"} justifyContent={"space-between"}>
+        <Box>
+          <Text
+            fontSize={TextStyle.h2.fontSize}
+            fontWeight={TextStyle.h2.fontWeight}
+          >
+            Set up group profile
+          </Text>
+        </Box>
+        {/* NavLink to ..chat group */}
+        <Box>
+          <Button
+            onSubmit={createGroupHandler}
+            isDisabled={isDisabled}
+            bg={"none"}
+            color={buttonColor}
+          >
+            Create
+          </Button>
+        </Box>
+      </Flex>
       <Flex mt={5} gap={6} alignItems={"center"}>
         {/* img */}
         <Box cursor={"pointer"}>
@@ -109,7 +154,7 @@ export const SetUpGroup = () => {
             height={20}
             width={20}
             position={"absolute"}
-            top={'20%'}
+            top={"20%"}
             left={0}
             opacity={0}
             aria-visibility={"hidden"}
@@ -147,12 +192,14 @@ export const SetUpGroup = () => {
                   fill="#D9D9D9"
                 />
               </svg>
-              <Text mt={1} ml={2}>Add</Text>
+              <Text mt={1} ml={2}>
+                Add
+              </Text>
             </Box>
           </NavLink>
 
           {/* loop friend list here */}
-          {selectedFriends.map((item: any) => {
+          {selectedFriends.map((item: { avatar: string | undefined; name: string | number | boolean | ReactElement<string | JSXElementConstructor<string>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
             return (
               <Box>
                 <Avatar src={item.avatar} />
@@ -169,6 +216,7 @@ export const SetUpGroup = () => {
         </Flex>
       </Box>
     </Box>
+    </FormControl>
+   
   );
 };
-

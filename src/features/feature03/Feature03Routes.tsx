@@ -20,8 +20,8 @@ export const Feature03Routes = () => {
     { path: "/Branches/:venueId", element: <VenueBranches /> },
 
     { path: "/Reviews/:branchId", element: <ReviewPage /> },
-    { path: "/ReviewDelivery", element: <ReviewDelivery /> },
-    { path: "/ReviewReservation", element: <ReviewReservation /> },
+    { path: "/ReviewDelivery/:branchId", element: <ReviewDelivery /> },
+    { path: "/ReviewReservation/:branchId", element: <ReviewReservation /> },
     { path: "/MyReviews", element: <MyReviews /> }
   ];
 };

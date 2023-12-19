@@ -1,4 +1,4 @@
-import { Box, VStack, StackDivider, Divider } from "@chakra-ui/react";
+import { Box, VStack, Divider } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
 // import { defineStyle, defineStyleConfig } from '@chakra-ui/react'

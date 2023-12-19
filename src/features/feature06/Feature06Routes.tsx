@@ -3,6 +3,8 @@ import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
+import QrcodeGen from "./pages/QrcodeGen";
+import { MIKForm } from "./pages/MIKForm";
 
 export const Feature06Routes = () => {
   return [
@@ -12,11 +14,18 @@ export const Feature06Routes = () => {
       element: "ElementPlaceHolder",
     }, //page for choose the reservation details (date, time, etc.)
     { path: "/check-in", element: "ElementPlaceHolder" },
+    { path: "/reservation-detail/:branchId/:2", element: <MIKForm /> },
     { path: "/my-reservation", element: <MyReservation /> },
-    { path: "/table", element: <TablePage /> },
+    { path: "/table/:branchId/:venueId", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
-    { path: "/reservation-detail", element: <ReservationDetail /> },
-    { path: "/getreservation-detail", element: <GetReservationDetail /> },
-    
+    {
+      path: "/reservation-detail/:branchId/:venueId",
+      element: <ReservationDetail />,
+    },
+    {
+      path: "/getreservation-detail/:venueId/:reservationId",
+      element: <GetReservationDetail />,
+    },
+    { path: "/qrcode/display/:reservationId", element: <QrcodeGen /> },
   ];
 };

@@ -1,16 +1,17 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement, InputLeftElement,VStack,Flex,IconButton, Select } from '@chakra-ui/react'; 
+import { FormControl, FormLabel, Input, HStack,Box, Center, Icon,InputGroup, InputRightElement,VStack, Select } from '@chakra-ui/react'; 
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef,useState,useEffect } from 'react';
-import { AddIcon, DeleteIcon} from '@chakra-ui/icons'
-import { useNavigate,useLocation, useParams } from 'react-router-dom';
+import { DeleteIcon} from '@chakra-ui/icons'
+import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
+import { useCustomToast } from "../../../../components/useCustomToast";
 
-interface Menu {
-    name: string;
-  }
+// interface Menu {
+//     name: string;
+//   }
 
   const getMenuItem = async (menuid: string) => {
     const response = await Axios.get(`/feature7/getSetById/${menuid}`);
@@ -19,13 +20,13 @@ interface Menu {
 
   export const EditSetMenu: React.FC = () => {
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedMenus, setSelectedMenus] = useState([]);
-  const [inputFieldValue, setInputFieldValue] = useState('');
+  const [selectedMenus, setSelectedMenus] = useState<any[]>([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { venueId, menuid } = useParams();
+  const toast = useCustomToast();
+  const { menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
     description: '',
@@ -33,7 +34,7 @@ interface Menu {
   });
   const [selectId, setSelectId] = useState('');
 
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () => getMenuItem(menuid));
+  const { data: menuData} = useQuery(['menuItem', menuid], () => getMenuItem(menuid!));
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -46,7 +47,7 @@ interface Menu {
   }, [menuData]);
 
   const getMenu = async () => {
-    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const response = await Axios.get(`/feature7/getMenuByVenueIdNotInSet/${menuid}`);
     const menus = response.data;
     //console.log(menuData);
     return menus;
@@ -59,14 +60,14 @@ interface Menu {
     // console.log(setItems);
     return setItems;
   }
-  const { data : setItems } = useQuery(["setItems", menuid], () => getSetItems(menuid));
+  const { data : setItems } = useQuery(["setItems", menuid], () => getSetItems(menuid!));
   useEffect(() => {
     if (setItems) {
       setSelectedMenus(setItems);
     }
   }, [setItems]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
       ...prevData,
@@ -74,18 +75,30 @@ interface Menu {
     }));
   };
 
+
   const handleDropdownChange = async (selectedMenuId: string) => {
     setSelectId(selectedMenuId);
     try {
       const addResponse = await Axios.post(`/feature7/addMenuItemsToSetsInCookies/${menuid}`, { menuId: selectedMenuId });
+      console.log('menuId:', selectedMenuId);
       if (addResponse.status === 200) {
         const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
         const selectedItems = response.data;
         console.log('Selected items:', selectedItems);
-        setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
-        });
+        console.log('Selected menus before update:', selectedMenus);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
+
+        // Find the selected item by its id
+      const selectedItem = selectedItems.find((item : any) => item.menuId == selectedMenuId);
+      console.log('Selected item:', selectedItem);
+      if (selectedItem) {
+        console.log('Selected item:', selectedItem);
+        // Update selectedMenus using the selectedItem directly
+        setSelectedMenus(prevSelectedMenus => [...prevSelectedMenus, selectedItem]);
+      }
       }
     } catch (error) {
       console.error("Error adding menu items to cookies or fetching items", error);
@@ -97,58 +110,60 @@ interface Menu {
     try {
       const response = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
       if (response.status === 200) {
-        const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
-        const selectedItems = response.data;
-        console.log('Selected items:', selectedItems);
+        // const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
+        // const selectedItems = response.data;
+        // console.log('Selected items:', selectedItems);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
         setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
+          // Filter out the selectedMenuId from the previous state
+          const updatedMenus = prevSelectedMenus.filter((menu: any) => menu.menuId !== selectedMenuId);
+          return updatedMenus;
         });
       }
-      // const updatedMenus = [...selectedMenus];
-      // updatedMenus.splice(selectedMenuId, 1);
-      // setSelectedMenus(updatedMenus);
   } catch (error) {
     console.error("Error deleting items in cookies", error);
   }
   };
-
-  // useEffect(() => {
-  //   console.log('Location state:', location.state);
-  //   if (location.state && location.state.selectedMenus) {
-  //     console.log('Selected Menus:', location.state.selectedMenus);
-  //     setSelectedMenus(location.state.selectedMenus);
-  //   }
-  // }, [location.state]);
   
-
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log('Selected file:', selectedFile);
   };
 
-  // const handleAddMenuClick = () => {
-  //   const targetPath = '/venue/:venueId/choosemenu';
-  //   console.log('Navigating to:', targetPath);
-  //   navigate(targetPath);
-  // };
   const handleCancel = async () => {
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
-      navigate(`/venue/${venueId}/menubusiness`);
+      console.log('Clear cookies:', response.data);
+      navigate(`/business/venue/menubusiness`);
     }catch (error) {
       console.error('Error clearing cookie:', error);
     }
   };
-
+  const isFormValid = () => {
+    return (
+      editFormData.name &&
+      editFormData.description &&
+      editFormData.price &&
+      selectedMenus.length > 0
+    );
+  };
+  
   const handleUpdate = async () => {
     // const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
     // navigate(targetPath);
+    setFormSubmitted(true);
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
     const formData = new FormData();
     formData.append('name', editFormData.name);
     formData.append('description', editFormData.description);
@@ -158,14 +173,14 @@ interface Menu {
     }
 
     try {
-      const response = await Axios.post(`/feature7/editSet/${venueId}/${menuid}`, formData, {
+      const response = await Axios.post(`/feature7/editSet/${menuid}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       console.log('Menu edited:', response.data);
-      
-      const targetPath = `/venue/${venueId}/bmenudetail/Set/${menuid}`;
+      toast.success("Menu Edited");
+      const targetPath = `/business/venue/bmenudetail/Set/${menuid}`;
       navigate(targetPath);
     } catch (error) {
         console.error('Error editing menu:', error);
@@ -185,13 +200,15 @@ interface Menu {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name='name'
               value={editFormData.name}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.name}
             />
           </Box>
         </Center>
@@ -205,11 +222,13 @@ interface Menu {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name='description'
               value={editFormData.description}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.description}
             />
           </Box>
         </Center>
@@ -273,23 +292,9 @@ interface Menu {
               width="307px"
               placeholder="Add a menu"
               value={selectId}
+              borderColor={(formSubmitted &&  selectedMenus.length === 0) ? "red.300" : "brand.300"}
+              isInvalid={formSubmitted && selectedMenus.length === 0}
               onChange={(e) => handleDropdownChange(e.target.value)}
-              // styles={{
-              //   control: (styles) => ({
-              //     ...styles,
-              //     backgroundColor: 'brand.300',
-              //     borderColor: 'brand.300',
-              //   }),
-              //   option: (styles, { isFocused, isSelected }) => ({
-              //     ...styles,
-              //     backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
-              //     color: isSelected ? 'white' : 'black',
-              //   }),
-              //   singleValue: (styles) => ({
-              //     ...styles,
-              //     color: 'black',
-              //   }),
-              // }}
               sx={{
                 '> option': {
                   background: 'brand.300',
@@ -299,7 +304,7 @@ interface Menu {
               bg={'brand.300'}
               as="select"
             >
-              {menuOptions?.map((menu) => (
+              {menuOptions?.map((menu: any) => (
                 <option 
                 key={menu.menuId} 
                 value={menu.menuId}>
@@ -321,12 +326,14 @@ interface Menu {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name='price'
               value={editFormData.price}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.price}
             />
           </Box>
         </Center>
@@ -360,7 +367,7 @@ interface Menu {
                  borderColor="brand.300"
                  bgColor="brand.300"
                  style={{
-                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(http://localhost:8080/uploads/${menuData?.image_url})`,
+                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image_url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

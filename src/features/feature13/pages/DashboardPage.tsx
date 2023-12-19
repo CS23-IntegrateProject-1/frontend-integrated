@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
 import Cookies from "js-cookie";
+import { MdRestaurantMenu } from "react-icons/md";
 
 interface IData {
   sumRevenue?: number;
@@ -15,17 +16,17 @@ interface IData {
 
 export const DashboardPage = () => {
   const [venueId, setVenueId] = useState<number | null>(1);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const confirmCheckin = () => {
-    let path = "/business/qrcodeconfirm";
+    const path = "/business/qrcodeconfirm";
     navigate(path);
   };
   const menu = () => {
-    let path = `/business/venue/${venueId}/menubusiness`;
+    const path = `/business/venue/${venueId}/menubusiness`;
     navigate(path);
   };
   const tableList = () => {
-    let path = "/business/tablelist";
+    const path = "/business/tablelist";
     navigate(path);
   };
   const [data, setData] = useState<IData>({});
@@ -193,6 +194,34 @@ export const DashboardPage = () => {
           </Text>
         </Box>
       </Card>
+      <Card
+        w={"147px"}
+        h={"90px"}
+        flexShrink={0}
+        borderRadius={"6px"}
+        background="rgba(95, 13, 187, 0.40)"
+        ml={"188px"}
+        mt={"20px"}
+        onClick={tableList}
+      >
+        <Icon boxSize={"75px"} mt={"20px"} ml={"20px"} color={"white"}>
+        <MdRestaurantMenu />
+        </Icon>
+        <Box mt={"-74px"} ml={"58px"} textAlign={"center"}>
+          <Text fontWeight={700} fontSize={"16px"} textColor={"white"}>
+            Order
+          </Text>
+          <Text
+            fontWeight={700}
+            fontSize={"16px"}
+            textColor={"white"}
+            lineHeight="1"
+          >
+            List
+          </Text>
+        </Box>
+      </Card>
+
     </Box>
   );
 };

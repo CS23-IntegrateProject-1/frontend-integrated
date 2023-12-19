@@ -1,57 +1,45 @@
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
-import { StarSort } from "./F3_RVPCs/StarSort";
+import { IStarSort, StarSort } from "./F3_RVPCs/StarSort";
 import { StarIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { FC } from "react";
-import { useParams } from "react-router-dom";
+import {  useState } from "react";
 
 interface MyReviewsData {
   name: string;
   description: string;
   category: string;
   venueId: number;
-  Venue_branch: [
-    {
-      branchId: number;
-      venueId: number;
-      branch_name: string;
-      Venue_reviews: [
-        {
-          userId: number;
-          rating: number;
-          review: string;
-          date_added: string;
-          venueReviewId: number;
-          branchId: number;
-          review_type: string;
-        }
-      ];
-    }
-  ];
+  branchId: number;
+  branch_name: string;
+  userId: number;
+  rating: number;
+  review: string;
+  date_added: string;
+  venueReviewId: number;
+  review_type: string;
 }
 
-export const MyReviews: FC = () => {
+export const MyReviews = () => {
+  
+
+  const [reviewFilter, setReviewFilter] = useState<IStarSort>({
+    reviewStars: "",
+    reviewTypes: ""
+  })
+
   const {
-    isLoading: myReviewsLoading,
     isError: myReviewsError,
     data: myReviewsData,
   } = useQuery<MyReviewsData[]>({
-    queryKey: ["getMyReviews"],
+    queryKey: ["getMyReviews", reviewFilter.reviewStars, reviewFilter.reviewTypes],
     queryFn: async () => {
-      const { data } = await Axios.get(`/feature3/MyReviews`);
+      const { data } = await Axios.get(`/feature3/MyReviews?reviewStars=${reviewFilter.reviewStars}&reviewTypes=${reviewFilter.reviewTypes}`);
       return data;
     },
+    keepPreviousData: true
   });
 
-  if (myReviewsLoading) {
-    return (
-      <span>
-        <FullPageLoader />
-      </span>
-    );
-  }
 
   if (myReviewsError) {
     return <span>An error occurred: </span>;
@@ -63,7 +51,7 @@ export const MyReviews: FC = () => {
       <Text fontSize={{ base: "40px", lg: "50px" }} fontWeight="bold">
         My Reviews
       </Text>
-      <StarSort />
+      <StarSort reviewFilter={reviewFilter} setReviewFilter={setReviewFilter}/>
       <Divider
         pt={"20px"}
         borderBottomWidth="3px"
@@ -71,44 +59,30 @@ export const MyReviews: FC = () => {
         opacity={"100%"}
       />
       <Flex direction="column" pt={"20px"}>
-        {myReviewsData?.map((branchs, index: number) => {
-          if (!branchs) {
-            return <></>;
-          }
-
-          return branchs.Venue_branch.map((reviews, index: number) => {
-            if (!reviews) {
-              return <></>;
-            }
-
-            return reviews.Venue_reviews.map((review, index: number) => {
-              if (!review) {
-                return <></>;
-              }
-              console.log(review);
+        {(myReviewsData || []).map((MRD) => {
 
               return (
-                <Box key={index} pb={"20px"}>
+                <Box key={MRD.venueReviewId} pb={"20px"}>
                   <Box display={"flex"}>
                     <Box width={"80%"}>
                       <Text fontWeight="bold">
-                        {branchs.name} |{" "}
+                        {MRD.name} |{" "}
                         <Text as="span" textColor={"white"}>
-                          {reviews.branch_name}
+                          {MRD.branch_name}
                         </Text>
                       </Text>
-                      <Text fontWeight="bold">{branchs.category}</Text>
-                      <Text fontWeight="bold" textColor={"red"}>{review.review_type}</Text>
+                      <Text fontWeight="bold">{MRD.category}</Text>
+                      <Text fontWeight="bold" textColor={"red"}>{MRD.review_type}</Text>
                       <Flex color={"brand.100"} alignItems={"center"}>
                         <StarIcon mr={"6px"} />
-                        <Text mt={"1.5px"}>{review.rating}</Text>
+                        <Text mt={"1.5px"}>{MRD.rating}</Text>
                       </Flex>
                       <Text py={"15px"} textColor={"grey.200"}>
-                        {review.review}
+                        {MRD.review}
                       </Text>
                     </Box>
                     <Box textColor={"grey.200"} ml={"auto"}>
-                      {review.date_added.substring(0, 10)}
+                      {MRD.date_added.substring(0, 10)}
                     </Box>
                   </Box>
                   <Divider
@@ -118,9 +92,8 @@ export const MyReviews: FC = () => {
                   />
                 </Box>
               );
-            });
-          });
-        })}
+            }
+          )}
       </Flex>
     </Box>
   );

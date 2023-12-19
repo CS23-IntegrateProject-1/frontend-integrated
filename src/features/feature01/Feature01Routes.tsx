@@ -1,5 +1,3 @@
-import { BusiProfile } from './Pages/BusiProfile'
-import { BusiProfileEdit } from './Pages/BusiProfileEdit'
 import { SettingHomepage } from './Pages/homepage/SettingHomepage'
 import { Account } from './Pages/account/Account'
 import { Notifications } from './Pages/notifications/Notifications'
@@ -17,6 +15,8 @@ import { FriendMain } from './Pages/AddFriends/FriendMain'
 import { AddFriend } from './Pages/AddFriends/AddFriend'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
 import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
+import { QRScanner } from './Pages/AddFriends/QRScanner'
+import { HelpDesk } from './Pages/help/HelpDesk'
 export const Feature01Routes = () => {
   return [
     {
@@ -61,6 +61,10 @@ export const Feature01Routes = () => {
       element: <Help />,
     },
     {
+      path: "/setting/helpdesk",
+      element: <HelpDesk />,
+    },
+    {
       path: "/setting/about",
       element: <About />,
     },
@@ -74,7 +78,7 @@ export const Feature01Routes = () => {
     },
     {
       path: "/Friends",
-      element: <FriendMain />,
+      element: <FriendMain/>,
     },
     {
       path: "/AddFriend",
@@ -87,6 +91,10 @@ export const Feature01Routes = () => {
   {
     path: "/SetUpGroup",
     element: <SetUpGroup/>,
-  }
+  },
+  {
+    path: "/AddFriend/QRCode",
+    element: <QRScanner/>,
+  },
   ];
 };

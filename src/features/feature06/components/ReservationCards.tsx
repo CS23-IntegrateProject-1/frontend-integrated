@@ -2,16 +2,14 @@ import {
   Box,
   Card,
   Image,
-  Stack,
-  CardBody,
   Heading,
   Text,
-  CardFooter,
   Button,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 interface ReservationCardsProps {
   src?: string;
@@ -21,6 +19,8 @@ interface ReservationCardsProps {
   startPrice?: number;
   reservationId?: number;
   venueId?: number;
+  isReview?: boolean;
+  status?: string;
 }
 
 export const ReservationCards: FC<ReservationCardsProps> = ({
@@ -31,9 +31,11 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   startPrice,
   reservationId,
   venueId,
+  isReview,
+  status
 }) => {
+  const navigate = useNavigate();
   const handleClick = () => {
-    const navigate = useNavigate();
     const path = `/reservation-detail?reservationId=${reservationId}&venueId=${venueId}`;
     navigate(path);
   };
@@ -151,6 +153,44 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
             fill="#F6F6F6"
           />
         </svg>
+      </Box>
+      <Box
+        position="absolute"
+        className="NextIcon"
+        display={"flex"}
+        flexDirection={"column"}
+        alignContent={"center"}
+        justifyContent={"center"}
+        marginLeft={"-12px"}
+      >
+        {isReview === false && status === "Check_out" ? (
+          <Link to={`/review/${venueId}/${reservationId}`}>
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="#A533C8"
+            >
+              Review
+            </Button>
+          </Link>
+        ) : isReview === true && status === "Check_out" ? (
+          <Box
+            width="60px"
+            height="30px"
+            marginLeft="260px"
+            marginTop="86px"
+            fontSize="12px"
+            color="#1CDA68"
+          >
+            Already Review
+          </Box>
+        ) : (
+          ""
+        )}
       </Box>
     </Card>
   );

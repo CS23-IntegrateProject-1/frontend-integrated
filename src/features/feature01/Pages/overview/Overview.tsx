@@ -1,163 +1,301 @@
-import { Box, Text, Flex, Avatar, Accordion, HStack,VStack,Grid,AccordionPanel, AccordionIcon, AccordionButton, AccordionItem, Spacer, Badge, GridItem} from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  Box,
+  Text,
+  Flex,
+  Avatar,
+  Accordion,
+  HStack,
+  VStack,
+  Grid,
+  AccordionPanel,
+  AccordionIcon,
+  AccordionButton,
+  AccordionItem,
+  Spacer,
+  Badge,
+  GridItem,
+  Drawer,
+  DrawerContent,
+  Center,
+  ButtonGroup,
+  Button,
+  useDisclosure,
+  FormControl,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
-import { Progress } from '@chakra-ui/react';
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import { Progress } from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
 export const Overview = () => {
-    
+    //For Drawer Sign out
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const handleOpen = () => {
+        onOpen();
+    }
+    //Data 
+    const [profileData, setProfileData] = useState({
+        name:"",
+        member_level:"",
+        member_points:"",
+        profile_img:"",
+    });
+    useEffect(() => {
+        const url1 = `/feature1/profile`;
+        Axios.get(url1, { withCredentials: true })
+          .then((response) => {
+            if (response.status == 200) {
+              //const data = response.data;
+              setProfileData(response.data);
+              console.log(profileData);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching profile  data:", error);
+          });
+      }, []);
   return (
-    <Grid>
+    <FormControl>
+        <Box>
         <Grid>
-            <HStack boxShadow={"md"} >
-                <Box width={"20%"} display={"flex"} justifyContent={"center"}>
-                    <Flex align={"center"}>
-                        <Box  position={'relative'} cursor={'pointer'}>
-                        <Avatar size={'xl'} src='https://bit.ly/broken-link' />
-                        {/* button to change image */}
-                        <Box  position={'absolute'} top={51} left={20}>
-                        
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="11" fill="white" stroke="#A0AEC0" stroke-width="2"/>
-                            <path d="M13.3733 10.0133L13.9867 10.6267L7.94667 16.6667H7.33333V16.0533L13.3733 10.0133ZM15.7733 6C15.6067 6 15.4333 6.06667 15.3067 6.19333L14.0867 7.41333L16.5867 9.91333L17.8067 8.69333C17.8685 8.63166 17.9175 8.5584 17.951 8.47775C17.9844 8.3971 18.0016 8.31065 18.0016 8.22333C18.0016 8.13602 17.9844 8.04957 17.951 7.96892C17.9175 7.88827 17.8685 7.81501 17.8067 7.75333L16.2467 6.19333C16.1133 6.06 15.9467 6 15.7733 6ZM13.3733 8.12667L6 15.5V18H8.5L15.8733 10.6267L13.3733 8.12667Z" fill="#A0AEC0"/>
-                            </svg>
-                        </Box>
-                        </Box>
-                        
-                    </Flex>
-                </Box>
-                <Box width={"60%"} >
-                    <VStack  >
-                        <Box display={"flex"}  width={"100%"}>
-                            <Text >
-                                {" "}
-                                Demo Name
-                            </Text>
-                        </Box>
-                        {/* Progress Bar */}
-                        <Box width={"100%"}>
-                            <Progress value={50} colorScheme="purple" borderRadius={"50px"} /> 
-                            
-                        </Box>
-                        {/* XP Points */}
-                        <Box width={"100%"} display={"flex"}>
-                            <Text>
-                                {" "}
-                                Regular
-
-                            </Text>
-                            <Spacer />
-                            <Text >
-                                {" "}
-                                500/1000
-                            </Text>
-                        </Box>
-                    </VStack>    
-                </Box>
-                <Box width={"20%"} display={"flex"} justifyContent={"center"}>
-                    <ChevronRightIcon alignItems={"center"}/>
-                </Box>
-            </HStack>
-        </Grid >
-        
-        <Grid>
+      <Grid>
+        <HStack boxShadow={"md"}>
+          <Box width={"20%"} display={"flex"} justifyContent={"center"}>
+            <Flex align={"center"}>
+              <Box position={"relative"} cursor={"pointer"}>
+                {profileData.profile_img ? (
+                    <Avatar size={"xl"} src={profileData.profile_img} />
+                ) : (
+                    <Avatar size={"xl"} src="https://bit.ly/broken-link" />
+                )}
+            </Box>
+            </Flex>
+          </Box>
+          <Box width={"60%"}>
             <VStack>
-            <Box width={"100%"} display={"flex"} mt={"5px"}>
-                <Text>
-                    Member Level
-                </Text>
+              <Box display={"flex"} width={"100%"}>
+                <Text> {profileData.name ? profileData.name : "Demo Name"}</Text>
+              </Box>
+              {/* Progress Bar */}
+              <Box width={"100%"}>
+                <Progress
+                    value={ profileData.member_points ? parseInt(profileData.member_points)/100 : 50}
+                    colorScheme="purple"
+                  borderRadius={"50px"}
+                />
+              </Box>
+              {/* XP Points */}
+              <Box width={"100%"} display={"flex"}>
+                <Text> {profileData.member_level ? profileData.member_level : "Regular"}</Text>
                 <Spacer />
-                <Badge borderRadius={"50px"} padding={"5px"} width={"80px"} textAlign={"center"}> 
-                {" "}
-                    Regular 
-                </Badge>
-            </Box>
-            <Box width={"100%"} display={"flex"} mt={"5px"}>
-                <Text>
-                    Member Points
-                </Text>
-                <Spacer />
-                <Badge borderRadius={"50px"} padding={"5px"} width={"80px"} textAlign={"center"}> 
-                {" "}
-                    500 
-                </Badge>
-            </Box>
-            
-            <Box width={"100%"} display={"flex"}>
-                <Text>
-                    {" "}
-                    Payment History
-
-                </Text>
-                <Spacer />
-                <ChevronRightIcon />
-            </Box>
-            <Box width={"100%"} display={"flex"}>
-                <Text fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize}>
-                    {" "}
-                    My Tickets
-
-                </Text>
-                <Spacer />
-                <ChevronRightIcon />
-            </Box>
-
-            <Box width={"100%"} display={"flex"}>
-                <Accordion defaultIndex={[0]} allowMultiple width={"100%"}>
-                    <AccordionItem borderTop={"1px solid #200944"} borderBottom={"1px solid #200944"} >
-                                        <h2>
-                                            <AccordionButton>
-                                                <Box fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize} color={'white'} as="span" flex='1' textAlign='left'>
-                                                    My Reservations
-                                                </Box>
-                                                <AccordionIcon color={'white'} fontWeight={TextStyle.body1.fontWeight} fontSize={TextStyle.body1.fontSize} />
-                                            </AccordionButton>
-                                        </h2>
-                                        <AccordionPanel bg={'#DEBEF6'} pb={4} color={'black'}>
-                                        <NavLink to = "/my-reservation">
-                                            <Flex px={2} bg={'#DEBEF6'}  py={2} alignContent={'center'} alignItems={'center'}>
-                                                
-                                                <Box ml={10}>
-                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>
-                                                        Reservations
-                                                    </Text>
-                                                </Box>
-                                                <Spacer />
-                                                <Box>
-                                                    <ChevronRightIcon />
-                                                </Box>
-                                            </Flex>
-                                        </NavLink>
-                                        </AccordionPanel>
-                                        <AccordionPanel bg={'#DEBEF6'} pb={4} color={'black'} borderBottomEndRadius={"25px"} borderBottomLeftRadius={"25px"}>
-                                        <NavLink to = "/map/savedlocation">
-                                            <Flex px={2} bg={'#DEBEF6'}  py={2} alignContent={'center'} alignItems={'center'}>
-                                            
-                                                <Box ml={10}>
-                                                    <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>
-                                                        Delivery
-                                                    </Text>                
-                                                </Box>
-                                                <Spacer />
-                                                <Box>
-                                                    <ChevronRightIcon />
-                                                </Box>
-                                                
-                                            </Flex>
-                                            </NavLink>
-                                        </AccordionPanel>
-                                    </AccordionItem>
-                </Accordion>
-            </Box>
-
+                <Text> {profileData.member_points ? profileData.member_points: '500'}/1000</Text>
+              </Box>
             </VStack>
+          </Box>
+          <Box  width={"20%"} display={"flex"} justifyContent={"center"}>
+            <NavLink to={"/setting/account/profile"}>
+                <ChevronRightIcon  alignItems={"center"} />
+            </NavLink>
+            
+          </Box>
+        </HStack>
+      </Grid>
 
-        </Grid>
-        <GridItem display="flex" justifyContent={"center"} alignContent={"flex-end"}>
-            <ButtonComponent text="Sign Out"  textColor="red" bgColor="#200944" border={"1px solid red"} bgColorHover="white"/>
-        </GridItem>
+      <Grid mx={10} mt={7}>
+        <VStack>
+          <Box width={"100%"} display={"flex"} mt={"5px"}>
+            <Text>Member Level</Text>
+            <Spacer />
+            <Badge
+              borderRadius={"50px"}
+              padding={"5px"}
+              width={"80px"}
+              textAlign={"center"}
+            >
+              {" "}
+              {profileData.member_level ? profileData.member_level : "Regular"}
+            </Badge>
+          </Box>
+          <Box width={"100%"} display={"flex"} mt={"5px"}>
+            <Text>Member Points</Text>
+            <Spacer />
+            <Badge
+              borderRadius={"50px"}
+              padding={"5px"}
+              width={"80px"}
+              textAlign={"center"}
+            >
+              {" "}
+              {profileData.member_points ? profileData.member_points : "500"}
+            </Badge>
+          </Box>
 
+          <Box width={"100%"} display={"flex"}>
+            {/* to link with group 8 history payment */}
+            <Text> Payment History</Text> 
+            <Spacer />
+            <ChevronRightIcon />
+          </Box>
+          <Box width={"100%"} display={"flex"}>
+            <Text
+              fontWeight={TextStyle.body1.fontWeight}
+              fontSize={TextStyle.body1.fontSize}
+            >
+              {" "}
+              My Tickets
+            </Text>
+            <Spacer />
+            <ChevronRightIcon />
+          </Box>
+
+          <Box ml={-2} width={"100%"} display={"flex"}>
+            <Accordion allowMultiple width={"100%"}>
+              <AccordionItem
+                borderTop={"1px solid #200944"}
+                borderBottom={"1px solid #200944"}
+              >
+                <h2>
+                  <AccordionButton>
+                    <Box
+                      fontWeight={TextStyle.body1.fontWeight}
+                      fontSize={TextStyle.body1.fontSize}
+                      color={"white"}
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                    >
+                     <Text   ml={-3} > My Reservations</Text>
+                    </Box>
+                    <AccordionIcon
+                      color={"white"}
+                      fontWeight={TextStyle.body1.fontWeight}
+                      fontSize={TextStyle.body1.fontSize}
+                    />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel bg={"#DEBEF6"} pb={4} color={"black"}>
+                  <NavLink to="/my-reservation">
+                    <Flex
+                      px={2}
+                      bg={"#DEBEF6"}
+                      py={2}
+                      alignContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Box ml={10}>
+                        <Text
+                          fontSize={TextStyle.h3.fontSize}
+                          fontWeight={TextStyle.h2.fontWeight}
+                          ml={-10}
+                        >
+                          Reservations
+                        </Text>
+                      </Box>
+                      <Spacer />
+                      <Box>
+                        <ChevronRightIcon />
+                      </Box>
+                    </Flex>
+                  </NavLink>
+                </AccordionPanel>
+                <AccordionPanel
+                  bg={"#DEBEF6"}
+                  pb={4}
+                  color={"black"}
+                  borderBottomEndRadius={"25px"}
+                  borderBottomLeftRadius={"25px"}
+                >
+                  <NavLink to="/map/savedlocation">
+                    <Flex
+                      px={2}
+                      bg={"#DEBEF6"}
+                      py={2}
+                      alignContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Box ml={10}>
+                        <Text
+                          fontSize={TextStyle.h3.fontSize}
+                          fontWeight={TextStyle.h2.fontWeight}
+                          ml={-10}
+                        >
+                          Delivery
+                        </Text>
+                      </Box>
+                      <Spacer />
+                      <Box>
+                        <ChevronRightIcon />
+                      </Box>
+                    </Flex>
+                  </NavLink>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </Box>
+        </VStack>
+      </Grid>
+      <GridItem
+        display="flex"
+        justifyContent={"center"}
+        alignContent={"flex-end"}
+        mt={20}
+      >
+        <ButtonComponent
+          text="Sign Out"
+          textColor="red"
+          bgColor="#200944"
+          border={"1px solid red"}
+          bgColorHover="white"
+          onClick={handleOpen}
+        />
+      </GridItem>
     </Grid>
-  )
-}
+        {/* Drawer for sign out*/}
+      <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
+        <DrawerContent
+          bg={"brand.100"}
+          px={4}
+          pt={4}
+          pb={5}
+          transition="all 0.1s ease"
+        >
+          <Center
+            color={"black"}
+            fontWeight={TextStyle.h1.fontWeight}
+            fontSize={TextStyle.h1.fontSize}
+          >
+            Sign Out
+          </Center>
+          <Center pt={1} color={"black"} fontSize={TextStyle.body2.fontSize}>
+            Are you sure you want to sign out?
+          </Center>
+          <Center>
+            <ButtonGroup pt={2} spacing="6">
+                <NavLink to={"/login"}>
+                <Button px={12}>
+                Continue
+              </Button>
+                </NavLink>
+              <Button
+                width={"140px"}
+                height={"40px"}
+                onClick={onClose}
+                bg={"brand.200"}
+                color={"white"}
+                _hover={{ bg: "brand.300" }}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Center>
+        </DrawerContent>
+      </Drawer>
+    </Box>
+    </FormControl>
+    
+    
+  );
+};
