@@ -42,12 +42,14 @@ export const DashboardPage = () => {
     setData(response);
   };
   return (
+    <Box justifyContent={"center"} alignItems={"center"} display={"flex"}>
     <Box display={"flex"} flexDirection={"column"} position={"relative"}>
       <Text
         fontSize={"20px"}
         fontWeight={"700"}
         fontStyle={"normal"}
         lineHeight={"normal"}
+        ml={'18px'}
       >
         Mix restaurant per day
       </Text>
@@ -219,6 +221,7 @@ export const DashboardPage = () => {
           </Text>
         </Box>
       </Card>
+    </Box>
     </Box>
   );
 };
