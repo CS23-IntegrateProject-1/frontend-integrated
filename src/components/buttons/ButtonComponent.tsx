@@ -9,7 +9,6 @@ interface ButtonProps {
   textColor?: string;
   borderColor?: string;
   bgColorHover?: string;
-  isDisabled?: boolean;
   borderColorHover?: string;
   textColorHover?: string;
   border?: string;

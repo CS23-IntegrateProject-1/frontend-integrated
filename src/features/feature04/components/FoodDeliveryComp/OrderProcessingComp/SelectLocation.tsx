@@ -146,11 +146,7 @@ export const SelectLocation = () => {
                             display={"flex"}
                             flexDirection={"column"}
                             color={index.colors.black}
-                            border="1px solid #A533C8" // Add border style here
-                            borderRadius={5} // Optional: Add border radius
-                            paddingLeft={3} // Optional: Add padding
-                            paddingTop={1}
-                            paddingBottom={1}
+                            
                           >
                             <Box
                               display={"flex"}
