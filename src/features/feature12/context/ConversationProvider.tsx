@@ -12,9 +12,17 @@ interface Recipient {
   },
   memberId: number;
 }
-interface Conversation {
+interface PConversation {
   group_name: string;
   group_profile: string;
+  id:number;
+  members: Recipient[];
+  messages: Message[];
+  selected?: boolean;
+}
+interface CConversation {
+  roomname: string;
+  community_group_profile: string;
   id:number;
   members: Recipient[];
   messages: Message[];
@@ -37,19 +45,23 @@ interface ProviderProps {
   children: React.ReactNode;
 }
 interface ConversationContextValue {
-  conversations: Conversation[] ;
-  openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
-  sendMessage: (message: SendMessageParams) => void;
-  selectedConversation: Conversation | undefined;
-  setSelectedConversation: React.Dispatch<React.SetStateAction<Conversation | undefined>>;
+  Pconversations: PConversation[] ;
+  Cconversations: CConversation[] ;
+  openConversation: (recipients: Recipient[],id:number) => void;
+  sendPMessage: (message: SendMessageParams) => void;
+  sendCMessage: (message: SendMessageParams) => void;
+  selectedConversation: PConversation | CConversation | undefined;
+  setSelectedConversation: React.Dispatch<React.SetStateAction<PConversation | CConversation | undefined>>;
   socket: Socket | undefined;
   messages: Message[];
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 const ConversationsContext = createContext<ConversationContextValue>({
-  conversations: [],
+  Pconversations: [],
+  Cconversations: [],
   openConversation: () => {},
-  sendMessage: () => {},
+  sendPMessage: () => {},
+  sendCMessage: () => {},
   selectedConversation: undefined,
   setSelectedConversation: () => {},
   socket: undefined,
@@ -58,9 +70,10 @@ const ConversationsContext = createContext<ConversationContextValue>({
 });
 
 export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
-    const [messages,setMessages] = useState<Message[]>([]);
-  const [selectedConversation, setSelectedConversation] = useState<Conversation>();
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [messages,setMessages] = useState<Message[]>([]);
+  const [selectedConversation, setSelectedConversation] = useState<PConversation | CConversation>();
+  const [Pconversations, setPConversations] = useState<PConversation[]>([]);
+  const [Cconversations, setCConversations] = useState<CConversation[]>([]);
   const user = useContext(UserContext);
   const [socket, setSocket] = useState<Socket>();
 
@@ -79,7 +92,7 @@ export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
   //To get all the privateConversationLog
   useEffect(() => {
     Axios.get("/feature12/displayGroupDetail").then((res) => {
-      const newConversations = res.data.map((group: Conversation) => ({
+      const newConversations = res.data.map((group: PConversation) => ({
         group_name: group.group_name,
         group_profile: group.group_profile,
         id: group.id,
@@ -88,26 +101,50 @@ export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
         selected: false,
       }));
 
-      setConversations(newConversations);
+      setPConversations(newConversations);
     });
   }, [socket]);
 
-  const openConversation = (recipients: Recipient[], group_name: string, id: number) => {
-    socket?.emit("join-room", { recipients, group_name, id });
+  //To get all the communityConversationLog
+  useEffect(() => {
+    Axios.get("/feature12/displayCommunityDetail").then((res) => {
+      console.log(">>>>>COMMUNITY>>>", res.data )
+      const newConversations = res.data.map((room: CConversation) => ({
+        roomname: room.roomname,
+        community_group_profile: room.community_group_profile,
+        id: room.id,
+        members: room.members, 
+        messages: [],
+        selected: false,
+      }));
+
+      setCConversations(newConversations);
+    });
+  }, [socket]);
+
+  const openConversation = (recipients: Recipient[], id: number) => {
+    socket?.emit("join-room", { recipients, id });
   };
 
-  const sendMessage = (
+  const sendPMessage = (
     { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
     ) => {
-    socket?.emit("send-message", { recipients, text, id, sender });
+    socket?.emit("send-Pmessage", { recipients, text, id, sender });
+  };
+  const sendCMessage = (
+    { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
+    ) => {
+    socket?.emit("send-Cmessage", { recipients, text, id, sender });
   };
 
   return (
     <ConversationsContext.Provider
       value={{
-        conversations,
+        Pconversations,
+        Cconversations,
         openConversation,
-        sendMessage,
+        sendPMessage,
+        sendCMessage,
         selectedConversation,
         setSelectedConversation,
         socket,

@@ -43,16 +43,16 @@ interface User {
 }
 interface LoadMessage {
   userId: number,
-  user: User,
+  User: User,
   message : string,
   date_time: string,
 }
-export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
+export const CConversation :FC<ConversationProps> = ({id, members}) => {
   const user = useContext(UserContext);
   const [text, setText] = useState<string>("");
   const [loadMessages,setLoadMessages] = useState<LoadMessage[]>([]);
   const [count, setCount] = useState<number>(0);
-  const { sendMessage, selectedConversation, socket, messages, setMessages} = useConversations()
+  const { sendCMessage, selectedConversation, socket, messages, setMessages} = useConversations()
   
   const setRef = useCallback((node: HTMLElement | null) => {
     if (node) {
@@ -61,7 +61,7 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
   }, []);
   
   useEffect(() => {
-      Axios.get(`feature12/displayAllMessage/${id}`).then((response) => {
+      Axios.get(`feature12/displayAllMessageCommunity/${id}`).then((response) => {
         setLoadMessages(response.data);
       });
   }, [selectedConversation,id]);
@@ -74,14 +74,14 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
       sender: user.username,
       fromMe :true,
     }
-    sendMessage(message);
+    sendCMessage(message);
     setText("");
     setCount(count + 1);
     setMessages(prevMessages => [...prevMessages, message]);
   }
 
  useEffect(() => {
-        socket?.on("receive-message", ({ id, members, text, sender }) => {
+        socket?.on("receive-Cmessage", ({ id, members, text, sender }) => {
             console.log(id, "id", selectedConversation?.id);
 
             const message ={
@@ -94,11 +94,13 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
             setMessages(prevMessages => [...prevMessages, message]);
             return () => {
                 console.log("clean up");
-                socket.off("receive-message");
+                socket.off("receive-Cmessage");
             };  
     });
+ // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
  console.log("messages==========", messages);
+ console.log("loadMessages==========", loadMessages)
   return (
     <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
       <Box flexGrow="1" overflow="auto">
@@ -117,7 +119,7 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
                 ref={lastMessage ? setRef : null}
                 my="4px"
                 display="flex"
-                flexDirection={message.user.username === user.username ? "row-reverse" : "row"}
+                flexDirection={message.User.username === user.username ? "row-reverse" : "row"}
                 width="100%"
               >
                 <Box 
@@ -125,17 +127,17 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
                   <Text
                     fontSize="sm"
                     color="gray.500"
-                    textAlign={message.user.username === user.username ? "end" : "start"}
+                    textAlign={message.User.username === user.username ? "end" : "start"}
                   >
-                    {message.user.username}
+                    {message.User.username}
                   </Text>
                   <Box
                     rounded={"md"}
                     py="1"
                     px="2"
-                    bg={message.user.username === user.username ? "#DEBEF6" : "red"}
-                    color={message.user.username === user.username ? "black" : "white"}
-                    borderWidth={message.user.username === user.username ? "0px" : "1px"}
+                    bg={message.User.username === user.username ? "#DEBEF6" : "red"}
+                    color={message.User.username === user.username ? "black" : "white"}
+                    borderWidth={message.User.username === user.username ? "0px" : "1px"}
                   >
                     {message.message}
                   </Box> 
@@ -146,7 +148,7 @@ export const Conversation2 :FC<ConversationProps> = ({id, members}) => {
           {messages.length > 0 ? messages.map((message, index) => {
               const lastMessage = messages.length - 1 === index;
               return (
-                  selectedConversation?.id === message.id &&
+                selectedConversation?.id === message.id &&
                 <Flex
                   key={index}
                   ref={lastMessage ? setRef : null}
