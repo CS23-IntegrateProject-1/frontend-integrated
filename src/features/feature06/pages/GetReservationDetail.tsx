@@ -98,7 +98,7 @@ export const GetReservationDetail: FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, );
 
   const fetchData = async () => {
     try {
