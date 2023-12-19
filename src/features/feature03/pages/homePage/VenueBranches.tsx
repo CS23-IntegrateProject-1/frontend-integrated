@@ -50,7 +50,7 @@ export const VenueBranches = () => {
   if (venueBranchPageError) {
     return <span>An error occurred: </span>;
   }
-  console.log(venueBranchPageData);
+  // console.log(venueBranchPageData);
 
 
   return (
