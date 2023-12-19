@@ -4,6 +4,9 @@ import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
+// import { formatDatetime1 } from "../../../../functions/formatDatetime";
 
 type Notification = {
 	notiReserveId: number;
@@ -35,6 +38,14 @@ type advernoti = {
 	isApprove: string;
 	advertisementId: number;
 };
+
+
+type Order = {
+  orderId: number,
+  reservedId: number,
+  order_date: string,
+  tableNo: number,
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatDate = (dateString: string) => {
@@ -226,7 +237,8 @@ export const Notification = () => {
 
 		// Fetch table numbers when reserveIdMap changes
 		fetchTableNumbers();
-	}, [reserveIdMap, tableNumberMap, venueId]);
+	}, [reserveIdMap, venueId]);
+// }, [reserveIdMap, tableNumberMap, venueId]);
 
 	// console.log(tableNumberMap)
 	// console.log(notificationData)
@@ -310,6 +322,41 @@ export const Notification = () => {
 		bizAllAdvertiseMain();
 	}, []);
 
+  const fetchOrderUpdate = async () => {
+    const orderRes = await Axios.get<Order[]>(`/feature8/venue/${venueId}/getOrdersAndTableNos`);
+
+    const orderData = orderRes.data;
+    
+    return { orderData };
+  };
+
+
+const { data: orderData } = useQuery<{
+  orderData: Order[];
+}>(['orderUpdate', venueId], () => fetchOrderUpdate());
+
+console.log(orderData?.orderData)
+
+// /feature8/venue/:venueId/getBusinessId
+// Rename the function to avoid redeclaration
+const fetchBusinessIdFromVenue = async () => {
+  const bizIdRes = await Axios.get<{ businessId: number }>(`/feature8/venue/${venueId}/getBusinessId`);
+
+  // Extract the businessId from the response data
+  const bizId = bizIdRes.data.businessId;
+  
+  // Return the businessId, not an object
+  return bizId;
+};
+
+// Use the renamed function in useQuery
+const { data: dataBusinessId } = useQuery<number>(['fetchBusinessId', venueId], fetchBusinessIdFromVenue);
+
+console.log(dataBusinessId);
+console.log(orderData?.orderData)
+  
+
+
 	// Have to filter the businessId as well ! DON'T FORGET, NOT DONE YET
 	const filteredAds = useMemo(() => {
 		if (!businessAdMain || !advertisementId) {
@@ -366,11 +413,22 @@ export const Notification = () => {
 			return { ...ad, time: new Date(ad.start_date) };
 		});
 
+    // const totalOrderDate = orderData?.orderData?.reduce(
+    //   (sum, order) => sum + new Date(order.order_date).getTime(),
+    //   0
+    // );
+    const adOrderUpdate = orderData?.orderData.map((ou) => {
+      return {...ou, time: new Date(ou.order_date)}
+    })
+
+    
+
 		// Filter out null entries
 		return [
 			...pendingResNotifications,
 			...checkOutResNotifications,
 			...adNotifications,
+      ...(adOrderUpdate || []),
 		].filter((notification) => notification !== null);
 	}, [
 		pendingReservations,
@@ -392,6 +450,7 @@ export const Notification = () => {
 	return (
 		<div>
 			{sortedNotifications.map((notification, index) => {
+        console.log(notification)
 				const timeDifference = formatDistanceToNow(
 					new Date(notification.time),
 					{ addSuffix: true }
@@ -443,7 +502,7 @@ export const Notification = () => {
 							</Flex>
 						</Link>
 					);
-				} else if (notification.advertisementId) {
+				} else if (notification.advertisementId && businessId === notification.businessId) {
 					// Advertisement
 					return (
 						<Link
@@ -478,8 +537,90 @@ export const Notification = () => {
 					);
 				}
 
-				return null; // Handle other notification types as needed
-			})}
-		</div>
-	);
+        else if (notification.orderId) {
+          // Handle order notifications
+          return (
+            <Link
+              key={index}
+              to={`/business/Notification/order/${notification.orderId}`}>
+              <Flex
+                bg="blackAlpha.300"
+                h="75px"
+                align="center"
+                borderRadius="10px"
+                transition="background-color 0.3s ease-in-out"
+                _hover={{ bg: "blackAlpha.400" }}
+                _active={{ bg: "blackAlpha.200" }}
+                marginBottom="10px">
+                <Box ml="3">
+                  <Text fontWeight="bold">
+                    Order Update
+                  </Text>
+                  <Text fontSize="sm">{`Table no. ${notification.tableNo || "N/A"}`}</Text>
+                </Box>
+                <Spacer />
+                <Box>
+                  <Text
+                    fontSize="md"
+                    textAlign="right"
+                    paddingRight={3}>
+                    {timeDifference}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+          );
+        }
+          
+          
+          return null; // Handle other notification types as needed
+        })}
+
+      {/* {Array.isArray(orderData?.orderData) && orderData?.orderData.map((order, index) => {
+        const differenceInDays = (Date.now() - new Date(order.order_date).getTime());
+          
+        return (
+          <Link
+          key={index}
+          to={`/business/Notification/${
+            order.orderId.status === "Pending"
+            ? "NewReservation"
+            : "Checkout"
+          }/${venueId}/${order.orderId}`}>
+            <Flex
+              bg="blackAlpha.300"
+              h="75px"
+              align="center"
+              borderRadius="10px"
+              transition="background-color 0.3s ease-in-out"
+              _hover={{ bg: "blackAlpha.400" }}
+              _active={{ bg: "blackAlpha.200" }}
+              marginBottom="10px">
+              <Box ml="3">
+                <Text fontWeight="bold">
+                  Order Update
+                </Text>
+                <Text fontSize="sm">
+                  Table no. {order.tableNo}
+                </Text>
+              </Box>
+              <Spacer />
+              <Box>
+                <Text
+                  fontSize="md"
+                  textAlign="right"
+                  paddingRight={3}>
+                  {order.order_date}
+                </Text>
+              </Box>
+            </Flex>
+          </Link>
+        );
+      })} */}
+      </div>
+      
+      
+      );
+
+
 };
