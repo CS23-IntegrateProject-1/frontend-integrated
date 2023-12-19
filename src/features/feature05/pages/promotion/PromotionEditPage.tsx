@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -27,42 +28,78 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 import { GetPromotionById } from "../../../../api/Promotion/GetPromotionById";
 import { useParams } from "react-router-dom";
+import { initialStatePromotionProp, PromotionProps } from "../../../../interfaces/Promotion/IPromotionEditPageProp.interface";
 
-interface PromotionProps {
-  name: string;
-  description: string;
-  start_date: Date | null;
-  end_date: Date | null;
-  image_url: string;
-  menuId: number;
-  venueId: number;
-  discount_price: number;
-}
 export const PromotionEditPage = () => {
   const navigate = useNavigate();
   const { isOpen, onClose } = useDisclosure();
+  const id = Number(useParams<{ promotionId: string }>().promotionId);
 
   const deleteModal = useDisclosure();
-  //     const submitModal = useDisclosure();
-  const handleClickDelete = () => {};
+
+  const [promotionData, setPromotionData] = useState<PromotionProps>(initialStatePromotionProp);
+  const fetchPromotionData = async () => {
+    const response = await GetPromotionById(id);
+    console.log("Fetched Data");
+    console.log(response.data);
+    setPromotionData(response);
+  }
+  {promotionData}
+  useEffect(() => {
+    fetchPromotionData();
+  },[])
+
 
   const handleClickUpdate = () => {
     navigate("/business/promotion/status");
   };
 
-  const [file, setFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const promotionDiscount = useQuery({
+  //   queryKey: ["voucher"],
+  //   queryFn: () => GetPromotionById(id),
+  //   onSuccess: (data) => {
+  //     // Set default values once the data is successfully fetched
+  //     setPromotion((prevPromotion) => ({
+  //       ...prevPromotion,
+  //       name: data.voucher_name,
+  //       description: data.description,
+  //       start_date: data.start_date,
+  //       end_date: data.end_date,
+  //       venueId: data.venueId,
+  //       image_url: data.voucher_image,
+  //       menuId: data.menuId,
+  //       branchId: data.branchId,
+  //       discount_price: data.discount_price
+  //     }));
+  //   },
+  // });
   const [promotion, setPromotion] = useState<PromotionProps>({
     name: "",
     description: "",
+    start_date: "",
+    end_date: "",
+    venueId: 0,
     image_url: "",
-    start_date: new Date(),
-    end_date: new Date(),
-    menuId: 3,
-    venueId: 3,
-    discount_price: 10,
+    menuId: 0,
+    branchId: 0,
+    discount_price: 0
+
   });
-  console.log(file);
+
+  const [file, setFile] = useState<File | null>(null);
+  {file}
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [promotion, setPromotion] = useState<PromotionProps>({
+  //   name: "",
+  //   description: "",
+  //   image_url: "",
+  //   start_date: new Date(),
+  //   end_date: new Date(),
+  //   menuId: 3,
+  //   venueId: 3,
+  //   discount_price: 10,
+  // });
+  // console.log(file);
   const handleCloseImage = () => {
     setImagePreview(null);
   };
@@ -202,6 +239,27 @@ export const PromotionEditPage = () => {
 
     fetchPromotionData();
   }, [promotionId]);
+
+  const deletePromotion = async () => {
+    try {
+      const result = await Axios.delete(`/feature5/DeletePromotion/${id}`);
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error deleting advertisement:", error);
+    }
+  };
+
+  const handleClickDelete = async () => {
+    try {
+      await deletePromotion();
+      // Optionally, perform any additional actions after successful deletion
+      navigate("/business/promotion/status"); // Redirect to a different page, for instance
+    } catch (error) {
+      console.error(error);
+      // Handle errors, if any, during the deletion process
+    }
+  };
+
   return (
     <Box
       display={"flex"}
@@ -426,7 +484,11 @@ export const PromotionEditPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+            <Image
+              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+              alt={"image"}
+              width={"100%"}
+            ></Image>
           </Box>
         </FormControl>
       ) : (
@@ -582,3 +644,7 @@ export const PromotionEditPage = () => {
     </Box>
   );
 };
+// function useQuery(arg0: { queryKey: string[]; queryFn: () => any; onSuccess: (data: VoucherType) => void; }) {
+//   throw new Error("Function not implemented.");
+// }
+
