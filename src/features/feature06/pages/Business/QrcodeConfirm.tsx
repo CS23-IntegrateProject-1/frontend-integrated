@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Text, } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Html5QrcodeScanner, QrcodeErrorCallback } from "html5-qrcode";
 import checkIn from "../../../../api/Reservation/checkIn";
 import textStyles from "../../../../theme/foundations/textStyles";
+import { useNavigate } from "react-router-dom";
 
 export const QrcodeConfirm: React.FC = () => {
     const [scanResult, setScanResult] = useState<{
@@ -11,6 +13,7 @@ export const QrcodeConfirm: React.FC = () => {
     }>();
     const [checkingIn, setCheckingIn] = useState<number | string>(0);
     const [callCnt, setCallCnt] = useState<number>(0);
+    const navigate = useNavigate();
 
     const handleCheckIn = async (reservationId: number, authToken: string) => {
         console.log("handleCheckIn");
@@ -95,6 +98,7 @@ export const QrcodeConfirm: React.FC = () => {
         function success(result: string) {
             scanner.clear();
             setScanResult(JSON.parse(result));
+            navigate("/dashboard")
         }
 
         // Clean up function
