@@ -30,6 +30,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
+import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisement";
 
 export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +45,9 @@ export const AdvertisementIDPage = () => {
   });
   const navigate = useNavigate();
   const handleClickReject = () => {
+    RejectAds(id)
     navigate(`/admin/advertisement/${id}/reject`);
+    location.reload();
   };
   const handleClickConfirm = () => {
     ApproveAds(id);
