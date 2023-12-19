@@ -43,7 +43,7 @@ export const PromotionEditPage = () => {
     console.log(response.data);
     setPromotionData(response);
   }
-
+  {promotionData}
   useEffect(() => {
     fetchPromotionData();
   },[])
@@ -86,6 +86,7 @@ export const PromotionEditPage = () => {
   });
 
   const [file, setFile] = useState<File | null>(null);
+  {file}
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   // const [promotion, setPromotion] = useState<PromotionProps>({
   //   name: "",
@@ -642,7 +643,7 @@ export const PromotionEditPage = () => {
     </Box>
   );
 };
-function useQuery(arg0: { queryKey: string[]; queryFn: () => any; onSuccess: (data: VoucherType) => void; }) {
-  throw new Error("Function not implemented.");
-}
+// function useQuery(arg0: { queryKey: string[]; queryFn: () => any; onSuccess: (data: VoucherType) => void; }) {
+//   throw new Error("Function not implemented.");
+// }
 
