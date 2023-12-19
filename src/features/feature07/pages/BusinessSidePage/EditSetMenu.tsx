@@ -108,8 +108,9 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 
   const handleDeleteMenu = async (selectedMenuId: string) => {
     try {
-      const response = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
-      if (response.status === 200) {
+      // const response1 = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
+      const response2 = await Axios.post(`/feature7/deleteMenuItemFromSet/${menuid}`, { menuId: selectedMenuId });
+      if (response2.status === 200) {
         // const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
         // const selectedItems = response.data;
         // console.log('Selected items:', selectedItems);
