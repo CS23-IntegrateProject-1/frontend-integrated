@@ -8,7 +8,7 @@ on:
 jobs:
     lint:
         name: Check lint
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         container: node:lts
         steps:
             - name: Checkout
@@ -21,7 +21,7 @@ jobs:
     check-build:
         needs: [lint]
         name: Check Build
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         timeout-minutes: 5
         container: node:20-alpine
         steps:
