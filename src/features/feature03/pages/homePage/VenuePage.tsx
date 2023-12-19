@@ -29,7 +29,6 @@ interface Venue {
   name: string;
   description: string;
   category: string;
-  capacity: string;
   location: string;
   website_url: string;
   rating: string;
@@ -44,10 +43,10 @@ interface SearchFilter {
 }
 
 export const DEFAULT_FILTER = {
-  type: "Restaurant,Bar,Club",
+  type: "",
   priceMin: 0,
   priceMax: 1000,
-  capacity: "1TO4,5TO6,7TO10,11M",
+  capacity: ""
 };
 
 export const FilterContext = createContext<{ filter: SearchFilter, setFilter: (fn: (update: SearchFilter) => SearchFilter) => void }>({
@@ -78,7 +77,12 @@ export const VenuePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); 
   const [searchFilter, setSearchFilter] = useState(search || "");
   
-  const [filter, setFilter] = useState<SearchFilter>(DEFAULT_FILTER)
+  const [filter, setFilter] = useState<SearchFilter>({
+    type: "",
+    priceMin: 0,
+    priceMax: 1000,
+    capacity: "",
+  })
 
   useEffect(() => {
     navigate(`?search=${searchFilter}`, { replace: true})  
@@ -90,13 +94,15 @@ export const VenuePage = () => {
   const {
     isLoading: venueLoading,
     error: venueError,
-    data: venueData, 
+    data: venueData,
   } = useQuery<Venue[]>({
-    queryKey: ["getVen", searchFilterThrottle, filter.capacity, priceMaxThrottle, priceMinThrottle, filter.type],
+    queryKey: ["getVen", searchFilterThrottle, filter.type, filter.capacity, priceMaxThrottle, priceMinThrottle],
     queryFn: async () => {
+      console.log(filter.type);
+      console.log(filter.capacity);
       const { data } = await Axios.get(`/feature3/VenuesPage?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&type=${filter.type}`);
       return data;
-    }, 
+    },
     keepPreviousData: true
   });
 
