@@ -89,19 +89,15 @@ export const CreateTable2 = () => {
             setCapacity(e.target.value);
           }}
         />
-        <input type="file" multiple accept="image/*" onChange={handleFileChange}/>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"32px"} mt={"17px"}>
           Upload image
         </Text>
-        <Input
-          // htmlSize={4}
-          backgroundColor={"#5F0DBB66"}
-          borderStyle={"none"}
-          mt={"5px"}
-          width="307px"
-          onChange={(e) => {
-            setImage_url(e.target.value);
-          }}
+        <br></br>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
         />
         <Button
           bgColor={"#A533C8"}

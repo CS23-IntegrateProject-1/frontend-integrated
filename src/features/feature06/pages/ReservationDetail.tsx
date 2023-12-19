@@ -27,7 +27,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  location: {
+  Location: {
         locationId: number,
         name: string,
         latitude: string,
@@ -40,6 +40,7 @@ interface IPhotoData {
   date_added: string;
   venueId: number;
   image_url: string;
+  venuePhotoId: number;
 }
 
 export const ReservationDetail = () => {
@@ -119,7 +120,7 @@ export const ReservationDetail = () => {
         <RDetailCard
           // src={data?.venue.Venue_photo.image_url}
           name={data?.name}
-          location={data?.location.address}
+          location={data?.Location.address}
           star={data?.score}
           image_url={data?.Venue_photo}     
         />

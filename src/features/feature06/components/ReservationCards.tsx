@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Image,
-  Heading,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Card, Image, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
@@ -32,7 +25,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   reservationId,
   venueId,
   isReview,
-  status
+  status,
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -57,7 +50,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         width="100px"
         height="100px"
         borderRadius="10px"
-        src={src}
+        src={src || "https://via.placeholder.com/100"}
         alt="Caffe Latte"
         margin={"15px"}
       />

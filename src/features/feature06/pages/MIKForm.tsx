@@ -21,7 +21,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  location: {
+  Location: {
     locationId: number;
     name: string;
     latitude: string;
@@ -130,7 +130,7 @@ export const MIKForm = () => {
       >
         <RDetailCard
           name={data?.name}
-          location={data?.location.address}
+          location={data?.Location.address}
           star={data?.score}
           image_url={data?.Venue_photo}
         />
