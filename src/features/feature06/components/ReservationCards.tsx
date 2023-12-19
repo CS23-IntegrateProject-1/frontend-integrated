@@ -2,7 +2,6 @@ import { Box, Card, Image, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 
 interface ReservationCardsProps {
   src?: string;

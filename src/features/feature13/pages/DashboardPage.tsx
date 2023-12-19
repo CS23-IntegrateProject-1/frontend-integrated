@@ -23,6 +23,10 @@ export const DashboardPage = () => {
     const path = `/business/venue/menubusiness`;
     navigate(path);
   };
+  const orderList = () => {
+    const path = `/business/venue/orderstat`;
+    navigate(path);
+  };
   const tableList = () => {
     const path = "/business/tablelist";
     navigate(path);
@@ -196,10 +200,10 @@ export const DashboardPage = () => {
         background="rgba(95, 13, 187, 0.40)"
         ml={"188px"}
         mt={"20px"}
-        onClick={tableList}
+        onClick={orderList}
       >
         <Icon boxSize={"75px"} mt={"20px"} ml={"20px"} color={"white"}>
-        <MdRestaurantMenu />
+          <MdRestaurantMenu />
         </Icon>
         <Box mt={"-74px"} ml={"58px"} textAlign={"center"}>
           <Text fontWeight={700} fontSize={"16px"} textColor={"white"}>
@@ -215,7 +219,6 @@ export const DashboardPage = () => {
           </Text>
         </Box>
       </Card>
-
     </Box>
   );
 };
