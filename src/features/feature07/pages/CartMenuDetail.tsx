@@ -69,6 +69,7 @@ export const CartMenuDetail: FC = () => {
                     quantity : amount,
                 });
                 console.log(response.data);
+                navigate("/venue/cart");
             } else if (amount == 0){
                 await handleDelete();
             }
