@@ -47,7 +47,7 @@ export const ViewTable = () => {
   useEffect(() => {
     console.log("tableId: ", tableId);
     fetchData();
-  });
+  }, []);
 
   const fetchData = async () => {
     const response: IViewTable = await getTableByTableId(tableIdNum);
