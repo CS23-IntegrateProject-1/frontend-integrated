@@ -7,12 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 
 export const InCartMenu = () => {
   const [addItem, setAddItem] = useState(0);
+
   const handleAddItem = () => {
+    // Assuming selectedItemId is the unique identifier of the item you want to add
     setAddItem(addItem + 1);
   };
 
   const handleDecreaseItem = () => {
-    if (addItem > 1) {
+    if (addItem > 0) {
       setAddItem(addItem - 1);
     }
   };
@@ -22,6 +24,10 @@ export const InCartMenu = () => {
   const nav = () => {
     navigate("/map/food-delivery/checkout");
   };
+  const navToMenu = () => {
+    navigate("/map/food-delivery");
+  };
+
 
   const fetchCartItems = async () => {
     try {
@@ -36,12 +42,12 @@ export const InCartMenu = () => {
 
   const {
     data: cartItems,
-    isLoading,
-    isError,
+    // isLoading,
+    // isError,
   } = useQuery(["cartItem"], () => fetchCartItems());
 
   const calculateSubtotal = (items: typeof cartItems) => {
-    if (!items) return 0; // Check if items is undefined or null
+    if (!items) return 0;
 
     return items.reduce((acc: number, item: typeof cartItems) => {
       const price = parseFloat(item.price);
@@ -55,9 +61,36 @@ export const InCartMenu = () => {
 
   const calculateTotal = (items: typeof cartItems) => {
     const subtotal = calculateSubtotal(items);
-    const total = parseFloat(subtotal) + 0; // Add any additional fees or adjustments here
-    return total.toFixed(2); // Round to two decimal places
+    const total = parseFloat(subtotal) + 0;
+    return total.toFixed(2);
   };
+
+
+
+  
+
+
+
+
+
+
+
+  // const handleItemIncreased=async(itemId: number)=>{
+    
+    
+  // }
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <Box mt={20}>
@@ -79,8 +112,8 @@ export const InCartMenu = () => {
                 style={{ borderRadius: "20px" }}
                 alt={item.name}
               />
-              <Flex flexDir={"column"}>
-                <Text>{item.name}</Text>
+              <Flex flexDir={"column"} justifyContent={"center"}>
+                <Text width={20}>{item.name}</Text>
                 <Text>{item.size}</Text>
               </Flex>
               <Flex flexDir={"column"} justifyContent={"space-around"}>
@@ -89,14 +122,14 @@ export const InCartMenu = () => {
                   <IconButton
                     icon={<MinusIcon />}
                     onClick={handleDecreaseItem}
-                    isDisabled={addItem === 0}
+                    isDisabled={item.quantity + addItem <=1}
                     aria-label="Decrease Amount"
                     width="30px"
                     height="28px"
                     borderRadius="10% 0% 0% 10%"
                   />
                   <Text color="black" backgroundColor={"white"} pl={2} pr={2}>
-                    {item.quantity}
+                    {item.quantity + addItem}
                   </Text>
                   <IconButton
                     icon={<AddIcon />}
@@ -108,6 +141,11 @@ export const InCartMenu = () => {
                   />
                 </Flex>
               </Flex>
+              <Flex flexDirection={"row"} alignItems={"center"}>
+              <Button variant={"unstyle"} color={"red"}>
+                Remove
+              </Button>
+              </Flex>
             </Flex>
           ))}
         <Divider borderColor="#DEBEF6" mt={5} />
@@ -116,7 +154,7 @@ export const InCartMenu = () => {
           alignItems={"center"}
           justifyContent={"space-around"}
         >
-          <Text>Add more items</Text>
+          <Button onClick={navToMenu}>Add more items</Button>
           <Box
             minWidth={100}
             maxHeight={100}
@@ -164,7 +202,7 @@ export const InCartMenu = () => {
         </Box>
         <Button
           variant={"unstyled"}
-          backgroundColor="#805AD5"
+          backgroundColor="#A533C8"
           color="white"
           maxWidth={500}
           minWidth={100}
