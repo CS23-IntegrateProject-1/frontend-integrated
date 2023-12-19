@@ -45,6 +45,7 @@ export const MyReservation = () => {
                 isReview={data.isReview}
                 reservationId={data.reservationId}
                 venueId={data.venueId}
+                isPaidDeposit={data.isPaidDeposit}
               />
             </Box>
           </Link>

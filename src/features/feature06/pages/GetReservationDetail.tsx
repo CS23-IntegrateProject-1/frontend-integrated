@@ -173,7 +173,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0]?.User.fname}{" "}
+            {data?.reservations[0].User.fname}{" "}
             {data?.reservations[0]?.User.lname}
           </Text>
           <Text
@@ -366,7 +366,8 @@ export const GetReservationDetail: FC = () => {
             >
               Cancel
             </Button>
-            <Link to={`/qrcode/display/${reservationId}`}>
+            {data?.reservations[0]?.status === "Pending" && data?.reservations[0]?.isPaidDeposit === "Check_in" ? ( 
+              <Link to={`/qrcode/display/${data?.reservations[0].reservationId}`}>
               <Button
                 borderRadius="10px"
                 width="138px"
@@ -381,6 +382,9 @@ export const GetReservationDetail: FC = () => {
                 Check-in QR
               </Button>
             </Link>
+            ) : (
+              ""
+            )}
           </Box>
         ) : data?.reservations[0]?.status === "Check_in" &&
           data?.venue.name === "MIK" ? (
@@ -405,7 +409,7 @@ export const GetReservationDetail: FC = () => {
         )}
       </Box>
       <CancelModal
-        reservationIdInt={data?.reservations[0].reservationId}
+        reservationIdInt={data?.reservations[0]?.reservationId}
         isOpen={cancelModal.isOpen}
         onClose={cancelModal.onClose}
       />

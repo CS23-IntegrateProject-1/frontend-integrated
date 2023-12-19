@@ -13,6 +13,7 @@ interface ReservationCardsProps {
   venueId?: number;
   isReview?: boolean;
   status?: string;
+  isPaidDeposit?: string;
 }
 
 export const ReservationCards: FC<ReservationCardsProps> = ({
@@ -25,6 +26,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   venueId,
   isReview,
   status,
+  isPaidDeposit
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -180,9 +182,34 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
           >
             Already Review
           </Box>
-        ) : (
+        ) : isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="red"
+            >
+              Payment
+            </Button>
+            ) : (
           ""
         )}
+          {isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="#A533C8"
+            >
+              payment
+            </Button>
+            ): ""}
       </Box>
     </Card>
   );
