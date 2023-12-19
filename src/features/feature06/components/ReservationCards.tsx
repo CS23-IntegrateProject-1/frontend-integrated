@@ -1,15 +1,7 @@
-import {
-  Box,
-  Card,
-  Image,
-  Heading,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Card, Image, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 
 interface ReservationCardsProps {
   src?: string;
@@ -21,6 +13,7 @@ interface ReservationCardsProps {
   venueId?: number;
   isReview?: boolean;
   status?: string;
+  isPaidDeposit?: string;
 }
 
 export const ReservationCards: FC<ReservationCardsProps> = ({
@@ -32,7 +25,8 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   reservationId,
   venueId,
   isReview,
-  status
+  status,
+  isPaidDeposit
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -57,7 +51,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         width="100px"
         height="100px"
         borderRadius="10px"
-        src={src}
+        src={src || "https://via.placeholder.com/100"}
         alt="Caffe Latte"
         margin={"15px"}
       />
@@ -164,7 +158,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         marginLeft={"-12px"}
       >
         {isReview === false && status === "Check_out" ? (
-          <Link to={`/review/${venueId}/${reservationId}`}>
+          // <Link to={`/review/${venueId}/${reservationId}`}>
             <Button
               width="60px"
               height="30px"
@@ -176,7 +170,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
             >
               Review
             </Button>
-          </Link>
+          // </Link>
         ) : isReview === true && status === "Check_out" ? (
           <Box
             width="60px"
@@ -188,9 +182,34 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
           >
             Already Review
           </Box>
-        ) : (
+        ) : isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="red"
+            >
+              Payment
+            </Button>
+            ) : (
           ""
         )}
+          {isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="#A533C8"
+            >
+              payment
+            </Button>
+            ): ""}
       </Box>
     </Card>
   );
