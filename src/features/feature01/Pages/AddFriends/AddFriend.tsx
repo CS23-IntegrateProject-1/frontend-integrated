@@ -1,9 +1,10 @@
 import { Search2Icon } from "@chakra-ui/icons"
 import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
 import TextStyle from "../../../../theme/foundations/textStyles"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 export const AddFriend = () => {
     const [username, setUsername] = useState('');
     const [userImg, setUserImg] = useState('');
@@ -12,6 +13,7 @@ export const AddFriend = () => {
     const toast = useToast()
     const [shouldShowChatButton, setShouldShowChatButton] = useState(false);
     const [phNoSearch, setPhNoSearch] = useState('');
+    const loggedInUser = useContext(UserContext);
     //get fri data from main page
     // const location = useLocation();
     // const {setFriData, friData} = location.state;
@@ -126,6 +128,35 @@ export const AddFriend = () => {
                 console.error("Error fetching username data:", error);
             });
     }
+    const navigate = useNavigate();
+    const createChatHandler = (e: { preventDefault: () => void;}) => {
+    e.preventDefault();
+    const allData = new FormData();
+    console.log("inFunc CreateChatHandler");
+    const groupName = username+","+loggedInUser.username;
+    allData.append("group_name", groupName);
+    allData.append("members[]", userId);
+    allData.append("avatar", userImg);
+
+    const url = `/feature1/group/add`;
+    Axios.postForm(
+      url,
+      allData,
+      {
+        withCredentials: true
+      }
+    )
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(response.data);
+          console.log("successfully added");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching fir list data:", error);
+      });
+    navigate("/communitychat");
+  };
 
     return (
         <Box>
@@ -201,7 +232,7 @@ export const AddFriend = () => {
                     {/* Chat */}
                     {shouldShowChatButton ? (
                         <NavLink to="/communitychat">
-                        <Button  bg={'brand.100'} color={'brand.200'} colorScheme='brand.200' variant='outline'>
+                        <Button  bg={'brand.100'} color={'brand.200'} colorScheme='brand.200' variant='outline' onClick={createChatHandler}>
                             Chat
                         </Button>
                         </NavLink>
