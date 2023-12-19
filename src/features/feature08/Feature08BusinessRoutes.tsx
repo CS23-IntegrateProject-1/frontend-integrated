@@ -7,6 +7,15 @@ import { Checkbill } from "./pages/Account/Checkbill";
 import { Timestamp } from "./pages/Account/Timestamp";
 import { AccountingMain } from "./pages/Account/AccountingMain";
 import { AddCardVenue } from "./pages/AddCard/AddCardVenue";
+import { Notification } from "./pages/NotificationBusinessSide/Notification";
+import { AdvertiseNoti } from "./pages/NotificationBusinessSide/AdvertiseNoti";
+import { PromotionNoti } from "./pages/NotificationBusinessSide/PromotionNoti";
+import { CheckOutNoti } from "./pages/NotificationBusinessSide/CheckOutNoti";
+import { NewReserveNoti } from "./pages/NotificationBusinessSide/NewReserveNoti";
+import { OrderUpdateNoti } from "./pages/NotificationBusinessSide/OrderUpdateNoti";
+import { UpdateNoti } from "./pages/NotificationBusinessSide/UpdateNoti";
+import { AddCardNoti } from "./pages/NotificationBusinessSide/AddCardNoti";
+import { EnterCode } from "./pages/NotificationBusinessSide/EnterCode";
 
 export const FeatureBusiness08Routes = () => {
 	return [
@@ -46,5 +55,33 @@ export const FeatureBusiness08Routes = () => {
 			path: "/business/Account/Checkbill/:venueId/:appTransactionDetailId",
 			element: <Checkbill />,
 		},
+		{
+			path: "/Notification/BusinessNoti/:venueId",
+			element: <Notification />,
+		},
+		{
+			path: "/venue/:venueId/admin/checkbill/:orderId",
+			element: <Checkbill />,
+		},
+		{
+			path: "/Notification/advertisement/:advertisementId",
+			element: <AdvertiseNoti />,
+		},
+		{ path: "/Notification/Promotion", element: <PromotionNoti /> },
+		{
+			path: "/Notification/Checkout/:venueId/:reservationId",
+			element: <CheckOutNoti />,
+		},
+		{
+			path: "/Notification/NewReservation/:venueId/:reservationId",
+			element: <NewReserveNoti />,
+		},
+		{
+			path: "/Notification/OrderUpdate/:orderId",
+			element: <OrderUpdateNoti />,
+		},
+		{ path: "/Notification/Update", element: <UpdateNoti /> },
+		{ path: "/Notification/addcard", element: <AddCardNoti /> },
+		{ path: "/Notification/entercode", element: <EnterCode /> },
 	];
 };
