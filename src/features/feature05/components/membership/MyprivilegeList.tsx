@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Stack } from "@chakra-ui/react";
 import IMyprivilege from "../../../../interfaces/Redeem/IMyprivilege";
 import { Axios } from "../../../../AxiosInstance";
 import { useEffect, useState } from "react";
-import { ShortMyPrivilegeCard } from "../../components/membership/ShortMyPrivilegeCard";
+import { ShortMyPrivilegeCard } from "./ShortMyprivilegeCard";
 
 const MyprivilegeList = () => {
   const [redeemList, setRedeemList] = useState<IMyprivilege[]>([]);

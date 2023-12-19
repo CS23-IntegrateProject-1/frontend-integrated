@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import IRedeemList from "../../../../interfaces/Redeem/IRedeemList";

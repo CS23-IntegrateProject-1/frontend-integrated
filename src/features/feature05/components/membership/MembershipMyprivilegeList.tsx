@@ -1,3 +1,5 @@
+
+/* eslint-disable react-hooks/exhaustive-deps */
 import { HStack } from "@chakra-ui/react";
 import IMyprivilege from "../../../../interfaces/Redeem/IMyprivilege";
 import { Axios } from "../../../../AxiosInstance";

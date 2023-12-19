@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Text, Button } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import IVoucherDetail from "../../../../interfaces/Voucher/IVoucherDetail";

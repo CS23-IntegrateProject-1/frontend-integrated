@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Stack, Tab, TabList, Tabs, VStack } from "@chakra-ui/react";
 import { MyRewardsCard } from "../../components/membership/MyRewardsCard";
 import { useState, useEffect } from "react";
