@@ -21,28 +21,26 @@ interface MenuDetailProps {
   description: string;
 }
 
-
 export const CartMenuDetail: FC = () => {
   const [AmountInCart, setAmountInCart] = useState(0);
   const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
   const { id } = useParams();
-useEffect(() => {
-  const fetchMenuDetail = async () => {
-    console.log("Fetching menu detail...");
-    try {
-      const response = await Axios.get(`/feature4/menu/${id}}`);
-      console.log("Response:", response);
-      console.log("Response data:", response.data);
-      setMenuData(response.data);
-    } catch (error) {
-      console.error("Error fetching menu details:", error);
-    }
-  };
+  useEffect(() => {
+    const fetchMenuDetail = async () => {
+      console.log("Fetching menu detail...");
+      try {
+        const response = await Axios.get(`/feature4/menu/${id}}`);
+        console.log("Response:", response);
+        console.log("Response data:", response.data);
+        setMenuData(response.data);
+      } catch (error) {
+        console.error("Error fetching menu details:", error);
+      }
+    };
 
-  fetchMenuDetail();
-}, [id]);console.log("ID from useParams:", id);
-
-
+    fetchMenuDetail();
+  }, [id]);
+  console.log("ID from useParams:", id);
 
   const increaseAmount = () => {
     setAmountInCart(AmountInCart + 1);
@@ -57,6 +55,35 @@ useEffect(() => {
   const buttonBgColor = AmountInCart > 0 ? "brand.200" : "gray.300";
 
   console.log("menuData:", menuData);
+
+  const handleAddToCart = async () => {
+    try {
+      if (AmountInCart > 0) {
+        const response = await Axios.post(`/feature4/addItemToCookie/${id}`, {
+          name: menuData?.name,
+          price: menuData?.price,
+          quantity: AmountInCart,
+        });
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+    // const cart = localStorage.getItem("cart");
+    // const cartObj = cart ? JSON.parse(cart) : {};
+    // const cartItem = cartObj[menuid];
+    // const newCartObj = {
+    //   ...cartObj,
+    //   [menuid]: {
+    //     ...cartItem,
+    //     name: menuItem.name,
+    //     price: menuItem.price,
+    //     amount: cartItem ? cartItem.amount + amount : amount,
+    //   },
+    // };
+    // localStorage.setItem("cart", JSON.stringify(newCartObj));
+    // setAmount(0);
+  };
 
   return (
     <Box>
@@ -84,7 +111,13 @@ useEffect(() => {
             </HStack>
             <Text {...textStyles.body2}>{menuData.description}</Text>
           </VStack>
-          <HStack p={2} position="absolute" bottom="0" width="100%" spacing={15}>
+          <HStack
+            p={2}
+            position="absolute"
+            bottom="0"
+            width="100%"
+            spacing={15}
+          >
             <HStack>
               <Box
                 border="solid"
@@ -125,6 +158,7 @@ useEffect(() => {
               text="Add To Cart"
               bgColor={buttonBgColor}
               isDisabled={AmountInCart === 0}
+              onClick={handleAddToCart}
             />
           </HStack>
         </>
