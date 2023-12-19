@@ -16,7 +16,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -25,13 +24,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BiImageAdd } from "react-icons/bi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { VoucherType } from "../../components/businessVoucherCom/VoucherType";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { GetEachVoucher } from "../../../../api/Voucher/GetEachVoucher";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface VoucherType {
-  voucher_name: string;
+  voucherName: string;
   start_date: string;
   end_date: string;
   description: string;
@@ -106,6 +106,8 @@ export const VoucherEditPage = () => {
       limitation: 0,
     },
   });
+  const toast = useCustomToast();
+
   if (voucherDiscount.status === "loading") {
     return <span>Loading...</span>;
   }
@@ -114,18 +116,67 @@ export const VoucherEditPage = () => {
     return <div>An error occurred: {voucherDiscount.error.message}</div>;
   }
 
-  const handleClickSubmit = () => {
-    
-    
-    navigate("/business/voucher");
+  // const handleClickSubmit = () => {
+  //   navigate("/business/voucher");
 
-
-
-
-
-
-
-
+  // };
+  const handleClickSubmit = async () => {
+    if (
+      voucher.voucherName == "" ||
+      voucher.description == "" ||
+      voucher.start_date == "" ||
+      voucher.end_date == "" ||
+      // voucher.point_use == "" ||
+      voucher.venueId == 0 ||
+      voucher.isApprove == "" ||
+      voucher.voucher_image == "" ||
+      voucher.voucherType == "" ||
+      voucher.Discount_voucher.fix_discount == 0 ||
+      voucher.Discount_voucher.minimum_spend == 0 ||
+      voucher.Discount_voucher.percent_discount == 0 ||
+      voucher.Discount_voucher.limitation == 0
+    ) {
+      toast.warning("Please fill all the fields");
+      onClose();
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("voucherName", voucher.voucherName);
+      formData.append("description", voucher.description);
+      formData.append("start_date", voucher.start_date);
+      formData.append("end_date", voucher.end_date);
+      // formData.append("point_use", voucher.point_use);
+      formData.append("venueId", voucher.venueId.toString());
+      formData.append("isApprove", voucher.isApprove);
+      formData.append("voucher_image", voucher.voucher_image);
+      formData.append("voucherType", voucher.voucherType);
+      formData.append(
+        "Discount_voucher.fix_discount",
+        voucher.Discount_voucher.fix_discount.toString()
+      );
+      formData.append(
+        "Discount_voucher.minimum_spend",
+        voucher.Discount_voucher.minimum_spend.toString()
+      );
+      formData.append(
+        "Discount_voucher.percent_discount",
+        voucher.Discount_voucher.percent_discount.toString()
+      );
+      formData.append(
+        "Discount_voucher.limitation",
+        voucher.Discount_voucher.limitation.toString()
+      );
+      const response = await Axios.post(`feature5/AllVoucher`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data); // Log the response data}
+      navigate("/business/voucher");
+    } catch (err) {
+      console.error("Error submitting promotion:", err);
+    }
   };
 
   const deleteVoucher = async () => {
@@ -175,21 +226,12 @@ export const VoucherEditPage = () => {
     >
   ) => {
     const { name, value } = e.target;
-    if (name.startsWith("discountVoucher.")) {
+    if (name.startsWith("Discount_voucher.")) {
       const typeField = name.split(".")[1];
       setVoucher((prevVoucher) => ({
         ...prevVoucher,
-        discountVoucher: {
-          ...prevVoucher.discountVoucher,
-          [typeField]: value,
-        },
-      }));
-    } else if (name.startsWith("giftVoucher.")) {
-      const typeField = name.split(".")[1];
-      setVoucher((prevVoucher) => ({
-        ...prevVoucher,
-        giftVoucher: {
-          ...prevVoucher.giftVoucher,
+        Discount_voucher: {
+          ...prevVoucher.Discount_voucher,
           [typeField]: value,
         },
       }));
@@ -200,21 +242,57 @@ export const VoucherEditPage = () => {
       }));
     }
   };
+  //   if (name.startsWith("discountVoucher.")) {
+  //     const typeField = name.split(".")[1];
+  //     setVoucher((prevVoucher) => ({
+  //       ...prevVoucher,
+  //       discountVoucher: {
+  //         ...prevVoucher.discountVoucher,
+  //         [typeField]: value,
+  //       },
+  //     }));
+  //   } else if (name.startsWith("giftVoucher.")) {
+  //     const typeField = name.split(".")[1];
+  //     setVoucher((prevVoucher) => ({
+  //       ...prevVoucher,
+  //       giftVoucher: {
+  //         ...prevVoucher.giftVoucher,
+  //         [typeField]: value,
+  //       },
+  //     }));
+  //   } else {
+  //     setVoucher((prevVoucher) => ({
+  //       ...prevVoucher,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
 
   const handleArrowUp = () => {
     setVoucher((prevVoucher) => ({
       ...prevVoucher,
-      limitation: voucher.limitation + 1,
+      Discount_voucher: {
+        ...prevVoucher.Discount_voucher,
+        limitation: prevVoucher.Discount_voucher.limitation + 1,
+      },
     }));
   };
+  // const handleArrowUp = () => {
+  //   setVoucher((prevVoucher) => ({
+  //     ...prevVoucher,
+  //     limitation: voucher.limitation + 1,
+  //   }));
+  // };
 
   const handleArrowDown = () => {
     setVoucher((prevVoucher) => ({
       ...prevVoucher,
-      limitation: voucher.limitation - 1,
+      Discount_voucher: {
+        ...prevVoucher.Discount_voucher,
+        limitation: prevVoucher.Discount_voucher.limitation - 1,
+      },
     }));
   };
-
   return (
     <Container>
       <form>
@@ -222,7 +300,7 @@ export const VoucherEditPage = () => {
           <FormLabel style={TextStyle.h2}>Vocher name *</FormLabel>
           <Input
             name="voucherName"
-            value={voucher.voucher_name}
+            value={voucher.voucherName}
             onChange={handleChange}
             bg={"#390b74"}
             border={"none"}
@@ -274,8 +352,8 @@ export const VoucherEditPage = () => {
           <FormLabel style={TextStyle.h2}>Limitation *</FormLabel>
           <InputGroup>
             <Input
-              name="limitation"
-              value={voucher.voucherType.limitation}
+              name="Discount_voucher.limitation" // Update the name to include the nested property
+              value={voucher.Discount_voucher.limitation} // Access the nested property directly
               onChange={handleChange}
               type={"number"}
               bg={"#390b74"}

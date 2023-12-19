@@ -93,12 +93,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Name *
         </Text>
-        {/* <Input
-          variant="name"
-          placeholder="Filled"
-          style={{ width: "auto" }}
-          color={"black"}
-        /> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.name}
@@ -119,12 +113,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Description *
         </Text>
-        {/* <Textarea
-          variant="name"
-          placeholder="Filled"
-          width="auto"
-          color={"black"}
-        /> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.description}
@@ -270,17 +258,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Target group
         </FormLabel>
-        {/* <Select
-          bgColor={"#FFFFFF"}
-          borderColor={"#FFFFFF"}
-          placeholder=" "
-          iconColor="black"
-        >
-          <option value="option1">Teen</option>
-          <option value="option2">young Adult</option>
-          <option value="option3">adult</option>
-          <option value="option4">elder</option>
-        </Select> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.target_group}
@@ -300,13 +277,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Advertisement plan
         </Text>
-        {/* <RadioGroup defaultValue="2">
-          <Stack spacing={1} direction="column">
-            <Radio value="1">100 Baht/Week</Radio>
-            <Radio value="2">300 Baht/Month</Radio>
-            <Radio value="3">3,600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.cost}

@@ -436,7 +436,12 @@ export const PromotionCreatePage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+            <Image
+              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+              src={imagePreview}
+              alt={"image"}
+              width={"100%"}
+            ></Image>
           </Box>
         </FormControl>
       ) : (
