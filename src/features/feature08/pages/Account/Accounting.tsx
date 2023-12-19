@@ -289,6 +289,59 @@ export const Accounting = () => {
                 </Stack>
               </CardBody>
             </Card>
+            return (
+						<Link to={`/${venueId}/Account/${year}/${month}`}>
+							<Box key={date} marginBottom={4}>
+								<Card
+									width={"100%"}
+									backgroundColor={"#D9D9D9"}
+									color={"black"}>
+									<CardBody textAlign="center">
+										<Stack
+											divider={<StackDivider />}
+											color={"#C5C4C7"}>
+											<TableContainer>
+												<Table variant="unstyled">
+													<Thead>
+														<Tr borderBottom="none">
+															<Th
+																textAlign="center"
+																style={
+																	TextStyle.h4
+																}
+																color="black">
+																{date}
+															</Th>
+															<Th
+																textAlign="center"
+																style={
+																	TextStyle.h1
+																}
+																color="black">
+																{data.total}
+																<Text
+																	textAlign="center"
+																	display="inline-block"
+																	marginLeft={
+																		2
+																	}
+																	style={
+																		TextStyle.h4
+																	}
+																	color="black">
+																	Baht
+																</Text>
+															</Th>
+														</Tr>
+													</Thead>
+												</Table>
+											</TableContainer>
+										</Stack>
+									</CardBody>
+								</Card>
+							</Box>
+						</Link>
+					);
           </Link>
         );
       })}
