@@ -157,7 +157,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         marginLeft={"-12px"}
       >
         {isReview === false && status === "Check_out" ? (
-          <Link to={`/review/${venueId}/${reservationId}`}>
+          // <Link to={`/review/${venueId}/${reservationId}`}>
             <Button
               width="60px"
               height="30px"
@@ -169,7 +169,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
             >
               Review
             </Button>
-          </Link>
+          // </Link>
         ) : isReview === true && status === "Check_out" ? (
           <Box
             width="60px"
