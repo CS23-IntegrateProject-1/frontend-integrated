@@ -12,19 +12,61 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 interface Advertisement extends ModalProps {
-  id: number;
+  advertisementId: number;
   name: string;
-  location: string;
-  numberOfEmployee: number;
+  description: string;
+  image_url: string;
+  cost: number;
+  start_date: string;
 }
 
 export function Advertisement({ isOpen = true, onClose = () => {} }) {
+
+  const {
+    isLoading: advertisementLoading,
+    isError: advertisementError,
+    data: advertisementData,
+  } = useQuery<Advertisement[]>({
+    queryKey: ["getSliderAD"], 
+    queryFn: async () => {
+      const { data } = await Axios.get(`/feature5/AllCompleteAdBSN`);
+      return data;
+    },
+  });
+
+  if (advertisementLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (advertisementError) {
+    return <span>An error occurred: </span>;
+  }
+
+  const sortedAdvertisementData = advertisementData.sort((a, b) => {
+    // Sort by cost in descending order
+    if (a.cost !== b.cost) {
+      return b.cost - a.cost;
+    }
+    // If cost is the same, sort by start_date in ascending order
+    return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
+  });
+  
+  const selectedAdvertisement = sortedAdvertisementData[0]; // Get the first element
+
   return (
     <Modal
       isOpen={isOpen}
@@ -40,23 +82,23 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
         justifyContent="center"
         rounded="3xl"
       >
-        <ModalBody p={0}>
+        <ModalBody p={0} px={0}>
           <Image
-            src="https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg"
+            src={selectedAdvertisement.image_url}
             alt="Pic not load"
             w="100%"
+            maxW={{base:"350px", lg:"1000px"}}
             h="100%"
-            maxH={{base:"200px", lg:"300px"}}
+            maxH={{base:"200px", lg:"330px"}}
             objectFit={"cover"}
             rounded="3xl"
           />
-          <Box mx={{base:"4", lg:"6"}} mt="4">
+          <Box mx={{ base: "4", lg: "6" }} mt="3">
             <Heading fontWeight="bold" fontSize={{ base: "25px", lg: "30px" }}>
-              Advertisement
+              {selectedAdvertisement.name}
             </Heading>
-            <Text fontSize={"sm"} mt="1">
-              Placeholder text advertisement detail buy my merch click the link
-              the description to buy my products free giveaway
+            <Text fontSize={"sm"} fontWeight="normal" mt="1" textColor={"grey.200"}>
+              {selectedAdvertisement.description}
             </Text>
           </Box>
         </ModalBody>
@@ -71,23 +113,10 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
                 bgColor: "brand.100",
                 borderColor: "black",
               }}
-              mr={{base:"5", lg:"10"}}
               w={{base:"125px", lg:"180px"}}
               onClick={onClose}
             >
               Dismiss
-            </Button>
-            <Button
-              variant="solid"
-              textColor="white"
-              bgColor="brand.200"
-              _hover={{
-                textColor: "black",
-                bgColor: "brand.100",
-              }}
-              w={{base:"125px", lg:"180px"}}
-            >
-              Go!
             </Button>
           </Flex>
         </ModalFooter>
