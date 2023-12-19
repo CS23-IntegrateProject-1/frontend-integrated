@@ -170,7 +170,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     formData.append('description', editFormData.description);
     formData.append('price', editFormData.price);
     if (selectedFile) {
-      formData.append('menuImage', selectedFile);
+      formData.append('file', selectedFile);
     }
 
     try {
@@ -368,7 +368,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
                  borderColor="brand.300"
                  bgColor="brand.300"
                  style={{
-                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image_url})`,
+                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` as string : undefined,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
