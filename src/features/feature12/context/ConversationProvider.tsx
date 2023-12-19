@@ -1,16 +1,7 @@
-import React, { useContext, FC, useState, useEffect, useCallback} from "react";
+import React, { useContext,useState, useEffect, createContext} from "react";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";
 import { Axios } from "../../../AxiosInstance";
-interface ConversationsProviderProps {
-  children: React.ReactNode;
-}
-interface ConversationContextValue {
-  conversations: Conversation[];
-  openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
-  sendMessage: (message: SendMessageParams) => void;
-  selectedConversation: Conversation | undefined;
-}
 
 interface Recipient {
   member: {
@@ -21,7 +12,6 @@ interface Recipient {
   },
   memberId: number;
 }
-
 interface Conversation {
   group_name: string;
   group_profile: string;
@@ -35,24 +25,41 @@ interface Message {
   text: string;
   sender: string;
   fromMe: boolean;
+  id: number;
 }
-
 interface SendMessageParams {
   recipients: Recipient[];
   id: number;
   text: string;
   sender: string;
 }
+interface ProviderProps {
+  children: React.ReactNode;
+}
+interface ConversationContextValue {
+  conversations: Conversation[] ;
+  openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
+  sendMessage: (message: SendMessageParams) => void;
+  selectedConversation: Conversation | undefined;
+  setSelectedConversation: React.Dispatch<React.SetStateAction<Conversation | undefined>>;
+  socket: Socket | undefined;
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+const ConversationsContext = createContext<ConversationContextValue>({
+  conversations: [],
+  openConversation: () => {},
+  sendMessage: () => {},
+  selectedConversation: undefined,
+  setSelectedConversation: () => {},
+  socket: undefined,
+  messages: [],
+  setMessages: () => {},
+});
 
-const ConversationsContext = React.createContext<
-  ConversationContextValue | undefined
->(undefined);
-
-export const ConversationsProvider: FC<ConversationsProviderProps> = ({
-  children,
-}) => {
+export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
+    const [messages,setMessages] = useState<Message[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation>();
-
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const user = useContext(UserContext);
   const [socket, setSocket] = useState<Socket>();
@@ -72,7 +79,6 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   //To get all the privateConversationLog
   useEffect(() => {
     Axios.get("/feature12/displayGroupDetail").then((res) => {
-      setConversations([]);
       const newConversations = res.data.map((group: Conversation) => ({
         group_name: group.group_name,
         group_profile: group.group_profile,
@@ -82,85 +88,19 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         selected: false,
       }));
 
-      setConversations((prevConversations) => [
-        ...prevConversations,
-        ...newConversations,
-      ]);
+      setConversations(newConversations);
     });
   }, [socket]);
 
-  function openConversation(recipients: Recipient[], group_name: string, id: number) {
-    console.log("recipients", recipients);
-    console.log(conversations + "<< conversations");
-    socket?.emit("join-room", { recipients, group_name,id });
-    
-    //Get Specific Coversation
-    Axios.get(`/feature12/displayChatDetail/${id}`).then((res) => {
-      const newConversation = {
-        group_name: res.data.group_name,
-        group_profile: res.data.group_profile,
-        id: res.data.id,
-        members: res.data.members,
-        messages: [],
-        selected: true,
-      };
-      setSelectedConversation(newConversation);
-    });
-  }
+  const openConversation = (recipients: Recipient[], group_name: string, id: number) => {
+    socket?.emit("join-room", { recipients, group_name, id });
+  };
 
   const sendMessage = (
     { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
     ) => {
     socket?.emit("send-message", { recipients, text, id, sender });
-    addMessageToConversation({ recipients, text, sender});
-    console.log("selectedConversation after sending", selectedConversation?.messages);
   };
-
-  useEffect(() => {
-    console.log("selectedConversation", selectedConversation);
-  }
-  , [selectedConversation?.messages]);
-const addMessageToConversation = useCallback(({
-  recipients,
-  text,
-  sender,
-}: {
-  recipients: Recipient[];
-  text: string;
-  sender: string;
-}) => {
-  if(selectedConversation){
-      setSelectedConversation(
-        {...selectedConversation,
-          messages: [...selectedConversation.messages, { recipients, text, sender, fromMe: sender === user.username }]
-        });
-  //     selectedConversation.messages.push({
-  //     recipients,
-  //     text,
-  //     sender,
-  //     fromMe: sender === user.username,
-  // })
-  }
-}, [selectedConversation,user.username]);
-  // Socket Recieve message event listener
-  useEffect(() => {
-    if (socket == null) {
-      console.log("socket is null");
-      return;
-    }
-    socket.on("receive-message", ({ recipients, text, sender }) => {
-      // addMessageToConversation({ recipients, text, sender });
-      if(selectedConversation){
-      setSelectedConversation(
-        {...selectedConversation,
-          messages: [...selectedConversation.messages, { recipients, text, sender, fromMe: sender === user.username }]
-        });
-      }
-    });
-    return () => {
-      socket.off("receive-message");
-    };
-  }, [socket,addMessageToConversation]);
 
   return (
     <ConversationsContext.Provider
@@ -169,21 +109,15 @@ const addMessageToConversation = useCallback(({
         openConversation,
         sendMessage,
         selectedConversation,
-      }}
-    >
+        setSelectedConversation,
+        socket,
+        messages,
+        setMessages
+      }}>
       {children}
     </ConversationsContext.Provider>
   );
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useConversations() {
-  const context = useContext(ConversationsContext);
-
-  if (!context || context instanceof Error) {
-    throw new Error(
-      "useConversations must be used within a ConversationsProvider"
-    );
-  }
-  return context;
-}
+export const useConversations = () => useContext(ConversationsContext);

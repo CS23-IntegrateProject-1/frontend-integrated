@@ -10,7 +10,7 @@ import {
   VStack,
   Flex,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { BiSolidCamera } from "react-icons/bi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { Form } from "react-router-dom";
@@ -45,7 +45,7 @@ interface LoadMessage {
 export default function Conversation() {
   const user = useContext(UserContext);
   const [text, setText] = useState<string>("");
-  const { sendMessage, selectedConversation } = useConversations();
+  const { sendMessage, selectedConversation,setSelectedConversation} = useConversations()
   const[loadMessages,setLoadMessages] = useState<LoadMessage[]>([]);
   const setRef = useCallback((node: HTMLElement | null) => {
     if (node) {
@@ -53,24 +53,28 @@ export default function Conversation() {
     }
   }, []);
   console.log(selectedConversation, "selectedConversation")
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const handleSubmit = () => {
     if(selectedConversation){
-      sendMessage({
+      const message ={
       recipients: selectedConversation.members,
       id: selectedConversation.id,
       text,
-      sender: user.username
-    });
+      sender: user.username,
+      fromMe :true,
+    }
+    sendMessage(message);
+    setSelectedConversation(
+        {...selectedConversation,
+          messages: [...selectedConversation.messages, message]
+        });
     }
     setText("");
   }
-
   useEffect(() => {
-    Axios.get(`feature12/displayAllMessage/${selectedConversation?.id}`).then((response) => {
-      setLoadMessages(response.data);
-    });
-  }, []);
+      Axios.get(`feature12/displayAllMessage/${selectedConversation?.id}`).then((response) => {
+        setLoadMessages(response.data);
+      });
+  }, [selectedConversation]);
   return (
     <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
       <Box flexGrow="1" overflow="auto">
@@ -116,7 +120,7 @@ export default function Conversation() {
             );
           })}
           {/* Each message placing for sender or receiver */}
-          {selectedConversation?.messages.map((message, index) => {
+          {/* {selectedConversation?.messages.map((message, index) => {
             const lastMessage = selectedConversation.messages.length - 1 === index;
             return (
               <Flex
@@ -148,7 +152,40 @@ export default function Conversation() {
                 </Box>
               </Flex>
             );
-          })}
+          })} */}
+          {/* {activeMessages.map((message, index) => {
+            const lastMessage = activeMessages.length - 1 === index;
+            return (
+              <Flex
+                key={index}
+                ref={lastMessage ? setRef : null}
+                my="4px"
+                display="flex"
+                flexDirection={message.fromMe ? "row-reverse" : "row"}
+                width="100%"
+              >
+                <Box flexDirection="column">
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    textAlign={message.fromMe ? "end" : "start"}
+                  >
+                    {message.sender}
+                  </Text>
+                  <Box
+                    rounded={"md"}
+                    py="1"
+                    px="2"
+                    bg={message.fromMe ? "#DEBEF6" : "red"}
+                    color={message.fromMe ? "black" : "white"}
+                    borderWidth={message.fromMe ? "0px" : "1px"}
+                  >
+                    {message.text}
+                  </Box>
+                </Box>
+              </Flex>
+            );
+          })} */}
         </VStack>
       </Box>
       <Form onSubmit={handleSubmit}>

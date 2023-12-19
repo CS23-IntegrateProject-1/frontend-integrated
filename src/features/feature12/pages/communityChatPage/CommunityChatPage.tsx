@@ -2,6 +2,7 @@ import { Box,Card,Flex,Stack,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@ch
 import Conversation from "../../components/Conversation";
 import { useConversations } from "../../context/ConversationProvider";
 import { useState } from "react";
+import { Conversation2 } from "../../components/Conversation2";
 
 interface Recipient {
   member: {
@@ -12,7 +13,13 @@ interface Recipient {
   },
   memberId: number;
 }
-
+interface Message {
+  recipients: Recipient[] | string[];
+  text: string;
+  sender: string;
+  fromMe: boolean;
+  id: number;
+}
 interface Conversation {
   group_name: string;
   group_profile: string;
@@ -21,15 +28,19 @@ interface Conversation {
   messages: Message[];
   selected?: boolean;
 }
-interface Message {
-  recipients: Recipient[] | string[];
-  text: string;
-  sender: string;
-  fromMe: boolean;
-}
 export const CommunityChatPage = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
-  const { conversations, openConversation,selectedConversation} = useConversations();
+  const { conversations, openConversation,selectedConversation,setSelectedConversation,setMessages } = useConversations();
+
+  const handleCardClick = (conversation: Conversation, index: number): React.MouseEventHandler<HTMLDivElement> => {
+    return () => {
+      setSelectedCard(index);
+      setSelectedConversation(conversation);
+      openConversation(conversation.members, conversation.group_name, conversation.id);
+      setMessages([]);
+    };
+  };
+  console.log(selectedConversation, "selectedConversation")
   return (
     <Box display="flex" height={"83vh"}>
       <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"}> 
@@ -44,8 +55,7 @@ export const CommunityChatPage = () => {
                 {conversations.map((conversation : Conversation, index : number) => (
                   <Card
                     key={index}
-                    onClick={() => {openConversation(conversation.members, conversation.group_name,conversation.id);
-                    setSelectedCard(index);}}
+                    onClick={handleCardClick(conversation,index)}
                     background={selectedCard === index ? "#DEBEF6" : "transparent"}>
                       <Flex margin={"10px"}>
                         <Text color={"white"}>
@@ -64,8 +74,10 @@ export const CommunityChatPage = () => {
         </Tabs>
       </Box>
       <Box width="75%">
-        {selectedConversation ? <Conversation /> : <Text>Select a conversation</Text>}
-        </Box>
+        {selectedCard !== null ? 
+          (selectedConversation && <Conversation2 id={selectedConversation.id} members={selectedConversation.members} />)
+          : <Text>Select a conversation</Text>}
+      </Box>
     </Box>
   )
 };
