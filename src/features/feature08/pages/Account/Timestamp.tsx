@@ -128,7 +128,8 @@ export const Timestamp = () => {
               <CardBody textAlign="center">
                 <Stack divider={<StackDivider />} color={"#C5C4C7"}>
                   <Box>
-                  <Link to={`/${venueId}/Account/Checkbill/${appTransactionDetailId}`}>
+                    {/* /business/Account/Checkbill/:venueId/:appTransactionDetailId */}
+                  <Link to={`/business/Account/Checkbill/${venueId}/${appTransactionDetailId}`}>
                     <TableContainer>
                       <Table width="100%" variant="unstyled">
                         <Thead>
