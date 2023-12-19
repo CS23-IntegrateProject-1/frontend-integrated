@@ -1,9 +1,9 @@
 import { Axios } from "../../AxiosInstance";
 
-export const GetPromotionById = (id: number) => {
+export const GetPromotionById = async (id: number) => {
 	try {
-		const response = Axios.get(`/feature5/promotion/${id}`);
-		return response;
+		const response = await Axios.get(`/feature5/AllPromotion/${id}`);
+		return response.data;
 	} catch (e) {
 		console.log(e);
 	}

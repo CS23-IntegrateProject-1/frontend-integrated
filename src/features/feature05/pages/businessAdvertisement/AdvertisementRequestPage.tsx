@@ -99,11 +99,13 @@ export const AdvertisementRequestPage = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      console.log(e.target.files);
       setFile(e.target.files[0]);
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
     }
   };
+
   const handleCloseImage = () => {
     setImagePreview(null);
   };
@@ -115,28 +117,51 @@ export const AdvertisementRequestPage = () => {
     };
   }, [imagePreview]);
 
-  const handleSubmit = async () => {
-    console.log(advertise);
+  // const handleSubmit = async () => {
+  //   console.log(advertise);
 
+  //   try {
+  //     // Ensure this ID is valid
+  //     console.log("Formatted Start Date:", formattedStartDate);
+  //     console.log("Formatted End Date:", formattedEndDate);
+  //     console.log(advertise);
+  //     console.log(`Sending request to /AdBSN`);
+  //     const response = await Axios.post(`feature5/AdBSN`, {
+  //       ...advertise,
+  //       //advertisementPlan: Number(advertise.cost),
+  //       Tags: [],
+  //       start_date: formattedStartDate,
+  //       end_date: formattedEndDate,
+  //     });
+  //     console.log(response.data); // Log the response data
+  //     navigate("/business/advertisement/status");
+  //   } catch (err) {
+  //     console.error("Error submitting advertisement:", err);
+  //   }
+  // };
+  const handleSubmit = async () => {
     try {
-      // Ensure this ID is valid
-      console.log("Formatted Start Date:", formattedStartDate);
-      console.log("Formatted End Date:", formattedEndDate);
-      console.log(advertise);
-      console.log(`Sending request to /AdBSN`);
-      const response = await Axios.post(`feature5/AdBSN`, {
-        ...advertise,
-        //advertisementPlan: Number(advertise.cost),
-        Tags: [],
-        start_date: formattedStartDate,
-        end_date: formattedEndDate,
-      });
-      console.log(response.data); // Log the response data
+      const formData = new FormData();
+      formData.append("name", advertise.name);
+      formData.append("description", advertise.description);
+      formData.append("start_date", formattedStartDate || "");
+      formData.append("end_date", formattedEndDate || "");
+      formData.append("customer_type", advertise.customer_type);
+      formData.append("target_group", advertise.target_group);
+      formData.append("cost", advertise.cost.toString());
+      if (file) {
+        formData.append("file", file);
+      }
+
+      // Make your Axios post request with formData
+      const response = await Axios.post(`feature5/AdBSN`, formData);
+      console.log(response.data);
       navigate("/business/advertisement/status");
     } catch (err) {
       console.error("Error submitting advertisement:", err);
     }
   };
+
   console.log(advertise);
 
   return (
@@ -282,7 +307,12 @@ export const AdvertisementRequestPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+            <Image
+              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+              src={imagePreview}
+              alt={"image"}
+              width={"100%"}
+            ></Image>
           </Box>
         </FormControl>
       ) : (

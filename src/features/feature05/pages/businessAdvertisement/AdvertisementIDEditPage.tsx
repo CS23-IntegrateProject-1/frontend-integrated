@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -38,13 +39,9 @@ interface AdvertisementProps {
 }
 export const AdvertisementIDEditPage = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const deleteModal = useDisclosure();
   const submitModal = useDisclosure();
-  const handleClickSubmit = () => {
-    navigate("/business/advertisement/status");
-  };
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
@@ -57,9 +54,7 @@ export const AdvertisementIDEditPage = () => {
     targetGroup: "",
     advertisementPlan: 0,
   });
-  // const handleClick = () => {
-  // 	navigate("/business/advertisement/status");
-  // };
+
   console.log(file);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -68,9 +63,11 @@ export const AdvertisementIDEditPage = () => {
       setImagePreview(previewURL);
     }
   };
+
   const handleCloseImage = () => {
     setImagePreview(null);
   };
+
   useEffect(() => {
     fetchPlaceHolder();
     return () => {
@@ -78,16 +75,11 @@ export const AdvertisementIDEditPage = () => {
         URL.revokeObjectURL(imagePreview);
       }
     };
-  });
+  }, []);
 
   const fetchPlaceHolder = async () => {
     try {
       const { data } = await Axios.get(`/feature5/AdBSN/${id}`);
-
-      console.log(data);
-
-      console.log(advertise);
-
       setAdvertise((prevAdvertise) => ({
         ...prevAdvertise,
         name: data.name,
@@ -99,10 +91,26 @@ export const AdvertisementIDEditPage = () => {
         targetGroup: data.target_group,
         advertisementPlan: parseInt(data.cost),
       }));
-
-      console.log(advertise);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const deleteAdvertisement = async () => {
+    try {
+      const result = await Axios.delete(`/feature5/DeleteAdBSN/${id}`);
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error deleting advertisement:", error);
+    }
+  };
+
+  const handleClickSubmit = async () => {
+    try {
+      await deleteAdvertisement();
+      navigate("/business/advertisement/status");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -114,7 +122,6 @@ export const AdvertisementIDEditPage = () => {
       alignItems={"center"}
       width={"100%"}
     >
-      {/* Name * */}
       <FormControl
         isRequired
         paddingBottom={3}
@@ -135,11 +142,10 @@ export const AdvertisementIDEditPage = () => {
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          type="email"
+          type="text"
+          onChange={(e) => setAdvertise({ ...advertise, name: e.target.value })}
         />
       </FormControl>
-
-      {/* Description * */}
       <FormControl
         isRequired
         paddingBottom={3}
@@ -160,11 +166,12 @@ export const AdvertisementIDEditPage = () => {
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          type="email"
+          type="text"
+          onChange={(e) =>
+            setAdvertise({ ...advertise, description: e.target.value })
+          }
         />
       </FormControl>
-
-      {/* Starting Date * & Ending Date * */}
       <FormControl
         isRequired
         paddingBottom={3}
@@ -187,7 +194,13 @@ export const AdvertisementIDEditPage = () => {
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
-            //value={advertise.startingDate} //TONG WILL DO IT
+            value={(advertise.startingDate + "").substring(0, 10)}
+            onChange={(e) =>
+              setAdvertise({
+                ...advertise,
+                startingDate: new Date(e.target.value),
+              })
+            }
           />
         </Box>
 
@@ -204,13 +217,16 @@ export const AdvertisementIDEditPage = () => {
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
-            //TONG WILL DO IT
-            //value
+            value={(advertise.endingDate + "").substring(0, 10)}
+            onChange={(e) =>
+              setAdvertise({
+                ...advertise,
+                endingDate: new Date(e.target.value),
+              })
+            }
           />
         </Box>
       </FormControl>
-
-      {/* Image */}
       {imagePreview ? (
         <FormControl
           isRequired
@@ -277,7 +293,7 @@ export const AdvertisementIDEditPage = () => {
                 height={"100%"}
                 w={"100%"}
                 pos={"absolute"}
-              ></Input>
+              />
               <Icon
                 as={BiImageAdd}
                 color={"#FFFFFF"}
@@ -288,8 +304,6 @@ export const AdvertisementIDEditPage = () => {
           </Stack>
         </FormControl>
       )}
-
-      {/* Target customer */}
       <FormControl
         isRequired
         width="50%"
@@ -303,9 +317,16 @@ export const AdvertisementIDEditPage = () => {
           {" "}
           Target customer
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">All</option>
-          <option value="option2">Member</option>
+        <Select
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          value={advertise.targetCustomer}
+          onChange={(e) =>
+            setAdvertise({ ...advertise, targetCustomer: e.target.value })
+          }
+        >
+          <option value="All">All</option>
+          <option value="Member">Member</option>
         </Select>
       </FormControl>
 
@@ -323,11 +344,23 @@ export const AdvertisementIDEditPage = () => {
           {" "}
           Target group
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">Teen</option>
-          <option value="option2">young Adult</option>
-          <option value="option3">adult</option>
-          <option value="option4">elder</option>
+        <Select
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=" "
+          onChange={(e) =>
+            setAdvertise({ ...advertise, targetGroup: e.target.value })
+          }
+          value={
+            advertise.targetGroup === "Young adult"
+              ? "Young_adult"
+              : advertise.targetGroup
+          }
+        >
+          <option value="Teen">Teen</option>
+          <option value="Young_adult">Young Adult</option>
+          <option value="Adult">Adult</option>
+          <option value="Elder">Elder</option>
         </Select>
       </FormControl>
 
@@ -345,11 +378,16 @@ export const AdvertisementIDEditPage = () => {
           {" "}
           Advertisement plan
         </FormLabel>
-        <RadioGroup defaultValue="2">
+        <RadioGroup
+          value={advertise.advertisementPlan.toString()}
+          onChange={(value) =>
+            setAdvertise({ ...advertise, advertisementPlan: parseInt(value) })
+          }
+        >
           <Stack spacing={1} direction="column">
-            <Radio value="1">100 Baht/Week</Radio>
-            <Radio value="2">300 Baht/Month</Radio>
-            <Radio value="3">3600 Baht/Year</Radio>
+            <Radio value="100">100 Baht/Week</Radio>
+            <Radio value="300">300 Baht/Month</Radio>
+            <Radio value="3600">3600 Baht/Year</Radio>
           </Stack>
         </RadioGroup>
       </FormControl>
