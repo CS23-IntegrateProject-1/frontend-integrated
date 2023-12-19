@@ -25,6 +25,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface AdvertisementProps {
   name: string;
@@ -41,6 +42,8 @@ export const AdvertisementRequestPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const toast = useCustomToast();
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
     name: "",
     description: "",
@@ -51,11 +54,11 @@ export const AdvertisementRequestPage = () => {
     target_group: "Teen",
     cost: 300,
   });
-  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
-    null
-  );
-  console.log(file);
-  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
+  // const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+  //   null
+  // );
+  // console.log(file);
+  // const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
   // const handleChange = (
   // 	e: React.ChangeEvent<
   // 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -117,28 +120,58 @@ export const AdvertisementRequestPage = () => {
   }, [imagePreview]);
 
   const handleSubmit = async () => {
+    if (
+      advertise.name == "" ||
+      advertise.description == "" ||
+      //  voucher.voucherImage == "" ||
+      advertise.start_date == "" ||
+      advertise.end_date == ""||
+      advertise.customer_type == "" ||
+      advertise.target_group == "" ||
+      image == null
+    ) {
+      toast.warning("Please fill all the fields");
+      onClose();
+      return;
+    }
     console.log(advertise);
 
     try {
       // Ensure this ID is valid
-      console.log("Formatted Start Date:", formattedStartDate);
-      console.log("Formatted End Date:", formattedEndDate);
-      console.log(advertise);
-      console.log(`Sending request to /AdBSN`);
-      const response = await Axios.post(`feature5/AdBSN`, {
-        ...advertise,
-        //advertisementPlan: Number(advertise.cost),
-        Tags: [],
-        start_date: formattedStartDate,
-        end_date: formattedEndDate,
+      const formData = new FormData();
+      formData.append("name", advertise.name);
+      formData.append("description", advertise.description);
+      formData.append("start_date", advertise.start_date.toString());
+      formData.append("end_date", advertise.end_date.toString());
+      formData.append("cost", advertise.cost.toString());
+      formData.append("isApprove", advertise.isApprove.toString());
+      formData.append("isApprove", advertise.customer_type.toString());
+      formData.append("isApprove", advertise.target_group.toString());
+      // formData.append(advertise);
+      // console.log(`Sending request to /AdBSN`);
+      // const response = await Axios.post(`feature5/AdBSN`, {
+      //   ...advertise,
+      //   //advertisementPlan: Number(advertise.cost),
+      //   Tags: [],
+      //   start_date: formattedStartDate,
+      //   end_date: formattedEndDate,
+      // });
+      if (image) {
+        formData.append("file", image);
+      }
+      const response = await Axios.post(`feature5/Voucher`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+
       console.log(response.data); // Log the response data
       navigate("/business/advertisement/status");
     } catch (err) {
       console.error("Error submitting advertisement:", err);
     }
   };
-  console.log(advertise);
+  
 
   return (
     <Box
@@ -497,3 +530,11 @@ export const AdvertisementRequestPage = () => {
     </Box>
   );
 };
+function setFormattedStartDate(formattedValue: string) {
+  throw new Error("Function not implemented.");
+}
+
+function setFormattedEndDate(formattedValue: string) {
+  throw new Error("Function not implemented.");
+}
+
