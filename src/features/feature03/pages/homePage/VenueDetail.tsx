@@ -133,13 +133,16 @@ export const VenueDetail: FC = () => {
         borderColor={"brand.100"}
         opacity={"100%"}
       />
-
+      
+        {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      <NavLink to={`/AvaliableVouchers/${branchId}`}>
       <Box display={"flex"} pt={6}>
         <Text fontSize={"2xl"} fontWeight={"bold"}>
           Avaliable Vouchers
         </Text>
         <ChevronRightIcon fontSize="4xl" ml={"auto"} />
       </Box>
+      </NavLink>
 
       <Flex>
         <Box
