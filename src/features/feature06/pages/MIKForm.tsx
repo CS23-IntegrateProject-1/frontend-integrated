@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -20,7 +21,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  Location: {
+  location: {
     locationId: number;
     name: string;
     latitude: string;
@@ -57,7 +58,7 @@ export const MIKForm = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(1, 2);
+    const response: IData = await getVenueById(branchIdInt, venueIdInt);
     console.log(response);
     setData(response);
   };
@@ -129,7 +130,7 @@ export const MIKForm = () => {
       >
         <RDetailCard
           name={data?.name}
-          location={data?.Location.address}
+          location={data?.location.address}
           star={data?.score}
           image_url={data?.Venue_photo}
         />
