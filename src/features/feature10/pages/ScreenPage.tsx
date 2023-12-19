@@ -8,7 +8,6 @@ import { Axios } from "../../../AxiosInstance";
 import { MovieSeat } from "../components/MovieSeat/MovieSeat";
 import { TypeOfSeatCard } from "../components/MovieSeat/TypeOfSeat";
 
-
 interface ShowDetails {
 	show: Show;
 	startTime: string;
