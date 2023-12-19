@@ -256,7 +256,7 @@ export const Accounting = () => {
         return (
           <Link
             key={index}
-            to={`/${venueId}/Account/datexpand/${year}/${month}/${day}`}
+            to={`/business/Account/datexpand/${venueId}/${year}/${month}/${day}`}
           >
             <Card width="100%" backgroundColor="#D9D9D9" color="black">
               <CardBody textAlign="center">

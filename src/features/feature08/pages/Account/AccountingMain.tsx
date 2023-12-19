@@ -204,7 +204,7 @@ export const AccountingMain = () => {
 					</Box>
 					<Box
 						onClick={() => {
-							// /business/Account/:year/:month/:venueId
+							// /business/Account/:year/:month/:venueId /business/Account/:year/:month/:venueId
 							navigate(
 								`/business/Account/${new Date().getFullYear()}/${
 									new Date().getMonth() + 1
@@ -259,9 +259,9 @@ export const AccountingMain = () => {
 				{/* Render cards dynamically based on appTransactionByMonth */}
 				{Object.entries(aggregatedData).map(([date, data]) => {
 					const [month, year] = date.split(" ");
-
+					// /business/Account/:year/:month/:venueId
 					return (
-						<Link to={`/${venueId}/Account/${year}/${month}`}>
+						<Link to={`/business/Account/${year}/${month}/${venueId}`}>
 							<Box key={date} marginBottom={4}>
 								<Card
 									width={"100%"}
