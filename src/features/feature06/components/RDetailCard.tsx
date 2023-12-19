@@ -13,6 +13,7 @@ interface RDetailCardProps {
   location?: string;
   venueId?: number;
   src?: string;
+  
   image_url: IPhotoData[] | undefined;
 }
 

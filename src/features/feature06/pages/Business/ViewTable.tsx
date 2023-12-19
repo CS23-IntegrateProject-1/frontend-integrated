@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Text, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -47,7 +48,7 @@ export const ViewTable = () => {
   useEffect(() => {
     console.log("tableId: ", tableId);
     fetchData();
-  });
+  }, []);
 
   const fetchData = async () => {
     const response: IViewTable = await getTableByTableId(tableIdNum);

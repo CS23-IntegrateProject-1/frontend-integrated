@@ -13,12 +13,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { parseISO } from "date-fns";
+import textStyles from "../../../../theme/foundations/textStyles";
+import { TextStyle } from "../../../../theme/TextStyle";
 
 interface appTransaction {
   // Define the properties of the business insight here
@@ -36,9 +37,6 @@ interface appTransactionDetail {
   appTransactionId: number;
 }
 
-
-
-
 export const Accounting = () => {
   const [appTrans, setAppTrans] = useState();
   appTrans;
@@ -48,8 +46,6 @@ export const Accounting = () => {
   const [appTransactionByMonth, setAppTransactionByMonth] = useState<
     Record<string, unknown[]>
   >({});
-
-
 
    const formatDate12 = (datetime: string) => {
     const originalISO = parseISO(datetime);
@@ -63,7 +59,6 @@ export const Accounting = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        
         const response = await Axios.get(
           `/feature8/apptransactions/${venueId}`
         );
@@ -164,7 +159,6 @@ export const Accounting = () => {
     return aggregatedData;
   };
   
-
       const aggregatedAmountsByDate = aggregateAmountsByDate();
 
         // Filter data based on the extracted month (case-insensitive)
@@ -173,9 +167,17 @@ export const Accounting = () => {
         formattedDate.toLowerCase().includes(urlMonth.toLowerCase())
             )
           );
-
-  
-
+        
+          const todayString = () => {
+            // Display today's date
+            const today = new Date();
+            const todayString = today.toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+            return todayString;
+          };
 
         return (
           <Center>
@@ -186,6 +188,22 @@ export const Accounting = () => {
               width={["100%", "80%", "70%"]}
               gap={4}
             >
+              <Card 
+                width="337px"
+                backgroundColor="#5F0DBB66"
+                color="#C5C4C7"
+                rounded="lg"
+                padding={6}
+                marginBottom={5}
+                >
+                  <Text style={textStyles.h3} color={'white'}>
+                    Latest transfer amount
+                  </Text>
+                  <Text style={textStyles.h1} color={"white"}>
+                    THB
+                  </Text>
+                  <Text style={textStyles.h4}>{todayString()}</Text>
+              </Card> 
               <Text style={TextStyle.h1} fontWeight={"bold"}>
                 Accounting information
               </Text>
