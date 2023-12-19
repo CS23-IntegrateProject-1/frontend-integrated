@@ -36,7 +36,7 @@ export const BusSetMenuCard: FC<BusSetMenuCardProps>= ({foodName,description,pri
       <Image 
       // src="/src/features/feature07/assets/test.jpg"
       src={`${import.meta.env.VITE_BACKEND_URL}${imageUrl}`}
-      alt="integrate" 
+      alt={imageUrl ? foodName : ""}
       objectFit="cover" 
       mt={0.5}
       width="140px" 
