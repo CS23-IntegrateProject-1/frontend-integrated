@@ -188,7 +188,7 @@ export const AddFriend = () => {
             </RadioGroup>
             <Box mt={4} id="box" style={{ visibility: 'hidden' }}>
                 <Center py={2} flexDirection={'column'}>
-                    {username ? <Avatar src={userImg} size={'xl'} /> :
+                    {userImg ? <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${userImg}`}  size={'xl'} /> :
                         <Avatar src='https://bit.ly/broken-link' size={'xl'} />}
                     <Text py={2} color={'brand.200'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h2.fontWeight}>{username}</Text>
                 </Center>

@@ -41,7 +41,7 @@ export const Overview = () => {
         username:"",
         member_level:"",
         member_points:"",
-        profile_img:"",
+        avatar:"",
     });
     useEffect(() => {
         const url1 = `/feature1/profile`;
@@ -50,7 +50,7 @@ export const Overview = () => {
             if (response.status == 200) {
               //const data = response.data;
               setProfileData(response.data);
-              console.log(profileData);
+              console.log(profileData.avatar);
             }
           })
           .catch((error) => {
@@ -66,11 +66,11 @@ export const Overview = () => {
           <Box width={"20%"} display={"flex"} justifyContent={"center"}>
             <Flex align={"center"}>
               <Box position={"relative"} cursor={"pointer"}>
-                {profileData.profile_img ? (
-                    <Avatar size={"xl"} src={profileData.profile_img} />
-                ) : (
-                    <Avatar size={"xl"} src="https://bit.ly/broken-link" />
-                )}
+              {profileData.avatar !== null ? (
+                <Avatar  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} size={"xl"} />
+              ) : (
+                <Avatar src="https://bit.ly/broken-link" size={"xl"} />
+              )}
             </Box>
             </Flex>
           </Box>
