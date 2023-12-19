@@ -28,7 +28,7 @@ interface VoucherType {
   description: string;
   startDate: string;
   endDate: string;
-  voucherImage: string;
+  // voucherImage: string;
   limitation: number;
   voucherType: string;
   discountVoucher: DiscountVoucherType;
