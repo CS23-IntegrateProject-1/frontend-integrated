@@ -6,7 +6,7 @@ import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
 // import { FC, useRef } from "react";
 
@@ -94,6 +94,8 @@ export const GetReservationDetail: FC = () => {
   const reservationIdInt = parseInt(reservationId || "0");
   const cancelModal = useDisclosure();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -128,6 +130,7 @@ export const GetReservationDetail: FC = () => {
     try{
       const response = await Axios.get(`/api/mik/checkInStatus/${reservationId}`)
       console.log(response);
+      navigate(`/venue/menu`);
     }catch (error){
       console.error("Error fetching data:", error);
     }
