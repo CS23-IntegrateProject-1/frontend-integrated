@@ -44,13 +44,22 @@ interface FriendList {
 interface GroupList {
   group_id: number;
   group_name: string;
-  avatar: string;
+  group_avatar: string;
+}
+interface ProfileData {
+  userId: number,
+  username: string,
+  phone: string,
+  email: string,
+  birthday: string,
+  gender: string,
+  avatar: string, //change later
 }
 export const FriendMain = () => {
   const [isShowAddFri, setisShowAddFri] = useState(false);
   const [friData, setFriData] = useState<FriendList[]>([]);
   const [groupData, setGroupData] = useState<GroupList[]>([]);
-  const [profileData, setProfileData] = useState("");
+  const [profileData, setProfileData] = useState<ProfileData>();
   //to show overlay box to integrate with chat group
   const [selectedFrigateId, setSelectedFrigateId] = useState(0);
   const [selectedGroupId, setSelectedGroupId] = useState(0);
@@ -93,9 +102,10 @@ export const FriendMain = () => {
       .then((response) => {
         if (response.status == 200) {
           setGroupData(response.data);
-          console.log("list of group" + groupData);
           groupData.map((item) => {
             console.log(item.group_name);
+            console.log(item.group_id);
+            console.log(item.group_avatar);
           });
         }
       })
@@ -103,18 +113,6 @@ export const FriendMain = () => {
         console.error("Error fetching group list data:", error);
       });
 
-    // const url1 = `/feature1/profile`;
-    // Axios.get(url1, { withCredentials: true })
-    // .then((response) => {
-    //     if (response.status == 200) {
-    //         setProfileData(response.data);
-    //         console.log(profileData + 'profile');
-
-    //     }
-    // })
-    // .catch((error) => {
-    //     console.error("Error fetching user list data:", error);
-    // });
   }, []);
   useEffect(() => {
     if (newGroup) {
@@ -146,12 +144,15 @@ export const FriendMain = () => {
         onOpen();
         console.log(item.name);
         console.log(item.user_id);
+        setFriendId(item.user_id);
+        console.log(item.user_id), "testing id article";
+        setFriendname(item.name);
       }
     });
   };
   //click group list to show overlay
   const handleGroupClick = (id : number) => {
-    setSelectedGroupId(id);
+    setSelectedGroupId(id); //---------> if group list was clicked by user
     //check if fridata id and selected id is same
     groupData.map((item) => {
       if (item.group_id == id) {
@@ -177,6 +178,7 @@ export const FriendMain = () => {
   const [username, setUsername] = useState("");
   const [friendname, setFriendname] = useState("");
   const [friendImg, setFriendImg] = useState("");
+  const [friendId, setFriendId] = useState<number>();
   //const [isFriend, setIsFriend] = useState(false);
 
   console.log(username);
@@ -224,16 +226,16 @@ export const FriendMain = () => {
               fontSize={TextStyle.h1.fontSize}
               fontWeight={TextStyle.h2.fontWeight}
             > 
-              {/* {profileData.username ? profileData.username : "Username"} */}
+              {profileData?.username ? profileData.username : "Username"}
             </Text>
           </Box>
           {/* Backend still need to send avatar */}
           <Box mr={{ lg: "15%", base: "10%" }}>
-            {/* {profileData.avatar ? (
+            {profileData?.avatar ? (
               <Avatar src={profileData.avatar} size={"lg"} />
             ) : (
               <Avatar src="https://bit.ly/broken-link" size={"lg"} />
-            )} */}
+            )}
           </Box>
         </Flex>
       </Box>
@@ -375,8 +377,8 @@ export const FriendMain = () => {
                               alignItems={"center"}
                             >
                               <Box>
-                                {item.avatar ? (
-                                  <Avatar src={"friendImg"} size={"md"} />
+                                {item.group_avatar !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.group_avatar}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"
@@ -538,36 +540,42 @@ export const FriendMain = () => {
                 </Stack>
               </NavLink>
               {/* Articles */}
-              <NavLink to={"/article"}>
-                <Stack
-                  direction={"column"}
-                  color={"brand.200"}
-                  fontSize={TextStyle.h2.fontSize}
-                  fontWeight={TextStyle.h2.fontWeight}
-                >
-                  <Text color={"brand.200"}>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M2.66634 5.00016H0.333008V21.3335C0.333008 22.6168 1.38301 23.6668 2.66634 23.6668H18.9997V21.3335H2.66634V5.00016ZM21.333 0.333496H7.33301C6.04967 0.333496 4.99967 1.3835 4.99967 2.66683V16.6668C4.99967 17.9502 6.04967 19.0002 7.33301 19.0002H21.333C22.6163 19.0002 23.6663 17.9502 23.6663 16.6668V2.66683C23.6663 1.3835 22.6163 0.333496 21.333 0.333496ZM21.333 16.6668H7.33301V2.66683H21.333V16.6668ZM9.66634 8.50016H18.9997V10.8335H9.66634V8.50016ZM9.66634 12.0002H14.333V14.3335H9.66634V12.0002ZM9.66634 5.00016H18.9997V7.3335H9.66634V5.00016Z"
-                        fill="#DEBEF6"
-                      />
-                    </svg>
-                  </Text>
-                  <Text
-                    mt={-1}
-                    color={"brand.200"}
-                    fontSize={TextStyle.body1.fontSize}
+             {/* loop fri Data here */}
+             {/* {friData.map((item) => ( */}
+              <NavLink to={`/article/userarticles/${friendId}`}>
+              <Stack
+                direction={"column"}
+                color={"brand.200"}
+                fontSize={TextStyle.h2.fontSize}
+                fontWeight={TextStyle.h2.fontWeight}
+              >
+                <Text color={"brand.200"}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Articles
-                  </Text>
-                </Stack>
-              </NavLink>
+                    <path
+                      d="M2.66634 5.00016H0.333008V21.3335C0.333008 22.6168 1.38301 23.6668 2.66634 23.6668H18.9997V21.3335H2.66634V5.00016ZM21.333 0.333496H7.33301C6.04967 0.333496 4.99967 1.3835 4.99967 2.66683V16.6668C4.99967 17.9502 6.04967 19.0002 7.33301 19.0002H21.333C22.6163 19.0002 23.6663 17.9502 23.6663 16.6668V2.66683C23.6663 1.3835 22.6163 0.333496 21.333 0.333496ZM21.333 16.6668H7.33301V2.66683H21.333V16.6668ZM9.66634 8.50016H18.9997V10.8335H9.66634V8.50016ZM9.66634 12.0002H14.333V14.3335H9.66634V12.0002ZM9.66634 5.00016H18.9997V7.3335H9.66634V5.00016Z"
+                      fill="#DEBEF6"
+                    />
+                  </svg>
+                </Text>
+                <Text
+                  mt={-1}
+                  color={"brand.200"}
+                  fontSize={TextStyle.body1.fontSize}
+                >
+                  Articles
+                </Text>
+              </Stack>
+            </NavLink>
+              {/* ))} */}
+              
+
+              
             </Flex>
           </AlertDialogBody>
         </AlertDialogContent>

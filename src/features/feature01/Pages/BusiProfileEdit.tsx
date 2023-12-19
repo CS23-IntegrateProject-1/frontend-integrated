@@ -3,6 +3,7 @@ import { Box, Input, Select, Flex, Text, Avatar, Stack, Tab, TabList, TabIndicat
 import { useEffect, useState } from "react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
+
 // import { AddCard } from "./AddCard";
 import { Axios } from "../../../AxiosInstance";
 interface CreditCard {
@@ -38,32 +39,32 @@ interface AvailabilityTime {
 const defaultAvailability: Availability = {
     openingDay: {
         Mon: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Tue: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Wed: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Thu: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Fri: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Sat: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         },
         Sun: {
-            openingTime: "",
-            closingTime: ""
+            openingTime: "00:00",
+            closingTime: "00:00"
         }
     }
 }
@@ -215,32 +216,32 @@ export const BusiProfileEdit = () => {
         Axios.put(venueTime,
             {
              "Mon": {
-                 "open": "13:00:00",
-                 "close": "13:00:00"
+                 "open": availability.openingDay.Mon.openingTime+':00',
+                 "close": availability.openingDay.Mon.closingTime+':00'
              },
              "Tue": {
-                 "open": "00:00:00",
-                 "close": "00:00:00"
+                 "open": availability.openingDay.Tue.openingTime+':00',
+                 "close": availability.openingDay.Tue.closingTime+':00'
              },
              "Wed": {
-                 "open": "00:00:00",
-                 "close": "00:00:00"
+                 "open": availability.openingDay.Wed.openingTime+':00',
+                 "close": availability.openingDay.Wed.closingTime+':00'
              },
              "Thu": {
-                 "open": "00:00:00",
-                 "close": "00:00:00"
+                 "open": availability.openingDay.Thu.openingTime+':00',
+                 "close": availability.openingDay.Thu.closingTime+':00'
              },
              "Fri": {
-                 "open": "00:00:00",
-                 "close": "00:00:00"
+                 "open": availability.openingDay.Fri.openingTime+':00',
+                 "close": availability.openingDay.Fri.closingTime+':00'
              },
              "Sat": {
-                 "open": "00:00:00",
-                 "close": "00:00:00"
+                 "open": availability.openingDay.Sat.openingTime+':00',
+                 "close": availability.openingDay.Sat.closingTime+':00'
              },
              "Sun": {
-                 "open": "13:00:00",
-                 "close": "13:00:00"
+                 "open": availability.openingDay.Sun.openingTime+':00',
+                 "close": availability.openingDay.Sun.closingTime+':00'
              }
             }
             , 
@@ -250,6 +251,9 @@ export const BusiProfileEdit = () => {
                 console.log(response.data);
                 //setAvailability(response.data);
             }
+        })
+        .catch((error) => {
+            console.error("Error saving data :", error);
         });
     }
 
