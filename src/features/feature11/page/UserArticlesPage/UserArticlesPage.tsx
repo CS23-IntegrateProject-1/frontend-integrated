@@ -52,13 +52,13 @@ export const UserArticlesPage = () => {
       >
         <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
           <img
-            src="/src/features/feature11/img/Ellipse 43.png"
+            src={import.meta.env.VITE_IMAGE_URL + UserArticles.data?.[0].user.profile_picture || ""}
             alt="Profile"
             width="91px"
             height="91px"
           />
           <Text color={"#C5C4C7"} fontSize={"md"} mt={"10px"} as={"b"}>
-            {UserArticles.data?.[0].author_name}
+            {UserArticles.data?.[0].user.username}
           </Text>
         </Box>
       </Box>

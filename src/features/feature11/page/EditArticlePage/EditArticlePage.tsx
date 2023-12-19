@@ -154,7 +154,10 @@ export const EditArticlePage = () => {
       authorName === ""
       // images.length === 0
     ) {
-      alert("Please fill in all the fields");
+      console.log(selectedVenues)
+      console.log(authorName)
+
+      toast.warning("Please fill in all fields")
       return;
     }
     const selectedVenueIds = Array.from(
@@ -162,47 +165,48 @@ export const EditArticlePage = () => {
     );
     const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
 
-    // const formData = new FormData();
-    // formData.append("articleId", articleId || "0");
-    // formData.append("topic", topic);
-    // formData.append("content", content);
-    // formData.append("category", category);
-    // formData.append("author_name", authorName);
-    // for (let i = 0; i < selectedVenueIds.length; i++) {
-    //   formData.append("venueIds[]", selectedVenueIds[i].toString());
-    // }
-    // formattedTags.forEach((tag) => {
-    //   formData.append("tags[]", tag);
-    // });
+    const formData = new FormData();
+    // const articleIdInt = parseInt(articleId || "0");
+    formData.append("articleId", articleId || "0");
+    formData.append("topic", topic);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("author_name", authorName);
+    for (let i = 0; i < selectedVenueIds.length; i++) {
+      formData.append("venueIds[]", selectedVenueIds[i].toString());
+    }
+    formattedTags.forEach((tag) => {
+      formData.append("tags[]", tag);
+    });
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     formData.append("files", image);
-    //   });
-    // } else {
-    //   console.log("no images");
-    // }
+    if (images) {
+      images.forEach((image) => {
+        formData.append("files", image);
+      });
+    } else {
+      console.log("no images");
+    }
     // console.log("topic1",topic)
     // console.log("topic" ,formData.get("topic"))
-    Axios.patch(
+    Axios.post(
       "/feature11/editArticle",
-      {
-        articleId: parseInt(articleId || "0"),
-        topic: topic,
-        content: content,
-        category: category,
-        author_name: authorName,
-        venueIds: selectedVenueIds,
-        tags: formattedTags,
-        images: images
-      },
-      // formData,
-
       // {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // }
+      //   articleId: parseInt(articleId || "0"),
+      //   topic: topic,
+      //   content: content,
+      //   category: category,
+      //   author_name: authorName,
+      //   venueIds: selectedVenueIds,
+      //   tags: formattedTags,
+      //   images: images
+      // },
+      formData,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
       // formData,
     )
       .then((res) => {
