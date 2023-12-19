@@ -88,7 +88,7 @@ const DelIcon: React.FC = () => {
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullAddress] = useState(false);
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
@@ -117,7 +117,6 @@ const SavedLocationCard = (props: SavedCardProps) => {
     const handleUpdate = async () => {
       try {
         const updatedData = {
-          userId,
           name,
           savedLocId: props.savedLocId,
           address,
@@ -140,7 +139,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
     const deleteMutation = useMutation<void, void, void>(
       async () => {
         // Use the appropriate endpoint for the delete action
-        const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}/1`);
+        const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}`);
         return response.data;
       },
       {
@@ -223,11 +222,11 @@ const SavedLocationCard = (props: SavedCardProps) => {
                   Address Information
                 </Text>
                  <Stack spacing={3} mt={2}>
-                 <Input
+                 {/* <Input
                   variant="outline"
                   placeholder="userID"
                   onChange={(e) => setUserId(e.target.value)}
-                />
+                /> */}
                 <Input
                   variant="outline"
                   placeholder="name"
