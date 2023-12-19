@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { RButton } from "../../component/RButton";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 interface Menu {
   menuId: number;
@@ -28,10 +28,10 @@ interface SetMenu {
   onClick?: () => void;
 }
 
-const fetchMenuAndSetData = async (venueId: string) => {
+const fetchMenuAndSetData = async () => {
     const [menuResponse, setResponse] = await Promise.all([
-      Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
-      Axios.get<SetMenu[]>(`/feature7/getSetsByVenueId/${venueId}`),
+      Axios.get<Menu[]>('/feature7/getAllMenus'),
+      Axios.get<SetMenu[]>('/feature7/getAllSets'),
     ]);
 
     const menuData = menuResponse.data;
@@ -48,11 +48,11 @@ export const MenuAllBusiness = () => {
   const [borderColor, setBorderColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
-  const { venueId } = useParams();
-  const venueIdNum: number = +venueId!;
+  // const { venueId } = useParams();
+  // const venueIdNum: number = +venueId!;
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueIdNum], () => fetchMenuAndSetData(venueIdNum.toString()));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData"], () => fetchMenuAndSetData());
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -73,13 +73,13 @@ export const MenuAllBusiness = () => {
   };
 
   const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/bmenudetail/${type}/${menuid}`);
+    navigate(`/business/venue/bmenudetail/${type}/${menuid}`);
     console.log("Clicked menu. Menu ID:", menuid);
   }  
 
   const handleAddMenuClick = () => {
     const route = subtitle === "All Menu" ? "addmenu" : "addsetmenu";
-    navigate(`/venue/${venueId}/${route}`);
+    navigate(`/business/venue/${route}`);
   };
 
   useEffect(() => {

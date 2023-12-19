@@ -13,7 +13,7 @@ interface create2 {
 
 export const CreateTable2 = () => {
   const [capacity, setCapacity] = useState("");
-  const [detail, setDetail] = useState("");
+  const [detail] = useState("");
   const [name, setName] = useState("");
   const [filesSelection , setFiles] = useState<File>();
   const [image_url, setImage_url] = useState("");
@@ -44,7 +44,7 @@ export const CreateTable2 = () => {
 		console.log("name", name);
 		console.log("image_url", image_url);
 		const capacityNumber = parseInt(capacity, 10);
-      const upload = await Axios.post('/feature6/uploadTableTypeImage')
+      // const upload = await Axios.post('/feature6/uploadTableTypeImage')
       const response: create2 = await Axios.post(`/feature6/createTableType`, {
         capacity: capacityNumber,
         detail: detail,
@@ -117,7 +117,7 @@ export const CreateTable2 = () => {
     </Box>
   );
 };
-function dataURItoBlob(image_url: string) {
-  throw new Error("Function not implemented.");
-}
+// function dataURItoBlob(image_url: string) {
+//   throw new Error("Function not implemented.");
+// }
 

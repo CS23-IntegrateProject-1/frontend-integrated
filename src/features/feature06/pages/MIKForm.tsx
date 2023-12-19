@@ -1,11 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Box,
-  Icon,
-  Text,
-  Button,
-  Input
-} from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -28,12 +22,12 @@ interface IData {
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
   location: {
-        locationId: number,
-        name: string,
-        latitude: string,
-        longtitude: string,
-        address: string
-    }
+    locationId: number;
+    name: string;
+    latitude: string;
+    longtitude: string;
+    address: string;
+  };
 }
 
 interface IPhotoData {
@@ -42,7 +36,7 @@ interface IPhotoData {
   image_url: string;
 }
 
-export const ReservationDetail = () => {
+export const MIKForm = () => {
   const [data, setData] = useState<IData>();
   data;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -50,12 +44,13 @@ export const ReservationDetail = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const seats = searchParams.get("count");
-  const [name, setName] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const toast = useCustomToast()
-  
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [email, setEmail] = useState("");
+  const toast = useCustomToast();
 
   useEffect(() => {
     fetchData();
@@ -63,46 +58,63 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt,venueIdInt);
+    const response: IData = await getVenueById(branchIdInt, venueIdInt);
     console.log(response);
     setData(response);
-  }
+  };
 
   const navigate = useNavigate();
 
-  const { venueId, branchId } = useParams<{
+  const { branchId } = useParams<{
     venueId: string;
     branchId: string;
   }>();
-        const venueIdInt = parseInt(venueId || "0");
-        const branchIdInt = parseInt(branchId || "0");
+  const venueIdInt = 2;
+  const branchIdInt = parseInt(branchId || "0");
 
   const handleCreate = async () => {
     try {
-      const seatsInt = parseInt(seats || "0")
+      const seatsInt = parseInt(seats || "0");
       const currentDate = new Date();
       const selectedDateTime = new Date(`${date}T${time}`);
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
       }
-      if (date == "" || time == "" || name == "" || phonenumber == "") {
-        toast.warning("Please fill in all information")
+      if (
+        date == "" ||
+        time == "" ||
+        fname == "" ||
+        lname == "" ||
+        email == "" ||
+        phonenumber == ""
+      ) {
+        toast.warning("Please fill in all information");
       }
-      const response = await Axios.post(`/feature6/createReservation`, {
-        venueId: venueIdInt,
+
+      console.log("date: ", date);
+      console.log("time: ", time);
+      console.log("fname: ", fname);
+      console.log("lname: ", lname);
+      console.log("email: ", email);
+      console.log("phonenumber: ", phonenumber);
+
+      const response = await Axios.post(`/api/mik/reserve`, {
+        date: date,
+        time: `${time}:00`,
         guest_amount: seatsInt,
-        reserve_date: date,
-        time: time ,
-        branchId: branchIdInt ,
-        name: name,
-        phonenumber: phonenumber,
+        fname: fname,
+        lname: lname,
+        phone: phonenumber,
+        email: email,
+        venueId: venueIdInt,
+        branchId: branchIdInt,
       });
       console.log("create reservation successfully");
       console.log(response);
       navigate("/3/venue/3/payment");
-    } catch (err : any) {
-      toast.error(err.response.data.error)
+    } catch (err: any) {
+      toast.error(err.response.data.error);
       console.log(err);
       throw err;
     }
@@ -117,26 +129,22 @@ export const ReservationDetail = () => {
         justifyContent="center"
       >
         <RDetailCard
-          // src={data?.venue.Venue_photo.image_url}
           name={data?.name}
           location={data?.location.address}
           star={data?.score}
-          image_url={data?.Venue_photo}     
+          image_url={data?.Venue_photo}
         />
-
-        {/* This will push the reservation detail to the bottom */}
         <Box
           width="393px"
-          height="480px"
+          height="700px"
           flexShrink={0}
           borderRadius="20px 20px 0px 0px"
           background="var(--Dark-background, #200944)"
           boxShadow="0px -4px 30px 0px #B921B2"
         >
-          {/* Your Reservation Detail content goes here */}
           <Box
             width="369px"
-            height="310px"
+            height="500px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -165,12 +173,12 @@ export const ReservationDetail = () => {
               marginLeft={34}
               marginTop="4px"
             >
-              Name :
+              Firstname :
             </Text>
             <Box mt={"5px"}>
               <Input
                 required
-                placeholder="enter your name"
+                placeholder="your firstname"
                 htmlSize={4}
                 backgroundColor={"white"}
                 textColor={"black"}
@@ -179,7 +187,35 @@ export const ReservationDetail = () => {
                 width="163px"
                 height={"25px"}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setFname(e.target.value);
+                }}
+              />
+            </Box>
+            <Text
+              color="#000"
+              fontFamily="Roboto"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="normal"
+              marginLeft={34}
+              marginTop="4px"
+            >
+              Lastname :
+            </Text>
+            <Box mt={"5px"}>
+              <Input
+                required
+                placeholder="your lastname"
+                htmlSize={4}
+                backgroundColor={"white"}
+                textColor={"black"}
+                borderStyle={"black"}
+                ml={"34px"}
+                width="163px"
+                height={"25px"}
+                onChange={(e) => {
+                  setLname(e.target.value);
                 }}
               />
             </Box>
@@ -198,7 +234,7 @@ export const ReservationDetail = () => {
             <Box mt={"5px"}>
               <Input
                 required
-                placeholder="enter phone no."
+                placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
                 textColor={"black"}
@@ -208,6 +244,34 @@ export const ReservationDetail = () => {
                 height={"25px"}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
+                }}
+              />
+            </Box>
+            <Text
+              color="#000"
+              fontFamily="Roboto"
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="700"
+              lineHeight="normal"
+              marginLeft={34}
+              marginTop={11}
+            >
+              E-mail :
+            </Text>
+            <Box mt={"5px"}>
+              <Input
+                required
+                placeholder="enter E-mail"
+                htmlSize={4}
+                backgroundColor={"white"}
+                textColor={"black"}
+                borderStyle={"black"}
+                ml={"34px"}
+                width="163px"
+                height={"25px"}
+                onChange={(e) => {
+                  setEmail(e.target.value);
                 }}
               />
             </Box>
@@ -308,7 +372,6 @@ export const ReservationDetail = () => {
             >
               {seats}
             </Text>
-            {/* Additional content goes here */}
           </Box>
           <Box
             width="360px"

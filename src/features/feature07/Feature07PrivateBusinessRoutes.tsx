@@ -9,31 +9,31 @@ import { BusOrderStat } from "./pages/BusinessSidePage/BusOrderStat";
 export const Feature07PrivateBusinessRoutes = () => {
     return [
         {
-            path: "/business/venue/:venueId/menubusiness", 
+            path: "/business/venue/menubusiness", 
             element: <MenuAllBusiness />
         },
         {
-            path: "/business/venue/:venueId/addmenu",
+            path: "/business/venue/addmenu",
             element: <AddMenu />
         },
         {
-            path: "/business/venue/:venueId/addsetmenu",
+            path: "/business/venue/addsetmenu",
             element: <AddSetMenu />
         },
         {
-            path: "/business/venue/:venueId/editmenu/:menuid",
+            path: "/business/venue/editmenu/:menuid",
             element: <EditMenu />
         },
         {
-            path: "/business/venue/:venueId/editsetmenu/:menuid",
+            path: "/business/venue/editsetmenu/:menuid",
             element: <EditSetMenu />
         },
         {
-            path: "/business/venue/:venueId/bmenudetail/:type/:menuid", 
+            path: "/business/venue/bmenudetail/:type/:menuid", 
             element: <BusinessMenuDetail /> 
         },
         {
-            path: "/business/venue/:venueId/orderstat", 
+            path: "/business/venue/orderstat", 
             element: <BusOrderStat />
         }
     ];
