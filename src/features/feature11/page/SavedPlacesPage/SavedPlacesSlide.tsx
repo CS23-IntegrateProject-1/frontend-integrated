@@ -1,6 +1,5 @@
 import {
-  Box,
-  Stack,
+
   Text,
   Card,
   CardBody,
@@ -10,11 +9,9 @@ import {
   Flex,
   IconButton,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
 import { FaHeart } from "react-icons/fa";
-import { FC } from "react";
 
 export const SavedPlacesSlide = () => {
   return (

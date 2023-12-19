@@ -154,7 +154,10 @@ export const EditArticlePage = () => {
       authorName === ""
       // images.length === 0
     ) {
-      alert("Please fill in all the fields");
+      console.log(selectedVenues)
+      console.log(authorName)
+
+      toast.warning("Please fill in all fields")
       return;
     }
     const selectedVenueIds = Array.from(

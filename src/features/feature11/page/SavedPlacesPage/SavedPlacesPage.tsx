@@ -1,19 +1,12 @@
 import {
   Box,
-  Stack,
   Text,
-  Card,
-  CardBody,
-  Heading,
-  Image,
-  Button,
+
   Flex,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { SavedPlacesSlide } from "./SavedPlacesSlide";
-import { useQuery } from "@tanstack/react-query";
-import { StarIcon } from "@chakra-ui/icons";
-import { FaHeart } from "react-icons/fa";
+
 
 export const SavedPlacesPage = () => {
   return (

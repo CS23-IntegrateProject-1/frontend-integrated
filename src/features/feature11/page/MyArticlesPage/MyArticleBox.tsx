@@ -102,7 +102,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
           <img
-            src={import.meta.env.BACKEND_URL + props.user.profile_picture}
+            src={import.meta.env.BACKEND_URL + props.user.profile_picture || ""}
             alt="Profile"
             width="32px"
             height="32px"
