@@ -122,7 +122,7 @@ export const InCartMenu = () => {
                   <IconButton
                     icon={<MinusIcon />}
                     onClick={handleDecreaseItem}
-                    isDisabled={item.quantity + addItem <=1}
+                    // isDisabled={item.quantity + addItem <=1}
                     aria-label="Decrease Amount"
                     width="30px"
                     height="28px"
