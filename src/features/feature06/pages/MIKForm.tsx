@@ -58,7 +58,7 @@ export const MIKForm = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
+    const response: IData = await getVenueById(1, 2);
     console.log(response);
     setData(response);
   };
