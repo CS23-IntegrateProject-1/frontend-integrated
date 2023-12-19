@@ -48,6 +48,9 @@ export const BusOrderStat: React.FC = () => {
       newStatus === "Completed" ? "brand.200" : "brand.400"
     );
     setBorderColor(newStatus === "Preparing" ? "brand.200" : "brand.400");
+    if(newStatus === "Completed"){
+      invalidateCompletedOrderDetails();
+    }
   };
 
   // const { data: tableNumber } = useQuery(['tableNumber'], async () => {
@@ -86,6 +89,9 @@ export const BusOrderStat: React.FC = () => {
   }
   const invalidateOngoingOrderDetails = () => {
     queryClient.invalidateQueries(["ongoingOrderDetails"]);
+  };
+  const invalidateCompletedOrderDetails = () => {
+    queryClient.invalidateQueries(["completedOrderDetails"]);
   };
   console.log(
     "hello",
