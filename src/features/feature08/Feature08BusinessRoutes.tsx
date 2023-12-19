@@ -56,32 +56,32 @@ export const FeatureBusiness08Routes = () => {
 			element: <Checkbill />,
 		},
 		{
-			path: "/Notification/BusinessNoti/:venueId",
+			path: "/business/Notification/:venueId",
 			element: <Notification />,
 		},
 		{
-			path: "/venue/:venueId/admin/checkbill/:orderId",
+			path: "/business/checkbill/:venueId/:orderId",
 			element: <Checkbill />,
 		},
 		{
-			path: "/Notification/advertisement/:advertisementId",
+			path: "/business/Notification/advertisement/:advertisementId",
 			element: <AdvertiseNoti />,
 		},
 		{ path: "/Notification/Promotion", element: <PromotionNoti /> },
 		{
-			path: "/Notification/Checkout/:venueId/:reservationId",
+			path: "/business/Notification/Checkout/:venueId/:reservationId",
 			element: <CheckOutNoti />,
 		},
 		{
-			path: "/Notification/NewReservation/:venueId/:reservationId",
+			path: "/business/Notification/NewReservation/:venueId/:reservationId",
 			element: <NewReserveNoti />,
 		},
 		{
-			path: "/Notification/OrderUpdate/:orderId",
+			path: "/business/Notification/OrderUpdate/:orderId",
 			element: <OrderUpdateNoti />,
 		},
-		{ path: "/Notification/Update", element: <UpdateNoti /> },
-		{ path: "/Notification/addcard", element: <AddCardNoti /> },
-		{ path: "/Notification/entercode", element: <EnterCode /> },
+		{ path: "/business/Notification/Update", element: <UpdateNoti /> },
+		{ path: "/business/Notification/addcard", element: <AddCardNoti /> },
+		{ path: "/business/Notification/entercode", element: <EnterCode /> },
 	];
 };
