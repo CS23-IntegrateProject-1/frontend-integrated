@@ -9,6 +9,8 @@ import CheckoutCancel from "./pages/Customer/CheckoutCancel";
 import CheckoutSuccess from "./pages/Customer/CheckoutSuccess";
 import DepositCancel from "./pages/Customer/DepositCancel";
 import DepositSuccess from "./pages/Customer/DepositSuccess";
+import SeatCancel from "./pages/Customer/SeatCancel";
+import SeatSuccess from "./pages/Customer/SeatSuccess";
 
 export const Feature08Routes = () => {
 	return [
@@ -32,6 +34,8 @@ export const Feature08Routes = () => {
 		{ path: "/checkout-success", element: <CheckoutSuccess /> },
 		{ path: "/deposit-cancel", element: <DepositCancel /> },
 		{ path: "/deposit-success", element: <DepositSuccess /> },
+    { path: "/seat-cancel", element: <SeatCancel /> },
+    { path: "/seat-success", element: <SeatSuccess /> },
 		//payment to venue by using venueId?
 		{ path: ":userId/venue/:venueId/qr-payment", element: <QrCodeScan /> },
 		//Action
