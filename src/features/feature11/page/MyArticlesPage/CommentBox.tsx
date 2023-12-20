@@ -15,7 +15,7 @@ export const CommentBox: FC<CommentItem> = ({
   commentId,
   content,
   create_date,
-  user: { profile_picture, username },
+  User: { profile_picture, username },
   userId,
 }) => {
   const navigate = useNavigate();
@@ -114,7 +114,7 @@ export const CommentBox: FC<CommentItem> = ({
         commentId={commentId}
         content={content}
         create_date={create_date}
-        user={{ profile_picture, username }}
+        User={{ profile_picture, username }}
         userId={userId}
         key={commentId}
         onClose={editModal.onClose}

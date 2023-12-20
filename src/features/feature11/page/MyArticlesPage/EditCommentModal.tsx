@@ -27,7 +27,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
   commentId,
   content,
   create_date,
-  user: { profile_picture, username },
+  User: { profile_picture, username },
   userId,
   onClose,
   isOpen,
@@ -44,7 +44,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
       commentId,
       content,
       create_date,
-      user: { profile_picture, username },
+      User: { profile_picture, username },
       userId,
     });
     setNewContent(content);

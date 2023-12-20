@@ -102,13 +102,13 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
           <img
-            src={import.meta.env.BACKEND_URL + props.user.profile_picture || ""}
+            src={import.meta.env.BACKEND_URL + props.User.profile_picture || ""}
             alt="Profile"
             width="32px"
             height="32px"
           />
           <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
-            {props.user.username}
+            {props.User.username}
           </Text>
           <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
             {props.created_date}
