@@ -132,7 +132,7 @@ export const AddFriend = () => {
         e.preventDefault();
         const allData = new FormData();
         console.log('inFunc CreateChatHandler');
-        const groupName = username+","+loggedInUser.username;
+        const groupName = username+","+loggedInUser.fname+" "+loggedInUser.lname;
         allData.append("group_name", groupName);
         allData.append("members[]", userId);
         allData.append("avatar", userImg);
