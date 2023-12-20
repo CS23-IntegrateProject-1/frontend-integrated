@@ -63,7 +63,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
           <img
-            src={import.meta.env.BASE_URL + props.user.profile_picture}
+            src={import.meta.env.BASE_URL + props.user.profile_picture || ""}
             alt="profile picture"
             width="32px"
             height="32px"
