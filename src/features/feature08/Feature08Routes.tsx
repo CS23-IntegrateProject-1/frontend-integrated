@@ -15,17 +15,17 @@ import SeatSuccess from "./pages/Customer/SeatSuccess";
 export const Feature08Routes = () => {
 	return [
 		//customer side
-		{ path: ":userId/venue/:venueId/payment", element: <SelectPayment /> },
+		{ path: "/venue/:venueId/payment", element: <SelectPayment /> },
 		{
-			path: ":userId/venue/:venueId/paymentD",
+			path: "/venue/:venueId/paymentD",
 			element: <SelectPaymentD />,
 		},
 		{
-			path: ":userId/venue/:venueId/paymentS",
+			path: "/venue/:venueId/paymentS",
 			element: <SelectPaymentS />,
 		},
 		{
-			path: ":userId/venue/:venueId/payment/checkout",
+			path: "/venue/:venueId/payment/checkout",
 			element: <ProductDisplay />,
 		},
 		{ path: "/customer/history", element: <PaymentHistory /> },
