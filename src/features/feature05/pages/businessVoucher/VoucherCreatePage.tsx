@@ -323,18 +323,7 @@ export const VoucherCreatePage = () => {
             flexDirection={"column"}
             paddingBottom={3}
           >
-            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
-            {/* <Center bg={"#390b74"} h={"100px"} borderRadius={"md"}>
-						<Input
-							pos={"absolute"}
-							type={"file"}
-							w={"100%"}
-							h={"100%"}
-							opacity={"0"}
-						/>
-						<Icon as={BiImageAdd} h={"40px"} w={"auto"} />
-					</Center> */}
-
+            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>						
             <Box
               position={"relative"}
               overflow={"hidden"}

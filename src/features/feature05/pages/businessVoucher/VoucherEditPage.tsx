@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   IconButton,
+  Image,
   Input,
   Modal,
   ModalCloseButton,
@@ -71,6 +72,7 @@ export const VoucherEditPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const id = Number(useParams<{ voucherId: string }>().voucherId);
+  // const [isChange, setIsChange] = useState<boolean>(false);
   const voucherData = useQuery({
     queryKey: ["voucher"],
     queryFn: () => GetEachVoucher(id),
@@ -93,11 +95,11 @@ export const VoucherEditPage = () => {
           limitation: data.Discount_voucher.limitation,
         },
       }));
-      setImagePreview(data.voucher_image);
+      setImageDefault(data.voucher_image);
     },
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const [imageDefault, setImageDefault] = useState<string | null>(null);
   useEffect(() => {
     // try {
     return () => {
@@ -123,6 +125,7 @@ export const VoucherEditPage = () => {
     return <span>Loading...</span>;
   }
   const handleCloseImage = () => {
+    // setIsChange(true);
     setImagePreview(null);
   };
 
@@ -245,6 +248,8 @@ export const VoucherEditPage = () => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      // setIsChange(true);
+
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
       setVoucher((prevVoucher) => ({
@@ -257,8 +262,8 @@ export const VoucherEditPage = () => {
   return (
     <Container>
       <form>
-        <FormControl mb={"12px"}>
-          <FormLabel style={TextStyle.h2}>Vocher name *</FormLabel>
+        <FormControl isRequired mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Vocher name</FormLabel>
           <Input
             name="voucher_name"
             value={voucher.voucher_name}
@@ -268,8 +273,8 @@ export const VoucherEditPage = () => {
             isRequired
           />
         </FormControl>
-        <FormControl mb={"12px"}>
-          <FormLabel style={TextStyle.h2}>Vocher description *</FormLabel>
+        <FormControl isRequired mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Vocher description</FormLabel>
           <Input
             name="description"
             value={voucher.description}
@@ -281,8 +286,8 @@ export const VoucherEditPage = () => {
         </FormControl>
 
         <Stack direction={"row"} mb={"10px"}>
-          <FormControl overflow={"hidden"}>
-            <FormLabel style={TextStyle.h2}>Start Date *</FormLabel>
+          <FormControl isRequired overflow={"hidden"}>
+            <FormLabel style={TextStyle.h2}>Start Date</FormLabel>
             <Input
               name="startDate"
               onChange={handleStartDateChange}
@@ -290,14 +295,9 @@ export const VoucherEditPage = () => {
               bg={"#390b74"}
               border={"none"}
               value={voucher.start_date}
-              //     value={
-              //       voucher.start_date
-              //         ? voucher.start_date.toISOString().split("T")[0]
-              //         : ""
-              //     }
             />
           </FormControl>
-          <FormControl overflow={"hidden"}>
+          <FormControl isRequired overflow={"hidden"}>
             <FormLabel style={TextStyle.h2}>End Date *</FormLabel>
             <Input
               name="endDate"
@@ -309,9 +309,15 @@ export const VoucherEditPage = () => {
             />
           </FormControl>
         </Stack>
+        <Text marginBottom={"5px"}>Voucher image</Text>
+        <Image
+          src={import.meta.env.VITE_BACKEND_URL + imageDefault}
+          alt="image"
+          width="100%"
+        />
         {imagePreview ? (
           <FormControl
-            width="50%"
+            width="100%"
             minWidth="250px"
             maxWidth="400px"
             display="flex"
@@ -328,6 +334,7 @@ export const VoucherEditPage = () => {
               maxWidth={"400px"}
               height={"auto"}
               alignSelf={"center"}
+              justifyContent={"center"}
             >
               <IconButton
                 aria-label="close"
@@ -339,24 +346,23 @@ export const VoucherEditPage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
-              <img
-                src={import.meta.env.VITE_BACKEND_URL + imagePreview || ""}
-                alt="image"
-                width="100%"
-              />
+              <Image src={imagePreview} alt="image" width="100%" />
             </Box>
           </FormControl>
         ) : (
           <FormControl
             isRequired
             width="100%"
-            minWidth="250px"
-            maxWidth="400px"
             display="flex"
             flexDirection={"column"}
             paddingBottom={3}
           >
-            <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+            <FormLabel
+              marginTop={"10px"}
+              style={TextStyle.h2}
+              color={"white"}
+              paddingBottom={1}
+            >
               {" "}
               Upload image
             </FormLabel>
@@ -364,7 +370,7 @@ export const VoucherEditPage = () => {
               {}
               <Center
                 width={"auto"}
-                height={"100"}
+                height={"150px"}
                 bg={"#5F0DBB"}
                 borderRadius={5}
                 cursor={"pointer"}
@@ -390,22 +396,57 @@ export const VoucherEditPage = () => {
 
         {voucherData.data?.voucherType === "Discount" ? (
           <Box>
-            <Heading style={TextStyle.h2}>Fix discount: </Heading>
-            <Text>{voucherData.data?.Discount_voucher.fix_discount}</Text>
-            <Heading style={TextStyle.h2}>Limitation: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Fix discount{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.fix_discount}
+            </Text>
 
-            <Text>{voucherData.data?.Discount_voucher.limitation}</Text>
-            <Heading style={TextStyle.h2}>Minimum Spend: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Limitation{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.limitation}
+            </Text>
 
-            <Text>{voucherData.data?.Discount_voucher.minimum_spend}</Text>
-            <Heading style={TextStyle.h2}>Percent Discount: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Minimum Spend{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.minimum_spend}
+            </Text>
 
-            <Text>{voucherData.data?.Discount_voucher.percent_discount}</Text>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Percent Discount{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"20px"}
+            >
+              {voucherData.data?.Discount_voucher.percent_discount}
+            </Text>
           </Box>
         ) : (
           <Box>
             <Heading>Minimum Spend: </Heading>
-
             <Text>{voucherData.data?.Food_voucher.minimum}</Text>
           </Box>
         )}
