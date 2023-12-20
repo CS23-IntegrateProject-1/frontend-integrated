@@ -16,7 +16,9 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { formatDate1, formatDatetime1 } from "../../../../functions/formatDatetime";
+import { format } from "date-fns";
+import { utcToZonedTime } from 'date-fns-tz'; // new import
+// import { formatTime1 } from "../../../../functions/formatDatetime";
 
 export const Timestamp = () => {
   const [appTrans, setAppTrans] = useState<any[] | undefined>(undefined);
@@ -74,7 +76,7 @@ export const Timestamp = () => {
 
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds, selectedDate]);
-  
+  const ThailandTimeZone = 'Asia/Bangkok'; // Thailand time zone
   console.log(appTransactionByDate)
 
   return (
@@ -111,14 +113,11 @@ export const Timestamp = () => {
 
         {/* Display transactions for the selected date */}
         {appTransactionByDate.map((details, index) => {
-          // const formattedDateAbove = format(new Date(details.monthly), 'HH:mm:ss');
-          // const formattedDateBelow = format(
-          //   utcToZonedTime(new Date(details.monthly), ThailandTimeZone),
-          //   'dd MMMM yyyy',
-          // );
-          const formattedDate = new Date(details.monthly).toISOString();
-          
-          // console.log(formatDate1(formattedDate))
+          const formattedDateAbove = format(new Date(details.monthly), 'HH:mm:ss');
+          const formattedDateBelow = format(
+            utcToZonedTime(new Date(details.monthly), ThailandTimeZone),
+            'dd MMMM yyyy',
+          );
           const formattedAmount = `${details.total_amount} Baht`;
           const appTransactionDetailId = `${details.appTransactionDetailId}`;
           // const appTransactionId = details.appTransactionId;
@@ -128,15 +127,14 @@ export const Timestamp = () => {
               <CardBody textAlign="center">
                 <Stack divider={<StackDivider />} color={"#C5C4C7"}>
                   <Box>
-                    {/* /business/Account/Checkbill/:venueId/:appTransactionDetailId */}
-                  <Link to={`/business/Account/Checkbill/${venueId}/${appTransactionDetailId}`}>
+                  <Link to={`/${venueId}/Account/Checkbill/${appTransactionDetailId}`}>
                     <TableContainer>
                       <Table width="100%" variant="unstyled">
                         <Thead>
                           <Tr borderBottom="none">
                             <Th textAlign="center" borderRight="1px solid white" style={TextStyle.h4} color="black">
-                              {formatDatetime1(formattedDate)}<br></br>
-                              <Text marginTop={6} color={"grey"}>{formatDate1(formattedDate)}</Text>
+                              {formattedDateAbove}<br></br>
+                              <Text marginTop={6} color={"grey"}>{formattedDateBelow}</Text>
                             </Th>
                             <Th textAlign="center" style={TextStyle.h1} color="black">
                               {formattedAmount}

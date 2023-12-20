@@ -12,13 +12,13 @@ export interface ArticlesPageProps {
   isLike: boolean;
   Article_tags: {
     articleId: number;
-    Tag: {
+    tag: {
       tagId: number;
       tag_name: string;
     };
   }[];
   Article_venue: number[];
-  User: {
+  user: {
     username: string;
     profile_picture: string;
   };
@@ -39,7 +39,7 @@ export interface ArticlePageProps {
   Article_tags: {
     articleId: number;
     tagId: 4;
-    Tag: {
+    tag: {
       tagId: number;
       tag_name: string;
     };
@@ -52,28 +52,19 @@ export interface ArticlePageProps {
       name: string;
     };
   }[];
-  User: {
+  user: {
     username: string;
     profile_picture: string;
   };
 }
 
-// export interface ArticleTagProps {
-//   articleId: number;
-//   tag: {
-//     tagId: number;
-//     tag_name: string;
-//   };
-// }
 export interface ArticleTagProps {
   articleId: number;
-  tagId: number;
-  Tag: {
+  tag: {
     tagId: number;
     tag_name: string;
   };
 }
-
 
 export interface ArticleFooterProps {
   author_name: string;
@@ -91,5 +82,13 @@ export interface ArticleVenueProps {
   venue: {
     venueId: number;
     name: string;
+  };
+}
+export interface ArticleTagProps {
+  articleId: number;
+  tagId: number;
+  tag: {
+    tagId: number;
+    tag_name: string;
   };
 }

@@ -461,28 +461,28 @@ console.log(selectedToDate)
                   </Select>
                 </PopoverBody>
                <PopoverBody>
-                  <Link to={`/admin/insight/venue/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/insight`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Insight
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/insight/all/venue/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/dashboard`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Total
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/FoodOrder/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/FoodOrder`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Order
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/FoodDelivery/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/FoodDelivery`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Delivery
                     </Text>

@@ -142,7 +142,7 @@ export const Receipt: React.FC = () => {
           ))
         : orderData.map((order, index) => (
           
-            <Link key={index} to={`/admin/checkbill/${order?.orderId}/${venueId}`}>
+            <Link key={index} to={`/venue/${venueId}/admin/checkbill/${order?.orderId}`}>
               <Flex
                 bg="blackAlpha.300"
                 h="75px"

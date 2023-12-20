@@ -52,13 +52,13 @@ export const UserArticlesPage = () => {
       >
         <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
           <img
-            src={import.meta.env.VITE_IMAGE_URL + UserArticles.data?.[0].User.profile_picture || ""}
+            src={import.meta.env.VITE_IMAGE_URL + UserArticles.data?.[0].user.profile_picture || ""}
             alt="Profile"
             width="91px"
             height="91px"
           />
           <Text color={"#C5C4C7"} fontSize={"md"} mt={"10px"} as={"b"}>
-            {UserArticles.data?.[0].User.username}
+            {UserArticles.data?.[0].user.username}
           </Text>
         </Box>
       </Box>
@@ -77,7 +77,7 @@ export const UserArticlesPage = () => {
             content={""}
             category={""}
             userId={0}
-            User={article.User}
+            user={article.user}
             isLike={article.isLike}
             Article_tags={article.Article_tags}
             Article_venue={article.Article_venue}

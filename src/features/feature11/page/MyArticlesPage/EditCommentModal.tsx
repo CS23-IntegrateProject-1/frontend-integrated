@@ -22,12 +22,12 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const EditCommentModal: FC<EditCommentModalProps> = ({
-  Article: { topic },
+  article: { topic },
   articleId,
   commentId,
   content,
   create_date,
-  User: { profile_picture, username },
+  user: { profile_picture, username },
   userId,
   onClose,
   isOpen,
@@ -39,12 +39,12 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
   const toast = useCustomToast();
   useEffect(() => {
     setComment({
-      Article: { topic },
+      article: { topic },
       articleId,
       commentId,
       content,
       create_date,
-      User: { profile_picture, username },
+      user: { profile_picture, username },
       userId,
     });
     setNewContent(content);

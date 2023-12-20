@@ -126,7 +126,7 @@ export const EditArticlePage = () => {
         {
           articleId: parseInt(articleId || "0"),
           tagId: newTagId,
-          Tag: {
+          tag: {
             tagId: newTagId,
             tag_name: tagInput,
           },
@@ -135,7 +135,7 @@ export const EditArticlePage = () => {
     }
   };
   const handleRemoveTag = (tag: string) => {
-    const updatedTags = tags.filter((t) => t.Tag.tag_name !== tag);
+    const updatedTags = tags.filter((t) => t.tag.tag_name !== tag);
     setTags(updatedTags);
   };
 
@@ -163,7 +163,7 @@ export const EditArticlePage = () => {
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
-    const formattedTags = tags.map((tagObj) => tagObj.Tag.tag_name);
+    const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
 
     const formData = new FormData();
     // const articleIdInt = parseInt(articleId || "0");
@@ -355,9 +355,9 @@ export const EditArticlePage = () => {
               bgColor={"brand.200"}
               color={"white"}
             >
-              <TagLabel>{value.Tag.tag_name}</TagLabel>
+              <TagLabel>{value.tag.tag_name}</TagLabel>
               <TagCloseButton
-                onClick={() => handleRemoveTag(value.Tag.tag_name)}
+                onClick={() => handleRemoveTag(value.tag.tag_name)}
               />
             </Tag>
           ))}

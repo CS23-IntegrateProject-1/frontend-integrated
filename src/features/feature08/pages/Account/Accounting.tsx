@@ -13,13 +13,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
+import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
-import { parseISO } from "date-fns";
-import textStyles from "../../../../theme/foundations/textStyles";
-import { TextStyle } from "../../../../theme/TextStyle";
 
 interface appTransaction {
   // Define the properties of the business insight here
@@ -39,7 +37,6 @@ interface appTransactionDetail {
 
 export const Accounting = () => {
   const [appTrans, setAppTrans] = useState();
-  appTrans;
   const { venueId, month } = useParams();
   const urlMonth = decodeURIComponent(month || "").split(" ")[0];
   const [allTransactionIds, setAllTransactionIds] = useState([]);
@@ -47,18 +44,10 @@ export const Accounting = () => {
     Record<string, unknown[]>
   >({});
 
-   const formatDate12 = (datetime: string) => {
-    const originalISO = parseISO(datetime);
-    const utcDate = utcToZonedTime(originalISO, "UTC");
-    const formattedDate = format(utcDate, "dd MMMM yyyy", {
-      timeZone: "UTC",
-    } as any).toUpperCase(); // Convert the month to uppercase
-    return formattedDate;
-  };
-
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
+        
         const response = await Axios.get(
           `/feature8/apptransactions/${venueId}`
         );
@@ -73,11 +62,9 @@ export const Accounting = () => {
         console.error("Error fetching table number:", error);
       }
     };
-    
+    console.log(appTrans)
     fetchTableNumber();
-  }, [venueId]);
-// }, [appTrans, venueId]);
-
+  }, [appTrans, venueId]);
 
   useEffect(() => {
     const fetchData = async (transactionId: number) => {
@@ -131,34 +118,30 @@ export const Accounting = () => {
 
   const aggregateAmountsByDate = () => {
     const aggregatedData: Record<string, { total: number; details: unknown[] }> = {};
-  
+
     // Aggregate amounts for transactions with the same date
-    // Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
-    Object.entries(appTransactionByMonth).forEach(([, detailsArray]) => {
+    Object.entries(appTransactionByMonth).forEach(([monthKey, detailsArray]) => {
+      monthKey;
       detailsArray.forEach((details) => {
-        const formattedDate = new Date(
-          utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone)
-        ).toISOString();
-  
-        console.log('Formatted Date:', formatDate12(formattedDate));
-  
-        if (aggregatedData[formatDate12(formattedDate)]) {
+        const formattedDate = format(
+            utcToZonedTime(new Date((details as appTransactionDetail).monthly), ThailandTimeZone),
+          "dd MMMM yyyy"
+        );
+
+        if (aggregatedData[formattedDate]) {
           // Add the amount to the existing date
-          aggregatedData[formatDate12(formattedDate)].total += Number((details as appTransactionDetail).total_amount);
-          aggregatedData[formatDate12(formattedDate)].details.push(details);
+          aggregatedData[formattedDate].total += Number((details as appTransactionDetail).total_amount);
+          aggregatedData[formattedDate].details.push(details);
         } else {
           // Initialize the amount for a new date
-          aggregatedData[formatDate12(formattedDate)] = {
-            total: Number((details as appTransactionDetail).total_amount),
-            details: [details],
-          };
-        }
+          aggregatedData[formattedDate] = { total: Number((details as appTransactionDetail).total_amount), details: [details] };
+        }        
       });
     });
-  
+
     return aggregatedData;
   };
-  
+
       const aggregatedAmountsByDate = aggregateAmountsByDate();
 
         // Filter data based on the extracted month (case-insensitive)
@@ -167,17 +150,9 @@ export const Accounting = () => {
         formattedDate.toLowerCase().includes(urlMonth.toLowerCase())
             )
           );
-        
-          const todayString = () => {
-            // Display today's date
-            const today = new Date();
-            const todayString = today.toLocaleDateString("en-US", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            });
-            return todayString;
-          };
+
+  
+
 
         return (
           <Center>
@@ -188,22 +163,6 @@ export const Accounting = () => {
               width={["100%", "80%", "70%"]}
               gap={4}
             >
-              <Card 
-                width="337px"
-                backgroundColor="#5F0DBB66"
-                color="#C5C4C7"
-                rounded="lg"
-                padding={6}
-                marginBottom={5}
-                >
-                  <Text style={textStyles.h3} color={'white'}>
-                    Latest transfer amount
-                  </Text>
-                  <Text style={textStyles.h1} color={"white"}>
-                    THB
-                  </Text>
-                  <Text style={textStyles.h4}>{todayString()}</Text>
-              </Card> 
               <Text style={TextStyle.h1} fontWeight={"bold"}>
                 Accounting information
               </Text>
@@ -256,7 +215,7 @@ export const Accounting = () => {
         return (
           <Link
             key={index}
-            to={`/business/Account/datexpand/${venueId}/${year}/${month}/${day}`}
+            to={`/${venueId}/Account/datexpand/${year}/${month}/${day}`}
           >
             <Card width="100%" backgroundColor="#D9D9D9" color="black">
               <CardBody textAlign="center">
