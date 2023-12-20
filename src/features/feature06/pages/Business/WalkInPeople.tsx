@@ -125,7 +125,9 @@ export const WalkInPeople = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/business/WalkInDetail/${branchIdInt}/${venueIdInt}?count=${count}`}>
+      <Link
+        to={`/business/WalkInDetail/${venueIdInt}/${branchIdInt}?count=${count}`}
+      >
         <Button
           width={"140px"}
           height={"40px"}

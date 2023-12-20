@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -21,7 +20,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  location: {
+  Location: {
     locationId: number;
     name: string;
     latitude: string;
@@ -54,12 +53,11 @@ export const MIKForm = () => {
 
   useEffect(() => {
     fetchData();
-    setIsLoaded(true);
-  }, []);
+  });
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
-    console.log(response);
+    const response: IData = await getVenueById(2, branchIdInt);
+    setIsLoaded(true);
     setData(response);
   };
 
@@ -69,8 +67,8 @@ export const MIKForm = () => {
     venueId: string;
     branchId: string;
   }>();
-  const venueIdInt = 2;
   const branchIdInt = parseInt(branchId || "0");
+  const venueIdInt = parseInt("2");
 
   const handleCreate = async () => {
     try {
@@ -92,13 +90,6 @@ export const MIKForm = () => {
         toast.warning("Please fill in all information");
       }
 
-      console.log("date: ", date);
-      console.log("time: ", time);
-      console.log("fname: ", fname);
-      console.log("lname: ", lname);
-      console.log("email: ", email);
-      console.log("phonenumber: ", phonenumber);
-
       const response = await Axios.post(`/api/mik/reserve`, {
         date: date,
         time: `${time}:00`,
@@ -112,7 +103,7 @@ export const MIKForm = () => {
       });
       console.log("create reservation successfully");
       console.log(response);
-      navigate("/3/venue/3/payment");
+      navigate("/my-reservation");
     } catch (err: any) {
       toast.error(err.response.data.error);
       console.log(err);
@@ -130,7 +121,7 @@ export const MIKForm = () => {
       >
         <RDetailCard
           name={data?.name}
-          location={data?.location.address}
+          location={data?.Location.address}
           star={data?.score}
           image_url={data?.Venue_photo}
         />
@@ -433,5 +424,5 @@ export const MIKForm = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Loading...</div>;
+  return isLoaded ? render() : <div>Payment required</div>;
 };
