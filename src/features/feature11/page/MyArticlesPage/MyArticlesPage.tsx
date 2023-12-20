@@ -83,7 +83,7 @@ export const MyArticlesPage = () => {
               {myComments.data?.map((comment) => {
                 return (
                   <CommentBox
-                    article={comment.article}
+                    Article={comment.Article}
                     articleId={comment.articleId}
                     commentId={comment.commentId}
                     content={comment.content}

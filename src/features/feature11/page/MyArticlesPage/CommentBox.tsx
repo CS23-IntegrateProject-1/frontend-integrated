@@ -10,7 +10,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { DeleteCommentModal } from "./DeleteCommentModal";
 
 export const CommentBox: FC<CommentItem> = ({
-  article: { topic },
+  Article: { topic },
   articleId,
   commentId,
   content,
@@ -109,7 +109,7 @@ export const CommentBox: FC<CommentItem> = ({
         </Text>
       </Box>
       <EditCommentModal
-        article={{ topic }}
+        Article={{ topic }}
         articleId={articleId}
         commentId={commentId}
         content={content}

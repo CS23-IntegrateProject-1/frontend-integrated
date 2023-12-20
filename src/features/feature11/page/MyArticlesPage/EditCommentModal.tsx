@@ -22,7 +22,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const EditCommentModal: FC<EditCommentModalProps> = ({
-  article: { topic },
+  Article: { topic },
   articleId,
   commentId,
   content,
@@ -39,7 +39,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
   const toast = useCustomToast();
   useEffect(() => {
     setComment({
-      article: { topic },
+      Article: { topic },
       articleId,
       commentId,
       content,

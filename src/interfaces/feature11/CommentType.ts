@@ -26,7 +26,7 @@ export interface ArticleComment {
 // }
 
 export interface CommentItem {
-  article: { topic: string };
+  Article: { topic: string };
   articleId: number;
   commentId: number;
   content: string;
@@ -44,7 +44,7 @@ export interface ModalComponentProps {
 }
 
 export interface EditCommentModalProps extends ModalComponentProps {
-  article: { topic: string };
+  Article: { topic: string };
   articleId: number;
   commentId: number;
   content: string;

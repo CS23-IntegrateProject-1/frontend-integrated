@@ -1,8 +1,7 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { ArticleComment } from "../../../../interfaces/feature11/CommentType";
-
 
 interface CommentItemProps {
   comment: ArticleComment;
@@ -12,7 +11,15 @@ export const CommentItem: FC<CommentItemProps> = ({ comment }) => {
   return (
     <Box my={"1em"} borderBottom={"solid 1px #A533C8"}>
       <Box display={"flex"} alignItems={"center"} mb={"1em"}>
-        <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box>
+        <Image
+          width={"45px"}
+          height={"45px"}
+          mr={"1em"}
+          src={
+            import.meta.env.VITE_BACKEND_URL + comment.User.profile_picture ||
+            ""
+          }
+        ></Image>
         <Box>
           <Text color={"black"} style={TextStyle.h5}>
             {comment.userId}
