@@ -28,6 +28,7 @@ export const HelpDesk = () => {
   }
 
     //Function for Ticket loop
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [looperData, setLooperData] = useState([
         {
           id: 1,
@@ -41,7 +42,7 @@ export const HelpDesk = () => {
         },
       ]);
 
-
+      
   return (
     <Box>
       {/* Create Ticket */}
