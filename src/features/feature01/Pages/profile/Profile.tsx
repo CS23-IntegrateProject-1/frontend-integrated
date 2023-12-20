@@ -127,7 +127,7 @@ export const Profile = () => {
                 {selectFile ? (
                   <Avatar size={"xl"} src={preview} />
                 ) : (
-                  <Avatar size={"xl"} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} />
+                  <Avatar size={"xl"} src={`${import.meta.env.VITE_BACKEND_URL}${profileData.avatar}`} />
                 )} 
                  
 

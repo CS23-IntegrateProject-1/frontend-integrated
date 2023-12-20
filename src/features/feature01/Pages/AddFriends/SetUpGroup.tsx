@@ -224,7 +224,7 @@ export const SetUpGroup = () => {
             return (
               <Box>
                 {item.avatar !== null ? (
-                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}  />
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.avatar}`}  />
               ) : (
                 <Avatar src="https://bit.ly/broken-link" />
               )}
