@@ -86,7 +86,7 @@ export const ArticlePage = () => {
         </Box>
       </Box>
       <Box>
-        <PhotoDisplayer images={article.data?.Image || []} />
+        <PhotoDisplayer images={import.meta.env.BACKEND_URL + article.data?.Image || []} />
       </Box>
 
       <Box minH={"80px"} mb={"2em"}>
