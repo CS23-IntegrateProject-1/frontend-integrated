@@ -137,7 +137,6 @@ export const AddFriend = () => {
     allData.append("group_name", groupName);
     allData.append("members[]", userId);
     allData.append("avatar", userImg);
-    allData.append("Private",true.toString());
 
     const url = `/feature1/group/add`;
     Axios.postForm(
