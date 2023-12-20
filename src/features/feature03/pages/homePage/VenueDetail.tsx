@@ -304,7 +304,7 @@ export const VenueDetail: FC = () => {
       </Flex>
 
       <Flex direction="row" pb="10" justifyContent={"center"}>
-        <NavLink to={`/table/${branchId}/${venueId}`}>
+        <NavLink to={`/table/${venueId}/${branchId}`}>
           <Button
             variant="solid"
             textColor="white"
