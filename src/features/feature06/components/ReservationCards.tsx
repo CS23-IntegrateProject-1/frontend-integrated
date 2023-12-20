@@ -192,24 +192,11 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
               color="white"
               backgroundColor="red"
             >
-              Payment
+              not paid
             </Button>
             ) : (
           ""
         )}
-          {isPaidDeposit === "Pending" && status === "Pending" ? (
-            <Button
-              width="60px"
-              height="30px"
-              marginLeft="260px"
-              marginTop="86px"
-              fontSize="12px"
-              color="white"
-              backgroundColor="#A533C8"
-            >
-              payment
-            </Button>
-            ): ""}
       </Box>
     </Card>
   );

@@ -82,6 +82,12 @@ export const GetReservationDetail: FC = () => {
     }
   };
 
+  const NavigateToPayment = () => {
+    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/payment`;
+    const newPath = originalPath.replace("/reservation-detail", "");
+    navigate(newPath);
+  }
+
   return (
     <Box
       display="flex"
@@ -395,9 +401,9 @@ export const GetReservationDetail: FC = () => {
                 textColor="white"
                 fontSize="16px"
                 fontStyle="normal"
-                fontWeight="700"
+                fontWeight="400"
                 lineHeight="24px"
-                onClick={() => navigate(`/1/venue/2/payment`)}
+                onClick={() => NavigateToPayment()}
               >
                 Pay deposit
               </Button>
