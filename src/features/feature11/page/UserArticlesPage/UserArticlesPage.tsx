@@ -69,7 +69,7 @@ export const UserArticlesPage = () => {
             articleId={article.articleId}
             topic={article.topic}
             author_name={article.author_name}
-            Image={article.Image}
+            Images={article.Images}
             Like={article.Like}
             Comment={article.Comment}
             created_date={article.created_date}

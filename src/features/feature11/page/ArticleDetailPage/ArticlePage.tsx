@@ -72,10 +72,9 @@ export const ArticlePage = () => {
     shareDisclosure.onOpen();
   };
   return (
-    <Box 
+    <Box
     // display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}
     >
-
       {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
@@ -94,7 +93,7 @@ export const ArticlePage = () => {
         bg={"red"}
       ></Box> */}
       <Box>
-        <PhotoDisplayer images={article.data?.Image || []} />
+        <PhotoDisplayer images={article.data?.Images || []} />
       </Box>
 
       <Box minH={"80px"} mb={"2em"}>

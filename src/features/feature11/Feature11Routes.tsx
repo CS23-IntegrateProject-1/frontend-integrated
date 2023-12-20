@@ -4,9 +4,11 @@ import { CreateArticlePage } from "./page/CreateArticlePge/CreateArticlePage";
 import { EditArticlePage } from "./page/EditArticlePage/EditArticlePage";
 import { MyArticlesPage } from "./page/MyArticlesPage/MyArticlesPage";
 import { UserArticlesPage} from "./page/UserArticlesPage/UserArticlesPage";
+import { SavedPlacesPage } from "./page/SavedPlacesPage/SavedPlacesPage";
 export const Feature11Routes = () => {
   return [
     { path: "/article", element: <ArticlesPage /> },
+    { path: "/article/saved-places", element: <SavedPlacesPage/> },
     { path: "/article/:articleId", element: <ArticlePage /> },
     { path: "/article/create", element: <CreateArticlePage /> },
     { path: "/article/myarticles", element: <MyArticlesPage /> },
