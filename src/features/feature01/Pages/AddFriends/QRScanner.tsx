@@ -1,61 +1,260 @@
-import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import QrCode from "react-qr-code";
-import { AttachmentIcon, DownloadIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
+import { QrScanner } from "@yudiel/react-qr-scanner";
+import {
+  AttachmentIcon,
+  CheckIcon,
+  DownloadIcon,
+  ExternalLinkIcon,
+} from "@chakra-ui/icons";
+import {  useEffect, useRef, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 export const QRScanner = () => {
-  //drawer
+  //drawer for qr code
   const { isOpen, onOpen, onClose } = useDisclosure();
+  //alert for copy link
+  const {
+    isOpen: isOpen2,
+    onOpen: onOpen2,
+    onClose: onClose2,
+  } = useDisclosure();
+  //alertfor downlaod qr code
+  const {
+    isOpen: isOpen3,
+    onOpen: onOpen3,
+    onClose: onClose3,
+  } = useDisclosure();
+  
+  const cancelRef = useRef();
   const [qrCodeData, setQrCodeData] = useState("");
   const [newData, setNewData] = useState("");
+  const [openCam, setOpenCam] = useState(false);
+  const [scannedData, setScannedData] = useState("")
+  const [friList, setFriList] = useState<any[]>([]);
+  const [userName, setUserName] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [checkFri, setCheckFri] = useState(false);
+  const [funstart, setFunstart] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const handleCopyLink = async() => {
+    setLinkCopied(true);
+    console.log(userName);
+    const copyLink = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/feature1/qr/${userName}`;
+    console.log(copyLink);
+    console.log(checkFri);
+
+    // if (linkCopied) {
+      onOpen2();
+      await navigator.clipboard.writeText(copyLink);
+      console.log("URL copied to clipboard!");
+      console.log(linkCopied);
+    // }
+  };
+  const openCamera = () => {
+    setOpenCam(true);
+  };
   const handleOpen = () => {
-      onOpen();
-      console.log("hello")
-  }
+    onOpen();
+    console.log("hello");
+  };
+  const downloadQR = () => {
+    onOpen3();
+    window.open(`${
+      import.meta.env.VITE_BACKEND_URL
+    }/feature1/qr/${userName}`);
+  };
+  const stop = () => {
+    setOpenCam(false);
+  };
+
   useEffect(() => {
     const url = `/feature1/profile`;
     Axios.get(url, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           const data = response.data;
-          const userId = data.user_id;
+          const userId = data.userId;
           const username = data.username;
-          const qrCodeData = `${userId},${username}`;
+          setUserName(username);
+          const gender = data.gender;
+          const birthday = data.birthday;
+          const phone = data.phone;
+          const qrCodeData = JSON.stringify({
+            userId,
+            username,
+            gender,
+            birthday,
+            phone,
+          });
+          //const qrCodeData = `${userId},${username}, ${data.gender}, ${data.birthday}, ${data.phone}, ${data.email}`;
           setQrCodeData(qrCodeData);
+          console.log(qrCodeData);
         }
       })
       .catch((error) => {
         console.error("Error fetching profile  data:", error);
       });
   }, [qrCodeData]);
+  //handle if there is user data update to generate new qr code
   useEffect(() => {
     const url = `/feature1/profile`;
     Axios.get(url, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           const data = response.data;
-          const userId = data.user_id;
+          const userId = data.userId;
           const username = data.username;
-          const qrCodeData = `${userId},${username}`;
+          const gender = data.gender;
+          const birthday = data.birthday;
+          const phone = data.phone;
+          const qrCodeData = JSON.stringify({
+            userId,
+            username,
+            gender,
+            birthday,
+            phone,
+          });
+          //const qrCodeData = `${userId},${username}, ${data.gender}, ${data.birthday}, ${data.phone}, ${data.email}`;
           setQrCodeData(qrCodeData);
+          console.log(qrCodeData, "JSON Data from me");
         }
       })
       .catch((error) => {
         console.error("Error fetching profile  data:", error);
       });
   }, [newData]);
-  const generateQR = () => {  
+
+  const generateQR = () => {
     setNewData("1");
-  }
+  };
+  // useEffect(() => {
+  //if user found from scanning qr code}
+  // if(funstart){
+  //   console.log('fund');
+  //   console.log(scannedData, "  scann data");
+  //   const url = `/feature1/friend`;
+  //   Axios.get(url, { withCredentials: true })
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //           const data = response.data;
+  //           setFriList(data);
+  //           friList.map((item) => {
+  //               if (item.name.includes(scannedData)) {
+  //                   console.log("found");
+  //               }
+  //           });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching profile  data:", error);
+  //     });
+  //     setFunstart(false);
+  // }
+  if (funstart) {
+    console.log("fund starat");
+    const scanDataArray = scannedData.split(",");
+    const [scanId, scanName, scanG, scanBirthday, scanPhone] = scanDataArray;
+    console.log(
+      scanId,
+      scanName,
+      scanG,
+      scanBirthday,
+      scanPhone,
+      "from destructure"
+    );
+    const url = `/feature1/friend`;
+    Axios.get(url, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          const data = response.data;
+          setFriList(data);
+          //already in the fir list situation
+          friList.map((item) => {
+            if(item.name == scanName )
+            console.log(item.name, scanName, "from map");
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching profile  data:", error);
+      });
+    //if they are not fri to each other
+    //add to fri list
+    if(checkFri){
+      const urlfri = `/feature1/search/friends?username=${scanName}`;
+      Axios.get(urlfri, { withCredentials: true })
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response.data, "fund from username fri add");
+            setCheckFri(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching username fri data:", error);
+        });
+      setFunstart(false);
+      console.log("stop");
+    }
+    }
+    
+
+  // }, [scannedData, friList]);
+
   return (
     <Box height={"100%"}>
       {/* upper part */}
-      <Box height={"60%"}></Box>
+      <Box
+        width={{ lg: 80, base: 60 }}
+        height={"60%"}
+        ml={{ lg: "39%", base: "50" }}
+        mt={{ lg: "", base: "10" }}
+      >
+        {openCam && (
+          <QrScanner
+            onDecode={(result: string) => {
+              console.log(result, "result");
+              setScannedData(result);
+              setFunstart(true);
+            }}
+            onError={(error: { message: any }) => console.log(error?.message)}
+          />
+        )}
+        {funstart}
+        {scannedData}
+        {/* {JSON.parse(scannedData)} */}
+      </Box>
       {/* lower part */}
-      <Box height={"30%"} mx={{sm:-4, lg:-8}} mt={{sm:70, lg:90}} p={20} bg={"brand.300"}>
-        <Button onClick={handleOpen} mt={-5} ml={{lg:'45%', sm:'5'}} px={5} borderRadius={15}>
-       
+      <Box
+        height={"30%"}
+        mx={{ base: -4, lg: -8 }}
+        mt={{ base: 55, lg: 90 }}
+        p={20}
+        bg={"brand.300"}
+      >
+        <Button
+          onClick={handleOpen}
+          mt={-20}
+          ml={{ lg: "45%", base: "5" }}
+          px={5}
+          borderRadius={15}
+        >
           <Box>
             <svg
               width="31"
@@ -90,56 +289,148 @@ export const QRScanner = () => {
           </Box>
           <Box ml={3}>My QR Code</Box>
         </Button>
-        <Box mt={3} ml={{lg:'46%', sm:'8'}}>
-          <Text fontSize={TextStyle.body2.fontSize}>Scan QR code to add friends</Text>
+        <Box mt={-2} ml={{ lg: "46%", base: "7" }}>
+          <Text
+            cursor={"pointer"}
+            onClick={openCamera}
+            fontSize={TextStyle.body2.fontSize}
+          >
+            Scan QR code to add friends
+          </Text>
         </Box>
       </Box>
-
+      <button onClick={stop}>stop</button>
       {/* Drawer for QR code*/}
-      <Drawer
-        isOpen={isOpen}
-        placement='bottom'
-        onClose={onClose}
-      >
+      <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
         <DrawerOverlay />
-        <DrawerContent  bg={'grey.200'} borderRadius={20}> 
-          <DrawerCloseButton color={'brand.200'} />
+        <DrawerContent bg={"grey.200"} borderRadius={20}>
+          <DrawerCloseButton color={"brand.200"} />
           <DrawerBody>
-            <Box ml={'45%'} my={2} >
-            <QrCode value={qrCodeData} size={180} level="H" bgColor="#FFFFFF" />;
+            <Box ml={{ lg: "45%", base: "25%" }} my={2} mt={{ base: "4" }}>
+              <QRCode id="qr" value={qrCodeData} size={180} level="H" />;
             </Box>
-            <Box ml={'35%'} my={2}>
-               <Text color={'black'}>
+            <Box ml={{ lg: "35%" }} my={2}>
+              <Text
+                cursor={"pointer"}
+                color={"black"}
+                textAlign={{ base: "center", lg: "left" }}
+              >
                 Show or send this QR code to your friends to let them add you
-               </Text>
+              </Text>
             </Box>
-            <Box my={3} display={'flex'} justifyContent={'space-evenly'}>
-               <Box>
-                  <Box ml={5}><AttachmentIcon color={'black'}/></Box>
-                  <Box color={'black'}>Copy link</Box>
-                    
-               </Box>
-               <Box color={'black'}>
-                  <Box ml={10}><ExternalLinkIcon/></Box>
-                  <Box ml={8}> Share</Box>
-                     
-               </Box>
-               <Box color={'black'}>
-                  <Box ml={5}><DownloadIcon/></Box>
-                  <Box>Download</Box>
-                    
-                    
-               </Box>
+            <Box my={3} display={"flex"} justifyContent={"space-evenly"}>
+              <Box cursor={"pointer"} onClick={handleCopyLink}>
+                <Box ml={5}>
+                  <AttachmentIcon color={"black"} />
+                </Box>
+                <Box color={"black"}>Copy link</Box>
+              </Box>
+
+              <Box color={"black"}>
+                <Box ml={10}>
+                  <ExternalLinkIcon />
+                </Box>
+                <Box ml={8}> Share</Box>
+              </Box>
+              <Box color={"black"} cursor={"pointer"} onClick={downloadQR}>
+                <Box ml={5}>
+                  <DownloadIcon />
+                </Box>
+                <Box>Download</Box>
+              </Box>
             </Box>
-            <Box my={4} ml={'45%'}>
-              <Button onClick={generateQR} _hover={{bg:'brand.200'}} px={5} borderRadius={20} bg={'brand.300'} color='white'>
+            <Box my={4} ml={{ lg: "45%", base: "20%" }}>
+              <Button
+                onClick={generateQR}
+                _hover={{ bg: "brand.200" }}
+                px={5}
+                borderRadius={20}
+                bg={"brand.300"}
+                color="white"
+              >
                 Generate QR code
               </Button>
             </Box>
-      
           </DrawerBody>
         </DrawerContent>
       </Drawer>
+
+      {/* Drawe for QR Link Copy */}
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef as any}
+        onClose={onClose2}
+        isOpen={isOpen2}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogBody color={"black"} fontSize={TextStyle.h1.fontSize}>
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Box
+                position={"relative"}
+                width={"20"}
+                height={"20"}
+                borderRadius={"50%"}
+                bg="brand.200"
+              ></Box>
+              <Box position={"absolute"} ml={7}>
+                {" "}
+                <CheckIcon
+                  fontSize={TextStyle.h1.fontSize}
+                  fontWeight={TextStyle.h1.fontWeight}
+                  color={"white"}
+                />
+              </Box>
+              <Box> Link Copied Successfully</Box>
+            </Box>
+          </AlertDialogBody>
+        </AlertDialogContent>
+      </AlertDialog>
+
+
+      {/* Drawe for QR Link Copy */}
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef as any}
+        onClose={onClose3}
+        isOpen={isOpen3}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogBody color={"black"} fontSize={TextStyle.h1.fontSize}>
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Box
+                position={"relative"}
+                width={"20"}
+                height={"20"}
+                borderRadius={"50%"}
+                bg="brand.200"
+              ></Box>
+              <Box position={"absolute"} ml={7}>
+                {" "}
+                <CheckIcon
+                  fontSize={TextStyle.h1.fontSize}
+                  fontWeight={TextStyle.h1.fontWeight}
+                  color={"white"}
+                />
+              </Box>
+              <Box>Downloaded QR code Successfully</Box>
+            </Box>
+          </AlertDialogBody>
+        </AlertDialogContent>
+      </AlertDialog>
     </Box>
   );
 };
