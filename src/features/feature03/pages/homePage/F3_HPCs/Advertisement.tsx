@@ -84,7 +84,7 @@ export function Advertisement({ isOpen = true, onClose = () => {} }) {
       >
         <ModalBody p={0} px={0}>
           <Image
-            src={selectedAdvertisement.image_url}
+            src={`${import.meta.env.VITE_BACKEND_URL}${selectedAdvertisement.image_url}`}
             alt="Pic not load"
             w="100%"
             maxW={{base:"350px", lg:"1000px"}}
