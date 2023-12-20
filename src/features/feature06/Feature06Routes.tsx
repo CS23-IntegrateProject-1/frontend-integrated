@@ -14,12 +14,12 @@ export const Feature06Routes = () => {
       element: "ElementPlaceHolder",
     }, //page for choose the reservation details (date, time, etc.)
     { path: "/check-in", element: "ElementPlaceHolder" },
-    { path: "/reservation-detail/:branchId/:2", element: <MIKForm /> },
+    { path: "/reservation-detail/2/:branchId", element: <MIKForm /> },
     { path: "/my-reservation", element: <MyReservation /> },
-    { path: "/table/:branchId/:venueId", element: <TablePage /> },
+    { path: "/table/:venueId/:branchId", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
     {
-      path: "/reservation-detail/:branchId/:venueId",
+      path: "/reservation-detail/:venueId/:branchId",
       element: <ReservationDetail />,
     },
     {
