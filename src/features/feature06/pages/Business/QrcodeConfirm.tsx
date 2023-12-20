@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Text, } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Html5QrcodeScanner, QrcodeErrorCallback } from "html5-qrcode";
