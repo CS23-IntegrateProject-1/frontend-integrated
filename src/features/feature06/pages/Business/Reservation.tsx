@@ -19,28 +19,25 @@ interface ReservationCard {
   guest_amount: number;
   reserved_time: string;
   status: string;
-  User: {
+  user: {
+    username: string;
     hashed_password: string;
     fname: string;
     lname: string;
     email: string;
     profile_picture: null;
-    prompt_pay: null;
     addId: null;
     phone: string;
     tierId: number;
     userId: number;
-    username: string;
+    prompt_pay: null;
   };
-  branchId: number;
-  depositId: number;
   entry_time: string;
-  isPaidDeposit: string;
   isReview: boolean;
-  name: string;
-  phone: string;
   reservationId: number;
-  userId: number;
+  isPaidDeposit: string;
+  depositId: number;
+  branchId: number;
 }
 
 export const Reservation = () => {
@@ -58,7 +55,6 @@ export const Reservation = () => {
 
   const fetchData = async () => {
     const response = await getAllReservationOfVenue();
-    console.log(response);
     setData(response);
   };
 
@@ -74,8 +70,8 @@ export const Reservation = () => {
   const renderCards = () => {
     return data.map((reservation, index: number) => {
       const shouldRender =
-        (filterOptions.offline && reservation.User.userId === 0) ||
-        (filterOptions.online && reservation.User.userId !== 0);
+        (filterOptions.offline && reservation.user.userId === 0) ||
+        (filterOptions.online && reservation.user.userId !== 0);
 
       // Check if the reservation matches the selected date
       const isMatchingDate =
@@ -86,8 +82,8 @@ export const Reservation = () => {
         <Box key={index} marginBottom={"20px"}>
           <BusinessReservationCard
             reservationIdInt={reservation.reservationId}
-            name={reservation.User.fname + " " + reservation.User.lname}
-            type={reservation.User.userId === 0 ? "offline" : "online"}
+            name={reservation.user.fname + " " + reservation.user.lname}
+            type={reservation.user.userId === 0 ? "offline" : "online"}
             status={reservation.status}
             date={reservation.reserved_time}
           />
