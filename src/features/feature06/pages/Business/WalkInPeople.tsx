@@ -1,20 +1,26 @@
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AmountOfPeopleIcon } from "../../components/AmountOfPeople";
 
 export const WalkInPeople = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
+  const venueIdInt = parseInt(venueId || "0");
+  const branchIdInt = parseInt(branchId || "0");
 
   function increment() {
-    if (count < 10) {
+    if (count < 30) {
       setCount(count + 1);
     }
   }
 
   function decrement() {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   }
@@ -119,7 +125,9 @@ export const WalkInPeople = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/WalkInDetail?count=${count}`}>
+      <Link
+        to={`/business/WalkInDetail/${venueIdInt}/${branchIdInt}?count=${count}`}
+      >
         <Button
           width={"140px"}
           height={"40px"}

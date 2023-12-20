@@ -7,10 +7,10 @@ import { Axios } from "../../../AxiosInstance";
 
 
 interface foodItems {
-    foodName: string;
-    amount: number;
-    status: number;
-    onClick: () => void;
+    menuName: string;
+    setName: string;
+    quantity: number;
+    orderDetailId: number;
 }
 
 interface BusOngoCardProps {
@@ -21,7 +21,7 @@ interface BusOngoCardProps {
     invalidateOngoingOrderDetails: () => void;
 }
 
-export const BusOngoCard: FC<BusOngoCardProps, foodItems>= ({items,tableNo,invalidateOngoingOrderDetails,orderDate}) => {
+export const BusOngoCard: FC<BusOngoCardProps>= ({items,tableNo,invalidateOngoingOrderDetails,orderDate}) => {
 
     const handleComplete = async (orderDetailId:number) => {
         try{
@@ -41,7 +41,7 @@ export const BusOngoCard: FC<BusOngoCardProps, foodItems>= ({items,tableNo,inval
             width="319px"  
             height={"auto"}
             p={1} 
-            borderColor={"brand.100"}
+            borderColor={"brand.300"}
             bgColor={"brand.300"}
             mt={2}
             >
@@ -49,32 +49,37 @@ export const BusOngoCard: FC<BusOngoCardProps, foodItems>= ({items,tableNo,inval
                 <Text {...textStyles.h2} color="white" lineHeight="1.5" >
                     Table No.{tableNo}
                 </Text>
-                <Text {...textStyles.h2} color="white" lineHeight="1.5" justifyContent="flex-end">
+                <Text {...textStyles.h3} color="white" lineHeight="1.5" justifyContent="flex-end">
                     {/* 1/1/2021 */}
                     <Icon as={TimeIcon} w={4} h={4} color="white" mr={1} />
                     {orderDate}
                 </Text>
+                
             </HStack>
-            <VStack align="start" spacing={2} mt={1}>
+            <VStack align="start" spacing={3} mt={1}>
                 {items?.map((item) => (
-                <Box width="100%" id={item.orderDetailId}>
-                <Flex justifyContent="space-between" alignItems="flex-start">  
-                    <Text {...textStyles.h2} color="white" lineHeight="1.5" >
+                <Box width="100%" key={item.orderDetailId}>
+                 <HStack display="flex" justifyContent="space-between">
+                    <Text {...textStyles.h3} color="white" lineHeight="1.5" flex="3">
                         {/* Set food Name Integrate */}
-                        {item.menuName || item.setName}
+                        {item.menuName || item.setName} 
                     </Text>
                     <Spacer />
-                    <Text {...textStyles.h2} color="white" lineHeight="1.5" >
-                        {/* Set famount Integrate */}
-                        x{item.quantity}
-                    </Text>
+                            <Text {...textStyles.h3} color="white" lineHeight="1.5" flex="1">
+                                x{item.quantity}
+                            </Text>
+                   
                     <Spacer />
-
                     <ButtonComponent
                         text="Mark as Completed"
+                        textStyle={"h3"}
+                        width={"150px"}
+                        height={"30px"}
+                        // alignItems="flex-end"
+                        bgColorHover={"green"}
                         onClick={()=>handleComplete(item.orderDetailId)}
                     />
-                </Flex>
+                </HStack>
                 </Box>
                 ))}
             </VStack>

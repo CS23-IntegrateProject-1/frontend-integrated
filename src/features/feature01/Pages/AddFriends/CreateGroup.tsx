@@ -44,6 +44,9 @@ export const CreateGroup = () => {
     selectedFriends.forEach((friend) => {
         console.log(friend, 'from create group');
     });
+    if(friendImg){
+        console.log(friendImg, 'from create group');
+    }
 
     useEffect(() => {
         const selected = selectedFriends.map((friend) => {
@@ -153,16 +156,20 @@ export const CreateGroup = () => {
                 <GroupAva selectedFriends={selectedFriends} setSelectedFriends={setSelectedFriends} />
             </Stack>
             {/* {JSON.stringify(selectedIds, null, 2)} */}
-            <Box>
+            <Box cursor={'pointer'}>
                 {/* Friend LIST */}
                 {friData.map((item) => (
                     <Flex py={2} alignItems={"center"} justifyContent={"space-between"}>
                         <Box>
-                            {item.avatar ? (
-                                <Avatar src={friendImg} size={"md"} />
-                            ) : (
-                                <Avatar src="https://bit.ly/broken-link" size={"md"} />
-                            )}
+                            {/* {item.avatar} */}
+                        {item.avatar !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}size={"md"} />
+                                ) : (
+                                  <Avatar
+                                    src="https://bit.ly/broken-link"
+                                    size={"md"}
+                                  />
+                                )}
                         </Box>
                         {/* <Box>
                 <Text fontSize={TextStyle.h3.fontSize} fontWeight={TextStyle.h2.fontWeight}>{item.name}</Text>

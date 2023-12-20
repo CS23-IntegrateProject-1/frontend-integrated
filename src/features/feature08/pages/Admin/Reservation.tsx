@@ -141,7 +141,7 @@ if (selectedFromDate !== undefined && selectedToDate !== undefined) {
     });
 }
 // Add dependencies to the dependency array if needed
-}, [selectedFromDate, selectedToDate]);
+}, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
 
 if(selectedFromDate !== undefined){
@@ -461,28 +461,28 @@ console.log(selectedToDate)
                   </Select>
                 </PopoverBody>
                <PopoverBody>
-                  <Link to={`/venue/${venueId}/admin/insight`}>
+                  <Link to={`/admin/insight/venue/${venueId}`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Insight
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${venueId}/admin/dashboard`}>
+                  <Link to={`/admin/insight/all/venue/${venueId}`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Total
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${venueId}/admin/FoodOrder`}>
+                  <Link to={`/admin/FoodOrder/${venueId}`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Order
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/venue/${venueId}/admin/FoodDelivery`}>
+                  <Link to={`/admin/FoodDelivery/${venueId}`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Delivery
                     </Text>

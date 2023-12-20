@@ -15,7 +15,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  console.log(props.User)
   const handleDeleteLike = (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
@@ -63,13 +63,13 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
           <img
-            src={import.meta.env.BASE_URL + props.user.profile_picture}
+            src={import.meta.env.VITE_BACKEND_URL + props.User.profile_picture || ""}
             alt="profile picture"
             width="32px"
             height="32px"
           />
           <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
-            {props.user.username}
+            {props.User.username}
             
           </Text>
           <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
@@ -88,7 +88,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
           {props.topic}
         </Text>
         <Image
-          src={import.meta.env.VITE_BACKEND_URL + props.Image[0]?.url}
+          src={import.meta.env.VITE_BACKEND_URL + `${props.Images[0]? props.Images[0].url :  ""  }` || ""}
           alt="Article"
           w={"200px"}
           h={"100px"}

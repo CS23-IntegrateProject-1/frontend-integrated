@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Flex, Box, Text, Spacer } from '@chakra-ui/react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Axios } from '../../../../AxiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { formatDate1 } from '../../../../functions/formatDatetime';
 
 interface OrderResponse {
-  ordersss: orders[];
+  orders: orders[];
 }
 
 interface orders {
@@ -20,7 +20,7 @@ interface orders {
   timestamp: string;
 }
 
-export const Receipt = () => {
+export const Receipt: React.FC = () => {
   const location = useLocation();
   const [fromDate, setFromDate] = useState('All time');
   const [toDate, setToDate] = useState('All time');
@@ -36,11 +36,11 @@ export const Receipt = () => {
   const fetchOrderData = async () => {
     try {
       const orderRes = await Axios.get<OrderResponse>(`/feature8/getTransactionReserveIdByVenueIdAndEqualToStatusCompleted/${venueId}`);
-      const orderData = orderRes.data || { ordersss: [] };
-      return { orderData };
+      const orderData = orderRes.data || { orders: [] };
+      return orderData;
     } catch (error) {
       console.error('Error fetching order data:', error);
-      return { orderData: { ordersss: [] } };
+      return { orders: [] };
     }
   };
 
@@ -52,33 +52,60 @@ export const Receipt = () => {
           toTime: toDate,
         },
       });
-      const orderFilterData = orderResponseFilter.data || { ordersss: [] };
-      return { orderFilterData };
+      const orderFilterData = orderResponseFilter.data || { orders: [] };
+      return orderFilterData;
     } catch (error) {
       console.error('Error fetching filtered order data:', error);
-      return { orderFilterData: { ordersss: [] } };
+      return { orders: [] };
     }
   };
 
-  const { data, isLoading } = useQuery(['fetchOrderData', venueId || ''], () => fetchOrderData());
+  const { data, isLoading } = useQuery(['fetchOrderData', venueId || ''], fetchOrderData);
 
-  const orderData = (data?.orderData?.ordersss as orders[]) || [];
+  const orderData = (data?.orders as orders[]) || [];
 
   const [dataFiltered, setDataFiltered] = useState<orders[]>([]);
+  console.log(isFiltered);
+  console.log(data)
+  console.log(orderData);
+  console.log(orderData.length)
 
-  useEffect(() => {
-    setIsFiltered(false);
-    if (fromDate !== 'All time' && toDate !== 'All time') {
-      fetchOrderTimeFilterData()
-        .then((response) => {
-          setDataFiltered(response.orderFilterData.ordersss);
-          setIsFiltered(true);
-        })
-        .catch((error) => {
-          console.error('Error fetching filtered order data:', error);
-        });
-    }
-  }, [fromDate, toDate, venueId]);
+        
+
+      //   setDataFiltered(response.ordersss);
+      //   setIsFiltered(true);
+      // } catch (error) {
+      //   console.error('Error fetching filtered order data:', error);
+      // }
+      useEffect(() => {
+        if (fromDate !== 'All time' && toDate !== 'All time') {
+          // Execute the code when fromTime is not 'All time'
+      
+          const fetchData = async () => {
+            try {
+              const response = await fetchOrderTimeFilterData();
+              setDataFiltered(response.orders);
+              setIsFiltered(true);
+            } catch (error) {
+              console.error('Error fetching filtered order data:', error);
+            }
+          };
+      
+          fetchData();
+        } else {
+          // Execute alternative code when fromTime is 'All time'
+          // For example, you might want to reset the dataFiltered and isFiltered states
+          setDataFiltered([]);
+          setIsFiltered(false);
+        }
+      }, [ fromDate, toDate, venueId]);
+      
+      console.log(dataFiltered)
+
+
+
+
+  
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -88,54 +115,57 @@ export const Receipt = () => {
     <div>
       {isFiltered
         ? dataFiltered.map((order, index) => (
-            <Flex
-              key={index}
-              bg="blackAlpha.300"
-              h="75px"
-              align="center"
-              borderRadius="10px"
-              transition="background-color 0.3s ease-in-out"
-              _hover={{ bg: 'blackAlpha.400' }}
-              _active={{ bg: 'blackAlpha.200' }}
-              marginBottom="10px"
-            >
-              
-              <Box ml="3">
-                <Text fontWeight="bold">Order ID #{order?.orderId}</Text>
-                <Text fontSize="sm">{order?.total_amount} Baht</Text>
-              </Box>
-              <Spacer />
-              <Box>
-              <Text fontSize="md" textAlign="right" paddingRight={3}>
-                  {formatDate1(order.timestamp)}
-              </Text>
-            </Box>
-            </Flex>
+            <Link key={index} to={`/venue/${venueId}/admin/checkbill/${order?.orderId}`}>
+              <Flex
+                bg="blackAlpha.300"
+                h="75px"
+                align="center"
+                borderRadius="10px"
+                transition="background-color 0.3s ease-in-out"
+                _hover={{ bg: 'blackAlpha.400' }}
+                _active={{ bg: 'blackAlpha.200' }}
+                marginBottom="10px"
+                cursor="pointer"
+              >
+                <Box ml="3">
+                  <Text fontWeight="bold">Order ID #{order?.orderId}</Text>
+                  <Text fontSize="sm">{order?.total_amount} Baht</Text>
+                </Box>
+                <Spacer />
+                <Box>
+                  <Text fontSize="md" textAlign="right" paddingRight={3}>
+                    {formatDate1(order.timestamp)}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
           ))
-          : orderData.map((order, index) => (
-            <Flex
-              key={index}
-              bg="blackAlpha.300"
-              h="75px"
-              align="center"
-              borderRadius="10px"
-              transition="background-color 0.3s ease-in-out"
-              _hover={{ bg: 'blackAlpha.400' }}
-              _active={{ bg: 'blackAlpha.200' }}
-              marginBottom="10px"
-            >
-              
-              <Box ml="3">
-                <Text fontWeight="bold">Order ID #{order?.orderId}</Text>
-                <Text fontSize="sm">{order?.total_amount} Baht</Text>
-              </Box>
-              <Spacer />
-              <Box>
-              <Text fontSize="md" textAlign="right" paddingRight={3}>
-                  {formatDate1(order.timestamp)}
-              </Text>
-            </Box>
-            </Flex>
+        : orderData.map((order, index) => (
+          
+            <Link key={index} to={`/admin/checkbill/${order?.orderId}/${venueId}`}>
+              <Flex
+                bg="blackAlpha.300"
+                h="75px"
+                align="center"
+                borderRadius="10px"
+                transition="background-color 0.3s ease-in-out"
+                _hover={{ bg: 'blackAlpha.400' }}
+                _active={{ bg: 'blackAlpha.200' }}
+                marginBottom="10px"
+                cursor="pointer"
+              >
+                <Box ml="3">
+                  <Text fontWeight="bold">Order ID #{order?.orderId}</Text>
+                  <Text fontSize="sm">{order?.total_amount} Baht</Text>
+                </Box>
+                <Spacer />
+                <Box>
+                  <Text fontSize="md" textAlign="right" paddingRight={3}>
+                    {formatDate1(order?.timestamp)}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
           ))}
     </div>
   );

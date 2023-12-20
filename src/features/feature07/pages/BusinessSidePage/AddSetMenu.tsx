@@ -16,7 +16,7 @@ import { ButtonComponent } from "../../../../components/buttons/ButtonComponent"
 import { Image } from "../../component/ImageUpload/Image";
 import { useRef, useState} from "react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
@@ -24,12 +24,13 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 
 
 export const AddSetMenu: React.FC = () => {
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -38,7 +39,7 @@ export const AddSetMenu: React.FC = () => {
   const [selectId, setSelectId] = useState("");
 
   const getMenu = async () => {
-    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const response = await Axios.get('/feature7/getAllMenus');
     const menuData = response.data;
     //console.log(menuData);
     return menuData;
@@ -50,7 +51,7 @@ export const AddSetMenu: React.FC = () => {
     // isError,
   } = useQuery(["menuData"], () => getMenu());
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -88,9 +89,9 @@ export const AddSetMenu: React.FC = () => {
 
   //for image upload
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
     console.log("Selected file:", selectedFile);
@@ -102,41 +103,49 @@ export const AddSetMenu: React.FC = () => {
   //   console.log('Navigating to:', targetPath);
   //   navigate(targetPath);
   // };
+  const isFormValid = () => {
+    return (
+      formData.name &&
+      formData.description &&
+      formData.price &&
+      selectedMenus.length > 0
+    );
+  };
+  
 
-  const handleAddSetMenuClick = async (e) => {
-    e.preventDefault();
+  const handleAddSetMenuClick =  () => {
+    setFormSubmitted(true);
+
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    // e.preventDefault();
     const formDataWithFile = new FormData();
     //console.log(formData);
     formDataWithFile.append("name", formData.name);
     formDataWithFile.append("description", formData.description);
     formDataWithFile.append("price", formData.price);
-    formDataWithFile.append("menuImage", selectedFile);
+    formDataWithFile.append("file", selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
-    try {
-      const response = await Axios.post(
-        `/feature7/addSetWithMenuItems/${venueId}`,
-        formDataWithFile,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    Axios.post(`/feature7/addSetWithMenuItems`, formDataWithFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("SetMenu added:", response.data);
+          toast.success("Set Menu Added");
+          const targetPath = `/business/venue/menubusiness?section=setmenu`;
+          console.log("Navigating to:", targetPath);
+          navigate(targetPath);
         }
-      );
-      if (response.status === 200) {
-        // const ClearResponse = await Axios.get('/feature7/clearSetItemsInCookies/');
-        // console.log('Clear set items in cookies:', ClearResponse.data);
-        console.log("SetMenu added:", response.data);
-        toast.success("Set Menu Added");
-        const targetPath = `/venue/${venueId}/menubusiness?section=setmenu`;
-        console.log("Navigating to:", targetPath);
-        navigate(targetPath);
-      }
-
-      // navigate(`/venue/${venueId}/menubusiness`);
-    } catch (error) {
-      console.error("Error adding setmenu:", error);
-    }
+      })
+      .catch((error) => {
+        console.error("Error adding setmenu:", error);
+      });
   };
 
   const handleDropdownChange = async (selectedMenuId: string) => {
@@ -160,7 +169,7 @@ export const AddSetMenu: React.FC = () => {
     }
     setSelectId(""); // reset dropdown
   };
-
+  
   // const handleMenuSelect = (selectedMenu: Menu) => {
   //   setSelectedMenus((prevMenus) => [...prevMenus, selectedMenu]);
   //   setInputFieldValue('');
@@ -179,13 +188,15 @@ export const AddSetMenu: React.FC = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !formData.name}
             />
           </Box>
         </Center>
@@ -199,11 +210,13 @@ export const AddSetMenu: React.FC = () => {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !formData.description}
             />
           </Box>
         </Center>
@@ -243,7 +256,7 @@ export const AddSetMenu: React.FC = () => {
           <Box>
             <FormLabel>Selected Food in set:</FormLabel>
             <VStack align="start" spacing={2}>
-              {selectedMenus?.map((item) => (
+              {selectedMenus?.map((item: any) => (
                 <Box width={"307px"} key={item.menuId}>
                   <HStack justify={"space-between"} align="center">
                     <Box>{item.menuName}</Box>
@@ -257,7 +270,7 @@ export const AddSetMenu: React.FC = () => {
                 </Box>
               ))}
             </VStack>
-            <InputGroup>
+            <InputGroup >
               {/* <InputLeftElement>
                 <AddIcon boxSize={4} onClick={handleChooseMenuClick} />
               </InputLeftElement> */}
@@ -266,6 +279,8 @@ export const AddSetMenu: React.FC = () => {
                 width="307px"
                 placeholder="Add a menu"
                 value={selectId}
+                borderColor={(formSubmitted &&  selectedMenus.length === 0) ? "red.300" : "brand.300"}
+                isInvalid={formSubmitted && selectedMenus.length === 0}
                 onChange={(e) => handleDropdownChange(e.target.value)}
                 // style={{
                 //   control: (styles) => ({
@@ -292,8 +307,10 @@ export const AddSetMenu: React.FC = () => {
                 bg={"brand.300"}
                 as="select"
               >
-                {menuOptions?.map((menu) => (
-                  <option key={menu.menuId} value={menu.menuId}>
+                {menuOptions?.map((menu: any) => (
+                  <option key={menu.menuId} value={menu.menuId}
+                  
+                  >
                     {menu.name}
                   </option>
                 ))}
@@ -312,12 +329,14 @@ export const AddSetMenu: React.FC = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !formData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name="price"
               value={formData.price}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !formData.price}
             />
           </Box>
         </Center>

@@ -17,6 +17,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useCustomToast } from "../../../../components/useCustomToast";
 
+interface branchAvailabilityProps {
+  branchId: number;
+  branchName: string;
+  availability: boolean;
+}
+
 const getMenuItem = async (type: string, menuid: string) => {
   const response = await Axios.get(`/feature7/get${type}ById/${menuid}`);
   return response.data;
@@ -24,7 +30,7 @@ const getMenuItem = async (type: string, menuid: string) => {
 
 
 export const BusinessMenuDetail: FC = () => {
-  const { type, menuid, venueId } = useParams();
+  const { type, menuid } = useParams();
   const toast = useCustomToast();
   //console.log(menuid);
   const navigate = useNavigate();
@@ -33,14 +39,19 @@ export const BusinessMenuDetail: FC = () => {
     data: menuItem,
     isLoading,
     isError,
-  } = useQuery([type, menuid], () => getMenuItem(type, menuid));
+  } = useQuery([type, menuid], () => {
+    if (type !== undefined && menuid !== undefined) {
+      return getMenuItem(type, menuid);
+    }
+    return Promise.reject(new Error('type or menuid is undefined'));
+  });
   //console.log(menuItem);
 
   const handleMenuEdit = () => {
     if (type == "Set") {
-      navigate(`/venue/${venueId}/editsetmenu/${menuid}`);
+      navigate(`/business/venue/editsetmenu/${menuid}`);
     } else {
-      navigate(`/venue/${venueId}/editmenu/${menuid}`);
+      navigate(`/business/venue/editmenu/${menuid}`);
     }
   };
 
@@ -50,9 +61,9 @@ export const BusinessMenuDetail: FC = () => {
       toast.success("Menu Deleted");
       console.log("Menu deleted:", response.data);
       if (type == "Set") {
-        navigate(`/venue/${venueId}/menubusiness?section=setmenu`);
+        navigate(`/business/venue/menubusiness?section=setmenu`);
       } else {
-        navigate(`/venue/${venueId}/menubusiness?section=allmenu`);
+        navigate(`/business/venue/menubusiness?section=allmenu`);
       }
       //   const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
       //   //console.log('Navigating to:', targetPath);
@@ -64,7 +75,7 @@ export const BusinessMenuDetail: FC = () => {
 
   const getBranchAvailability = async (menuid: string) => {
     const response = await Axios.get(
-      `/feature7/checkMenuAvailabilityOfAllBranches/${menuid}/${venueId}`
+      `/feature7/checkMenuAvailabilityOfAllBranches/${menuid}`
     );
     //console.log("BranchAva",response.data);
     return response.data;
@@ -72,14 +83,18 @@ export const BusinessMenuDetail: FC = () => {
 
   const { data: branchAvailabilityData, refetch: branchAvailabilityRefetch } =
     useQuery(["branchAvailability", menuid], () =>
-      getBranchAvailability(menuid)
-    );
+    {
+      if (menuid !== undefined) {
+        return getBranchAvailability(menuid);
+      }
+      return Promise.reject(new Error('menuid is undefined'));
+    });
   //console.log("BranchAva2",branchAvailabilityData);
 
   const handleBranchSwitch = async (branchId: number) => {
     try {
       const response = await Axios.post(
-        `/feature7/changeMenuAvailability/${menuid}/${venueId}/${branchId}`
+        `/feature7/changeMenuAvailability/${menuid}/${branchId}`
       );
       branchAvailabilityRefetch();
       console.log("SetBranchAva",response);
@@ -109,8 +124,8 @@ export const BusinessMenuDetail: FC = () => {
             // src="/src/features/feature07/assets/test.jpg"
             src={
               type == "Set"
-                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem.image_url}`
-                : `${import.meta.env.VITE_BACKEND_URL}${menuItem.image}`
+                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
+                : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`
             }
             width="350px"
             height="250px"
@@ -140,7 +155,7 @@ export const BusinessMenuDetail: FC = () => {
         {type == "Menu" && branchAvailabilityData?.length > 0 && (
           <>
             <Text {...textStyles.h2}>Branch Availability</Text>
-            {branchAvailabilityData?.map((branch) => (
+            {branchAvailabilityData?.map((branch : branchAvailabilityProps) => (
               <Flex
                 key={branch.branchId}
                 justifyContent="space-between"

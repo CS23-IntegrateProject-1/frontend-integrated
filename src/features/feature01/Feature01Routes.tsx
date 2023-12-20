@@ -16,6 +16,8 @@ import { AddFriend } from './Pages/AddFriends/AddFriend'
 import { CreateGroup } from './Pages/AddFriends/CreateGroup'
 import { SetUpGroup } from './Pages/AddFriends/SetUpGroup'
 import { QRScanner } from './Pages/AddFriends/QRScanner'
+import { HelpDesk } from './Pages/help/HelpDesk'
+import GenerateFriendQrCode from './Pages/AddFriends/GenerateFriendQrCode'
 export const Feature01Routes = () => {
   return [
     {
@@ -60,6 +62,10 @@ export const Feature01Routes = () => {
       element: <Help />,
     },
     {
+      path: "/setting/helpdesk",
+      element: <HelpDesk />,
+    },
+    {
       path: "/setting/about",
       element: <About />,
     },
@@ -91,5 +97,9 @@ export const Feature01Routes = () => {
     path: "/AddFriend/QRCode",
     element: <QRScanner/>,
   },
+  {
+    path: "/AddFriend/QRCodegenerator",
+    element: <GenerateFriendQrCode/>,
+  }
   ];
 };

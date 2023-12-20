@@ -6,7 +6,7 @@ import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const getCartMenuItem = async (type: string, menuid: string) => {
@@ -24,9 +24,15 @@ const getCartMenuItem = async (type: string, menuid: string) => {
 // }
 export const CartMenuDetail: FC = () => {
     const {type, menuid} = useParams();
+    const navigate = useNavigate();
     //console.log(menuid);
 
-    const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => getCartMenuItem(type, menuid));
+    const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => {
+        if (type !== undefined && menuid !== undefined) {
+          return getCartMenuItem(type, menuid);
+        }
+        return Promise.reject(new Error('type or menuid is undefined'));
+  });
     console.log(menuItem);
     const [amount, setAmount] = useState(0);
 
@@ -50,6 +56,7 @@ export const CartMenuDetail: FC = () => {
         try{
             const response = await Axios.delete(`/feature7/delete${type}FromCookie/${menuid}`);
             console.log("Item Deleted From Cart:",response.data);
+            navigate("/venue/cart");
         } catch(error){
             console.error("Error deleting item:", error);
         }
@@ -62,6 +69,7 @@ export const CartMenuDetail: FC = () => {
                     quantity : amount,
                 });
                 console.log(response.data);
+                navigate("/venue/cart");
             } else if (amount == 0){
                 await handleDelete();
             }
@@ -87,7 +95,9 @@ export const CartMenuDetail: FC = () => {
         <Center>
             <Image 
                 // src="/src/features/feature07/assets/test.jpg" 
-                src={type == "Set" ? menuItem.image_url: menuItem.image}
+                src={type == "Set"
+                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
+                : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`}
                 width="350px" 
                 height="250px" 
                 objectFit="cover"/>
