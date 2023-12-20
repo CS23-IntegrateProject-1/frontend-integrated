@@ -146,7 +146,7 @@ export const VenueBranches = () => {
                     More Info
                   </Button>
                 </NavLink>
-                <NavLink to={`/table/${venueD.branchId}/${venueId}`}>
+                <NavLink to={`/table/${venueId}/${venueD.branchId}`}>
                   <Button
                     variant="solid"
                     textColor="white"
