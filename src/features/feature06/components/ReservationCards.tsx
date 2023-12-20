@@ -1,4 +1,4 @@
-import { Box, Card, Image, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Card, Image, Heading, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
