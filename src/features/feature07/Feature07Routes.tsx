@@ -4,6 +4,7 @@ import { CartPage } from "./pages/CartPage";
 import {ReceiptPage} from "./pages/ReceiptPage";
 import { OrderStatusPage } from "./pages/OrderStatusPage";
 import { CartMenuDetail } from "./pages/CartMenuDetail";
+import { VoucherPage } from "./pages/VoucherPage";
 // import { MenuAllBusiness } from "./pages/BusinessSidePage/MenuAllBusiness";
 // import { EditMenu } from "./pages/BusinessSidePage/EditMenu";
 // import { AddMenu } from "./pages/BusinessSidePage/AddMenu";
@@ -19,6 +20,7 @@ export const Feature07Routes = () => {
     { path: "/venue/cartdetail/:type/:menuid", element: <CartMenuDetail /> },
     { path: "/venue/receipt", element: <ReceiptPage /> },
     { path: "/venue/order", element: <OrderStatusPage /> },
+    { path: "/venue/voucherpage", element: <VoucherPage/> },
     // { path: "/venue/:venueId/menubusiness", element: <MenuAllBusiness /> },
     // { path: "/venue/:venueId/editmenu/:menuid", element: <EditMenu /> },
     // { path: "/venue/:venueId/editsetmenu/:menuid", element: <EditSetMenu /> },
