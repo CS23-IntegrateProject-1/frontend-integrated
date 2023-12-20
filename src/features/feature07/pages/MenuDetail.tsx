@@ -111,7 +111,9 @@ export const MenuDetail: FC = () => {
         <Center>
           <Image
             // src="/src/features/feature07/assets/test.jpg"
-            src={type == "Set" ? menuItem.image_url: menuItem.image}
+            src={type == "Set"
+            ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
+            : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`}
             width="350px"
             height="250px"
             objectFit="cover"

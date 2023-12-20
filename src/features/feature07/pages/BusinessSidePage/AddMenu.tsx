@@ -13,7 +13,7 @@ export const AddMenu = () => {
   // const { venueId } = useParams();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
   const toast = useCustomToast();
   const [formData, setFormData] = useState({
     name: '',

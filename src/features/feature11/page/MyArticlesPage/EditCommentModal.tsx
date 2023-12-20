@@ -101,7 +101,7 @@ export const EditCommentModal: FC<EditCommentModalProps> = ({
         >
           <Box flexDirection="column">
             <img
-              src={import.meta.env.VITE_BACKEND_URL + profile_picture}
+              src={import.meta.env.VITE_BACKEND_URL + profile_picture || ""}
               alt="Profile"
               width="32px"
               height="32px"
