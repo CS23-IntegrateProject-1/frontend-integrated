@@ -3,7 +3,7 @@ import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftEl
 import TextStyle from "../../../../theme/foundations/textStyles"
 import { useContext, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "../../../../contexts/userContext/UserContext";
 export const AddFriend = () => {
     const [username, setUsername] = useState('');
