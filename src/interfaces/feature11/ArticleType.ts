@@ -6,7 +6,7 @@ export interface ArticlesPageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   Comment: number;
   isLike: boolean;
@@ -32,7 +32,7 @@ export interface ArticlePageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   CommentCount: number;
   isLike: boolean;
@@ -47,7 +47,7 @@ export interface ArticlePageProps {
   Article_venue: {
     articleId: number;
     venueId: number;
-    venue: {
+    Venue: {
       venueId: number;
       name: string;
     };
@@ -74,7 +74,6 @@ export interface ArticleTagProps {
   };
 }
 
-
 export interface ArticleFooterProps {
   author_name: string;
   Article_tags: ArticleTagProps[];
@@ -88,7 +87,7 @@ export interface VenueProps {
 export interface ArticleVenueProps {
   articleId: number;
   venueId: number;
-  venue: {
+  Venue: {
     venueId: number;
     name: string;
   };

@@ -1,6 +1,6 @@
 import { Text, Button, Flex } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FilterContext } from "../VenuePage";
+import { FilterContext_RP } from "../RecommendedPlacesPage";
 
 const buttonStyle = {
   bgColor: "brand.200",
@@ -10,23 +10,23 @@ const buttonStyle = {
 };
 
 
-export const FilterType = () => {
-  const context = useContext(FilterContext);
+export const FilterType_RP = () => {
+  const context_RP = useContext(FilterContext_RP);
 
   const isActiveTy = (ty: string) => {
-    return context.filter.type.includes(ty);
+    return context_RP.filter.type.includes(ty);
   }
 
   const handleTyClick = (ty: string) => {
     if (isActiveTy(ty)) {
-      context.setFilter(filter => {
+      context_RP.setFilter(filter => {
         return {
           ...filter,
           type: filter.type.split(',').filter((t) => t !== ty).join(',')
         }
       });
     } else {
-      context.setFilter(filter => ({
+      context_RP.setFilter(filter => ({
         ...filter,
         type: [...filter.type.split(','), ty].filter((t) => t !== '').join(',')
       }));
