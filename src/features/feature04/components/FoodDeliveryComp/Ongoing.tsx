@@ -2,11 +2,28 @@ import { Box, Text, Flex, IconButton, Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-function Ongoing() {
+interface OrderDetail {
+  menuName: string;
+  OrderDate: string;
+  price: number;
+  Driver: string;
+  licensePlate: string;
+}
+function Ongoing(props: OrderDetail) {
   const navigate = useNavigate();
   const CancelOrder = () => {
     navigate("/map/food-delivery/canceled");
   };
+  const NavigateOngoingDetail = () => {
+    navigate("/map/food-delivery/Ongoing-your-order");
+  };
+
+
+
+ 
+
+
+
   return (
     <Box>
       <Flex justifyContent={"center"}>
@@ -35,20 +52,29 @@ function Ongoing() {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              MK Roast Duck
+              {props.menuName}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              Date: 05/11/23
+              {props.OrderDate}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              $210
+              {props.price}
             </Text>
+            <Flex flexDirection={"row"}>
+              <Text>Driver:</Text>
+              <Text>{props.Driver}</Text>
+            </Flex>
+            <Flex flexDirection={"row"}>
+              <Text>License Plate: </Text>
+              <Text> {props.licensePlate}</Text>
+            </Flex>
+
             <Button
               variant={"unstyle"}
               backgroundColor={index.colors.brand[200]}
@@ -62,6 +88,7 @@ function Ongoing() {
             aria-label="Next"
             fontSize="1.5rem"
             variant={"unstyle"}
+            onClick={NavigateOngoingDetail}
           >
             <MdKeyboardArrowRight />
           </IconButton>
