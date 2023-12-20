@@ -1,12 +1,11 @@
 import { Box, Heading } from '@chakra-ui/react'
 import { Card, CardBody } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
-import IMember_tier from '../../../../interfaces/Redeem/IMember_tier';
 import { GetTierNameByTierId } from '../../../../api/Membership/GetTierNameByTierId';
 // import { BsBookmarkStarFill } from "react-icons/bs";
 
 export const MyprivilegeCard = () => {
-  const [data, setData] = useState<IMember_tier>();
+  const [data, setData] = useState<string>();
 
   const fetchDatas = async () => {
     try {
