@@ -6,7 +6,7 @@ export interface ArticlesPageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   Comment: number;
   isLike: boolean;
@@ -32,7 +32,7 @@ export interface ArticlePageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   CommentCount: number;
   isLike: boolean;
@@ -73,7 +73,6 @@ export interface ArticleTagProps {
     tag_name: string;
   };
 }
-
 
 export interface ArticleFooterProps {
   author_name: string;
