@@ -222,7 +222,11 @@ export const SetUpGroup = () => {
           {selectedFriends.map((item: { avatar: string | undefined; name: string | number | boolean | ReactElement<string | JSXElementConstructor<string>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
             return (
               <Box>
-                <Avatar src={item.avatar} />
+                {item.avatar !== null ? (
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}  />
+              ) : (
+                <Avatar src="https://bit.ly/broken-link" />
+              )}
                 <Text
                   mt={2}
                   fontSize={TextStyle.body2.fontSize}

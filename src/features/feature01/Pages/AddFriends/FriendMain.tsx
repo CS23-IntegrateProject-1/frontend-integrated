@@ -147,6 +147,7 @@ export const FriendMain = () => {
         setFriendId(item.user_id);
         console.log(item.user_id), "testing id article";
         setFriendname(item.name);
+        setFriendImg(item.avatar);
       }
     });
   };
@@ -207,7 +208,7 @@ export const FriendMain = () => {
         console.log("found");
         onOpen();
         console.log(item.name);
-        console.log(item.avatar);
+        console.log(item.avatar, "fri avatar");
         setFriendname(item.name);
         setFriendImg(item.avatar);
         //setIsFriend(true);
@@ -226,13 +227,15 @@ export const FriendMain = () => {
               fontSize={TextStyle.h1.fontSize}
               fontWeight={TextStyle.h2.fontWeight}
             > 
+            {/* {profileData?.avatar} */}
               {profileData?.username ? profileData.username : "Username"}
             </Text>
           </Box>
           {/* Backend still need to send avatar */}
           <Box mr={{ lg: "15%", base: "10%" }}>
+            {/* {profileData?.avatar} */}
             {profileData?.avatar ? (
-              <Avatar src={profileData.avatar} size={"lg"} />
+              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} size={"lg"} />
             ) : (
               <Avatar src="https://bit.ly/broken-link" size={"lg"} />
             )}
@@ -439,14 +442,14 @@ export const FriendMain = () => {
                           onClick={() => handleFriClick(item.user_id)}
                         >
                           <Box>
-                            {item.avatar ? (
-                              <Avatar src={friendImg} size={"md"} />
-                            ) : (
-                              <Avatar
-                                src="https://bit.ly/broken-link"
-                                size={"md"}
-                              />
-                            )}
+                            {item.avatar !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}size={"md"} />
+                                ) : (
+                                  <Avatar
+                                    src="https://bit.ly/broken-link"
+                                    size={"md"}
+                                  />
+                                )}
                           </Box>
                           <Box ml={10}>
                             <Text
@@ -492,8 +495,10 @@ export const FriendMain = () => {
           />
           <AlertDialogBody>
             <Center py={2} flexDirection={"column"}>
-              {friendname ? (
-                <Avatar src={friendImg} size={"xl"} />
+              {/* {friendImg}
+              <Text color={'black'}>{friendImg}</Text> */}
+              {friendImg !== null ? (
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${friendImg}`} size={"xl"} />
               ) : (
                 <Avatar src="https://bit.ly/broken-link" size={"xl"} />
               )}
