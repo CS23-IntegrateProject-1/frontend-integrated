@@ -1,21 +1,13 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  Button,
-  Card,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, Button, Card } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface MenuCompCard {
   menuName: string;
   price: number;
-  id:number|string;
-  
+  id: number | string;
 }
-
 
 export const MenuComp: React.FC<MenuCompCard> = (props) => {
   const { id, menuName, price } = props;
@@ -23,19 +15,19 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
   const navigateToDetail = () => {
     navigate(`/map/food-delivery/food-detail/${id}`);
   };
-  
+
   // console.log("MenuName: ",menuName);
   // console.log("MenuId: ",id);
-
-  
 
   return (
     <Box>
       <Box width={200} height={"auto"} m={2}>
-        <Card width={"auto"} height={"auto"} style={{ borderRadius: "20px", margin: 0 }}>
-          <Box borderRadius={"100%"} height={"auto"} width={"auto"} >
-            
-          </Box>
+        <Card
+          width={"auto"}
+          height={"auto"}
+          style={{ borderRadius: "20px", margin: 0 }}
+        >
+          <Box borderRadius={"100%"} height={"auto"} width={"auto"}></Box>
           <Box style={{ width: "100%", height: "100%" }}>
             <img
               src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
@@ -53,7 +45,8 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
                 bottom: 0,
                 borderRadius: "20px",
                 margin: 0,
-                background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))",
+                background:
+                  "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))",
               }}
             />
           </Box>

@@ -22,7 +22,7 @@ interface MenuDetailProps {
 }
 
 export const CartMenuDetail: FC = () => {
-  const navigate=  useNavigate();
+  const navigate = useNavigate();
   const [AmountInCart, setAmountInCart] = useState(0);
   const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
   const { id } = useParams();
@@ -66,25 +66,11 @@ export const CartMenuDetail: FC = () => {
           quantity: AmountInCart,
         });
         console.log(response.data);
-        navigate('/map/food-delivery')
+        navigate("/map/food-delivery");
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
-    // const cart = localStorage.getItem("cart");
-    // const cartObj = cart ? JSON.parse(cart) : {};
-    // const cartItem = cartObj[menuid];
-    // const newCartObj = {
-    //   ...cartObj,
-    //   [menuid]: {
-    //     ...cartItem,
-    //     name: menuItem.name,
-    //     price: menuItem.price,
-    //     amount: cartItem ? cartItem.amount + amount : amount,
-    //   },
-    // };
-    // localStorage.setItem("cart", JSON.stringify(newCartObj));
-    // setAmount(0);
   };
 
   return (

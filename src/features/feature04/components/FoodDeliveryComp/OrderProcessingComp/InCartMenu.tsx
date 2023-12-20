@@ -3,21 +3,28 @@ import { Box, Flex, Text, IconButton, Divider, Button } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../../AxiosInstance";
-import { useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const InCartMenu = () => {
-  const [addItem, setAddItem] = useState(0);
+  const [itemQuantities, setItemQuantities] = useState<{
+    [itemId: string]: number;
+  }>({});
+  const queryClient = useQueryClient();
 
-  // const queryClient = new QueryClient();
-
-  const handleAddItem = () => {
-    // Assuming selectedItemId is the unique identifier of the item you want to add
-    setAddItem(addItem + 1);
+  const handleAddItem = (itemId: string) => {
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: (prevQuantities[itemId] || 0) + 1,
+    }));
   };
 
-  const handleDecreaseItem = () => {
-    if (addItem > -1) {
-      setAddItem(addItem - 1);
+  const handleDecreaseItem = (itemId: string) => {
+    if (itemQuantities[itemId] > 0) {
+      setItemQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [itemId]: prevQuantities[itemId] - 1,
+      }));
     }
   };
 
@@ -30,7 +37,6 @@ export const InCartMenu = () => {
     navigate("/map/food-delivery");
   };
 
-
   const fetchCartItems = async () => {
     try {
       const response = await Axios.get("/feature4/showOrderCart");
@@ -42,34 +48,7 @@ export const InCartMenu = () => {
     }
   };
 
-  // const removeCartItemMutation = useMutation(
-  //   async (itemId : number) => {
-  //     // Use Axios to send a request to remove the item from the cart
-  //     await Axios.delete(`/feature4/removeCartItem/${itemId}`);
-  //   },
-  //   {
-  //     // Optional: Refetch the cart items after a successful removal
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries(["cartItem"]);
-  //     },
-  //   }
-  // );
-
-  // const handleRemoveItem = async (itemId: string) => {
-  //   const itemIdNumber = parseInt(itemId, 10);
-  //   console.log("Item ID:", itemIdNumber);
-  
-  //   // Call the mutation function to remove the item
-  //   await removeCartItemMutation.mutateAsync(itemIdNumber);
-  //   console.log("Item removed successfully!");
-  // };
-  
-
-  const {
-    data: cartItems,
-    // isLoading,
-    // isError,
-  } = useQuery(["cartItem"], () => fetchCartItems());
+  const { data: cartItems } = useQuery(["cartItem"], () => fetchCartItems());
 
   const calculateSubtotal = (items: typeof cartItems) => {
     if (!items) return 0;
@@ -84,10 +63,32 @@ export const InCartMenu = () => {
     }, 0);
   };
 
+  const saveTotal = async (total: number) => {
+    try {
+      const response = await Axios.post(`/feature4/saveTotal/${total}`);
+      console.log("Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error saving total:", error);
+    }
+  };
+
   const calculateTotal = (items: typeof cartItems) => {
     const subtotal = calculateSubtotal(items);
     const total = parseFloat(subtotal) + 0;
+    saveTotal(total);
     return total.toFixed(2);
+  };
+
+  const handleRemoveItem = async (itemId: string) => {
+    try {
+      const response = await Axios.delete(`/feature4/removeCartItem/${itemId}`);
+      console.log("REMOVED");
+      console.log(response);
+      queryClient.invalidateQueries(["cartItem"]);
+    } catch (error) {
+      console.error("Error removing cart item:", error);
+    }
   };
 
   return (
@@ -119,19 +120,18 @@ export const InCartMenu = () => {
                 <Flex flexDir={"row"}>
                   <IconButton
                     icon={<MinusIcon />}
-                    onClick={handleDecreaseItem}
-                    // isDisabled={item.quantity + addItem <=0}
+                    onClick={() => handleDecreaseItem(item.itemId)}
                     aria-label="Decrease Amount"
                     width="30px"
                     height="28px"
                     borderRadius="10% 0% 0% 10%"
                   />
                   <Text color="black" backgroundColor={"white"} pl={2} pr={2}>
-                    {item.quantity + addItem}
+                    {item.quantity + (itemQuantities[item.itemId] || 0)}
                   </Text>
                   <IconButton
                     icon={<AddIcon />}
-                    onClick={handleAddItem}
+                    onClick={() => handleAddItem(item.itemId)}
                     aria-label="Add Item"
                     width="30px"
                     height="28px"
@@ -140,13 +140,13 @@ export const InCartMenu = () => {
                 </Flex>
               </Flex>
               <Flex flexDirection={"row"} alignItems={"center"}>
-              <Button 
-                variant={"unstyle"} 
-                color={"red"}
-                // onClick={() => handleRemoveItem(item.itemId)}
+                <Button
+                  variant={"unstyle"}
+                  color={"red"}
+                  onClick={() => handleRemoveItem(item.itemId)}
                 >
-                Remove
-              </Button>
+                  Remove
+                </Button>
               </Flex>
             </Flex>
           ))}
