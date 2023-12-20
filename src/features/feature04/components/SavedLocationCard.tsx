@@ -11,7 +11,7 @@ import {
   Input
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
 import {
   Modal,
@@ -96,6 +96,16 @@ const SavedLocationCard = (props: SavedCardProps) => {
   const [subdistrict, setSubdistrict] = useState("");
   const [postcode, setPostcode] = useState("");
 
+  useEffect(() => {
+    // Set initial state values based on props when the component mounts
+    setName(props.name);
+    setAddress(props.address);
+    setProvince(props.province);
+    setDistrict(props.district);
+    setSubdistrict(props.sub_district);
+    setPostcode(props.postcode);
+  }, [props]);
+
   const AddressToShow = showFullAddress
     ? props.address
     : `${props.address.slice(0, 10)}...`;
@@ -126,6 +136,27 @@ const SavedLocationCard = (props: SavedCardProps) => {
           postcode,
         };
     
+        // Add fields to updatedData only if they have changed
+        if (name !== props.name) {
+          updatedData.name = name;
+        }
+        if (address !== props.address) {
+          updatedData.address = address;
+        }
+        if (province !== props.province) {
+          updatedData.province = province;
+        }
+        if (district !== props.district) {
+          updatedData.district = district;
+        }
+        if (subdistrict !== props.sub_district) {
+          updatedData.subdistrict = subdistrict;
+        }
+        if (postcode !== props.postcode) {
+          updatedData.postcode = postcode;
+        }
+        console.log("hello from savedLocCard" + updatedData.address)
+    
         await mutation.mutateAsync(updatedData);
         return Promise.resolve();
       } catch (error) {
@@ -133,6 +164,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
         return Promise.reject(error);
       }
     };
+    
     
 
 

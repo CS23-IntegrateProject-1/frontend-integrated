@@ -17,6 +17,8 @@ const FoodDelivery = () => {
     navigate("/map/food-delivery/cart-detail");
   };
 
+  const [venue, setVenue] = useState<string>(""); // Define total state
+  const [branchName, setBranchName] = useState<string>(""); // Define total state
   const [menuData, setMenuData] = useState<Menu[]>([]);
   const [total, setTotal] = useState<number>(0); // Define total state
   const [itemCount, setitemCount] = useState<number>(0); // Define total state
@@ -28,8 +30,21 @@ const FoodDelivery = () => {
         setMenuData(response.data);
       } catch (error) {
         console.error("Error fetching menu data:", error);
-      }
+      } 
     };
+
+    const fetchBranchName = async () => {
+      try {
+        const response = await Axios.get("/feature4/branch/1/1");
+        console.log(response.data);
+        setBranchName(response.data.branch.branch_name);
+        setVenue(response.data.venue.name);
+      } catch (error) {
+        console.log("Error fetching branch name: ", error);
+      }
+    }
+
+    
 
     const getTotalCost = async () => {
       try {
@@ -64,12 +79,14 @@ const FoodDelivery = () => {
     getItemCount();
     getTotalCost();
     fetchMenuData();
+    fetchBranchName();
   }, []);
 
   return (
     <Box>
       <FoodDeliNavbar
-        RestaurantName="MK Restaurant (Big C Rama 4)"
+        RestaurantName={venue}
+        BranchName = {branchName}
         DeliveryMinute={30}
       />
       <Flex flexDir={"column"} alignItems="center">

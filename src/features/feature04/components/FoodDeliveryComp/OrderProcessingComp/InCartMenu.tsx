@@ -170,7 +170,7 @@ export const InCartMenu = () => {
     }
   };
 
-  const { data: cartItems, status } = useQuery(["cartItem"], () =>
+  const { data: cartItems } = useQuery(["cartItem"], () =>
     fetchCartItems()
   );
   //console.log("Card Items:", cartItems);
@@ -240,7 +240,7 @@ export const InCartMenu = () => {
                 <Text>{item.size}</Text>
               </Flex>
               <Flex flexDir={"column"} justifyContent={"space-around"}>
-                <Text>${item.price}</Text>
+                <Text>฿{item.price}</Text>
                 <Flex flexDir={"row"}>
                   <IconButton
                     icon={<MinusIcon />}
@@ -299,7 +299,7 @@ export const InCartMenu = () => {
               justifyContent={"space-around"}
             >
               <Text>Subtotal</Text>
-              <Text>${subtotal}</Text>
+              <Text>฿{subtotal}</Text>
             </Box>
             <Box
               display={"flex"}
@@ -325,7 +325,7 @@ export const InCartMenu = () => {
           gap={2}
         >
           <Text>Total (incl. Vat)</Text>
-          <Text>${calculateTotal()}</Text>
+          <Text>฿{calculateTotal()}</Text>
         </Box>
         <Button
           variant={"unstyled"}

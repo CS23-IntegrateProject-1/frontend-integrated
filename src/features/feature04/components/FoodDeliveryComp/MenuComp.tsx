@@ -79,7 +79,7 @@ export const MenuComp: React.FC<MenuCompCard> = (props) => {
                 fontWeight={index.textStyles.h4.fontWeight}
                 p={2}
               >
-                For ${price}
+                For ฿{price}
               </Text>
             </Button>
           </Flex>
