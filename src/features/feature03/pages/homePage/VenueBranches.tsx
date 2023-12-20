@@ -26,6 +26,7 @@ interface VenueฺฺBranchPageData {
 export const VenueBranches = () => {
   
   const { venueId } = useParams();
+
   const {
     isLoading: venueBranchPageLoading,
     isError: venueBranchPageError,
@@ -49,7 +50,7 @@ export const VenueBranches = () => {
   if (venueBranchPageError) {
     return <span>An error occurred: </span>;
   }
-  console.log(venueBranchPageData);
+  // console.log(venueBranchPageData);
 
 
   return (
@@ -62,6 +63,7 @@ export const VenueBranches = () => {
         mt={{ base: "3", lg: "8" }}
         px={{ base: "none", lg: "10px" }}
         justifyItems={"center"}
+        sx={{ opacity: venueBranchPageLoading ? .7 : 1, transition: 'all .25s ease-in-out'}}
       >
         {venueBranchPageData?.length === 0 ? (
           <Card
@@ -144,7 +146,7 @@ export const VenueBranches = () => {
                     More Info
                   </Button>
                 </NavLink>
-                <NavLink to="/table">
+                <NavLink to={`/table/${venueD.branchId}/${venueId}`}>
                   <Button
                     variant="solid"
                     textColor="white"
