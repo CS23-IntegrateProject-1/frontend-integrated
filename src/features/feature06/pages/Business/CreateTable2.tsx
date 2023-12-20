@@ -62,7 +62,7 @@ export const CreateTable2 = () => {
 
   return (
     <Box justifyContent={"center"} alignItems={"center"} display={"flex"}>
-      <Box>
+      <Box ml={'-20px'}>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"32px"}>
           Table type
         </Text>
@@ -70,6 +70,7 @@ export const CreateTable2 = () => {
           htmlSize={4}
           backgroundColor={"#5F0DBB66"}
           borderStyle={"none"}
+          ml={"27px"}
           mt={"5px"}
           width="307px"
           onChange={(e) => {
@@ -83,36 +84,44 @@ export const CreateTable2 = () => {
           htmlSize={4}
           backgroundColor={"#5F0DBB66"}
           borderStyle={"none"}
+          ml={"27px"}
           mt={"5px"}
           width="307px"
           onChange={(e) => {
             setCapacity(e.target.value);
           }}
         />
-        <input type="file" multiple accept="image/*" onChange={handleFileChange}/>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"32px"} mt={"17px"}>
           Upload image
         </Text>
-        <Input
-          // htmlSize={4}
-          backgroundColor={"#5F0DBB66"}
-          borderStyle={"none"}
-          mt={"5px"}
-          width="307px"
-          onChange={(e) => {
-            setImage_url(e.target.value);
-          }}
+        <br></br>
+        <Box
+        ml={'27px'}>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
         />
+        </Box>
+        <Box
+          justifyContent={"center"}
+          alignItems={"center"}
+          display={"flex"}
+          mt={"100px"}
+          ml={"20px"}
+        >
         <Button
           bgColor={"#A533C8"}
           textColor={"white"}
           fontSize={"16px"}
           w={"322px"}
-          mt={"180px"}
+          mt={"60px"}
           onClick={handleCreate}
         >
           Create
         </Button>
+        </Box>
       </Box>
     </Box>
   );

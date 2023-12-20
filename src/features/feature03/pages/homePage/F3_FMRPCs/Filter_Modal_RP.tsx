@@ -8,16 +8,16 @@ import {
   ModalContent,
   ModalFooter,
 } from "@chakra-ui/react";
-import { FilterCap } from "./FilterCap";
-import { FilterPrice } from "./FilterPrice";
-import { FilterType } from "./FilterType";
+import { FilterCap_RP } from "./FilterCap_RP";
+import { FilterPrice_RP } from "./FilterPrice_RP";
+import { FilterType_RP } from "./FilterType_RP";
 import { useContext } from "react";
-import { DEFAULT_FILTER, FilterContext } from "../VenuePage";
+import { DEFAULT_FILTER_RP, FilterContext_RP } from "../RecommendedPlacesPage";
 
-export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
-  const context = useContext(FilterContext);
+export function Filter_Modal_RP({ isOpen = false, onClose = () => {} }) {
+  const context_RP = useContext(FilterContext_RP);
   const handleFilterReset = () => {
-    context.setFilter(() => DEFAULT_FILTER);
+    context_RP.setFilter(() => DEFAULT_FILTER_RP);
   }
   // console.log(context.filter)
   return (
@@ -40,9 +40,9 @@ export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
         <ModalHeader fontWeight={"bold"} fontSize={{base:"20px", lg:"25px"}}>Filter By</ModalHeader>
         <ModalCloseButton mt={"1"} />
         <ModalBody>
-          <FilterType />
-          <FilterPrice />
-          <FilterCap />
+          <FilterType_RP />
+          <FilterPrice_RP />
+          <FilterCap_RP />
         </ModalBody>
         <ModalFooter>
           <Button

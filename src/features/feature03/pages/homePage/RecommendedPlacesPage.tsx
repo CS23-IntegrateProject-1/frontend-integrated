@@ -12,7 +12,7 @@ import {
   Flex,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Filter_Modal } from "./F3_FMCs/Filter_Modal";
+import { Filter_Modal_RP } from "./F3_FMRPCs/Filter_Modal_RP";
 import { SearchBar } from "./F3_HPCs/SearchBar";
 import { FaFilter } from "react-icons/fa";
 import { StarIcon } from "@chakra-ui/icons";
@@ -36,22 +36,22 @@ interface RecommendedPlaces {
   venue_picture: string;
 }
 
-interface SearchFilter {
+interface SearchFilter_RP {
   type: string;
   priceMin: number;
   priceMax: number;
   capacity: string;
 }
 
-export const DEFAULT_FILTER = {
-  type: "Bar,Restaurant,Club",
+export const DEFAULT_FILTER_RP = {
+  type: "",
   priceMin: 0,
   priceMax: 1000,
-  capacity: "1-4,4-6,6-10,10M",
+  capacity: ""
 };
 
-export const FilterContext = createContext<{ filter: SearchFilter, setFilter: (fn: (update: SearchFilter) => SearchFilter) => void }>({
-  filter: DEFAULT_FILTER,
+export const FilterContext_RP = createContext<{ filter: SearchFilter_RP, setFilter: (fn: (update: SearchFilter_RP) => SearchFilter_RP) => void }>({
+  filter: DEFAULT_FILTER_RP,
   setFilter: () => {}
 });
 
@@ -70,6 +70,7 @@ function useThrottleValue<T>(value: T, delay: number = 500) {
   return throttleValue;
 }
 
+
 export const RecommendedPlacesPage = () => {
   const params = new URL(String(window.location)).searchParams;
   const search = params.get("search");
@@ -77,7 +78,12 @@ export const RecommendedPlacesPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); 
   const [searchFilter, setSearchFilter] = useState(search || "");
   
-  const [filter, setFilter] = useState<SearchFilter>(DEFAULT_FILTER)
+  const [filter, setFilter] = useState<SearchFilter_RP>({
+    type: "",
+    priceMin: 0,
+    priceMax: 1000,
+    capacity: "",
+  })
 
   useEffect(() => {
     navigate(`?search=${searchFilter}`, { replace: true})  
@@ -93,12 +99,13 @@ export const RecommendedPlacesPage = () => {
   } = useQuery<RecommendedPlaces[]>({
     queryKey: ["getRPVen", searchFilterThrottle, filter.capacity, priceMaxThrottle, priceMinThrottle, filter.type],
     queryFn: async () => {
-      const { data } = await Axios.get(`/feature3/RecommendedPlaces?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&type=${filter.type}`);
+      console.log(filter.type);
+      console.log(filter.capacity);
+      const { data } = await Axios.get(`/feature3/RecommendedPlaces?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&category=${filter.type}`);
       return data;
     },
     keepPreviousData: true
   });
-
 
   // if (recommendedPlacesLoading) {
   //   return (
@@ -114,7 +121,7 @@ export const RecommendedPlacesPage = () => {
 
 
   return (
-    <FilterContext.Provider value={{ filter, setFilter}}>
+    <FilterContext_RP.Provider value={{ filter, setFilter}}>
     <Box width={"100%"} px={{ base: "none", lg: "30px" }}>
       <Flex direction="row" pt={{ base: "2", lg: "0" }} px={{base:"0", lg:"24"}} transform={{base:"0" ,lg:"translateX(24px)"}}>
         <SearchBar searchFilter={searchFilter} setSearchFilter={setSearchFilter} />
@@ -128,7 +135,7 @@ export const RecommendedPlacesPage = () => {
           <Text fontSize="15px" transform="translateX(-3px)">
             Filter
           </Text>
-          <Filter_Modal isOpen={isOpen} onClose={onClose} />
+          <Filter_Modal_RP isOpen={isOpen} onClose={onClose} />
         </Flex>
       </Flex>
 
@@ -196,6 +203,6 @@ export const RecommendedPlacesPage = () => {
         ))}
       </Box>
     </Box>
-    </FilterContext.Provider>
+    </FilterContext_RP.Provider>
   );
 };
