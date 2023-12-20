@@ -194,7 +194,7 @@ const CinemaDetailPage = () => {
 								ml={"5px"}
 								color={"#000000"}
 								mt={"15px"}>
-								{movie.Shows[0].screen.screen_type} | ENG | SUB
+								{movie.Shows && movie.Shows[0] && movie.Shows[0].screen && movie.Shows[0].screen.screen_type} | ENG | SUB
 							</Text>
 							<Flex overflowX="auto">
 								{movie.Shows.map((show, showIndex) => (

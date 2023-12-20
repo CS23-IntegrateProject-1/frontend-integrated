@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import DateSelection from '../Components/DateSelection'
-import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
+import { Box, Image, Text , useMediaQuery , Button , Flex} from '@chakra-ui/react';
 import SearchBar from '../Components/SearchBar'
 import NearestCinemas from '../Components/NearestCinemas'
 import { Axios } from '../../../AxiosInstance';
@@ -14,12 +14,17 @@ interface Movie {
   rate: string;
   genre: string;
   duration: number;
+  
+}
+interface ShowTime {
+  startTime: string;
 }
 
 export const ShowTime = () => {
   const { movieId } = useParams<{ movieId: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isDesktop] = useMediaQuery('(min-width: 768px)');
+  const[showTime,setShowTime] = useState<ShowTime | null>(null);
     
 
   useEffect(() => {
@@ -43,6 +48,19 @@ export const ShowTime = () => {
     };
     
     fetchMovieDetails();
+
+    const fetchShowDetail = async () => {
+      try {
+        const response = await Axios.get(`/feature10/getShowsByFilmId/${movieId}`);
+        setShowTime({
+          startTime : response.data.start_time,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchShowDetail();
     
   }, [movieId]);
 
@@ -52,7 +70,6 @@ export const ShowTime = () => {
   if (!movie) {
     return <div>Loading...</div>;
   }
-
 
 
   const handleSearch = (query: string) => {  
@@ -102,7 +119,7 @@ export const ShowTime = () => {
         </Box>
       </Box>
     <SearchBar onSearch={handleSearch} />
-    <NearestCinemas cinemas={cinemasData}/>
+    <NearestCinemas cinemas={cinemasData} />
     </>
     
   )
