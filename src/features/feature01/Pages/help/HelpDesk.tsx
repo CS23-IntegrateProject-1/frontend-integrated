@@ -29,18 +29,18 @@ export const HelpDesk = () => {
 
     //Function for Ticket loop
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [looperData, setLooperData] = useState([
-        {
-          id: 1,
-          title: "Receive Wrong Order",
-          status: "Pending",
-        },
-        {
-          id: 2,
-          title: "Can't Update Address",
-          status: "Completed",
-        },
-      ]);
+      // const [looperData, setLooperData] = useState([
+      //   {
+      //     id: 1,
+      //     title: "Receive Wrong Order",
+      //     status: "Pending",
+      //   },
+      //   {
+      //     id: 2,
+      //     title: "Can't Update Address",
+      //     status: "Completed",
+      //   },
+      // ]);
 
       
   return (
@@ -86,14 +86,19 @@ export const HelpDesk = () => {
       </Box>
       {/* loop ticker hsitory here */}
         {/* Pending color = yellow compeleted = green */}
-        {looperData.map((data) => (
+        {/* {looperData.map((data) => (
           <div key={data.id}>
         <Box onClick={handleOpen} key={"test"} cursor={'pointer'} bg={'grey.100'} display={'flex'} w={'50%'} py={5} borderRadius={15} justifyContent={'space-between'} >
             <Box><Text color={'brand.300'} pl={2}>{data.title}</Text></Box>
             <Box color={'yellow'} pr={2}>{data.status}</Box> 
          </Box>
-         </div>
-        ))}
+         </div> */}
+        {/* ))} */}
+        {/* --fix empo error */}
+        <Box onClick={handleOpen} key={"test"} cursor={'pointer'} bg={'grey.100'} display={'flex'} w={'50%'} py={5} borderRadius={15} justifyContent={'space-between'} >
+            <Box><Text color={'brand.300'} pl={2}>Dta.TItle</Text></Box>
+            <Box color={'yellow'} pr={2}>Data.status</Box> 
+         </Box>
 
         {/* Drawer for history deatil*/}
         <Drawer
