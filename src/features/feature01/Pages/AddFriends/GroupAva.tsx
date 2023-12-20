@@ -19,7 +19,12 @@ export const GroupAva: FC<GroupMemberProps> = (props: GroupMemberProps) => {
         (friend: { user_id: number; name: string; avatar: string }) => (
           <Box cursor={"pointer"} position={"relative"}>
             <Box>
-              <Avatar src="https://bit.ly/broken-link" size={"md"} />
+              {/* {friend.avatar} */}
+              {friend.avatar !== null ? (
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${friend.avatar}`}  />
+              ) : (
+                <Avatar src="https://bit.ly/broken-link"  />
+              )}
             </Box>
             <Box fontSize={TextStyle.body2.fontSize}>{friend.name}</Box>
             <Box
