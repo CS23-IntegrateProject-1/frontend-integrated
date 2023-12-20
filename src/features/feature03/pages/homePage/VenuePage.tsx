@@ -100,7 +100,7 @@ export const VenuePage = () => {
     queryFn: async () => {
       console.log(filter.type);
       console.log(filter.capacity);
-      const { data } = await Axios.get(`/feature3/VenuesPage?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&type=${filter.type}`);
+      const { data } = await Axios.get(`/feature3/VenuesPage?search=${searchFilter.trim()}&capacity=${filter.capacity}&priceMin=${filter.priceMin}&priceMax=${filter.priceMax}&category=${filter.type}`);
       return data;
     },
     keepPreviousData: true
