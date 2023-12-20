@@ -46,7 +46,7 @@ export const MyprivilegeCard = () => {
           <CardBody>
             {/* <Heading size='3xl' textShadow="-2px 0px 3px grey">Regular</Heading> */}
             <Heading size="3xl" textShadow="-2px 0px 3px grey">
-              {data?.tier_name}
+              {data || ""}
             </Heading>
             {/* <Text py='2' fontWeight="bold">
                           500/1000 points

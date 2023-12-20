@@ -105,9 +105,17 @@ export const AdvertisementIDEditPage = () => {
     }
   };
 
-  const handleClickSubmit = async () => {
+  const handleClickDelete = async () => {
     try {
       await deleteAdvertisement();
+      navigate("/business/advertisement/status");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleClickSubmit = async () => {
+    try {
+      await Axios.post("/")
       navigate("/business/advertisement/status");
     } catch (error) {
       console.error(error);
@@ -432,7 +440,7 @@ export const AdvertisementIDEditPage = () => {
               <Button
                 bgColor={"#A533C8"}
                 mr={3}
-                onClick={handleClickSubmit}
+                onClick={handleClickDelete}
                 color={"white"}
                 width="30%"
               >

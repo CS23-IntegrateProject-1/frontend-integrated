@@ -93,6 +93,7 @@ export const VoucherEditPage = () => {
           limitation: data.Discount_voucher.limitation,
         },
       }));
+      setImagePreview(data.voucher_image);
     },
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -134,7 +135,6 @@ export const VoucherEditPage = () => {
       voucher.description == "" ||
       voucher.start_date == "" ||
       voucher.end_date == "" ||
-      // voucher.point_use == "" ||
       voucher.venueId == 0 ||
       voucher.isApprove == ""
       // voucher.voucherType == "" ||
@@ -145,7 +145,7 @@ export const VoucherEditPage = () => {
     }
     try {
       const formData = new FormData();
-      formData.append("voucherName", voucher.voucher_name);
+      formData.append("voucher_name", voucher.voucher_name);
       formData.append("description", voucher.description);
       formData.append("start_date", voucher.start_date);
       formData.append("end_date", voucher.end_date);
@@ -339,7 +339,11 @@ export const VoucherEditPage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
-              <img src={imagePreview} alt="image" width="100%" />
+              <img
+                src={import.meta.env.VITE_BACKEND_URL + imagePreview || ""}
+                alt="image"
+                width="100%"
+              />
             </Box>
           </FormControl>
         ) : (

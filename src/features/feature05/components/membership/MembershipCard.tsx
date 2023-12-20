@@ -89,7 +89,7 @@ export const MemberShipCard =() =>{
               </Box>
               <Box display="flex" flexDirection="row" columnGap="5px">
                 <Heading size="md" fontFamily="heading">
-                  {data?.tier_name}
+                  {data || ""}
                 </Heading>
                 <button>
                   <InfoOutlineIcon w="9px" h="9px" />

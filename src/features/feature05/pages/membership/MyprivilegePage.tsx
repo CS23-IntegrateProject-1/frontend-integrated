@@ -30,7 +30,7 @@ export const MyprivilegePage = () => {
     <Box display="flex" flexDirection="column" padding="0px" rowGap="40px">
       <MyprivilegeCard />
       <Tags tag_text="Detail" />
-      <Text> {data?.tier_benefit}</Text>
+      <Text> {data || ""}</Text>
       <Tags tag_text="Recommend" />
       <MyprivilegeList />
     </Box>
