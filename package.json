@@ -23,6 +23,7 @@
     "@types/leaflet": "^1.9.8",
     "@types/styled-components": "^5.1.30",
     "@types/uuid": "^9.0.7",
+    "@yudiel/react-qr-scanner": "^1.2.4",
     "apexcharts": "^3.44.0",
     "api": "^6.1.1",
     "axios": "^1.5.1",

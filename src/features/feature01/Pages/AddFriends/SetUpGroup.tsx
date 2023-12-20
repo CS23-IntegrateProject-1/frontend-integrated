@@ -1,18 +1,20 @@
 import { Avatar, Box, Button, Flex, FormControl, Input, Text } from "@chakra-ui/react";
 import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Axios } from "../../../../AxiosInstance";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 export const SetUpGroup = () => {
   // const [newGroup, setNewGroup] = useState();
   const [groupName, setGroupName] = useState("");
-  const [groupImg, setGroupImg] = useState("");
-  const navigate = useNavigate();
+  const [groupImg, setGroupImg] = useState<File>();
+  const [preview, setPreview] = useState<string>("");
+  // const navigate = useNavigate();
   // const [groupData, setGroupData] = useState<any[]>([]);
   //use location to call state of array
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedFriends = location.state.selectedFriends;
   console.log(selectedFriends); //testing state
   //to check group name is not null
@@ -24,38 +26,54 @@ export const SetUpGroup = () => {
     if (!e.target.files) {
       return;
     }
-    
     const file = e.target.files[0];
     const objUrl = URL.createObjectURL(file);
-    console.log(objUrl);
-    setGroupImg(objUrl);
+    setGroupImg(file);
+    //set preview
+    setPreview(objUrl);
   };
 
   const createGroupHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const allData = new FormData();
     allData.append("group_name", groupName);
-    allData.append("group_img", groupImg);
-    allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
-      return friend.user_id;
-    }));
+    selectedFriends.map((friend: { user_id: any; }) => {
+      allData.append("members", friend.user_id);
+    }
+    );
+    allData.append("avatar", groupImg as Blob);
+
+    console.log(`Group Name: ${allData.get("group_name")}`);
+    console.log(`Group Image: ${allData.get("avatar")}`); // This might show file details
+    console.log(allData.get("avatar"), 'below form')
+
+    const memberIds = [];
+    for (const memberId of allData.getAll("members")) {
+      memberIds.push(memberId);
+    }
+    console.log(`Member IDs: ${memberIds.join(", ")}`);
     const url = `/feature1/group/add`;
-    Axios.post(
+    Axios.postForm(
       url,
       allData,
-      { withCredentials: true }
+      {
+        withCredentials: true
+      }
     )
       .then((response) => {
         if (response.status == 200) {
           console.log(response.data);
           console.log("successfully added");
-          const newGroup = response.data;
-          navigate("/Friends", { state: { newGroup } });
+          // const newGroup = response.data;
+          // navigate("/Friends", { state: { newGroup } });
+          //go to group chat******
         }
       })
       .catch((error) => {
         console.error("Error fetching fir list data:", error);
       });
+    //navigate to comuunity chat
+    navigate("/communitychat");
    // console.log(groupName, groupImg);
     // const url = `/feature1/group/add`;
     // Axios.post(
@@ -99,21 +117,24 @@ export const SetUpGroup = () => {
         </Box>
         {/* NavLink to ..chat group */}
         <Box>
-          <Button
-            onSubmit={createGroupHandler}
-            isDisabled={isDisabled}
-            bg={"none"}
-            color={buttonColor}
-          >
-            Create
-          </Button>
+          {/* <NavLink to={'/communitychat'}> */}
+            <Button type="submit"
+              onClick={createGroupHandler}
+              isDisabled={isDisabled}
+              bg={"none"}
+              color={buttonColor}
+            >
+              Create
+            </Button>
+          {/* </NavLink> */}
+          
         </Box>
       </Flex>
       <Flex mt={5} gap={6} alignItems={"center"}>
         {/* img */}
         <Box cursor={"pointer"}>
           {groupImg ? (
-            <Avatar src={groupImg} width={84} height={84} />
+            <Avatar src={preview} width={84} height={84} />
           ) : (
             <svg
               width="84"
@@ -202,7 +223,11 @@ export const SetUpGroup = () => {
           {selectedFriends.map((item: { avatar: string | undefined; name: string | number | boolean | ReactElement<string | JSXElementConstructor<string>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
             return (
               <Box>
-                <Avatar src={item.avatar} />
+                {item.avatar !== null ? (
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}  />
+              ) : (
+                <Avatar src="https://bit.ly/broken-link" />
+              )}
                 <Text
                   mt={2}
                   fontSize={TextStyle.body2.fontSize}
