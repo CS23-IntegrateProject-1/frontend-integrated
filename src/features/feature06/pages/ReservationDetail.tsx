@@ -98,7 +98,7 @@ export const ReservationDetail = () => {
       console.log(response.data.newReservation.venueId);
       console.log(response);
 
-      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/payment`;
+      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/paymentD`;
       const newPath = originalPath.replace("/reservation-detail", "");
       navigate(newPath);
     } catch (err: any) {

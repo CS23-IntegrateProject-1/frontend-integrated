@@ -182,7 +182,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
           >
             Already Review
           </Box>
-        ) : isPaidDeposit === "Pending" && status === "Pending" ? (
+        ) : isPaidDeposit === "Pending" && status === "Pending" && name !== "MIK" ? (
             <Box
               width="50px"
               height="20px"
