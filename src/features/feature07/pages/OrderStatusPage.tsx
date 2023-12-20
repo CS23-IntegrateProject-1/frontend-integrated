@@ -19,9 +19,11 @@ interface OrderProps {
   quantity: number;
   menu: {
     name: string;
+    image: string;
   };
   set: {
     name: string;
+    image_url: string;
   };
 }
 type OrderStatus = 'Preparing' | 'Completed';
@@ -76,7 +78,7 @@ export const OrderStatusPage: React.FC = () => {
               foodName={order.menuId !== null ? order.menu?.name : order.set?.name}
               description={order.additional_req}
               price={order.unit_price}
-              imageUrl={order.imageUrl}
+              imageUrl={order.menuId !== null ? order.menu?.image : order.set?.image_url}
               amount={order.quantity} />
             ))}
           </VStack>
@@ -91,7 +93,7 @@ export const OrderStatusPage: React.FC = () => {
               foodName={order.menuId !== null ? order.menu?.name : order.set?.name}
               description={order.additional_req}
               price={order.unit_price}
-              imageUrl={order.imageUrl}
+              imageUrl={order.menuId !== null ? order.menu?.image : order.set?.image_url}
               amount={order.quantity} />
             ))}
           </VStack>

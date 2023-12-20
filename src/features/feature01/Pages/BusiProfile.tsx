@@ -3,16 +3,16 @@ import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
-interface CreditCard {
-  creditCardId: number;
-  card_no: string;
-  name: string;
-  country: string;
-  bank: string;
-  cvc: number;
-  exp: string;
-  userId: number;
-}
+// interface CreditCard {
+//   creditCardId: number;
+//   card_no: string;
+//   name: string;
+//   country: string;
+//   bank: string;
+//   cvc: number;
+//   exp: string;
+//   userId: number;
+// }
 
 interface Availability {
   venueId: number;
@@ -38,39 +38,38 @@ const defaultAvailability: Availability = {
   venueId: 0,
   openingDay: {
     Mon: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Tue: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Wed: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Thu: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Fri: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Sat: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
     Sun: {
-      openingTime: "",
-      closingTime: "",
+      openingTime: "00:00",
+      closingTime: "00:00",
     },
   },
 };
 export const BusiProfile = () => {
   //img upload
-  const [selectedFile, setSelectedFile] = useState("");
-  selectedFile;
+  //const [selectedFile, setSelectedFile] = useState("");
   //index for tabs open days
   //0 - Sun , 1 - Mon , 2 - Tue , 3 - Wed , 4 - Thu , 5 - Fri , 6 - Sat
   const [tabIndex, setTabIndex] = useState(0);
@@ -84,22 +83,18 @@ export const BusiProfile = () => {
   aboutUs;
   //address
   const [address, setAddress] = useState("");
-  address;
   //ph no
-  const [phNo, setphNo] = useState("");
-  phNo;
+  //const [phNo, setphNo] = useState("");
+  //phNo;
   //prompt pay no
-  const [promptNo, setpromptNo] = useState("");
-  promptNo;
+  //const [promptNo, setpromptNo] = useState("");
+  //promptNo;
   //category
   const [category, setCategory] = useState("");
   category;
   //capacity
   const [capacity, setCapacity] = useState("");
   capacity;
-  //deposti
-  const [deposite, setDeposite] = useState("");
-  deposite;
   //website url
   const [website, setWebsite] = useState("");
   website;
@@ -110,102 +105,30 @@ export const BusiProfile = () => {
   const [userid, setuserid] = useState<string>("");
   userid;
   setuserid;
-  const [cardData, setcardData] = useState<CreditCard[]>([]);
-  cardData
-  const [availability, setAvailability] =
-    useState<Availability>(defaultAvailability);
+  //const [cardData, setcardData] = useState<CreditCard[]>([]);
+  //cardData
+  const [availability, setAvailability] =useState<Availability>(defaultAvailability);
   availability;
+  setAvailability;
 
   useEffect(() => {
-    //img
-    const url = "/feature1/business/img";
-    Axios.get(url, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setSelectedFile(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
-
-    //open day and time
-    const url1 = "/feature1/business/availability";
-    Axios.get(url1, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setAvailability(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
 
     //name, about us, category, capacity, websiteurl
-    const url2 = "/feature1/business/venueData";
+    const url2 = "feature1/venue";
     Axios.get(url2, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           setName(response.data.name);
-          setAboutUs(response.data.aboutUs);
+          setAboutUs(response.data.description);
+          setAddress(response.data.address);
           setCategory(response.data.category);
           setCapacity(response.data.capacity);
-          setWebsite(response.data.websiteUrl);
+          setWebsite(response.data.website);
         }
       })
       .catch((error) => {
-        console.error("Error fetching username data:", error);
+        console.error("Error fetching venue data:", error);
       });
-
-    //address
-    const url3 = "/feature1/business/address";
-    Axios.get(url3, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setAddress(response.data.address);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
-    
-    //ph no and prompt pay No
-    const url4 = "/feature1/business/phoneNpromptpya";
-    Axios.get(url4, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setphNo(response.data.phNo);
-          setpromptNo(response.data.promptPayNo);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
-
-    //deposit
-    const url5 = "/feature1/business/deposit";
-    Axios.get(url5, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setDeposite(response.data.deposit);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
-
-    //card info
-    const url6 = "/feature1/business/cardInfo";
-    Axios.get(url6, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          setcardData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching username data:", error);
-      });
-    
     
   }, []);
 
@@ -245,7 +168,7 @@ export const BusiProfile = () => {
               </Box>
               <Box pt={0.5} fontSize={TextStyle.h3.fontSize}>
                 {" "}
-                Mix Restaurant
+                {name}
               </Box>
             </Flex>
             <Box my={3}>
@@ -259,9 +182,7 @@ export const BusiProfile = () => {
                 fontSize={TextStyle.h3.fontSize}
                 width={{ lg: "40%", sm: "100%" }}
               >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime
-                blanditiis quaerat vel illo delectus eligendi alias distinctio
-                iure vitae aut.
+                {aboutUs}
               </Text>
             </Box>
             <Box my={3}>
@@ -272,7 +193,7 @@ export const BusiProfile = () => {
                 Address
               </Text>
               <Text fontSize={TextStyle.h3.fontSize}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  {address}
               </Text>
             </Box>
             <Flex gap={3} my={2}>
@@ -298,7 +219,7 @@ export const BusiProfile = () => {
                 Category
               </Box>
               <Box pt={0.5} fontSize={TextStyle.h3.fontSize}>
-                Restaurant
+                {category}
               </Box>
             </Flex>
             <Flex gap={3} my={2}>
@@ -309,7 +230,7 @@ export const BusiProfile = () => {
                 Capacity
               </Box>
               <Box pt={0.5} fontSize={TextStyle.h3.fontSize}>
-                100 people
+                {capacity} people
               </Box>
             </Flex>
             <Flex gap={3} my={2}>

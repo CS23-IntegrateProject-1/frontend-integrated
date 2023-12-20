@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { FilterContext } from "../VenuePage";
 
 const buttonStyle = {
-  bgColor: "brand.200",
+  bgColor: "red.300",
   textColor: "white",
   _hover: { bgColor: "brand.100", textColor: "black" },
   fontSize: "sm",
@@ -11,6 +11,7 @@ const buttonStyle = {
 
 export const FilterCap = () => {
   const context = useContext(FilterContext);
+  // console.log(context)
 
   const isActiveCap = (cap: string) => {
     return context.filter.capacity.includes(cap);
@@ -30,20 +31,24 @@ export const FilterCap = () => {
     }
   }
 
-  console.log(context.filter.capacity)
+  // console.log(context.filter.capacity)
 
   return (
     <Flex direction="column" mb="1">
       <Text fontWeight={"semibold"} mb="3">Capacity</Text>
       <Box display="grid" gridTemplateColumns="repeat(2, 1fr)">
-        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("1-4") ? "brand.200" : "brand.400" }} mb="2" mr="2"  onClick={() => handleCapClick('1-4')}>
+        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("1TO4") ? "brand.400" : "brand.200" }} mb="2" mr="2"  onClick={() => handleCapClick('1TO4')}>
           1 - 4 people
         </Button>
-        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("4-6") ? "brand.200" : "brand.400" }}  onClick={() => handleCapClick('4-6')}>4 - 6 people</Button>
-        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("6-10") ? "brand.200" : "brand.400" }} mr="2" onClick={() => handleCapClick('6-10')} >
-          6 - 10 people
+        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("5TO6") ? "brand.400" : "brand.200" }}  onClick={() => handleCapClick('5TO6')}>
+          5 - 6 people
         </Button>
-        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("10M") ? "brand.200" : "brand.400" }} onClick={() => handleCapClick('10M')}>10+ people</Button>
+        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("7TO10") ? "brand.400" : "brand.200" }} mr="2" onClick={() => handleCapClick('7TO10')} >
+          7 - 10 people
+        </Button>
+        <Button sx={{...buttonStyle, backgroundColor: isActiveCap("11M") ? "brand.400" : "brand.200" }} onClick={() => handleCapClick('11M')}>
+          11+ people
+        </Button>
       </Box>
     </Flex>
   );

@@ -57,7 +57,7 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
+    const response: IData = await getVenueById(venueIdInt,branchIdInt);
     console.log(response);
     setData(response);
   };
@@ -90,7 +90,7 @@ export const ReservationDetail = () => {
         time: time,
         branchId: branchIdInt,
         name: name,
-        phonenumber: phonenumber,
+        phone_num: phonenumber,
       });
       console.log("create reservation successfully");
       console.log(response);
@@ -98,7 +98,7 @@ export const ReservationDetail = () => {
       console.log(response.data.newReservation.venueId);
       console.log(response);
 
-      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/payment`;
+      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/paymentD`;
       const newPath = originalPath.replace("/reservation-detail", "");
       navigate(newPath);
     } catch (err: any) {

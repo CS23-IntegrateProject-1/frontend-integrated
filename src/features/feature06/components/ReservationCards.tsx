@@ -182,34 +182,33 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
           >
             Already Review
           </Box>
-        ) : isPaidDeposit === "Pending" && status === "Pending" ? (
-            <Button
-              width="60px"
-              height="30px"
+        ) : isPaidDeposit === "Pending" && status === "Pending" && name !== "MIK" ? (
+            <Box
+              width="50px"
+              height="20px"
               marginLeft="260px"
               marginTop="86px"
               fontSize="12px"
               color="white"
               backgroundColor="red"
+              borderRadius="6px"
+              position={"absolute"}
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+              mb={6}
             >
-              Payment
-            </Button>
+              <Text
+                fontWeight={700}
+                fontSize={10}
+                marginTop={0.5}
+              >
+                not paid
+              </Text>
+            </Box>
             ) : (
           ""
         )}
-          {isPaidDeposit === "Pending" && status === "Pending" ? (
-            <Button
-              width="60px"
-              height="30px"
-              marginLeft="260px"
-              marginTop="86px"
-              fontSize="12px"
-              color="white"
-              backgroundColor="#A533C8"
-            >
-              payment
-            </Button>
-            ): ""}
       </Box>
     </Card>
   );

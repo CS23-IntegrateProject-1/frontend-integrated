@@ -27,7 +27,7 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 			borderWidth="1px"
 			borderRadius="md"
 			width="319px"
-			height="120px"
+			minHeight={"120px"}
 			p={1}
 			borderColor={"brand.100"}>
 			<Flex justifyContent="center">
@@ -49,7 +49,7 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 				/>
 			</Flex>
 
-			<VStack alignItems="left" mt={2} ml={2}>
+			<VStack alignItems="left" mt={2} ml={2} flex={1}>
 				<Box>
 					<Text {...textStyles.h2} color="white" lineHeight="1.5">
 						{/* Prepare food Name  */}
