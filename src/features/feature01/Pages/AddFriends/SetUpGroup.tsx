@@ -43,11 +43,6 @@ export const SetUpGroup = () => {
     );
     allData.append("avatar", groupImg as Blob);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // allData.append("members", selectedFriends.map((friend: { user_id: any; }) => {
-    //   return friend.user_id;
-    // }));
-    
     console.log(`Group Name: ${allData.get("group_name")}`);
     console.log(`Group Image: ${allData.get("avatar")}`); // This might show file details
     console.log(allData.get("avatar"), 'below form')
