@@ -1,5 +1,5 @@
 import React from "react";
-import Ticket from "../Components/Ticket";
+import Ticket from "../components/Ticket";
 
 interface TicketHistoryProps {
 	ticketHistory: {

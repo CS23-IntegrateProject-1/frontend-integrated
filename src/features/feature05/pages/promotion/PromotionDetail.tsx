@@ -16,7 +16,7 @@ export const PromotionDetail = () => {
       const result = await Axios.get(
         `/feature5/GetDetailPromotion/${promotionId}`
       );
-      console.log(result.data.getVeuneList);
+      console.log(result);
       setBranchList(result.data.getVeuneList);
       console.log(result);
       setImage(result.data.getDetail.image_url);
@@ -37,7 +37,11 @@ export const PromotionDetail = () => {
         overflow={"hidden"}
         borderRadius={"5px"}
       >
-        <Image w={"100%"} objectFit={"cover"} src={image}></Image>
+        <Image
+          w={"100%"}
+          objectFit={"cover"}
+          src={`${import.meta.env.VITE_BACKEND_URL}${image}`}
+        ></Image>
       </Center>
       <Tags tag_text={"Branches"}></Tags>
       <Box mt={"10px"}>
@@ -48,3 +52,4 @@ export const PromotionDetail = () => {
     </Box>
   );
 };
+
