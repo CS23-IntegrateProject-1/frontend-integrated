@@ -19,7 +19,7 @@ export const AdvertisementStatusPage: React.FC = () => {
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
 	const navigate = useNavigate();
 	const handleClickCreate = () => {
-		navigate("/business/advertisement/request");
+		navigate("/business/advertisement/create");
 	};
 	// const businessId = 2;
 
