@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../../components/RDetailCard";
@@ -25,7 +24,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  Location: {
+  location: {
     locationId: number;
     name: string;
     latitude: string;
@@ -52,11 +51,10 @@ export const WalkInDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, );
 
   const fetchData = async () => {
     const response: IData = await getVenueById(venueIdInt, branchIdInt); //ไม่ควรเป็น param + ไม่ได้ใส่ branchId
-    console.log("response: ", response);
     setData(response);
     setIsLoaded(true);
   };
@@ -97,7 +95,7 @@ export const WalkInDetail = () => {
         <RDetailCard
           name={data?.name}
           star={data?.score}
-          location={data?.Location.address} image_url={data?.Venue_photo}/>
+          location={data?.location.address} image_url={data?.Venue_photo}/>
         <Box
           width="393px"
           height="480px"

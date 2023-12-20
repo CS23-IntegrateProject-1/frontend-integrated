@@ -1,16 +1,7 @@
-import React, { useContext, FC, useState, useEffect, useCallback} from "react";
+import React, { useContext,useState, useEffect, createContext} from "react";
 import { UserContext } from "../../../contexts/userContext/UserContext";
 import io, { Socket } from "socket.io-client";
 import { Axios } from "../../../AxiosInstance";
-interface ConversationsProviderProps {
-  children: React.ReactNode;
-}
-interface ConversationContextValue {
-  conversations: Conversation[];
-  openConversation: (recipients: Recipient[], group_name: string,id:number) => void;
-  sendMessage: (message: SendMessageParams) => void;
-  selectedConversation: Conversation | undefined;
-}
 
 interface Recipient {
   member: {
@@ -21,10 +12,17 @@ interface Recipient {
   },
   memberId: number;
 }
-
-interface Conversation {
+interface PConversation {
   group_name: string;
   group_profile: string;
+  id:number;
+  members: Recipient[];
+  messages: Message[];
+  selected?: boolean;
+}
+interface CConversation {
+  roomname: string;
+  community_group_profile: string;
   id:number;
   members: Recipient[];
   messages: Message[];
@@ -35,30 +33,52 @@ interface Message {
   text: string;
   sender: string;
   fromMe: boolean;
+  id: number;
 }
-
 interface SendMessageParams {
   recipients: Recipient[];
   id: number;
   text: string;
   sender: string;
 }
+interface ProviderProps {
+  children: React.ReactNode;
+}
+interface ConversationContextValue {
+  Pconversations: PConversation[] ;
+  Cconversations: CConversation[] ;
+  openConversation: (recipients: Recipient[],id:number) => void;
+  sendPMessage: (message: SendMessageParams) => void;
+  sendCMessage: (message: SendMessageParams) => void;
+  selectedConversation: PConversation | CConversation | undefined;
+  setSelectedConversation: React.Dispatch<React.SetStateAction<PConversation | CConversation | undefined>>;
+  socket: Socket | undefined;
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+const ConversationsContext = createContext<ConversationContextValue>({
+  Pconversations: [],
+  Cconversations: [],
+  openConversation: () => {},
+  sendPMessage: () => {},
+  sendCMessage: () => {},
+  selectedConversation: undefined,
+  setSelectedConversation: () => {},
+  socket: undefined,
+  messages: [],
+  setMessages: () => {},
+});
 
-const ConversationsContext = React.createContext<
-  ConversationContextValue | undefined
->(undefined);
-
-export const ConversationsProvider: FC<ConversationsProviderProps> = ({
-  children,
-}) => {
-  const [selectedConversation, setSelectedConversation] = useState<Conversation>();
-
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
+  const [messages,setMessages] = useState<Message[]>([]);
+  const [selectedConversation, setSelectedConversation] = useState<PConversation | CConversation>();
+  const [Pconversations, setPConversations] = useState<PConversation[]>([]);
+  const [Cconversations, setCConversations] = useState<CConversation[]>([]);
   const user = useContext(UserContext);
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8000", {
+    const newSocket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:8000", {
       query: { id: user.username },
     });
     setSocket(newSocket);
@@ -72,8 +92,7 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
   //To get all the privateConversationLog
   useEffect(() => {
     Axios.get("/feature12/displayGroupDetail").then((res) => {
-      setConversations([]);
-      const newConversations = res.data.map((group: Conversation) => ({
+      const newConversations = res.data.map((group: PConversation) => ({
         group_name: group.group_name,
         group_profile: group.group_profile,
         id: group.id,
@@ -82,94 +101,60 @@ export const ConversationsProvider: FC<ConversationsProviderProps> = ({
         selected: false,
       }));
 
-      setConversations((prevConversations) => [
-        ...prevConversations,
-        ...newConversations,
-      ]);
+      setPConversations(newConversations);
     });
   }, [socket]);
 
-  function openConversation(recipients: Recipient[], group_name: string, id: number) {
-    console.log("recipients", recipients);
-    console.log(conversations + "<< conversations");
-    socket?.emit("join-room", { recipients, group_name,id });
-    
-    //Get Specific Coversation
-    Axios.get(`/feature12/displayChatDetail/${id}`).then((res) => {
-      const newConversation = {
-        group_name: res.data.group_name,
-        group_profile: res.data.group_profile,
-        id: res.data.id,
-        members: res.data.members,
+  //To get all the communityConversationLog
+  useEffect(() => {
+    Axios.get("/feature12/displayCommunityDetail").then((res) => {
+      console.log(">>>>>COMMUNITY>>>", res.data )
+      const newConversations = res.data.map((room: CConversation) => ({
+        roomname: room.roomname,
+        community_group_profile: room.community_group_profile,
+        id: room.id,
+        members: room.members, 
         messages: [],
-        selected: true,
-      };
-      setSelectedConversation(newConversation);
-    });
-  }
+        selected: false,
+      }));
 
-  const sendMessage = (
-    { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
-    ) => {
-    socket?.emit("send-message", { recipients, text, id, sender });
-    addMessageToConversation({ recipients, text, sender});
-    console.log("selectedConversation after sending", selectedConversation?.messages);
+      setCConversations(newConversations);
+    });
+  }, [socket]);
+
+  const openConversation = (recipients: Recipient[], id: number) => {
+    socket?.emit("join-room", { recipients, id });
   };
 
-const addMessageToConversation = useCallback(({
-  recipients,
-  text,
-  sender,
-}: {
-  recipients: Recipient[];
-  text: string;
-  sender: string;
-}) => {
-  if(selectedConversation){
-      selectedConversation.messages.push({
-      recipients,
-      text,
-      sender,
-      fromMe: sender === user.username,
-  })
-  }
-}, [selectedConversation,user.username]);
-  // Socket Recieve message event listener
-  useEffect(() => {
-    if (socket == null) {
-      console.log("socket is null");
-      return;
-    }
-    socket.on("receive-message", ({ recipients, text, sender }) => {
-      addMessageToConversation({ recipients, text, sender });
-    });
-    return () => {
-      socket.off("receive-message");
-    };
-  }, [socket,addMessageToConversation]);
+  const sendPMessage = (
+    { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
+    ) => {
+    socket?.emit("send-Pmessage", { recipients, text, id, sender });
+  };
+  const sendCMessage = (
+    { recipients, id, text,sender }:{recipients: Recipient[]; id:number; text: string; sender: string; }
+    ) => {
+    socket?.emit("send-Cmessage", { recipients, text, id, sender });
+  };
 
   return (
     <ConversationsContext.Provider
       value={{
-        conversations,
+        Pconversations,
+        Cconversations,
         openConversation,
-        sendMessage,
+        sendPMessage,
+        sendCMessage,
         selectedConversation,
-      }}
-    >
+        setSelectedConversation,
+        socket,
+        messages,
+        setMessages
+      }}>
       {children}
     </ConversationsContext.Provider>
   );
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useConversations() {
-  const context = useContext(ConversationsContext);
-
-  if (!context || context instanceof Error) {
-    throw new Error(
-      "useConversations must be used within a ConversationsProvider"
-    );
-  }
-  return context;
-}
+export const useConversations = () => useContext(ConversationsContext);

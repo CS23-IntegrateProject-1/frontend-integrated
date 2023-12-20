@@ -10,12 +10,12 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { DeleteCommentModal } from "./DeleteCommentModal";
 
 export const CommentBox: FC<CommentItem> = ({
-  article: { topic },
+  Article: { topic },
   articleId,
   commentId,
   content,
   create_date,
-  user: { profile_picture, username },
+  User: { profile_picture, username },
   userId,
 }) => {
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ export const CommentBox: FC<CommentItem> = ({
       </Flex>
       <Box ml={"1em"} mt={"-15px"} flexDirection="column">
         <img
-          src={import.meta.env.BACKEND_URL + profile_picture}
+          src={import.meta.env.BACKEND_URL + profile_picture || ""}
           alt="Profile"
           width="32px"
           height="32px"
@@ -109,12 +109,12 @@ export const CommentBox: FC<CommentItem> = ({
         </Text>
       </Box>
       <EditCommentModal
-        article={{ topic }}
+        Article={{ topic }}
         articleId={articleId}
         commentId={commentId}
         content={content}
         create_date={create_date}
-        user={{ profile_picture, username }}
+        User={{ profile_picture, username }}
         userId={userId}
         key={commentId}
         onClose={editModal.onClose}

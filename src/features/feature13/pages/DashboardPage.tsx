@@ -5,6 +5,7 @@ import { MdChair } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
+import Cookies from "js-cookie";
 import { MdRestaurantMenu } from "react-icons/md";
 
 interface IData {
@@ -14,17 +15,14 @@ interface IData {
 }
 
 export const DashboardPage = () => {
+  const [venueId, setVenueId] = useState<number | null>(1);
   const navigate = useNavigate();
   const confirmCheckin = () => {
     const path = "/business/qrcodeconfirm";
     navigate(path);
   };
   const menu = () => {
-    const path = `/business/venue/menubusiness`;
-    navigate(path);
-  };
-  const orderList = () => {
-    const path = `/business/venue/orderstat`;
+    const path = `/business/venue/${venueId}/menubusiness`;
     navigate(path);
   };
   const tableList = () => {
@@ -35,6 +33,10 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     fetchData();
+    const storedVenueId = Cookies.get("venueId");
+      if (storedVenueId) {
+        setVenueId(parseInt(storedVenueId, 10));
+      }
   }, []);
 
   const fetchData = async () => {
@@ -42,14 +44,12 @@ export const DashboardPage = () => {
     setData(response);
   };
   return (
-    <Box justifyContent={"center"} alignItems={"center"} display={"flex"}>
     <Box display={"flex"} flexDirection={"column"} position={"relative"}>
       <Text
         fontSize={"20px"}
         fontWeight={"700"}
         fontStyle={"normal"}
         lineHeight={"normal"}
-        ml={'18px'}
       >
         Mix restaurant per day
       </Text>
@@ -202,10 +202,10 @@ export const DashboardPage = () => {
         background="rgba(95, 13, 187, 0.40)"
         ml={"188px"}
         mt={"20px"}
-        onClick={orderList}
+        onClick={tableList}
       >
         <Icon boxSize={"75px"} mt={"20px"} ml={"20px"} color={"white"}>
-          <MdRestaurantMenu />
+        <MdRestaurantMenu />
         </Icon>
         <Box mt={"-74px"} ml={"58px"} textAlign={"center"}>
           <Text fontWeight={700} fontSize={"16px"} textColor={"white"}>
@@ -221,7 +221,7 @@ export const DashboardPage = () => {
           </Text>
         </Box>
       </Card>
-    </Box>
+
     </Box>
   );
 };
