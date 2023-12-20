@@ -48,6 +48,7 @@ export const CommentModal: FC<ModalComponentProps> = ({
   if (comments.status == "loading") {
     return <CustomLoader />;
   }
+  console.log(comments.data)
 
   if (comments.error instanceof Error) {
     return <div>An error occurred: {comments.error.message}</div>;

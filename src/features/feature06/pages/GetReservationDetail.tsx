@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Fade, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -16,12 +15,67 @@ import { CancelModal } from "../components/CancelModal";
 //   onClose: () => void;
 //   url: string;
 // }
-import { FC } from "react";
+import { FC} from "react";
 import { Axios } from "../../../AxiosInstance";
-import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
+
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
+}
+
+interface IData {
+  venue: {
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    chatRoomId: number;
+    locationId: number;
+    score: string;
+    venueId: number;
+    website_url: string;
+    Venue_photo: IPhotoData[] | undefined;
+  };
+  location: {
+    address: string;
+  };
+  reservations: [
+    {
+      venueId: number;
+      guest_amount: number;
+      reserved_time: string;
+      status: string;
+      userId: number;
+      entry_time: string;
+      isReview: boolean;
+      reservationId: number;
+      depositId: number;
+      isPaidDeposit: string;
+      user: {
+        username: string;
+        hashed_password: string;
+        fname: string;
+        lname: string;
+        email: string;
+        profile_picture: string;
+        addId: string;
+        phone: string;
+        tierId: number;
+        userId: number;
+        User_bio: string;
+      };
+      deposit: {
+        deposit_amount: string;
+        depositId: number;
+        venueId: number;
+      };
+    }
+  ];
+}
 
 export const GetReservationDetail: FC = () => {
-  const [data, setData] = useState<IGetReservationDetailData>();
+  const [data, setData] = useState<IData>();
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
 
@@ -44,24 +98,26 @@ export const GetReservationDetail: FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, );
 
   const fetchData = async () => {
     try {
-      const response: IGetReservationDetailData = await getReservationDetail(
+      const response: IData = await getReservationDetail(
         venueIdInt,
         reservationIdInt
       );
       setData(response);
       console.log(response);
+      console.log(data?.reservations[0]?.status);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
   const handleCopyClick = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      setShowOverlay(true);
+        await navigator.clipboard.writeText(window.location.href);
+        setShowOverlay(true);
+
     } catch (error) {
       console.error("Failed to copy URL to clipboard", error);
     }
@@ -71,16 +127,14 @@ export const GetReservationDetail: FC = () => {
   };
 
   const confirmCheckin = async () => {
-    try {
-      const response = await Axios.get(
-        `/api/mik/checkInStatus/${reservationId}`
-      );
+    try{
+      const response = await Axios.get(`/api/mik/checkInStatus/${reservationId}`)
       console.log(response);
       navigate(`/venue/menu`);
-    } catch (error) {
+    }catch (error){
       console.error("Error fetching data:", error);
     }
-  };
+  }
 
   const NavigateToPayment = () => {
     const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/payment`;
@@ -353,8 +407,7 @@ export const GetReservationDetail: FC = () => {
           marginTop="18px"
           marginLeft="18px"
         ></Box>
-        {data?.reservations[0]?.status === "Pending" &&
-        data?.venue.name !== "MIK" ? (
+        {data?.reservations[0]?.status === "Pending" && data?.venue.name !== "MIK" ? (
           <Box mt="15px" ml={"50px"}>
             <Button
               borderRadius="10px"
@@ -410,8 +463,7 @@ export const GetReservationDetail: FC = () => {
               ""
             )}
           </Box>
-        ) : data?.reservations[0]?.status === "Check_in" &&
-          data?.venue.name === "MIK" ? (
+        ) : data?.reservations[0]?.status === "Check_in" && data?.venue.name === "MIK" ? (
           <Button
             borderRadius="10px"
             width="200px"
@@ -433,7 +485,7 @@ export const GetReservationDetail: FC = () => {
         )}
       </Box>
       <CancelModal
-        reservationIdInt={data?.reservations[0]?.reservationId}
+        reservationIdInt={data?.reservations[0].reservationId}
         isOpen={cancelModal.isOpen}
         onClose={cancelModal.onClose}
       />

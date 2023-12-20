@@ -74,7 +74,7 @@ export const MyArticlesPage = () => {
                     isLike={article.isLike}
                     Article_tags={article.Article_tags}
                     Article_venue={article.Article_venue}
-                    user={article.user}
+                    User={article.User}
                   />
                 );
               })}
@@ -83,12 +83,12 @@ export const MyArticlesPage = () => {
               {myComments.data?.map((comment) => {
                 return (
                   <CommentBox
-                    article={comment.article}
+                    Article={comment.Article}
                     articleId={comment.articleId}
                     commentId={comment.commentId}
                     content={comment.content}
                     create_date={comment.create_date}
-                    user={comment.user}
+                    User={comment.User}
                     userId={comment.userId}
                     key={comment.commentId}
                   />
