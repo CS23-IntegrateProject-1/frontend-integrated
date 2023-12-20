@@ -78,7 +78,7 @@ export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8000", {
+    const newSocket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:8000", {
       query: { id: user.username },
     });
     setSocket(newSocket);
