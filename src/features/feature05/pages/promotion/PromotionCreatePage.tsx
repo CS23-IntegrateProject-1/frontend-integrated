@@ -438,7 +438,6 @@ export const PromotionCreatePage = () => {
               onClick={handleCloseImage}
             ></IconButton>
             <Image
-              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
               src={imagePreview}
               alt={"image"}
               width={"100%"}

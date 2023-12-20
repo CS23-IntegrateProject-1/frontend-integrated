@@ -355,7 +355,6 @@ export const VoucherCreatePage = () => {
                 onClick={handleCloseImage}
               ></IconButton>
               <Image
-                //  src={imagePreview}
                 src={imagePreview}
                 alt={"image"}
                 width={"100%"}

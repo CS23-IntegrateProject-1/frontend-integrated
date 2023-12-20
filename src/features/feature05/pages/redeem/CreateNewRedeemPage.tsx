@@ -235,7 +235,7 @@ export const CreateNewRedeemPage = () => {
               onClick={handleCloseImage}
             ></IconButton>
             <Image
-              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}` || ""}
               alt={"image"}
               width={"100%"}
             ></Image>

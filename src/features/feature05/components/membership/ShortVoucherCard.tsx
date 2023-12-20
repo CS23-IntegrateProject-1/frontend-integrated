@@ -7,11 +7,17 @@ interface ICard {
   voucher_image: string;
 }
 
-export const ShortRedeemCard: FC<ICard> = ({ voucherId, voucher_image }) => {
+export const ShortVoucherCard: FC<ICard> = ({ voucherId, voucher_image }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/voucher/${voucherId}`);
   };
+
+    if (voucherId == undefined) {
+      console.error("Voucher id is undefined");
+      return;
+    }
+ 
   
   return (
     <Card
@@ -23,7 +29,7 @@ export const ShortRedeemCard: FC<ICard> = ({ voucherId, voucher_image }) => {
     >
       <Image
         h={"100%"}
-        src={`${import.meta.env.VITE_BACKEND_URL}${voucher_image}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}${voucher_image}` || ""}
         objectFit={"cover"}
       />
     </Card>

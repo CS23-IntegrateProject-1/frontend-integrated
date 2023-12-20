@@ -1,5 +1,5 @@
-import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
 import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementListPage";
+import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
 import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
 
 export const Feature05AdminRoutes = () => {
@@ -7,9 +7,7 @@ export const Feature05AdminRoutes = () => {
     // Advertisement ( admin )
     { path: "/admin/advertisement", element: <AdvertisementListPage /> },
     { path: "/admin/advertisement/:id", element: <AdvertisementIDPage /> },
-    {
-      path: "/admin/advertisement/:id/reject",
-      element: <AdvertisementRejectPage />,
-    },
+    { path: "/admin/advertisement/:id/reject", element: <AdvertisementRejectPage />  },
   ];
 };
+

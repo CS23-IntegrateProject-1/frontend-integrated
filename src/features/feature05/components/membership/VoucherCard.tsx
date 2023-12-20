@@ -7,7 +7,7 @@ import IMember_tier from "../../../../interfaces/Redeem/IMember_tier";
 import { GetTierNameByTierId } from "../../../../api/Membership/GetTierNameByTierId";
 import { GetPoint } from "../../../../api/Membership/GetPoint";
 
-export const RedeemCard = () => {
+export const VoucherCard = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState<IMember_tier>();

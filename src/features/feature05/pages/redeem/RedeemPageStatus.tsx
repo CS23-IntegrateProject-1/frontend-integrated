@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
-import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCrad";
+import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCard";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 // import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";

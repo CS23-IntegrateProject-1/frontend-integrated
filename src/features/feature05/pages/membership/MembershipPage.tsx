@@ -2,7 +2,7 @@ import { Box, Button, Stack } from "@chakra-ui/react";
 import { MemberShipCard } from "../../components/membership/MembershipCard";
 import Tags from "../../components/membership/Tags";
 import { useNavigate } from "react-router-dom";
-import MembershipRedeemList from "../../components/membership/MembershipRedeemList";
+import { MembershipVoucherList } from "../../components/membership/MembershipVoucherList";
 import MembershipMyprivilegeList from "../../components/membership/MembershipMyprivilegeList";
 
 export const MemberShipPage = () => {
@@ -59,7 +59,7 @@ export const MemberShipPage = () => {
                     color="black"
                     textDecoration="underline"
                     fontWeight="regular"
-                    onClick={() => handleClick("/redeem")}
+                    onClick={() => handleClick("/voucher")}
                   >
                     See all
                   </Button>
@@ -72,7 +72,7 @@ export const MemberShipPage = () => {
                 padding="15px"
                 paddingTop="25px"
               >
-                <MembershipRedeemList />
+                <MembershipVoucherList />
               </Box>
             </Box>
             {/* End of Recently */}

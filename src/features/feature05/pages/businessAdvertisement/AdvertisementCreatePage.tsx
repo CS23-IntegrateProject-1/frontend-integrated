@@ -36,7 +36,7 @@ interface AdvertisementProps {
   target_group: string;
   cost: number;
 }
-export const AdvertisementRequestPage = () => {
+export const AdvertisementCreatePage = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
@@ -308,7 +308,6 @@ export const AdvertisementRequestPage = () => {
               onClick={handleCloseImage}
             ></IconButton>
             <Image
-              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
               src={imagePreview}
               alt={"image"}
               width={"100%"}

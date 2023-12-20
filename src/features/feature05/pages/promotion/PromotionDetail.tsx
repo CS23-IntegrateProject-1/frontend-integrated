@@ -40,7 +40,7 @@ export const PromotionDetail = () => {
         <Image
           w={"100%"}
           objectFit={"cover"}
-          src={`${import.meta.env.VITE_BACKEND_URL}${image}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${image}` || ""}
         ></Image>
       </Center>
       <Tags tag_text={"Branches"}></Tags>
