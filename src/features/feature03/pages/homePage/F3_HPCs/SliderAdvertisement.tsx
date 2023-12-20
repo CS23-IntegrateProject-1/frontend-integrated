@@ -63,7 +63,7 @@ export const SliderAdvertisement: React.FC = () => {
         {SliderADData.map((SADD, index) => (
           <Image
             key={index}
-            src={SADD.image_url}
+            src={`${import.meta.env.VITE_BACKEND_URL}${SADD.image_url}`}
             alt={`Advertisement ${SADD.advertisementId}`}
             objectFit={"cover"}
             borderRadius="xl"
