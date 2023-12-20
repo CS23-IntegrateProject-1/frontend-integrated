@@ -13,7 +13,7 @@ export const AddMenu = () => {
   // const { venueId } = useParams();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [selectedFile, setSelectedFile] = useState(null);
   const toast = useCustomToast();
   const [formData, setFormData] = useState({
     name: '',
@@ -63,11 +63,7 @@ export const AddMenu = () => {
     formDataWithFile.append('name', formData.name);
     formDataWithFile.append('description', formData.description);
     formDataWithFile.append('price', formData.price);
-    if (selectedFile) {
-      formDataWithFile.append('file', selectedFile);
-    }
-    console.log(selectedFile)
-    console.log(formDataWithFile)
+    formDataWithFile.append('menuImage', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
     Axios.post(`/feature7/addMenu`, formDataWithFile, {

@@ -39,16 +39,16 @@
 //   // const { venueId } = useParams();
 //   const queryClient = useQueryClient();
 
-  const handleButtonClick = (newStatus: OrderStatus) => {
-    setStatus(newStatus);
-    setPreparingButtonColor(
-      newStatus === "Preparing" ? "brand.200" : "brand.400"
-    );
-    setCompletedButtonColor(
-      newStatus === "Completed" ? "brand.200" : "brand.400"
-    );
-    setBorderColor(newStatus === "Preparing" ? "brand.200" : "brand.400");
-  };
+//   const handleButtonClick = (newStatus: OrderStatus) => {
+//     setStatus(newStatus);
+//     setPreparingButtonColor(
+//       newStatus === "Preparing" ? "brand.200" : "brand.400"
+//     );
+//     setCompletedButtonColor(
+//       newStatus === "Completed" ? "brand.200" : "brand.400"
+//     );
+//     setBorderColor(newStatus === "Preparing" ? "brand.200" : "brand.400");
+//   };
 
 //   // const { data: tableNumber } = useQuery(['tableNumber'], async () => {
 //   //   const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
@@ -78,72 +78,72 @@
 //     return response.data;
 //   });
 
-  if (ongoingLoading || completedLoading) {
-    return <FullPageLoader />;
-  }
-  if (ongoingError || completedError) {
-    return <div>Something went wrong</div>;
-  }
-  const invalidateOngoingOrderDetails = () => {
-    queryClient.invalidateQueries(["ongoingOrderDetails"]);
-  };
-  console.log(
-    "hello",
-    formatDatetime1(completedOrderDetails[0].table.orderDate)
-  );
-  const renderCard = () => {
-    switch (status) {
-      case "Preparing":
-        return (
-          // <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-          //     <BusOngoCard />
-          // </VStack>
-          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {ongoingOrderDetails &&
-              ongoingOrderDetails.map(
-                (order: OrderDetailsProps, index: number) => (
-                  // const orderDetails = ongoingOrderDetails[index];
-                  // return (
-                  <BusOngoCard
-                    key={index} /* Use unique key */
-                    tableNo={order.table.tableId}
-                    orderDate={formatDatetime1(order.table.orderDate)}
-                    items={order.orderDetails}
-                    invalidateOngoingOrderDetails={
-                      invalidateOngoingOrderDetails
-                    }
-                  />
-                )
-              )}
-          </VStack>
-        );
-      case "Completed":
-        return (
-          // <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-          //     <BusCompleteCard />
-          // </VStack>
-          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
-            {completedOrderDetails &&
-              completedOrderDetails.map(
-                (order: OrderDetailsProps, index: number) => (
-                  <BusCompleteCard
-                    key={index} /* Use unique key */
-                    tableNo={order.table.tableId}
-                    orderDate={
-                      order.table.orderDate
-                        ? formatDatetime1(order.table.orderDate)
-                        : "0"
-                    }
-                    items={order.orderDetails}
-                  />
-                )
-              )}
-          </VStack>
-        );
-      default:
-        return null;
-    }
-  };
+//   // if (ongoingLoading || completedLoading) {
+//   //   return <FullPageLoader />;
+//   // }
+//   // if (ongoingError || completedError) {
+//   //   return <div>Something went wrong</div>;
+//   // }
+//   const invalidateOngoingOrderDetails = () => {
+//     queryClient.invalidateQueries(["ongoingOrderDetails"]);
+//   };
+//   console.log(
+//     "hello",
+//     formatDatetime1(completedOrderDetails[0].table.orderDate)
+//   );
+//   const renderCard = () => {
+//     switch (status) {
+//       case "Preparing":
+//         return (
+//           // <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+//           //     <BusOngoCard />
+//           // </VStack>
+//           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+//             {ongoingOrderDetails &&
+//               ongoingOrderDetails.map(
+//                 (order: OrderDetailsProps, index: number) => (
+//                   // const orderDetails = ongoingOrderDetails[index];
+//                   // return (
+//                   <BusOngoCard
+//                     key={index} /* Use unique key */
+//                     tableNo={order.table.tableId}
+//                     orderDate={formatDatetime1(order.table.orderDate)}
+//                     items={order.orderDetails}
+//                     invalidateOngoingOrderDetails={
+//                       invalidateOngoingOrderDetails
+//                     }
+//                   />
+//                 )
+//               )}
+//           </VStack>
+//         );
+//       case "Completed":
+//         return (
+//           // <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+//           //     <BusCompleteCard />
+//           // </VStack>
+//           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+//             {completedOrderDetails &&
+//               completedOrderDetails.map(
+//                 (order: OrderDetailsProps, index: number) => (
+//                   <BusCompleteCard
+//                     key={index} /* Use unique key */
+//                     tableNo={order.table.tableId}
+//                     orderDate={
+//                       order.table.orderDate
+//                         ? formatDatetime1(order.table.orderDate)
+//                         : "0"
+//                     }
+//                     items={order.orderDetails}
+//                   />
+//                 )
+//               )}
+//           </VStack>
+//         );
+//       default:
+//         return null;
+//     }
+//   };
 
 //   return (
 //     <Flex direction="column" align="center" justify="center">
