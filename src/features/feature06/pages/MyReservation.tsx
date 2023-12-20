@@ -15,7 +15,7 @@ export const MyReservation = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [status]);
 
   const fetchData = async () => {
     const response = await getMyReservation();
