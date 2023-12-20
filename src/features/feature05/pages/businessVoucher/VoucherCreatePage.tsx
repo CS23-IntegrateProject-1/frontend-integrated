@@ -157,7 +157,7 @@ export const VoucherCreatePage = () => {
         },
       });
       console.log(response.data); // Log the response data
-      navigate("/business/voucher");
+      navigate("/business/voucher/status");
     } catch (err) {
       console.error("Error submitting promotion:", err);
     }

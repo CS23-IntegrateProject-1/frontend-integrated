@@ -26,7 +26,7 @@ export const Feature05BusinessRoutes = () => {
     // Voucher ( business )
     { path: "/business/voucher/create", element: <VoucherCreatePage /> },
     { path: "/business/voucher/edit/:voucherId", element: <VoucherEditPage /> },
-    { path: "/business/voucher", element: <VoucherStatusPage /> },
+    { path: "/business/voucher/status", element: <VoucherStatusPage /> },
 
     // Redeem ( Business )
     { path: "/business/redeem/status", element: <RedeemPageStatus /> },

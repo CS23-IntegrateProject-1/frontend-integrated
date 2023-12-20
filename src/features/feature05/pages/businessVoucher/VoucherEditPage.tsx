@@ -192,7 +192,7 @@ export const VoucherEditPage = () => {
         }
       );
       console.log(response.data); // Log the response data}
-      navigate("/business/voucher");
+      navigate("/business/voucher/status");
     } catch (err) {
       console.error("Error submitting promotion:", err);
     }
@@ -211,7 +211,7 @@ export const VoucherEditPage = () => {
     try {
       await deleteVoucher();
       // Optionally, perform any additional actions after successful deletion
-      navigate("/business/voucher"); // Redirect to a different page, for instance
+      navigate("/business/voucher/status"); // Redirect to a different page, for instance
     } catch (error) {
       console.error(error);
       // Handle errors, if any, during the deletion process
