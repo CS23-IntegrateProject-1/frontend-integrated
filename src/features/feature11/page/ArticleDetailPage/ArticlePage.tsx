@@ -80,7 +80,7 @@ export const ArticlePage = () => {
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
         {/* <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box> */}
-        <Image width={"45px"} height={"45px"} mr={"1em"} src={import.meta.env.BACKEND_URL + article.data?.user.profile_picture}/>
+        <Image width={"45px"} height={"45px"} mr={"1em"} src={import.meta.env.BACKEND_URL + article.data?.user.profile_picture || ""}/>
         <Box>
           <Text style={TextStyle.h3}>{article.data?.user.username}</Text>
           <Text style={TextStyle.body3}>{article.data?.created_date}</Text>

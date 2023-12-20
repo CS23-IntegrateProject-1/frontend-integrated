@@ -10,7 +10,7 @@ import {
 	Flex,
 	Button,
 } from "@chakra-ui/react";
-import DateSelection from "../Components/DateSelection";
+import DateSelection from "../components/DateSelection";
 import getTheaterDetail from "../../../api/movie/getTheaterDetail";
 import getMovieToday from "../../../api/movie/getMovieToday";
 import { ITheaterDetail } from "../../../interfaces/Movie/ITheaterDetail.interface";
@@ -75,8 +75,7 @@ const CinemaDetailPage = () => {
 			await getTheaterDetail(Number(theaterId));
 		if (response.status != 200 || !response.data) {
 			setTheater(null);
-    }
-    else {
+		} else {
 			setTheater({
 				name: response.data.name,
 			});

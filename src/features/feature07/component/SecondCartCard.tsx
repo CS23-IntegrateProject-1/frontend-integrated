@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text,  VStack, HStack } from "@chakra-ui/react";
 import { FC} from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface SecondCardProps {
   id:number;
   foodName: string;
@@ -15,10 +15,10 @@ interface SecondCardProps {
 
 export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,amount,type}) => {
     const navigate = useNavigate();
-    const { venueId } = useParams();
+    // const { venueId } = useParams();
 
   const handleMenuEdit = (type: string, id: string) => {
-    navigate(`/venue/${venueId}/cartdetail/${type}/${id}`);
+    navigate(`/venue/cartdetail/${type}/${id}`);
     console.log("Clicked menu. Menu ID:", id);
   }
 

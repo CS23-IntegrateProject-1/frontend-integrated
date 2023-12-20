@@ -19,10 +19,11 @@ jobs:
               run: npm run lint
 
     check-build:
+        needs: [lint]
         name: Check Build
         runs-on: ubuntu-latest
         timeout-minutes: 5
-        container: node:lts
+        container: node:20-alpine
         steps:
             - name: Checkout
               uses: actions/checkout@v3
