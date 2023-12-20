@@ -1,8 +1,14 @@
-import { Card, CardBody, Stack, Heading, Text, Box } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Stack,
+  Heading,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 
 import { Progress } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import IMember_tier from "../../../../interfaces/Redeem/IMember_tier";
 import { GetTierNameByTierId } from "../../../../api/Membership/GetTierNameByTierId";
 import { GetPoint } from "../../../../api/Membership/GetPoint";
 import { GetExpire } from "../../../../api/Membership/GetExpire";
@@ -10,7 +16,7 @@ import { formatDate1 } from "../../../../functions/formatDatetime";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 export const MemberShipCard = () => {
-  const [data, setData] = useState<IMember_tier>();
+  const [data, setData] = useState<string>();
   const [points, setPoints] = useState<number>();
   const [expireDate, setExpireDate] = useState("");
 
