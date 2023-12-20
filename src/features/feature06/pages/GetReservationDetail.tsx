@@ -179,8 +179,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0].User.fname}{" "}
-            {data?.reservations[0]?.User.lname}
+            {data?.reservations[0]?.name}
           </Text>
           <Text
             color="#000"
@@ -204,7 +203,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0]?.User.phone}
+            {data?.reservations[0]?.phone}
           </Text>
           <CalendarIcon
             w={"20px"}

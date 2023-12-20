@@ -90,7 +90,7 @@ export const ReservationDetail = () => {
         time: time,
         branchId: branchIdInt,
         name: name,
-        phonenumber: phonenumber,
+        phone_num: phonenumber,
       });
       console.log("create reservation successfully");
       console.log(response);
