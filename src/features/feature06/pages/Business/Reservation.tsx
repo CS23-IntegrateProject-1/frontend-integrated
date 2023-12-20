@@ -43,7 +43,7 @@ interface ReservationCard {
 export const Reservation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState<ReservationCard[]>([]);
-  //const [selectedDate, setSelectedDate] = useState<string | null>(null); // Format: YYYY-MM-DD
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // Format: YYYY-MM-DD
   const [filterOptions, setFilterOptions] = useState({
     offline: true,
     online: true,
