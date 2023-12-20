@@ -6,7 +6,7 @@ import { VoucherCreatePage } from "./pages/businessVoucher/VoucherCreatePage";
 import { VoucherEditPage } from "./pages/businessVoucher/VoucherEditPage";
 import { VoucherStatusPage } from "./pages/businessVoucher/VoucherStatusPage";
 import { PromotionCreatePage } from "./pages/promotion/PromotionCreatePage";
-import { PromotionEditPage } from "./pages/promotion/PromotionEdit";
+import { PromotionEditPage } from "./pages/promotion/PromotionEditPage";
 import { PromotionStatusPage } from "./pages/promotion/PromotionStatusPage";
 import { RedeemPageStatus } from "./pages/redeem/RedeemPageStatus";
 import { CreateNewRedeemPage } from "./pages/redeem/CreateNewRedeemPage";

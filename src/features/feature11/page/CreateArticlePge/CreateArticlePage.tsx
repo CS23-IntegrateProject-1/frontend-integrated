@@ -218,9 +218,15 @@ export const CreateArticlePage = () => {
           // value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="Blog">Blog</option>
-          <option value="Review">Review</option>
-          <option value="Question">Question</option>
+          <option style={{ color: "black" }} value="Blog">
+            Blog
+          </option>
+          <option style={{ color: "black" }} value="Review">
+            Review
+          </option>
+          <option style={{ color: "black" }} value="Question">
+            Question
+          </option>
         </Select>
       </FormControl>
 
@@ -295,7 +301,11 @@ export const CreateArticlePage = () => {
             onChange={(e) => handleSelectVenue(e.target.value)}
           >
             {venues?.map((venue: VenueProps) => (
-              <option key={venue.venueId} value={venue.venueId}>
+              <option
+                style={{ color: "black" }}
+                key={venue.venueId}
+                value={venue.venueId}
+              >
                 {venue.name}
               </option>
             ))}

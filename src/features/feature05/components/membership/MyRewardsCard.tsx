@@ -1,25 +1,32 @@
-2
-import { Box, Icon, Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { FC } from "react";
-import { FaRegEdit } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+// import { FaRegEdit } from "react-icons/fa";
 //import { useNavigate } from "react-router-dom";
 
 interface RewardData {
-  isApprove: string;
+  User_voucher: [
+    {
+      isUsed: boolean;
+    }
+  ];
   voucher_image: string;
+  voucherId: number;
   // Add other properties as needed
 }
 
 export const MyRewardsCard: FC<{
   data: RewardData;
 }> = ({ data }) => {
-  //const navigate = useNavigate();
-  //const rewardId = data.voucherId;
+  const navigate = useNavigate();
 
-  const status = data.isApprove;
+  const status = data.User_voucher[0].isUsed;
   const img = data.voucher_image;
-  const color =
-    status === "Rejected" ? "red" : status === "In_progress" ? "blue" : "green";
+  const voucherId = data.voucherId; // Assuming voucherId is a number
+
+  const handleClick = () => {
+    navigate(`/voucher/${voucherId}`);
+  };
 
   return (
     <Box
@@ -37,25 +44,20 @@ export const MyRewardsCard: FC<{
         marginTop={8}
         borderRadius={6}
       >
-        <Image objectFit={"cover"} src={img} />
+        <Image
+          onClick={handleClick}
+          objectFit={"cover"}
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
+        />
         <Box
           pos={"absolute"}
-          bg={color}
+          // bg={color}
           bottom={2}
           right={2}
           borderRadius={10}
           px={"10px"}
         >
           {status}
-        </Box>
-        <Box pos={"absolute"} top={2} right={1} borderRadius={10} px={"10px"}>
-          {status === "In_progress" && (
-            <Icon
-              as={FaRegEdit}
-              color={"#5F0DBB"}
-          //     onClick={handleClickEdit}
-            ></Icon>
-          )}
         </Box>
       </Box>
     </Box>

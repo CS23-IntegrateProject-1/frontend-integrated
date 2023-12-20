@@ -1,19 +1,37 @@
-import { Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react'
+import { Card, Image } from "@chakra-ui/react";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface Card {
-  voucher_name : string
-  description : string
+interface IRedeemCard {
+  redeemId: number;
+  image_url?: string;
 }
 
-export const ShortMyprivilegeCard = (props : Card) => {
+export const ShortMyPrivilegeCard: FC<IRedeemCard> = ({ redeemId, image_url }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/redeem/${redeemId}`);
+  };
+
+  if (redeemId == undefined) {
+    console.error("Voucher id is undefined");
+    return;
+  }
+ 
   return (
-    <Card variant="filled" backgroundColor="brand.100">
-          <CardHeader>
-              <Heading size='md'> {props.voucher_name}</Heading>
-          </CardHeader>
-          <CardBody>
-              <Text>{props.description}</Text>
-          </CardBody>
+    <Card
+      variant="filled"
+      backgroundColor="brand.100"
+      overflow={"hidden"}
+      h={"200px"}
+      minW={"350px"}
+      onClick={handleClick}
+    >
+      <Image
+        h={"100%"}
+        src={`${import.meta.env.VITE_BACKEND_URL}${image_url}`}
+        objectFit={"cover"}
+      />
     </Card>
-  )
-}
+  );
+};

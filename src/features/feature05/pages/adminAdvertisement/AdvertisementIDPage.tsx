@@ -30,6 +30,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
+import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisement";
 
 export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +45,9 @@ export const AdvertisementIDPage = () => {
   });
   const navigate = useNavigate();
   const handleClickReject = () => {
+    RejectAds(id)
     navigate(`/admin/advertisement/${id}/reject`);
+    location.reload();
   };
   const handleClickConfirm = () => {
     ApproveAds(id);
@@ -93,12 +96,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Name *
         </Text>
-        {/* <Input
-          variant="name"
-          placeholder="Filled"
-          style={{ width: "auto" }}
-          color={"black"}
-        /> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.name}
@@ -119,12 +116,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Description *
         </Text>
-        {/* <Textarea
-          variant="name"
-          placeholder="Filled"
-          width="auto"
-          color={"black"}
-        /> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.description}
@@ -225,7 +216,11 @@ export const AdvertisementIDPage = () => {
             as={AiOutlineClose}
             onClick={handleCloseImage}
           ></IconButton>
-          <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
+          <Image
+            src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+            alt={"image"}
+            width={"100%"}
+          ></Image>
         </Box>
       ) : (
         <></>
@@ -245,15 +240,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Target customer
         </FormLabel>
-        {/* <Select
-          bgColor={"#FFFFFF"}
-          borderColor={"#FFFFFF"}
-          placeholder=" "
-          iconColor="black"
-        >
-          <option value="option1">All</option>
-          <option value="option2">Member</option>
-        </Select> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.customer_type}
@@ -275,17 +261,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Target group
         </FormLabel>
-        {/* <Select
-          bgColor={"#FFFFFF"}
-          borderColor={"#FFFFFF"}
-          placeholder=" "
-          iconColor="black"
-        >
-          <option value="option1">Teen</option>
-          <option value="option2">young Adult</option>
-          <option value="option3">adult</option>
-          <option value="option4">elder</option>
-        </Select> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.target_group}
@@ -305,13 +280,6 @@ export const AdvertisementIDPage = () => {
           {" "}
           Advertisement plan
         </Text>
-        {/* <RadioGroup defaultValue="2">
-          <Stack spacing={1} direction="column">
-            <Radio value="1">100 Baht/Week</Radio>
-            <Radio value="2">300 Baht/Month</Radio>
-            <Radio value="3">3,600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup> */}
         <Box bgColor={"white"} padding={"5px"} borderRadius={"5px"}>
           <Text color={"#000000"} paddingLeft={"5px"}>
             {data?.cost}
