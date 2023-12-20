@@ -4,6 +4,11 @@ export interface ArticleComment {
   create_date: string;
   articleId: number;
   userId: number;
+  // "isLikeByCreator": false
+  User: {
+    username: string;
+    profile_picture: string;
+  };
 }
 
 // export interface CommentItemProps extends ModalComponentProps {
@@ -26,7 +31,7 @@ export interface CommentItem {
   commentId: number;
   content: string;
   create_date: string;
-  user: {
+  User: {
     profile_picture: File | null;
     username: string;
   };
@@ -44,7 +49,7 @@ export interface EditCommentModalProps extends ModalComponentProps {
   commentId: number;
   content: string;
   create_date: string;
-  user: {
+  User: {
     profile_picture: File | null;
     username: string;
   };
