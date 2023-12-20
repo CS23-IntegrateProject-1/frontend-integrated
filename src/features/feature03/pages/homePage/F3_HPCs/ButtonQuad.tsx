@@ -9,7 +9,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { FaTicketAlt, FaUserFriends } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 import { IoMdChatboxes } from "react-icons/io";
 
 const cardStyle = {
@@ -84,34 +84,7 @@ export const ButtonQuad = () => {
         </Card>
       </NavLink>
 
-      <NavLink to="/Ticket">
-        <Card sx={cardStyle}>
-          <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
-            <HStack justifyContent={"center"}>
-              <Circle size={{ base: "50px", lg: "60px" }} bg="white">
-                <Icon
-                  as={FaTicketAlt}
-                  fontSize={{ base: "26px", lg: "33px" }}
-                  color={"black"}
-                />
-              </Circle>
-            </HStack>
-            <Stack
-              mt={{ base: "2", lg: "4" }}
-              spacing="3"
-              justifyContent={"center"}
-            >
-              <Heading
-                fontSize={{ lg: "2xl", base: "xs" }}
-                textAlign={"center"}
-                fontWeight="bold"
-              >
-                Ticket
-              </Heading>
-            </Stack>
-          </CardBody>
-        </Card>
-      </NavLink>
+    
     </Flex>
   );
 };
