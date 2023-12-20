@@ -12,56 +12,21 @@ export const InCartMenu = () => {
   }>({});
   const queryClient = useQueryClient();
 
-  const handleAddItem = async (itemId: string) => {
-    try {
-      // Increase the quantity locally
+  const handleAddItem = (itemId: string) => {
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: (prevQuantities[itemId] || 0) + 1,
+    }));
+  };
+
+  const handleDecreaseItem = (itemId: string) => {
+    if (itemQuantities[itemId] > 0) {
       setItemQuantities((prevQuantities) => ({
         ...prevQuantities,
-        [itemId]: (prevQuantities[itemId] || 0) + 1,
+        [itemId]: prevQuantities[itemId] - 1,
       }));
-  
-      // Use the updated state value
-      const updatedQuantity = itemQuantities[itemId];
-  
-      // Send a request to update the server-side cart
-      await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
-        quantity: updatedQuantity,
-      });
-      console.log(updatedQuantity)
-  
-      // Invalidate the query to refetch the updated cart
-      queryClient.invalidateQueries(["cartItem"]);
-    } catch (error) {
-      console.error("Error updating item quantity:", error);
     }
   };
-  
-  const handleDecreaseItem = async (itemId: string) => {
-    try {
-      // Ensure the quantity is greater than 0 before decreasing
-      if (itemQuantities[itemId] > 0) {
-        // Decrease the quantity locally
-        setItemQuantities((prevQuantities) => ({
-          ...prevQuantities,
-          [itemId]: prevQuantities[itemId] - 1,
-        }));
-  
-        // Use the updated state value
-        const updatedQuantity = itemQuantities[itemId];
-  
-        // Send a request to update the server-side cart
-        await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
-          quantity: updatedQuantity,
-        });
-  
-        // Invalidate the query to refetch the updated cart
-        queryClient.invalidateQueries(["cartItem"]);
-      }
-    } catch (error) {
-      console.error("Error updating item quantity:", error);
-    }
-  };
-  
 
   const navigate = useNavigate();
 
