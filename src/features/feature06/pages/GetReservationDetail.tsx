@@ -2,7 +2,7 @@
 import { Box, Icon, Text, Button, Fade, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
-import { getReservationDetail } from "../../../api/reservation/getReservationDetail";
+import { getReservationDetail } from "../../../api/Reservation/getReservationDetail";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
