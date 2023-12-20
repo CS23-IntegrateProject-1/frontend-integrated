@@ -163,7 +163,7 @@ export const CreateGroup = () => {
                         <Box>
                             {/* {item.avatar} */}
                         {item.avatar !== null ? (
-                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}size={"md"} />
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.avatar}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"
