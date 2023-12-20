@@ -39,10 +39,18 @@ export const Overview = () => {
     //Data 
     const [profileData, setProfileData] = useState({
         username:"",
-        member_level:"",
-        member_points:"",
         avatar:"",
+        member_point:"",
+        member_point_used:"",
+        member_tier:"",
     });
+
+    // const [memberData, setMemberData] = useState({
+    //     member_point:"",
+    //     member_tier:"",
+    // });
+    
+    //Get Profile Data
     useEffect(() => {
         const url1 = `/feature1/profile`;
         Axios.get(url1, { withCredentials: true })
@@ -50,13 +58,33 @@ export const Overview = () => {
             if (response.status == 200) {
               //const data = response.data;
               setProfileData(response.data);
+            //   setMemberData(response.data);
               console.log(profileData.avatar);
+              console.log(profileData.member_point);
+              console.log(profileData.member_tier);
+              console.log("tracker");
+            //   debugger;
             }
           })
           .catch((error) => {
             console.error("Error fetching profile  data:", error);
           });
       }, []);
+
+      //Get member points & tier
+      useEffect (() => {
+        const url2 = ' ';
+        Axios.get(url2, {withCredentials: true})
+        .then((response) => {
+            if (response.status == 200) {
+                setProfileData(response.data);
+                console.log(profileData);
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching member data:", error);
+        });
+        }, []);
   return (
     <FormControl>
         <Box>
@@ -82,16 +110,19 @@ export const Overview = () => {
               {/* Progress Bar */}
               <Box width={"100%"}>
                 <Progress
-                    value={ profileData.member_points ? parseInt(profileData.member_points)/100 : 50}
+                    value={ (parseInt(profileData.member_point)-parseInt(profileData.member_point_used)) * 100 / parseInt(profileData.member_point)}
                     colorScheme="purple"
                   borderRadius={"50px"}
                 />
               </Box>
               {/* XP Points */}
               <Box width={"100%"} display={"flex"}>
-                <Text> {profileData.member_level ? profileData.member_level : "Regular"}</Text>
+                <Text> {profileData.member_tier ? profileData.member_tier : "Regular"}</Text>
                 <Spacer />
-                <Text> {profileData.member_points ? profileData.member_points: '500'}/1000</Text>
+                <Text> {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
+                /
+                {profileData.member_point ? profileData.member_point: 'Total'}
+                </Text>
               </Box>
             </VStack>
           </Box>
@@ -116,7 +147,7 @@ export const Overview = () => {
               textAlign={"center"}
             >
               {" "}
-              {profileData.member_level ? profileData.member_level : "Regular"}
+              {profileData.member_tier ? profileData.member_tier : "Regular"}
             </Badge>
           </Box>
           <Box width={"100%"} display={"flex"} mt={"5px"}>
@@ -128,8 +159,7 @@ export const Overview = () => {
               width={"80px"}
               textAlign={"center"}
             >
-              {" "}
-              {profileData.member_points ? profileData.member_points : "500"}
+              {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
             </Badge>
           </Box>
           <Box width={"100%"}>              
