@@ -19,25 +19,28 @@ interface ReservationCard {
   guest_amount: number;
   reserved_time: string;
   status: string;
-  user: {
-    username: string;
+  User: {
     hashed_password: string;
     fname: string;
     lname: string;
     email: string;
     profile_picture: null;
+    prompt_pay: null;
     addId: null;
     phone: string;
     tierId: number;
     userId: number;
-    prompt_pay: null;
+    username: string;
   };
-  entry_time: string;
-  isReview: boolean;
-  reservationId: number;
-  isPaidDeposit: string;
-  depositId: number;
   branchId: number;
+  depositId: number;
+  entry_time: string;
+  isPaidDeposit: string;
+  isReview: boolean;
+  name: string;
+  phone: string;
+  reservationId: number;
+  userId: number;
 }
 
 export const Reservation = () => {
@@ -55,6 +58,7 @@ export const Reservation = () => {
 
   const fetchData = async () => {
     const response = await getAllReservationOfVenue();
+    console.log(response);
     setData(response);
   };
 
@@ -70,8 +74,8 @@ export const Reservation = () => {
   const renderCards = () => {
     return data.map((reservation, index: number) => {
       const shouldRender =
-        (filterOptions.offline && reservation.user.userId === 0) ||
-        (filterOptions.online && reservation.user.userId !== 0);
+        (filterOptions.offline && reservation.User.userId === 0) ||
+        (filterOptions.online && reservation.User.userId !== 0);
 
       // Check if the reservation matches the selected date
       const isMatchingDate =
@@ -82,8 +86,8 @@ export const Reservation = () => {
         <Box key={index} marginBottom={"20px"}>
           <BusinessReservationCard
             reservationIdInt={reservation.reservationId}
-            name={reservation.user.fname + " " + reservation.user.lname}
-            type={reservation.user.userId === 0 ? "offline" : "online"}
+            name={reservation.User.fname + " " + reservation.User.lname}
+            type={reservation.User.userId === 0 ? "offline" : "online"}
             status={reservation.status}
             date={reservation.reserved_time}
           />
@@ -99,7 +103,9 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Link to={`/business/WalkInPeople/${data[0]?.branchId}/${data[0]?.venueId}`}>
+        <Link
+          to={`/business/WalkInPeople/${data[0]?.venueId}/${data[0]?.branchId}`}
+        >
           <Button
             display={"flex"}
             height={"40px"}
@@ -139,8 +145,7 @@ export const Reservation = () => {
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent backgroundColor={"#D9D9D9"}
-          borderRadius={'20px'}>
+          <ModalContent backgroundColor={"#D9D9D9"} borderRadius={"20px"}>
             <ModalHeader
               color={"black"}
               display={"flex"}
@@ -151,24 +156,24 @@ export const Reservation = () => {
             >
               Filter By
             </ModalHeader>
-            <ModalCloseButton color={'black'}/>
+            <ModalCloseButton color={"black"} />
             <ModalBody color={"black"}>
               <Input
-              placeholder="Select Date"
-              size="md"
-              type="date"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              onChange={(e) => handleDateChange(e.target.value)}
-            />
-              
+                placeholder="Select Date"
+                size="md"
+                type="date"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                onChange={(e) => handleDateChange(e.target.value)}
+              />
+
               <br />
               <Checkbox
                 textColor={"#5F0DBB"}
                 colorScheme="purple"
-                mt={'10px'}
+                mt={"10px"}
                 fontWeight={700}
                 defaultChecked={filterOptions.offline}
                 onChange={() =>
@@ -184,7 +189,7 @@ export const Reservation = () => {
               <Checkbox
                 textColor={"#5F0DBB"}
                 colorScheme="purple"
-                mt={'10px'}
+                mt={"10px"}
                 fontWeight={700}
                 defaultChecked={filterOptions.online}
                 onChange={() =>

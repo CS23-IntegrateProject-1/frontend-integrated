@@ -15,11 +15,11 @@ export const Feature06BusinessPrivateRoutes = () => {
     },
     { path: "business/Reservation", element: <Reservation /> },
     {
-      path: "business/WalkInDetail/:branchId/:venueId",
+      path: "business/WalkInDetail/:venueId/:branchId",
       element: <WalkInDetail />,
     },
     {
-      path: "business/WalkInPeople/:branchId/:venueId",
+      path: "business/WalkInPeople/:venueId/:branchId",
       element: <WalkInPeople />,
     },
     // { path: "business/viewtable", element: <ViewTable /> },
