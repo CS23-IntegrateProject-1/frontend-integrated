@@ -3,12 +3,11 @@ import Tags from '../../components/membership/Tags';
 import { MyprivilegeCard } from '../../components/membership/MyprivilegeCard';
 import MyprivilegeList from "../../components/membership/MyprivilegeList";
 import { useEffect, useState } from 'react';
-import IMember_tier from '../../../../interfaces/Redeem/IMember_tier';
 import { GetMyprivilege } from '../../../../api/Membership/GetMyprivilege';
 
 export const MyprivilegePage = () => {
   
-  const [data, setData] = useState<IMember_tier>();
+  const [data, setData] = useState<string>();
 
   const fetchDatas = async () => {
     try {
@@ -27,7 +26,7 @@ export const MyprivilegePage = () => {
   }, []); // Add an empty dependency array to run the effect only once
 
   return (
-    <Box display="flex" flexDirection="column" padding="0px" rowGap="40px">
+    <Box display="flex" flexDirection="column" padding="0px" rowGap="40px" marginRight="200px" marginLeft="200px">
       <MyprivilegeCard />
       <Tags tag_text="Detail" />
       <Text> {data || ""}</Text>

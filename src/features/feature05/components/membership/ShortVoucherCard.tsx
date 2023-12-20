@@ -24,7 +24,8 @@ export const ShortVoucherCard: FC<ICard> = ({ voucherId, voucher_image }) => {
       variant="filled"
       backgroundColor="brand.100"
       overflow={"hidden"}
-      h={"100px"}
+      h={"200px"}
+      margin={"5px"}
       onClick={handleClick}
     >
       <Image

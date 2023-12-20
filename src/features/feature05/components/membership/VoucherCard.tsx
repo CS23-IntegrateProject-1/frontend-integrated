@@ -45,7 +45,7 @@ export const VoucherCard = () => {
         direction={{ base: "column", sm: "row" }}
         variant="filled"
         h="216px"
-        borderRadius="0px"
+        borderRadius="10px"
         rowGap="0px"
         display="flex"
         flexDirection="column"

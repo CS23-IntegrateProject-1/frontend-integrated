@@ -378,8 +378,8 @@ export const VoucherCreatePage = () => {
             <Stack spacing={2} direction="column">
               {}
               <Center
-                width={"auto"}
-                height={"100"}
+                width={"125%"}
+                height={"100px"}
                 bg={"#5F0DBB"}
                 borderRadius={5}
                 cursor={"pointer"}

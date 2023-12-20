@@ -25,6 +25,7 @@ export const ShortMyPrivilegeCard: FC<IRedeemCard> = ({ redeemId, image_url }) =
       overflow={"hidden"}
       h={"200px"}
       minW={"350px"}
+      margin={"5px"}
       onClick={handleClick}
     >
       <Image

@@ -30,15 +30,16 @@ export const PromotionDetail = () => {
   });
 
   return (
-    <Box>
+    <Box marginRight={"150px"}
+        marginLeft={"150px"} >
       <Center
-        height={"150px"}
         mb={"15px"}
         overflow={"hidden"}
         borderRadius={"5px"}
       >
         <Image
           w={"100%"}
+          height={"auto"}
           objectFit={"cover"}
           src={`${import.meta.env.VITE_BACKEND_URL}${image}` || ""}
         ></Image>
