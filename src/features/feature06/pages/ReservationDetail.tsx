@@ -1,5 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Icon,
+  Text,
+  Button,
+  Input
+} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -21,20 +27,19 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  Location: {
-    locationId: number;
-    name: string;
-    latitude: string;
-    longtitude: string;
-    address: string;
-  };
+  location: {
+        locationId: number,
+        name: string,
+        latitude: string,
+        longtitude: string,
+        address: string
+    }
 }
 
 interface IPhotoData {
   date_added: string;
   venueId: number;
   image_url: string;
-  venuePhotoId: number;
 }
 
 export const ReservationDetail = () => {
@@ -49,7 +54,8 @@ export const ReservationDetail = () => {
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const toast = useCustomToast();
+  const toast = useCustomToast()
+  
 
   useEffect(() => {
     fetchData();
@@ -57,10 +63,10 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
+    const response: IData = await getVenueById(branchIdInt,venueIdInt);
     console.log(response);
     setData(response);
-  };
+  }
 
   const navigate = useNavigate();
 
@@ -68,12 +74,12 @@ export const ReservationDetail = () => {
     venueId: string;
     branchId: string;
   }>();
-  const venueIdInt = parseInt(venueId || "0");
-  const branchIdInt = parseInt(branchId || "0");
+        const venueIdInt = parseInt(venueId || "0");
+        const branchIdInt = parseInt(branchId || "0");
 
   const handleCreate = async () => {
     try {
-      const seatsInt = parseInt(seats || "0");
+      const seatsInt = parseInt(seats || "0")
       const currentDate = new Date();
       const selectedDateTime = new Date(`${date}T${time}`);
       if (selectedDateTime < currentDate) {
@@ -81,28 +87,22 @@ export const ReservationDetail = () => {
         return;
       }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
-        toast.warning("Please fill in all information");
+        toast.warning("Please fill in all information")
       }
       const response = await Axios.post(`/feature6/createReservation`, {
         venueId: venueIdInt,
         guest_amount: seatsInt,
         reserve_date: date,
-        time: time,
-        branchId: branchIdInt,
+        time: time ,
+        branchId: branchIdInt ,
         name: name,
         phonenumber: phonenumber,
       });
       console.log("create reservation successfully");
       console.log(response);
-      console.log(response.data.newReservation.userId);
-      console.log(response.data.newReservation.venueId);
-      console.log(response);
-
-      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/payment`;
-      const newPath = originalPath.replace("/reservation-detail", "");
-      navigate(newPath);
-    } catch (err: any) {
-      toast.error(err.response.data.error);
+      navigate("/3/venue/3/payment");
+    } catch (err : any) {
+      toast.error(err.response.data.error)
       console.log(err);
       throw err;
     }
@@ -119,9 +119,9 @@ export const ReservationDetail = () => {
         <RDetailCard
           // src={data?.venue.Venue_photo.image_url}
           name={data?.name}
-          location={data?.Location.address}
+          location={data?.location.address}
           star={data?.score}
-          image_url={data?.Venue_photo}
+          image_url={data?.Venue_photo}     
         />
 
         {/* This will push the reservation detail to the bottom */}
