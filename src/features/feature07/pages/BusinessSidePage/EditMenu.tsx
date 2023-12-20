@@ -84,8 +84,9 @@ export const EditMenu = () => {
     formData.append('description', editFormData.description);
     formData.append('price', editFormData.price);
     if (selectedFile) {
-      formData.append('menuImage', selectedFile);
+      formData.append('file', selectedFile);
     }
+    console.log(formData.get("file"));
 
     try {
       const response = await Axios.post(`/feature7/editMenu/${menuid}`, formData, {
@@ -212,7 +213,7 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
-                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
+                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` as string : undefined,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
