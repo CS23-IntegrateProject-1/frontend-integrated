@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Flex, FormControl, Input, Text } from "@chakra-ui/react";
 import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Axios } from "../../../../AxiosInstance";
 // import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ export const SetUpGroup = () => {
   // const [groupData, setGroupData] = useState<any[]>([]);
   //use location to call state of array
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedFriends = location.state.selectedFriends;
   console.log(selectedFriends); //testing state
   //to check group name is not null
@@ -76,6 +77,8 @@ export const SetUpGroup = () => {
       .catch((error) => {
         console.error("Error fetching fir list data:", error);
       });
+    //navigate to comuunity chat
+    navigate("/communitychat");
    // console.log(groupName, groupImg);
     // const url = `/feature1/group/add`;
     // Axios.post(
@@ -119,14 +122,17 @@ export const SetUpGroup = () => {
         </Box>
         {/* NavLink to ..chat group */}
         <Box>
-          <Button type="submit"
-            onClick={createGroupHandler}
-            isDisabled={isDisabled}
-            bg={"none"}
-            color={buttonColor}
-          >
-            Create
-          </Button>
+          {/* <NavLink to={'/communitychat'}> */}
+            <Button type="submit"
+              onClick={createGroupHandler}
+              isDisabled={isDisabled}
+              bg={"none"}
+              color={buttonColor}
+            >
+              Create
+            </Button>
+          {/* </NavLink> */}
+          
         </Box>
       </Flex>
       <Flex mt={5} gap={6} alignItems={"center"}>

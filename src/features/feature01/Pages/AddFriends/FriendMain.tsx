@@ -32,7 +32,7 @@ import {  Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 interface FriendList {
   user_id: number;
   username: string;
@@ -45,6 +45,7 @@ interface GroupList {
   group_id: number;
   group_name: string;
   group_avatar: string;
+  is_secret_group: boolean;
 }
 interface ProfileData {
   userId: number,
@@ -65,6 +66,7 @@ export const FriendMain = () => {
   const [selectedGroupId, setSelectedGroupId] = useState(0);
   if(selectedGroupId){console.log(selectedGroupId)}// testing to see id
   const location = useLocation();
+  const navigate = useNavigate();
   const newGroup = location.state?.newGroup; // access updated group data
   console.log(newGroup);
   //get the fir list of the user when the page is loaded
@@ -156,7 +158,7 @@ export const FriendMain = () => {
     setSelectedGroupId(id); //---------> if group list was clicked by user
     //check if fridata id and selected id is same
     groupData.map((item) => {
-      if (item.group_id == id) {
+      if (item.group_id == id ) {
         console.log("same");
         //pass to chat group by to show each group chat
         console.log(item.group_name);
@@ -183,7 +185,11 @@ export const FriendMain = () => {
   //const [isFriend, setIsFriend] = useState(false);
 
   console.log(username);
-
+  //navigate to community chat
+  const handleNavigateChat = () => {
+    //navigate to comuunity chat
+    navigate("/communitychat");
+  };
   const handleSearch = () => {
     console.log("search");
     //check is there any username at the backend --Add fri
@@ -234,8 +240,8 @@ export const FriendMain = () => {
           {/* Backend still need to send avatar */}
           <Box mr={{ lg: "15%", base: "10%" }}>
             {/* {profileData?.avatar} */}
-            {profileData?.avatar ? (
-              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} size={"lg"} />
+            {profileData?.avatar !== null ? (
+              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData?.avatar}`} size={"lg"} />
             ) : (
               <Avatar src="https://bit.ly/broken-link" size={"lg"} />
             )}
@@ -260,6 +266,7 @@ export const FriendMain = () => {
               bg={"brand.200"}
               fontSize={TextStyle.h1.fontSize}
               fontWeight={TextStyle.h2.fontWeight}
+              onClick={handleNavigateChat}
             >
               Chats
             </Tab>
@@ -360,50 +367,57 @@ export const FriendMain = () => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel bg={"brand.200"} pb={4} color={"black"}>
-                      {/* loop group list here ***/}
 
-                      {groupData.map((item) => (
+                    {/* don't show group if it is secret group */}
+
+
+                      {/* loop group list here ***/}
+                      
+                      {groupData
+                      .filter((item) => item.is_secret_group !== true)
+                      .map((item) => (
                         <NavLink to="/communitychat" state={item.group_id}>
-                          <Flex
-                            key={item.group_id}
-                            px={2}
-                            bg={"brand.200"}
-                            borderBottom={"0.2px solid black"}
-                            py={2}
-                            alignContent={"center"}
+                        <Flex
+                          key={item.group_id}
+                          px={2}
+                          bg={"brand.200"}
+                          borderBottom={"0.2px solid black"}
+                          py={2}
+                          alignContent={"center"}
+                          alignItems={"center"}
+                          onClick={() => handleGroupClick(item.group_id)}
+                        >
+                          <Box
+                            display={"flex"}
+                            justifyContent={"center"}
                             alignItems={"center"}
-                            onClick={() => handleGroupClick(item.group_id)}
                           >
-                            <Box
-                              display={"flex"}
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                            >
-                              <Box>
-                                {item.group_avatar !== null ? (
-                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.group_avatar}`}size={"md"} />
-                                ) : (
-                                  <Avatar
-                                    src="https://bit.ly/broken-link"
-                                    size={"md"}
-                                  />
-                                )}
-                              </Box>
-                              <Box ml={15}>
-                                <Text
-                                  fontSize={TextStyle.h3.fontSize}
-                                  fontWeight={TextStyle.h2.fontWeight}
-                                >
-                                  {item.group_name}
-                                </Text>
-                                {/* <Text fontSize={TextStyle.body2.fontSize}>Last Message</Text> */}
-                              </Box>
-                              <Box>
-                                {/* <Text fontSize={TextStyle.body2.fontSize}>Time</Text> */}
-                              </Box>
+                            <Box>
+                              {item.group_avatar !== null ? (
+                                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.group_avatar}`}size={"md"} />
+                              ) : (
+                                <Avatar
+                                  src="https://bit.ly/broken-link"
+                                  size={"md"}
+                                />
+                              )}
                             </Box>
-                          </Flex>
-                        </NavLink>
+                            <Box ml={15}>
+                              <Text
+                                fontSize={TextStyle.h3.fontSize}
+                                fontWeight={TextStyle.h2.fontWeight}
+                              >
+                                {item.group_name}
+                              </Text>
+                              {/* <Text fontSize={TextStyle.body2.fontSize}>Last Message</Text> */}
+                            </Box>
+                            <Box>
+                              {/* <Text fontSize={TextStyle.body2.fontSize}>Time</Text> */}
+                            </Box>
+                          </Box>
+                        </Flex>
+                      </NavLink>
+                        
                       ))}
                     </AccordionPanel>
                   </AccordionItem>
