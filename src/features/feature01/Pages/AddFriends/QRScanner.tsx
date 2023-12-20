@@ -47,7 +47,6 @@ export const QRScanner = () => {
   const [scannedData, setScannedData] = useState("")
   const [friList, setFriList] = useState<any[]>([]);
   const [userName, setUserName] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [checkFri, setCheckFri] = useState(false);
   const [funstart, setFunstart] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
