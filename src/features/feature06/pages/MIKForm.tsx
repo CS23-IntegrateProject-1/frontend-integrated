@@ -69,6 +69,7 @@ export const MIKForm = () => {
     branchId: string;
   }>();
   const branchIdInt = parseInt(branchId || "0");
+  const venueIdInt = 2
 
   const handleCreate = async () => {
     try {
