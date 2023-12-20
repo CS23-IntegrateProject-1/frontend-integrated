@@ -18,7 +18,7 @@ export interface ArticlesPageProps {
     };
   }[];
   Article_venue: number[];
-  user: {
+  User: {
     username: string;
     profile_picture: string;
   };
