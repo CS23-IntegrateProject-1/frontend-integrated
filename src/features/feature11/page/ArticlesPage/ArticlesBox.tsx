@@ -88,7 +88,7 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
           {props.topic}
         </Text>
         <Image
-          src={import.meta.env.VITE_BACKEND_URL + `${props.Image? props.Image[0].url :  ""  }` || ""}
+          src={import.meta.env.VITE_BACKEND_URL + `${props.Images[0]? props.Images[0].url :  ""  }` || ""}
           alt="Article"
           w={"200px"}
           h={"100px"}

@@ -133,7 +133,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
         <Image
           src={
             import.meta.env.VITE_BACKEND_URL +
-              `${props.Image ? props.Image[0].url : ""}` || ""
+              `${props.Images[0] ? props.Images[0].url : ""}` || ""
           }
           alt="article image"
           w={"200px"}
