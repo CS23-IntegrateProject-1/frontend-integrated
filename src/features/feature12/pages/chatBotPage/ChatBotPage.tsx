@@ -11,7 +11,7 @@ import {
   } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState, useContext} from "react";
+import { FC, useState, useContext, useEffect} from "react";
 import { ClientMsg } from "../../components/ClientMsg";
 import { Axios } from "../../../../AxiosInstance";
 import { Form } from "react-router-dom";
@@ -69,6 +69,11 @@ export const ChatBotPage: FC = () => {
     //         console.log(res.data);
     //     })
     // }
+    useEffect(() => {
+      Axios.get("/feature12/fetchData").then((res) => {
+            console.log(res.data);
+        })
+    }),[]
 
     return (
     <>
