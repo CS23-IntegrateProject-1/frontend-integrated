@@ -19,7 +19,7 @@ const FoodDelivery = () => {
 
   const [menuData, setMenuData] = useState<Menu[]>([]);
   const [total, setTotal] = useState<number>(0); // Define total state
-
+  const [itemCount, setitemCount] = useState<number>(0); // Define total state
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
@@ -42,6 +42,26 @@ const FoodDelivery = () => {
       }
     };
 
+    const getItemCount = async () => {
+      try {
+        const response = await Axios.get("/feature4/showOrderCart");
+        console.log(response);
+        if (response && response.data && Array.isArray(response.data)) {
+          const totalQuantity = response.data.reduce(
+            (acc, item) => acc + (item.quantity || 0),
+            0
+          );
+          setitemCount(totalQuantity);
+        } else {
+          console.error("Invalid response format");
+        }
+        console.log("Item count :");
+        console.log(itemCount);
+      } catch (error) {
+        console.log("Error getting item count: ", error);
+      }
+    };
+    getItemCount();
     getTotalCost();
     fetchMenuData();
   }, []);
@@ -89,7 +109,7 @@ const FoodDelivery = () => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            1
+            {itemCount}
           </Text>
           <Text fontSize={"body1"} fontWeight={"h1"}>
             View Your Cart
