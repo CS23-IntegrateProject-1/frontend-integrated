@@ -106,10 +106,10 @@ export const VoucherCreatePage = () => {
       voucher.endDate == "" ||
       voucher.limitation == 0 ||
       (voucher.voucherType == "Discount" &&
-        (voucher.discountVoucher.fixDiscount == 0 ||
-          voucher.discountVoucher.minimum == 0 ||
-          voucher.discountVoucher.percentage == 0)) ||
-      (voucher.voucherType == "Gift" && voucher.giftVoucher.minimum == 0) ||
+        (voucher.discountVoucher.fixDiscount < 0 ||
+          voucher.discountVoucher.minimum < 0 ||
+          voucher.discountVoucher.percentage < 0)) ||
+      (voucher.voucherType == "Gift" && voucher.giftVoucher.minimum < 0) ||
       image == null
     ) {
       toast.warning("Please fill all the fields");
