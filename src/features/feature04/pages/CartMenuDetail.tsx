@@ -14,6 +14,7 @@ import { Axios } from "../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import textStyles from "../../../theme/foundations/textStyles";
 import { useNavigate } from "react-router-dom";
+
 interface MenuDetailProps {
   id: number;
   name: string;
@@ -26,6 +27,7 @@ export const CartMenuDetail: FC = () => {
   const [AmountInCart, setAmountInCart] = useState(0);
   const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
   const { id } = useParams();
+
   useEffect(() => {
     const fetchMenuDetail = async () => {
       console.log("Fetching menu detail...");
@@ -34,6 +36,12 @@ export const CartMenuDetail: FC = () => {
         console.log("Response:", response);
         console.log("Response data:", response.data);
         setMenuData(response.data);
+
+        // Ensure that id is not undefined before calling fetchCartItemQuantity
+        if (id) {
+          const quantity = await fetchCartItemQuantity(id);
+          setAmountInCart(quantity);
+        }
       } catch (error) {
         console.error("Error fetching menu details:", error);
       }
@@ -41,7 +49,26 @@ export const CartMenuDetail: FC = () => {
 
     fetchMenuDetail();
   }, [id]);
-  console.log("ID from useParams:", id);
+
+  const fetchCartItemQuantity = async (itemId: string) => {
+    try {
+      const response = await Axios.get("/feature4/showOrderCart");
+      const cartItems = response.data;
+
+      // Find the item with the specified itemId
+      const selectedItem = cartItems.find(
+        (item: any) => item.itemId === itemId
+      );
+
+      // If the item is found, return its quantity, otherwise return 0
+      const quantity = selectedItem ? selectedItem.quantity : 0;
+
+      return quantity;
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      return 0; // Return 0 in case of an error
+    }
+  };
 
   const increaseAmount = () => {
     setAmountInCart(AmountInCart + 1);

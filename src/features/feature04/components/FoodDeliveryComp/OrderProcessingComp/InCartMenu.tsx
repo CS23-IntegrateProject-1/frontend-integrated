@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Flex, Text, IconButton, Divider, Button } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -7,60 +7,148 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const InCartMenu = () => {
+  const [subtotal, setsubTotal] = useState<number>(0); // Define total state
   const [itemQuantities, setItemQuantities] = useState<{
     [itemId: string]: number;
   }>({});
   const queryClient = useQueryClient();
+  useEffect(() => {
+    calculateSubtotal();
+  });
+  // const handleAddItem = async (itemId: string) => {
+  //   try {
+  //     // Increase the quantity locally
+  //     console.log(itemId);
+  //     setItemQuantities((prevQuantities) => ({
+  //       ...prevQuantities,
+  //       [itemId]: (prevQuantities[itemId] || 0) + 1,
+  //     }));
+
+  //     // Use the updated state value
+  //     const updatedQuantity = itemQuantities[itemId] + 1;
+  //     console.log("UpdatedQuantity:", updatedQuantity);
+  //     // Send a request to update the server-side cart
+  //     await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
+  //       quantity: updatedQuantity,
+  //     });
+
+  //     // Invalidate the query to refetch the updated cart
+  //     queryClient.invalidateQueries(["cartItem"]);
+  //   } catch (error) {
+  //     console.error("Error updating item quantity:", error);
+  //   }
+  // };
+
+  interface CartItem {
+    userId: number;
+    itemId: string;
+    name: string;
+    quantity: number;
+    price: string;
+  }
 
   const handleAddItem = async (itemId: string) => {
     try {
       // Increase the quantity locally
-      setItemQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        [itemId]: (prevQuantities[itemId] || 0) + 1,
-      }));
-  
-      // Use the updated state value
-      const updatedQuantity = itemQuantities[itemId] + 1;
-  
-      // Send a request to update the server-side cart
-      await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
-        quantity: updatedQuantity,
-      });
-  
-      // Invalidate the query to refetch the updated cart
-      queryClient.invalidateQueries(["cartItem"]);
-    } catch (error) {
-      console.error("Error updating item quantity:", error);
-    }
-  };
-  
-  const handleDecreaseItem = async (itemId: string) => {
-    try {
-      // Ensure the quantity is greater than 0 before decreasing
-      if (itemQuantities[itemId] > 0) {
-        // Decrease the quantity locally
-        setItemQuantities((prevQuantities) => ({
-          ...prevQuantities,
-          [itemId]: prevQuantities[itemId] - 1,
-        }));
-  
-        // Use the updated state value
-        const updatedQuantity = itemQuantities[itemId];
-  
-        // Send a request to update the server-side cart
-        await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
+      console.log(itemId);
+      const itemIdToUpdate = itemId;
+      const response = await Axios.get("/feature4/showOrderCart");
+      console.log(response);
+      const cartItems: CartItem[] = response.data; // Assuming it's an array of cart items
+      const itemIndex = cartItems.findIndex(
+        (item) => item.itemId === itemIdToUpdate
+      );
+      // Check if the item is found
+      if (itemIndex !== -1) {
+        // Increase the quantity by one
+        const updatedQuantity = cartItems[itemIndex].quantity + 1;
+        console.log("OLD:", cartItems[itemIndex].quantity);
+        console.log("UPDATED:", updatedQuantity);
+
+        // Update the quantity locally
+        const updatedCartItems: CartItem[] = [
+          ...cartItems.slice(0, itemIndex),
+          { ...cartItems[itemIndex], quantity: updatedQuantity },
+          ...cartItems.slice(itemIndex + 1),
+        ];
+
+        // Make a request to update the server-side cart
+        await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {
           quantity: updatedQuantity,
         });
-  
+
         // Invalidate the query to refetch the updated cart
         queryClient.invalidateQueries(["cartItem"]);
       }
+      // setItemQuantities((prevQuantities) => ({
+      //   ...prevQuantities,
+      //   [itemId]: (prevQuantities[itemId] || 0) + 1,
+      // }));
+
+      // // Use the updated state value
+      // const updatedQuantity = itemQuantities[itemId] + 1;
+      // console.log("UpdatedQuantity:", updatedQuantity);
+      // // Send a request to update the server-side cart
+      // await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
+      //   quantity: updatedQuantity,
+      // });
+
+      // // Invalidate the query to refetch the updated cart
+      // queryClient.invalidateQueries(["cartItem"]);
     } catch (error) {
       console.error("Error updating item quantity:", error);
     }
   };
-  
+  const handleDecreaseItem = async (itemId: string) => {
+    try {
+      // Increase the quantity locally
+      console.log(itemId);
+      const itemIdToUpdate = itemId;
+      const response = await Axios.get("/feature4/showOrderCart");
+      console.log(response);
+      const cartItems: CartItem[] = response.data; // Assuming it's an array of cart items
+      const itemIndex = cartItems.findIndex(
+        (item) => item.itemId === itemIdToUpdate
+      );
+      // Check if the item is found
+      if (itemIndex !== -1) {
+        // Increase the quantity by one
+        const updatedQuantity = cartItems[itemIndex].quantity - 1;
+
+        // Update the quantity locally
+        const updatedCartItems: CartItem[] = [
+          ...cartItems.slice(0, itemIndex),
+          { ...cartItems[itemIndex], quantity: updatedQuantity },
+          ...cartItems.slice(itemIndex - 1),
+        ];
+
+        // Make a request to update the server-side cart
+        await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {
+          quantity: updatedQuantity,
+        });
+
+        // Invalidate the query to refetch the updated cart
+        queryClient.invalidateQueries(["cartItem"]);
+      }
+      // setItemQuantities((prevQuantities) => ({
+      //   ...prevQuantities,
+      //   [itemId]: (prevQuantities[itemId] || 0) + 1,
+      // }));
+
+      // // Use the updated state value
+      // const updatedQuantity = itemQuantities[itemId] + 1;
+      // console.log("UpdatedQuantity:", updatedQuantity);
+      // // Send a request to update the server-side cart
+      // await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
+      //   quantity: updatedQuantity,
+      // });
+
+      // // Invalidate the query to refetch the updated cart
+      // queryClient.invalidateQueries(["cartItem"]);
+    } catch (error) {
+      console.error("Error updating item quantity:", error);
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -74,7 +162,7 @@ export const InCartMenu = () => {
   const fetchCartItems = async () => {
     try {
       const response = await Axios.get("/feature4/showOrderCart");
-      console.log("Response:", response.data);
+      //console.log("Response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching cart items:", error);
@@ -82,33 +170,36 @@ export const InCartMenu = () => {
     }
   };
 
-  const { data: cartItems, status } = useQuery(["cartItem"], () => fetchCartItems());
-  console.log('Fetch Status:', status);  
+  const { data: cartItems, status } = useQuery(["cartItem"], () =>
+    fetchCartItems()
+  );
+  //console.log("Card Items:", cartItems);
+  //console.log("Fetch Status:", status);
 
-  const calculateSubtotal = (items: typeof cartItems, quantities: typeof itemQuantities) => {
-    if (!items) return 0;
-  
-    return items.reduce((acc: number, item: typeof cartItems) => {
-      const price = parseFloat(item.price);
-      const quantity = quantities[item.itemId]||0;
-      console.log(`Price: ${price}, Quantity: ${quantity}`);
-      return acc + price * quantity + price;
-    }, 0);
+  const calculateSubtotal = async () => {
+    try {
+      const response = await Axios.get("/feature4/getTotal");
+      //console.log(response.data);
+      const total = response.data;
+      setsubTotal(total); // Update total state
+      return total;
+    } catch (error) {
+      console.log("Error fetching total cost: ", error);
+    }
   };
-  
+
   const saveTotal = async (total: number) => {
     try {
       const response = await Axios.post(`/feature4/saveTotal/${total}`);
-      console.log("Response:", response.data);
+      //console.log("Response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error saving total:", error);
     }
   };
 
-  const calculateTotal = (items: typeof cartItems) => {
-    const subtotal = calculateSubtotal(items,itemQuantities);
-    const total = parseFloat(subtotal) + 0;
+  const calculateTotal = () => {
+    const total = subtotal + 0;
     saveTotal(total);
     return total.toFixed(2);
   };
@@ -158,6 +249,7 @@ export const InCartMenu = () => {
                     width="30px"
                     height="28px"
                     borderRadius="10% 0% 0% 10%"
+                    isDisabled={item.quantity === 1}
                   />
                   <Text color="black" backgroundColor={"white"} pl={2} pr={2}>
                     {item.quantity + (itemQuantities[item.itemId] || 0)}
@@ -206,8 +298,8 @@ export const InCartMenu = () => {
               flexDir={"row"}
               justifyContent={"space-around"}
             >
-                <Text>Subtotal</Text>
-                <Text>${calculateSubtotal(cartItems, itemQuantities)}</Text>
+              <Text>Subtotal</Text>
+              <Text>${subtotal}</Text>
             </Box>
             <Box
               display={"flex"}
@@ -233,7 +325,7 @@ export const InCartMenu = () => {
           gap={2}
         >
           <Text>Total (incl. Vat)</Text>
-          <Text>${calculateTotal(cartItems)}</Text>
+          <Text>${calculateTotal()}</Text>
         </Box>
         <Button
           variant={"unstyled"}
