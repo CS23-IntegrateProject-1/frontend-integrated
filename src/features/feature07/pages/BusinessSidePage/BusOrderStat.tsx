@@ -54,11 +54,11 @@
   };
 
 
-//   // const { data: tableNumber } = useQuery(['tableNumber'], async () => {
-//   //   const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
-//   //   console.log("Table:" ,response.data);
-//   //   return response.data.getTable;
-//   // });
+  // const { data: tableNumber } = useQuery(['tableNumber'], async () => {
+  //   const response = await Axios.get(`/feature7/onGoingOrderDetailsInBusiness/${venueId}`);
+  //   console.log("Table:" ,response.data);
+  //   return response.data.getTable;
+  // });
 
     const {
       data: ongoingOrderDetails,

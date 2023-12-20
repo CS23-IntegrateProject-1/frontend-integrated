@@ -36,7 +36,7 @@ type creditCardUser = {
 //   borderColor,
 //   bgHover,
 // }) => {
-export const SelectPayment: FC<ButtonProps> = ({
+export const SelectPaymentD: FC<ButtonProps> = ({
   bgColor,
     textColor,
     borderColor,
@@ -45,8 +45,9 @@ export const SelectPayment: FC<ButtonProps> = ({
   
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
+  const { venueId } = useParams();
 
-  const redirectToCheckout = async (event: React.FormEvent) => {
+  const redirectToDeposit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // const stripe = await stripePromise;
@@ -56,26 +57,7 @@ export const SelectPayment: FC<ButtonProps> = ({
     //   method: "POST",
     // });
 
-    // Axios.post("/feature8/create-checkout-session", {reservedId: 1})
-    //   .then(async (res) => {
-    //     // const session = res;
-    //     // const result = await stripe?.redirectToCheckout({
-    //     //   sessionId: res.data.id,
-    //     // });
-
-    //     // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-    //     // if (result.error) {
-    //     //   alert(result.error.message);
-    //     // }
-    //     console.log(res.data);
-    //     window.location.href = res.data.url;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     throw err;
-    //   });
-
-    Axios.post("/feature8/create-checkout-session", {})
+    Axios.post(`/feature8/create-deposit-session/${venueId}`)
       .then(async (res) => {
         // const session = res;
         // const result = await stripe?.redirectToCheckout({
@@ -162,7 +144,7 @@ export const SelectPayment: FC<ButtonProps> = ({
         </Button> */}
       {/* <button type="submit">Check Out</button> */}
       <Button
-        onClick={redirectToCheckout}
+        onClick={redirectToDeposit}
         width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
@@ -172,7 +154,7 @@ export const SelectPayment: FC<ButtonProps> = ({
         textColor={"#DEBEF6"}
         leftIcon={<MdAttachMoney />}
       >
-        Check Out
+        Deposit
       </Button>
 
       {/* </form> */}

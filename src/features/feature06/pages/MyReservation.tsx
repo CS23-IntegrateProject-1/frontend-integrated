@@ -1,51 +1,82 @@
 import { Box } from "@chakra-ui/react";
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect } from "react";
 import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
 import { Link } from "react-router-dom";
-import {
-  IData,
-  initialStateData,
-} from "../../../interfaces/reservation/MyReservation.interface";
+
+interface IData {
+  venueId: number;
+  guest_amount: number;
+  reserved_time: string;
+  status: string;
+  userId: number;
+  entry_time: string;
+  isReview: boolean;
+  reservationId: number;
+  depositId: number;
+  isPaidDeposit: string;
+  venue: {
+    name: string;
+    description: string;
+    category: string;
+    capacity: number;
+    chatRoomId: number;
+    locationId: number;
+    score: string;
+    venueId: number;
+    website_url: string;
+    Venue_photo: IPhotoData[] | undefined;
+    Menu: [
+      {
+        price: number;
+      }
+    ];
+  };
+}
+
+interface IPhotoData{
+      venuePhotoId: number,
+      venueId: number,
+      image_url: string,
+      date_added: string
+}
 
 export const MyReservation = () => {
   const [status, setStatus] = useState("");
-  const [datas, setDatas] = useState<IData[]>(initialStateData);
-
+  const [data, setData] = useState<IData[]>([]);
+  
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response = await getMyReservation();
-    setDatas(response);
+    const response: IData[] = await getMyReservation();
+    setData(response);
   };
 
-  const RenderCards: FC = () => {
-    return datas.map((data: IData, index: number) => {
+  const renderCards = () => {
+    return data?.map((data:IData, index: number) => {
       return (
         (status === "" || data.status === status) && (
           <Link
-            key={index}
             to={`/getreservation-detail/${data.venueId}/${data.reservationId}`}
           >
-            <Box marginBottom={"20px"}>
+            <Box key={index} marginBottom={"20px"}>
               <ReservationCards
-                src={data.Venue.Venue_photo[0].image_url}
-                text={data.Venue.description}
-                name={data.Venue.name}
-                star={data.Venue.score}
+                src={data.venue.Venue_photo?.[0]?.image_url}
+                text={data.venue.description}
+                name={data.venue.name}
+                star={data.venue.score}
                 status={data.status}
                 startPrice={
-                  data.Venue.Menu.length > 0
-                    ? data.Venue.Menu[0].price ?? undefined
+                  data.venue.Menu.length > 0
+                    ? data.venue.Menu[0].price ?? undefined
                     : undefined
                 }
                 isReview={data.isReview}
                 reservationId={data.reservationId}
                 venueId={data.venueId}
-                isPaidDeposit={data.isPaidDeposit}
               />
             </Box>
           </Link>
@@ -91,7 +122,7 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
       </Box>
       <Box className="ReservationList" marginTop={"10px"}>
-        <RenderCards />
+        {renderCards()}
       </Box>
     </Box>
   );

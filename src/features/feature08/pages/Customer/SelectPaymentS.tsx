@@ -2,7 +2,7 @@ import { QrCodeButton } from "../QrCode/QrCodeButton";
 import { MobileBankingList } from "../MobileBanking/MobileBankingList";
 import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
-import { Box, Button,} from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
@@ -20,33 +20,31 @@ interface ButtonProps {
 }
 
 type creditCardUser = {
-  creditCardId:string;
-  card_no:string;
-  name:string;
-  country:string;
-  bank:string;
-  cvc:string;
-  exp:Date;
-  userId:string;
-
-}
+  creditCardId: string;
+  card_no: string;
+  name: string;
+  country: string;
+  bank: string;
+  cvc: string;
+  exp: Date;
+  userId: string;
+};
 // export const SelectPayment: FC<ButtonProps> = ({
 //   bgColor,
 //   textColor,
 //   borderColor,
 //   bgHover,
 // }) => {
-export const SelectPayment: FC<ButtonProps> = ({
+export const SelectPaymentS: FC<ButtonProps> = ({
   bgColor,
-    textColor,
-    borderColor,
-    bgHover,
+  textColor,
+  borderColor,
+  bgHover,
 }) => {
-  
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
 
-  const redirectToCheckout = async (event: React.FormEvent) => {
+  const redirectToSeat = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // const stripe = await stripePromise;
@@ -55,27 +53,13 @@ export const SelectPayment: FC<ButtonProps> = ({
     // const response = await fetch("http://localhost:4000/create-checkout-session", {
     //   method: "POST",
     // });
-
-    // Axios.post("/feature8/create-checkout-session", {reservedId: 1})
-    //   .then(async (res) => {
-    //     // const session = res;
-    //     // const result = await stripe?.redirectToCheckout({
-    //     //   sessionId: res.data.id,
-    //     // });
-
-    //     // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-    //     // if (result.error) {
-    //     //   alert(result.error.message);
-    //     // }
-    //     console.log(res.data);
-    //     window.location.href = res.data.url;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     throw err;
-    //   });
-
-    Axios.post("/feature8/create-checkout-session", {})
+    const showId = 1;
+    const seatId = 112;
+    await Axios.post(`/feature10/bookMovieSeat`, {
+      showId,
+      seatId,
+    });
+    Axios.post("/feature8/create-seat-session", {})
       .then(async (res) => {
         // const session = res;
         // const result = await stripe?.redirectToCheckout({
@@ -162,7 +146,7 @@ export const SelectPayment: FC<ButtonProps> = ({
         </Button> */}
       {/* <button type="submit">Check Out</button> */}
       <Button
-        onClick={redirectToCheckout}
+        onClick={redirectToSeat}
         width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
@@ -172,7 +156,7 @@ export const SelectPayment: FC<ButtonProps> = ({
         textColor={"#DEBEF6"}
         leftIcon={<MdAttachMoney />}
       >
-        Check Out
+        Pay
       </Button>
 
       {/* </form> */}
