@@ -40,7 +40,8 @@ interface CConversation {
 export const CommunityChatPage = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const { Pconversations, Cconversations, openConversation,selectedConversation,setSelectedConversation,setMessages } = useConversations();
-  const user = useContext(UserContext)
+  const user = useContext(UserContext);
+  let pUsers: string[];
   const handleCardClick = (conversation: PConversation | CConversation , index: number): React.MouseEventHandler<HTMLDivElement> => {
     return () => {
       setSelectedCard(index);
@@ -71,7 +72,9 @@ export const CommunityChatPage = () => {
             <TabPanel>
               <Stack>
                 {Pconversations.map((conversation : PConversation, index : number) => {
-                  const users =conversation.group_name.split(",");
+                  pUsers =conversation.group_name.split(",");
+                  console.log(pUsers);
+                  console.log(user.username);
                   return(
                     <Card
                       key={index}
@@ -80,7 +83,7 @@ export const CommunityChatPage = () => {
                       <Flex marginY={"10px"}>
                         <Avatar src={conversation.group_profile ? `${import.meta.env.VITE_BACKEND_URL}${conversation.group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
                         <Text color={"white"} alignSelf={"center"}>
-                          {users[0]=== user.username? users[1] : users[0] }
+                          {user.fname+" "+user.lname === pUsers[0]? pUsers[1] : pUsers[0] }
                         </Text>
                       </Flex>
                     </Card>
