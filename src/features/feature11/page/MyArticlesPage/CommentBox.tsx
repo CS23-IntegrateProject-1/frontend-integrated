@@ -10,12 +10,12 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { DeleteCommentModal } from "./DeleteCommentModal";
 
 export const CommentBox: FC<CommentItem> = ({
-  Article: { topic },
+  article: { topic },
   articleId,
   commentId,
   content,
   create_date,
-  User: { profile_picture, username },
+  user: { profile_picture, username },
   userId,
 }) => {
   const navigate = useNavigate();
@@ -109,12 +109,12 @@ export const CommentBox: FC<CommentItem> = ({
         </Text>
       </Box>
       <EditCommentModal
-        Article={{ topic }}
+        article={{ topic }}
         articleId={articleId}
         commentId={commentId}
         content={content}
         create_date={create_date}
-        User={{ profile_picture, username }}
+        user={{ profile_picture, username }}
         userId={userId}
         key={commentId}
         onClose={editModal.onClose}

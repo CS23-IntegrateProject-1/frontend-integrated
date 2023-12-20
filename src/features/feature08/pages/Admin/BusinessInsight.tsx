@@ -505,28 +505,28 @@ console.log('Filtered Net Profit:', filteredCommision);
                   </Select>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/insight/all/venue/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/dashboard`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Total
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/reservation/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/reservation`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Reservation
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/FoodOrder/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/FoodOrder`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Order
                     </Text>
                   </Link>
                 </PopoverBody>
                 <PopoverBody>
-                  <Link to={`/admin/FoodDelivery/${venueId}`}>
+                  <Link to={`/venue/${venueId}/admin/FoodDelivery`}>
                     <Text style={TextStyle.h2} textColor={"#5F0DBB"}>
                       Food Delivery
                     </Text>
@@ -636,7 +636,7 @@ console.log('Filtered Net Profit:', filteredCommision);
         </Card>
         <Link
           to={{
-            pathname: `/admin/receipt/${venueId}`,
+            pathname: `/venue/${venueId}/admin/receipt`,
             search: `?fromDate=${isFiltered ? selectedFromDate : 'All time'}&toDate=${isFiltered ? selectedToDate : 'All time'}`
           }}
         >

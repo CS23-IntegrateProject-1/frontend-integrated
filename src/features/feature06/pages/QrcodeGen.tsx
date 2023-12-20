@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Image } from "@chakra-ui/react";
 import { useCustomToast } from "../../../components/useCustomToast";
 
@@ -10,6 +10,7 @@ const QrcodeGen: FC = () => {
   );
   const toast = useCustomToast();
   const [qr, setQr] = useState<string>("");
+  const navigate = useNavigate();
   const handleCheckInStatus = async () => {
     try {
       const response = await Axios.get(
@@ -17,6 +18,7 @@ const QrcodeGen: FC = () => {
       );
       if (response.data == "Check_in") {
         toast.success("Check in successful");
+        navigate("/venue/menu");
       } else {
         toast.error("Check in failed");
       }

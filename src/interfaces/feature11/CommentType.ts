@@ -4,11 +4,6 @@ export interface ArticleComment {
   create_date: string;
   articleId: number;
   userId: number;
-  // "isLikeByCreator": false
-  User: {
-    username: string;
-    profile_picture: string;
-  };
 }
 
 // export interface CommentItemProps extends ModalComponentProps {
@@ -26,12 +21,12 @@ export interface ArticleComment {
 // }
 
 export interface CommentItem {
-  Article: { topic: string };
+  article: { topic: string };
   articleId: number;
   commentId: number;
   content: string;
   create_date: string;
-  User: {
+  user: {
     profile_picture: File | null;
     username: string;
   };
@@ -44,12 +39,12 @@ export interface ModalComponentProps {
 }
 
 export interface EditCommentModalProps extends ModalComponentProps {
-  Article: { topic: string };
+  article: { topic: string };
   articleId: number;
   commentId: number;
   content: string;
   create_date: string;
-  User: {
+  user: {
     profile_picture: File | null;
     username: string;
   };

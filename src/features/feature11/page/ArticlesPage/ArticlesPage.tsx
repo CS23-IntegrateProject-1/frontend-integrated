@@ -63,7 +63,7 @@ export const ArticlesPage = () => {
   if (articles.error instanceof Error) {
     return <div>An error occurred: {articles.error.message}</div>;
   }
-  console.log(articles.data)
+
   return (
     <Box
       display={"flex"}
@@ -130,7 +130,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
-                      User={article.User}
+                      user={article.user}
                     />
                   );
                 })}
@@ -153,7 +153,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
-                      User={article.User}
+                      user={article.user}
                     />
                   );
                 })}

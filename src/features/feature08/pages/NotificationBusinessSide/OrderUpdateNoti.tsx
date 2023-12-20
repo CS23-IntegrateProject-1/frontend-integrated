@@ -10,14 +10,11 @@ import {
   Stack,
   StackDivider,
   Box,
-  Text,
-  Td,
-  Tr
+  Text
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Axios } from '../../../../AxiosInstance';
-import { useQuery } from '@tanstack/react-query';
 
 // interface Order  {
 //   userId: number;
@@ -33,38 +30,13 @@ import { useQuery } from '@tanstack/react-query';
 //   reserveId: null;
 // }
 
-interface Order {
-  orderdetail : orderDetail[],
-  sumOfAllPrice : number
-}
-
-interface orderDetail {
-  menuId?: number,
-  setId?: number,
-  unit_price: number,
-  quantity: number,
-  name: string,
-  tableNo: number
-
-}
-
 export const OrderUpdateNoti = () => {
   // const [userData, setUserData] = useState('');
   // const [userId, setUserId] = useState('');
+  const [order, setOrder] = useState([]);
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
      
-
-  const fetchOrderUpdate = async () => {
-    const orderRes = await Axios.get<Order>(`/feature8/venue/orderchecklatest/${orderId}`)
-
-    const orderData = orderRes.data;
-    setLoading(false);
-    return { orderData }
-  }
-
-  const { data: orderData } = useQuery(['orderUpdate', orderId], () => fetchOrderUpdate());
-  console.log('orderData', orderData?.orderData.orderdetail.map((item) => item.tableNo));
   
   // Idea on fetching userId by credential cookies
   // const fetchData = async () => {
@@ -91,17 +63,31 @@ export const OrderUpdateNoti = () => {
   //   }
   // };
 
- 
+  const fetchOrderData = async () => {
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const OrderResponse = await axios.get(`${backendUrl}/feature8/orders/${orderId}`);
+      const orderData = OrderResponse.data;
+      setOrder(orderData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching Order data:', error);
+      setLoading(false);
+    }
+  };
 
-  
+  useEffect(() => {
+    fetchOrderData();
+    // fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId]); // Include orderId as a dependency to re-run the effect when it changes
 
-  // console.log('Order Data: ', order);
-  // console.log('Order Detail Data: ', orderDetail);
-  
+  console.log('Order Data: ', order);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <Box
       display={'flex'}
@@ -116,25 +102,26 @@ export const OrderUpdateNoti = () => {
           <Stack divider={<StackDivider />} spacing="4">
             <Box>
               <Heading size="md" marginBottom={3}>
-                <Text>
-                  Order Update
-                </Text>
-                
+                Order update
               </Heading>
-              <Text>Table no {orderData?.orderData.orderdetail[0].tableNo}</Text>
+              <Text>
+                Kevin Table no.7
+              </Text>
               <TableContainer>
-                <Table variant={'no-decoration'}>
+                <Table variant={'simple'}>
                   <Tbody>
-                    {orderData?.orderData.orderdetail.map((item) => (
-                      <Tr key={item.name}>
-                        <Td>{item.name}</Td>
-                        <Td>{item.quantity}</Td>
+                    {/* {Array.isArray(order) && order.length > 0 ? (
+                      order.map((item) => (
+                        <Tr key={item.orderId}>
+                          <Td>{item.status}</Td>
+                          <Td>{item.total_amount}</Td>
+                        </Tr>
+                      ))
+                    ) : (
+                      <Tr>
+                        <Td colSpan={2}>No orders found</Td>
                       </Tr>
-                    ))}
-                    <Tr>
-                      <Td>Total</Td>
-                      <Td>{orderData?.orderData.sumOfAllPrice}</Td>
-                    </Tr>
+                    )} */}
                   </Tbody>
                 </Table>
               </TableContainer>
