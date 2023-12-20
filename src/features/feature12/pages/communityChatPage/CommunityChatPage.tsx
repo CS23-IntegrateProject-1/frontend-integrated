@@ -78,7 +78,7 @@ export const CommunityChatPage = () => {
                       onClick={handleCardClick(conversation,index)}
                       background={selectedCard === index ? "#DEBEF6" : "transparent"}>
                       <Flex marginY={"10px"}>
-                        <Avatar src={conversation.group_profile ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${conversation.group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
+                        <Avatar src={conversation.group_profile ? `${import.meta.env.VITE_BACKEND_URL}${conversation.group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
                         <Text color={"white"} alignSelf={"center"}>
                           {users[0]=== user.username? users[1] : users[0] }
                         </Text>
@@ -96,9 +96,9 @@ export const CommunityChatPage = () => {
                     key={index}
                     onClick={handleCardClick(conversation,index)}
                     background={selectedCard === index ? "#DEBEF6" : "transparent"}>
-                      <Flex margin={"10px"}>
-                        <Avatar src={conversation.community_group_profile ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${conversation.community_group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
-                        <Text color={"white"}>
+                      <Flex marginY={"10px"}>
+                        <Avatar src={conversation.community_group_profile} size={"md"} marginX={"15px"} />
+                        <Text color={"white"} alignSelf={"center"}>
                           {conversation.roomname}
                         </Text>
                       </Flex>
@@ -114,7 +114,9 @@ export const CommunityChatPage = () => {
           ? (isPConversation(selectedConversation)) 
             ? <PConversation id={selectedConversation.id} members={selectedConversation.members} />
             : <CConversation id={selectedConversation.id} members={selectedConversation.members} />
-          : <Text>Select a conversation</Text>}
+          : <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+              <Text>Select A Conversation....</Text>
+            </Box>}
       </Box>
     </Box>
   )
