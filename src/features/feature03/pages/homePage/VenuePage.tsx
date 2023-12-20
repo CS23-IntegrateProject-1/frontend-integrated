@@ -29,6 +29,7 @@ interface Venue {
   name: string;
   description: string;
   category: string;
+  capacity: string;
   location: string;
   website_url: string;
   rating: string;
