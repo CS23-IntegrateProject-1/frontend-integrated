@@ -21,12 +21,13 @@ export const InCartMenu = () => {
       }));
   
       // Use the updated state value
-      const updatedQuantity = itemQuantities[itemId] + 1;
+      const updatedQuantity = itemQuantities[itemId];
   
       // Send a request to update the server-side cart
       await Axios.post(`/feature4/updateCartItemQuantity/${itemId}`, {
         quantity: updatedQuantity,
       });
+      console.log(updatedQuantity)
   
       // Invalidate the query to refetch the updated cart
       queryClient.invalidateQueries(["cartItem"]);
