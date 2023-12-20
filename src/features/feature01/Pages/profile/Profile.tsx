@@ -11,6 +11,7 @@ import {
   FormLabel,
   Select,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
@@ -18,14 +19,17 @@ import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 
 export const Profile = () => {
-
+  const [selectFile, setFile] = useState<File>();
+  const [preview, setPreview] = useState<string>("");
+  //to use toast
+  const toast = useToast();
   const [profileData, setProfileData] = useState({
     username: "",
     phone: "",
     email: "",
     birthday: "",
     gender: "",
-    profile_img: "",
+    avatar: "",
   });
 
   useEffect(() => {
@@ -62,12 +66,29 @@ export const Profile = () => {
     allData.append("email", profileData.email);
     allData.append("birthday", new Date(profileData.birthday).toISOString());
     allData.append("gender", profileData.gender);
-    allData.append("profile_img", profileData.profile_img);
+    if(selectFile == null){
+      allData.append("avatar", profileData.avatar);
+    }
+    else{
+      allData.append("avatar", selectFile as Blob );
+    }
+    //allData.append("avatar", selectFile as Blob );
 
     Axios.put(`/feature1/profile`, allData, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           console.log(response.data);
+          toast({
+            render: () => (
+              <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+                Updated
+              </Box>
+            ),
+            duration: 1500,
+            isClosable: true,
+          }); 
+        console.log(response.data);
+        console.log('successfully added')
         }
         return response; // Add this line to fix the type error
       })
@@ -84,7 +105,9 @@ export const Profile = () => {
     const file = e.target.files[0];
     const objUrl = URL.createObjectURL(file);
     console.log(objUrl);
-    setProfileData({ ...profileData, profile_img: objUrl }); //adding profile img to profile Data
+    setPreview(objUrl);
+    setFile(file);
+    //adding profile img to profile Data
   };
   return (
     <FormControl>
@@ -101,11 +124,13 @@ export const Profile = () => {
               cursor={'pointer'}
             >
               <Box position={"relative"} cursor={"pointer"}>
-                {profileData.profile_img ? (
-                  <Avatar size={"xl"} src={profileData.profile_img} />
+                {selectFile ? (
+                  <Avatar size={"xl"} src={preview} />
                 ) : (
-                  <Avatar size={"xl"} src="https://bit.ly/broken-link" />
+                  <Avatar size={"xl"} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} />
                 )} 
+                 
+
                 {/* button to change image */}
                 <Box position={"absolute"} top={51} left={20}>
                   <svg
