@@ -111,7 +111,7 @@ export const MIKForm = () => {
       });
       console.log("create reservation successfully");
       console.log(response);
-      navigate("/3/venue/3/payment");
+      navigate("/1/venue/2/payment");
     } catch (err: any) {
       toast.error(err.response.data.error);
       console.log(err);
