@@ -98,7 +98,6 @@ export const QrcodeConfirm: React.FC = () => {
         function success(result: string) {
             scanner.clear();
             setScanResult(JSON.parse(result));
-            navigate("/dashboard")
         }
 
         // Clean up function
