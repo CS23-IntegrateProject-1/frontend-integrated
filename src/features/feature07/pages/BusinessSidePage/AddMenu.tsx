@@ -63,11 +63,7 @@ export const AddMenu = () => {
     formDataWithFile.append('name', formData.name);
     formDataWithFile.append('description', formData.description);
     formDataWithFile.append('price', formData.price);
-    if (selectedFile) {
-      formDataWithFile.append('file', selectedFile);
-    }
-    console.log(selectedFile)
-    console.log(formDataWithFile)
+    formDataWithFile.append('file', selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
     Axios.post(`/feature7/addMenu`, formDataWithFile, {
