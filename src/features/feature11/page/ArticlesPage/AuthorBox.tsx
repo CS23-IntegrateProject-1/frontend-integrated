@@ -27,7 +27,7 @@ export const AuthorBox: FC<ArticlesPageProps> = (props) => {
         justifyContent={"space-evenly"}
       >
         <img
-          src={import.meta.env.BACKEND_URL + props.user.profile_picture}
+          src={import.meta.env.BACKEND_URL + props.user.profile_picture || ""}
           alt="profile picture"
           width="70px"
           height={"70px"}
