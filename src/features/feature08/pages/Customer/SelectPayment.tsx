@@ -56,6 +56,25 @@ export const SelectPayment: FC<ButtonProps> = ({
     //   method: "POST",
     // });
 
+    // Axios.post("/feature8/create-checkout-session", {reservedId: 1})
+    //   .then(async (res) => {
+    //     // const session = res;
+    //     // const result = await stripe?.redirectToCheckout({
+    //     //   sessionId: res.data.id,
+    //     // });
+
+    //     // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
+    //     // if (result.error) {
+    //     //   alert(result.error.message);
+    //     // }
+    //     console.log(res.data);
+    //     window.location.href = res.data.url;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     throw err;
+    //   });
+
     Axios.post("/feature8/create-checkout-session", {})
       .then(async (res) => {
         // const session = res;

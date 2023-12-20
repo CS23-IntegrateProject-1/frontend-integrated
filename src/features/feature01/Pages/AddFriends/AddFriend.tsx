@@ -1,9 +1,10 @@
 import { Search2Icon } from "@chakra-ui/icons"
 import { Avatar, Box, Text, Button, Center, Flex, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react"
 import TextStyle from "../../../../theme/foundations/textStyles"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 export const AddFriend = () => {
     const [username, setUsername] = useState('');
     const [userImg, setUserImg] = useState('');
@@ -12,12 +13,12 @@ export const AddFriend = () => {
     const toast = useToast()
     const [shouldShowChatButton, setShouldShowChatButton] = useState(false);
     const [phNoSearch, setPhNoSearch] = useState('');
+    const loggedInUser = useContext(UserContext);
     //get fri data from main page
     // const location = useLocation();
     // const {setFriData, friData} = location.state;
-    
-    const onClickHandler = () => {
-               
+    const onClickHandler = (e: {preventDefault: () => void;}) => {
+        e.preventDefault();
         if(!shouldShowChatButton){
             Axios.post(`/feature1/friend/add`, {
                 friend_id: userId
@@ -126,7 +127,36 @@ export const AddFriend = () => {
                 console.error("Error fetching username data:", error);
             });
     }
+    // =====>Chat goup Code Integration starts here
+    const createChatHandler = (e: {preventDefault: () => void;}) => {
+        e.preventDefault();
+        const allData = new FormData();
+        console.log('inFunc CreateChatHandler');
+        const groupName = username+","+loggedInUser.username;
+        allData.append("group_name", groupName);
+        allData.append("members[]", userId);
+        allData.append("avatar", userImg);
+        allData.append("Private",true.toString());
 
+        const url = `/feature1/group/add`;
+        Axios.postForm(
+          url,
+          allData,
+          {
+            withCredentials: true
+          }
+        )
+          .then((response) => {
+            if (response.status == 200) {
+              console.log(response.data);
+              console.log("successfully added");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching fir list data:", error);
+          });
+    };
+//  end here ======>
     return (
         <Box>
             {/* {
@@ -188,7 +218,7 @@ export const AddFriend = () => {
             </RadioGroup>
             <Box mt={4} id="box" style={{ visibility: 'hidden' }}>
                 <Center py={2} flexDirection={'column'}>
-                    {username ? <Avatar src={userImg} size={'xl'} /> :
+                    {userImg ? <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${userImg}`}  size={'xl'} /> :
                         <Avatar src='https://bit.ly/broken-link' size={'xl'} />}
                     <Text py={2} color={'brand.200'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h2.fontWeight}>{username}</Text>
                 </Center>
@@ -207,7 +237,10 @@ export const AddFriend = () => {
                         </NavLink>
                     ) : (
                         <Button  bg={'brand.100'} color={'brand.200'} colorScheme='brand.200' variant='solid'
-                        onClick={onClickHandler}>
+                        onClick={(event) => {
+                            onClickHandler(event);
+                            createChatHandler(event);
+                          }}>
                             Add Friend
                         </Button>
                     )}

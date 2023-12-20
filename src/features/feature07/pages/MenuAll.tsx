@@ -1,14 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Box,
-  HStack,
-  Text,
-  Icon,
-  VStack,
-  Flex,
-  Center,
-} from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { Box, HStack, Text,  Icon, VStack,Flex,Center} from "@chakra-ui/react";
+import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
 import { SetMenuCard } from "../component/SetMenuCard";
@@ -19,7 +11,7 @@ import { RButton } from "../component/RButton";
 
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 interface Menu {
   menuId: number;
@@ -47,31 +39,29 @@ interface SetMenu {
 //   }
 // }
 
-const fetchMenuAndSetData = async (venueId: string) => {
-  const [menuResponse, setResponse] = await Promise.all([
-    Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
-    Axios.get<SetMenu[]>(`/feature7/getSetsByVenueId/${venueId}`),
-  ]);
+const fetchMenuAndSetData = async () => {
+    const [menuResponse, setResponse] = await Promise.all([
+      Axios.get<Menu[]>('/feature7/getMenusByVenueId'),
+      Axios.get<SetMenu[]>('/feature7/getSetsByVenueId'),
+    ]);
 
-  const menuData = menuResponse.data;
-  const setMenuData = setResponse.data;
+    const menuData = menuResponse.data;
+    const setMenuData = setResponse.data;
 
-  return { menuData, setMenuData };
+    return { menuData, setMenuData };
 };
 
 export const MenuAll = () => {
+  
   const [allMenuButtonColor, setAllMenuButtonColor] = useState("brand.200");
   const [setMenuButtonColor, setSetMenuButtonColor] = useState("brand.400");
   const [borderColor, setBorderColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
-  const navigate = useNavigate();
-  const { venueId } = useParams();
+  const navigate= useNavigate();
+  // const { venueId } = useParams();
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(
-    ["menuAndSetData", venueId],
-    () => fetchMenuAndSetData(venueId!)
-  );
+  const { data, isLoading, isError } = useQuery(["menuAndSetData"], () => fetchMenuAndSetData());
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -91,20 +81,20 @@ export const MenuAll = () => {
     }
   };
   const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
+    navigate(`/venue/menudetail/${type}/${menuid}`);
     console.log("Clicked menu. Menu ID:", menuid);
-  };
+  }  
   const handleCartClick = () => {
-    navigate(`/venue/${venueId}/cart`);
+    navigate('/venue/cart'); 
   };
   useEffect(() => {
     handleAllMenuClick();
     const params = new URLSearchParams(window.location.search);
-    const sectionParam = params.get("section");
+    const sectionParam = params.get('section');
 
-    if (sectionParam === "setmenu") {
-      handleSetMenuClick();
-    }
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
   }, []);
 
   const renderMenuCards = () => {
@@ -124,14 +114,14 @@ export const MenuAll = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
               <MenuCard
-                key={menu.menuId}
-                id={menu.menuId}
-                foodName={menu.name}
-                description={menu.description}
-                price={menu.price}
-                imageUrl={menu.image}
-                onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
-              />
+              key={menu.menuId}
+              id={menu.menuId}
+              foodName={menu.name}
+              description={menu.description}
+              price={menu.price}
+              imageUrl={menu.image}
+              onClick={() => handleMenuClick("Menu", `${menu.menuId}`)}
+            />
             ))}
             {/* {menuData.map((menu) => {
           console.log("Rendering menu item:", menu);
@@ -161,94 +151,81 @@ export const MenuAll = () => {
           <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
               <SetMenuCard
-                key={set.setId}
-                id={set.setId}
-                foodName={set.name}
-                description={set.description}
-                price={set.price}
-                imageUrl={set.image_url}
-                onClick={() => handleMenuClick("Set", `${set.setId}`)}
-              />
+              key={set.setId}
+              id={set.setId}
+              foodName={set.name}
+              description={set.description}
+              price={set.price}
+              imageUrl={set.image_url}
+              onClick={() => handleMenuClick("Set", `${set.setId}`)}
+            />
             ))}
           </VStack>
         );
       }
     }
   };
-
+  
   return (
     <Box>
-      <Flex direction="column" align="center" justify="center">
-        <HStack spacing={4}>
-          <RButton
-            bgColor={allMenuButtonColor}
-            borderColor={borderColor}
-            text={"All Menu"}
-            textStyle={"h3"}
-            width={"110px"}
-            height={"32px"}
-            onClick={handleAllMenuClick}
-          />
-          <RButton
-            bgColor={setMenuButtonColor}
-            borderColor={borderColor}
-            text={"Set Menu"}
-            textStyle={"h3"}
-            width={"110px"}
-            height={"32px"}
-            onClick={handleSetMenuClick}
-          />
-        </HStack>
+    <Flex direction="column" align="center" justify="center">
+      <HStack spacing={4}>
+      <RButton 
+        bgColor={allMenuButtonColor}
+        borderColor={borderColor}
+        text={"All Menu"}
+        textStyle={"h3"}
+        width={"110px"}
+        height={"32px"}
+        onClick={handleAllMenuClick}
+         />
+         <RButton 
+        bgColor={setMenuButtonColor}
+        borderColor={borderColor}
+        text={"Set Menu"}
+        textStyle={"h3"}
+        width={"110px"}
+        height={"32px"}
+        onClick={handleSetMenuClick}
+         />
+      </HStack>
       </Flex>
       <Center>
-        <Box
-          mt={4}
-          p={1}
-          marginRight="220px"
-          borderColor="brand.200"
-          borderWidth="1px"
-          width="115px"
-          height="30px"
-          rounded="md"
-          textAlign="center"
-          bgColor="brand.200"
-        >
-          <Text {...textStyles.h3}>{subtitle}</Text>
-        </Box>
+      <Box mt={4} p={1} marginRight="220px" borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
+       <Text {...textStyles.h3}>{subtitle}</Text>
+      </Box>
       </Center>
       {renderMenuCards()}
       <Center>
-        <Box
-          position="fixed"
-          bottom="20"
-          marginLeft="300px"
-          borderRadius="5px"
-          zIndex="1"
-        >
-          <Icon
-            as={CustomCartIcon}
-            color="currentColor"
-            aria-label="Open Cart"
-            boxSize={20}
-            onClick={handleCartClick}
-          />
-        </Box>
+      <Box
+        position="fixed"
+        bottom="20"
+        marginLeft="300px"
+        borderRadius="5px"
+        zIndex="1"
+      >
+        <Icon as={CustomCartIcon}
+          color="currentColor"
+          aria-label="Open Cart"
+          boxSize={20}
+          onClick={handleCartClick}
+        />
+      </Box>
       </Center>
       <Center>
-        <Box
-          position="fixed"
-          bottom="4"
-          width="109px"
-          height="29px"
-          textAlign="center"
-          borderRadius="5px"
-        >
-          <ButtonComponent
-            text="Order Status"
-            onClick={() => navigate(`/venue/${venueId}/order`)}
-          />
-        </Box>
+      <Box
+        position="fixed"
+        bottom="4"
+        width="109px"
+        height="29px"
+        textAlign="center"
+        borderRadius="5px">
+            
+        <ButtonComponent text="Order Status"
+        onClick={() => navigate('/venue/order')} />
+      </Box>
       </Center>
-    </Box>
+      </Box>
+   
   );
 };

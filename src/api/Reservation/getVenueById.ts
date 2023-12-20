@@ -1,7 +1,7 @@
 import { Axios } from "../../AxiosInstance";
-export const getVenueById = async (venueId: number, branchId: number) => {
+export const getVenueById = async (branchId: number, venueId: number) => {
   try {
-    const response = await Axios.get(`/feature6/venue/${venueId}/${branchId}`);
+    const response = await Axios.get(`/feature6/venue/${branchId}/${venueId}`);
     console.log("response", response);
     return response.data;
   } catch (e) {

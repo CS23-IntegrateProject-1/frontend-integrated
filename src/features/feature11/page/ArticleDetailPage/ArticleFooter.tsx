@@ -28,7 +28,7 @@ export const ArticleFooter: React.FC<ArticleFooterProps> = (props) => {
             // colorScheme="brand"
             bg={"brand.300"}
           >
-            <TagLabel style={TextStyle.body3}>{tag.tag.tag_name}</TagLabel>
+            <TagLabel style={TextStyle.body3}>{tag.Tag.tag_name}</TagLabel>
           </Tag>
         ))}
       </Box>
