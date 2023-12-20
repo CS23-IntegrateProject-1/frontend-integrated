@@ -469,7 +469,7 @@ export const FriendMain = () => {
                         >
                           <Box>
                             {item.avatar !== null ? (
-                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/${item.avatar}`}size={"md"} />
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.avatar}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"

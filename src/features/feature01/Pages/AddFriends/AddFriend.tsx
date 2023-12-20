@@ -220,7 +220,7 @@ export const AddFriend = () => {
                 <Center py={2} flexDirection={'column'}>
                     {/* {userImg} */}
                 {userImg !== null ? (
-                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${userImg}`}size={"md"} />
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${userImg}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"
