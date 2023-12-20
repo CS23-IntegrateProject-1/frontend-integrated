@@ -1,5 +1,5 @@
 import { AddIcon, TimeIcon } from "@chakra-ui/icons";
-import { Box, Input, Select, Flex, Text, Avatar, Stack, Tab, TabList, TabIndicator, TabPanel, Tabs, TabPanels, InputGroup, InputRightElement, RadioGroup, Center, ButtonGroup, Button, FormControl } from "@chakra-ui/react"
+import { Box, Input, Select, Flex, Text, Avatar, Stack, Tab, TabList, TabIndicator, TabPanel, Tabs, TabPanels, InputGroup, InputRightElement, Center, ButtonGroup, Button, FormControl } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
@@ -250,6 +250,23 @@ export const BusiProfileEdit = () => {
             if (response.status === 200) {
                 console.log(response.data);
                 //setAvailability(response.data);
+            }
+        })
+        .catch((error) => {
+            console.error("Error saving data :", error);
+        });
+        //venue prompt pay
+        const promptpay = `/feature1/venue/promptpay`;
+        Axios.put(promptpay,
+            {
+                "promptpay_number": parseInt(promptNo)
+            }
+            , 
+            { withCredentials: true })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data);
+               setpromptNo(response.data);
             }
         })
         .catch((error) => {
@@ -561,7 +578,7 @@ export const BusiProfileEdit = () => {
                         mx={-4}
                         mt={15}
                     >
-                        Choose your Credit Cards to Update
+                        To Add Credit Card
                     </Box>
                     {/* {cardInfo} */}
                     <Box
@@ -575,27 +592,7 @@ export const BusiProfileEdit = () => {
 
                     >
                         {/* radio group */}
-                        <RadioGroup>
-                            {/* Visa */}
-                            {/* loop credit card info here */}
-                            {/* setType willl store Credit Card user ID */}
-                            {/* {cardData.map((card) => (
-                                <AddCard
-                                    key={card.creditCardId}
-                                    cardType = "visa"
-                                    setType={setcardInfo}
-                                    bank={card.bank}
-                                    card_no={card.card_no}
-                                    country={card.country}
-                                    creditCardId={card.creditCardId}
-                                    cvc={card.cvc}
-                                    exp={card.exp}
-                                    name={card.name}
-                                    userId={card.userId}
-                                />
-                            ))}  */}
-                            </RadioGroup>
-                        <NavLink to={"/business/BusiUpdateCard"} state={cardInfo}>
+                        <NavLink to={"/business/BusiAddCard"} state={cardInfo}>
                             <Flex
                                 py={5}
                                 border={"1px solid"}
@@ -611,7 +608,7 @@ export const BusiProfileEdit = () => {
                                         padding={0.5}
                                     />
                                 </Box>
-                                <Text pl={35}>Update Card</Text>
+                                <Text pl={35}>Add Card</Text>
                             </Flex>
                         </NavLink>
                     </Box>
@@ -619,7 +616,7 @@ export const BusiProfileEdit = () => {
             </Stack> */}
             {/* two buttons */}
             <Center pb={5}>
-                <ButtonGroup pt={2} spacing="6">
+                <ButtonGroup pt={2} spacing="6">x
                     <Button
                         // onClick={handleCancel}
                         bg="white"

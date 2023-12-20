@@ -64,6 +64,7 @@ export const SetUpGroup = () => {
         if (response.status == 200) {
           console.log(response.data);
           console.log("successfully added");
+          navigate("/communitychat");
           // const newGroup = response.data;
           // navigate("/Friends", { state: { newGroup } });
           //go to group chat******
@@ -73,7 +74,6 @@ export const SetUpGroup = () => {
         console.error("Error fetching fir list data:", error);
       });
     //navigate to comuunity chat
-    navigate("/communitychat");
    // console.log(groupName, groupImg);
     // const url = `/feature1/group/add`;
     // Axios.post(
