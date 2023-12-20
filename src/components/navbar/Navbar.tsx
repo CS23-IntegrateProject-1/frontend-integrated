@@ -12,6 +12,7 @@ import { getPageTitle } from "../../functions/getPageTitle";
 import { FC } from "react";
 import { NavbarBusiness } from "./NavbarBusiness";
 import { NavbarAdmin } from "./NavbarAdmin";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   role?: string;
@@ -20,10 +21,16 @@ interface NavbarProps {
 export const Navbar: FC<NavbarProps> = ({ role }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
+  const navigate = useNavigate();
   const pageTitle = getPageTitle(location.pathname);
   const handleOpenNav = () => {
     onOpen();
   };
+
+  const handleGoback = () => {
+    navigate(-1);
+  };
+
   return (
     <Flex
       justifyContent={"space-between"}
@@ -47,9 +54,7 @@ export const Navbar: FC<NavbarProps> = ({ role }) => {
             <ArrowBackIcon
               width={"24px"}
               height={"24px"}
-              onClick={() => {
-                window.history.back();
-              }}
+              onClick={handleGoback}
             />
           }
         />
