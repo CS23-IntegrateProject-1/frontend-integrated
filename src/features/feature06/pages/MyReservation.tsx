@@ -1,80 +1,51 @@
 import { Box } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { ReservationCards } from "../components/ReservationCards";
 import { getMyReservation } from "../../../api/Reservation/getMyReservation";
 import { ButtonMyReservation } from "../components/ButtonMyReservation";
 import { Link } from "react-router-dom";
-
-interface IData {
-  venueId: number;
-  guest_amount: number;
-  reserved_time: string;
-  status: string;
-  userId: number;
-  entry_time: string;
-  isReview: boolean;
-  reservationId: number;
-  depositId: number;
-  isPaidDeposit: string;
-  venue: {
-    name: string;
-    description: string;
-    category: string;
-    capacity: number;
-    chatRoomId: number;
-    locationId: number;
-    score: string;
-    venueId: number;
-    website_url: string;
-    Venue_photo: {
-      date_added: string;
-      venueId: number;
-      image_url: string;
-    };
-    Menu: [
-      {
-        price: number;
-      }
-    ];
-  };
-}
+import {
+  IData,
+  initialStateData,
+} from "../../../interfaces/reservation/MyReservation.interface";
 
 export const MyReservation = () => {
   const [status, setStatus] = useState("");
-  const [data, setData] = useState<IData[]>([]);
+  const [datas, setDatas] = useState<IData[]>(initialStateData);
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response: IData[] = await getMyReservation();
-    setData(response);
+    const response = await getMyReservation();
+    setDatas(response);
   };
 
-  const renderCards = () => {
-    return data.map((data, index: number) => {
-      console.log(data);
-      console.log(data.userId);
-      console.log(data.venue.Venue_photo);
-
+  const RenderCards: FC = () => {
+    return datas.map((data: IData, index: number) => {
       return (
         (status === "" || data.status === status) && (
           <Link
+            key={index}
             to={`/getreservation-detail/${data.venueId}/${data.reservationId}`}
           >
-            <Box key={index} marginBottom={"20px"}>
+            <Box marginBottom={"20px"}>
               <ReservationCards
-                // src={data.venue.Venue_photo}
-                text={data.venue.description}
-                name={data.venue.name}
-                star={data.venue.score}
+                src={data.Venue.Venue_photo[0].image_url}
+                text={data.Venue.description}
+                name={data.Venue.name}
+                star={data.Venue.score}
+                status={data.status}
                 startPrice={
-                  data.venue.Menu.length > 0
-                    ? data.venue.Menu[0].price ?? undefined
+                  data.Venue.Menu.length > 0
+                    ? data.Venue.Menu[0].price ?? undefined
                     : undefined
                 }
+                isReview={data.isReview}
                 reservationId={data.reservationId}
                 venueId={data.venueId}
+                isPaidDeposit={data.isPaidDeposit}
               />
             </Box>
           </Link>
@@ -82,6 +53,7 @@ export const MyReservation = () => {
       );
     });
   };
+  // console.log("DATA: ", data);
   console.log("RENDER PAGES ----------------------------");
   return (
     <Box
@@ -107,11 +79,11 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_in")}
-          text="Check_in"
+          text="Check-in"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Check_out")}
-          text="Check_out"
+          text="Completed"
         ></ButtonMyReservation>
         <ButtonMyReservation
           onClick={() => setStatus("Cancel")}
@@ -119,7 +91,7 @@ export const MyReservation = () => {
         ></ButtonMyReservation>
       </Box>
       <Box className="ReservationList" marginTop={"10px"}>
-        {renderCards()}
+        <RenderCards />
       </Box>
     </Box>
   );

@@ -54,7 +54,7 @@ const PhotoDisplayer: React.FC<PhotoDisplayerProps> = ({images}) => {
           w={"100%"}
         >
           <Image
-            src={import.meta.env.VITE_BACKEND_URL + image.url}
+            src={import.meta.env.VITE_BACKEND_URL + image.url || ""}
             alt={`Photo ${index + 1}`}
             width="100%"
             height="100%"
@@ -89,7 +89,7 @@ const PhotoDisplayer: React.FC<PhotoDisplayerProps> = ({images}) => {
             {selectedPhotoIndex !== null && (
               <Flex>
                 <Image
-                  src={import.meta.env.VITE_BACKEND_URL +images[selectedPhotoIndex]?.url}
+                  src={import.meta.env.VITE_BACKEND_URL +images[selectedPhotoIndex]?.url || ""}
                   alt={`Photo ${selectedPhotoIndex + 1}`}
                   width="100%"
                   height="100%"

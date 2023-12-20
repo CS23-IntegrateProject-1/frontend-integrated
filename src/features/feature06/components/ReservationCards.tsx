@@ -1,10 +1,4 @@
-import {
-  Box,
-  Card,
-  Image,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Card, Image, Heading, Text, Button } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
@@ -17,6 +11,9 @@ interface ReservationCardsProps {
   startPrice?: number;
   reservationId?: number;
   venueId?: number;
+  isReview?: boolean;
+  status?: string;
+  isPaidDeposit?: string;
 }
 
 export const ReservationCards: FC<ReservationCardsProps> = ({
@@ -27,6 +24,9 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   startPrice,
   reservationId,
   venueId,
+  isReview,
+  status,
+  isPaidDeposit
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
@@ -51,7 +51,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         width="100px"
         height="100px"
         borderRadius="10px"
-        src={src}
+        src={src || "https://via.placeholder.com/100"}
         alt="Caffe Latte"
         margin={"15px"}
       />
@@ -147,6 +147,69 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
             fill="#F6F6F6"
           />
         </svg>
+      </Box>
+      <Box
+        position="absolute"
+        className="NextIcon"
+        display={"flex"}
+        flexDirection={"column"}
+        alignContent={"center"}
+        justifyContent={"center"}
+        marginLeft={"-12px"}
+      >
+        {isReview === false && status === "Check_out" ? (
+          // <Link to={`/review/${venueId}/${reservationId}`}>
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="#A533C8"
+            >
+              Review
+            </Button>
+          // </Link>
+        ) : isReview === true && status === "Check_out" ? (
+          <Box
+            width="60px"
+            height="30px"
+            marginLeft="260px"
+            marginTop="86px"
+            fontSize="12px"
+            color="#1CDA68"
+          >
+            Already Review
+          </Box>
+        ) : isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="red"
+            >
+              Payment
+            </Button>
+            ) : (
+          ""
+        )}
+          {isPaidDeposit === "Pending" && status === "Pending" ? (
+            <Button
+              width="60px"
+              height="30px"
+              marginLeft="260px"
+              marginTop="86px"
+              fontSize="12px"
+              color="white"
+              backgroundColor="#A533C8"
+            >
+              payment
+            </Button>
+            ): ""}
       </Box>
     </Card>
   );

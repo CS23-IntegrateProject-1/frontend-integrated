@@ -23,9 +23,10 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedMenus, setSelectedMenus] = useState<any[]>([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const toast = useCustomToast();
-  const { venueId, menuid } = useParams();
+  const { menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
     name: '',
     description: '',
@@ -46,7 +47,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
   }, [menuData]);
 
   const getMenu = async () => {
-    const response = await Axios.get(`/feature7/getMenusByVenueId/${venueId}`);
+    const response = await Axios.get(`/feature7/getMenuByVenueIdNotInSet/${menuid}`);
     const menus = response.data;
     //console.log(menuData);
     return menus;
@@ -74,18 +75,30 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     }));
   };
 
+
   const handleDropdownChange = async (selectedMenuId: string) => {
     setSelectId(selectedMenuId);
     try {
       const addResponse = await Axios.post(`/feature7/addMenuItemsToSetsInCookies/${menuid}`, { menuId: selectedMenuId });
+      console.log('menuId:', selectedMenuId);
       if (addResponse.status === 200) {
         const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
         const selectedItems = response.data;
         console.log('Selected items:', selectedItems);
-        setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
-        });
+        console.log('Selected menus before update:', selectedMenus);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
+
+        // Find the selected item by its id
+      const selectedItem = selectedItems.find((item : any) => item.menuId == selectedMenuId);
+      console.log('Selected item:', selectedItem);
+      if (selectedItem) {
+        console.log('Selected item:', selectedItem);
+        // Update selectedMenus using the selectedItem directly
+        setSelectedMenus(prevSelectedMenus => [...prevSelectedMenus, selectedItem]);
+      }
       }
     } catch (error) {
       console.error("Error adding menu items to cookies or fetching items", error);
@@ -97,31 +110,24 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     try {
       const response = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
       if (response.status === 200) {
-        const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
-        const selectedItems = response.data;
-        console.log('Selected items:', selectedItems);
+        // const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
+        // const selectedItems = response.data;
+        // console.log('Selected items:', selectedItems);
+        // setSelectedMenus((prevSelectedMenus) => {
+        //   // Combine the previous state with the new selected items
+        //   return [...prevSelectedMenus, ...selectedItems];
+        // });
         setSelectedMenus((prevSelectedMenus) => {
-          // Combine the previous state with the new selected items
-          return [...prevSelectedMenus, ...selectedItems];
+          // Filter out the selectedMenuId from the previous state
+          const updatedMenus = prevSelectedMenus.filter((menu: any) => menu.menuId !== selectedMenuId);
+          return updatedMenus;
         });
       }
-      // const updatedMenus = [...selectedMenus];
-      // updatedMenus.splice(selectedMenuId, 1);
-      // setSelectedMenus(updatedMenus);
   } catch (error) {
     console.error("Error deleting items in cookies", error);
   }
   };
-
-  // useEffect(() => {
-  //   console.log('Location state:', location.state);
-  //   if (location.state && location.state.selectedMenus) {
-  //     console.log('Selected Menus:', location.state.selectedMenus);
-  //     setSelectedMenus(location.state.selectedMenus);
-  //   }
-  // }, [location.state]);
   
-
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
@@ -132,24 +138,32 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     console.log('Selected file:', selectedFile);
   };
 
-  // const handleAddMenuClick = () => {
-  //   const targetPath = '/venue/:venueId/choosemenu';
-  //   console.log('Navigating to:', targetPath);
-  //   navigate(targetPath);
-  // };
   const handleCancel = async () => {
     try{
       const response = await Axios.post(`/feature7/clearSetItemsInCookies/${menuid}`);
       console.log('Clear cookies:', response.data);
-      navigate(`/venue/${venueId}/menubusiness`);
+      navigate(`/business/venue/menubusiness`);
     }catch (error) {
       console.error('Error clearing cookie:', error);
     }
   };
-
+  const isFormValid = () => {
+    return (
+      editFormData.name &&
+      editFormData.description &&
+      editFormData.price &&
+      selectedMenus.length > 0
+    );
+  };
+  
   const handleUpdate = async () => {
     // const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
     // navigate(targetPath);
+    setFormSubmitted(true);
+    if (!isFormValid()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
     const formData = new FormData();
     formData.append('name', editFormData.name);
     formData.append('description', editFormData.description);
@@ -159,14 +173,14 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     }
 
     try {
-      const response = await Axios.post(`/feature7/editSet/${venueId}/${menuid}`, formData, {
+      const response = await Axios.post(`/feature7/editSet/${menuid}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       console.log('Menu edited:', response.data);
       toast.success("Menu Edited");
-      const targetPath = `/venue/${venueId}/bmenudetail/Set/${menuid}`;
+      const targetPath = `/business/venue/bmenudetail/Set/${menuid}`;
       navigate(targetPath);
     } catch (error) {
         console.error('Error editing menu:', error);
@@ -186,13 +200,15 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.name) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
               name='name'
               value={editFormData.name}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.name}
             />
           </Box>
         </Center>
@@ -206,11 +222,13 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.description) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               name='description'
               value={editFormData.description}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.description}
             />
           </Box>
         </Center>
@@ -274,23 +292,9 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               width="307px"
               placeholder="Add a menu"
               value={selectId}
+              borderColor={(formSubmitted &&  selectedMenus.length === 0) ? "red.300" : "brand.300"}
+              isInvalid={formSubmitted && selectedMenus.length === 0}
               onChange={(e) => handleDropdownChange(e.target.value)}
-              // styles={{
-              //   control: (styles) => ({
-              //     ...styles,
-              //     backgroundColor: 'brand.300',
-              //     borderColor: 'brand.300',
-              //   }),
-              //   option: (styles, { isFocused, isSelected }) => ({
-              //     ...styles,
-              //     backgroundColor: isSelected ? 'brand.500' : isFocused ? 'brand.400' : 'brand.300',
-              //     color: isSelected ? 'white' : 'black',
-              //   }),
-              //   singleValue: (styles) => ({
-              //     ...styles,
-              //     color: 'black',
-              //   }),
-              // }}
               sx={{
                 '> option': {
                   background: 'brand.300',
@@ -322,12 +326,14 @@ import { useCustomToast } from "../../../../components/useCustomToast";
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor="brand.300"
+              borderColor={(formSubmitted && !editFormData.price) ? "red.300" : "brand.300"}
               bgColor="brand.300"
               marginBottom="10px"
               name='price'
               value={editFormData.price}
               onChange={handleInputChange}
+              required
+              isInvalid={formSubmitted && !editFormData.price}
             />
           </Box>
         </Center>

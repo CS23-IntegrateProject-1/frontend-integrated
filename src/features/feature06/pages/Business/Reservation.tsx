@@ -12,31 +12,35 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import { center } from "../../../feature04/components/Maps/setting";
 
 interface ReservationCard {
   venueId: number;
   guest_amount: number;
   reserved_time: string;
   status: string;
-  user: {
-    username: string;
+  User: {
     hashed_password: string;
     fname: string;
     lname: string;
     email: string;
     profile_picture: null;
+    prompt_pay: null;
     addId: null;
     phone: string;
     tierId: number;
     userId: number;
-    prompt_pay: null;
+    username: string;
   };
-  entry_time: string;
-  isReview: boolean;
-  reservationId: number;
-  isPaidDeposit: string;
-  depositId: number;
   branchId: number;
+  depositId: number;
+  entry_time: string;
+  isPaidDeposit: string;
+  isReview: boolean;
+  name: string;
+  phone: string;
+  reservationId: number;
+  userId: number;
 }
 
 export const Reservation = () => {
@@ -47,11 +51,6 @@ export const Reservation = () => {
     offline: true,
     online: true,
   });
-
-  setFilterOptions({
-    offline: true,
-    online: true,
-  })
   
   useEffect(() => {
     fetchData();
@@ -59,6 +58,7 @@ export const Reservation = () => {
 
   const fetchData = async () => {
     const response = await getAllReservationOfVenue();
+    console.log(response);
     setData(response);
   };
 
@@ -74,8 +74,8 @@ export const Reservation = () => {
   const renderCards = () => {
     return data.map((reservation, index: number) => {
       const shouldRender =
-        (filterOptions.offline && reservation.user.userId === 0) ||
-        (filterOptions.online && reservation.user.userId !== 0);
+        (filterOptions.offline && reservation.User.userId === 0) ||
+        (filterOptions.online && reservation.User.userId !== 0);
 
       // Check if the reservation matches the selected date
       const isMatchingDate =
@@ -85,8 +85,9 @@ export const Reservation = () => {
       return shouldRender && isMatchingDate ? (
         <Box key={index} marginBottom={"20px"}>
           <BusinessReservationCard
-            name={reservation.user.fname + " " + reservation.user.lname}
-            type={reservation.user.userId === 0 ? "offline" : "online"}
+            reservationIdInt={reservation.reservationId}
+            name={reservation.User.fname + " " + reservation.User.lname}
+            type={reservation.User.userId === 0 ? "offline" : "online"}
             status={reservation.status}
             date={reservation.reserved_time}
           />
@@ -102,7 +103,7 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Link to={"/business/WalkInPeople"}>
+        <Link to={`/business/WalkInPeople/${data[0]?.branchId}/${data[0]?.venueId}`}>
           <Button
             display={"flex"}
             height={"40px"}
@@ -111,9 +112,6 @@ export const Reservation = () => {
             color={"#F6F6F6"}
             fontWeight={"600"}
             _hover={{ background: "#A533C8" }}
-            onClick={() => {
-              <Link to={"business/WalkInDetail"} />;
-            }}
           >
             Walk-in customer
           </Button>

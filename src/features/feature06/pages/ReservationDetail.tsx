@@ -1,11 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Box,
-  Icon,
-  Text,
-  Button,
-  Input
-} from "@chakra-ui/react";
+import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -14,22 +8,33 @@ import { TimeIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { getVenueById } from "../../../api/Reservation/getVenueById";
 import { Axios } from "../../../AxiosInstance";
+import { useCustomToast } from "../../../components/useCustomToast";
 
 interface IData {
-    name: string,
-    description: string,
-    category: string,
-    capacity: number,
-    chatRoomId: number,
-    locationId: number,
-    score: string,
-    venueId: number,
-    website_url: string,
-    Venue_photo: {
-        venueId: number,
-        image_url: string,
-        date_added: Date
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  chatRoomId: number;
+  locationId: number;
+  score: string;
+  venueId: number;
+  website_url: string;
+  Venue_photo: IPhotoData[] | undefined;
+  Location: {
+    locationId: number;
+    name: string;
+    latitude: string;
+    longtitude: string;
+    address: string;
+  };
 }
+
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
+  venuePhotoId: number;
 }
 
 export const ReservationDetail = () => {
@@ -44,6 +49,7 @@ export const ReservationDetail = () => {
   const [phonenumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const toast = useCustomToast();
 
   useEffect(() => {
     fetchData();
@@ -51,32 +57,54 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(venueIdInt,1);
+    const response: IData = await getVenueById(branchIdInt, venueIdInt);
     console.log(response);
     setData(response);
-  }
+  };
 
   const navigate = useNavigate();
 
-  const { venueId } = useParams<{ venueId: string }>();
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
   const venueIdInt = parseInt(venueId || "0");
+  const branchIdInt = parseInt(branchId || "0");
 
   const handleCreate = async () => {
     try {
+      const seatsInt = parseInt(seats || "0");
+      const currentDate = new Date();
+      const selectedDateTime = new Date(`${date}T${time}`);
+      if (selectedDateTime < currentDate) {
+        toast.warning("Please select a future date and time");
+        return;
+      }
+      if (date == "" || time == "" || name == "" || phonenumber == "") {
+        toast.warning("Please fill in all information");
+      }
       const response = await Axios.post(`/feature6/createReservation`, {
-        venueId: venueId,
-        guest_amount: seats,
+        venueId: venueIdInt,
+        guest_amount: seatsInt,
         reserve_date: date,
         time: time,
-        branchId:1,
+        branchId: branchIdInt,
         name: name,
         phonenumber: phonenumber,
       });
-      console.log(response);
       console.log("create reservation successfully");
-      navigate("/3/venue/3/payment");
-    } catch (err) {
+      console.log(response);
+      console.log(response.data.newReservation.userId);
+      console.log(response.data.newReservation.venueId);
+      console.log(response);
+
+      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/payment`;
+      const newPath = originalPath.replace("/reservation-detail", "");
+      navigate(newPath);
+    } catch (err: any) {
+      toast.error(err.response.data.error);
       console.log(err);
+      throw err;
     }
   };
 
@@ -88,7 +116,13 @@ export const ReservationDetail = () => {
         alignItems="center" // Center the content horizontally
         justifyContent="center"
       >
-        <RDetailCard name={data?.name} star={data?.score} location={"แก้ด่วน"}/>
+        <RDetailCard
+          // src={data?.venue.Venue_photo.image_url}
+          name={data?.name}
+          location={data?.Location.address}
+          star={data?.score}
+          image_url={data?.Venue_photo}
+        />
 
         {/* This will push the reservation detail to the bottom */}
         <Box
@@ -152,18 +186,6 @@ export const ReservationDetail = () => {
             <Text
               color="#000"
               fontFamily="Roboto"
-              fontSize="12px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop="10px"
-            >
-              {/* {data?.reservations[0].user.fname} */}
-            </Text>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
               fontSize="16px"
               fontStyle="normal"
               fontWeight="700"
@@ -173,8 +195,7 @@ export const ReservationDetail = () => {
             >
               Phone Number :
             </Text>
-            <Box
-            mt={"5px"}>
+            <Box mt={"5px"}>
               <Input
                 required
                 placeholder="enter phone no."
@@ -209,22 +230,21 @@ export const ReservationDetail = () => {
             >
               Date :
             </Text>
-            <Box
-            marginLeft="120px"
-            marginTop="-20px">
-            <Input
-              required
-              placeholder="Select Date"
-              size="md"
-              type="date"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-            />
+            <Box marginLeft="120px" marginTop="-20px">
+              <Input
+                required
+                placeholder="Select Date"
+                size="md"
+                type="date"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
             </Box>
             <TimeIcon
               w={"20px"}
@@ -245,22 +265,21 @@ export const ReservationDetail = () => {
             >
               Time :
             </Text>
-            <Box
-            marginLeft="120px"
-            marginTop="-20px">
-            <Input
-              required
-              placeholder="Select Time"
-              size="md"
-              type="time"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              onChange={(e) => {
-                setTime(e.target.value);
-              }}
-            />
+            <Box marginLeft="120px" marginTop="-20px">
+              <Input
+                required
+                placeholder="Select Time"
+                size="md"
+                type="time"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                value={time}
+                onChange={(e) => {
+                  setTime(e.target.value);
+                }}
+              />
             </Box>
             <Icon ml={"38px"} mt={"15px"} width="35px" height="35px">
               <MdOutlineEventSeat style={{ color: "black" }} />

@@ -6,7 +6,7 @@ import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const getCartMenuItem = async (type: string, menuid: string) => {
@@ -24,6 +24,7 @@ const getCartMenuItem = async (type: string, menuid: string) => {
 // }
 export const CartMenuDetail: FC = () => {
     const {type, menuid} = useParams();
+    const navigate = useNavigate();
     //console.log(menuid);
 
     const { data: menuItem, isLoading, isError } = useQuery([type, menuid], () => {
@@ -55,6 +56,7 @@ export const CartMenuDetail: FC = () => {
         try{
             const response = await Axios.delete(`/feature7/delete${type}FromCookie/${menuid}`);
             console.log("Item Deleted From Cart:",response.data);
+            navigate("/venue/cart");
         } catch(error){
             console.error("Error deleting item:", error);
         }
