@@ -83,8 +83,7 @@ export const ChatBotPage: FC = () => {
             >
             <Box 
                 borderRadius={"10px"}
-                bg={"grey.100"
-            }>
+                bg={"grey.100"}>
                 <Text 
                     style={TextStyle.body2} 
                     color={"brand.200"} 
