@@ -20,7 +20,7 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
   };
 
   
-  const StepContainer = styled.div<{ activeStep: string }>`
+  const StepContainer = styled.div<{ activestep: string }>`
   display: flex;
   justify-content: space-between;
   margin-top: 70px;
@@ -42,10 +42,10 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
     height: 4px;
     transition: 0.4s ease;
     transform: translateY(200%);
-    width: ${({ activeStep }) =>
-      activeStep === '/map/food-delivery/cart-detail'
+    width: ${({ activestep }) =>
+      activestep === '/map/food-delivery/cart-detail'
         ? '46%'
-        : activeStep === '/map/food-delivery/checkout'
+        : activestep === '/map/food-delivery/checkout'
         ? '82%'
         : '100%'};
     left: 20px;
@@ -56,7 +56,7 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
 
 return (
   <Box m={5}>
-    <StepContainer activeStep={location.pathname} />
+    <StepContainer activestep={location.pathname} />
     <Flex flexDir={"row"} justifyContent={"space-around"}>
       <IconButton
         aria-label="none"

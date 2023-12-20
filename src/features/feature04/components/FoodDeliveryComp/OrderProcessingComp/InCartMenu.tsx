@@ -48,21 +48,20 @@ export const InCartMenu = () => {
     }
   };
 
-  const { data: cartItems } = useQuery(["cartItem"], () => fetchCartItems());
+  const { data: cartItems, status } = useQuery(["cartItem"], () => fetchCartItems());
+  console.log('Fetch Status:', status);  
 
-  const calculateSubtotal = (items: typeof cartItems) => {
+  const calculateSubtotal = (items: typeof cartItems, quantities: typeof itemQuantities) => {
     if (!items) return 0;
-
+  
     return items.reduce((acc: number, item: typeof cartItems) => {
       const price = parseFloat(item.price);
-      const quantity = parseInt(item.quantity, 10);
-
+      const quantity = quantities[item.itemId]||0;
       console.log(`Price: ${price}, Quantity: ${quantity}`);
-
-      return acc + price * quantity;
+      return acc + price * quantity + price;
     }, 0);
   };
-
+  
   const saveTotal = async (total: number) => {
     try {
       const response = await Axios.post(`/feature4/saveTotal/${total}`);
@@ -74,7 +73,7 @@ export const InCartMenu = () => {
   };
 
   const calculateTotal = (items: typeof cartItems) => {
-    const subtotal = calculateSubtotal(items);
+    const subtotal = calculateSubtotal(items,itemQuantities);
     const total = parseFloat(subtotal) + 0;
     saveTotal(total);
     return total.toFixed(2);
@@ -173,8 +172,8 @@ export const InCartMenu = () => {
               flexDir={"row"}
               justifyContent={"space-around"}
             >
-              <Text>Subtotal</Text>
-              <Text>${calculateSubtotal(cartItems)}</Text>
+                <Text>Subtotal</Text>
+                <Text>${calculateSubtotal(cartItems, itemQuantities)}</Text>
             </Box>
             <Box
               display={"flex"}
