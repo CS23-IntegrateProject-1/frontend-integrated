@@ -7,7 +7,6 @@ import { VenueBranches } from "./pages/homePage/VenueBranches";
 import { ReviewDelivery } from "./pages/homePage/ReviewDelivery"
 import { ReviewReservation } from "./pages/homePage/ReviewReservation"
 import { MyReviews } from "./pages/homePage/MyReviewPage"
-import { AvaliableVouchers } from "./pages/homePage/AvaliableVouchers"
 
 export const Feature03Routes = () => {
   return [
@@ -17,7 +16,6 @@ export const Feature03Routes = () => {
 
     { path: "/Branches/:venueId", element: <VenueBranches /> },
     { path: "/VenueDetail/:branchId", element: <VenueDetail /> },
-    { path: "/AvaliableVouchers/:branchId", element: <AvaliableVouchers />},
 
     { path: "/Reviews/:branchId", element: <ReviewPage /> },
     { path: "/ReviewDelivery/:branchId", element: <ReviewDelivery /> },
