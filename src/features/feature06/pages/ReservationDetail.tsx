@@ -57,7 +57,7 @@ export const ReservationDetail = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
+    const response: IData = await getVenueById(venueIdInt,branchIdInt);
     console.log(response);
     setData(response);
   };

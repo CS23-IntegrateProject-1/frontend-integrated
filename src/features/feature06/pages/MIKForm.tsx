@@ -57,7 +57,7 @@ export const MIKForm = () => {
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(1, 2);
+    const response: IData = await getVenueById(2, branchIdInt);
     console.log(response);
     setData(response);
   };
@@ -68,7 +68,6 @@ export const MIKForm = () => {
     venueId: string;
     branchId: string;
   }>();
-  const venueIdInt = 2;
   const branchIdInt = parseInt(branchId || "0");
 
   const handleCreate = async () => {
