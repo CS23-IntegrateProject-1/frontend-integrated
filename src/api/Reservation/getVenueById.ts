@@ -1,5 +1,5 @@
 import { Axios } from "../../AxiosInstance";
-export const getVenueById = async (branchId: number, venueId: number) => {
+export const getVenueById = async (venueId: number,branchId: number) => {
   try {
     console.log("branchId", branchId);
     console.log("venueId", venueId);

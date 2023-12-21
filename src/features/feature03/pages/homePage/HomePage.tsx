@@ -105,7 +105,7 @@ export const HomePage = () => {
         <Text fontSize={{ base: "25px", lg: "35px" }} fontWeight="bold">
           Promotions
         </Text>
-        <NavLink to="/Promotions" style={{ marginLeft: "auto" }}>
+        <NavLink to="/promotion" style={{ marginLeft: "auto" }}>
           <Text
             fontSize={{ base: "15px", lg: "20px" }}
             color="grey.100"

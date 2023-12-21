@@ -67,12 +67,12 @@ export const MyReviews = () => {
                     <Box width={"80%"}>
                       <Text fontWeight="bold">
                         {MRD.name} |{" "}
-                        <Text as="span" textColor={"white"}>
+                        <Text fontWeight="normal" as="span" textColor={"white"}>
                           {MRD.branch_name}
                         </Text>
                       </Text>
-                      <Text fontWeight="bold">{MRD.category}</Text>
-                      <Text fontWeight="bold" textColor={"red"}>{MRD.review_type}</Text>
+                      <Text fontWeight="bold" textColor={"brand.200"}>{MRD.category}</Text>
+                      <Text fontWeight="bold" textColor={"red.300"}>{MRD.review_type}</Text>
                       <Flex color={"brand.100"} alignItems={"center"}>
                         <StarIcon mr={"6px"} />
                         <Text mt={"1.5px"}>{MRD.rating}</Text>

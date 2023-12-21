@@ -14,23 +14,12 @@ import { FilterType } from "./FilterType";
 import { useContext } from "react";
 import { DEFAULT_FILTER, FilterContext } from "../VenuePage";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-interface Filter_Modal extends ModalProps {
-  id: number;
-  name: string;
-  location: string;
-  numberOfEmployee: number;
-}
-
 export function Filter_Modal({ isOpen = false, onClose = () => {} }) {
   const context = useContext(FilterContext);
   const handleFilterReset = () => {
     context.setFilter(() => DEFAULT_FILTER);
   }
+  // console.log(context.filter)
   return (
     <Modal
       isOpen={isOpen}

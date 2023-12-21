@@ -103,7 +103,9 @@ export const Reservation = () => {
         width={"319px"}
         justifyContent={"space-between"} // Aligns buttons at both ends
       >
-        <Link to={`/business/WalkInPeople/${data[0]?.branchId}/${data[0]?.venueId}`}>
+        <Link
+          to={`/business/WalkInPeople/${data[0]?.venueId}/${data[0]?.branchId}`}
+        >
           <Button
             display={"flex"}
             height={"40px"}
@@ -143,8 +145,7 @@ export const Reservation = () => {
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent backgroundColor={"#D9D9D9"}
-          borderRadius={'20px'}>
+          <ModalContent backgroundColor={"#D9D9D9"} borderRadius={"20px"}>
             <ModalHeader
               color={"black"}
               display={"flex"}
@@ -155,24 +156,24 @@ export const Reservation = () => {
             >
               Filter By
             </ModalHeader>
-            <ModalCloseButton color={'black'}/>
+            <ModalCloseButton color={"black"} />
             <ModalBody color={"black"}>
               <Input
-              placeholder="Select Date"
-              size="md"
-              type="date"
-              backgroundColor={"white"}
-              textColor={"black"}
-              width="163px"
-              height={"25px"}
-              onChange={(e) => handleDateChange(e.target.value)}
-            />
-              
+                placeholder="Select Date"
+                size="md"
+                type="date"
+                backgroundColor={"white"}
+                textColor={"black"}
+                width="163px"
+                height={"25px"}
+                onChange={(e) => handleDateChange(e.target.value)}
+              />
+
               <br />
               <Checkbox
                 textColor={"#5F0DBB"}
                 colorScheme="purple"
-                mt={'10px'}
+                mt={"10px"}
                 fontWeight={700}
                 defaultChecked={filterOptions.offline}
                 onChange={() =>
@@ -188,7 +189,7 @@ export const Reservation = () => {
               <Checkbox
                 textColor={"#5F0DBB"}
                 colorScheme="purple"
-                mt={'10px'}
+                mt={"10px"}
                 fontWeight={700}
                 defaultChecked={filterOptions.online}
                 onChange={() =>

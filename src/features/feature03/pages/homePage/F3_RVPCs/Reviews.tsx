@@ -65,7 +65,7 @@ export const Reviews: FC = () => {
               <Box width={"80%"}>
                 <Text fontWeight="bold">
                   {reviews.username} |{" "}
-                  <Text as="span" textColor={"red"}>
+                  <Text as="span" textColor={"red.300"}>
                     {reviews.review_type}
                   </Text>
                 </Text>
