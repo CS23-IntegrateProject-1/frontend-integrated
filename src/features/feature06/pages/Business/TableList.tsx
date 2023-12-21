@@ -45,6 +45,7 @@ export const TableList = () => {
 
   const fetchData = async () => {
     const response = await getAllTableByVenue();
+    console.log(response);
     setData(response);
   };
 

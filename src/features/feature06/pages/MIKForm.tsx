@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -21,7 +20,7 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  location: {
+  Location: {
     locationId: number;
     name: string;
     latitude: string;
@@ -54,12 +53,12 @@ export const MIKForm = () => {
 
   useEffect(() => {
     fetchData();
-    setIsLoaded(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
-    console.log(response);
+    const response: IData = await getVenueById(2, branchIdInt);
+    setIsLoaded(true);
     setData(response);
   };
 
@@ -69,8 +68,8 @@ export const MIKForm = () => {
     venueId: string;
     branchId: string;
   }>();
-  const venueIdInt = 2;
   const branchIdInt = parseInt(branchId || "0");
+  const venueIdInt = parseInt("2");
 
   const handleCreate = async () => {
     try {
@@ -92,12 +91,11 @@ export const MIKForm = () => {
         toast.warning("Please fill in all information");
       }
 
-      console.log("date: ", date);
-      console.log("time: ", time);
-      console.log("fname: ", fname);
-      console.log("lname: ", lname);
-      console.log("email: ", email);
-      console.log("phonenumber: ", phonenumber);
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast.warning("Please enter a valid email address");
+        return;
+      }
 
       const response = await Axios.post(`/api/mik/reserve`, {
         date: date,
@@ -112,7 +110,7 @@ export const MIKForm = () => {
       });
       console.log("create reservation successfully");
       console.log(response);
-      navigate("/3/venue/3/payment");
+      navigate("/my-reservation");
     } catch (err: any) {
       toast.error(err.response.data.error);
       console.log(err);
@@ -130,7 +128,7 @@ export const MIKForm = () => {
       >
         <RDetailCard
           name={data?.name}
-          location={data?.location.address}
+          location={data?.Location.address}
           star={data?.score}
           image_url={data?.Venue_photo}
         />
@@ -144,7 +142,7 @@ export const MIKForm = () => {
         >
           <Box
             width="369px"
-            height="500px"
+            height="440px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -234,6 +232,7 @@ export const MIKForm = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -261,6 +260,7 @@ export const MIKForm = () => {
             </Text>
             <Box mt={"5px"}>
               <Input
+                type="email"
                 required
                 placeholder="enter E-mail"
                 htmlSize={4}
@@ -433,5 +433,5 @@ export const MIKForm = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Loading...</div>;
+  return isLoaded ? render() : <div>Loading . . .</div>;
 };

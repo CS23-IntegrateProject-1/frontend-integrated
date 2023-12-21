@@ -1,15 +1,7 @@
-import {
-  Box,
-  Card,
-  Image,
-  Heading,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Card, Image, Heading, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 
 interface ReservationCardsProps {
   src?: string;
@@ -21,6 +13,8 @@ interface ReservationCardsProps {
   venueId?: number;
   isReview?: boolean;
   status?: string;
+  isPaidDeposit?: string;
+  branchId?: number;
 }
 
 export const ReservationCards: FC<ReservationCardsProps> = ({
@@ -29,14 +23,15 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
   name,
   star,
   startPrice,
-  reservationId,
   venueId,
   isReview,
-  status
+  status,
+  isPaidDeposit,
+  branchId
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    const path = `/reservation-detail?reservationId=${reservationId}&venueId=${venueId}`;
+    const path = `/getreservation-detail/${venueId}/${branchId}}`;
     navigate(path);
   };
 
@@ -57,7 +52,7 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         width="100px"
         height="100px"
         borderRadius="10px"
-        src={src}
+        src={src || "https://via.placeholder.com/100"}
         alt="Caffe Latte"
         margin={"15px"}
       />
@@ -164,20 +159,28 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
         marginLeft={"-12px"}
       >
         {isReview === false && status === "Check_out" ? (
-          <Link to={`/review/${venueId}/${reservationId}`}>
-            <Button
-              width="60px"
-              height="30px"
-              marginLeft="260px"
-              marginTop="86px"
-              fontSize="12px"
-              color="white"
-              backgroundColor="#A533C8"
+          // <Link to={`/review/${venueId}/${reservationId}`}>
+          <Box
+            width="60px"
+            height="30px"
+            marginLeft="260px"
+            marginTop="86px"
+            fontSize="12px"
+            color="white"
+            backgroundColor="#A533C8"
+            borderRadius="6px"
+          >
+            <Text
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+              mt={1.5}
             >
               Review
-            </Button>
-          </Link>
-        ) : isReview === true && status === "Check_out" ? (
+            </Text>
+          </Box>
+        ) : // </Link>
+        isReview === true && status === "Check_out" ? (
           <Box
             width="60px"
             height="30px"
@@ -187,6 +190,28 @@ export const ReservationCards: FC<ReservationCardsProps> = ({
             color="#1CDA68"
           >
             Already Review
+          </Box>
+        ) : isPaidDeposit === "Pending" &&
+          status === "Pending" &&
+          name !== "MIK" ? (
+          <Box
+            width="50px"
+            height="20px"
+            marginLeft="260px"
+            marginTop="86px"
+            fontSize="12px"
+            color="white"
+            backgroundColor="red"
+            borderRadius="6px"
+            position={"absolute"}
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"center"}
+            mb={6}
+          >
+            <Text fontWeight={700} fontSize={10} marginTop={0.5}>
+              not paid
+            </Text>
           </Box>
         ) : (
           ""

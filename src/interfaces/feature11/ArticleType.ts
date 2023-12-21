@@ -47,7 +47,7 @@ export interface ArticlePageProps {
   Article_venue: {
     articleId: number;
     venueId: number;
-    venue: {
+    Venue: {
       venueId: number;
       name: string;
     };
@@ -87,7 +87,7 @@ export interface VenueProps {
 export interface ArticleVenueProps {
   articleId: number;
   venueId: number;
-  venue: {
+  Venue: {
     venueId: number;
     name: string;
   };

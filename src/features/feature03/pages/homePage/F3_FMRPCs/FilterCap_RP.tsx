@@ -1,6 +1,6 @@
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FilterContext } from "../VenuePage";
+import { FilterContext_RP } from "../RecommendedPlacesPage";
 
 const buttonStyle = {
   bgColor: "red.300",
@@ -9,29 +9,29 @@ const buttonStyle = {
   fontSize: "sm",
 };
 
-export const FilterCap = () => {
-  const context = useContext(FilterContext);
+export const FilterCap_RP = () => {
+  const context_RP = useContext(FilterContext_RP);
   // console.log(context)
 
   const isActiveCap = (cap: string) => {
-    return context.filter.capacity.includes(cap);
+    return context_RP.filter.capacity.includes(cap);
   }
 
   const handleCapClick = (cap: string) => {
     if (isActiveCap(cap)) {
-      context.setFilter(filter => ({
+      context_RP.setFilter(filter => ({
         ...filter,
-        capacity: filter.capacity.split(',').filter((c) => c !== cap).join(',')
+        capacity: filter.capacity.split(',').filter((c_RP) => c_RP !== cap).join(',')
       }));
     } else {
-      context.setFilter(filter => ({
+      context_RP.setFilter(filter => ({
         ...filter,
-        capacity: [...filter.capacity.split(','), cap].filter((c) => c !== '').join(',')
+        capacity: [...filter.capacity.split(','), cap].filter((c_RP) => c_RP !== '').join(',')
       }));
     }
   }
 
-  // console.log(context.filter.capacity)
+  // console.log(context_RP.filter.capacity)
 
   return (
     <Flex direction="column" mb="1">
