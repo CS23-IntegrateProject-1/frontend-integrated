@@ -8,6 +8,7 @@ export interface IData {
   isReview: boolean;
   reservationId: number;
   depositId: number;
+  branchId: number;
   isPaidDeposit: string;
   Venue: {
     name: string;
@@ -48,6 +49,7 @@ export const initialStateData: IData[] = [
     reservationId: 0,
     depositId: 0,
     isPaidDeposit: "",
+    branchId: 0,
     Venue: {
       name: "",
       description: "",

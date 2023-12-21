@@ -53,7 +53,8 @@ export const MIKForm = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchData = async () => {
     const response: IData = await getVenueById(2, branchIdInt);
@@ -88,6 +89,12 @@ export const MIKForm = () => {
         phonenumber == ""
       ) {
         toast.warning("Please fill in all information");
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast.warning("Please enter a valid email address");
+        return;
       }
 
       const response = await Axios.post(`/api/mik/reserve`, {
@@ -135,7 +142,7 @@ export const MIKForm = () => {
         >
           <Box
             width="369px"
-            height="500px"
+            height="440px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -225,6 +232,7 @@ export const MIKForm = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -252,6 +260,7 @@ export const MIKForm = () => {
             </Text>
             <Box mt={"5px"}>
               <Input
+                type="email"
                 required
                 placeholder="enter E-mail"
                 htmlSize={4}
@@ -424,5 +433,5 @@ export const MIKForm = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Payment required</div>;
+  return isLoaded ? render() : <div>Loading . . .</div>;
 };
