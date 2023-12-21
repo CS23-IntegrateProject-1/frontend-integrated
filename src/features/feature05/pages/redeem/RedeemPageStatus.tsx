@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, FC } from "react";
+import { Tabs, Box, Icon } from "@chakra-ui/react";
 import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCard";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 // import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
+import { GetRedeem } from "../../../../api/Redeem/GetRedeem";
 
 // const fetchData = async (status: string): Promise<string[]> => {
 //   // Assume this is your backend API endpoint to fetch data based on the status
@@ -13,30 +15,29 @@ import { useNavigate } from "react-router-dom";
 // };
 
 interface IRedeemCard {
-  isApprove: "Rejected" | "In_progress" | "Completed";
+  redeemId: number;
   image_url: string;
 }
 
-interface RedeemStatusPageProps {}
+//interface RedeemStatusPageProps {}
 
-export const RedeemPageStatus: React.FC<RedeemStatusPageProps> = () => {
+export const RedeemPageStatus: FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [data] = useState<IRedeemCard[]>([]);
-  const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
+  const [data, setData] = useState<IRedeemCard[]>([]);
+  // const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
   const navigate = useNavigate();
   const handleClickCreate = () => {
     navigate("/business/redeem/create");
   };
-  // const businessId = 2;
 
-  const fetchBusinessAds = async () => {
-    //const res = await GetAllRedeem();
-    //setData(res);
+  const fetchRedeem = async () => {
+    const res = await GetRedeem();
+    setData(res);
   };
 
   useEffect(() => {
-    fetchBusinessAds();
-    // console.log(data);
+    fetchRedeem();
+    console.log(data);
   }, []);
 
   const handleTabChange = (index: number) => {
@@ -60,7 +61,7 @@ export const RedeemPageStatus: React.FC<RedeemStatusPageProps> = () => {
         justifyContent={"center"}
         alignContent={"center"}
       >
-        <TabList>
+        {/* <TabList>
           <Stack spacing={10} flexDirection={"row"}>
             <Tab
               border="1px solid white"
@@ -88,10 +89,10 @@ export const RedeemPageStatus: React.FC<RedeemStatusPageProps> = () => {
               Complete
             </Tab>
           </Stack>
-        </TabList>
+        </TabList> */}
       </Tabs>
 
-      {data?.map((data: IRedeemCard, index: number) => {
+      {/* {data?.map((data: IRedeemCard, index: number) => {
         if (selector === "ongoing") {
           return (
             (data.isApprove === "Rejected" ||
@@ -105,7 +106,26 @@ export const RedeemPageStatus: React.FC<RedeemStatusPageProps> = () => {
               <RedeemStatusCard key={index} data={data} />
             )
           );
-      })}
+      })} */}
+
+      {/* {data?.map((data: IRedeemCard, index: number) => {
+          return (
+              <RedeemStatusCard key={index} data={data} />
+            )
+          )
+      } */}
+
+      {data &&
+        data.map((data: IRedeemCard) => {
+          console.log(data);
+          return (
+            <RedeemStatusCard
+              key={data?.redeemId}
+              //redeemId={data.redeemId}
+              data={data}
+            />
+          );
+        })}
 
       <Box pos={"fixed"} bottom={10} right={10} zIndex={999}>
         <Icon
