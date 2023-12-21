@@ -86,6 +86,9 @@ export const ReservationDetail = () => {
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
+      }else if (phonenumber.length > 10){
+        toast.warning("Please enter a valid phone number");
+        return;
       }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information");
@@ -205,7 +208,6 @@ export const ReservationDetail = () => {
             <Box mt={"5px"}>
               <Input
                 required
-                maxLength={10}
                 type="number"
                 placeholder="enter phone no."
                 htmlSize={4}
