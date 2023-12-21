@@ -1,5 +1,6 @@
 import React from 'react';
-import Ticket from '../Components/Ticket';
+import Ticket from '../components/Ticket';
+import { Box } from '@chakra-ui/react';
 
 interface TicketHistoryProps {
   ticketHistory: {
@@ -15,11 +16,22 @@ interface TicketHistoryProps {
 
 const TicketHistory: React.FC<TicketHistoryProps> = ({ ticketHistory }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      minHeight="100vh"
+      marginBottom={4}
+      padding={4}
+      borderRadius={16}
+      width={['100%', '80%', '70%', '60%']} // Adjust the values for your specific needs
+      maxWidth="800px" // Set a maximum width if needed
+      margin="0 auto" // Center the box horizontally
+    >
       {ticketHistory.map((ticket) => (
         <Ticket key={ticket.id} ticket={ticket} />
       ))}
-    </div>
+    </Box>
   );
 };
 
