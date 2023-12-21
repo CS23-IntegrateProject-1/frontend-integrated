@@ -20,6 +20,7 @@ export const MyReservation = () => {
   const fetchData = async () => {
     const response = await getMyReservation();
     setDatas(response);
+    console.log("DATA: ", response);
   };
 
   const RenderCards: FC = () => {
@@ -32,7 +33,7 @@ export const MyReservation = () => {
           >
             <Box marginBottom={"20px"}>
               <ReservationCards
-                src={data.Venue.Venue_photo[0].image_url}
+                src={data.Venue.Venue_photo[0]?.image_url ||  ""}
                 text={data.Venue.description}
                 name={data.Venue.name}
                 star={data.Venue.score}
@@ -46,6 +47,7 @@ export const MyReservation = () => {
                 reservationId={data.reservationId}
                 venueId={data.venueId}
                 isPaidDeposit={data.isPaidDeposit}
+                branchId={data.branchId}
               />
             </Box>
           </Link>
