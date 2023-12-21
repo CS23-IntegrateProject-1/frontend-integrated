@@ -86,6 +86,9 @@ export const ReservationDetail = () => {
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
+      }else if (phonenumber.length > 10){
+        toast.warning("Please enter a valid phone number");
+        return;
       }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information");
@@ -224,11 +227,8 @@ export const ReservationDetail = () => {
                   }
                 }}
                 onChange={(e) => {
-                  const inputValue = e.target.value;
-                  if (inputValue.length <= 10) {
-                    setPhoneNumber(inputValue);
-                  }
-                }}
+                    setPhoneNumber(e.target.value);
+                  }}
               />
             </Box>
             <CalendarIcon
