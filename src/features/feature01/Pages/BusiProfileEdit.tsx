@@ -89,8 +89,6 @@ export const BusiProfileEdit = () => {
     const [category, setCategory] = useState("");
     //capacity
     const [capacity, setCapacity] = useState("");
-    //deposti
-    const [deposite, setDeposite] = useState("");
     //website url
     const [website, setWebsite] = useState("");
     //card id
@@ -129,6 +127,16 @@ export const BusiProfileEdit = () => {
                 setCategory(response.data.category);
                 setCapacity(response.data.capacity);
                 setWebsite(response.data.website);
+            }
+        });
+        //prompt pay and phno
+        const url1 = `/feature1/venue/promptpay`;
+        Axios.get(url1, { withCredentials: true })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data);
+                setpromptNo(response.data.prompt_pay_number);
+                setphNo(response.data.business_phone_number);
             }
         });
         
@@ -515,10 +523,10 @@ export const BusiProfileEdit = () => {
                         <Text fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>Capacity</Text>
                         <Input onChange={(e) => setCapacity(e.target.value)} value={capacity} focusBorderColor='brand.300' _hover={{ borderColor: 'brand.300' }} size='md' bg={'brand.300'} borderColor={'brand.300'}></Input>
                     </Box>
-                    <Box mt={5}>
+                    {/* <Box mt={5}>
                         <Text fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>Deposite</Text>
                         <Input onChange={(e) => setDeposite(e.target.value)} value={deposite} focusBorderColor='brand.300' _hover={{ borderColor: 'brand.300' }} size='md' bg={'brand.300'} borderColor={'brand.300'}></Input>
-                    </Box>
+                    </Box> */}
                     <Box mt={5}>
                         <Text fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h1.fontWeight}>Website</Text>
                         <Input onChange={(e) => setWebsite(e.target.value)} value={website} focusBorderColor='brand.300' _hover={{ borderColor: 'brand.300' }} size='md' bg={'brand.300'} borderColor={'brand.300'}></Input>
@@ -616,7 +624,7 @@ export const BusiProfileEdit = () => {
             </Stack> */}
             {/* two buttons */}
             <Center pb={5}>
-                <ButtonGroup pt={2} spacing="6">x
+                <ButtonGroup pt={2} spacing="6">
                     <Button
                         // onClick={handleCancel}
                         bg="white"
