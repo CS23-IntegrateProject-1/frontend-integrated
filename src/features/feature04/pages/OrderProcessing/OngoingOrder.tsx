@@ -3,6 +3,7 @@ import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrder
 import index from "../../../../theme/foundations/index"
 
 export const OngoingOrder=()=>{
+    
 return(
     <Box>
         <Flex flexDirection={"column"} alignItems={"center"}>
@@ -16,6 +17,8 @@ return(
           restaurant="MK Roasted Duck"
           size="small"
           subAddress="abc"
+          DriverName="Andrew Tate"
+          DriverLicensePlate="Bugatti1234"
         />
         <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
             Ongoing

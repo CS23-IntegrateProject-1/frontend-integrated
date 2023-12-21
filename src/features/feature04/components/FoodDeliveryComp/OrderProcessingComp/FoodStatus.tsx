@@ -9,7 +9,7 @@ export const FoodStatus = () => {
 const navigate = useNavigate();
 const navigateInCartDetail =()=>{ navigate('/map/food-delivery/cart-detail')};
 const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
-
+const navigateMenu = ()=>{navigate('/map/food-delivery/')}
   const linkIsCompleted = {
     backgroundColor: index.colors.brand[200],
     color: index.colors.white,
@@ -44,9 +44,9 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
     transform: translateY(200%);
     width: ${({ activestep }) =>
       activestep === '/map/food-delivery/cart-detail'
-        ? '46%'
+        ? `calc(100vw - ${'57vw'})`
         : activestep === '/map/food-delivery/checkout'
-        ? '82%'
+        ? `calc(100vw - ${'27vw'})`
         : '100%'};
     left: 20px;
   }
@@ -63,6 +63,7 @@ return (
         borderColor={"none"}
         variant={"none"}
         // isDisabled={!location.pathname.includes("menu")}
+        onClick={navigateMenu}
       >
         <Flex flexDir={"column"} alignItems={"center"}>
           <Text

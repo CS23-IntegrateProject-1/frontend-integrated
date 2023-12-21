@@ -1,4 +1,5 @@
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
+import { FaIdCard } from "react-icons/fa";
 import index from "../../.././../../theme/foundations/index";
 interface AllInformation {
   mainAddress: string;
@@ -10,6 +11,8 @@ interface AllInformation {
   restaurant: string;
   size: string;
   price: number;
+  DriverName:string;
+  DriverLicensePlate:string;
 }
 export const YourOrderStatusComp = (props: AllInformation) => {
   const PinIcon: React.FC = () => {
@@ -77,10 +80,9 @@ export const YourOrderStatusComp = (props: AllInformation) => {
             <Text color={index.colors.black}>Delivery address</Text>
           </Flex>
           <Flex flexDirection={"column"} m={2}>
-          <Text color={index.colors.black}>{props.mainAddress}</Text>
-          <Text color={index.colors.black}>{props.subAddress}</Text>
+            <Text color={index.colors.black}>{props.mainAddress}</Text>
+            <Text color={index.colors.black}>{props.subAddress}</Text>
           </Flex>
-
         </Box>
       </Flex>
 
@@ -120,6 +122,38 @@ export const YourOrderStatusComp = (props: AllInformation) => {
                   {HideCardNumber}
                 </Text>
               </Flex>
+            </Flex>
+          </Flex>
+        </Box>
+      </Flex>
+
+      <br />
+
+      <Flex display={"flex"} justifyContent={"center"}>
+        <Box
+          borderRadius={10}
+          backgroundColor={index.colors.grey[100]}
+          width={600}
+          minWidth={300}
+          height={"auto"}
+          p={5}
+        >
+          <Flex flexDirection={"row"}>
+            <Box display={"flex"} flexDirection={"row"} gap={2}>
+              <FaIdCard color={"#A533C8"} size={28} />
+              <Text color={index.colors.black}>Driver's Information</Text>
+            </Box>
+          </Flex>
+          <Flex flexDirection={"column"} m={2}>
+            <Flex flexDirection={"row"} gap={2}>
+            <Text color={index.colors.black}>Driver name: </Text>
+
+            <Text color={index.colors.black}>{props.DriverName}</Text>
+            </Flex>
+            <Flex flexDirection={"row"} gap={2}>
+            <Text color={index.colors.black}>License plate: </Text>
+
+            <Text color={index.colors.black}>{props.DriverLicensePlate}</Text>
             </Flex>
           </Flex>
         </Box>
