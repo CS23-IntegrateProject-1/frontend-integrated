@@ -347,7 +347,7 @@ export const GetReservationDetail: FC = () => {
               marginLeft="288px"
               marginTop="-24px"
             >
-              200 Baht
+              {data?.reservations[0]?.Deposit?.deposit_amount} Baht
             </Text>
           </Box>
         )}
