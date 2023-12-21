@@ -1,16 +1,44 @@
 import { Box, Card, Image } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
-import mockP from "../../PF3mock.json";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "../../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
 
-interface PProps {
-  id: number;
+interface PromoSlide {
+  promotionId: number;
   name: string;
-  picP: string;
+  description: string;
+  image_url: string;
 }
 
+
 export const PromoSlide = () => {
-  const P: PProps[] = mockP;
+  const {
+    isLoading: promoSlideLoading,
+    isError: promoSlideError,
+    data: promoSlideData,
+  } = useQuery<PromoSlide[]>({
+    queryKey: ["getPromotionS"], 
+    queryFn: async () => {
+      const { data } = await Axios.get(`/feature3/PromotionHomePage`);
+      return data;
+    },
+  });
+
+  if (promoSlideLoading) {
+    return (
+      <span>
+        <FullPageLoader />
+      </span>
+    );
+  }
+
+  if (promoSlideError) {
+    return <span>An error occurred: </span>;
+  }
+
+
   return (
     <Box overflowX="auto"
     css={{
@@ -26,24 +54,25 @@ export const PromoSlide = () => {
     }} width={"100%"} pt={1}>
       <Box>
         <Box display="flex">
-          {P.map((P, index) => (
+          {promoSlideData.map((PSD) => (
             <Card
-              key={index}
+              key={`${PSD.promotionId}`}
               minW={"300px"}
               maxW="sm"
-              minH={"150px"}
+              minH={"180px"}
               maxH="sm"
               borderRadius="xl"
               marginRight="5"
             >
-              <NavLink to="/IDK_PathAAAAA">
+              <NavLink to={`/promotion/${PSD.promotionId}`}>
                 <Image
-                  src={P.picP}
-                  alt="Promotion_Pic not load"
+                  src={`${import.meta.env.VITE_BACKEND_URL}${PSD.image_url}`}
+                  alt={`Promotion_Pic not load ${PSD.promotionId}`}
                   borderRadius="xl"
                   w="100%"
                   maxW="300px"
-                  h="200px"
+                  h="180px"
+                  objectFit={"cover"}
                 />
               </NavLink>
             </Card>

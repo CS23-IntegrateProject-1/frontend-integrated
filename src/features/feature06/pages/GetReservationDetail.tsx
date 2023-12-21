@@ -82,6 +82,12 @@ export const GetReservationDetail: FC = () => {
     }
   };
 
+  const NavigateToPayment = () => {
+    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/paymentD`;
+    const newPath = originalPath.replace("/reservation-detail", "");
+    navigate(newPath);
+  }
+
   return (
     <Box
       display="flex"
@@ -173,8 +179,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0].User.fname}{" "}
-            {data?.reservations[0]?.User.lname}
+            {data?.reservations[0]?.name}
           </Text>
           <Text
             color="#000"
@@ -198,7 +203,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0]?.User.phone}
+            {data?.reservations[0]?.phone}
           </Text>
           <CalendarIcon
             w={"20px"}
@@ -366,8 +371,27 @@ export const GetReservationDetail: FC = () => {
             >
               Cancel
             </Button>
-            {data?.reservations[0]?.status === "Pending" && data?.reservations[0]?.isPaidDeposit === "Check_in" ? ( 
-              <Link to={`/qrcode/display/${data?.reservations[0].reservationId}`}>
+            {data?.reservations[0]?.status === "Pending" &&
+            data?.reservations[0]?.isPaidDeposit === "Check_in" ? (
+              <Link
+                to={`/qrcode/display/${data?.reservations[0].reservationId}`}
+              >
+                <Button
+                  borderRadius="10px"
+                  width="138px"
+                  height="40px"
+                  backgroundColor="#A533C8"
+                  textColor="white"
+                  fontSize="16px"
+                  fontStyle="normal"
+                  fontWeight="700"
+                  lineHeight="24px"
+                >
+                  Check-in QR
+                </Button>
+              </Link>
+            ) : data?.reservations[0]?.status === "Pending" &&
+              data?.reservations[0]?.isPaidDeposit === "Pending" ? (
               <Button
                 borderRadius="10px"
                 width="138px"
@@ -376,12 +400,12 @@ export const GetReservationDetail: FC = () => {
                 textColor="white"
                 fontSize="16px"
                 fontStyle="normal"
-                fontWeight="700"
+                fontWeight="400"
                 lineHeight="24px"
+                onClick={() => NavigateToPayment()}
               >
-                Check-in QR
+                Pay deposit
               </Button>
-            </Link>
             ) : (
               ""
             )}

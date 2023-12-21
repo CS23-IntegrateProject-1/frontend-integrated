@@ -63,7 +63,7 @@ export const ArticlesPage = () => {
   if (articles.error instanceof Error) {
     return <div>An error occurred: {articles.error.message}</div>;
   }
-
+  console.log(articles.data)
   return (
     <Box
       display={"flex"}
@@ -119,7 +119,7 @@ export const ArticlesPage = () => {
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      Image={article.Image}
+                      Images={article.Images}
                       Like={article.Like}
                       Comment={article.Comment}
                       created_date={article.created_date}
@@ -130,7 +130,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
-                      user={article.user}
+                      User={article.User}
                     />
                   );
                 })}
@@ -142,7 +142,7 @@ export const ArticlesPage = () => {
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      Image={article.Image}
+                      Images={article.Images}
                       Like={article.Like}
                       Comment={article.Comment}
                       created_date={article.created_date}
@@ -153,7 +153,7 @@ export const ArticlesPage = () => {
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
-                      user={article.user}
+                      User={article.User}
                     />
                   );
                 })}

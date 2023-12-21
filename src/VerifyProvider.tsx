@@ -41,6 +41,7 @@ const VerifyProvider: FC<{
 		fetchVerifyStatus();
 	}, []);
 
+	// Wait until the verify api is done
 	return isLoaded ? <RouterProvider router={deliveredRoutes} /> : <></>;
 };
 

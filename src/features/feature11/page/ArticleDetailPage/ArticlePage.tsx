@@ -23,7 +23,6 @@ import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import PhotoDisplayer from "../../components/PhotoDisplayer";
 
 export const ArticlePage = () => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const commentDisclosure = useDisclosure();
   const shareDisclosure = useDisclosure();
   const { articleId } = useParams<{ articleId: string }>();
@@ -39,7 +38,7 @@ export const ArticlePage = () => {
   if (article.error instanceof Error) {
     return <div>An error occurred: {article.error.message}</div>;
   }
-
+  console.log(article.data);
   const handleDeleteLike = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
@@ -72,29 +71,29 @@ export const ArticlePage = () => {
     shareDisclosure.onOpen();
   };
   return (
-    <Box 
+    <Box
     // display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}
     >
-
       {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
         {/* <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box> */}
-        <Image width={"45px"} height={"45px"} mr={"1em"} src={import.meta.env.BACKEND_URL + article.data?.user.profile_picture || ""}/>
+        <Image
+          width={"45px"}
+          height={"45px"}
+          mr={"1em"}
+          src={
+            import.meta.env.BACKEND_URL + article.data?.User.profile_picture ||
+            ""
+          }
+        />
         <Box>
-          <Text style={TextStyle.h3}>{article.data?.user.username}</Text>
+          <Text style={TextStyle.h3}>{article.data?.User.username}</Text>
           <Text style={TextStyle.body3}>{article.data?.created_date}</Text>
         </Box>
       </Box>
-      {/* <Box
-        display={"flex"}
-        minH={"200px"}
-        minW={"250px"}
-        mb={"1em"}
-        bg={"red"}
-      ></Box> */}
       <Box>
-        <PhotoDisplayer images={article.data?.Image || []} />
+        <PhotoDisplayer images={article.data?.Images || []} />
       </Box>
 
       <Box minH={"80px"} mb={"2em"}>

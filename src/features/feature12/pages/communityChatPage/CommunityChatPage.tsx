@@ -1,8 +1,9 @@
-import { Box,Card,Flex,Stack,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
+import { Avatar, Box,Card,Flex,Stack,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
 import { useConversations } from "../../context/ConversationProvider";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { PConversation } from "../../components/PConversation";
 import { CConversation } from "../../components/CConversation";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 
 interface Recipient {
   member: {
@@ -39,7 +40,7 @@ interface CConversation {
 export const CommunityChatPage = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const { Pconversations, Cconversations, openConversation,selectedConversation,setSelectedConversation,setMessages } = useConversations();
-
+  const user = useContext(UserContext)
   const handleCardClick = (conversation: PConversation | CConversation , index: number): React.MouseEventHandler<HTMLDivElement> => {
     return () => {
       setSelectedCard(index);
@@ -60,7 +61,7 @@ export const CommunityChatPage = () => {
   console.log(selectedConversation, "selectedConversation")
   return (
     <Box display="flex" height={"83vh"}>
-      <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"}> 
+      <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"} borderRight={"1px dotted"}> 
         <Tabs isFitted>
           <TabList >
             <Tab onClick={restartLog}>Private Chat</Tab>
@@ -69,18 +70,23 @@ export const CommunityChatPage = () => {
           <TabPanels>
             <TabPanel>
               <Stack>
-                {Pconversations.map((conversation : PConversation, index : number) => (
-                  <Card
-                    key={index}
-                    onClick={handleCardClick(conversation,index)}
-                    background={selectedCard === index ? "#DEBEF6" : "transparent"}>
-                    <Flex margin={"10px"}>
-                      <Text color={"white"}>
-                        {conversation.group_name}
-                      </Text>
-                    </Flex>
-                  </Card>
-                ))}
+                {Pconversations.map((conversation : PConversation, index : number) => {
+                  const users =conversation.group_name.split(",");
+                  return(
+                    <Card
+                      key={index}
+                      onClick={handleCardClick(conversation,index)}
+                      background={selectedCard === index ? "#DEBEF6" : "transparent"}>
+                      <Flex marginY={"10px"}>
+                        <Avatar src={conversation.group_profile ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${conversation.group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
+                        <Text color={"white"} alignSelf={"center"}>
+                          {users[0]=== user.username? users[1] : users[0] }
+                        </Text>
+                      </Flex>
+                    </Card>
+                  )
+                }
+                )}
               </Stack>
             </TabPanel>
             <TabPanel>
@@ -91,6 +97,7 @@ export const CommunityChatPage = () => {
                     onClick={handleCardClick(conversation,index)}
                     background={selectedCard === index ? "#DEBEF6" : "transparent"}>
                       <Flex margin={"10px"}>
+                        <Avatar src={conversation.community_group_profile ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${conversation.community_group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
                         <Text color={"white"}>
                           {conversation.roomname}
                         </Text>

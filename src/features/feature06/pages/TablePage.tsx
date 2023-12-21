@@ -123,7 +123,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/reservation-detail/${branchId}/${venueId}?count=${count}`}>
+      <Link to={`/reservation-detail/${venueId}/${branchId}?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}
