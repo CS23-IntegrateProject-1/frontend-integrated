@@ -38,7 +38,8 @@ export const ChatBotPage: FC = () => {
     };
     
     // Generate a new sessionId when the page loads
-    const sessionId = user.username;
+    const sessionId = user.addId;
+    // console.log("Session ID: " + user.username);
 
     const [message,setMessage] = useState<string>("");
     const [messages, setMessages] = useState<Array<{sender: string,consequences:string | undefined, text: string}>>([]);
