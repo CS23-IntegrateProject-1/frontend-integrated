@@ -21,7 +21,7 @@ export const GroupAva: FC<GroupMemberProps> = (props: GroupMemberProps) => {
             <Box>
               {/* {friend.avatar} */}
               {friend.avatar !== null ? (
-                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${friend.avatar}`}  />
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${friend.avatar}`}  />
               ) : (
                 <Avatar src="https://bit.ly/broken-link"  />
               )}
