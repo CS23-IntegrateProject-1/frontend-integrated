@@ -1,6 +1,7 @@
 import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 interface OrderDetail {
   restaurantName: string;
@@ -8,6 +9,7 @@ interface OrderDetail {
   price: number;
   Driver: string;
   licensePlate: string;
+  branchId: number;
 }
 
 export const Completed=(props: OrderDetail)=> {
@@ -48,9 +50,11 @@ export const Completed=(props: OrderDetail)=> {
               {props.OrderDate}
             </Text>
             <Flex alignItems={"flex-end"} justifyContent={"flex-end"} mt={5}>
+            <NavLink to={`/ReviewDelivery/${props.branchId}`}>
             <Button variant={"unstyle"} backgroundColor={index.colors.brand[200]} borderRadius={10} minWidth={100}>
                 Review
             </Button>
+            </ NavLink>
             </Flex>
            
           </Box>

@@ -30,6 +30,7 @@ function CompletedStatusPage(){
           Driver={order.driver_note}
           OrderDate={new Date(order.order_date).toLocaleDateString()}
           licensePlate={order.LicensePlate} // Make sure to update this based on your data structure
+          branchId={order.branchId}
         />
         ))}
     </Box>
