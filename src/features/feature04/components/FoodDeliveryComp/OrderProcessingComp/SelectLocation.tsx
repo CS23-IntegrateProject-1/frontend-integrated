@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-interface SavedLocationItem {
+export interface SavedLocationItem {
   userId:number;
   name:string;
   createdAt:Date;
@@ -39,8 +39,10 @@ interface SavedLocationInterface{
 }
 
 // const queryClient = new QueryClient()
-
-export const SelectLocation = () => {
+interface SelectLocationProps {
+  onLocationSelect: (selectedLocation: SavedLocationItem | undefined) => void;
+}
+export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) => {
   const [value, setValue] = useState("1");
   // const [selectedValue, setSelectedValue] = useState("1");
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -55,6 +57,7 @@ export const SelectLocation = () => {
       return result.data;
     },
   });
+  
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -90,15 +93,20 @@ export const SelectLocation = () => {
   };
 
   const handleApply = () => {
+
+   
+    
     // Find the selected location based on the value
-    const selectedLocation = dataSaved?.location.find(loc => loc.savedLocId.toString() === value);
+    const selectedLocation = dataSaved?.location.find(
+      (loc) => loc.savedLocId.toString() === value
+    );
     console.log("selectedLocation")
     console.log(selectedLocation)
     // Update the address and district/subdistrict values
     setName(`${selectedLocation?.name}`);
     setAddress(`${selectedLocation?.address}`);
     setDistrictSubdistrict(`${selectedLocation?.district}, ${selectedLocation?.sub_district}, ${selectedLocation?.province}, ${selectedLocation?.postcode}`);
-
+    onLocationSelect(selectedLocation);
     // Close the modal
     onClose();
   };
