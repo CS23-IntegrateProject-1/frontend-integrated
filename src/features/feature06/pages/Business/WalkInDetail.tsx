@@ -97,7 +97,9 @@ export const WalkInDetail = () => {
         <RDetailCard
           name={data?.name}
           star={data?.score}
-          location={data?.Location.address} image_url={data?.Venue_photo}/>
+          location={data?.Location.address}
+          image_url={data?.Venue_photo}
+        />
         <Box
           width="393px"
           height="480px"
@@ -168,7 +170,9 @@ export const WalkInDetail = () => {
             </Text>
             <Box mt={"5px"}>
               <Input
-                placeholder="enter phone no."
+                required
+                type="number"
+                placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
                 textColor={"black"}
@@ -176,8 +180,20 @@ export const WalkInDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onKeyDown={(e) => {
+                  const allowedKeys = [8, 37, 39, 46]; // Backspace, Left Arrow, Right Arrow, Delete
+                  if (!allowedKeys.includes(e.keyCode)) {
+                    const isNumeric = /^[0-9]*$/;
+                    if (!isNumeric.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }
+                }}
                 onChange={(e) => {
-                  setPhoneNumber(e.target.value);
+                  const inputValue = e.target.value;
+                  if (inputValue.length <= 10) {
+                    setPhoneNumber(inputValue);
+                  }
                 }}
               />
             </Box>
