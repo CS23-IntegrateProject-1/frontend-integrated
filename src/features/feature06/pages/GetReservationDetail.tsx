@@ -88,6 +88,11 @@ export const GetReservationDetail: FC = () => {
     navigate(newPath);
   }
 
+  const handleReview = () => {
+    const path = `/ReviewReservation/${data?.reservations[0].branchId}`;
+    navigate(path);
+  };
+
   return (
     <Box
       display="flex"
@@ -400,7 +405,7 @@ export const GetReservationDetail: FC = () => {
                 textColor="white"
                 fontSize="16px"
                 fontStyle="normal"
-                fontWeight="400"
+                fontWeight="700"
                 lineHeight="24px"
                 onClick={() => NavigateToPayment()}
               >
@@ -427,6 +432,24 @@ export const GetReservationDetail: FC = () => {
             onClick={() => confirmCheckin()}
           >
             Confirm Check-in
+          </Button>
+        ) : data?.reservations[0]?.status === "Check_out" &&
+          data?.reservations[0]?.isReview === false ? (
+          <Button
+            borderRadius="10px"
+            width="128px"
+            height="36px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="600"
+            lineHeight="24px"
+            marginTop="15px"
+            marginLeft="133px"
+            onClick={handleReview}
+          >
+            Review
           </Button>
         ) : (
           ""
