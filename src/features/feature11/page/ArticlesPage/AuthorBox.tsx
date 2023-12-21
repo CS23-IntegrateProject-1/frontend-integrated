@@ -17,7 +17,7 @@ export const AuthorBox: FC<ArticlesPageProps> = (props) => {
       borderColor="#A533C8"
       p={"1em"}
       onClick={() => {
-        navigate(`/article/${props.articleId}`);
+        navigate(`/article/userarticles/${props.userId}`);
       }}
     >
       <Box
