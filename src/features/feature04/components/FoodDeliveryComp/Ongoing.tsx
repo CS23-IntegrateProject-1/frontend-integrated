@@ -52,7 +52,7 @@ function Ongoing(props: OrderDetail) {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              {props.restaurantName }
+              {props.restaurantName}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
@@ -64,14 +64,14 @@ function Ongoing(props: OrderDetail) {
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              ฿ {props.price}
+              {props.price}
             </Text>
             <Flex flexDirection={"row"}>
-              <Text>Driver : </Text>
+              <Text>Driver:</Text>
               <Text>{props.Driver}</Text>
             </Flex>
             <Flex flexDirection={"row"}>
-              <Text>License Plate : </Text>
+              <Text>License Plate: </Text>
               <Text> {props.licensePlate}</Text>
             </Flex>
 

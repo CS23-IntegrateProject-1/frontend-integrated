@@ -1,4 +1,4 @@
-import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
+import { Box,Flex,Text,IconButton } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
 import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
@@ -41,9 +41,12 @@ export const CanceledMyDelivery=()=>{
               Date: 05/11/23
             </Text>
             <Flex alignItems={"flex-end"} justifyContent={"flex-end"} mt={5}>
-            <Button variant={"unstyle"} borderRadius={10} minWidth={100}>
-                Cancled
-            </Button>
+              <Text fontSize={index.textStyles.body1.fontSize}
+                fontWeight={index.textStyles.body3.fontWeight}
+                color={index.colors.red[300]}
+              >
+                Canceled
+              </Text>
             </Flex>
            
           </Box>
