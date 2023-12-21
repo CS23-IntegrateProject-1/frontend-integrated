@@ -104,11 +104,18 @@ export const FriendMain = () => {
       .then((response) => {
         if (response.status == 200) {
           setGroupData(response.data);
-          groupData.map((item) => {
-            console.log(item.group_name);
-            console.log(item.group_id);
-            console.log(item.group_avatar);
-          });
+          // console.log('hello');
+          // groupData.map((item) => {
+          //   console.log('testing')
+          //   if(item.is_secret_group == false){
+          //     length++;
+          //     console.log('hel', length)
+          //   }
+          //   setCount(length);
+          //   console.log(count, 'count')
+
+          // });
+
         }
       })
       .catch((error) => {
@@ -116,6 +123,7 @@ export const FriendMain = () => {
       });
 
   }, []);
+  
   useEffect(() => {
     if (newGroup) {
       //group list
@@ -135,7 +143,7 @@ export const FriendMain = () => {
         });
       //setGroupData([...groupData, newGroup]);
     }
-  }, [ ]);
+  }, []);
   //click frilist to show overlay
   const handleFriClick = (id: number) => {
     setSelectedFrigateId(id);
@@ -182,7 +190,9 @@ export const FriendMain = () => {
   const [friendname, setFriendname] = useState("");
   const [friendImg, setFriendImg] = useState("");
   const [friendId, setFriendId] = useState<number>();
-  //const [isFriend, setIsFriend] = useState(false);
+  const filteredGroups = groupData.filter((item) => item.is_secret_group === false);
+  const filteredGroupsLength = filteredGroups.length;
+  console.log(filteredGroupsLength);
 
   console.log(username);
   //navigate to community chat
@@ -241,7 +251,7 @@ export const FriendMain = () => {
           <Box mr={{ lg: "15%", base: "10%" }}>
             {/* {profileData?.avatar} */}
             {profileData?.avatar !== null ? (
-              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData?.avatar}`} size={"lg"} />
+              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${profileData?.avatar}`} size={"lg"} />
             ) : (
               <Avatar src="https://bit.ly/broken-link" size={"lg"} />
             )}
@@ -357,7 +367,9 @@ export const FriendMain = () => {
                           flex="1"
                           textAlign="left"
                         >
-                          Groups {groupData.length}
+                          
+                          {/* Groups {groupData.length} */}
+                          Groups {filteredGroupsLength}
                         </Box>
                         <AccordionIcon
                           color={"black"}
@@ -374,7 +386,7 @@ export const FriendMain = () => {
                       {/* loop group list here ***/}
                       
                       {groupData
-                      .filter((item) => item.is_secret_group !== true)
+                      .filter((item) => item.is_secret_group == false)
                       .map((item) => (
                         <NavLink to="/communitychat" state={item.group_id}>
                         <Flex
@@ -394,7 +406,7 @@ export const FriendMain = () => {
                           >
                             <Box>
                               {item.group_avatar !== null ? (
-                                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.group_avatar}`}size={"md"} />
+                                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.group_avatar}`}size={"md"} />
                               ) : (
                                 <Avatar
                                   src="https://bit.ly/broken-link"
@@ -457,7 +469,7 @@ export const FriendMain = () => {
                         >
                           <Box>
                             {item.avatar !== null ? (
-                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.avatar}`}size={"md"} />
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.avatar}`}size={"md"} />
                                 ) : (
                                   <Avatar
                                     src="https://bit.ly/broken-link"
@@ -512,7 +524,7 @@ export const FriendMain = () => {
               {/* {friendImg}
               <Text color={'black'}>{friendImg}</Text> */}
               {friendImg !== null ? (
-                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${friendImg}`} size={"xl"} />
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${friendImg}`} size={"xl"} />
               ) : (
                 <Avatar src="https://bit.ly/broken-link" size={"xl"} />
               )}
