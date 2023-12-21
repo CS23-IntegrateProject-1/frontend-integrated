@@ -9,13 +9,6 @@ import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
-// import { FC, useRef } from "react";
-
-// interface ShareModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   url: string;
-// }
 import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
 import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
