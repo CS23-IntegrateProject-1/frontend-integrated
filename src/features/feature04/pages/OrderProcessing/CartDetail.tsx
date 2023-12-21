@@ -4,8 +4,28 @@ import { DeliveryTime } from "../../components/FoodDeliveryComp/CartDetail/Deliv
 import { InCartMenu } from "../../components/FoodDeliveryComp/OrderProcessingComp/InCartMenu";
 import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingComp/FoodStatus";
 import index from "../../../../theme/foundations/index";
+import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
+
 
 export const CartDetail = () => {
+  const [venue, setVenue] = useState<string>(""); // Define total state
+  const [branchName, setBranchName] = useState<string>(""); // Define total state
+
+  useEffect(() => {
+    const fetchBranchName = async () => {
+      try {
+        const response = await Axios.get("/feature4/branch/1/1");
+        console.log(response.data);
+        setBranchName(response.data.branch.branch_name);
+        setVenue(response.data.venue.name);
+      } catch (error) {
+        console.log("Error fetching branch name: ", error);
+      }
+    }
+    fetchBranchName();
+  }, []);
+  
   return (
     <Box>
       <FoodStatus />
@@ -19,7 +39,7 @@ export const CartDetail = () => {
           Cart
         </Text>
       </Flex>
-      <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)" />
+      <CartDetailNavbar RestaurantName={venue} BranchName={branchName} />
       <DeliveryTime />
       <InCartMenu />
     </Box>
