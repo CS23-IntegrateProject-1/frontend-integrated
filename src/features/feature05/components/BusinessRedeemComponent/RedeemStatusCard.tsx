@@ -10,7 +10,7 @@ interface IRedeemCard {
 export const RedeemStatusCard: FC<{ data: IRedeemCard }> = ({ data }) => {
   const navigate = useNavigate();
   const handleClickEdit = () => {
-    navigate("/business/redeem/edit/:redeemId");
+    navigate(`/business/redeem/edit/${data.redeemId}`);
   };
   //const status = data.isApprove;
   const img = data.image_url;
@@ -47,13 +47,14 @@ export const RedeemStatusCard: FC<{ data: IRedeemCard }> = ({ data }) => {
           {status}
         </Box> */}
         <Box pos={"absolute"} top={2} right={1} borderRadius={10} px={"10px"}>
-          {status === "Rejected" && (
-            <Icon
+          {/* {status === "Rejected" && (
+            
+          )} */}
+          <Icon
               as={FaRegEdit}
               color={"#5F0DBB"}
               onClick={handleClickEdit}
-            ></Icon>
-          )}
+          ></Icon>
         </Box>
       </Box>
     </Box>

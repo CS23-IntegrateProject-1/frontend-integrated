@@ -58,14 +58,6 @@ export const AdvertisementIDEditPage = () => {
     advertisementPlan: 0,
   });
 
-
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFile(e.target.files[0]);
-  //     const previewURL = URL.createObjectURL(e.target.files[0]);
-  //     setImagePreview(previewURL);
-  //   }
-  // };
   const handleCloseImage = () => {
     setImagePreview(null);
   };

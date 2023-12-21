@@ -3,26 +3,21 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
 
-export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
-  name,
-  description,
-  advertisementId,
-}) => {
+export const AdvertisementCard: React.FC<IAdvertisementCardProp> & {
+  isApprove: string;
+} = ({ name, description, advertisementId, isApprove }) => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/admin/advertisement/${advertisementId}`);
-  };
-  return (
-    // <Box
-    //   display={"flex"}
-    //   flexDirection={"column"}
-    //   justifyContent={"center"}
-    //   alignItems={"center"}
-    //   width={"100%"}
 
-    //   paddingBottom={4}
-    // >
-    //   {/* AdvertisementCard */}
+  const handleClick = () => {
+    console.log(isApprove);
+    if (isApprove === "In_progress") {
+      navigate(`/admin/advertisement/${advertisementId}`);
+    } else{
+      navigate(`/admin/advertisement/view/${advertisementId}`);
+    } 
+  };
+
+  return (
     <Card
       width="90%"
       minWidth="250px"
@@ -40,12 +35,11 @@ export const AdvertisementCard: React.FC<IAdvertisementCardProp> = ({
         <Box>
           <Text pt="2" fontSize="md">
             Name: {name}
-            <br />
+            <br/>
             Description: {description}
           </Text>
         </Box>
       </CardBody>
     </Card>
-    // </Box>
   );
 };

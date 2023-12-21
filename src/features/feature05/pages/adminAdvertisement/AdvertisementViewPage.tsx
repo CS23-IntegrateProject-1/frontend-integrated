@@ -32,7 +32,7 @@ import IAd_business from "../../../../interfaces/Advertisement/IAd_business.inte
 import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
 import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisement";
 
-export const AdvertisementIDPage = () => {
+export const AdvertisementViewPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState<IAd_business>();
   const id = Number(useParams<{ id: string }>().id);
@@ -227,62 +227,6 @@ export const AdvertisementIDPage = () => {
         </Box>
       </Box>
 
-      <Box
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"row"}
-        paddingBottom={3}
-        justifyContent={"space-evenly"}
-      >
-        <Button
-          colorScheme="gray"
-          variant="solid"
-          width="40%"
-          color="#A533C8"
-          onClick={handleClickReject}
-        >
-          Reject
-        </Button>
-
-        <Button
-          backgroundColor="#A533C8"
-          variant="solid"
-          width="40%"
-          color="white"
-          onClick={onOpen}
-        >
-          Accept
-        </Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-            <ModalHeader mt={3}>The request has been approved</ModalHeader>
-            <ModalCloseButton />
-            <ModalFooter>
-              <Button
-                bgColor={"white"}
-                color={"#200944"}
-                mr={5}
-                width="30%"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                bgColor={"#A533C8"}
-                mr={3}
-                onClick={handleClickConfirm}
-                color={"white"}
-                width="30%"
-              >
-                Confirm
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Box>
     </Box>
   );
 };
