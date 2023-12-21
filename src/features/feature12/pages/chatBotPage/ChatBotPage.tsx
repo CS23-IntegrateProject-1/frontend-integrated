@@ -11,7 +11,7 @@ import {
   } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState, useContext, useEffect} from "react";
+import { FC, useState, useContext} from "react";
 import { ClientMsg } from "../../components/ClientMsg";
 import { Axios } from "../../../../AxiosInstance";
 import { Form } from "react-router-dom";
@@ -69,11 +69,11 @@ export const ChatBotPage: FC = () => {
     //         console.log(res.data);
     //     })
     // }
-    useEffect(() => {
-      Axios.get("/feature12/fetchData").then((res) => {
-            console.log(res.data);
-        })
-    }),[]
+    // useEffect(() => {
+    //   Axios.get("/feature12/fetchData").then((res) => {
+    //         console.log(res.data);
+    //     })
+    // }),[sessionId];
 
     return (
     <>
@@ -94,7 +94,7 @@ export const ChatBotPage: FC = () => {
                     color={"brand.200"} 
                     p={3}>
                         {/* IMPT need to get user's name with Cookies */}
-                Hi there <b>{user.username}</b> ! How may I help you today? 
+                Hi there <b>{user.fname + "  " +user.lname}</b> ! How may I help you today? 
                 </Text>
             </Box>
             <Box 
