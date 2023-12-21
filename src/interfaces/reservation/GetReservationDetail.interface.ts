@@ -33,6 +33,7 @@ export interface IGetReservationDetailData {
       reservationId: number;
       depositId: number;
       isPaidDeposit: string;
+      branchId: number;
       phone: string;
       User: {
         username: string;
@@ -85,6 +86,7 @@ export const initialStateData: IGetReservationDetailData = {
       reservationId: 0,
       depositId: 0,
       isPaidDeposit: "",
+      branchId: 0,
       phone: "",
       User: {
         username: "",
