@@ -48,7 +48,6 @@ export const MIKForm = () => {
   const [time, setTime] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
   const toast = useCustomToast();
 
   useEffect(() => {
@@ -85,16 +84,9 @@ export const MIKForm = () => {
         time == "" ||
         fname == "" ||
         lname == "" ||
-        email == "" ||
         phonenumber == ""
       ) {
         toast.warning("Please fill in all information");
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        toast.warning("Please enter a valid email address");
-        return;
       }
 
       const response = await Axios.post(`/api/mik/reserve`, {
@@ -104,7 +96,6 @@ export const MIKForm = () => {
         fname: fname,
         lname: lname,
         phone: phonenumber,
-        email: email,
         venueId: venueIdInt,
         branchId: branchIdInt,
       });
@@ -142,7 +133,7 @@ export const MIKForm = () => {
         >
           <Box
             width="369px"
-            height="440px"
+            height="380px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -243,35 +234,6 @@ export const MIKForm = () => {
                 height={"25px"}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
-                }}
-              />
-            </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="700"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop={11}
-            >
-              E-mail :
-            </Text>
-            <Box mt={"5px"}>
-              <Input
-                type="email"
-                required
-                placeholder="enter E-mail"
-                htmlSize={4}
-                backgroundColor={"white"}
-                textColor={"black"}
-                borderStyle={"black"}
-                ml={"34px"}
-                width="163px"
-                height={"25px"}
-                onChange={(e) => {
-                  setEmail(e.target.value);
                 }}
               />
             </Box>
