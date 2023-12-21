@@ -16,6 +16,7 @@ import { DeliveryTime } from "../../components/FoodDeliveryComp/CartDetail/Deliv
 import { OrderSummary } from "../../components/FoodDeliveryComp/OrderProcessingComp/OrderSummary";
 import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingComp/FoodStatus";
 import index from "../../../../theme/foundations/index";
+import { useNavigate } from "react-router-dom";
 // interface Order {
 //     amount: number;
 //     restaurant: string;
@@ -39,11 +40,17 @@ const orders: Order[] = [
 
 export const YourOrder = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const navigate = useNavigate();
+  const navToOngoing = () => {
+    navigate("/map/food-delivery/ongoing");
+  };
   return (
     <Box>
       <FoodStatus />
-      <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)" BranchName=""/>
+      <CartDetailNavbar
+        RestaurantName="MK Restaurant (Big C Rama 4)"
+        BranchName=""
+      />
 
       <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Box
@@ -112,6 +119,7 @@ export const YourOrder = () => {
               variant={"unstyle"}
               backgroundColor={index.colors.brand[200]}
               color={index.colors.white}
+              onClick={navToOngoing}
             >
               Done
             </Button>
