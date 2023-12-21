@@ -2,7 +2,15 @@ import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
 
-export const Completed=()=> {
+interface OrderDetail {
+  restaurantName: string;
+  OrderDate: string;
+  price: number;
+  Driver: string;
+  licensePlate: string;
+}
+
+export const Completed=(props: OrderDetail)=> {
   return <Box>
      <Box>
       <Flex justifyContent={"center"}>
@@ -31,13 +39,13 @@ export const Completed=()=> {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              MK Roast DuckCCC
+              {props.restaurantName}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              Date: 05/11/23
+              {props.OrderDate}
             </Text>
             <Flex alignItems={"flex-end"} justifyContent={"flex-end"} mt={5}>
             <Button variant={"unstyle"} backgroundColor={index.colors.brand[200]} borderRadius={10} minWidth={100}>

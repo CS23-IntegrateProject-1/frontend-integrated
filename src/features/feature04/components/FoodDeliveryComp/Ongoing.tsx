@@ -3,7 +3,7 @@ import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 interface OrderDetail {
-  menuName: string;
+  restaurantName: string;
   OrderDate: string;
   price: number;
   Driver: string;
@@ -52,7 +52,7 @@ function Ongoing(props: OrderDetail) {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              {props.menuName}
+              {props.restaurantName }
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
@@ -64,14 +64,14 @@ function Ongoing(props: OrderDetail) {
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              {props.price}
+              ฿ {props.price}
             </Text>
             <Flex flexDirection={"row"}>
-              <Text>Driver:</Text>
+              <Text>Driver : </Text>
               <Text>{props.Driver}</Text>
             </Flex>
             <Flex flexDirection={"row"}>
-              <Text>License Plate: </Text>
+              <Text>License Plate : </Text>
               <Text> {props.licensePlate}</Text>
             </Flex>
 
