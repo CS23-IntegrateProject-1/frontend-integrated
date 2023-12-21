@@ -76,7 +76,7 @@ export const CartPage = () => {
               foodName={item.name}
               description={item.description}
               price={item.price}
-              imageUrl={item.menuId !== null ? item.image : item.image_url}
+              imageUrl={item.image}
               amount={item.quantity}
               type={item.menuId !== null ? 'Menu' : 'Set'}
             />

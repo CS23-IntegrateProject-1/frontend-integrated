@@ -2,6 +2,7 @@ import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
 import { PaymentHistory } from "./pages/Payment/PaymentHistory";
 import { DeliveryPayment } from "./pages/Customer/DeliveryPayment";
 import { SelectPaymentForCheckout } from "./pages/Business/SelectPaymentForCheckout";
+import { SelectPaymentForPromotionOrAdvertisement } from "./pages/NotificationBusinessSide/SelectPaymentForPromotionOrAdvertisement";
 import { Accounting } from "./pages/Account/Accounting";
 import { Checkbill } from "./pages/Account/Checkbill";
 import { Timestamp } from "./pages/Account/Timestamp";
@@ -29,6 +30,10 @@ export const FeatureBusiness08Routes = () => {
 		{
 			path: "/business/checkout/:venueId",
 			element: <SelectPaymentForCheckout />,
+		},
+		{
+			path: "/business/promotionadvertisement/:venueId",
+			element: <SelectPaymentForPromotionOrAdvertisement />,
 		},
 		{
 			path: "/business/qr-payment/:venueId",
