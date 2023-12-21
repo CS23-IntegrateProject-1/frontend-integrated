@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import DateSelection from '../Components/DateSelection'
 import { Box, Image, Text , useMediaQuery} from '@chakra-ui/react';
-import SearchBar from '../components/SearchBar'
-import NearestCinemas from '../components/NearestCinemas'
+import SearchBar from '../Components/SearchBar'
+import NearestCinemas from '../Components/NearestCinemas'
 import { Axios } from '../../../AxiosInstance';
 
 interface Movie {

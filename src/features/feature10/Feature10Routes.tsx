@@ -19,10 +19,10 @@ interface Ticket {
 const ticketMock: Ticket[] = [
   {
     id: 1,
-    movieName: 'Interstellar',
-    dateAndTime: '15 November 2023 | 12:00 PM',
-    theatreName: 'Harmoni Cineplex KMUTT',
-    cinemaName: 'Cinema 9 | ENG',
+    movieName: "Interstellar",
+    dateAndTime: "15 November 2023 | 12:00 PM",
+    theatreName: "Harmoni Cineplex KMUTT",
+    cinemaName: "Cinema 9 | ENG",
     seatAmount: 5,
     // Add more fields as needed
   },
@@ -39,29 +39,29 @@ export const Feature10Routes = () => {
       path: "/showtimes/:movieId",
       element: <ShowTime />,
     },
-    { 
-      path: "/event/:eventId", 
-      element: "ElementPlaceHolder" 
+    {
+      path: "/event/:eventId",
+      element: "ElementPlaceHolder",
     },
-    { 
-      path: "/cinemaDetails/:theaterId", 
-      element: <CinemaDetailPage /> 
+    {
+      path: "/cinemaDetails/:theaterId",
+      element: <CinemaDetailPage />,
     },
     {
       path: "/payment",
-      element: <PaymentPage />
+      element: <PaymentPage />,
     },
     {
       path: "/paymentSuccess",
-      element: <PaymentSuccess />
+      element: <PaymentSuccess />,
     },
     {
-      path: '/screen/:filmId/:date/:showId/:theaterId',
-      element: <ScreenPage />
+      path: "/screen/:theaterId/:filmId/:showId",
+      element: <ScreenPage />,
     },
     {
       path: "/ticketHistory",
-      element: <TicketHistory ticketHistory={ticketMock} />
-    }
+      element: <TicketHistory ticketHistory={ticketMock} />,
+    },
   ];
 };

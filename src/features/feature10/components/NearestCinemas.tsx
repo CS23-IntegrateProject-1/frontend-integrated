@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Text, Button, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 interface NearestCinemasProps {
   cinemas: {
@@ -11,11 +12,12 @@ interface NearestCinemasProps {
 }
 
 const NearestCinemas: React.FC<NearestCinemasProps> = ({ cinemas }) => {
+  const navigate = useNavigate();
   const [clickedShowtime, setClickedShowtime] = useState<string | null>(null);
 
   const handleShowtimeClick = (showtime: string) => {
     setClickedShowtime(showtime);
-    // Add your additional logic or actions here
+    
   };
 
   return (
