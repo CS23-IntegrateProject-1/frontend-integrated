@@ -28,6 +28,13 @@ interface IData {
     longtitude: string;
     address: string;
   };
+  Deposit: [
+    {
+      deposit_amount: string;
+      depositId: number;
+      venueId: number;
+    }
+  ];
 }
 
 interface IPhotoData {
@@ -198,6 +205,7 @@ export const ReservationDetail = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="enter phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -340,7 +348,7 @@ export const ReservationDetail = () => {
             marginLeft="288px"
             marginTop="-24px"
           >
-            200 Baht
+            {data?.Deposit[0].deposit_amount} Baht
           </Text>
           <Box
             width="360px"

@@ -27,6 +27,13 @@ interface IData {
     longtitude: string;
     address: string;
   };
+  Deposit: [
+    {
+      deposit_amount: string;
+      depositId: number;
+      venueId: number;
+    }
+  ];
 }
 
 interface IPhotoData {
@@ -365,7 +372,7 @@ export const MIKForm = () => {
             marginLeft="288px"
             marginTop="-24px"
           >
-            200 Baht
+            {data?.Deposit[0].deposit_amount} Baht
           </Text>
           <Box
             width="360px"
