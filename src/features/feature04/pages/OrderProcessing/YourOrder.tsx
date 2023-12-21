@@ -43,7 +43,7 @@ export const YourOrder = () => {
   return (
     <Box>
       <FoodStatus />
-      <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)" />
+      <CartDetailNavbar RestaurantName="MK Restaurant (Big C Rama 4)" BranchName=""/>
 
       <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Box
