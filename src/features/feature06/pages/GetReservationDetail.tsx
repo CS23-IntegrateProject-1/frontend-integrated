@@ -76,7 +76,7 @@ export const GetReservationDetail: FC = () => {
   };
 
   const NavigateToPayment = () => {
-    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/paymentD`;
+    const originalPath = `/reservation-detail/venue/paymentD/${data?.reservations[0].reservationId}`;
     const newPath = originalPath.replace("/reservation-detail", "");
     navigate(newPath);
   }
