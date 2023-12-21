@@ -2,15 +2,25 @@ import { Flex, Text, VStack, HStack } from "@chakra-ui/react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../../../AxiosInstance";
 
-export const VoucherCard: React.FC = () => {
+interface VoucherCardProps {
+  id: string;
+  voucherName: string;
+  description: string;
+  onClick?: () => void;
+}
+
+export const VoucherCard: React.FC<VoucherCardProps> = ({id,voucherName, description}) => {
   const navigate = useNavigate();
-  const mockData = {
-    voucherName: "Sample Voucher",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  };
-  const handleUseNowClick = () => {
-    navigate(`/venue/receipt?coupon=${mockData.voucherName}`);
+  // const mockData = {
+  //   voucherName: "Sample Voucher",
+  //   description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  // };
+  const handleUseNowClick = async() => {
+    const response = await Axios.post("/feature7/selectVoucher", {voucherId: id});
+    console.log("Voucher selected:", response.data);
+    navigate(`/venue/receipt?coupon=${voucherName}`, { state: { data: response.data } });
   };
 
   return (
@@ -24,10 +34,10 @@ export const VoucherCard: React.FC = () => {
     >
       <VStack align="start" flex="1">
         <Text {...textStyles.h2} lineHeight="1.5">
-          {mockData.voucherName}
+          {voucherName}
         </Text>
         <Text {...textStyles.body2} lineHeight="1.5">
-          {mockData.description}
+          {description}
         </Text>
         <HStack
           justifyContent="flex-end"

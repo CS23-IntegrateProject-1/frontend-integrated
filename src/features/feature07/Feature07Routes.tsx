@@ -20,7 +20,7 @@ export const Feature07Routes = () => {
     { path: "/venue/cartdetail/:type/:menuid", element: <CartMenuDetail /> },
     { path: "/venue/receipt", element: <ReceiptPage /> },
     { path: "/venue/order", element: <OrderStatusPage /> },
-    { path: "/venue/voucherpage", element: <VoucherPage/> },
+    { path: "/venue/voucher", element: <VoucherPage/> },
     // { path: "/venue/:venueId/menubusiness", element: <MenuAllBusiness /> },
     // { path: "/venue/:venueId/editmenu/:menuid", element: <EditMenu /> },
     // { path: "/venue/:venueId/editsetmenu/:menuid", element: <EditSetMenu /> },
