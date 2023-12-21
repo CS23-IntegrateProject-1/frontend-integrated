@@ -33,7 +33,7 @@ export const MyReservation = () => {
           >
             <Box marginBottom={"20px"}>
               <ReservationCards
-                src={data.Venue.Venue_photo[0].image_url}
+                src={data.Venue.Venue_photo[0]?.image_url ||  ""}
                 text={data.Venue.description}
                 name={data.Venue.name}
                 star={data.Venue.score}
