@@ -95,7 +95,7 @@ export const Overview = () => {
             <Flex align={"center"}>
               <Box position={"relative"} cursor={"pointer"}>
               {profileData.avatar !== null ? (
-                <Avatar  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} size={"xl"} />
+                <Avatar  src={`${import.meta.env.VITE_BACKEND_URL}${profileData.avatar}`} size={"xl"} />
               ) : (
                 <Avatar src="https://bit.ly/broken-link" size={"xl"} />
               )}
