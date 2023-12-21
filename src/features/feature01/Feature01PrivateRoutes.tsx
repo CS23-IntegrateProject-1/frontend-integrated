@@ -1,6 +1,6 @@
 import { BusiProfile } from './Pages/BusiProfile'
 import { BusiProfileEdit } from './Pages/BusiProfileEdit'
-import { BusiUpdateCard } from './Pages/BusiUpdateCard'
+import { BusinessAddCard } from './Pages/BusiAddCard'
 export const Feature01PrivateRoutes = () => {
   return [
     //business
@@ -13,8 +13,8 @@ export const Feature01PrivateRoutes = () => {
       element: <BusiProfileEdit/>,
     },
     {
-      path: "/business/busiUpdateCard",
-      element: <BusiUpdateCard/>,
+      path: "/business/busiAddCard",
+      element: <BusinessAddCard/>,
     },
   ];
 };

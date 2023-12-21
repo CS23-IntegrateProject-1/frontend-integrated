@@ -54,7 +54,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
     //   method: "POST",
     // });
     const showId = 1;
-    const seatId = 112;
+    const seatId = 115;
     await Axios.post(`/feature10/bookMovieSeat`, {
       showId,
       seatId,

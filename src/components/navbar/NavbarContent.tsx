@@ -30,7 +30,7 @@ export const NavbarContent: FC<NavbarContentProps> = ({
     },
     {
       title: "Save Places",
-      to: "/saved-place",
+      to: "/saved-places",
     },
     {
       title: "Promotion",

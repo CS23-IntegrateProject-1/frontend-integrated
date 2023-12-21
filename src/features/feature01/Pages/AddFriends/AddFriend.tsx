@@ -132,11 +132,11 @@ export const AddFriend = () => {
         e.preventDefault();
         const allData = new FormData();
         console.log('inFunc CreateChatHandler');
-        const groupName = username+","+loggedInUser.username;
+        const groupName = username+","+loggedInUser.fname+" "+loggedInUser.lname;
         allData.append("group_name", groupName);
         allData.append("members[]", userId);
         allData.append("avatar", userImg);
-        allData.append("Private",true.toString());
+        allData.append("secret",true.toString());
 
         const url = `/feature1/group/add`;
         Axios.postForm(
@@ -149,11 +149,11 @@ export const AddFriend = () => {
           .then((response) => {
             if (response.status == 200) {
               console.log(response.data);
-              console.log("successfully added");
+              console.log("successfully added private chat");
             }
           })
           .catch((error) => {
-            console.error("Error fetching fir list data:", error);
+            console.error("Error adding private chat data:", error);
           });
     };
 //  end here ======>
@@ -218,8 +218,15 @@ export const AddFriend = () => {
             </RadioGroup>
             <Box mt={4} id="box" style={{ visibility: 'hidden' }}>
                 <Center py={2} flexDirection={'column'}>
-                    {userImg ? <Avatar src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${userImg}`}  size={'xl'} /> :
-                        <Avatar src='https://bit.ly/broken-link' size={'xl'} />}
+                    {/* {userImg} */}
+                {userImg !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${userImg}`}size={"md"} />
+                                ) : (
+                                  <Avatar
+                                    src="https://bit.ly/broken-link"
+                                    size={"md"}
+                                  />
+                                )}
                     <Text py={2} color={'brand.200'} fontSize={TextStyle.h2.fontSize} fontWeight={TextStyle.h2.fontWeight}>{username}</Text>
                 </Center>
                 <Text ml={4} id="text" color={'brand.100'} visibility={'hidden'}>

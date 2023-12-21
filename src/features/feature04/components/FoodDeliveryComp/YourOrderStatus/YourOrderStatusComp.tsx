@@ -11,8 +11,8 @@ interface AllInformation {
   restaurant: string;
   size: string;
   price: number;
-  DriverName:string;
-  DriverLicensePlate:string;
+  DriverName?:string;
+  DriverLicensePlate?:string;
 }
 export const YourOrderStatusComp = (props: AllInformation) => {
   const PinIcon: React.FC = () => {

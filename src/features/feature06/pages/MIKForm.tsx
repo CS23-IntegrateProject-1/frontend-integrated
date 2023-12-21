@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Input } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -21,13 +20,20 @@ interface IData {
   venueId: number;
   website_url: string;
   Venue_photo: IPhotoData[] | undefined;
-  location: {
+  Location: {
     locationId: number;
     name: string;
     latitude: string;
     longtitude: string;
     address: string;
   };
+  Deposit: [
+    {
+      deposit_amount: string;
+      depositId: number;
+      venueId: number;
+    }
+  ];
 }
 
 interface IPhotoData {
@@ -49,17 +55,16 @@ export const MIKForm = () => {
   const [time, setTime] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
   const toast = useCustomToast();
 
   useEffect(() => {
     fetchData();
-    setIsLoaded(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchData = async () => {
-    const response: IData = await getVenueById(branchIdInt, venueIdInt);
-    console.log(response);
+    const response: IData = await getVenueById(2, branchIdInt);
+    setIsLoaded(true);
     setData(response);
   };
 
@@ -69,8 +74,8 @@ export const MIKForm = () => {
     venueId: string;
     branchId: string;
   }>();
-  const venueIdInt = 2;
   const branchIdInt = parseInt(branchId || "0");
+  const venueIdInt = parseInt("2");
 
   const handleCreate = async () => {
     try {
@@ -86,18 +91,10 @@ export const MIKForm = () => {
         time == "" ||
         fname == "" ||
         lname == "" ||
-        email == "" ||
         phonenumber == ""
       ) {
         toast.warning("Please fill in all information");
       }
-
-      console.log("date: ", date);
-      console.log("time: ", time);
-      console.log("fname: ", fname);
-      console.log("lname: ", lname);
-      console.log("email: ", email);
-      console.log("phonenumber: ", phonenumber);
 
       const response = await Axios.post(`/api/mik/reserve`, {
         date: date,
@@ -106,13 +103,12 @@ export const MIKForm = () => {
         fname: fname,
         lname: lname,
         phone: phonenumber,
-        email: email,
         venueId: venueIdInt,
         branchId: branchIdInt,
       });
       console.log("create reservation successfully");
       console.log(response);
-      navigate("/3/venue/3/payment");
+      navigate("/my-reservation");
     } catch (err: any) {
       toast.error(err.response.data.error);
       console.log(err);
@@ -130,7 +126,7 @@ export const MIKForm = () => {
       >
         <RDetailCard
           name={data?.name}
-          location={data?.location.address}
+          location={data?.Location.address}
           star={data?.score}
           image_url={data?.Venue_photo}
         />
@@ -144,7 +140,7 @@ export const MIKForm = () => {
         >
           <Box
             width="369px"
-            height="500px"
+            height="380px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -234,6 +230,7 @@ export const MIKForm = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -244,34 +241,6 @@ export const MIKForm = () => {
                 height={"25px"}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
-                }}
-              />
-            </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="700"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop={11}
-            >
-              E-mail :
-            </Text>
-            <Box mt={"5px"}>
-              <Input
-                required
-                placeholder="enter E-mail"
-                htmlSize={4}
-                backgroundColor={"white"}
-                textColor={"black"}
-                borderStyle={"black"}
-                ml={"34px"}
-                width="163px"
-                height={"25px"}
-                onChange={(e) => {
-                  setEmail(e.target.value);
                 }}
               />
             </Box>
@@ -403,7 +372,7 @@ export const MIKForm = () => {
             marginLeft="288px"
             marginTop="-24px"
           >
-            200 Baht
+            {data?.Deposit[0].deposit_amount} Baht
           </Text>
           <Box
             width="360px"
@@ -433,5 +402,5 @@ export const MIKForm = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Loading...</div>;
+  return isLoaded ? render() : <div>Loading . . .</div>;
 };

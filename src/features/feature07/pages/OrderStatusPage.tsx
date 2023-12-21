@@ -66,6 +66,9 @@ export const OrderStatusPage: React.FC = () => {
     }
   );
 
+  const hasOngoingOrders = ongoingOrderDetails && ongoingOrderDetails.length > 0;
+  const hasCompletedOrders = completedOrderDetails && completedOrderDetails.length > 0;
+
   const renderCard = () => {
     switch (status) {
       case 'Preparing':
@@ -141,7 +144,8 @@ export const OrderStatusPage: React.FC = () => {
            borderRadius="5px">
                
            <ButtonComponent width={"160px"} text="View Receipt"
-           onClick={() => navigate("/venue/receipt")} />
+           onClick={() => navigate("/venue/receipt")}
+           isDisabled={!hasOngoingOrders && !hasCompletedOrders} />
             
          </Box>
          </Flex>

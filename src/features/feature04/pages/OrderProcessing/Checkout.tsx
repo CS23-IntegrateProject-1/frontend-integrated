@@ -23,7 +23,7 @@ export const Checkout = () => {
   useEffect(() => {
     const fetchBranchName = async () => {
       try {
-        const response = await Axios.get("/feature4/branch/1/1");
+        const response = await Axios.get("/feature4/branch/1/4")
         console.log(response.data);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);

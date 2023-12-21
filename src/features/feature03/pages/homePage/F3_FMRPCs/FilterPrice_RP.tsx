@@ -7,19 +7,19 @@ import {
   RangeSliderThumb,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FilterContext } from "../VenuePage";
+import { FilterContext_RP } from "../RecommendedPlacesPage";
 
-export const FilterPrice = () => {
-  const context = useContext(FilterContext);
+export const FilterPrice_RP = () => {
+  const context_RP = useContext(FilterContext_RP);
   const handlePriceMinChange = (value: number) => {
-    context.setFilter((filter) => ({
+    context_RP.setFilter((filter) => ({
       ...filter,
       priceMin: value,
     }));
   };
 
   const handlePriceMaxChange = (value: number) => {
-    context.setFilter((filter) => ({
+    context_RP.setFilter((filter) => ({
       ...filter,
       priceMax: value,
     }));
@@ -32,7 +32,7 @@ export const FilterPrice = () => {
       </Text>
       <RangeSlider
         aria-label={["min", "max"]}
-        value={[context.filter.priceMin, context.filter.priceMax]}
+        value={[context_RP.filter.priceMin, context_RP.filter.priceMax]}
         min={0}
         max={1000}
         onChange={([min, max]) => {

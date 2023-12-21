@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Icon, Text, Button, Fade, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { RDetailCard } from "../components/RDetailCard";
@@ -8,74 +9,12 @@ import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
-// import { FC, useRef } from "react";
-
-// interface ShareModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   url: string;
-// }
-import { FC} from "react";
+import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
-
-interface IPhotoData {
-  date_added: string;
-  venueId: number;
-  image_url: string;
-}
-
-interface IData {
-  venue: {
-    name: string;
-    description: string;
-    category: string;
-    capacity: number;
-    chatRoomId: number;
-    locationId: number;
-    score: string;
-    venueId: number;
-    website_url: string;
-    Venue_photo: IPhotoData[] | undefined;
-  };
-  location: {
-    address: string;
-  };
-  reservations: [
-    {
-      venueId: number;
-      guest_amount: number;
-      reserved_time: string;
-      status: string;
-      userId: number;
-      entry_time: string;
-      isReview: boolean;
-      reservationId: number;
-      depositId: number;
-      isPaidDeposit: string;
-      user: {
-        username: string;
-        hashed_password: string;
-        fname: string;
-        lname: string;
-        email: string;
-        profile_picture: string;
-        addId: string;
-        phone: string;
-        tierId: number;
-        userId: number;
-        User_bio: string;
-      };
-      deposit: {
-        deposit_amount: string;
-        depositId: number;
-        venueId: number;
-      };
-    }
-  ];
-}
+import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
 
 export const GetReservationDetail: FC = () => {
-  const [data, setData] = useState<IData>();
+  const [data, setData] = useState<IGetReservationDetailData>();
   const dateString = `${data?.reservations[0]?.reserved_time}`;
   const dateObject = new Date(dateString);
 
@@ -98,26 +37,24 @@ export const GetReservationDetail: FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, );
+  }, []);
 
   const fetchData = async () => {
     try {
-      const response: IData = await getReservationDetail(
+      const response: IGetReservationDetailData = await getReservationDetail(
         venueIdInt,
         reservationIdInt
       );
       setData(response);
       console.log(response);
-      console.log(data?.reservations[0]?.status);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
   const handleCopyClick = async () => {
     try {
-        await navigator.clipboard.writeText(window.location.href);
-        setShowOverlay(true);
-
+      await navigator.clipboard.writeText(window.location.href);
+      setShowOverlay(true);
     } catch (error) {
       console.error("Failed to copy URL to clipboard", error);
     }
@@ -127,14 +64,27 @@ export const GetReservationDetail: FC = () => {
   };
 
   const confirmCheckin = async () => {
-    try{
-      const response = await Axios.get(`/api/mik/checkInStatus/${reservationId}`)
+    try {
+      const response = await Axios.get(
+        `/api/mik/checkInStatus/${reservationId}`
+      );
       console.log(response);
       navigate(`/venue/menu`);
-    }catch (error){
+    } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const NavigateToPayment = () => {
+    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/paymentD`;
+    const newPath = originalPath.replace("/reservation-detail", "");
+    navigate(newPath);
   }
+
+  const handleReview = () => {
+    const path = `/ReviewReservation/${data?.reservations[0].branchId}`;
+    navigate(path);
+  };
 
   return (
     <Box
@@ -227,8 +177,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0]?.user.fname}{" "}
-            {data?.reservations[0]?.user.lname}
+            {data?.reservations[0]?.name}
           </Text>
           <Text
             color="#000"
@@ -252,7 +201,7 @@ export const GetReservationDetail: FC = () => {
             marginLeft={34}
             marginTop="10px"
           >
-            {data?.reservations[0]?.user.phone}
+            {data?.reservations[0]?.phone}
           </Text>
           <CalendarIcon
             w={"20px"}
@@ -391,7 +340,7 @@ export const GetReservationDetail: FC = () => {
               marginLeft="288px"
               marginTop="-24px"
             >
-              200 Baht
+              {data?.reservations[0]?.Deposit?.deposit_amount} Baht
             </Text>
           </Box>
         )}
@@ -402,7 +351,8 @@ export const GetReservationDetail: FC = () => {
           marginTop="18px"
           marginLeft="18px"
         ></Box>
-        {data?.reservations[0]?.status === "Pending" && data?.venue.name !== "MIK" ? (
+        {data?.reservations[0]?.status === "Pending" &&
+        data?.venue.name !== "MIK" ? (
           <Box mt="15px" ml={"50px"}>
             <Button
               borderRadius="10px"
@@ -419,7 +369,27 @@ export const GetReservationDetail: FC = () => {
             >
               Cancel
             </Button>
-            <Link to={`/qrcode/display/${reservationId}`}>
+            {data?.reservations[0]?.status === "Pending" &&
+            data?.reservations[0]?.isPaidDeposit === "Check_in" ? (
+              <Link
+                to={`/qrcode/display/${data?.reservations[0].reservationId}`}
+              >
+                <Button
+                  borderRadius="10px"
+                  width="138px"
+                  height="40px"
+                  backgroundColor="#A533C8"
+                  textColor="white"
+                  fontSize="16px"
+                  fontStyle="normal"
+                  fontWeight="700"
+                  lineHeight="24px"
+                >
+                  Check-in QR
+                </Button>
+              </Link>
+            ) : data?.reservations[0]?.status === "Pending" &&
+              data?.reservations[0]?.isPaidDeposit === "Pending" ? (
               <Button
                 borderRadius="10px"
                 width="138px"
@@ -430,12 +400,16 @@ export const GetReservationDetail: FC = () => {
                 fontStyle="normal"
                 fontWeight="700"
                 lineHeight="24px"
+                onClick={() => NavigateToPayment()}
               >
-                Check-in QR
+                Pay deposit
               </Button>
-            </Link>
+            ) : (
+              ""
+            )}
           </Box>
-        ) : data?.reservations[0]?.status === "Check_in" && data?.venue.name === "MIK" ? (
+        ) : data?.reservations[0]?.status === "Check_in" &&
+          data?.venue.name === "MIK" ? (
           <Button
             borderRadius="10px"
             width="200px"
@@ -452,12 +426,30 @@ export const GetReservationDetail: FC = () => {
           >
             Confirm Check-in
           </Button>
+        ) : data?.reservations[0]?.status === "Check_out" &&
+          data?.reservations[0]?.isReview === false ? (
+          <Button
+            borderRadius="10px"
+            width="128px"
+            height="36px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="600"
+            lineHeight="24px"
+            marginTop="15px"
+            marginLeft="133px"
+            onClick={handleReview}
+          >
+            Review
+          </Button>
         ) : (
           ""
         )}
       </Box>
       <CancelModal
-        reservationIdInt={data?.reservations[0].reservationId}
+        reservationIdInt={data?.reservations[0]?.reservationId}
         isOpen={cancelModal.isOpen}
         onClose={cancelModal.onClose}
       />

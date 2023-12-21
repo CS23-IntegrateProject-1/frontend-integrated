@@ -40,8 +40,10 @@ export const ArticlesPage = () => {
   const [filteredAuthors, setFilteredAuthors] = useState<ArticlesPageProps[]>(
     []
   );
-  {filteredAuthors}
-  
+  {
+    filteredAuthors;
+  }
+
   const articles = useQuery({ queryKey: ["articles"], queryFn: fetchArticles });
   useEffect(() => {
     const filtered = articles.data?.filter((article) =>
@@ -50,9 +52,15 @@ export const ArticlesPage = () => {
     setFilteredArticles(filtered || []);
   }, [searchTerm, articles.data]);
   useEffect(() => {
-    const filtered = articles.data?.filter((article) =>
-      article.topic.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const uniqueUserIds = new Set<number>();
+    const filtered = articles.data?.filter((article) => {
+      const userId = article.userId;
+      if (!uniqueUserIds.has(userId)) {
+        uniqueUserIds.add(userId);
+        return true;
+      }
+      return false;
+    });
     setFilteredAuthors(filtered || []);
   }, [searchTerm, articles.data]);
 
@@ -63,7 +71,6 @@ export const ArticlesPage = () => {
   if (articles.error instanceof Error) {
     return <div>An error occurred: {articles.error.message}</div>;
   }
-  console.log(articles.data)
   return (
     <Box
       display={"flex"}
@@ -119,14 +126,14 @@ export const ArticlesPage = () => {
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      Image={article.Image}
+                      Images={article.Images}
                       Like={article.Like}
                       Comment={article.Comment}
                       created_date={article.created_date}
                       key={article.articleId}
-                      content={""}
-                      category={""}
-                      userId={0}
+                      content={article.content}
+                      category={article.category}
+                      userId={article.userId}
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
@@ -136,20 +143,20 @@ export const ArticlesPage = () => {
                 })}
               </TabPanel>
               <TabPanel p={"0"} pt={"1px"}>
-                {filteredArticles?.map((article) => {
+                {filteredAuthors?.map((article) => {
                   return (
                     <AuthorBox
                       articleId={article.articleId}
                       topic={article.topic}
                       author_name={article.author_name}
-                      Image={article.Image}
+                      Images={article.Images}
                       Like={article.Like}
                       Comment={article.Comment}
                       created_date={article.created_date}
                       key={article.articleId}
-                      content={""}
-                      category={""}
-                      userId={0}
+                      content={article.content}
+                      category={article.category}
+                      userId={article.userId}
                       isLike={article.isLike}
                       Article_tags={article.Article_tags}
                       Article_venue={article.Article_venue}
