@@ -10,7 +10,6 @@ import {
   Text,
   Image,
   Flex,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Advertisement } from "./F3_HPCs/Advertisement";
@@ -54,7 +53,7 @@ export const HomePage = () => {
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <ButtonPenta />
       <ButtonQuad />
-      <Button onClick={modal1.onOpen} mr="5" />
+      {/* <Button onClick={modal1.onOpen} mr="5" /> */}
       <Advertisement isOpen={modal1.isOpen} onClose={modal1.onClose} />
       {/* <Button onClick={modal2.onOpen} mr="5"/>
       <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} /> */}

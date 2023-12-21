@@ -20,7 +20,6 @@ import { StarIcon } from "@chakra-ui/icons";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Axios } from "../../../../AxiosInstance";
-// import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { useState, useEffect, createContext, useRef } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useCustomToast } from "../../../../components/useCustomToast";
@@ -125,7 +124,7 @@ export const VenuePage = () => {
       );
       return data;
     },
-    // keepPreviousData: true,
+    keepPreviousData: true,
   });
 
   // console.log(venueData);
