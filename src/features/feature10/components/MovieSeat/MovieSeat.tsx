@@ -1,56 +1,66 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from "react";
 import { Box, Image } from "@chakra-ui/react";
+import Chair from "../../images/chair.png";
+import RedSeat from "../../images/redSeat.png";
+import PurpleSeat from "../../images/purpleSeat.png";
+import YellowSeat from "../../images/yellowSeat.png";
+import Check from "../../images/checked.png";
+import ReserveSeat from "../../images/reserveSeat.png";
+import { ISeat } from "../../../../interfaces/Movie/IScreenDatas.interface";
 
 interface MovieSeatProps {
-  seatId: number;
-  isSelected: boolean;
-  onSeatClick: (seatId: number) => void; 
-  type: string;
+	isSelected: number[];
+	onSeatClick: (seatId: number, price: number) => void;
+	isNotAvailable: number[];
+	seat: ISeat;
+	defaultPrice: number;
 }
 
 export const MovieSeat: React.FC<MovieSeatProps> = ({
-  seatId,
-  isSelected,
-  onSeatClick,
-  type
+	isSelected,
+	onSeatClick,
+	isNotAvailable,
+	seat,
+	defaultPrice,
 }) => {
-  const [selected, setSelected] = useState(isSelected);
-  const getSeatImage = () => {
-    switch (type) {
-      case "Regular":
-        return "../../../../redSeat.svg";
-      case "Premium":
-        return "../../../../purpleSeat.svg";
-      case "Honeymoon":
-        return "../../../../yellowSeat.svg";
-      default:
-        return "../../../../chair.png";
-    }
-  };
+	const seatId = seat.seatId;
+	const type = seat.Seat_types.type_name;
+	const seatPrice = seat.Seat_types.price_modifier * defaultPrice;
+	const [isSeatSelectLocal, setIsSeatSelectLocal] = useState<boolean>(
+		isSelected.includes(seatId)
+	);
 
-  useEffect(() => {
+	const Available = !isNotAvailable.some((arr) => arr == seatId);
+	const handleImageClick = () => {
+		if (!Available) return;
+		onSeatClick(seatId, seatPrice);
+		setIsSeatSelectLocal(!isSeatSelectLocal);
+	};
 
-    setSelected(isSelected);
-  }, [isSelected]);
-  const imageSrc = selected ? "../../../../checked.png" : getSeatImage();
-
-    const handleImageClick = () => {
-      onSeatClick(seatId);
-      setSelected(!selected); 
-    };
-
-    return (
-      <Box>
-        <Box>
-          <Image
-            onClick={handleImageClick}
-            style={{ cursor: "pointer" }}
-            src={imageSrc} 
-            alt="chair"
-            w="7vh"
-          />
-        </Box>
-      </Box>
-    );
-  };
-          
+	return (
+		<Box>
+			<Box>
+				<Image
+					onClick={handleImageClick}
+					style={{ cursor: "pointer" }}
+					src={
+						isSeatSelectLocal
+							? Check
+							: !Available
+							? ReserveSeat
+							: type === "Regular"
+							? RedSeat
+							: type === "Premium"
+							? PurpleSeat
+							: type === "Honeymoon"
+							? YellowSeat
+							: Chair
+					}
+					alt="chair"
+					w="7vh"
+				/>
+			</Box>
+		</Box>
+	);
+};
