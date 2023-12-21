@@ -1,9 +1,10 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
 import index from "../../../../theme/foundations/index"
+// import { useParams } from "react-router-dom";
 
 export const OngoingOrder=()=>{
-    
+
 return(
     <Box>
         <Flex flexDirection={"column"} alignItems={"center"}>

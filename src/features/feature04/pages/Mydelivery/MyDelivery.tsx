@@ -20,6 +20,7 @@ function OngoingPage() {
       try {
         const response = await Axios.get('feature4/showOnGoingOrder');
         setOngoingOrders(response.data);
+        console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching ongoing orders:', error);
       }
@@ -34,11 +35,12 @@ function OngoingPage() {
       {ongoingOrders.map((order) => (
         <Ongoing
           key={order.onlineOrderId}
+          onlineOrderId={order.onlineOrderId}
           price={parseFloat(order.total_amount)}
-          restaurantName={order.address}
-          Driver={order.driver_note}
+          restaurantName={order.Venue_branch.branch_name}
+          Driver={order.Driver_list.driver_first_name}
           OrderDate={new Date(order.order_date).toLocaleDateString()}
-          licensePlate={order.LicensePlate} // Make sure to update this based on your data structure
+          licensePlate={order.Driver_list.driver_license_plate} // Make sure to update this based on your data structure
         />
       ))}
     </Box>

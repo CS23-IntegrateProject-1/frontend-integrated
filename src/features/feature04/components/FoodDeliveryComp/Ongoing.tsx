@@ -4,6 +4,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 interface OrderDetail {
   restaurantName: string;
+  onlineOrderId: number;
   OrderDate: string;
   price: number;
   Driver: string;
@@ -18,7 +19,7 @@ function Ongoing(props: OrderDetail) {
     navigate("/map/food-delivery/completed");
   };
   const NavigateOngoingDetail = () => {
-    navigate("/map/food-delivery/Ongoing-your-order");
+    navigate(`/map/food-delivery/Ongoing-your-order/${props.onlineOrderId}`);
   };
 
   return (
@@ -41,7 +42,7 @@ function Ongoing(props: OrderDetail) {
             src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
             width="30%"
             height="30%"
-            style={{ borderRadius: "5%", margin: 0 }}
+            style={{ borderRadius: "5%", marginLeft: 25 }}
             alt="Menu Item"
           />
           <Box flexDir={"row"}>
@@ -64,12 +65,12 @@ function Ongoing(props: OrderDetail) {
               {props.price}
             </Text>
             <Flex flexDirection={"row"}>
-              <Text>Driver:</Text>
+              <Text>Driver  :</Text>
               <Text>{props.Driver}</Text>
             </Flex>
             <Flex flexDirection={"row"}>
-              <Text>License Plate: </Text>
-              <Text> {props.licensePlate}</Text>
+              <Text>License Plate :  </Text>
+              <Text>  {props.licensePlate}</Text>
             </Flex>
 
             <Box display={"flex"} gap={5}>
