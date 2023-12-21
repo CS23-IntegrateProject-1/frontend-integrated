@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Advertisement } from "./F3_HPCs/Advertisement";
 import { ReviewModalDel } from "../../external/reviewModalDel";
-import { ReviewModalRes } from "../../external/reviewModalRes";
+// import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
 // import { useQuery } from "@tanstack/react-query";
 // import { Axios } from "../../../../AxiosInstance"; 
@@ -37,7 +37,7 @@ import HomePageSearchBar from "../../../../components/homepage/SearchBar";
 export const HomePage = () => {
   const modal1 = useDisclosure();
   const modal2 = useDisclosure();
-  const modal3 = useDisclosure();
+  // const modal3 = useDisclosure();
   useEffect(() => {
     const isAdAvailable = sessionStorage.getItem("is_ads_available") 
     if(isAdAvailable == null) {  
@@ -58,8 +58,8 @@ export const HomePage = () => {
       <Advertisement isOpen={modal1.isOpen} onClose={modal1.onClose} />
       <Button onClick={modal2.onOpen} mr="5"/>
       <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} />
-      <Button onClick={modal3.onOpen} mr="5"/>
-      <ReviewModalRes isOpen={modal3.isOpen} onClose={modal3.onClose} />
+      {/* <Button onClick={modal3.onOpen} mr="5"/>
+      <ReviewModalRes isOpen={modal3.isOpen} onClose={modal3.onClose} /> */}
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Text fontSize={{ base: "30px", lg: "40px" }} fontWeight="bold">
         Explore Venues
