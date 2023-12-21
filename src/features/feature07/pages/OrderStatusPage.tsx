@@ -84,6 +84,24 @@ export const OrderStatusPage: React.FC = () => {
               imageUrl={order.menuId !== null ? order.menu?.image : order.set?.image_url}
               amount={order.quantity} />
             ))}
+            {hasOngoingOrders && (
+              <Box
+              position="fixed"
+              bottom="4"
+              width="109px"
+              height="29px"
+              textAlign="center"
+              borderRadius="5px"
+              >
+                <ButtonComponent
+                  width="160px"
+                  text="Order Again"
+                  onClick={() => {
+                  navigate("/venue/menu")
+                  }}
+                />
+              </Box>
+            )}
           </VStack>
         );
       case 'Completed':
@@ -146,7 +164,6 @@ export const OrderStatusPage: React.FC = () => {
            <ButtonComponent width={"160px"} text="View Receipt"
            onClick={() => navigate("/venue/receipt")}
            isDisabled={!hasOngoingOrders && !hasCompletedOrders} />
-            
          </Box>
          </Flex>
          </Center> 
