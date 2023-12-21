@@ -27,6 +27,13 @@ interface IData {
     longtitude: string;
     address: string;
   };
+  Deposit: [
+    {
+      deposit_amount: string;
+      depositId: number;
+      venueId: number;
+    }
+  ];
 }
 
 interface IPhotoData {
@@ -48,12 +55,12 @@ export const MIKForm = () => {
   const [time, setTime] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
   const toast = useCustomToast();
 
   useEffect(() => {
     fetchData();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchData = async () => {
     const response: IData = await getVenueById(2, branchIdInt);
@@ -84,7 +91,6 @@ export const MIKForm = () => {
         time == "" ||
         fname == "" ||
         lname == "" ||
-        email == "" ||
         phonenumber == ""
       ) {
         toast.warning("Please fill in all information");
@@ -97,7 +103,6 @@ export const MIKForm = () => {
         fname: fname,
         lname: lname,
         phone: phonenumber,
-        email: email,
         venueId: venueIdInt,
         branchId: branchIdInt,
       });
@@ -135,7 +140,7 @@ export const MIKForm = () => {
         >
           <Box
             width="369px"
-            height="500px"
+            height="380px"
             flexShrink={0}
             borderRadius="20px"
             background="#DEBEF6"
@@ -225,6 +230,7 @@ export const MIKForm = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -233,36 +239,20 @@ export const MIKForm = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
-                onChange={(e) => {
-                  setPhoneNumber(e.target.value);
+                onKeyDown={(e) => {
+                  const allowedKeys = [8, 37, 39, 46]; // Backspace, Left Arrow, Right Arrow, Delete
+                  if (!allowedKeys.includes(e.keyCode)) {
+                    const isNumeric = /^[0-9]*$/;
+                    if (!isNumeric.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }
                 }}
-              />
-            </Box>
-            <Text
-              color="#000"
-              fontFamily="Roboto"
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="700"
-              lineHeight="normal"
-              marginLeft={34}
-              marginTop={11}
-            >
-              E-mail :
-            </Text>
-            <Box mt={"5px"}>
-              <Input
-                required
-                placeholder="enter E-mail"
-                htmlSize={4}
-                backgroundColor={"white"}
-                textColor={"black"}
-                borderStyle={"black"}
-                ml={"34px"}
-                width="163px"
-                height={"25px"}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  const inputValue = e.target.value;
+                  if (inputValue.length <= 10) {
+                    setPhoneNumber(inputValue);
+                  }
                 }}
               />
             </Box>
@@ -394,7 +384,7 @@ export const MIKForm = () => {
             marginLeft="288px"
             marginTop="-24px"
           >
-            200 Baht
+            {data?.Deposit[0].deposit_amount} Baht
           </Text>
           <Box
             width="360px"
@@ -424,5 +414,5 @@ export const MIKForm = () => {
     );
   };
 
-  return isLoaded ? render() : <div>Payment required</div>;
+  return isLoaded ? render() : <div>Loading . . .</div>;
 };

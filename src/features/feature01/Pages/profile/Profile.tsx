@@ -33,23 +33,31 @@ export const Profile = () => {
   });
 
   useEffect(() => {
+    console.log("use effect");
     const url1 = `/feature1/profile`;
     Axios.get(url1, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           const data = response.data;
-          data.birthday = data.birthday.split("T")[0];
-          setProfileData(response.data);
+          // update by Kaung Kaung to check null state
+          if(data.birthday == null){
+            setProfileData(response.data);
+          }
+          else{
+            data.birthday = data.birthday.split("T")[0];
+            setProfileData(data);
+          }
+          
           console.log(profileData);
-          // friData.map((item) => {
-          //     console.log(item.name);
-          // })
+          console.log("profile data");
+          
         }
       })
       .catch((error) => {
         console.error("Error fetching profile  data:", error);
       });
   }, []);
+
   const handleSave = (e : React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     // const newProfileData = {
@@ -127,7 +135,7 @@ export const Profile = () => {
                 {selectFile ? (
                   <Avatar size={"xl"} src={preview} />
                 ) : (
-                  <Avatar size={"xl"} src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${profileData.avatar}`} />
+                  <Avatar size={"xl"} src={`${import.meta.env.VITE_BACKEND_URL}${profileData.avatar}`} />
                 )} 
                  
 
@@ -173,7 +181,9 @@ export const Profile = () => {
         <GridItem>
           <Box mt={5}>
             <Text {...TextStyle}>Name</Text>
+            
             <Input
+            
               value={profileData.username}
               placeholder="Name"
               size="md"

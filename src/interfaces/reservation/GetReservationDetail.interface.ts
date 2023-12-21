@@ -33,6 +33,7 @@ export interface IGetReservationDetailData {
       reservationId: number;
       depositId: number;
       isPaidDeposit: string;
+      branchId: number;
       phone: string;
       User: {
         username: string;
@@ -47,7 +48,7 @@ export interface IGetReservationDetailData {
         userId: number;
         User_bio: string;
       };
-      deposit: {
+      Deposit: {
         deposit_amount: string;
         depositId: number;
         venueId: number;
@@ -85,6 +86,7 @@ export const initialStateData: IGetReservationDetailData = {
       reservationId: 0,
       depositId: 0,
       isPaidDeposit: "",
+      branchId: 0,
       phone: "",
       User: {
         username: "",
@@ -99,7 +101,7 @@ export const initialStateData: IGetReservationDetailData = {
         userId: 0,
         User_bio: "",
       },
-      deposit: {
+      Deposit: {
         deposit_amount: "",
         depositId: 0,
         venueId: 0,
