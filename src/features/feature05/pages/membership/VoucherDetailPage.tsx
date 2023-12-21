@@ -4,14 +4,18 @@ import IVoucherDetail from "../../../../interfaces/Voucher/IVoucherDetail";
 import { useEffect, useState } from "react";
 import { GetVoucherDetail } from "../../../../api/Voucher/GetVoucherDetail";
 import { useNavigate, useParams } from "react-router-dom";
+import { GetCheckVouchernotCollected } from "../../../../api/Membership/GetCheckVouchernotCollected";
+import { GetCollectVoucher } from "../../../../api/Membership/GetCollectVoucher";
 
 export const VoucherDetailPage = () => {
   const [data, setData] = useState<IVoucherDetail>();
   const navigate = useNavigate();
   const { voucherId } = useParams();
+  const [voucherCollected, setVoucherCollected] = useState(false);
 
   useEffect(() => {
     fetchDatas();
+    fetchVoucherStatus();
   }, []);
 
   if (voucherId == undefined) {
@@ -27,6 +31,32 @@ export const VoucherDetailPage = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  const fetchVoucherStatus = async () => {
+    try {
+      const result = await GetCheckVouchernotCollected(voucherId)
+      setVoucherCollected(result.data.hasVoucher);
+      console.log(result.data.hasVoucher)
+    } catch (error) {
+      console.error('Error fetching voucher status:', error);
+    }
+  };
+
+  const redeemVoucher = async () => {
+    try {
+      if (!voucherCollected) {
+        await GetCollectVoucher(voucherId); // Call the API function to collect the voucher
+        setVoucherCollected(true); // Update the state to reflect that the voucher is now collected
+        console.log("Voucher collected successfully");
+      } else {
+        navigate("/voucher"); // Redirect to the voucher page if it's already collected
+      }
+    } catch (error) {
+      console.error("Error redeeming/collecting voucher:", error);
+    }
+  };
+  
+  
 
   return (
     <>
@@ -69,27 +99,21 @@ export const VoucherDetailPage = () => {
           <Text>{data?.description}</Text>
         </Box>
 
-        <Box
-          display="flex"
-          w={"100%"}
-          maxW={"400px"}
-          justifyContent={"flex-end"}
-          my={"1em"}
-        >
-          {data?.User_voucher[0]?.isUsed ? (
-            <></>
-          ) : (
-            <Button
-              backgroundColor="#5F0DBB"
-              color="white"
-              onClick={() => {
-                navigate(`/voucher`);
-              }}
-            >
-              Use Now
-            </Button>
-          )}
-        </Box>
+      <Box
+        display="flex"
+        w={"100%"}
+        maxW={"400px"}
+        justifyContent={"flex-end"}
+        my={"1em"}
+      >
+        <Button
+            backgroundColor="#5F0DBB"
+            color="white"
+            onClick={() => redeemVoucher()}
+          >
+            {voucherCollected ? "Use Now" : "Redeem"}
+          </Button>
+      </Box>
       </Box>
     </>
   );
