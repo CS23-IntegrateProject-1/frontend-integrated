@@ -17,6 +17,8 @@ import { OrderSummary } from "../../components/FoodDeliveryComp/OrderProcessingC
 import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingComp/FoodStatus";
 import index from "../../../../theme/foundations/index";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
 // interface Order {
 //     amount: number;
 //     restaurant: string;
@@ -44,12 +46,29 @@ export const YourOrder = () => {
   const navToOngoing = () => {
     navigate("/map/food-delivery/ongoing");
   };
+
+  const [venue, setVenue] = useState<string>(""); // Define total state
+  const [branchName, setBranchName] = useState<string>(""); // Define total state
+
+  useEffect(() => {
+    const fetchBranchName = async () => {
+      try {
+        const response = await Axios.get("/feature4/branch/1/4");
+        console.log("hello from cart detail" + response.data.venue);
+        setBranchName(response.data.branch.branch_name);
+        setVenue(response.data.venue.name);
+      } catch (error) {
+        console.log("Error fetching branch name: ", error);
+      }
+    }
+    fetchBranchName();
+  }, []);
   return (
     <Box>
       <FoodStatus />
       <CartDetailNavbar
-        RestaurantName="MK Restaurant (Big C Rama 4)"
-        BranchName=""
+        RestaurantName={venue}
+        BranchName={branchName}
       />
 
       <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
