@@ -47,9 +47,10 @@ export const QRScanner = () => {
   const [scannedData, setScannedData] = useState("")
   const [friList, setFriList] = useState<any[]>([]);
   const [userName, setUserName] = useState("");
-  const [checkFri, setCheckFri] = useState(false);
+  //const [checkFri, setCheckFri] = useState(false);
   const [funstart, setFunstart] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [sName, setSName] = useState("");
   const handleCopyLink = async() => {
     setLinkCopied(true);
     console.log(userName);
@@ -57,7 +58,7 @@ export const QRScanner = () => {
       import.meta.env.VITE_BACKEND_URL
     }/feature1/qr/${userName}`;
     console.log(copyLink);
-    console.log(checkFri);
+   // console.log(checkFri);
 
     // if (linkCopied) {
       onOpen2();
@@ -166,6 +167,34 @@ export const QRScanner = () => {
   //     });
   //     setFunstart(false);
   // }
+  const alredayFri = () => {
+    console.log("already fri");
+     const url = `/feature1/friend`;
+    Axios.get(url, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          const data = response.data;
+          setFriList(data);
+          //already in the fir list situation
+          const usernameRegex = /"username":"(.*?)"/;
+const match = usernameRegex.exec(sName);
+const scanName = match?.[1]
+          friList.map((item) => {
+            console.log(item.username);
+            console.log(scanName);
+            if(item.username == scanName ){
+              console.log("found");//done here show toast laready fir
+            }
+            //console.log(item.username, scanName, "from smae map");
+          });
+          console.log(data, "from already fri");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching profile  data:", error);
+      });
+    }
+
   if (funstart) {
     console.log("fund starat");
     const scanDataArray = scannedData.split(",");
@@ -178,44 +207,48 @@ export const QRScanner = () => {
       scanPhone,
       "from destructure"
     );
-    const url = `/feature1/friend`;
-    Axios.get(url, { withCredentials: true })
-      .then((response) => {
-        if (response.status == 200) {
-          const data = response.data;
-          setFriList(data);
-          //already in the fir list situation
-          friList.map((item) => {
-            if(item.name == scanName )
-            console.log(item.name, scanName, "from map");
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching profile  data:", error);
-      });
-    //if they are not fri to each other
-    //add to fri list
-    if(checkFri){
-      const urlfri = `/feature1/search/friends?username=${scanName}`;
-      Axios.get(urlfri, { withCredentials: true })
-        .then((response) => {
-          if (response.status == 200) {
-            console.log(response.data, "fund from username fri add");
-            setCheckFri(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching username fri data:", error);
-        });
-      setFunstart(false);
+    setSName(scanName);
+    const v = alredayFri();
+    setFunstart(false);
       console.log("stop");
-    }
+      console.log(v);
+    //const url = `/feature1/friend`;
+    // Axios.get(url, { withCredentials: true })
+    //   .then((response) => {
+    //     if (response.status == 200) {
+    //       const data = response.data;
+    //       setFriList(data);
+    //       //already in the fir list situation
+    //       friList.map((item) => {
+    //         if(item.name == scanName )
+    //         console.log(item.name, scanName, "from map");
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching profile  data:", error);
+    //   });
+    // //if they are not fri to each other
+    // //add to fri list
+    // if(checkFri){
+    //   const urlfri = `/feature1/search/friends?username=${scanName}`;
+    //   Axios.get(urlfri, { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.status == 200) {
+    //         console.log(response.data, "fund from username fri add");
+    //         setCheckFri(false);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching username fri data:", error);
+    //     });
+      
+    // }
     }
     
 
   // }, [scannedData, friList]);
-
+  
   return (
     <Box height={"100%"}>
       {/* upper part */}

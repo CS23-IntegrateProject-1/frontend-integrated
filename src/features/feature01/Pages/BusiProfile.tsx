@@ -101,18 +101,19 @@ export const BusiProfile = () => {
   //card id
   const [cardInfo, setcardInfo] = useState<string>("");
   cardInfo;
+  const [profiImg, setprofiImg] = useState("");
   setcardInfo;
   const [userid, setuserid] = useState<string>("");
   userid;
   setuserid;
   //const [cardData, setcardData] = useState<CreditCard[]>([]);
   //cardData
-  const [availability, setAvailability] =useState<Availability>(defaultAvailability);
+  const [availability, setAvailability] =
+    useState<Availability>(defaultAvailability);
   availability;
   setAvailability;
 
   useEffect(() => {
-
     //name, about us, category, capacity, websiteurl
     const url2 = "feature1/venue";
     Axios.get(url2, { withCredentials: true })
@@ -124,12 +125,12 @@ export const BusiProfile = () => {
           setCategory(response.data.category);
           setCapacity(response.data.capacity);
           setWebsite(response.data.website);
+          setprofiImg(response.data.avatar);
         }
       })
       .catch((error) => {
         console.error("Error fetching venue data:", error);
       });
-    
   }, []);
 
   return (
@@ -137,7 +138,14 @@ export const BusiProfile = () => {
       <Flex mt={10} alignItems={"center"} justifyContent={"space-between"}>
         <Box></Box>
         <Box pl={8}>
-          <Avatar src="https://bit.ly/broken-link" size={"xl"} />
+          {profiImg !== null ? (
+            <Avatar
+              src={`${import.meta.env.VITE_BACKEND_URL}${profiImg}`}
+              size={"lg"}
+            />
+          ) : (
+            <Avatar src="https://bit.ly/broken-link" size={"md"} />
+          )}
         </Box>
         <NavLink to="/business/busiProfileEdit">
           <Box fontSize={"xx-large"}>
@@ -192,9 +200,7 @@ export const BusiProfile = () => {
               >
                 Address
               </Text>
-              <Text fontSize={TextStyle.h3.fontSize}>
-                  {address}
-              </Text>
+              <Text fontSize={TextStyle.h3.fontSize}>{address}</Text>
             </Box>
             <Flex gap={3} my={2}>
               <Text

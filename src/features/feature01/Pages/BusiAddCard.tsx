@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input} from "@chakra-ui/react"
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
@@ -18,20 +17,12 @@ export const BusinessAddCard = () => {
      const cardInfo = location.state; //will be creditcardid
      const { isOpen, onOpen, onClose } = useDisclosure();
      const [cardName, setCardName] = useState('');
-     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const [cardNumber, setCardNumber] = useState('');
      const [cardExpDate, setCardExpDate] = useState('');
      const [cardCVC, setCardCVC] = useState<number>();
      const [isValid, setIsValid] = useState(false);
      const [is16, setIs16] = useState(false);
       const [is3, setIs3] = useState(false);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-     // const [is4, setIs4] = useState(false);
-     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-     //const [country, setCountry] = useState('');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      //const [bank, setBank] = useState('');
-      //const [cardInfo, setCardInfo] = useState<CreditCard>();
      console.log(cardInfo);
      const handleCardNumberChange = (
         event: React.ChangeEvent<HTMLInputElement>
