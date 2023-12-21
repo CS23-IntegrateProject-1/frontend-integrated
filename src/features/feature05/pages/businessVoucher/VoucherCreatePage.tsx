@@ -14,6 +14,12 @@ import {
   Box,
   Icon,
   useDisclosure,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 // import { BiImageAdd } from "react-icons/bi";
@@ -70,7 +76,7 @@ export const VoucherCreatePage = () => {
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const { onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useCustomToast();
 
   const handleCloseImage = () => {
@@ -323,7 +329,7 @@ export const VoucherCreatePage = () => {
             flexDirection={"column"}
             paddingBottom={3}
           >
-            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>						
+            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
             <Box
               position={"relative"}
               overflow={"hidden"}
@@ -343,11 +349,7 @@ export const VoucherCreatePage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
-              <Image
-                src={imagePreview}
-                alt={"image"}
-                width={"100%"}
-              ></Image>
+              <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
             </Box>
           </FormControl>
         ) : (
@@ -397,19 +399,56 @@ export const VoucherCreatePage = () => {
           handleTypeChange={handleTypeChange}
           voucher={voucher}
         />
-        <Center>
+        <Box
+          width="100%"
+          // minWidth="250px"
+          // maxWidth="400px"
+          display="flex"
+          flexDirection={"row"}
+          paddingBottom={3}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
           <Button
-            w={"100%"}
-            h={"50px"}
-            bg={"brand.200"}
-            color={"white"}
-            borderColor={""}
-            _hover={{ bgColor: "brand.300" }}
-            onClick={handleClickSubmit}
+            h={"40px"}
+            backgroundColor="#A533C8"
+            variant="solid"
+            width="100%"
+            color="white"
+            onClick={() => {
+              onOpen();
+            }}
           >
             Submit
           </Button>
-        </Center>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+              <ModalHeader mt={3}>Submit voucher</ModalHeader>
+              <ModalCloseButton />
+              <ModalFooter>
+                <Button
+                  bgColor={"white"}
+                  color={"#200944"}
+                  mr={5}
+                  width="30%"
+                  onClick={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  bgColor={"#A533C8"}
+                  mr={3}
+                  onClick={handleClickSubmit}
+                  color={"white"}
+                  width="30%"
+                >
+                  Confirm
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Box>
       </form>
     </Container>
   );
