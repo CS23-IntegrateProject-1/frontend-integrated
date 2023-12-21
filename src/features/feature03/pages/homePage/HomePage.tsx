@@ -36,7 +36,7 @@ import HomePageSearchBar from "../../../../components/homepage/SearchBar";
 
 export const HomePage = () => {
   const modal1 = useDisclosure();
-  const modal2 = useDisclosure();
+  // const modal2 = useDisclosure();
   // const modal3 = useDisclosure();
   useEffect(() => {
     const isAdAvailable = sessionStorage.getItem("is_ads_available") 
@@ -56,8 +56,8 @@ export const HomePage = () => {
       <ButtonQuad />
       <Button onClick={modal1.onOpen} mr="5" />
       <Advertisement isOpen={modal1.isOpen} onClose={modal1.onClose} />
-      <Button onClick={modal2.onOpen} mr="5"/>
-      <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} />
+      {/* <Button onClick={modal2.onOpen} mr="5"/>
+      <ReviewModalDel isOpen={modal2.isOpen} onClose={modal2.onClose} /> */}
       {/* <Button onClick={modal3.onOpen} mr="5"/>
       <ReviewModalRes isOpen={modal3.isOpen} onClose={modal3.onClose} /> */}
       {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
