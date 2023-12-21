@@ -393,11 +393,10 @@ export const AdvertisementIDEditPage = () => {
       <Image
           src={import.meta.env.VITE_BACKEND_URL + imageDefault}
           alt="image"
-          width="100%"
         />
       {imagePreview ? (
           <FormControl
-            width="100%"
+            width="50%"
             minWidth="250px"
             maxWidth="400px"
             display="flex"
@@ -414,7 +413,6 @@ export const AdvertisementIDEditPage = () => {
               maxWidth={"400px"}
               height={"auto"}
               alignSelf={"center"}
-              justifyContent={"center"}
             >
               <IconButton
                 aria-label="close"
@@ -426,6 +424,7 @@ export const AdvertisementIDEditPage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
+              
               {/* {imagePreview && (
               <Image src={imagePreview} alt="Preview" width="100%" />
               )}
@@ -439,11 +438,13 @@ export const AdvertisementIDEditPage = () => {
           </FormControl>
         ) : (
           <FormControl
-            isRequired
-            width="100%"
-            display="flex"
-            flexDirection={"column"}
-            paddingBottom={3}
+          isRequired
+          width="50%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
           >
             <FormLabel
               marginTop={"10px"}
