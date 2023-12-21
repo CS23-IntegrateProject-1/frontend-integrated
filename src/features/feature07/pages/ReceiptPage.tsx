@@ -150,7 +150,7 @@ export const ReceiptPage = () => {
             <Text {...textStyles.h3}>PROMOTION :</Text>
             {/* {receipt?.couponApplied && ( */}
               <>
-                {isCouponSelected && <Text {...textStyles.h3}>COUPON :</Text>}
+                {isCouponSelected && <Text {...textStyles.h3}>VOUCHER :</Text>}
               </>
             {/* )} */}
             <Text {...textStyles.h3}>TOTAL AMOUNT :</Text>
@@ -178,7 +178,7 @@ export const ReceiptPage = () => {
         <Box borderTop="1px dotted" mt={2} mb={2} />
         <HStack display="flex" justifyContent="space-between">
           <VStack align="start" spacing={0}>
-            <Text {...textStyles.h2}>Coupon</Text>
+            <Text {...textStyles.h2}>Voucher</Text>
           </VStack>
           <VStack
             align="end"
@@ -197,7 +197,7 @@ export const ReceiptPage = () => {
               </HStack>
             ) : (
               <Text {...textStyles.h3} color={"grey.300"}>
-                Apply Coupon <ChevronRightIcon boxSize={4} />
+                Apply Voucher <ChevronRightIcon boxSize={4} />
               </Text>
             )}
           </VStack>
