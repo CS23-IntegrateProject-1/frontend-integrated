@@ -84,7 +84,7 @@ export const OrderStatusPage: React.FC = () => {
               imageUrl={order.menuId !== null ? order.menu?.image : order.set?.image_url}
               amount={order.quantity} />
             ))}
-            {hasOngoingOrders && (
+            {status === 'Preparing' && (
               <Box
               position="fixed"
               bottom="4"
