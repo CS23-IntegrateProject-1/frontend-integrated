@@ -8,7 +8,7 @@ import { SavedPlacesPage } from "./page/SavedPlacesPage/SavedPlacesPage";
 export const Feature11Routes = () => {
   return [
     { path: "/article", element: <ArticlesPage /> },
-    { path: "/article/saved-places", element: <SavedPlacesPage/> },
+    { path: "/saved-places", element: <SavedPlacesPage/> },
     { path: "/article/:articleId", element: <ArticlePage /> },
     { path: "/article/create", element: <CreateArticlePage /> },
     { path: "/article/myarticles", element: <MyArticlesPage /> },
