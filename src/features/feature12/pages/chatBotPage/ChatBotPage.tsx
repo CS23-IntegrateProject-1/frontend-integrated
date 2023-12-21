@@ -69,6 +69,11 @@ export const ChatBotPage: FC = () => {
     //         console.log(res.data);
     //     })
     // }
+    // useEffect(() => {
+    //   Axios.get("/feature12/fetchData").then((res) => {
+    //         console.log(res.data);
+    //     })
+    // }),[sessionId];
 
     return (
     <>
@@ -89,7 +94,7 @@ export const ChatBotPage: FC = () => {
                     color={"brand.200"} 
                     p={3}>
                         {/* IMPT need to get user's name with Cookies */}
-                Hi there <b>{user.username}</b> ! How may I help you today? 
+                Hi there <b>{user.fname + "  " +user.lname}</b> ! How may I help you today? 
                 </Text>
             </Box>
             <Box 
