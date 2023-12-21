@@ -14,7 +14,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Advertisement } from "./F3_HPCs/Advertisement";
-import { ReviewModalDel } from "../../external/reviewModalDel";
+// import { ReviewModalDel } from "../../external/reviewModalDel";
 // import { ReviewModalRes } from "../../external/reviewModalRes";
 import { useEffect } from "react";
 // import { useQuery } from "@tanstack/react-query";
