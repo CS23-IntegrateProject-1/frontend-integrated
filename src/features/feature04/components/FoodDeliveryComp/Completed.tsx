@@ -31,7 +31,7 @@ export const Completed=()=> {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              MK Roast Duck
+              MK Roast DuckCCC
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
