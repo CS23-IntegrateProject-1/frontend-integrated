@@ -14,15 +14,12 @@ function Ongoing(props: OrderDetail) {
   const CancelOrder = () => {
     navigate("/map/food-delivery/canceled");
   };
+  const CompleteOrder = () => {
+    navigate("/map/food-delivery/completed");
+  };
   const NavigateOngoingDetail = () => {
     navigate("/map/food-delivery/Ongoing-your-order");
   };
-
-
-
- 
-
-
 
   return (
     <Box>
@@ -52,7 +49,7 @@ function Ongoing(props: OrderDetail) {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              {props.restaurantName }
+              {props.restaurantName}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
@@ -75,13 +72,22 @@ function Ongoing(props: OrderDetail) {
               <Text> {props.licensePlate}</Text>
             </Flex>
 
-            <Button
-              variant={"unstyle"}
-              backgroundColor={index.colors.brand[200]}
-              onClick={CancelOrder}
-            >
-              Cancel
-            </Button>
+            <Box display={"flex"} gap={5}>
+              <Button
+                variant={"unstyle"}
+                backgroundColor={index.colors.brand[200]}
+                onClick={CancelOrder}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant={"unstyle"}
+                backgroundColor={index.colors.brand[200]}
+                onClick={CompleteOrder}
+              >
+                Complete
+              </Button>
+            </Box>
           </Box>
           <IconButton
             size="sm"
