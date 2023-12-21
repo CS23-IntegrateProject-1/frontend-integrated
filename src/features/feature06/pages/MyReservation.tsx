@@ -20,7 +20,6 @@ export const MyReservation = () => {
   const fetchData = async () => {
     const response = await getMyReservation();
     setDatas(response);
-    console.log("DATA: ", response);
   };
 
   const RenderCards: FC = () => {
