@@ -66,6 +66,7 @@ export const PromotionEditPage = () => {
       [name]: value,
     }));
   };
+
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = new Date(event.target.value); // Convert input value to a Date object
     const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
@@ -77,6 +78,7 @@ export const PromotionEditPage = () => {
     });
     console.log(setPromotionData);
   };
+
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = new Date(event.target.value); // Convert input value to a Date object
     const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
@@ -88,7 +90,6 @@ export const PromotionEditPage = () => {
     });
     console.log(setPromotionData);
   };
-
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -140,7 +141,6 @@ export const PromotionEditPage = () => {
     } catch (e) {
       //console.error(e);
       console.log(e);
-      
     }
   };
 
@@ -158,7 +158,6 @@ export const PromotionEditPage = () => {
       console.error(err);
     }
   };
-
 
   // const handleSubmit = async () => {
   //   try {
@@ -189,7 +188,6 @@ export const PromotionEditPage = () => {
       console.log(e);
     }
   };
-
 
   const fetchMenu = async () => {
     try {

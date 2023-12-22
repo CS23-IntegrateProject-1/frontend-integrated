@@ -20,14 +20,12 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
-import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface AdvertisementProps {
   name: string;
@@ -40,7 +38,6 @@ interface AdvertisementProps {
   advertisementPlan: number;
 }
 export const AdvertisementIDEditPage = () => {
-  const { onClose } = useDisclosure();
   const id = Number(useParams<{ id: string }>().id);
   const navigate = useNavigate();
   const deleteModal = useDisclosure();
