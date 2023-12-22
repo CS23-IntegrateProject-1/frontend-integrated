@@ -307,7 +307,7 @@ export const AdvertisementIDPage = () => {
                 color={"white"}
                 width="30%"
               >
-                Delete
+                Reject
               </Button>
             </ModalFooter>
           </ModalContent>

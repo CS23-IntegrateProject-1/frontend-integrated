@@ -48,8 +48,9 @@ export const VoucherDetailPage = () => {
         await GetCollectVoucher(voucherId); // Call the API function to collect the voucher
         setVoucherCollected(true); // Update the state to reflect that the voucher is now collected
         console.log("Voucher collected successfully");
+        navigate("/my-rewards");
       } else {
-        navigate("/voucher"); // Redirect to the voucher page if it's already collected
+        navigate("/my-rewards"); // Redirect to the voucher page if it's already collected
       }
     } catch (error) {
       console.error("Error redeeming/collecting voucher:", error);

@@ -42,6 +42,7 @@ interface VoucherType {
   voucherType: string;
   discountVoucher: DiscountVoucherType;
   giftVoucher: GiftVoucherType;
+  point_use?: number;
 }
 
 interface DiscountVoucherType {
@@ -62,6 +63,7 @@ export const VoucherCreatePage = () => {
     //     voucherImage: null,
     startDate: "",
     endDate: "",
+    point_use: 0,
     limitation: 0,
     voucherType: "Discount",
     discountVoucher: {
@@ -136,6 +138,11 @@ export const VoucherCreatePage = () => {
       //    JSON.stringify(voucher.discountVoucher)
       //  );
       //  formData.append("giftVoucher", JSON.stringify(voucher.giftVoucher));
+      if (voucher.voucherType === "Discount") {
+        formData.append("point_use", voucher.point_use?.toString() || "0");
+      } else {
+        formData.append("point_use", "0");
+      }
 
       formData.append(
         "minimum_spend",
@@ -280,6 +287,17 @@ export const VoucherCreatePage = () => {
             />
           </FormControl>
         </Stack>
+        <FormControl mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Point to collect *</FormLabel>
+          <Input
+            name="point_use"
+            value={voucher.point_use}
+            onChange={handleChange}
+            bg={"#390b74"}
+            border={"none"}
+            isRequired
+          />
+        </FormControl>
         <FormControl mb={"20px"}>
           <FormLabel style={TextStyle.h2}>Limitation *</FormLabel>
           <InputGroup>

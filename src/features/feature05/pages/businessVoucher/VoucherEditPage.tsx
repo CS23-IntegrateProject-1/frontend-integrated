@@ -50,6 +50,7 @@ interface DiscountVoucherType {
   percent_discount: number;
   minimum_spend: number;
   limitation: number;
+  point_use: number;
 }
 interface GiftVoucherType {
   giftName: string;
@@ -90,6 +91,7 @@ export const VoucherEditPage = () => {
         voucherType: data.voucherType,
         Discount_voucher: {
           fix_discount: data.Discount_voucher.fix_discount,
+          point_use: data.Discount_voucher.point_use,
           percent_discount: data.Discount_voucher.percent_discount,
           minimum_spend: data.Discount_voucher.minimum_spend,
           limitation: data.Discount_voucher.limitation,
@@ -164,6 +166,10 @@ export const VoucherEditPage = () => {
         formData.append(
           "percent_discount",
           voucherData?.data.Discount_voucher?.percent_discount?.toString() ?? ""
+        );
+        formData.append(
+          "point",
+          voucherData?.data.Discount_voucher?.point_use?.toString() ?? ""
         );
         formData.append(
           "minimum_spend",
@@ -407,6 +413,17 @@ export const VoucherEditPage = () => {
         {voucherData.data?.voucherType === "Discount" ? (
           <Box>
             <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Point{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.point_use}
+            </Text>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
               Fix discount{" "}
             </Heading>
             <Text
@@ -429,6 +446,8 @@ export const VoucherEditPage = () => {
             >
               {voucherData.data?.Discount_voucher.limitation}
             </Text>
+            
+            
 
             <Heading style={TextStyle.h2} marginBottom={"5px"}>
               Minimum Spend{" "}

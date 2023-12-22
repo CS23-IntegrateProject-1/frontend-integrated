@@ -2,6 +2,7 @@ import { Box, Card, CardBody, Text } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
+import { GrView } from "react-icons/gr";
 
 export const AdvertisementCard: React.FC<IAdvertisementCardProp> & {
   isApprove: string;
@@ -31,6 +32,15 @@ export const AdvertisementCard: React.FC<IAdvertisementCardProp> & {
       onClick={handleClick}
       mb={"10px"}
     >
+				<Box
+					pos={"absolute"}
+					top={2}
+					right={1}
+					borderRadius={10}
+					px={"10px"}
+				>
+      <GrView/>
+      </Box>
       <CardBody>
         <Box>
           <Text pt="2" fontSize="md">

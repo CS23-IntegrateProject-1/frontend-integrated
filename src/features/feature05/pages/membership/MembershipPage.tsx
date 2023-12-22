@@ -27,7 +27,6 @@ export const MemberShipPage = () => {
           top="30vh"
         >
           <Stack direction={["column"]} spacing="0px">
-            //Box one
             <Box className="BoxOne">
               <Box
                 w="100vw"

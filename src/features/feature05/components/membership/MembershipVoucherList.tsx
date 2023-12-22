@@ -10,12 +10,12 @@ export const MembershipVoucherList = () => {
     try {
       const result = await Axios.get(`/feature5/GetVoucherForUser/`);
       setVoucherList(result.data);
-      console.log(voucherList);
+      console.log(result.data)
     } catch (e) {
       console.error(e);
     }
   };
-  
+
   useEffect(() => {
     fetchRedeemList();
   }, []);
@@ -29,10 +29,12 @@ export const MembershipVoucherList = () => {
       overflowX="scroll"
     >
       {voucherList &&
-        voucherList?.map((voucher_image: IRedeemList) => (
-          <ShortMembershipVoucherCard {...voucher_image} />
+        voucherList?.map((voucher: IRedeemList) => (
+          <ShortMembershipVoucherCard
+            voucherId={voucher.voucherId}
+            voucher_image={voucher.voucher_image}
+          />
         ))}
     </HStack>
   );
 };
-

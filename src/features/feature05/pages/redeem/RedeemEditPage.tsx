@@ -99,6 +99,20 @@ export const RedeemEditPage = () => {
     };
   }, [imagePreview]);
 
+  const getMemberTierText = () => {
+    if (memberTier == "1") {
+      return 'Regular';
+    } else if (memberTier == "2") {
+      return 'Silver';
+    } else if (memberTier == "3") {
+      return 'Gold';
+    }else if (memberTier == "4") {
+      return 'Platinum';
+
+    }
+  };
+
+
   return (
     <Box
       display={"flex"}
@@ -171,17 +185,13 @@ export const RedeemEditPage = () => {
           {" "}
           Member tier
         </FormLabel>
-        <Select
+        <Input
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           placeholder=" "
-          value={memberTier}
+          value={getMemberTierText()}
         >
-          <option value="1">Regular</option>
-          <option value="2">Silver</option>
-          <option value="3">Gold</option>
-          <option value="4">Platinum</option>
-        </Select>
+        </Input>
       </FormControl>
 
       {/* Image */}

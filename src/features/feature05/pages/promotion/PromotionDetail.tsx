@@ -27,16 +27,11 @@ export const PromotionDetail = () => {
 
   useEffect(() => {
     fetchPromotionBranch();
-  });
+  }, []);
 
   return (
-    <Box marginRight={"150px"}
-        marginLeft={"150px"} >
-      <Center
-        mb={"15px"}
-        overflow={"hidden"}
-        borderRadius={"5px"}
-      >
+    <Box marginRight={"150px"} marginLeft={"150px"}>
+      <Center mb={"15px"} overflow={"hidden"} borderRadius={"5px"}>
         <Image
           w={"100%"}
           height={"auto"}
@@ -53,4 +48,3 @@ export const PromotionDetail = () => {
     </Box>
   );
 };
-

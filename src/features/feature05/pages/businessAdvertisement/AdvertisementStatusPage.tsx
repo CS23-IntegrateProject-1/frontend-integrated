@@ -79,7 +79,7 @@ export const AdvertisementStatusPage: React.FC = () => {
 							}}
 							onClick={() => setSelector("complete")}
 						>
-							Complete
+							Completed
 						</Tab>
 					</Stack>
 				</TabList>

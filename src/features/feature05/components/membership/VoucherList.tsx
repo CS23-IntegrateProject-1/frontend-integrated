@@ -10,7 +10,7 @@ export const VoucherList = () => {
     try {
       const result = await Axios.get(`/feature5/GetVoucherForUser/`);
       setVoucherList(result.data);
-      console.log(voucherList);
+      // console.log(voucherList);
     } catch (e) {
       console.error(e);
     }

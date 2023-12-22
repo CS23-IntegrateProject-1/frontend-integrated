@@ -11,7 +11,7 @@ export const MyprivilegeCard = () => {
     try {
       // Call the function to get the data
       const result = await GetTierNameByTierId();
-
+      
       // Access the data property from the AxiosResponse
       setData(result?.data);
     } catch (error) {

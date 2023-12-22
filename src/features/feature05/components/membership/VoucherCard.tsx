@@ -20,7 +20,7 @@ export const VoucherCard = () => {
 
       // Access the data property from the AxiosResponse
       setData(result?.data);
-      setPoints(resultPoint?.data);
+      setPoints(resultPoint?.data.amount);
       // console.log(data?.points);
     } catch (error) {
       console.error("Error fetching data:", error);

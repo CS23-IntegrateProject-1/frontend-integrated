@@ -17,7 +17,7 @@ import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 export const MemberShipCard = () => {
   const [data, setData] = useState<string>();
-  const [points, setPoints] = useState<number>();
+  const [points, setPoints] = useState<number>(0);
   const [expireDate, setExpireDate] = useState("");
 
   const fetchDatas = async () => {
@@ -25,9 +25,9 @@ export const MemberShipCard = () => {
       const result = await GetTierNameByTierId();
       const resultPoint = await GetPoint();
       const resultExpire = await GetExpire();
-      
+      console.log("point: ", resultPoint.data);
       setData(result?.data);
-      setPoints(resultPoint?.data);
+      setPoints(resultPoint?.data.amount);
       setExpireDate(resultExpire?.data.currentDate);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -36,6 +36,7 @@ export const MemberShipCard = () => {
 
   useEffect(() => {
     fetchDatas();
+    // console.log("point: ", points)
   }, []); 
 
   return (
