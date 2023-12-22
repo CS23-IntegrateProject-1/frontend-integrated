@@ -83,7 +83,7 @@ const FoodDelivery = () => {
     getTotalCost();
     fetchMenuData();
     fetchBranchName();
-  }, []);
+  }, [branchId, venueId, itemCount]);
 
   return (
     <Box>

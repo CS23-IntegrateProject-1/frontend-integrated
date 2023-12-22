@@ -37,7 +37,7 @@ export const Checkout = () => {
       }
     }
     fetchBranchName();
-  }, []);
+  }, [branchId, venueId]);
 
   const handleLocationSelect = (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => {
     if (selectedLocation) {

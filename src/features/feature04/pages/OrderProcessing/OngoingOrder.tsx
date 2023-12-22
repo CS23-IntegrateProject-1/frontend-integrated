@@ -62,7 +62,7 @@
             // onlineOrderId={orderData.onlineOrderId}
           />
         )}
-          <Box display={"flex"} gap={5}>
+          <Box display={"flex"} gap={5} marginBottom={2}>
               <Button
                 variant={"unstyle"}
                 backgroundColor={index.colors.brand[200]}
@@ -78,8 +78,10 @@
                 Complete
               </Button>
             </Box>
-            <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
-                Ongoing
+            <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}
+              marginTop={5}
+            >
+                On going
             </Text>
             <br/>
             </Flex>

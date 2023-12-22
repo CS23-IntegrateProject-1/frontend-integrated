@@ -12,7 +12,7 @@ interface Venue{
 }
 export const InCartMenu = (props:Venue) => {
   const [subtotal, setsubTotal] = useState<number>(0); // Define total state
-  const [itemQuantities, setItemQuantities] = useState<{
+  const [itemQuantities] = useState<{
     [itemId: string]: number;
   }>({});
   const queryClient = useQueryClient();
@@ -75,7 +75,7 @@ export const InCartMenu = (props:Venue) => {
           { ...cartItems[itemIndex], quantity: updatedQuantity },
           ...cartItems.slice(itemIndex + 1),
         ];
-
+        console.log(updatedCartItems)
         // Make a request to update the server-side cart
         await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {
           quantity: updatedQuantity,
@@ -125,6 +125,7 @@ export const InCartMenu = (props:Venue) => {
           { ...cartItems[itemIndex], quantity: updatedQuantity },
           ...cartItems.slice(itemIndex - 1),
         ];
+        console.log(updatedCartItems)
 
         // Make a request to update the server-side cart
         await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {

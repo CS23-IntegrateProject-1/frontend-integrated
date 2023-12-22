@@ -26,7 +26,7 @@ export const CartDetail = () => {
       }
     }
     fetchBranchName();
-  }, []);
+  }, [branchId, venueId]);
   
   return (
     <Box>

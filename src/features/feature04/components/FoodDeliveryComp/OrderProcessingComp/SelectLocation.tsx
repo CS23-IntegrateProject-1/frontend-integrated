@@ -76,6 +76,7 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
   console.log("dataSaved");
   console.log(dataSaved);
   console.log("====");
+  console.log(deliveryInstruction)
 
   const EditIcon: React.FC = () => {
     return (
