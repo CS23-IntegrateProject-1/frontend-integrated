@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,InputGroup,InputRightElement } from '@chakra-ui/react';
 import Chart from 'chart.js/auto';
 import { Input, Button, useMediaQuery } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
+
 import SortingModal from '../components/SortingModal';
 import FilteringModal from '../components/FilteringModal';
 import RestaurantCard from '../components/RestaurantCard';
@@ -11,7 +13,7 @@ const chartWidthPercentage = '30%';
 const cutoutPercentage = 25;
 const chartMarginPercentage = '15%';
 
-const Dashboard: React.FC = () => {
+const  Dashboard: React.FC = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,6 +32,11 @@ const Dashboard: React.FC = () => {
   const closeModal = () => {
     setSelectedRestaurant(null);
     setIsModalOpen(false);
+  };
+  const handleSearch = () => {
+    // Your search functionality here using the searchTerm state
+    console.log(`Searching for: ${searchTerm}`);
+    // Perform other actions as needed
   };
 
   const [isSmallerScreen] = useMediaQuery('(max-width: 767px)');
@@ -214,7 +221,7 @@ const Dashboard: React.FC = () => {
         color="#D9D9D9"
         mb="20px"
         alignSelf="flex-start"
-        fontSize={fontSize}
+        fontSize={20}
         marginLeft={isSmallerScreen ? '14%' : '0'}
       >
         Total Business - 245
@@ -249,7 +256,7 @@ const Dashboard: React.FC = () => {
           ></span>
           <span
             style={{
-              fontSize: isSmallerScreen ? '8px' : '10px',
+              fontSize: isSmallerScreen ? '15px' : '15px',
               lineHeight: '1',
               verticalAlign: 'middle',
               marginLeft: '2px',
@@ -271,7 +278,7 @@ const Dashboard: React.FC = () => {
           ></span>
           <span
             style={{
-              fontSize: isSmallerScreen ? '8px' : '10px',
+              fontSize: isSmallerScreen ? '15px' : '15px',
               lineHeight: '1',
               verticalAlign: 'middle',
               marginLeft: '2px',
@@ -299,7 +306,7 @@ const Dashboard: React.FC = () => {
           ></span>
           <span
             style={{
-              fontSize: isSmallerScreen ? '8px' : '10px',
+              fontSize: isSmallerScreen ? '15px' : '15px',
               lineHeight: '1',
               verticalAlign: 'middle',
               marginLeft: '2px',
@@ -321,7 +328,7 @@ const Dashboard: React.FC = () => {
           ></span>
           <span
             style={{
-              fontSize: isSmallerScreen ? '8px' : '10px',
+              fontSize: isSmallerScreen ? '15px' : '15px',
               lineHeight: '1',
               verticalAlign: 'middle',
               marginLeft: '2px',
@@ -343,7 +350,7 @@ const Dashboard: React.FC = () => {
           ></span>
           <span
             style={{
-              fontSize: isSmallerScreen ? '8px' : '10px',
+              fontSize: isSmallerScreen ? '15px' : '15px',
               lineHeight: '1',
               verticalAlign: 'middle',
               marginLeft: '2px',
@@ -366,26 +373,47 @@ const Dashboard: React.FC = () => {
         width={buttonWidthPercentage}
       >
         <p style={{ fontSize: `calc(${baseFontSize} * 2)` }}>{`Static from ${date1} to ${date2}`}</p>
-        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+        <div style ={{ display: 'flex', justifyContent: 'space-between' , borderBottom:'1px solid white', paddingBottom: '10px'}}> 
+          <div>
           <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Number of Receipts</p>
         </div>
-        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+        <div>
+            <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>3256</p>
+          </div>
+          </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' ,borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <div>
           <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Revenue</p>
         </div>
-        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
+        <div>
+            <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>4356k Baht</p>
+          </div>
+          </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' ,borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <div>
           <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Harmony to Partners</p>
         </div>
-        <div style={{ borderBottom: '1px solid white', paddingBottom: '10px' }}>
-          <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Net Profit</p>
+        <div>
+            <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>2614k Baht</p>
+          </div>
+          </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' ,borderBottom: '1px solid white', paddingBottom: '10px' }}>
+          <div>
+            <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>Net Profit</p>
         </div>
-        <Button
+        <div>
+            <p style={{ fontSize: `calc(${baseFontSize} * 1.5)` }}>1742k Baht</p>
+          </div>
+          </div>
+         <Button
           variant="link"
           colorScheme="white"
-          fontSize={fontSize}
+          fontSize={"1.5rem"}
           onClick={() => setShowFilteringModal(!showFilteringModal)}
         >
           Filter
         </Button>
+    
       </Box>    
       <Box
         width={buttonWidthPercentage}
@@ -394,6 +422,7 @@ const Dashboard: React.FC = () => {
         justifyContent="space-between"
         alignItems="center"
       >
+        <InputGroup width="50%">
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -401,11 +430,20 @@ const Dashboard: React.FC = () => {
           marginRight="10px"
           style={{ backgroundColor: 'white', color: 'black' }} // Styles for white background
         />
-
+ <InputRightElement>
+          <Button
+            variant="ghost"
+            colorScheme="white"
+            onClick={handleSearch}
+          >
+            <SearchIcon color="black" />
+          </Button>
+        </InputRightElement>
+      </InputGroup>
         <Button
           variant="link"
           colorScheme="white"
-          fontSize={fontSize}
+          fontSize={"1.1rem"}
           onClick={() => setShowSortingModal(!showSortingModal)}
           marginBottom="10px"
         >
@@ -415,7 +453,7 @@ const Dashboard: React.FC = () => {
         <Button
           variant="link"
           colorScheme="white"
-          fontSize={fontSize}
+          fontSize={"1.1rem"}
           onClick={() => setShowFilteringModal(!showFilteringModal)}
           marginBottom="10px"
         >
