@@ -9,7 +9,7 @@ import {
 import index from "../../../../../theme/foundations/index";
 import { useState } from "react";
 
-export const PaymentMethod = () => {
+export const PaymentMethod = ({ onPaymentMethodSelect }: { onPaymentMethodSelect: (value: string) => void }) => {
   const PaymentIcon: React.FC = () => {
     return (
       <svg
@@ -49,6 +49,8 @@ export const PaymentMethod = () => {
   const [selectedCardType, setSelectedCardType] = useState<string>("");
   const handlePaymentApply = (value: string) => {
     setSelectedCardType(value);
+    // Call the callback function with the selected payment method
+    onPaymentMethodSelect(value);
   }
   return (
     <Box>
