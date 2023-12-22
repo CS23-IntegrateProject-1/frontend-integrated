@@ -6,8 +6,7 @@ export const signup = async (
 	username: string,
 	phone: string,
 	email: string,
-	password: string,
-	addId: string
+	password: string
 ) => {
 	try {
 		const response = await Axios.post("/auth/signup", {
@@ -16,8 +15,7 @@ export const signup = async (
 			username,
 			phone,
 			email,
-			password,
-			addId
+			password
 		});
 		console.log(response);
 		return response;
