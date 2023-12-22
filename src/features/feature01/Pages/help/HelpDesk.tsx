@@ -27,8 +27,7 @@ const defaultTicketDetails: TicketDetails = {
 
 export const HelpDesk = () => {
     const[listData, setListData] = useState([]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [ticketData, setTicketData] = useState("");
+    const [ticketData] = useState("");
     const [ticketDetails, setTicketDetails] = useState<TicketDetails>(defaultTicketDetails);
     const [topicData, setTopicData] = useState("");
     const [complaintData, setComplaintData] = useState("");
