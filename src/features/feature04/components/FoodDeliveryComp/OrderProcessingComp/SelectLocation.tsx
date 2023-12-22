@@ -16,7 +16,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
@@ -40,7 +40,7 @@ interface SavedLocationInterface{
 
 // const queryClient = new QueryClient()
 interface SelectLocationProps {
-  onLocationSelect: (selectedLocation: SavedLocationItem | undefined) => void;
+  onLocationSelect: (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => void;
 }
 export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) => {
   const [value, setValue] = useState("1");
@@ -50,6 +50,8 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [districtSubdistrict, setDistrictSubdistrict] = useState<string>("");
+  const [deliveryInstruction, setDeliveryInstruction] = useState<string>("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { data: dataSaved} = useQuery<SavedLocationInterface>({
     queryKey: ["dataSaved"], 
     queryFn: async () => {
@@ -106,7 +108,9 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
     setName(`${selectedLocation?.name}`);
     setAddress(`${selectedLocation?.address}`);
     setDistrictSubdistrict(`${selectedLocation?.district}, ${selectedLocation?.sub_district}, ${selectedLocation?.province}, ${selectedLocation?.postcode}`);
-    onLocationSelect(selectedLocation);
+    const textareaValue = textareaRef.current?.value || "";
+    setDeliveryInstruction(textareaValue);
+  onLocationSelect(selectedLocation, textareaValue);
     // Close the modal
     onClose();
   };
@@ -208,6 +212,7 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
 
           <br />
           <Textarea
+            ref={textareaRef}
             placeholder="Delivery Instruction"
             size="md"
             variant={"unstyle"}

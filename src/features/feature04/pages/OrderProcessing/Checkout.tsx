@@ -36,10 +36,11 @@ export const Checkout = () => {
     fetchBranchName();
   }, []);
 
-  const handleLocationSelect = (selectedLocation: SavedLocationItem | undefined) => {
+  const handleLocationSelect = (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => {
     if (selectedLocation) {
       // Do something with the selected location data
       console.log("Selected Location:", selectedLocation);
+      console.log("Delivery Instruction",deliveryInstruction)
       // You can set the location data to state or perform any other actions here
     } else {
       // Handle the case where selectedLocation is undefined
