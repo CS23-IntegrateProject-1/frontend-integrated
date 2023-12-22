@@ -1,8 +1,23 @@
 import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { NavLink, useNavigate } from "react-router-dom";
 
-export const Completed=()=> {
+interface OrderDetail {
+  restaurantName: string;
+  OrderDate: string;
+  price: number;
+  Driver: string;
+  licensePlate: string;
+  branchId: number;
+  onlineOrderId: number;
+}
+
+export const Completed=(props: OrderDetail)=> {
+  const navigate = useNavigate();
+  const NavigateCompletedDetail = () => {
+    navigate(`/map/food-delivery/Completed-your-order/${props.onlineOrderId}`);
+  };
   return <Box>
      <Box>
       <Flex justifyContent={"center"}>
@@ -23,7 +38,7 @@ export const Completed=()=> {
             src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
             width="30%"
             height="30%"
-            style={{ borderRadius: "5%", margin: 0 }}
+            style={{ borderRadius: "5%", margin: 15 }}
             alt="Menu Item"
           />
           <Box flexDir={"row"}>
@@ -31,18 +46,26 @@ export const Completed=()=> {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              MK Roast Duck
+              {props.restaurantName}
             </Text>
             <Text
-              fontSize={index.textStyles.body2.fontSize}
-              fontWeight={index.textStyles.body2.fontWeight}
+              fontSize={index.textStyles.body1.fontSize}
+              fontWeight={index.textStyles.body1.fontWeight}
             >
-              Date: 05/11/23
+              {props.OrderDate}
+            </Text>
+            <Text
+              fontSize={index.textStyles.body1.fontSize}
+              fontWeight={index.textStyles.body1.fontWeight}
+            >
+              Driver: {props.Driver}
             </Text>
             <Flex alignItems={"flex-end"} justifyContent={"flex-end"} mt={5}>
+            <NavLink to={`/ReviewDelivery/${props.branchId}`}>
             <Button variant={"unstyle"} backgroundColor={index.colors.brand[200]} borderRadius={10} minWidth={100}>
                 Review
             </Button>
+            </ NavLink>
             </Flex>
            
           </Box>
@@ -51,6 +74,7 @@ export const Completed=()=> {
             aria-label="Next"
             fontSize="1.5rem"
             variant={"unstyle"}
+            onClick={NavigateCompletedDetail}
           >
             <MdKeyboardArrowRight />
           </IconButton>

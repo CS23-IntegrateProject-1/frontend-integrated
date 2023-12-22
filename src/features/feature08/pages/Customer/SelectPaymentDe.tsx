@@ -42,13 +42,13 @@ export const SelectPaymentDe: FC<ButtonProps> = ({
   
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
-  const { reservationId } = useParams();
+  const { onlineOrderId } = useParams();
 
   const redirectToDelivery = async (event: React.FormEvent) => {
     event.preventDefault();
 
     
-    Axios.post(`/feature8/create-delivery-session/${reservationId}`)
+    Axios.post(`/feature8/create-delivery-session/${onlineOrderId}`)
       .then(async (res) => {
       
         console.log(res.data);

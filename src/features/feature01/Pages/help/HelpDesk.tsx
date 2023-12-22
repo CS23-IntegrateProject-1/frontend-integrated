@@ -73,7 +73,7 @@ export const HelpDesk = () => {
         .catch((error) => {
           console.error("Error fetching ticket data:", error);
         });
-      }, []);
+      }, [listData]);
 
       
   return (
@@ -131,7 +131,7 @@ export const HelpDesk = () => {
          {listData.map((data:any) => (
           // <div key={data.ticket_id}>
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        <Box onClick={_ => handleOpen(data.ticket_id)} key={data.ticket_id} cursor={'pointer'} bg={'grey.100'} display={'flex'} w={'50%'} py={5} borderRadius={15} justifyContent={'space-between'}>
+        <Box onClick={_ => handleOpen(data.ticket_id)} key={data.ticket_id} cursor={'pointer'} bg={'grey.100'} display={'flex'} w={'50%'} py={5} borderRadius={15} justifyContent={'space-between'} mt={"10px"}>
             <Box><Text color={'brand.300'} pl={2}>{data.topic}</Text></Box>
             <Box color={data.status === 'Pending' ? 'yellow' : 'green'} pr={2}>{data.status}</Box> 
          </Box>
