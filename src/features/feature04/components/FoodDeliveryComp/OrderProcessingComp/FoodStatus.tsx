@@ -2,14 +2,19 @@ import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
-export const FoodStatus = () => {
+
+interface FoodStatusProps {
+  venueId: string | undefined;
+  branchId: string | undefined;
+}
+export const FoodStatus = (props:FoodStatusProps) => {
   const location = useLocation();
   const CheckoutIsActive = location.pathname === "/map/food-delivery/checkout";
   const YourOrderIsActive = location.pathname === "/map/food-delivery/your-order"
 const navigate = useNavigate();
-const navigateInCartDetail =()=>{ navigate('/map/food-delivery/cart-detail')};
-const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
-const navigateMenu = ()=>{navigate('/map/food-delivery/')}
+const navigateInCartDetail =()=>{ navigate(`/map/food-delivery/cart-detail/${props.venueId}/${props.branchId}`)};
+const navigateCheckout = ()=>{navigate(`/map/food-delivery/checkout/${props.venueId}/${props.branchId}`)};
+const navigateMenu = ()=>{navigate(`/map/food-delivery/${props.venueId}/${props.branchId}`)}
   const linkIsCompleted = {
     backgroundColor: index.colors.brand[200],
     color: index.colors.white,

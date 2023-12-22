@@ -27,7 +27,7 @@ export const Feature04Routes = () => {
     {path:"/map/food-delivery/completed",element:<CompletedStatusPage/>},
     {path:"/map/food-delivery/canceled",element:<CanceledMyDelivery/>},
     {path:"/map/food-delivery/cart-detail/:venueId/:branchId",element:<CartDetail/>},
-    {path:"/map/food-delivery/checkout",element:<Checkout/>},
+    {path:"/map/food-delivery/checkout/:venueId/:branchId",element:<Checkout/>},
     {path:"/map/food-delivery/edit-delivery-location",element:<EditLocation/>},
     {path:"/map/food-delivery/your-order",element:<YourOrder/>},
     {path:"/map/food-delivery/cancel-your-order/:onlineOrderId",element:<CancelOrder/>},

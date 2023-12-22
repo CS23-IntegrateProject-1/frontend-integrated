@@ -157,7 +157,7 @@ export const InCartMenu = (props:Venue) => {
   const navigate = useNavigate();
 
   const nav = () => {
-    navigate("/map/food-delivery/checkout");
+    navigate(`/map/food-delivery/checkout/${props.venueId}/${props.branchId}`);
   };
   const navToMenu = () => {
     navigate(`/map/food-delivery/${props.venueId}/${props.branchId}`);

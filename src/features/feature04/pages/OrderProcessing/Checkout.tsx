@@ -10,6 +10,7 @@ import { SavedLocationItem } from "../../components/FoodDeliveryComp/OrderProces
 import { PlaceOrder } from "../../components/FoodDeliveryComp/OrderProcessingComp/PlaceOrder";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 // interface Order {
 //   amount: number;
@@ -18,6 +19,7 @@ import { Axios } from "../../../../AxiosInstance";
 //   price: number;
 // }
 export const Checkout = () => {
+  const { venueId, branchId } = useParams();
 
   const [venue, setVenue] = useState<string>(""); // Define total state
   const [branchName, setBranchName] = useState<string>(""); // Define total state
@@ -25,7 +27,7 @@ export const Checkout = () => {
   useEffect(() => {
     const fetchBranchName = async () => {
       try {
-        const response = await Axios.get("/feature4/branch/1/4")
+        const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`)
         console.log(response.data);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);
@@ -50,7 +52,7 @@ export const Checkout = () => {
   return (
     
     <Box>
-      <FoodStatus />
+      <FoodStatus venueId={venueId} branchId={branchId}/>
 <br/>
       <Flex justifyContent={"center"}>
         <Text

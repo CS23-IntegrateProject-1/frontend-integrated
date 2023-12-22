@@ -30,7 +30,7 @@ export const CartDetail = () => {
   
   return (
     <Box>
-      <FoodStatus />
+      <FoodStatus venueId={venueId} branchId={branchId} />
       <Flex justifyContent={"center"}>
         <Text
           textAlign={"center"}
