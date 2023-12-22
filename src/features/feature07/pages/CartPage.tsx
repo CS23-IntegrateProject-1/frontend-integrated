@@ -1,6 +1,6 @@
 // import React from 'react';
 import { Box,Flex, VStack, Text,Center} from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SecondCartCard } from '../component/SecondCartCard';
 import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
 
@@ -36,16 +36,16 @@ const fetchCartItems = async () => {
 export const CartPage = () => {
 
     const navigate = useNavigate();
-    const { venueId } = useParams();
-    console.log(venueId);
+    // const { venueId } = useParams();
+    // console.log(venueId);
 
     const { data: cartItems, isLoading, isError } = useQuery(["cartItem"], () => fetchCartItems());
 
     const handleOrder = async () => {
       try {
-        const response = await Axios.post(`/feature7/addCartToOrderDetailsOfDineIn/${venueId}/`);
+        const response = await Axios.post('/feature7/addCartToOrderDetailsOfDineIn');
         console.log('Response:', response.data); // Log the response data for debugging
-        navigate(`/venue/${venueId}/order`);
+        navigate('/venue/order');
       } catch (error) {
         console.error('Error confirming order:', error); // Log any errors for debugging
         console.log('Error response:'); // Log the error response for debugging
@@ -76,7 +76,7 @@ export const CartPage = () => {
               foodName={item.name}
               description={item.description}
               price={item.price}
-              imageUrl={item.menuId !== null ? item.image : item.image_url}
+              imageUrl={item.image}
               amount={item.quantity}
               type={item.menuId !== null ? 'Menu' : 'Set'}
             />

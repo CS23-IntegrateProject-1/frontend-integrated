@@ -29,6 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticle } from "../../../../api/feature11/fetchArticle";
 import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
+import PhotoDisplayer from "../../components/PhotoDisplayer";
 
 export const EditArticlePage = () => {
   const article = useQuery({
@@ -66,7 +67,6 @@ export const EditArticlePage = () => {
     Axios.get("/feature11/fetchAllVenueName")
       .then((res) => {
         setVenues(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -83,7 +83,7 @@ export const EditArticlePage = () => {
   if (article.error instanceof Error) {
     return <div>An error occurred: {article.error.message}</div>;
   }
-
+  console.log(article.data);
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTopic(e.target.value);
   };
@@ -103,7 +103,7 @@ export const EditArticlePage = () => {
           {
             articleId: parseInt(articleId || "0"),
             venueId: selectedVenue.venueId,
-            venue: { venueId: selectedVenue.venueId, name: selectedVenue.name },
+            Venue: { venueId: selectedVenue.venueId, name: selectedVenue.name },
           },
         ]);
       }
@@ -126,7 +126,7 @@ export const EditArticlePage = () => {
         {
           articleId: parseInt(articleId || "0"),
           tagId: newTagId,
-          tag: {
+          Tag: {
             tagId: newTagId,
             tag_name: tagInput,
           },
@@ -135,7 +135,7 @@ export const EditArticlePage = () => {
     }
   };
   const handleRemoveTag = (tag: string) => {
-    const updatedTags = tags.filter((t) => t.tag.tag_name !== tag);
+    const updatedTags = tags.filter((t) => t.Tag.tag_name !== tag);
     setTags(updatedTags);
   };
 
@@ -152,58 +152,47 @@ export const EditArticlePage = () => {
       content === "" ||
       selectedVenues.length === 0 ||
       authorName === ""
-      // images.length === 0
     ) {
-      alert("Please fill in all the fields");
+      console.log(selectedVenues);
+      console.log(authorName);
+
+      toast.warning("Please fill in all fields");
       return;
     }
     const selectedVenueIds = Array.from(
       new Set(selectedVenues.map((venue) => venue.venueId))
     );
-    const formattedTags = tags.map((tagObj) => tagObj.tag.tag_name);
+    const formattedTags = tags.map((tagObj) => tagObj.Tag.tag_name);
 
-    // const formData = new FormData();
-    // formData.append("articleId", articleId || "0");
-    // formData.append("topic", topic);
-    // formData.append("content", content);
-    // formData.append("category", category);
-    // formData.append("author_name", authorName);
-    // for (let i = 0; i < selectedVenueIds.length; i++) {
-    //   formData.append("venueIds[]", selectedVenueIds[i].toString());
-    // }
-    // formattedTags.forEach((tag) => {
-    //   formData.append("tags[]", tag);
-    // });
+    const formData = new FormData();
+    formData.append("articleId", articleId || "0");
+    formData.append("topic", topic);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("author_name", authorName);
+    for (let i = 0; i < selectedVenueIds.length; i++) {
+      formData.append("venueIds[]", selectedVenueIds[i].toString());
+    }
+    formattedTags.forEach((tag) => {
+      formData.append("tags[]", tag);
+    });
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     formData.append("files", image);
-    //   });
-    // } else {
-    //   console.log("no images");
-    // }
-    // console.log("topic1",topic)
-    // console.log("topic" ,formData.get("topic"))
-    Axios.patch(
+    if (images) {
+      images.forEach((image) => {
+        formData.append("files", image);
+      });
+    } else {
+      console.log("no images");
+    }
+    Axios.post(
       "/feature11/editArticle",
-      {
-        articleId: parseInt(articleId || "0"),
-        topic: topic,
-        content: content,
-        category: category,
-        author_name: authorName,
-        venueIds: selectedVenueIds,
-        tags: formattedTags,
-        images: images
-      },
-      // formData,
+      formData,
 
-      // {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // }
-      // formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     )
       .then((res) => {
         console.log(res);
@@ -252,7 +241,7 @@ export const EditArticlePage = () => {
           // value={images.map((image) => image.url)}
         />
       </FormControl>
-
+      <PhotoDisplayer images={article.data?.Images || []} />
       {/* =============== Author Name ================== */}
       <FormControl
         display={"flex"}
@@ -289,7 +278,6 @@ export const EditArticlePage = () => {
           variant={"flushed"}
           borderColor={"whiteAlpha.600"}
           size={"sm"}
-          // value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="Blog">Blog</option>
@@ -351,9 +339,9 @@ export const EditArticlePage = () => {
               bgColor={"brand.200"}
               color={"white"}
             >
-              <TagLabel>{value.tag.tag_name}</TagLabel>
+              <TagLabel>{value.Tag.tag_name}</TagLabel>
               <TagCloseButton
-                onClick={() => handleRemoveTag(value.tag.tag_name)}
+                onClick={() => handleRemoveTag(value.Tag.tag_name)}
               />
             </Tag>
           ))}
@@ -397,7 +385,7 @@ export const EditArticlePage = () => {
               bgColor={"brand.200"}
               color={"white"}
             >
-              <TagLabel>{venue.venue.name}</TagLabel>
+              <TagLabel>{venue.Venue.name}</TagLabel>
               <TagCloseButton
                 onClick={() => handleRemoveVenue(venue.venueId)}
               />

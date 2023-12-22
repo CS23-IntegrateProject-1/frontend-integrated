@@ -1,10 +1,11 @@
-import {
-  Box,
-  Image,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Image, Text, Flex } from "@chakra-ui/react";
 import { FC } from "react";
+
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
+}
 
 interface RDetailCardProps {
   name?: string;
@@ -12,15 +13,17 @@ interface RDetailCardProps {
   location?: string;
   venueId?: number;
   src?: string;
+  
+  image_url: IPhotoData[] | undefined;
 }
 
 export const RDetailCard: FC<RDetailCardProps> = ({
   name,
   star,
   location,
+  image_url,
 }) => {
-  const images: string[] = ["1", "2", "3", "4", "5", "6"];
-  
+  const isSingleImage = image_url && image_url.length === 1;
   return (
     <Box
       width="320px"
@@ -32,19 +35,20 @@ export const RDetailCard: FC<RDetailCardProps> = ({
       style={{ borderColor: "#DEBEF6" }}
     >
       <Box w={"100vw"} pos={"absolute"} left={0}>
-        <Flex overflow={"scroll"}>
-          {images.map((image) => (
-            <Image
-              key={image}
-              ml={"10px"}
-              minWidth="320px"
-              height="168px"
-              borderRadius="15px"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"
-              // src ={src}
-              alt="Caffe Latte"
-            />
-          ))}
+        <Flex overflow={"scroll"} justifyContent={isSingleImage ? "center" : "flex-start"}>
+          {image_url &&
+            Array.isArray(image_url) &&
+            image_url.map((image: IPhotoData, index: number) => (
+              <Image
+                key={index}
+                ml={"10px"}
+                minWidth="320px"
+                height="168px"
+                borderRadius="15px"
+                src={image.image_url} // src ={src}
+                alt="Caffe Latte"
+              />
+            ))}
         </Flex>
       </Box>
       <Box height="168px" />
@@ -70,7 +74,8 @@ export const RDetailCard: FC<RDetailCardProps> = ({
         fontWeight="400"
         line-height="normal"
         marginTop="-5px"
-      >{location}
+      >
+        {location}
       </Text>
       <Box marginLeft="4px" marginTop="4px">
         <svg

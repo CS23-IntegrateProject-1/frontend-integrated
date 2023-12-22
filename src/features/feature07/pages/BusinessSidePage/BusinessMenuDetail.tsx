@@ -30,7 +30,7 @@ const getMenuItem = async (type: string, menuid: string) => {
 
 
 export const BusinessMenuDetail: FC = () => {
-  const { type, menuid, venueId } = useParams();
+  const { type, menuid } = useParams();
   const toast = useCustomToast();
   //console.log(menuid);
   const navigate = useNavigate();
@@ -49,9 +49,9 @@ export const BusinessMenuDetail: FC = () => {
 
   const handleMenuEdit = () => {
     if (type == "Set") {
-      navigate(`/venue/${venueId}/editsetmenu/${menuid}`);
+      navigate(`/business/venue/editsetmenu/${menuid}`);
     } else {
-      navigate(`/venue/${venueId}/editmenu/${menuid}`);
+      navigate(`/business/venue/editmenu/${menuid}`);
     }
   };
 
@@ -61,9 +61,9 @@ export const BusinessMenuDetail: FC = () => {
       toast.success("Menu Deleted");
       console.log("Menu deleted:", response.data);
       if (type == "Set") {
-        navigate(`/venue/${venueId}/menubusiness?section=setmenu`);
+        navigate(`/business/venue/menubusiness?section=setmenu`);
       } else {
-        navigate(`/venue/${venueId}/menubusiness?section=allmenu`);
+        navigate(`/business/venue/menubusiness?section=allmenu`);
       }
       //   const targetPath = `/venue/${venueId}/menubusiness?section=allmenu`;
       //   //console.log('Navigating to:', targetPath);
@@ -75,7 +75,7 @@ export const BusinessMenuDetail: FC = () => {
 
   const getBranchAvailability = async (menuid: string) => {
     const response = await Axios.get(
-      `/feature7/checkMenuAvailabilityOfAllBranches/${menuid}/${venueId}`
+      `/feature7/checkMenuAvailabilityOfAllBranches/${menuid}`
     );
     //console.log("BranchAva",response.data);
     return response.data;
@@ -94,7 +94,7 @@ export const BusinessMenuDetail: FC = () => {
   const handleBranchSwitch = async (branchId: number) => {
     try {
       const response = await Axios.post(
-        `/feature7/changeMenuAvailability/${menuid}/${venueId}/${branchId}`
+        `/feature7/changeMenuAvailability/${menuid}/${branchId}`
       );
       branchAvailabilityRefetch();
       console.log("SetBranchAva",response);

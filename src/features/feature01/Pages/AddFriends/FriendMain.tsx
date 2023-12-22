@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -31,7 +32,7 @@ import {  Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 interface FriendList {
   user_id: number;
   username: string;
@@ -43,18 +44,29 @@ interface FriendList {
 interface GroupList {
   group_id: number;
   group_name: string;
-  avatar: string;
+  group_avatar: string;
+  is_secret_group: boolean;
+}
+interface ProfileData {
+  userId: number,
+  username: string,
+  phone: string,
+  email: string,
+  birthday: string,
+  gender: string,
+  avatar: string, //change later
 }
 export const FriendMain = () => {
   const [isShowAddFri, setisShowAddFri] = useState(false);
   const [friData, setFriData] = useState<FriendList[]>([]);
   const [groupData, setGroupData] = useState<GroupList[]>([]);
-  const [profileData, setProfileData] = useState("");
+  const [profileData, setProfileData] = useState<ProfileData>();
   //to show overlay box to integrate with chat group
   const [selectedFrigateId, setSelectedFrigateId] = useState(0);
   const [selectedGroupId, setSelectedGroupId] = useState(0);
   if(selectedGroupId){console.log(selectedGroupId)}// testing to see id
   const location = useLocation();
+  const navigate = useNavigate();
   const newGroup = location.state?.newGroup; // access updated group data
   console.log(newGroup);
   //get the fir list of the user when the page is loaded
@@ -92,29 +104,26 @@ export const FriendMain = () => {
       .then((response) => {
         if (response.status == 200) {
           setGroupData(response.data);
-          console.log("list of group" + groupData);
-          groupData.map((item) => {
-            console.log(item.group_name);
-          });
+          // console.log('hello');
+          // groupData.map((item) => {
+          //   console.log('testing')
+          //   if(item.is_secret_group == false){
+          //     length++;
+          //     console.log('hel', length)
+          //   }
+          //   setCount(length);
+          //   console.log(count, 'count')
+
+          // });
+
         }
       })
       .catch((error) => {
         console.error("Error fetching group list data:", error);
       });
 
-    // const url1 = `/feature1/profile`;
-    // Axios.get(url1, { withCredentials: true })
-    // .then((response) => {
-    //     if (response.status == 200) {
-    //         setProfileData(response.data);
-    //         console.log(profileData + 'profile');
-
-    //     }
-    // })
-    // .catch((error) => {
-    //     console.error("Error fetching user list data:", error);
-    // });
-  }, [friData, groupData, profileData]);
+  }, []);
+  
   useEffect(() => {
     if (newGroup) {
       //group list
@@ -134,7 +143,7 @@ export const FriendMain = () => {
         });
       //setGroupData([...groupData, newGroup]);
     }
-  }, [groupData, newGroup]);
+  }, []);
   //click frilist to show overlay
   const handleFriClick = (id: number) => {
     setSelectedFrigateId(id);
@@ -145,15 +154,19 @@ export const FriendMain = () => {
         onOpen();
         console.log(item.name);
         console.log(item.user_id);
+        setFriendId(item.user_id);
+        console.log(item.user_id), "testing id article";
+        setFriendname(item.name);
+        setFriendImg(item.avatar);
       }
     });
   };
   //click group list to show overlay
   const handleGroupClick = (id : number) => {
-    setSelectedGroupId(id);
+    setSelectedGroupId(id); //---------> if group list was clicked by user
     //check if fridata id and selected id is same
     groupData.map((item) => {
-      if (item.group_id == id) {
+      if (item.group_id == id ) {
         console.log("same");
         //pass to chat group by to show each group chat
         console.log(item.group_name);
@@ -176,10 +189,17 @@ export const FriendMain = () => {
   const [username, setUsername] = useState("");
   const [friendname, setFriendname] = useState("");
   const [friendImg, setFriendImg] = useState("");
-  //const [isFriend, setIsFriend] = useState(false);
+  const [friendId, setFriendId] = useState<number>();
+  const filteredGroups = groupData.filter((item) => item.is_secret_group === false);
+  const filteredGroupsLength = filteredGroups.length;
+  console.log(filteredGroupsLength);
 
   console.log(username);
-
+  //navigate to community chat
+  const handleNavigateChat = () => {
+    //navigate to comuunity chat
+    navigate("/communitychat");
+  };
   const handleSearch = () => {
     console.log("search");
     //check is there any username at the backend --Add fri
@@ -204,7 +224,7 @@ export const FriendMain = () => {
         console.log("found");
         onOpen();
         console.log(item.name);
-        console.log(item.avatar);
+        console.log(item.avatar, "fri avatar");
         setFriendname(item.name);
         setFriendImg(item.avatar);
         //setIsFriend(true);
@@ -223,16 +243,18 @@ export const FriendMain = () => {
               fontSize={TextStyle.h1.fontSize}
               fontWeight={TextStyle.h2.fontWeight}
             > 
-              {/* {profileData.username ? profileData.username : "Username"} */}
+            {/* {profileData?.avatar} */}
+              {profileData?.username ? profileData.username : "Username"}
             </Text>
           </Box>
           {/* Backend still need to send avatar */}
           <Box mr={{ lg: "15%", base: "10%" }}>
-            {/* {profileData.avatar ? (
-              <Avatar src={profileData.avatar} size={"lg"} />
+            {/* {profileData?.avatar} */}
+            {profileData?.avatar !== null ? (
+              <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${profileData?.avatar}`} size={"lg"} />
             ) : (
               <Avatar src="https://bit.ly/broken-link" size={"lg"} />
-            )} */}
+            )}
           </Box>
         </Flex>
       </Box>
@@ -254,6 +276,7 @@ export const FriendMain = () => {
               bg={"brand.200"}
               fontSize={TextStyle.h1.fontSize}
               fontWeight={TextStyle.h2.fontWeight}
+              onClick={handleNavigateChat}
             >
               Chats
             </Tab>
@@ -344,7 +367,9 @@ export const FriendMain = () => {
                           flex="1"
                           textAlign="left"
                         >
-                          Groups {groupData.length}
+                          
+                          {/* Groups {groupData.length} */}
+                          Groups {filteredGroupsLength}
                         </Box>
                         <AccordionIcon
                           color={"black"}
@@ -354,50 +379,57 @@ export const FriendMain = () => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel bg={"brand.200"} pb={4} color={"black"}>
-                      {/* loop group list here ***/}
 
-                      {groupData.map((item) => (
+                    {/* don't show group if it is secret group */}
+
+
+                      {/* loop group list here ***/}
+                      
+                      {groupData
+                      .filter((item) => item.is_secret_group == false)
+                      .map((item) => (
                         <NavLink to="/communitychat" state={item.group_id}>
-                          <Flex
-                            key={item.group_id}
-                            px={2}
-                            bg={"brand.200"}
-                            borderBottom={"0.2px solid black"}
-                            py={2}
-                            alignContent={"center"}
+                        <Flex
+                          key={item.group_id}
+                          px={2}
+                          bg={"brand.200"}
+                          borderBottom={"0.2px solid black"}
+                          py={2}
+                          alignContent={"center"}
+                          alignItems={"center"}
+                          onClick={() => handleGroupClick(item.group_id)}
+                        >
+                          <Box
+                            display={"flex"}
+                            justifyContent={"center"}
                             alignItems={"center"}
-                            onClick={() => handleGroupClick(item.group_id)}
                           >
-                            <Box
-                              display={"flex"}
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                            >
-                              <Box>
-                                {item.avatar ? (
-                                  <Avatar src={"friendImg"} size={"md"} />
-                                ) : (
-                                  <Avatar
-                                    src="https://bit.ly/broken-link"
-                                    size={"md"}
-                                  />
-                                )}
-                              </Box>
-                              <Box ml={15}>
-                                <Text
-                                  fontSize={TextStyle.h3.fontSize}
-                                  fontWeight={TextStyle.h2.fontWeight}
-                                >
-                                  {item.group_name}
-                                </Text>
-                                {/* <Text fontSize={TextStyle.body2.fontSize}>Last Message</Text> */}
-                              </Box>
-                              <Box>
-                                {/* <Text fontSize={TextStyle.body2.fontSize}>Time</Text> */}
-                              </Box>
+                            <Box>
+                              {item.group_avatar !== null ? (
+                                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.group_avatar}`}size={"md"} />
+                              ) : (
+                                <Avatar
+                                  src="https://bit.ly/broken-link"
+                                  size={"md"}
+                                />
+                              )}
                             </Box>
-                          </Flex>
-                        </NavLink>
+                            <Box ml={15}>
+                              <Text
+                                fontSize={TextStyle.h3.fontSize}
+                                fontWeight={TextStyle.h2.fontWeight}
+                              >
+                                {item.group_name}
+                              </Text>
+                              {/* <Text fontSize={TextStyle.body2.fontSize}>Last Message</Text> */}
+                            </Box>
+                            <Box>
+                              {/* <Text fontSize={TextStyle.body2.fontSize}>Time</Text> */}
+                            </Box>
+                          </Box>
+                        </Flex>
+                      </NavLink>
+                        
                       ))}
                     </AccordionPanel>
                   </AccordionItem>
@@ -436,14 +468,14 @@ export const FriendMain = () => {
                           onClick={() => handleFriClick(item.user_id)}
                         >
                           <Box>
-                            {item.avatar ? (
-                              <Avatar src={friendImg} size={"md"} />
-                            ) : (
-                              <Avatar
-                                src="https://bit.ly/broken-link"
-                                size={"md"}
-                              />
-                            )}
+                            {item.avatar !== null ? (
+                                  <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${item.avatar}`}size={"md"} />
+                                ) : (
+                                  <Avatar
+                                    src="https://bit.ly/broken-link"
+                                    size={"md"}
+                                  />
+                                )}
                           </Box>
                           <Box ml={10}>
                             <Text
@@ -489,8 +521,10 @@ export const FriendMain = () => {
           />
           <AlertDialogBody>
             <Center py={2} flexDirection={"column"}>
-              {friendname ? (
-                <Avatar src={friendImg} size={"xl"} />
+              {/* {friendImg}
+              <Text color={'black'}>{friendImg}</Text> */}
+              {friendImg !== null ? (
+                <Avatar src={`${import.meta.env.VITE_BACKEND_URL}${friendImg}`} size={"xl"} />
               ) : (
                 <Avatar src="https://bit.ly/broken-link" size={"xl"} />
               )}
@@ -537,36 +571,42 @@ export const FriendMain = () => {
                 </Stack>
               </NavLink>
               {/* Articles */}
-              <NavLink to={"/article"}>
-                <Stack
-                  direction={"column"}
-                  color={"brand.200"}
-                  fontSize={TextStyle.h2.fontSize}
-                  fontWeight={TextStyle.h2.fontWeight}
-                >
-                  <Text color={"brand.200"}>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M2.66634 5.00016H0.333008V21.3335C0.333008 22.6168 1.38301 23.6668 2.66634 23.6668H18.9997V21.3335H2.66634V5.00016ZM21.333 0.333496H7.33301C6.04967 0.333496 4.99967 1.3835 4.99967 2.66683V16.6668C4.99967 17.9502 6.04967 19.0002 7.33301 19.0002H21.333C22.6163 19.0002 23.6663 17.9502 23.6663 16.6668V2.66683C23.6663 1.3835 22.6163 0.333496 21.333 0.333496ZM21.333 16.6668H7.33301V2.66683H21.333V16.6668ZM9.66634 8.50016H18.9997V10.8335H9.66634V8.50016ZM9.66634 12.0002H14.333V14.3335H9.66634V12.0002ZM9.66634 5.00016H18.9997V7.3335H9.66634V5.00016Z"
-                        fill="#DEBEF6"
-                      />
-                    </svg>
-                  </Text>
-                  <Text
-                    mt={-1}
-                    color={"brand.200"}
-                    fontSize={TextStyle.body1.fontSize}
+             {/* loop fri Data here */}
+             {/* {friData.map((item) => ( */}
+              <NavLink to={`/article/userarticles/${friendId}`}>
+              <Stack
+                direction={"column"}
+                color={"brand.200"}
+                fontSize={TextStyle.h2.fontSize}
+                fontWeight={TextStyle.h2.fontWeight}
+              >
+                <Text color={"brand.200"}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Articles
-                  </Text>
-                </Stack>
-              </NavLink>
+                    <path
+                      d="M2.66634 5.00016H0.333008V21.3335C0.333008 22.6168 1.38301 23.6668 2.66634 23.6668H18.9997V21.3335H2.66634V5.00016ZM21.333 0.333496H7.33301C6.04967 0.333496 4.99967 1.3835 4.99967 2.66683V16.6668C4.99967 17.9502 6.04967 19.0002 7.33301 19.0002H21.333C22.6163 19.0002 23.6663 17.9502 23.6663 16.6668V2.66683C23.6663 1.3835 22.6163 0.333496 21.333 0.333496ZM21.333 16.6668H7.33301V2.66683H21.333V16.6668ZM9.66634 8.50016H18.9997V10.8335H9.66634V8.50016ZM9.66634 12.0002H14.333V14.3335H9.66634V12.0002ZM9.66634 5.00016H18.9997V7.3335H9.66634V5.00016Z"
+                      fill="#DEBEF6"
+                    />
+                  </svg>
+                </Text>
+                <Text
+                  mt={-1}
+                  color={"brand.200"}
+                  fontSize={TextStyle.body1.fontSize}
+                >
+                  Articles
+                </Text>
+              </Stack>
+            </NavLink>
+              {/* ))} */}
+              
+
+              
             </Flex>
           </AlertDialogBody>
         </AlertDialogContent>

@@ -6,19 +6,19 @@ export interface ArticlesPageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   Comment: number;
   isLike: boolean;
   Article_tags: {
     articleId: number;
-    tag: {
+    Tag: {
       tagId: number;
       tag_name: string;
     };
   }[];
   Article_venue: number[];
-  user: {
+  User: {
     username: string;
     profile_picture: string;
   };
@@ -32,14 +32,14 @@ export interface ArticlePageProps {
   category: string;
   userId: number;
   author_name: string;
-  Image: { url: string; description: string }[];
+  Images: { url: string; description: string }[];
   Like: number;
   CommentCount: number;
   isLike: boolean;
   Article_tags: {
     articleId: number;
     tagId: 4;
-    tag: {
+    Tag: {
       tagId: number;
       tag_name: string;
     };
@@ -47,20 +47,28 @@ export interface ArticlePageProps {
   Article_venue: {
     articleId: number;
     venueId: number;
-    venue: {
+    Venue: {
       venueId: number;
       name: string;
     };
   }[];
-  user: {
+  User: {
     username: string;
     profile_picture: string;
   };
 }
 
+// export interface ArticleTagProps {
+//   articleId: number;
+//   tag: {
+//     tagId: number;
+//     tag_name: string;
+//   };
+// }
 export interface ArticleTagProps {
   articleId: number;
-  tag: {
+  tagId: number;
+  Tag: {
     tagId: number;
     tag_name: string;
   };
@@ -79,16 +87,8 @@ export interface VenueProps {
 export interface ArticleVenueProps {
   articleId: number;
   venueId: number;
-  venue: {
+  Venue: {
     venueId: number;
     name: string;
-  };
-}
-export interface ArticleTagProps {
-  articleId: number;
-  tagId: number;
-  tag: {
-    tagId: number;
-    tag_name: string;
   };
 }

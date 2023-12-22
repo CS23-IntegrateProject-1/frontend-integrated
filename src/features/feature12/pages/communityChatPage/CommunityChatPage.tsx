@@ -1,6 +1,9 @@
-import { Box,List,ListItem,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
-import Conversation from "../../components/Conversation";
+import { Avatar, Box,Card,Flex,Stack,Tab,TabList,TabPanel,TabPanels,Tabs,Text} from "@chakra-ui/react";
 import { useConversations } from "../../context/ConversationProvider";
+import { useContext, useState } from "react";
+import { PConversation } from "../../components/PConversation";
+import { CConversation } from "../../components/CConversation";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 
 interface Recipient {
   member: {
@@ -11,8 +14,14 @@ interface Recipient {
   },
   memberId: number;
 }
-
-interface Conversation {
+interface Message {
+  recipients: Recipient[] | string[];
+  text: string;
+  sender: string;
+  fromMe: boolean;
+  id: number;
+}
+interface PConversation {
   group_name: string;
   group_profile: string;
   id:number;
@@ -20,62 +29,98 @@ interface Conversation {
   messages: Message[];
   selected?: boolean;
 }
-interface Message {
-  recipients: Recipient[] | string[];
-  text: string;
-  sender: string;
-  fromMe: boolean;
+interface CConversation {
+  roomname: string;
+  community_group_profile: string;
+  id:number;
+  members: Recipient[];
+  messages: Message[];
+  selected?: boolean;
 }
 export const CommunityChatPage = () => {
-
-  const { conversations, openConversation,selectedConversation} = useConversations();
-  console.log("conversations", conversations);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const { Pconversations, Cconversations, openConversation,selectedConversation,setSelectedConversation,setMessages } = useConversations();
+  const user = useContext(UserContext);
+  let pUsers: string[];
+  const handleCardClick = (conversation: PConversation | CConversation , index: number): React.MouseEventHandler<HTMLDivElement> => {
+    return () => {
+      setSelectedCard(index);
+      setSelectedConversation(conversation);
+      openConversation(conversation.members, conversation.id);
+      setMessages([]);
+    };
+  };
+  const restartLog = () => {
+    setSelectedCard(null);
+    setSelectedConversation(undefined);
+    setMessages([]);
+  }
+  function isPConversation(obj: any): obj is PConversation {
+  // Replace this with your actual type check
+  return obj && obj.group_name !== undefined;
+  }
+  console.log(selectedConversation, "selectedConversation")
   return (
-    <Box display="flex">
-      <Box width="25%" mr="4px">
+    <Box display="flex" height={"83vh"}>
+      <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"} borderRight={"1px dotted"}> 
         <Tabs isFitted>
           <TabList >
-            <Tab>Private Chat</Tab>
-            <Tab>Community Chat</Tab>
+            <Tab onClick={restartLog}>Private Chat</Tab>
+            <Tab onClick={restartLog}>Community Chat</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <>
-      <List
-        spacing={3}
-        variant="flush"
-        width="100%"
-        borderBottom="0.5px solid black"
-      >
-        {conversations.map((conversation:Conversation, index: number) => (
-          <ListItem
-            key={index}
-            cursor={"pointer"}
-            padding={3}
-            onClick={() => {
-              openConversation(
-                conversation.members,
-                conversation.group_name,
-                conversation.id,
-              );
-            }}
-            background={conversation.selected ? "#DEBEF6" : "transparent"}
-          >
-            {conversation.group_name}
-          </ListItem>
-        ))}
-      </List>
-    </>
+              <Stack>
+                {Pconversations.map((conversation : PConversation, index : number) => {
+                  pUsers =conversation.group_name.split(",");
+                  console.log(pUsers);
+                  console.log(user.username);
+                  return(
+                    <Card
+                      key={index}
+                      onClick={handleCardClick(conversation,index)}
+                      background={selectedCard === index ? "#DEBEF6" : "transparent"}>
+                      <Flex marginY={"10px"}>
+                        <Avatar src={conversation.group_profile ? `${import.meta.env.VITE_BACKEND_URL}${conversation.group_profile}` : "/path/to/default/avatar.jpg"} size={"md"} marginX={"15px"} />
+                        <Text color={"white"} alignSelf={"center"}>
+                          {user.fname+" "+user.lname === pUsers[0]? pUsers[1] : pUsers[0] }
+                        </Text>
+                      </Flex>
+                    </Card>
+                  )
+                }
+                )}
+              </Stack>
             </TabPanel>
             <TabPanel>
-              {/* <ConversationsLog /> */}
+              <Stack>
+                {Cconversations.map((conversation : CConversation, index : number) => (
+                  <Card
+                    key={index}
+                    onClick={handleCardClick(conversation,index)}
+                    background={selectedCard === index ? "#DEBEF6" : "transparent"}>
+                      <Flex marginY={"10px"}>
+                        <Avatar src={conversation.community_group_profile} size={"md"} marginX={"15px"} />
+                        <Text color={"white"} alignSelf={"center"}>
+                          {conversation.roomname}
+                        </Text>
+                      </Flex>
+                    </Card>
+                ))}
+              </Stack>
             </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
       <Box width="75%">
-        {selectedConversation ? <Conversation /> : <Text>Select a conversation</Text>}
-        </Box>
+        {selectedCard !== null && selectedConversation !== undefined 
+          ? (isPConversation(selectedConversation)) 
+            ? <PConversation id={selectedConversation.id} members={selectedConversation.members} />
+            : <CConversation id={selectedConversation.id} members={selectedConversation.members} />
+          : <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+              <Text>Select A Conversation....</Text>
+            </Box>}
+      </Box>
     </Box>
   )
 };

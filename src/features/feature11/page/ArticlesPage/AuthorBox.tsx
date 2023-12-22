@@ -17,7 +17,7 @@ export const AuthorBox: FC<ArticlesPageProps> = (props) => {
       borderColor="#A533C8"
       p={"1em"}
       onClick={() => {
-        navigate(`/article/${props.articleId}`);
+        navigate(`/article/userarticles/${props.userId}`);
       }}
     >
       <Box
@@ -27,13 +27,13 @@ export const AuthorBox: FC<ArticlesPageProps> = (props) => {
         justifyContent={"space-evenly"}
       >
         <img
-          src={import.meta.env.BACKEND_URL + props.user.profile_picture}
+          src={import.meta.env.BACKEND_URL + props.User.profile_picture || ""}
           alt="profile picture"
           width="70px"
           height={"70px"}
         />
         <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
-          {props.user.username}
+          {props.User.username}
         </Text>
       </Box>
     </Box>

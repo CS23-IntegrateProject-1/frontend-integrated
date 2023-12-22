@@ -7,14 +7,14 @@ interface ImgVoucer {
 export function ImageVoucher(props: ImgVoucer) {
   return (
     <Box
-        // minW="400px"
-        minW={"100%"}
-        height="273px"
+      // minW="400px"
+      minW={"100%"}
+      height="273px"
     >
       <img
-        src={props.url_image}
+        src={`${import.meta.env.VITE_BACKEND_URL}${props.url_image}`}
         alt=""
-        style={{ width: '100%', height: '100%', objectFit: 'cover'}}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
     </Box>
   );

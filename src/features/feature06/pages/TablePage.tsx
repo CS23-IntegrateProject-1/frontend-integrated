@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { AmountOfPeopleIcon } from "../components/AmountOfPeople";
 
 export const TablePage = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   function increment() {
     if (count < 30) {
@@ -14,11 +14,14 @@ export const TablePage = () => {
   }
 
   function decrement() {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   }
-  const {venueId} = useParams<{venueId: string}>()
+  const { venueId, branchId } = useParams<{
+    venueId: string;
+    branchId: string;
+  }>();
 
   return (
     <Box
@@ -120,7 +123,7 @@ export const TablePage = () => {
           </Text>
         </Button>
       </Box>
-      <Link to={`/reservation-detail/${venueId}?count=${count}`}>
+      <Link to={`/reservation-detail/${venueId}/${branchId}?count=${count}`}>
         <Button
           width={"140px"}
           height={"40px"}

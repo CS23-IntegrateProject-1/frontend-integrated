@@ -32,7 +32,10 @@ export const RedeemStatusCard: FC<{ data: IRedeemCard }> = ({ data }) => {
         marginTop={8}
         borderRadius={6}
       >
-        <Image objectFit={"cover"} src={img} />
+        <Image
+          objectFit={"cover"}
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
+        />
         <Box
           pos={"absolute"}
           bg={color}

@@ -1,17 +1,34 @@
 import { Box,Button,Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { Axios } from "../../../AxiosInstance";
+
 interface ReservationCardsProps {
   name?: string;
   type?: string;
   status?: string;
   date?: string;
+  reservationIdInt?: number;
 }
+
 export const BusinessReservationCard: FC<ReservationCardsProps> = ({
     name,
     type,
     status,
     date,
+    reservationIdInt
 }) => {
+    const CheckoutActivate = async () => {
+      try {
+        const response = Axios.post(`feature6/checkout/${reservationIdInt}`, {
+          reservationId: reservationIdInt,
+        });
+        console.log(response);
+        console.log("checkout reservation success");
+        window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
     const ShowButton = () => {
       return (
         <Button
@@ -19,6 +36,7 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
           height={"25px"}
           borderRadius={"6px"}
           background={"var(--Dark-second, #A533C8)"}
+          onClick={() => CheckoutActivate()}
         >
           <Text
             fontSize={"12px"}
@@ -69,9 +87,9 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
           flexDirection={"row"}
         >
           Status :
-          {status === "Check_in" ? (
+          {status === "Pending" ? (
             <Text color={"#007E33"} marginLeft={"10px"}>
-              Checkin
+              Pending
             </Text>
           ) : status === "Check_out" ? (
             <Text color={"#718096"} marginLeft={"10px"}>

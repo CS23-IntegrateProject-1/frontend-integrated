@@ -1,52 +1,56 @@
-import React, { useState, useEffect } from "react";
-import { Tabs, TabList, Tab, Box, Stack, Icon } from "@chakra-ui/react";
-
+import React, { useState } from "react";
+import { Tabs, TabList, Tab, Box, Stack, Icon} from "@chakra-ui/react";
 import { PromotionStatusCard } from "../../components/PromotionComponent/PromotionCardStatus";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
-
-// const fetchData = async (status: string): Promise<string[]> => {
-//   // Assume this is your backend API endpoint to fetch data based on the status
-//   const response = await fetch(/api/data?status=${status});
-//   const data = await response.json();
-//   return data;
-// };
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import { useQuery } from "@tanstack/react-query";
 
 interface PromotionStatusCardProps {
-  data: {
-    promotionId: number; // Assuming promotionId is a number
-    isApprove: string;
-    image_url: string;
-    // Add other properties as needed
-  };
+  promotionId: number;
+  isApprove: string;
+  image_url: string;
 }
 
 interface PromotionStatusPageProps {}
 
 export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [data, setData] = useState<PromotionStatusCardProps[]>([]);
   const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
   const handleClickCreate = () => {
     navigate("/business/promotion/create");
   };
-  // const businessId = 2;
 
   const fetchBusinessPromotion = async () => {
     try {
       const res = await GetAllPromotion();
-      setData(res);
+      // setData(res);
+      return res
     } catch (error) {
       console.error("Failed to fetch promotions", error);
     }
   };
+  const promotionStatus = useQuery({
+    queryKey: ["promotionStatus"],
+    queryFn: () => fetchBusinessPromotion(),
+  });
+  if (promotionStatus.status === "loading") {
+    return <FullPageLoader />;
+  }
 
-  useEffect(() => {
-    fetchBusinessPromotion();
-    // console.log(data);
-  }, []);
+  if (promotionStatus.error instanceof Error) {
+    return <div>An error occurred: {promotionStatus.error.message}</div>;
+  }
+  // useEffect(() => {
+  //   fetchBusinessPromotion();
+  //   // setIsLoading(false);
+
+  //   // console.log(data);
+  // }, []);
 
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
@@ -100,18 +104,18 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
         </TabList>
       </Tabs>
 
-      {data?.map((data: PromotionStatusCardProps, index: number) => {
+      {promotionStatus.data?.map((data: PromotionStatusCardProps, index: number) => {
         if (selector === "ongoing") {
           return (
-            (data.data.isApprove === "Rejected" ||
-              data.data.isApprove === "In_progress") && (
-              <PromotionStatusCard key={index} data={data.data} />
+            (data.isApprove === "Rejected" ||
+              data.isApprove === "In_progress") && (
+              <PromotionStatusCard key={index} data={data} />
             )
           );
         } else
           return (
-            data.data.isApprove === "Completed" && (
-              <PromotionStatusCard key={index} data={data.data} />
+            data.isApprove === "Completed" && (
+              <PromotionStatusCard key={index} data={data} />
             )
           );
       })}

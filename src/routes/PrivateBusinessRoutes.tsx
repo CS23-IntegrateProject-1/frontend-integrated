@@ -8,20 +8,21 @@ import { Feature06BusinessPrivateRoutes } from "../features/feature06/Feature06B
 import { Feature05BusinessRoutes } from "../features/feature05/Feature05BusinessRoutes";
 import { Feature07PrivateBusinessRoutes } from "../features/feature07/Feature07PrivateBusinessRoutes";
 import { Feature01PrivateRoutes } from "../features/feature01/Feature01PrivateRoutes";
+import { FeatureBusiness08Routes } from "../features/feature08/Feature08BusinessRoutes";
 export const PrivateBusinessRoutes = createBrowserRouter([
-  { path: "/", element: <Navigate to={"/business/dashboard"} /> },
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      
+	{ path: "/", element: <Navigate to={"/business/dashboard"} /> },
+	{
+		path: "/",
+		element: <RootLayout role="business" />,
+		children: [
 			...Feature13Routes(),
 			...Feature13PublicRoutes(),
 			...Feature06BusinessPrivateRoutes(),
-      ...Feature07PrivateBusinessRoutes(),
-      ...Feature01PrivateRoutes(),
+			...Feature07PrivateBusinessRoutes(),
+			...Feature01PrivateRoutes(),
 			...Feature05BusinessRoutes(),
+			...FeatureBusiness08Routes(),
 		],
-  },
-  { path: "/*", element: <NotFoundPage /> },
+	},
+	{ path: "/*", element: <NotFoundPage /> },
 ]);

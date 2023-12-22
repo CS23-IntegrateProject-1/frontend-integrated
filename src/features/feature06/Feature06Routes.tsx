@@ -3,7 +3,8 @@ import { ReservationDetail } from "./pages/ReservationDetail";
 import { TablePage } from "./pages/TablePage";
 import { TableType } from "./pages/TableType";
 import { GetReservationDetail } from "./pages/GetReservationDetail";
-import { QrcodeConfirm } from "./pages/Business/QrcodeConfirm";
+import QrcodeGen from "./pages/QrcodeGen";
+import { MIKForm } from "./pages/MIKForm";
 
 export const Feature06Routes = () => {
   return [
@@ -13,12 +14,18 @@ export const Feature06Routes = () => {
       element: "ElementPlaceHolder",
     }, //page for choose the reservation details (date, time, etc.)
     { path: "/check-in", element: "ElementPlaceHolder" },
+    { path: "/reservation-detail/2/:branchId", element: <MIKForm /> },
     { path: "/my-reservation", element: <MyReservation /> },
-    { path: "/table/:venueId", element: <TablePage /> },
+    { path: "/table/:venueId/:branchId", element: <TablePage /> },
     { path: "/tabletype", element: <TableType /> },
-    { path: "/reservation-detail/:venueId", element: <ReservationDetail /> },
-    { path: "/getreservation-detail/:venueId/:reservationId", element: <GetReservationDetail /> },
-    { path: "/qrcodeconfirmation", element: <QrcodeConfirm/> },
-    
+    {
+      path: "/reservation-detail/:venueId/:branchId",
+      element: <ReservationDetail />,
+    },
+    {
+      path: "/getreservation-detail/:venueId/:reservationId",
+      element: <GetReservationDetail />,
+    },
+    { path: "/qrcode/display/:reservationId", element: <QrcodeGen /> },
   ];
 };

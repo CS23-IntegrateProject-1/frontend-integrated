@@ -38,11 +38,19 @@ export const Overview = () => {
     }
     //Data 
     const [profileData, setProfileData] = useState({
-        name:"",
-        member_level:"",
-        member_points:"",
-        profile_img:"",
+        username:"",
+        avatar:"",
+        member_point:"",
+        member_point_used:"",
+        member_tier:"",
     });
+
+    // const [memberData, setMemberData] = useState({
+    //     member_point:"",
+    //     member_tier:"",
+    // });
+    
+    //Get Profile Data
     useEffect(() => {
         const url1 = `/feature1/profile`;
         Axios.get(url1, { withCredentials: true })
@@ -50,13 +58,33 @@ export const Overview = () => {
             if (response.status == 200) {
               //const data = response.data;
               setProfileData(response.data);
-              console.log(profileData);
+            //   setMemberData(response.data);
+              console.log(profileData.avatar);
+              console.log(profileData.member_point);
+              console.log(profileData.member_tier);
+              console.log("tracker");
+            //   debugger;
             }
           })
           .catch((error) => {
             console.error("Error fetching profile  data:", error);
           });
       }, []);
+
+      //Get member points & tier
+      useEffect (() => {
+        const url2 = ' ';
+        Axios.get(url2, {withCredentials: true})
+        .then((response) => {
+            if (response.status == 200) {
+                setProfileData(response.data);
+                console.log(profileData);
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching member data:", error);
+        });
+        }, []);
   return (
     <FormControl>
         <Box>
@@ -66,32 +94,35 @@ export const Overview = () => {
           <Box width={"20%"} display={"flex"} justifyContent={"center"}>
             <Flex align={"center"}>
               <Box position={"relative"} cursor={"pointer"}>
-                {profileData.profile_img ? (
-                    <Avatar size={"xl"} src={profileData.profile_img} />
-                ) : (
-                    <Avatar size={"xl"} src="https://bit.ly/broken-link" />
-                )}
+              {profileData.avatar !== null ? (
+                <Avatar  src={`${import.meta.env.VITE_BACKEND_URL}${profileData.avatar}`} size={"xl"} />
+              ) : (
+                <Avatar src="https://bit.ly/broken-link" size={"xl"} />
+              )}
             </Box>
             </Flex>
           </Box>
           <Box width={"60%"}>
             <VStack>
               <Box display={"flex"} width={"100%"}>
-                <Text> {profileData.name ? profileData.name : "Demo Name"}</Text>
+                <Text> {profileData.username ? profileData.username : "Demo Name"}</Text>
               </Box>
               {/* Progress Bar */}
               <Box width={"100%"}>
                 <Progress
-                    value={ profileData.member_points ? parseInt(profileData.member_points)/100 : 50}
+                    value={ (parseInt(profileData.member_point)-parseInt(profileData.member_point_used)) * 100 / parseInt(profileData.member_point)}
                     colorScheme="purple"
                   borderRadius={"50px"}
                 />
               </Box>
               {/* XP Points */}
               <Box width={"100%"} display={"flex"}>
-                <Text> {profileData.member_level ? profileData.member_level : "Regular"}</Text>
+                <Text> {profileData.member_tier ? profileData.member_tier : "Regular"}</Text>
                 <Spacer />
-                <Text> {profileData.member_points ? profileData.member_points: '500'}/1000</Text>
+                <Text> {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
+                /
+                {profileData.member_point ? profileData.member_point: 'Total'}
+                </Text>
               </Box>
             </VStack>
           </Box>
@@ -116,7 +147,7 @@ export const Overview = () => {
               textAlign={"center"}
             >
               {" "}
-              {profileData.member_level ? profileData.member_level : "Regular"}
+              {profileData.member_tier ? profileData.member_tier : "Regular"}
             </Badge>
           </Box>
           <Box width={"100%"} display={"flex"} mt={"5px"}>
@@ -128,28 +159,53 @@ export const Overview = () => {
               width={"80px"}
               textAlign={"center"}
             >
-              {" "}
-              {profileData.member_points ? profileData.member_points : "500"}
+              {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
             </Badge>
           </Box>
-
-          <Box width={"100%"} display={"flex"}>
+          <Box width={"100%"}>              
+          <NavLink to="/customer/history">
+          <Box  display={"flex"}>
             {/* to link with group 8 history payment */}
-            <Text> Payment History</Text> 
+           
+            <Text 
+            fontWeight={TextStyle.body1.fontWeight}
+            fontSize={TextStyle.body1.fontSize}> Payment History</Text> 
             <Spacer />
             <ChevronRightIcon />
+            
           </Box>
-          <Box width={"100%"} display={"flex"}>
+          </NavLink>
+          </Box>
+
+          <Box width={"100%"}>              
+          <NavLink to="/ticketHistory">
+          <Box  display={"flex"}>
+            {/* to link with group 8 history payment */}
+           
+            <Text  
+            fontWeight={TextStyle.body1.fontWeight}
+            fontSize={TextStyle.body1.fontSize}> My Tickets</Text> 
+            <Spacer />
+            <ChevronRightIcon />
+            
+          </Box>
+          </NavLink>
+          </Box>          
+
+          {/* <Box width={"100%"}>
+            <NavLink to="/ticketHistory">
+            <Box display={"flex"}>
             <Text
               fontWeight={TextStyle.body1.fontWeight}
               fontSize={TextStyle.body1.fontSize}
             >
-              {" "}
               My Tickets
             </Text>
             <Spacer />
             <ChevronRightIcon />
-          </Box>
+            </NavLink>
+            </Box>
+          </Box> */}
 
           <Box ml={-2} width={"100%"} display={"flex"}>
             <Accordion allowMultiple width={"100%"}>
@@ -208,7 +264,7 @@ export const Overview = () => {
                   borderBottomEndRadius={"25px"}
                   borderBottomLeftRadius={"25px"}
                 >
-                  <NavLink to="/map/savedlocation">
+                  <NavLink to="/map/food-delivery/my-delivery/completed">
                     <Flex
                       px={2}
                       bg={"#DEBEF6"}
