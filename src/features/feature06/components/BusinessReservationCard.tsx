@@ -88,12 +88,16 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
         >
           Status :
           {status === "Pending" ? (
-            <Text color={"#007E33"} marginLeft={"10px"}>
+            <Text color={"#FFFF33"} marginLeft={"10px"}>
               Pending
             </Text>
           ) : status === "Check_out" ? (
-            <Text color={"#718096"} marginLeft={"10px"}>
+            <Text color={"#00FFFF"} marginLeft={"10px"}>
               Checkout
+            </Text>
+          ) : status === "Check_in" ? (
+            <Text color={"#00FF00"} marginLeft={"10px"}>
+              Checkin
             </Text>
           ) : status === "Cancel" ? (
             <Text color={"#C00"} marginLeft={"10px"}>
