@@ -10,7 +10,7 @@ import {
 } from "../../../interfaces/reservation/MyReservation.interface";
 
 export const MyReservation = () => {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Pending");
   const [datas, setDatas] = useState<IData[]>(initialStateData);
 
   useEffect(() => {
@@ -20,7 +20,6 @@ export const MyReservation = () => {
   const fetchData = async () => {
     const response = await getMyReservation();
     setDatas(response);
-    console.log("DATA: ", response);
   };
 
   const RenderCards: FC = () => {

@@ -23,6 +23,7 @@ export const RDetailCard: FC<RDetailCardProps> = ({
   location,
   image_url,
 }) => {
+  const isSingleImage = image_url && image_url.length === 1;
   return (
     <Box
       width="320px"
@@ -34,7 +35,7 @@ export const RDetailCard: FC<RDetailCardProps> = ({
       style={{ borderColor: "#DEBEF6" }}
     >
       <Box w={"100vw"} pos={"absolute"} left={0}>
-        <Flex overflow={"scroll"}>
+        <Flex overflow={"scroll"} justifyContent={isSingleImage ? "center" : "flex-start"}>
           {image_url &&
             Array.isArray(image_url) &&
             image_url.map((image: IPhotoData, index: number) => (

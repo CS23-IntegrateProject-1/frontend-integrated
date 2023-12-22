@@ -7,15 +7,8 @@ import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
-// import { FC, useRef } from "react";
-
-// interface ShareModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   url: string;
-// }
 import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
 import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
@@ -83,10 +76,10 @@ export const GetReservationDetail: FC = () => {
   };
 
   const NavigateToPayment = () => {
-    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/paymentD`;
+    const originalPath = `/reservation-detail/venue/paymentD/${data?.reservations[0].reservationId}`;
     const newPath = originalPath.replace("/reservation-detail", "");
     navigate(newPath);
-  }
+  };
 
   const handleReview = () => {
     const path = `/ReviewReservation/${data?.reservations[0].branchId}`;
@@ -347,7 +340,7 @@ export const GetReservationDetail: FC = () => {
               marginLeft="288px"
               marginTop="-24px"
             >
-              200 Baht
+              {data?.reservations[0]?.Deposit?.deposit_amount} Baht
             </Text>
           </Box>
         )}
@@ -359,7 +352,8 @@ export const GetReservationDetail: FC = () => {
           marginLeft="18px"
         ></Box>
         {data?.reservations[0]?.status === "Pending" &&
-        data?.venue.name !== "MIK" ? (
+        data?.venue.name !== "MIK" &&
+        data?.reservations[0].isPaidDeposit === "Pending" ? (
           <Box mt="15px" ml={"50px"}>
             <Button
               borderRadius="10px"
@@ -377,26 +371,7 @@ export const GetReservationDetail: FC = () => {
               Cancel
             </Button>
             {data?.reservations[0]?.status === "Pending" &&
-            data?.reservations[0]?.isPaidDeposit === "Check_in" ? (
-              <Link
-                to={`/qrcode/display/${data?.reservations[0].reservationId}`}
-              >
-                <Button
-                  borderRadius="10px"
-                  width="138px"
-                  height="40px"
-                  backgroundColor="#A533C8"
-                  textColor="white"
-                  fontSize="16px"
-                  fontStyle="normal"
-                  fontWeight="700"
-                  lineHeight="24px"
-                >
-                  Check-in QR
-                </Button>
-              </Link>
-            ) : data?.reservations[0]?.status === "Pending" &&
-              data?.reservations[0]?.isPaidDeposit === "Pending" ? (
+            data?.reservations[0]?.isPaidDeposit === "Pending" ? (
               <Button
                 borderRadius="10px"
                 width="138px"
@@ -432,6 +407,27 @@ export const GetReservationDetail: FC = () => {
             onClick={() => confirmCheckin()}
           >
             Confirm Check-in
+          </Button>
+        ) : data?.reservations[0]?.status === "Pending" &&
+          data?.venue.name !== "MIK" &&
+          data?.reservations[0].isPaidDeposit === "Completed" ? (
+          <Button
+            borderRadius="10px"
+            width="200px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"96px"}
+            mt={"15px"}
+            onClick={() =>
+              navigate(`/qrcode/display/${data?.reservations[0].reservationId}`)
+            }
+          >
+            Check-in QR
           </Button>
         ) : data?.reservations[0]?.status === "Check_out" &&
           data?.reservations[0]?.isReview === false ? (
