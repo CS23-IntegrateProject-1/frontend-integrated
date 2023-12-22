@@ -122,7 +122,7 @@ export const VenueDetail: FC = () => {
       {venueDetailData.map((venue, index) => (
         <Box key={index}>
           <Image
-            src={venue.venue_picture}
+            src={`${import.meta.env.VITE_BACKEND_URL}${venue.venue_picture}`}
             alt={venue.name + "_Pic"}
             borderRadius="2xl"
             w="100%"
@@ -200,7 +200,7 @@ export const VenueDetail: FC = () => {
           >
             <NavLink to={`/voucher/${VVD.voucherId}`}>
               <Image
-                src={VVD.voucher_image}
+                src={`${import.meta.env.VITE_BACKEND_URL}${VVD.voucher_image}`}
                 alt={`Voucher not load ${VVD.voucherId}`}
                 borderRadius="xl"
                 w="100%"
