@@ -1,6 +1,7 @@
 import { SelectPayment } from "./pages/Customer/SelectPayment";
 import { SelectPaymentD } from "./pages/Customer/SelectPaymentD";
 import { SelectPaymentS } from "./pages/Customer/SelectPaymentS";
+import { SelectPaymentDe } from "./pages/Customer/SelectPaymentDe";
 import { QrCodeScan } from "./pages/QrCode/QrCodeScan";
 import { AddCard } from "./pages/AddCard/AddCard";
 import { PaymentHistory } from "./pages/Payment/PaymentHistory";
@@ -23,6 +24,10 @@ export const Feature08Routes = () => {
 		{
 			path: "/venue/paymentS",
 			element: <SelectPaymentS />,
+		},
+		{
+			path: "/venue/paymentDe",
+			element: <SelectPaymentDe />,
 		},
 		{
 			path: "/venue/:venueId/payment/checkout",
