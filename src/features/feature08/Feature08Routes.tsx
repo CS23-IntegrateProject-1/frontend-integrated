@@ -17,7 +17,7 @@ export const Feature08Routes = () => {
 		//customer side
 		{ path: "/venue/payment", element: <SelectPayment /> },
 		{
-			path: "/venue/paymentD",
+			path: "/venue/paymentD/:reservationId",
 			element: <SelectPaymentD />,
 		},
 		{
