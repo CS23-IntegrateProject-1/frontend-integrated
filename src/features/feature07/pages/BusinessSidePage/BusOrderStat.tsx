@@ -94,10 +94,10 @@
   const invalidateCompletedOrderDetails = () => {
     queryClient.invalidateQueries(["completedOrderDetails"]);
   };
-  console.log(
-    "hello",
-    formatDatetime1(completedOrderDetails[0].table.orderDate)
-  );
+  // console.log(
+  //   "hello",
+  //   formatDatetime1(completedOrderDetails[0].table.orderDate)
+  // );
   const renderCard = () => {
     switch (status) {
       case "Preparing":
