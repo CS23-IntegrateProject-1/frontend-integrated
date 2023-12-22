@@ -87,9 +87,9 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
           flexDirection={"row"}
         >
           Status :
-          {status === "Check_in" ? (
+          {status === "Pending" ? (
             <Text color={"#007E33"} marginLeft={"10px"}>
-              Checkin
+              Pending
             </Text>
           ) : status === "Check_out" ? (
             <Text color={"#718096"} marginLeft={"10px"}>

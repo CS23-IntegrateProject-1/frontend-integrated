@@ -21,7 +21,7 @@ interface IData {
   table_no?: number;
   branchId?: number;
   status?: string;
-  table_type?: {
+  Table_type_detail?: {
     capacity?: number;
     detail?: string;
     name?: string;
@@ -59,9 +59,9 @@ export const TableList = () => {
         <Box key={index} marginBottom={"20px"}>
           <Link to={`/business/viewtable/${table.tableId}`}>
             <TableCard
-              image={table.table_type?.image_url}
+              image={table.Table_type_detail?.image_url}
               tableno={table.table_no}
-              type={table.table_type?.name}
+              type={table.Table_type_detail?.name}
               status={table.status}
             />
           </Link>

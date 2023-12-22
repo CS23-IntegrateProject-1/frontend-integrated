@@ -108,9 +108,8 @@ import { useCustomToast } from "../../../../components/useCustomToast";
 
   const handleDeleteMenu = async (selectedMenuId: string) => {
     try {
-      // const response1 = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
-      const response2 = await Axios.post(`/feature7/deleteMenuItemFromSet/${menuid}`, { menuId: selectedMenuId });
-      if (response2.status === 200) {
+      const response = await Axios.post(`/feature7/deleteMenuItemBeforeAddingToSet/${menuid}`, { menuId: selectedMenuId });
+      if (response.status === 200) {
         // const response = await Axios.get(`/feature7/showMenuItemsInCookies/${menuid}`);
         // const selectedItems = response.data;
         // console.log('Selected items:', selectedItems);
@@ -170,7 +169,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
     formData.append('description', editFormData.description);
     formData.append('price', editFormData.price);
     if (selectedFile) {
-      formData.append('file', selectedFile);
+      formData.append('menuImage', selectedFile);
     }
 
     try {
@@ -368,7 +367,7 @@ import { useCustomToast } from "../../../../components/useCustomToast";
                  borderColor="brand.300"
                  bgColor="brand.300"
                  style={{
-                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` as string : undefined,
+                    backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image_url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

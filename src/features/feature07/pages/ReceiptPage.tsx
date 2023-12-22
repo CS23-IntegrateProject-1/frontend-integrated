@@ -208,14 +208,21 @@ export const ReceiptPage = () => {
             <Box
               position="fixed"
               bottom="4"
-              width="109px"
-              height="29px"
               textAlign="center"
-              borderRadius="5px"
+             
             >
-              <ButtonComponent 
-                text="Pay"
-                onClick={handlePay} />
+          <HStack mt={4} spacing={5} justifyContent="center">
+          <ButtonComponent 
+            text="View Order Status"
+            onClick={() => {
+              navigate("/venue/order")
+              }}
+          />
+          <ButtonComponent 
+            text="Pay"
+            onClick={handlePay} 
+          />
+        </HStack>
             </Box>
           </Flex>
         </Center>
