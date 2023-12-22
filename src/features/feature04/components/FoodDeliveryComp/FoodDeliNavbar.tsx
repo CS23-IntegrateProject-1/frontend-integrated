@@ -2,6 +2,7 @@ import { Box, Text, Flex, Divider } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 interface resName {
   RestaurantName: string;
+  BranchName : string;
   DeliveryMinute: number;
 }
 export const FoodDeliNavbar = (prop: resName) => {
@@ -20,6 +21,7 @@ export const FoodDeliNavbar = (prop: resName) => {
             color={index.colors.white}
           >
             {prop.RestaurantName}
+            
           </Text>
         </Flex>
         <Text
@@ -27,7 +29,7 @@ export const FoodDeliNavbar = (prop: resName) => {
           fontWeight={index.textStyles.body1.fontWeight}
           color={index.colors.white}
         >
-          Delivery {prop.DeliveryMinute} minutes
+          {prop.BranchName}
         </Text>
       </Flex>
       <Divider color={index.colors.brand[100]} m={2}/>

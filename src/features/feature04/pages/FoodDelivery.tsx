@@ -1,63 +1,110 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
-import index from "../../../theme/foundations/index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
+
 interface Menu {
-  menuId: number;
+  menuId: number | string;
   name: string;
   price: number;
-  description: string;
-  image: string;
 }
+
 const FoodDelivery = () => {
   const navigate = useNavigate();
-  const navToCartDetail=()=>{
-    navigate('/map/food-delivery/cart-detail')
-  }
-
-  // const [numberInCart, setNumberInCart] = useState(0);
+  // const navToCartDetail = () => {
+  //   navigate("/map/food-delivery/cart-detail");
+  // };
+  const { venueId ,branchId } = useParams();
+  const navToCartDetail = () => {
+    navigate(`/map/food-delivery/cart-detail/${venueId}/${branchId}`);
+  };
+  const [venue, setVenue] = useState<string>(""); // Define total state
+  const [branchName, setBranchName] = useState<string>(""); // Define total state
   const [menuData, setMenuData] = useState<Menu[]>([]);
-
+  const [total, setTotal] = useState<number>(0); // Define total state
+  const [itemCount, setitemCount] = useState<number>(0); // Define total state
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await Axios.get<Menu[]>("/feature4/menus/1");
+        const response = await Axios.get<Menu[]>(`/feature4/menus/${venueId}`);
         console.log("Menu Data Response:", response.data);
         setMenuData(response.data);
       } catch (error) {
         console.error("Error fetching menu data:", error);
-      }
+      } 
     };
+
+    const fetchBranchName = async () => {
+      try {
+        const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`)
+        console.log(response.data);
+        setBranchName(response.data.branch.branch_name);
+        setVenue(response.data.venue.name);
+      } catch (error) {
+        console.log("Error fetching branch name: ", error);
+      }
+    }
+
     
 
-    fetchMenuData();
-  }, []); // Empty dependency array to run the effect only once on component mount
+    const getTotalCost = async () => {
+      try {
+        const response = await Axios.get("/feature4/getTotal");
+        console.log(response.data);
+        const total = response.data;
+        setTotal(total); // Update total state
+      } catch (error) {
+        console.log("Error fetching total cost: ", error);
+      }
+    };
 
-  // const addToCart = (amount) => {
-  //   setNumberInCart(numberInCart + amount);
-  // };
+    const getItemCount = async () => {
+      try {
+        const response = await Axios.get("/feature4/showOrderCart");
+        console.log(response);
+        if (response && response.data && Array.isArray(response.data)) {
+          const totalQuantity = response.data.reduce(
+            (acc, item) => acc + (item.quantity || 0),
+            0
+          );
+          setitemCount(totalQuantity);
+        } else {
+          console.error("Invalid response format");
+        }
+        console.log("Item count :");
+        console.log(itemCount);
+      } catch (error) {
+        console.log("Error getting item count: ", error);
+      }
+    };
+    getItemCount();
+    getTotalCost();
+    fetchMenuData();
+    fetchBranchName();
+  }, [branchId, venueId, itemCount]);
+
   return (
     <Box>
-      <FoodDeliNavbar RestaurantName="MK Restaurant (Big C Rama 4)" DeliveryMinute={30}/>
+      <FoodDeliNavbar
+        RestaurantName={venue}
+        BranchName = {branchName}
+        DeliveryMinute={30}
+      />
       <Flex flexDir={"column"} alignItems="center">
-        {/* <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck" price={210.0}/>
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-          <MenuComp menuName="MK Roasted Duck"price={210.0} />
-        </Flex> */}
-       <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
-        {menuData.map((menu,index) => (
-          <MenuComp key={index} name={menu.name} price={menu.price} menuId={menu.menuId} description={menu.description} image={menu.image} />
-        ))}
+        <Flex flexWrap="wrap" justifyContent="center" maxW="800px" gap={5}>
+          {menuData.map((menu, index) => (
+            <MenuComp
+              key={index}
+              menuName={menu.name}
+              price={menu.price}
+              id={menu.menuId}
+            />
+          ))}
+        </Flex>
       </Flex>
-      </Flex>
-      
+
       <Flex justifyContent={"center"}>
         <Button
           variant={"unstyle"}
@@ -66,8 +113,8 @@ const FoodDelivery = () => {
           width={"auto"}
           minW={"300"}
           height={70}
-          background={index.colors.brand[200]}
-          color={index.colors.white}
+          background={"brand.200"}
+          color={"white"}
           m={10}
           onClick={navToCartDetail}
         >
@@ -82,23 +129,18 @@ const FoodDelivery = () => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            {/* {numberInCart} */}
+            {itemCount}
           </Text>
-          <Text
-            fontSize={index.textStyles.body1.fontSize}
-            fontWeight={index.textStyles.h1.fontWeight}
-          >
+          <Text fontSize={"body1"} fontWeight={"h1"}>
             View Your Cart
           </Text>
-          <Text
-            fontSize={index.textStyles.body1.fontSize}
-            fontWeight={index.textStyles.body1.fontWeight}
-          >
-            $210.0
+          <Text fontSize={"body1"} fontWeight={"body1"}>
+            {total}
           </Text>
         </Button>
-      </Flex> 
+      </Flex>
     </Box>
   );
 };
+
 export default FoodDelivery;

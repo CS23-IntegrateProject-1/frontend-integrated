@@ -39,7 +39,7 @@ export const DeliveryTime = () => {
 
     // Assuming delivery is scheduled for 3 days from the current date
     const deliveryDate = new Date(now);
-    deliveryDate.setDate(now.getDate() + 3);
+    deliveryDate.setDate(now.getDate());
 
     // Calculate delivery time based on current user time
     const deliveryTimeStart = new Date(now);
