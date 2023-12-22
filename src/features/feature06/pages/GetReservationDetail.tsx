@@ -12,6 +12,7 @@ import { CancelModal } from "../components/CancelModal";
 import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
 import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
+import { useCustomToast } from "../../../components/useCustomToast";
 
 export const GetReservationDetail: FC = () => {
   const [data, setData] = useState<IGetReservationDetailData>();
@@ -32,12 +33,28 @@ export const GetReservationDetail: FC = () => {
   const venueIdInt = parseInt(venueId || "0");
   const reservationIdInt = parseInt(reservationId || "0");
   const cancelModal = useDisclosure();
-
+  const toast = useCustomToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleCheckInStatus = async () => {
+    try {
+      const response = await Axios.get(
+        `/feature6/checkin/status/${reservationId}`
+      );
+      if (response.data == "Check_in") {
+        toast.success("Check in successful");
+        navigate("/venue/menu");
+      } else {
+        toast.error("Check in failed");
+      }
+    } catch (error) {
+      console.error("Error fetching QR code:", error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -428,6 +445,24 @@ export const GetReservationDetail: FC = () => {
             }
           >
             Check-in QR
+          </Button>
+        ) : data?.reservations[0]?.status === "Check_in" &&
+          data?.reservations[0].isPaidDeposit === "Completed" ? (
+          <Button
+            borderRadius="10px"
+            width="200px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"96px"}
+            mt={"15px"}
+            onClick={() => handleCheckInStatus()}
+          >
+            Confirm Check-in
           </Button>
         ) : data?.reservations[0]?.status === "Check_out" &&
           data?.reservations[0]?.isReview === false ? (
