@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCustomToast } from "../../../../../components/useCustomToast";
 
 interface Venue{
   venueId: string | undefined;
   branchId: string | undefined;
 }
 export const InCartMenu = (props:Venue) => {
+  const toast = useCustomToast();
   const [subtotal, setsubTotal] = useState<number>(0); // Define total state
   const [itemQuantities] = useState<{
     [itemId: string]: number;
@@ -158,7 +160,11 @@ export const InCartMenu = (props:Venue) => {
   const navigate = useNavigate();
 
   const nav = () => {
+    if(subtotal === 0){
+      toast.error("Your cart is empty");
+    }else{
     navigate(`/map/food-delivery/checkout/${props.venueId}/${props.branchId}`);
+   }
   };
   const navToMenu = () => {
     navigate(`/map/food-delivery/${props.venueId}/${props.branchId}`);
