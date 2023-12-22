@@ -4,7 +4,7 @@
     import { useParams } from "react-router-dom";
     import { Axios } from "../../../../AxiosInstance";
     import { useEffect} from "react";
-import { useQuery } from "@tanstack/react-query";
+    import { useQuery } from "@tanstack/react-query";
 
 
 
@@ -38,8 +38,9 @@ import { useQuery } from "@tanstack/react-query";
     return(
         <Box>
             <Flex flexDirection={"column"} alignItems={"center"}>
-            <YourOrderStatusComp
-            amount={1}
+            {orderData && ( // Render YourOrderStatusComp only if orderData is available
+          <YourOrderStatusComp
+            amount={orderData.total_amount}
             cardNo={1234567890987123}
             cardType="Visa"
             cardTypeImg="="
@@ -49,7 +50,10 @@ import { useQuery } from "@tanstack/react-query";
             size="small"
             DriverName={orderData.Driver_list.driver_first_name}
             DriverLicensePlate={orderData.Driver_list.driver_license_plate}
-            />
+            orderData={orderData.Online_orders_detail }
+            // onlineOrderId={orderData.onlineOrderId}
+          />
+        )}
             <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
                 Ongoing
             </Text>

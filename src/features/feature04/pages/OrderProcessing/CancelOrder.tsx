@@ -1,4 +1,4 @@
-import { Box, Text} from "@chakra-ui/react";
+import { Box, Flex, Text} from "@chakra-ui/react";
 import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
 import index from "../../../../theme/foundations/index"
 import { useParams } from "react-router-dom";
@@ -49,21 +49,28 @@ export const CancelOrder = () => {
   // ];
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
-      <YourOrderStatusComp
-        amount={1}
-        cardNo={1234567890987123}
-        cardType="Visa"
-        cardTypeImg="="
-        mainAddress={orderData.address}
-        price={210}
-        restaurant="MK Roasted Duck"
-        size="small"
-        DriverName={orderData.Driver_list.driver_first_name}
-        DriverLicensePlate={orderData.Driver_list.driver_license_plate}
-      />
-      <Text color={"#C83333"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
-        Canceled
-      </Text>
+      <Flex flexDirection={"column"} alignItems={"center"}>
+            {orderData && ( // Render YourOrderStatusComp only if orderData is available
+          <YourOrderStatusComp
+            amount={orderData.total_amount}
+            cardNo={1234567890987123}
+            cardType="Visa"
+            cardTypeImg="="
+            mainAddress={orderData.address}
+            price={210}
+            restaurant="MK Roasted Duck"
+            size="small"
+            DriverName={orderData.Driver_list.driver_first_name}
+            DriverLicensePlate={orderData.Driver_list.driver_license_plate}
+            orderData={orderData.Online_orders_detail }
+            // onlineOrderId={orderData.onlineOrderId}
+          />
+        )}
+            <Text color={"red"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
+                Canceled
+            </Text>
+            <br/>
+            </Flex>
     </Box>
   );
 };  
