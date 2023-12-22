@@ -29,7 +29,7 @@ export const Feature04Routes = () => {
     {path:"/map/food-delivery/cart-detail/:venueId/:branchId",element:<CartDetail/>},
     {path:"/map/food-delivery/checkout/:venueId/:branchId",element:<Checkout/>},
     {path:"/map/food-delivery/edit-delivery-location",element:<EditLocation/>},
-    {path:"/map/food-delivery/your-order",element:<YourOrder/>},
+    {path:"/map/food-delivery/your-order/:venueId/:branchId",element:<YourOrder/>},
     {path:"/map/food-delivery/cancel-your-order/:onlineOrderId",element:<CancelOrder/>},
     {path:"/map/food-delivery/Completed-your-order/:onlineOrderId",element:<CompleteOrder/>},
     {path:"/map/food-delivery/Ongoing-your-order/:onlineOrderId",element:<OngoingOrder/>}

@@ -13,10 +13,10 @@ import {
 import { CartDetailNavbar } from "../../components/FoodDeliveryComp/CartDetail/CartDetailNavbar";
 import { DeliveryTime } from "../../components/FoodDeliveryComp/CartDetail/DeliveryTime";
 // import { YourOrderComp } from "../../components/FoodDeliveryComp/OrderProcessingComp/YourOrderComp"
-import { OrderSummary } from "../../components/FoodDeliveryComp/OrderProcessingComp/OrderSummary";
+// import { OrderSummary } from "../../components/FoodDeliveryComp/OrderProcessingComp/OrderSummary";
 import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingComp/FoodStatus";
 import index from "../../../../theme/foundations/index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 // interface Order {
@@ -25,24 +25,25 @@ import { Axios } from "../../../../AxiosInstance";
 //     size: string;
 //     price: number;
 //   }
-interface Order {
-  amount: number;
-  restaurant: string;
-  size: string;
-  price: number;
-}
-const orders: Order[] = [
-  {
-    amount: 1,
-    restaurant: "MK Roasted Duck",
-    size: "Large",
-    price: 20,
-  },
-];
+// interface Order {
+//   amount: number;
+//   restaurant: string;
+//   size: string;
+//   price: number;
+// }
+// const orders: Order[] = [
+//   {
+//     amount: 1,
+//     restaurant: "MK Roasted Duck",
+//     size: "Large",
+//     price: 20,
+//   },
+// ];
 
 export const YourOrder = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const { venueId, branchId } = useParams();
   const navToOngoing = () => {
     navigate("/map/food-delivery/ongoing");
   };
@@ -65,7 +66,7 @@ export const YourOrder = () => {
   }, []);
   return (
     <Box>
-      <FoodStatus />
+      <FoodStatus venueId={venueId} branchId={branchId}/>
       <CartDetailNavbar
         RestaurantName={venue}
         BranchName={branchName}
@@ -85,7 +86,7 @@ export const YourOrder = () => {
         >
           <DeliveryTime />
           <Box>
-            <OrderSummary orders={orders} />
+            {/* <OrderSummary orders={orders} /> */}
           </Box>
           <Flex flexDirection={"row"} justifyContent={"space-between"} mb={2}>
             <Button

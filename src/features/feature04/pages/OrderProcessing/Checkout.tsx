@@ -23,7 +23,8 @@ export const Checkout = () => {
 
   const [venue, setVenue] = useState<string>(""); // Define total state
   const [branchName, setBranchName] = useState<string>(""); // Define total state
-
+  const [location, setLocation] = useState<string>(""); // Define total state
+  const [deliveryInstruction, setDeliveryInstruction] = useState<string>(""); // Define total state
   useEffect(() => {
     const fetchBranchName = async () => {
       try {
@@ -41,8 +42,11 @@ export const Checkout = () => {
   const handleLocationSelect = (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => {
     if (selectedLocation) {
       // Do something with the selected location data
-      console.log("Selected Location:", selectedLocation);
+      console.log("Selected Location:", selectedLocation.province);
       console.log("Delivery Instruction",deliveryInstruction)
+      const locally = selectedLocation.name + " " + selectedLocation.address + " " + selectedLocation.district + " " + selectedLocation.sub_district + " "+ selectedLocation.province + " " +selectedLocation.postcode
+      setLocation(locally);
+      setDeliveryInstruction(deliveryInstruction);
       // You can set the location data to state or perform any other actions here
     } else {
       // Handle the case where selectedLocation is undefined
@@ -74,7 +78,7 @@ export const Checkout = () => {
       <br />
 
       <br/>
-      <PlaceOrder/>
+      <PlaceOrder venueId={venueId} branchId={branchId} address= {location} driverNote={deliveryInstruction}/>
     </Box>
   );
 };
