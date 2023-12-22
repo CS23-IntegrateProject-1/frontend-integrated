@@ -45,10 +45,6 @@ export const Overview = () => {
         member_tier:"",
     });
 
-    // const [memberData, setMemberData] = useState({
-    //     member_point:"",
-    //     member_tier:"",
-    // });
     
     //Get Profile Data
     useEffect(() => {
