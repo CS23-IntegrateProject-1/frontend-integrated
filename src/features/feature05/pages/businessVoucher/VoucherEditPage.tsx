@@ -221,18 +221,28 @@ export const VoucherEditPage = () => {
     }
   };
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+  
+    // Update state with the formatted datetime string
     setVoucher({
       ...voucher,
-      start_date: event.target.value,
+      start_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
+    console.log(setVoucher)
   };
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+  
+    // Update state with the formatted datetime string
     setVoucher({
       ...voucher,
-      end_date: event.target.value,
+      end_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
+    console.log(setVoucher)
   };
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -294,7 +304,7 @@ export const VoucherEditPage = () => {
               type={"date"}
               bg={"#390b74"}
               border={"none"}
-              value={voucher.start_date}
+              value={(voucher.start_date + "").substring(0, 10)}
             />
           </FormControl>
           <FormControl isRequired overflow={"hidden"}>
@@ -305,7 +315,7 @@ export const VoucherEditPage = () => {
               type={"date"}
               bg={"#390b74"}
               border={"none"}
-              value={voucher.end_date}
+              value={(voucher.end_date + "").substring(0, 10)}
             />
           </FormControl>
         </Stack>

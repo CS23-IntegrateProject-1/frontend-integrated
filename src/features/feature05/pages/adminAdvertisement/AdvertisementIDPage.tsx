@@ -34,6 +34,7 @@ import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisemen
 
 export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const deleteDisclosure = useDisclosure();
   const [data, setData] = useState<IAd_business>();
   const id = Number(useParams<{ id: string }>().id);
   const fetchDatas = async () => {
@@ -46,7 +47,7 @@ export const AdvertisementIDPage = () => {
   const navigate = useNavigate();
   const handleClickReject = () => {
     RejectAds(id);
-    navigate(`/admin/advertisement/${id}/reject`);
+    navigate(`/admin/advertisement`);
     location.reload();
   };
   const handleClickConfirm = () => {
@@ -54,6 +55,7 @@ export const AdvertisementIDPage = () => {
     navigate("/admin/advertisement");
     location.reload();
   };
+
   console.log(data);
   // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files && e.target.files.length > 0) {
@@ -241,7 +243,7 @@ export const AdvertisementIDPage = () => {
           variant="solid"
           width="40%"
           color="#A533C8"
-          onClick={handleClickReject}
+          onClick={deleteDisclosure.onOpen}
         >
           Reject
         </Button>
@@ -282,6 +284,35 @@ export const AdvertisementIDPage = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
+        <Modal isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose}>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>This request want to reject information</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={deleteDisclosure.onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickReject}
+                color={"white"}
+                width="30%"
+              >
+                Delete
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
       </Box>
     </Box>
   );
