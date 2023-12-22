@@ -33,8 +33,8 @@ interface AdvertisementProps {
   name: string;
   description: string;
   start_date: string;
-  end_date:string;
-  image_url: File| null;
+  end_date: string;
+  image_url: File | null;
   targetCustomer: string;
   targetGroup: string;
   advertisementPlan: number;
@@ -61,7 +61,6 @@ export const AdvertisementIDEditPage = () => {
   const handleCloseImage = () => {
     setImagePreview(null);
   };
-
 
   useEffect(() => {
     fetchPlaceHolder();
@@ -91,11 +90,9 @@ export const AdvertisementIDEditPage = () => {
       }));
       setImageDefault(data.image_url || "");
     } catch (e) {
-
-      console.log(e)
+      console.log(e);
     }
-  }
-
+  };
 
   useEffect(() => {
     // try {
@@ -106,7 +103,6 @@ export const AdvertisementIDEditPage = () => {
     };
   }, [imagePreview]);
 
- 
   const deleteAdvertisement = async () => {
     try {
       const result = await Axios.delete(`/feature5/DeleteAdBSN/${id}`);
@@ -133,9 +129,6 @@ export const AdvertisementIDEditPage = () => {
   //   }
   // };
 
-
-
-
   const handleClickSubmit = async () => {
     // const toast = useCustomToast();
     // if (
@@ -145,7 +138,7 @@ export const AdvertisementIDEditPage = () => {
     //   advertise.end_date == "" ||
     //   advertise.targetCustomer == "" ||
     //   advertise.targetGroup == "" ||
-    //   advertise.advertisementPlan == 0 
+    //   advertise.advertisementPlan == 0
     // ) {
     //   toast.warning("Please fill all the fields");
     //   onClose();
@@ -158,9 +151,12 @@ export const AdvertisementIDEditPage = () => {
       formData.append("start_date", advertise.start_date);
       formData.append("end_date", advertise.end_date);
       formData.append("venueId", advertise.targetCustomer);
-      formData.append("targetCustomer",advertise.targetCustomer);
-      formData.append("targetGroup",advertise.targetGroup);
-      formData.append("advertisementPlan",advertise.advertisementPlan.toString());
+      formData.append("targetCustomer", advertise.targetCustomer);
+      formData.append("targetGroup", advertise.targetGroup);
+      formData.append(
+        "advertisementPlan",
+        advertise.advertisementPlan.toString()
+      );
       if (advertise.image_url) {
         formData.append("file", advertise.image_url);
       }
@@ -182,9 +178,8 @@ export const AdvertisementIDEditPage = () => {
     }
   };
 
-
   // const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    
+
   //   console.log(event.target.value);
   //   setAdvertise({
   //     ...advertise,
@@ -199,25 +194,25 @@ export const AdvertisementIDEditPage = () => {
   // };
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = new Date(event.target.value); // Convert input value to a Date object
-    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
-  
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
     // Update state with the formatted datetime string
     setAdvertise({
       ...advertise,
       start_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
-    console.log(setAdvertise)
+    console.log(setAdvertise);
   };
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = new Date(event.target.value); // Convert input value to a Date object
-    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
-  
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
     // Update state with the formatted datetime string
     setAdvertise({
       ...advertise,
       end_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
-    console.log(setAdvertise)
+    console.log(setAdvertise);
   };
 
   // const handleChange = (
@@ -282,7 +277,7 @@ export const AdvertisementIDEditPage = () => {
         </FormLabel>
         <Input
           variant="name"
-          name="name" 
+          name="name"
           value={advertise.name}
           onChange={handleChange}
           style={{ width: "auto" }}
@@ -291,8 +286,6 @@ export const AdvertisementIDEditPage = () => {
           borderColor={"#5F0DBB"}
           type="text"
           // onChange={(e) => setAdvertise({ ...advertise, name: e.target.value })}
-          
-          
         />
       </FormControl>
       <FormControl
@@ -310,7 +303,7 @@ export const AdvertisementIDEditPage = () => {
         </FormLabel>
         <Input
           variant="name"
-          name="description" 
+          name="description"
           value={advertise.description}
           style={{ width: "auto" }}
           color={"white"}
@@ -321,7 +314,6 @@ export const AdvertisementIDEditPage = () => {
           // onChange={(e) =>
           //   setAdvertise({ ...advertise, description: e.target.value })
           // }
-          
         />
       </FormControl>
       <FormControl
@@ -354,7 +346,6 @@ export const AdvertisementIDEditPage = () => {
             //     startingDate: new Date(e.target.value),
             //   })
             // }
-            
           />
         </Box>
 
@@ -382,42 +373,45 @@ export const AdvertisementIDEditPage = () => {
           />
         </Box>
       </FormControl>
-      <Image
+      <FormControl width={"50%"} minWidth={"250px"} maxWidth={"400px"}>
+        <Image
           src={import.meta.env.VITE_BACKEND_URL + imageDefault}
           alt="image"
         />
-      {imagePreview ? (
-          <FormControl
-            width="50%"
-            minWidth="250px"
-            maxWidth="400px"
-            display="flex"
-            flexDirection={"column"}
-            paddingBottom={3}
-          >
-            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
+      </FormControl>
 
-            <Box
-              position={"relative"}
-              overflow={"hidden"}
-              width={"100%"}
-              minWidth={"250px"}
-              maxWidth={"400px"}
-              height={"auto"}
-              alignSelf={"center"}
-            >
-              <IconButton
-                aria-label="close"
-                minWidth={"15px"}
-                height={"15px"}
-                position={"absolute"}
-                top={0}
-                right={0}
-                as={AiOutlineClose}
-                onClick={handleCloseImage}
-              ></IconButton>
-              
-              {/* {imagePreview && (
+      {imagePreview ? (
+        <FormControl
+          width="100%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
+        >
+          <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
+
+          <Box
+            position={"relative"}
+            overflow={"hidden"}
+            width={"100%"}
+            minWidth={"250px"}
+            maxWidth={"400px"}
+            height={"auto"}
+            alignSelf={"center"}
+            justifyContent={"center"}
+          >
+            <IconButton
+              aria-label="close"
+              minWidth={"15px"}
+              height={"15px"}
+              position={"absolute"}
+              top={0}
+              right={0}
+              as={AiOutlineClose}
+              onClick={handleCloseImage}
+            ></IconButton>
+            {/* {imagePreview && (
               <Image src={imagePreview} alt="Preview" width="100%" />
               )}
               {!imagePreview && imageDefault && (
@@ -425,55 +419,54 @@ export const AdvertisementIDEditPage = () => {
               )}
 
               <Image src={imagePreview} alt="image" width="100%" /> */}
-              
-            </Box>
-          </FormControl>
-        ) : (
-          <FormControl
+          </Box>
+        </FormControl>
+      ) : (
+        <FormControl
           isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
+          width={"50%"}
+          minWidth={"250px"}
+          maxWidth={"400px"}
           display="flex"
           flexDirection={"column"}
           paddingBottom={3}
+        >
+          <FormLabel
+            marginTop={"10px"}
+            style={TextStyle.h2}
+            color={"white"}
+            paddingBottom={1}
           >
-            <FormLabel
-              marginTop={"10px"}
-              style={TextStyle.h2}
-              color={"white"}
-              paddingBottom={1}
+            {" "}
+            Upload image
+          </FormLabel>
+          <Stack spacing={2} direction="column">
+            {}
+            <Center
+              width={"auto"}
+              height={"150px"}
+              bg={"#5F0DBB"}
+              borderRadius={5}
+              cursor={"pointer"}
             >
-              {" "}
-              Upload image
-            </FormLabel>
-            <Stack spacing={2} direction="column">
-              {}
-              <Center
+              <Input
+                onChange={handleFileChange}
+                type="file"
+                opacity={0}
+                height={"100%"}
+                w={"100%"}
+                pos={"absolute"}
+              ></Input>
+              <Icon
+                as={BiImageAdd}
+                color={"#FFFFFF"}
                 width={"auto"}
-                height={"150px"}
-                bg={"#5F0DBB"}
-                borderRadius={5}
-                cursor={"pointer"}
-              >
-                <Input
-                  onChange={handleFileChange}
-                  type="file"
-                  opacity={0}
-                  height={"100%"}
-                  w={"100%"}
-                  pos={"absolute"}
-                ></Input>
-                <Icon
-                  as={BiImageAdd}
-                  color={"#FFFFFF"}
-                  width={"auto"}
-                  height={"8"}
-                ></Icon>
-              </Center>
-            </Stack>
-          </FormControl>
-        )}
+                height={"8"}
+              ></Icon>
+            </Center>
+          </Stack>
+        </FormControl>
+      )}
       <FormControl
         isRequired
         width="50%"
@@ -490,13 +483,12 @@ export const AdvertisementIDEditPage = () => {
         <Select
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          name = "targetCustomer"
+          name="targetCustomer"
           value={advertise.targetCustomer}
           // onChange={(e) =>
           //   setAdvertise({ ...advertise, targetCustomer: e.target.value })
           // }
-          onChange = {handleChange}
-          
+          onChange={handleChange}
         >
           <option value="All">All</option>
           <option value="Member">Member</option>
@@ -521,11 +513,11 @@ export const AdvertisementIDEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           placeholder=" "
-          onChange = {handleChange}
+          onChange={handleChange}
           // value={
           //   advertise.targetGroup === "Young adult"
           //     ? "Young_adult"
-          name = "targetGroup"
+          name="targetGroup"
           //     : advertise.targetGroup
           // }
           value={advertise.targetGroup}
@@ -538,7 +530,7 @@ export const AdvertisementIDEditPage = () => {
       </FormControl>
 
       {/* Advertisement plan */}
-      <FormControl
+      {/* <FormControl
         isRequired
         width="50%"
         minWidth="250px"
@@ -553,8 +545,8 @@ export const AdvertisementIDEditPage = () => {
         </FormLabel>
         <RadioGroup
           value={advertise.advertisementPlan.toString()}
-          name ="advertisementPlan"
-          onChange = {handleChange}
+          name="advertisementPlan"
+          onChange={handleChange}
         >
           <Stack spacing={1} direction="column">
             <Radio value="100">100 Baht/Week</Radio>
@@ -562,6 +554,39 @@ export const AdvertisementIDEditPage = () => {
             <Radio value="3600">3600 Baht/Year</Radio>
           </Stack>
         </RadioGroup>
+      </FormControl> */}
+
+      {/* Advertisement plan */}
+      <FormControl
+        isRequired
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"column"}
+        paddingBottom={3}
+      >
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+          {" "}
+          Advertisement plan
+        </FormLabel>
+        <Select
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=" "
+          onChange={handleChange}
+          // value={
+          //   advertise.targetGroup === "Young adult"
+          //     ? "Young_adult"
+          name="advertisementPlan"
+          //     : advertise.targetGroup
+          // }
+          value={advertise.advertisementPlan}
+        >
+          <option value="100">100 Bath/Week</option>
+          <option value="300">300 Bath/Month</option>
+          <option value="3600">3600 Bath/Year</option>
+        </Select>
       </FormControl>
 
       {/* Delete */}
@@ -655,4 +680,3 @@ export const AdvertisementIDEditPage = () => {
     </Box>
   );
 };
-
