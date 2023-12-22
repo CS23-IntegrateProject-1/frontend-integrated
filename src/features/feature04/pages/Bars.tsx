@@ -49,7 +49,7 @@ export const Bars = () => {
       const response = await Axios.get("/feature4/bars");
       setRegistered1(response.data.bars);
       console.log("Registered Data Response:", response.data.bars);
-      setLocations1(response.data.bars.map((item:any) => item.location));
+      setLocations1(response.data.bars.map((item:any) => item.Location));
       
     } catch (error) {
       console.error("Error fetching restaurant data:", error);
