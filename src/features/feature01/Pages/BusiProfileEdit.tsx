@@ -19,6 +19,7 @@ import {
   ButtonGroup,
   Button,
   FormControl,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { TextStyle } from "../../../theme/TextStyle";
@@ -116,6 +117,7 @@ export const BusiProfileEdit = () => {
   //const [preview, setPreview] = useState<string>("");
   //card id
   const [cardInfo] = useState<string>("");
+  const toast = useToast();
 
   //const [userid, setuserid] = useState<string>("");
   const [cardData] = useState<CreditCard[]>([]);
@@ -302,6 +304,15 @@ export const BusiProfileEdit = () => {
           console.error("Error saving data :", error);
         });
     }
+    toast({
+      render: () => (
+        <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+          Updated
+        </Box>
+      ),
+      duration: 1500,
+      isClosable: true,
+    }); 
     
   };
 
