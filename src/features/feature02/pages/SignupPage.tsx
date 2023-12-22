@@ -12,6 +12,7 @@ export const SignupPage = () => {
 	const [phone, setPhone] = useState("");
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
+	const [addId, setAddId] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isPassMatch, setIsPassMatch] = useState(true);
@@ -30,7 +31,8 @@ export const SignupPage = () => {
 			username,
 			phone,
 			email,
-			password
+			password,
+			addId
 		);
 
 		if (response?.status === 201) {
@@ -153,6 +155,26 @@ export const SignupPage = () => {
 							placeholder="Username"
 							onChange={(e) => {
 								setUsername(e.target.value);
+							}}
+							_placeholder={{ color: "white" }}
+							style={textStyles.h4}
+						/>
+					</Box>
+					<Box w={"100%"} marginTop={marginTop}>
+						<Text
+							style={textStyles.h3}
+							fontWeight={"bold"}
+							marginBottom={"5px"}>
+							Add ID
+						</Text>
+						<Input
+							borderRadius="7px"
+							boxSizing="border-box"
+							bg="brand.100"
+							type="text"
+							placeholder="Add ID"
+							onChange={(e) => {
+								setAddId(e.target.value);
 							}}
 							_placeholder={{ color: "white" }}
 							style={textStyles.h4}
