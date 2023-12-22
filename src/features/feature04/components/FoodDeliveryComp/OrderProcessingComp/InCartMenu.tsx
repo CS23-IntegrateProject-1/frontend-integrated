@@ -6,7 +6,11 @@ import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const InCartMenu = () => {
+interface Venue{
+  venueId: string | undefined;
+  branchId: string | undefined;
+}
+export const InCartMenu = (props:Venue) => {
   const [subtotal, setsubTotal] = useState<number>(0); // Define total state
   const [itemQuantities, setItemQuantities] = useState<{
     [itemId: string]: number;
@@ -156,7 +160,7 @@ export const InCartMenu = () => {
     navigate("/map/food-delivery/checkout");
   };
   const navToMenu = () => {
-    navigate("/map/food-delivery");
+    navigate(`/map/food-delivery/${props.venueId}/${props.branchId}`);
   };
 
   const fetchCartItems = async () => {

@@ -6,16 +6,18 @@ import { FoodStatus } from "../../components/FoodDeliveryComp/OrderProcessingCom
 import index from "../../../../theme/foundations/index";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
+import { useParams } from "react-router-dom";
 
 
 export const CartDetail = () => {
   const [venue, setVenue] = useState<string>(""); // Define total state
   const [branchName, setBranchName] = useState<string>(""); // Define total state
 
+  const { venueId, branchId } = useParams();
   useEffect(() => {
     const fetchBranchName = async () => {
       try {
-        const response = await Axios.get("/feature4/branch/1/4");
+        const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`);
         console.log("hello from cart detail" + response.data.venue);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);
@@ -41,7 +43,7 @@ export const CartDetail = () => {
       </Flex>
       <CartDetailNavbar RestaurantName={venue} BranchName={branchName} />
       <DeliveryTime />
-      <InCartMenu />
+      <InCartMenu venueId={venueId} branchId={branchId} />
     </Box>
   );
 };

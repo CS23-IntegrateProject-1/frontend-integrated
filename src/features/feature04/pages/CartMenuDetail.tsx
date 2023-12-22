@@ -11,9 +11,10 @@ import {
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
 import { Axios } from "../../../AxiosInstance";
-import { useParams } from "react-router-dom";
+import { useParams, } from "react-router-dom";
 import textStyles from "../../../theme/foundations/textStyles";
-import { useNavigate } from "react-router-dom";
+import { useCustomToast } from "../../../components/useCustomToast";
+
 
 interface MenuDetailProps {
   id: number;
@@ -23,10 +24,11 @@ interface MenuDetailProps {
 }
 
 export const CartMenuDetail: FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [AmountInCart, setAmountInCart] = useState(0);
   const [menuData, setMenuData] = useState<MenuDetailProps | null>(null);
   const { id } = useParams();
+  const toast = useCustomToast();
 
   useEffect(() => {
     const fetchMenuDetail = async () => {
@@ -92,8 +94,9 @@ export const CartMenuDetail: FC = () => {
           price: menuData?.price,
           quantity: AmountInCart,
         });
+        toast.success("Added to cart!");
         console.log(response.data);
-        navigate("/map/food-delivery");
+
       }
     } catch (error) {
       console.error("Error adding to cart:", error);

@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MenuComp } from "../components/FoodDeliveryComp/MenuComp";
 import { FoodDeliNavbar } from "../components/FoodDeliveryComp/FoodDeliNavbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
 
@@ -13,10 +13,13 @@ interface Menu {
 
 const FoodDelivery = () => {
   const navigate = useNavigate();
+  // const navToCartDetail = () => {
+  //   navigate("/map/food-delivery/cart-detail");
+  // };
+  const { venueId ,branchId } = useParams();
   const navToCartDetail = () => {
-    navigate("/map/food-delivery/cart-detail");
+    navigate(`/map/food-delivery/cart-detail/${venueId}/${branchId}`);
   };
-
   const [venue, setVenue] = useState<string>(""); // Define total state
   const [branchName, setBranchName] = useState<string>(""); // Define total state
   const [menuData, setMenuData] = useState<Menu[]>([]);
@@ -25,7 +28,7 @@ const FoodDelivery = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await Axios.get<Menu[]>("/feature4/menus/1");
+        const response = await Axios.get<Menu[]>(`/feature4/menus/${venueId}`);
         console.log("Menu Data Response:", response.data);
         setMenuData(response.data);
       } catch (error) {
@@ -35,7 +38,7 @@ const FoodDelivery = () => {
 
     const fetchBranchName = async () => {
       try {
-        const response = await Axios.get("/feature4/branch/1/4")
+        const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`)
         console.log(response.data);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);

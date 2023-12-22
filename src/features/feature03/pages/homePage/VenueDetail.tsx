@@ -319,7 +319,7 @@ export const VenueDetail: FC = () => {
             Reserve now
           </Button>
         </NavLink>
-        <NavLink to={`/map/food-delivery/${venueId}`}>
+        <NavLink to={`/map/food-delivery/${venueId}/${branchId}`}>
           <Button
             variant="solid"
             textColor="white"
