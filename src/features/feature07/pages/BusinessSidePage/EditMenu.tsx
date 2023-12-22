@@ -1,3 +1,4 @@
+@ -1,260 +1,259 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
 import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
@@ -84,8 +85,10 @@ export const EditMenu = () => {
     formData.append('description', editFormData.description);
     formData.append('price', editFormData.price);
     if (selectedFile) {
+      formData.append('file', selectedFile);
       formData.append('menuImage', selectedFile);
     }
+    console.log(formData.get("file"));
 
     try {
       const response = await Axios.post(`/feature7/editMenu/${menuid}`, formData, {
@@ -212,6 +215,7 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
+                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` as string : undefined,
                   backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
