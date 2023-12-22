@@ -239,8 +239,20 @@ export const MIKForm = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
+                onKeyDown={(e) => {
+                  const allowedKeys = [8, 37, 39, 46]; // Backspace, Left Arrow, Right Arrow, Delete
+                  if (!allowedKeys.includes(e.keyCode)) {
+                    const isNumeric = /^[0-9]*$/;
+                    if (!isNumeric.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }
+                }}
                 onChange={(e) => {
-                  setPhoneNumber(e.target.value);
+                  const inputValue = e.target.value;
+                  if (inputValue.length <= 10) {
+                    setPhoneNumber(inputValue);
+                  }
                 }}
               />
             </Box>

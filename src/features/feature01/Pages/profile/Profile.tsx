@@ -60,20 +60,12 @@ export const Profile = () => {
 
   const handleSave = (e : React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    // const newProfileData = {
-    //   phone: profileData.phone,
-    //   email: profileData.email,
-    //   birthday: new Date(profileData.birthday).toISOString(),
-    //   gender: profileData.gender,
-    //   profile_img: profileData.selectedFile,
-    // };
-    //debugger;
-    //sending with form 
+    const defaultgender = profileData.gender ? profileData.gender : 'Male';
     const allData = new FormData();
     allData.append("phone", profileData.phone);
     allData.append("email", profileData.email);
     allData.append("birthday", new Date(profileData.birthday).toISOString());
-    allData.append("gender", profileData.gender);
+    allData.append("gender",  defaultgender);
     if(selectFile == null){
       allData.append("avatar", profileData.avatar);
     }

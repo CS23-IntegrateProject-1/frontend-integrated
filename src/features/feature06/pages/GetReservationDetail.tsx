@@ -7,11 +7,12 @@ import { CalendarIcon } from "@chakra-ui/icons";
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { useParams } from "react-router";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CancelModal } from "../components/CancelModal";
 import { FC } from "react";
 import { Axios } from "../../../AxiosInstance";
 import { IGetReservationDetailData } from "../../../interfaces/reservation/GetReservationDetail.interface";
+import { useCustomToast } from "../../../components/useCustomToast";
 
 export const GetReservationDetail: FC = () => {
   const [data, setData] = useState<IGetReservationDetailData>();
@@ -32,12 +33,28 @@ export const GetReservationDetail: FC = () => {
   const venueIdInt = parseInt(venueId || "0");
   const reservationIdInt = parseInt(reservationId || "0");
   const cancelModal = useDisclosure();
-
+  const toast = useCustomToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleCheckInStatus = async () => {
+    try {
+      const response = await Axios.get(
+        `/feature6/checkin/status/${reservationId}`
+      );
+      if (response.data == "Check_in") {
+        toast.success("Check in successful");
+        navigate("/venue/menu");
+      } else {
+        toast.error("Check in failed");
+      }
+    } catch (error) {
+      console.error("Error fetching QR code:", error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -76,10 +93,10 @@ export const GetReservationDetail: FC = () => {
   };
 
   const NavigateToPayment = () => {
-    const originalPath = `/reservation-detail/${data?.reservations[0].User.userId}/venue/${data?.venue.venueId}/paymentD`;
+    const originalPath = `/reservation-detail/venue/paymentD/${data?.reservations[0].reservationId}`;
     const newPath = originalPath.replace("/reservation-detail", "");
     navigate(newPath);
-  }
+  };
 
   const handleReview = () => {
     const path = `/ReviewReservation/${data?.reservations[0].branchId}`;
@@ -352,7 +369,8 @@ export const GetReservationDetail: FC = () => {
           marginLeft="18px"
         ></Box>
         {data?.reservations[0]?.status === "Pending" &&
-        data?.venue.name !== "MIK" ? (
+        data?.venue.name !== "MIK" &&
+        data?.reservations[0].isPaidDeposit === "Pending" ? (
           <Box mt="15px" ml={"50px"}>
             <Button
               borderRadius="10px"
@@ -370,26 +388,7 @@ export const GetReservationDetail: FC = () => {
               Cancel
             </Button>
             {data?.reservations[0]?.status === "Pending" &&
-            data?.reservations[0]?.isPaidDeposit === "Check_in" ? (
-              <Link
-                to={`/qrcode/display/${data?.reservations[0].reservationId}`}
-              >
-                <Button
-                  borderRadius="10px"
-                  width="138px"
-                  height="40px"
-                  backgroundColor="#A533C8"
-                  textColor="white"
-                  fontSize="16px"
-                  fontStyle="normal"
-                  fontWeight="700"
-                  lineHeight="24px"
-                >
-                  Check-in QR
-                </Button>
-              </Link>
-            ) : data?.reservations[0]?.status === "Pending" &&
-              data?.reservations[0]?.isPaidDeposit === "Pending" ? (
+            data?.reservations[0]?.isPaidDeposit === "Pending" ? (
               <Button
                 borderRadius="10px"
                 width="138px"
@@ -423,6 +422,45 @@ export const GetReservationDetail: FC = () => {
             ml={"96px"}
             mt={"15px"}
             onClick={() => confirmCheckin()}
+          >
+            Confirm Check-in
+          </Button>
+        ) : data?.reservations[0]?.status === "Pending" &&
+          data?.venue.name !== "MIK" &&
+          data?.reservations[0].isPaidDeposit === "Completed" ? (
+          <Button
+            borderRadius="10px"
+            width="200px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"96px"}
+            mt={"15px"}
+            onClick={() =>
+              navigate(`/qrcode/display/${data?.reservations[0].reservationId}`)
+            }
+          >
+            Check-in QR
+          </Button>
+        ) : data?.reservations[0]?.status === "Check_in" &&
+          data?.reservations[0].isPaidDeposit === "Completed" ? (
+          <Button
+            borderRadius="10px"
+            width="200px"
+            height="40px"
+            backgroundColor="#A533C8"
+            textColor="white"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="24px"
+            ml={"96px"}
+            mt={"15px"}
+            onClick={() => handleCheckInStatus()}
           >
             Confirm Check-in
           </Button>

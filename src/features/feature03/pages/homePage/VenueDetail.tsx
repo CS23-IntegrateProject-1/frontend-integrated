@@ -259,7 +259,7 @@ export const VenueDetail: FC = () => {
               bgColor={"brand.300"}
             >
               <Image
-                src={VDMD.image}
+                src={`${import.meta.env.VITE_BACKEND_URL}${VDMD.image}`}
                 alt="Pic not load"
                 borderRadius="lg"
                 w="100px"

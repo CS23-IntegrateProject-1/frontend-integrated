@@ -10,7 +10,7 @@ import {
 } from "../../../interfaces/reservation/MyReservation.interface";
 
 export const MyReservation = () => {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Pending");
   const [datas, setDatas] = useState<IData[]>(initialStateData);
 
   useEffect(() => {
