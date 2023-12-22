@@ -17,11 +17,11 @@ export const Feature08Routes = () => {
 		//customer side
 		{ path: "/venue/payment", element: <SelectPayment /> },
 		{
-			path: "/venue/paymentD/:reservationId",
+			path: "/venue/paymentD",
 			element: <SelectPaymentD />,
 		},
 		{
-			path: "/venue/paymentS/:reservationId",
+			path: "/venue/paymentS",
 			element: <SelectPaymentS />,
 		},
 		{
