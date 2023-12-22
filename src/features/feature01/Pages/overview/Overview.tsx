@@ -260,7 +260,7 @@ export const Overview = () => {
                   borderBottomEndRadius={"25px"}
                   borderBottomLeftRadius={"25px"}
                 >
-                  <NavLink to="/map/food-delivery/my-delivery/completed">
+                  <NavLink to="/map/food-delivery/completed">
                     <Flex
                       px={2}
                       bg={"#DEBEF6"}
