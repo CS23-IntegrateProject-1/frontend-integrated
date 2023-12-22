@@ -68,6 +68,10 @@ export const PromotionCreatePage = () => {
     Axios.get("/feature5/Showbranch")
       .then((res) => {
         setBranches(res.data);
+        setPromotion((prevPromotion) => ({
+          ...prevPromotion,
+          branchId: res.data[0].branchId,
+        }));
       })
       .catch((err) => {
         toast.error("Error fetching branches");
@@ -76,6 +80,10 @@ export const PromotionCreatePage = () => {
     Axios.get("/feature5/ShowMenu")
       .then((res) => {
         setMenus(res.data);
+        setPromotion((prevPromotion) => ({
+          ...prevPromotion,
+          menuId: res.data[0].menuId,
+        }));
       })
       .catch((err) => {
         toast.error("Error fetching menus");
@@ -86,7 +94,7 @@ export const PromotionCreatePage = () => {
         URL.revokeObjectURL(imagePreview);
       }
     };
-  }, [imagePreview]);
+  }, []);
 
   //gpt
   const handleChange = (
@@ -158,6 +166,7 @@ export const PromotionCreatePage = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(promotion);
     if (
       promotion.name == "" ||
       promotion.description == "" ||
@@ -182,28 +191,22 @@ export const PromotionCreatePage = () => {
       formData.append("start_date", promotion.start_date);
       formData.append("end_date", promotion.end_date);
       formData.append("discount_price", promotion.discount_price.toString());
-      formData.append("brandId", promotion.branchId.toString());
+      formData.append("branchId", promotion.branchId.toString());
       formData.append("menuId", promotion.menuId.toString());
       if (image) {
         formData.append("file", image);
       }
-      const response = await Axios.post(
-        `feature5/Promotion`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      
-      );
+      const response = await Axios.post(`feature5/Promotion`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data); // Log the response data
       navigate("/business/promotion/status");
     } catch (err) {
       console.error("Error submitting promotion:", err);
     }
   };
-  console.log(promotion);
 
   return (
     <Box
@@ -437,11 +440,7 @@ export const PromotionCreatePage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image
-              src={imagePreview}
-              alt={"image"}
-              width={"100%"}
-            ></Image>
+            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
           </Box>
         </FormControl>
       ) : (

@@ -25,84 +25,198 @@ import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
-import { Axios } from "../../../../AxiosInstance";
 import { GetPromotionById } from "../../../../api/Promotion/GetPromotionById";
 import { useParams } from "react-router-dom";
-import { initialStatePromotionProp, PromotionProps } from "../../../../interfaces/Promotion/IPromotionEditPageProp.interface";
+import {
+  initialStatePromotionProp,
+  PromotionProps,
+} from "../../../../interfaces/Promotion/IPromotionEditPageProp.interface";
+import { useCustomToast } from "../../../../components/useCustomToast";
+import { Axios } from "../../../../AxiosInstance";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 export const PromotionEditPage = () => {
   const navigate = useNavigate();
   const { isOpen, onClose } = useDisclosure();
   const id = Number(useParams<{ promotionId: string }>().promotionId);
-
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [imageDefault, setImageDefault] = useState<string>("");
+  const [branches, setBranches] = useState<
+    { branch_name: string; branchId: number }[]
+  >([]);
+  const { promotionId } = useParams();
+  const [menus, setMenus] = useState<{ name: string; menuId: number }[]>([]);
+  const toast = useCustomToast();
   const deleteModal = useDisclosure();
+  const [promotionData, setPromotionData] = useState<PromotionProps>(
+    initialStatePromotionProp
+  );
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [promotionData, setPromotionData] = useState<PromotionProps>(initialStatePromotionProp);
-  const fetchPromotionData = async () => {
-    const response = await GetPromotionById(id);
-    console.log("Fetched Data");
-    console.log(response.data);
-    setPromotionData(response);
-  }
-  {promotionData}
-  useEffect(() => {
-    fetchPromotionData();
-  },[])
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    console.log(`Changing ${name} to ${value}`);
+    setPromotionData((prevPromotion) => ({
+      ...prevPromotion,
+      [name]: value,
+    }));
+  };
+  const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
 
+    // Update state with the formatted datetime string
+    setPromotionData({
+      ...promotionData,
+      start_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setPromotionData);
+  };
+  const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
 
-  const handleClickUpdate = () => {
-    navigate("/business/promotion/status");
+    // Update state with the formatted datetime string
+    setPromotionData({
+      ...promotionData,
+      end_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setPromotionData);
   };
 
-  // const promotionDiscount = useQuery({
-  //   queryKey: ["voucher"],
-  //   queryFn: () => GetPromotionById(id),
-  //   onSuccess: (data) => {
-  //     // Set default values once the data is successfully fetched
-  //     setPromotion((prevPromotion) => ({
-  //       ...prevPromotion,
-  //       name: data.voucher_name,
-  //       description: data.description,
-  //       start_date: data.start_date,
-  //       end_date: data.end_date,
-  //       venueId: data.venueId,
-  //       image_url: data.voucher_image,
-  //       menuId: data.menuId,
-  //       branchId: data.branchId,
-  //       discount_price: data.discount_price
-  //     }));
-  //   },
-  // });
-  const [promotion, setPromotion] = useState<PromotionProps>({
-    name: "",
-    description: "",
-    start_date: "",
-    end_date: "",
-    venueId: 0,
-    image_url: "",
-    menuId: 0,
-    branchId: 0,
-    discount_price: 0
 
-  });
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setImage(file);
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+      // setPromotionData((prevPromotion) => ({
+      //   ...prevPromotion,
+      //   image_url: file,
+      // }));
+    }
+  };
 
-  const [file, setFile] = useState<File | null>(null);
-  {file}
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  // const [promotion, setPromotion] = useState<PromotionProps>({
-  //   name: "",
-  //   description: "",
-  //   image_url: "",
-  //   start_date: new Date(),
-  //   end_date: new Date(),
-  //   menuId: 3,
-  //   venueId: 3,
-  //   discount_price: 10,
-  // });
-  // console.log(file);
+  const handleClickDelete = async () => {
+    try {
+      await Axios.delete(`/feature5/Deletetpromotion/${id}`);
+      navigate("/business/promotion/status");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleClickUpdate = async () => {
+    // console.log(promotionData)
+    try {
+      const formData = new FormData();
+      formData.append("name", promotionData.name);
+      formData.append("description", promotionData.description);
+      formData.append("start_date", promotionData.start_date);
+      formData.append("end_date", promotionData.end_date);
+      formData.append("promotionId", promotionId || "");
+      formData.append("menuId", promotionData.menuId.toString());
+      formData.append("branchId", promotionData.branchId.toString());
+      formData.append(
+        "discount_price",
+        promotionData.discount_price.toString()
+      );
+      // console.log(formData.getAll)
+      if (image) {
+        formData.append("file", image);
+      }
+      await Axios.post(`/feature5/UpdatePromotionEditbyId`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      navigate("/business/promotion/status");
+    } catch (e) {
+      //console.error(e);
+      console.log(e);
+      
+    }
+  };
+
+  const fetchBranch = async () => {
+    try {
+      const res = await Axios.get("/feature5/Showbranch");
+      setBranches(
+        res.data.map((branch) => ({
+          branch_name: branch.branch_name,
+          branchId: branch.branchId,
+        }))
+      );
+    } catch (err) {
+      toast.error("Error fetching branches");
+      console.error(err);
+    }
+  };
+
+
+  // const handleSubmit = async () => {
+  //   try {
+
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const fetchPromotionData = async () => {
+    try {
+      const data = await GetPromotionById(id);
+      console.log(data);
+      setPromotionData((prevPromotion) => ({
+        ...prevPromotion,
+        name: data.name,
+        description: data.description,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        discount_price: data.discount_price,
+        menuId: data.menuId,
+        branchId: data.branchId,
+      }));
+      // setImage(data.image_url || "");
+      setImageDefault(data.image_url);
+      setBranches([{ branch_name: data.branch_name, branchId: data.branchId }]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  const fetchMenu = async () => {
+    try {
+      Axios.get("/feature5/ShowMenu")
+        .then((res) => {
+          setMenus(res.data);
+        })
+        .catch((err) => {
+          toast.error("Error fetching branches");
+          throw err;
+        });
+    } catch (e) {
+      console.error();
+    }
+  };
+
   const handleCloseImage = () => {
     setImagePreview(null);
   };
+
+  useEffect(() => {
+    fetchPromotionData();
+    fetchBranch();
+    fetchMenu();
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -111,154 +225,9 @@ export const PromotionEditPage = () => {
     };
   }, [imagePreview]);
 
-  //gpt
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    // const formattedValue = name.includes("date")
-    // 	? new Date(value).toISOString().replace("T", " ").replace("Z", "")
-    // 	: value;
-
-    // if (
-    // 	name === "start_date" &&
-    // 	!isNaN(new Date(formattedValue).getTime())
-    // ) {
-    // 	setFormattedStartDate(formattedValue);
-    // }
-
-    // if (name === "end_date" && !isNaN(new Date(formattedValue).getTime())) {
-    // 	setFormattedEndDate(formattedValue);
-    // }
-
-    if (name === "start_date" || name === "end_date") {
-      const dateValue = new Date(value);
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: dateValue.toISOString(),
-      }));
-    } else {
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: value,
-      }));
-    }
-
-    if (name === "discount_price") {
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: parseFloat(value),
-      }));
-    }
-
-    if (name === "venueId") {
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: parseInt(value),
-      }));
-    }
-
-    if (name === "menuId") {
-      setPromotion((prevPromotion) => ({
-        ...prevPromotion,
-        [name]: parseInt(value),
-      }));
-    }
-  };
-
-  // 	setPromotion((prevPromotion) => ({
-  // 		...prevPromotion,
-  // 		[name]: value,
-  // 	}));
-  // };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
-    }
-  };
-
-  const handleSubmit = async () => {
-    console.log(promotion);
-
-    try {
-      // Ensure this ID is valid
-      console.log(promotion);
-      console.log(`Sending request to /Promotion`);
-      const response = await Axios.post(`feature5/Promotion`, {
-        ...promotion,
-        //advertisementPlan: Number(advertise.cost),
-        Tags: [],
-        // start_date: promotion.start_date,
-        // end_date: formattedEndDate,
-      });
-      console.log(response.data); // Log the response data
-      navigate("/business/promotion/status");
-    } catch (err) {
-      console.error("Error submitting promotion:", err);
-    }
-  };
-  console.log(promotion);
-  const { promotionId } = useParams();
-  useEffect(() => {
-    const fetchPromotionData = async () => {
-      try {
-        if (promotionId) {
-          const idAsNumber = Number(promotionId);
-          if (!isNaN(idAsNumber)) {
-            const response = await GetPromotionById(idAsNumber);
-
-            if (response && response.data) {
-              // Ensure response and response.data are defined
-              const { data } = response;
-
-              // Update state with the fetched data
-              setPromotion((prevPromotion) => ({
-                ...prevPromotion,
-                ...data,
-                start_date: data.start_date.substring(0, 10), // Extract only the date part
-                end_date: data.end_date.substring(0, 10),
-              }));
-
-              // You may need to format dates or perform other actions based on your data structure
-            } else {
-              console.error("Invalid response or missing data:", response);
-            }
-          } else {
-            console.error("Invalid promotionId:", promotionId);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching promotion data:", error);
-      }
-    };
-
-    fetchPromotionData();
-  }, [promotionId]);
-
-  const deletePromotion = async () => {
-    try {
-      const result = await Axios.delete(`/feature5/DeletePromotion/${id}`);
-      console.log(result.data);
-    } catch (error) {
-      console.error("Error deleting advertisement:", error);
-    }
-  };
-
-  const handleClickDelete = async () => {
-    try {
-      await deletePromotion();
-      // Optionally, perform any additional actions after successful deletion
-      navigate("/business/promotion/status"); // Redirect to a different page, for instance
-    } catch (error) {
-      console.error(error);
-      // Handle errors, if any, during the deletion process
-    }
-  };
+  if (isLoading) {
+    return <FullPageLoader />;
+  }
 
   return (
     <Box
@@ -284,6 +253,7 @@ export const PromotionEditPage = () => {
         </FormLabel>
         <Input
           name="name"
+          value={promotionData.name}
           onChange={handleChange}
           variant="name"
           style={{ width: "auto" }}
@@ -310,6 +280,7 @@ export const PromotionEditPage = () => {
         </FormLabel>
         <Input
           name="description"
+          value={promotionData.description}
           onChange={handleChange}
           variant="name"
           style={{ width: "auto" }}
@@ -335,17 +306,17 @@ export const PromotionEditPage = () => {
           Branch
         </FormLabel>
         <Select
-          name="venueId"
+          name="branchInput"
+          value={promotionData.branchId}
           onChange={handleChange}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          placeholder=""
         >
-          <option value="1">PrachaUthit</option>
-          <option value="2">Bang pakok</option>
-          <option value="3">Tha kham</option>
-          <option value="4">Bang bon</option>
-          <option value="5">Bang khae</option>
+          {branches?.map((branch) => (
+            <option key={branch.branchId} value={branch.branchId}>
+              {branch.branch_name}
+            </option>
+          ))}
         </Select>
       </FormControl>
 
@@ -367,7 +338,8 @@ export const PromotionEditPage = () => {
           </FormLabel>
           <Input
             name="start_date"
-            onChange={handleChange}
+            onChange={handleStartDateChange}
+            value={promotionData.start_date.toString().split("T")[0]}
             size={"xs"}
             type="date"
             color="white"
@@ -385,7 +357,8 @@ export const PromotionEditPage = () => {
           </FormLabel>
           <Input
             name="end_date"
-            onChange={handleChange}
+            onChange={handleEndDateChange}
+            value={promotionData.end_date.toString().split("T")[0]}
             id="fileInput"
             size={"xs"}
             type="date"
@@ -417,9 +390,13 @@ export const PromotionEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           placeholder=""
+          value={promotionData.menuId}
         >
-          <option value="3">3</option>
-          <option value="3">3</option>
+          {menus?.map((menu) => (
+            <option key={menu.menuId} value={menu.menuId}>
+              {menu.name}
+            </option>
+          ))}
         </Select>
       </FormControl>
 
@@ -439,6 +416,7 @@ export const PromotionEditPage = () => {
         </FormLabel>
         <Input
           name="discount_price"
+          value={promotionData.discount_price}
           onChange={handleChange}
           variant="discount_price"
           style={{ width: "auto" }}
@@ -446,6 +424,11 @@ export const PromotionEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="float"
+        />
+
+        <Image
+          mt={"1em"}
+          src={import.meta.env.VITE_BACKEND_URL + imageDefault || ""}
         />
       </FormControl>
 
@@ -484,11 +467,7 @@ export const PromotionEditPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image
-              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}` || ""}
-              alt={"image"}
-              width={"100%"}
-            ></Image>
+            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
           </Box>
         </FormControl>
       ) : (
@@ -631,7 +610,7 @@ export const PromotionEditPage = () => {
               <Button
                 bgColor={"#A533C8"}
                 mr={3}
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
                 color={"white"}
                 width="30%"
               >
@@ -647,4 +626,3 @@ export const PromotionEditPage = () => {
 // function useQuery(arg0: { queryKey: string[]; queryFn: () => any; onSuccess: (data: VoucherType) => void; }) {
 //   throw new Error("Function not implemented.");
 // }
-
