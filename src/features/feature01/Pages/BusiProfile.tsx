@@ -160,6 +160,7 @@ export const BusiProfile = () => {
        .catch((error) => {
          console.error("Error getting price", error);
        });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

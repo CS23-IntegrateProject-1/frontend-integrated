@@ -185,6 +185,7 @@ export const BusiProfileEdit = () => {
        .catch((error) => {
          console.error("Error getting prompt no and ph no data:", error);
        });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect(() => {

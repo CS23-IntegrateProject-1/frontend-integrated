@@ -27,6 +27,7 @@ const defaultTicketDetails: TicketDetails = {
 
 export const HelpDesk = () => {
     const[listData, setListData] = useState([]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ticketData, setTicketData] = useState("");
     const [ticketDetails, setTicketDetails] = useState<TicketDetails>(defaultTicketDetails);
     const [topicData, setTopicData] = useState("");
@@ -130,6 +131,7 @@ export const HelpDesk = () => {
       Pending color = yellow compeleted = green */}
          {listData.map((data:any) => (
           // <div key={data.ticket_id}>
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         <Box onClick={_ => handleOpen(data.ticket_id)} key={data.ticket_id} cursor={'pointer'} bg={'grey.100'} display={'flex'} w={'50%'} py={5} borderRadius={15} justifyContent={'space-between'}>
             <Box><Text color={'brand.300'} pl={2}>{data.topic}</Text></Box>
             <Box color={data.status === 'Pending' ? 'yellow' : 'green'} pr={2}>{data.status}</Box> 
