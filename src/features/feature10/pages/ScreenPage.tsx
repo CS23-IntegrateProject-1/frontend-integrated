@@ -5,8 +5,8 @@ import { TextStyle } from "../../../theme/TextStyle";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
-import { MovieSeat } from "../components/movieSeat/MovieSeat";
-import { TypeOfSeatCard } from "../components/movieSeat/TypeOfSeat";
+import { MovieSeat } from "../components/MovieSeat/MovieSeat";
+import { TypeOfSeatCard } from "../components/MovieSeat/TypeOfSeat";
 
 interface ShowDetails {
 	show: Show;
