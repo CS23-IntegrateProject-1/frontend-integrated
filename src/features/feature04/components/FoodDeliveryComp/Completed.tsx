@@ -1,7 +1,7 @@
 import { Box,Flex,Text,IconButton,Button } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface OrderDetail {
   restaurantName: string;
@@ -10,9 +10,14 @@ interface OrderDetail {
   Driver: string;
   licensePlate: string;
   branchId: number;
+  onlineOrderId: number;
 }
 
 export const Completed=(props: OrderDetail)=> {
+  const navigate = useNavigate();
+  const NavigateCompletedDetail = () => {
+    navigate(`/map/food-delivery/Completed-your-order/${props.onlineOrderId}`);
+  };
   return <Box>
      <Box>
       <Flex justifyContent={"center"}>
@@ -69,6 +74,7 @@ export const Completed=(props: OrderDetail)=> {
             aria-label="Next"
             fontSize="1.5rem"
             variant={"unstyle"}
+            onClick={NavigateCompletedDetail}
           >
             <MdKeyboardArrowRight />
           </IconButton>

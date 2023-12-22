@@ -30,8 +30,8 @@ export const Feature04Routes = () => {
     {path:"/map/food-delivery/checkout",element:<Checkout/>},
     {path:"/map/food-delivery/edit-delivery-location",element:<EditLocation/>},
     {path:"/map/food-delivery/your-order",element:<YourOrder/>},
-    {path:"/map/food-delivery/cancel-your-order",element:<CancelOrder/>},
-    {path:"/map/food-delivery/Completed-your-order",element:<CompleteOrder/>},
+    {path:"/map/food-delivery/cancel-your-order/:onlineOrderId",element:<CancelOrder/>},
+    {path:"/map/food-delivery/Completed-your-order/:onlineOrderId",element:<CompleteOrder/>},
     {path:"/map/food-delivery/Ongoing-your-order/:onlineOrderId",element:<OngoingOrder/>}
 
 

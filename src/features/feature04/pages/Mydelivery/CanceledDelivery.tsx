@@ -4,8 +4,13 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
+import { useNavigate } from "react-router-dom";
 export const CanceledMyDelivery=()=>{
+  const navigate = useNavigate();
   const [canceledOrders, setCanceledOrders] = useState<any[]>([]);
+  const NavigateCanceledDetail = () => {
+    navigate(`/map/food-delivery/cancel-your-order/${canceledOrders[0].onlineOrderId}`);
+  };
 
   useEffect(() => {
     const fetchOngoingOrders = async () => {
@@ -18,7 +23,7 @@ export const CanceledMyDelivery=()=>{
       }
     };
 
-    fetchOngoingOrders();
+    fetchOngoingOrders(); 
   }, []);
     return(
       <Box>
@@ -80,6 +85,7 @@ export const CanceledMyDelivery=()=>{
               aria-label="Next"
               fontSize="1.5rem"
               variant={"unstyle"}
+              onClick={NavigateCanceledDetail}
             >
               <MdKeyboardArrowRight />
             </IconButton>

@@ -25,6 +25,7 @@ function CompletedStatusPage(){
         {completedOrders.map((order) => (
         <Completed
           key={order.onlineOrderId}
+          onlineOrderId={order.onlineOrderId}
           price={parseFloat(order.total_amount)}
           restaurantName={order.Venue_branch.branch_name}
           Driver={order.Driver_list.driver_first_name}
