@@ -27,7 +27,7 @@ export const PromotionDetail = () => {
 
   useEffect(() => {
     fetchPromotionBranch();
-  }, []);
+  }, );
 
   return (
     <Box marginRight={"150px"} marginLeft={"150px"}>

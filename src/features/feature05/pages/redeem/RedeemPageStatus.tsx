@@ -1,28 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, FC } from "react";
 import { Tab, Tabs, TabList, Stack, Box, Icon } from "@chakra-ui/react";
 import { RedeemStatusCard } from "../../components/BusinessRedeemComponent/RedeemStatusCard";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-// import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
-import { GetRedeem } from "../../../../api/Redeem/GetRedeem";
 import { GetRedeembyBusinessId } from "../../../../api/Redeem/GetRedeembyBusinessId";
 
-// const fetchData = async (status: string): Promise<string[]> => {
-//   // Assume this is your backend API endpoint to fetch data based on the status
-//   const response = await fetch(/api/data?status=${status});
-//   const data = await response.json();
-//   return data;
-// };
 
 interface IRedeemCard {
   redeemId: number;
   image_url: string;
   memberTier: number;
 }
-
-//interface RedeemStatusPageProps {}
-
 export const RedeemPageStatus: FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [selector, setSelector] = useState<"Regular" | "Silver" | "Gold" | "Platinum">("Regular");
@@ -40,7 +28,7 @@ export const RedeemPageStatus: FC = () => {
   useEffect(() => {
     fetchRedeem();
     console.log(data);
-  }, []);
+  });
 
   const handleTabChange = (index: number) => {
     setCurrentTab(index);

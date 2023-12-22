@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -52,7 +51,7 @@ export const PromotionEditPage = () => {
   const [promotionData, setPromotionData] = useState<PromotionProps>(
     initialStatePromotionProp
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading,setIsLoading] = useState(true);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -97,10 +96,6 @@ export const PromotionEditPage = () => {
       setImage(file);
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
-      // setPromotionData((prevPromotion) => ({
-      //   ...prevPromotion,
-      //   image_url: file,
-      // }));
     }
   };
 
@@ -148,7 +143,7 @@ export const PromotionEditPage = () => {
     try {
       const res = await Axios.get("/feature5/Showbranch");
       setBranches(
-        res.data.map((branch) => ({
+        res.data.map((branch: { branch_name: string; branchId: number }) => ({
           branch_name: branch.branch_name,
           branchId: branch.branchId,
         }))
@@ -159,13 +154,6 @@ export const PromotionEditPage = () => {
     }
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
 
   const fetchPromotionData = async () => {
     try {
@@ -213,7 +201,8 @@ export const PromotionEditPage = () => {
     fetchBranch();
     fetchMenu();
     setIsLoading(false);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   useEffect(() => {
     return () => {
@@ -304,7 +293,7 @@ export const PromotionEditPage = () => {
           Branch
         </FormLabel>
         <Select
-          name="branchInput"
+          name="branchI"
           value={promotionData.branchId}
           onChange={handleChange}
           bgColor={"#5F0DBB"}

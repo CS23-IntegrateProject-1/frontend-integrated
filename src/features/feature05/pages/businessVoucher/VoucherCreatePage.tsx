@@ -128,16 +128,10 @@ export const VoucherCreatePage = () => {
       const formData = new FormData();
       formData.append("voucherName", voucher.voucherName);
       formData.append("description", voucher.description);
-      //  formData.append("voucherImage", voucher.voucherImage);
       formData.append("start_date", voucher.startDate.toString());
       formData.append("end_date", voucher.endDate.toString());
       formData.append("limitation", voucher.limitation.toString());
       formData.append("voucherType", voucher.voucherType);
-      //  formData.append(
-      //    "discountVoucher",
-      //    JSON.stringify(voucher.discountVoucher)
-      //  );
-      //  formData.append("giftVoucher", JSON.stringify(voucher.giftVoucher));
       if (voucher.voucherType === "Discount") {
         formData.append("point_use", voucher.point_use?.toString() || "0");
       } else {

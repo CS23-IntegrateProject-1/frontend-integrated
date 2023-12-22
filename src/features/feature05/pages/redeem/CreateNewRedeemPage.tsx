@@ -80,7 +80,6 @@ export const CreateNewRedeemPage = () => {
       formData.append("title", redeem.title);
       formData.append("description", redeem.description);
       formData.append("memberTier", redeem.memberTier);
-      // formData.append("file", image_url)
       if (image_url) {
         formData.append("file", image_url);
       }
@@ -110,26 +109,6 @@ export const CreateNewRedeemPage = () => {
     }));
   };
   console.log(image_url);
-
-  // const handleClickSubmit = () => {
-  //   navigate("/business/redeem/status");
-  // };
-
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFile(e.target.files[0]);
-  //     const previewURL = URL.createObjectURL(e.target.files[0]);
-  //     setImagePreview(previewURL);
-  //   }
-  // };
-
-  //   const handleSubmit = async () => {
-  //     try {
-  //       await Axios.post;
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
 
   return (
     <Box

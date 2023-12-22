@@ -1,32 +1,14 @@
 import {
   Box,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Tab,
   Tabs,
   TabList,
   Stack,
-  Icon,
 } from "@chakra-ui/react";
 import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
-import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState, FC } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaPlusCircle } from "react-icons/fa";
 import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
 import { GetAllAds } from "../../../../api/Advertisement/GetAllAdvertisement";
-// interface IAdCard {
-//   advertisementId: number;
-//   naem: string;
-//   description: string;
-//   isApprove: approve;
-// }
-// enum approve {
-//   Rejected = "Rejected",
-//   In_progress = "In_progress",
-//   Completed = "Completed"
-// }
 
 export const AdvertisementListPage: FC = () => {
   const [datas, setDatas] = useState<IAdvertisementCardProp[]>([]);
@@ -34,10 +16,6 @@ export const AdvertisementListPage: FC = () => {
     "In_progress" | "Awaiting_payment" | "Completed" | "Rejected"
   >("In_progress");
   const [currentTab, setCurrentTab] = useState(0);
-  const navigate = useNavigate();
-  const handleClickCreate = () => {
-    navigate("/admin/advertisement/status");
-  };
 
   const fetchBusinessAds = async () => {
     const res = await GetAllAds();
@@ -55,42 +33,6 @@ export const AdvertisementListPage: FC = () => {
   };
 
   return (
-    // <Box
-    //   display={"flex"}
-    //   flexDirection={"column"}
-    //   justifyContent={"center"}
-    //   alignItems={"center"}
-    //   width={"100%"}
-    // >
-    //   {/* Search */}
-    //   <Box
-    //     width="90%"
-    //     minWidth="250px"
-    //     maxWidth="400px"
-    //     display="flex"
-    //     flexDirection={"column"}
-    //     paddingBottom={5}
-    //   >
-    //     <InputGroup>
-    //       <InputLeftElement
-    //         pointerEvents="none"
-    //         children={<Search2Icon color="gray.600" />}
-    //         bgColor={"white"}
-    //         borderRadius={10}
-    //       />
-    //       <Input
-    //         type="text"
-    //         placeholder="Search..."
-    //         border="1px solid white"
-    //         bgColor={"white"}
-    //         color={"black"}
-    //         borderRadius={10}
-    //       />
-    //       {/* <InputRightElement p={0} borderRadius={10}></InputRightElement> */}
-
-    //     </InputGroup>
-    //   </Box>
-
     <Box
       display={"flex"}
       flexDirection={"column"}

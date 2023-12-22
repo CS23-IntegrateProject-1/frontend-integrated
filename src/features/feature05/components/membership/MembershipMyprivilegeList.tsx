@@ -20,7 +20,7 @@ const MembershipMyprivilegeList = () => {
 
   useEffect(() => {
     fetchMyprivilegeList();
-  }, []);
+  });
 
   return (
     <HStack

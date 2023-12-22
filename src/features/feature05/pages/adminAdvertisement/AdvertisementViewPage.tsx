@@ -1,39 +1,19 @@
 3;
 import {
   Box,
-  Button,
-  Center,
   FormControl,
   FormLabel,
-  Icon,
-  IconButton,
-  Stack,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { Input } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
-import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
-import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisement";
 
 export const AdvertisementViewPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState<IAd_business>();
   const id = Number(useParams<{ id: string }>().id);
   const fetchDatas = async () => {
@@ -42,26 +22,7 @@ export const AdvertisementViewPage = () => {
   };
   useEffect(() => {
     fetchDatas();
-  }, []);
-  const navigate = useNavigate();
-  const handleClickReject = () => {
-    RejectAds(id);
-    navigate(`/admin/advertisement/${id}/reject`);
-    location.reload();
-  };
-  const handleClickConfirm = () => {
-    ApproveAds(id);
-    navigate("/admin/advertisement");
-    location.reload();
-  };
-  console.log(data);
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFile(e.target.files[0]);
-  //     const previewURL = URL.createObjectURL(e.target.files[0]);
-  //     setImagePreview(previewURL);
-  //   }
-  // };
+  });
 
   return (
     <Box

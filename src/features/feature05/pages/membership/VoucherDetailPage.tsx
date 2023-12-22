@@ -16,7 +16,7 @@ export const VoucherDetailPage = () => {
   useEffect(() => {
     fetchDatas();
     fetchVoucherStatus();
-  }, []);
+  });
 
   if (voucherId == undefined) {
     console.error("Voucher id is undefined");
@@ -35,8 +35,10 @@ export const VoucherDetailPage = () => {
   const fetchVoucherStatus = async () => {
     try {
       const result = await GetCheckVouchernotCollected(voucherId)
-      setVoucherCollected(result.data.hasVoucher);
-      console.log(result.data.hasVoucher)
+      if(result){
+        setVoucherCollected(result.data.hasVoucher);
+        console.log(result.data.hasVoucher);
+      }
     } catch (error) {
       console.error('Error fetching voucher status:', error);
     }

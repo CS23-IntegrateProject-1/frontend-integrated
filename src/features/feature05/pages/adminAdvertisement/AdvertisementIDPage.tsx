@@ -2,17 +2,12 @@
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormLabel,
-  Icon,
-  IconButton,
-  Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { Input } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import {
   Modal,
@@ -24,9 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
@@ -43,7 +36,7 @@ export const AdvertisementIDPage = () => {
   };
   useEffect(() => {
     fetchDatas();
-  }, []);
+  });
   const navigate = useNavigate();
   const handleClickReject = () => {
     RejectAds(id);
@@ -57,13 +50,6 @@ export const AdvertisementIDPage = () => {
   };
 
   console.log(data);
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFile(e.target.files[0]);
-  //     const previewURL = URL.createObjectURL(e.target.files[0]);
-  //     setImagePreview(previewURL);
-  //   }
-  // };
 
   return (
     <Box

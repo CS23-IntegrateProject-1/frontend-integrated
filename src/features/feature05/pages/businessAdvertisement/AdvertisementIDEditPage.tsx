@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -66,26 +65,27 @@ export const AdvertisementIDEditPage = () => {
         URL.revokeObjectURL(imagePreview);
       }
     };
-  }, []);
+  });
 
   const fetchPlaceHolder = async () => {
     try {
-      const { data } = await GetBusinessAdsById(id);
-      // const formatDate = (dateString: string): string => {
-      //   const date = new Date(dateString);
-      //   return date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
-      // };
-      setAdvertise((prevAdvertise) => ({
-        ...prevAdvertise,
-        name: data.name,
-        description: data.description,
-        start_date: data.start_date,
-        end_date: data.end_date,
-        targetCustomer: data.costumer_type,
-        targetGroup: data.target_group,
-        advertisementPlan: parseInt(data.cost),
-      }));
-      setImageDefault(data.image_url || "");
+      const response  = await GetBusinessAdsById(id);
+      const data = response?.data
+
+      if(data){
+        setAdvertise((prevAdvertise) => ({
+          ...prevAdvertise,
+          name: data.name,
+          description: data.description,
+          start_date: data.start_date,
+          end_date: data.end_date,
+          targetCustomer: data.costumer_type,
+          targetGroup: data.target_group,
+          advertisementPlan: parseInt(data.cost),
+        }));
+        setImageDefault(data.image_url || "");
+      }
+      
     } catch (e) {
       console.log(e);
     }
@@ -117,30 +117,8 @@ export const AdvertisementIDEditPage = () => {
       console.error(error);
     }
   };
-  // const handleClickSubmit = async () => {
-  //   try {
-  //     await Axios.post("/")
-  //     navigate("/business/advertisement/status");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const handleClickSubmit = async () => {
-    // const toast = useCustomToast();
-    // if (
-    //   advertise.name == "" ||
-    //   advertise.description  == "" ||
-    //   advertise.start_date == "" ||
-    //   advertise.end_date == "" ||
-    //   advertise.targetCustomer == "" ||
-    //   advertise.targetGroup == "" ||
-    //   advertise.advertisementPlan == 0
-    // ) {
-    //   toast.warning("Please fill all the fields");
-    //   onClose();
-    //   return;
-    // }
     try {
       const formData = new FormData();
       formData.append("voucher_name", advertise.name);
@@ -175,20 +153,6 @@ export const AdvertisementIDEditPage = () => {
     }
   };
 
-  // const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-
-  //   console.log(event.target.value);
-  //   setAdvertise({
-  //     ...advertise,
-  //     start_date: event.target.value,
-  //   });
-  // };
-  // const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setAdvertise({
-  //     ...advertise,
-  //     end_date: event.target.value,
-  //   });
-  // };
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = new Date(event.target.value); // Convert input value to a Date object
     const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
@@ -211,18 +175,6 @@ export const AdvertisementIDEditPage = () => {
     });
     console.log(setAdvertise);
   };
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<
-  //     HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-  //   >
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setAdvertise((prevAdvertise) => ({
-  //     ...prevAdvertise,
-  //     [name]: value,
-  //   }));
-  // };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -282,7 +234,6 @@ export const AdvertisementIDEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
-          // onChange={(e) => setAdvertise({ ...advertise, name: e.target.value })}
         />
       </FormControl>
       <FormControl
@@ -337,12 +288,6 @@ export const AdvertisementIDEditPage = () => {
             borderColor={"#5F0DBB"}
             value={(advertise.start_date + "").substring(0, 10)}
             onChange={handleStartDateChange}
-            // onChange={(e) =>
-            //   setAdvertise({
-            //     ...advertise,
-            //     startingDate: new Date(e.target.value),
-            //   })
-            // }
           />
         </Box>
 
@@ -360,12 +305,6 @@ export const AdvertisementIDEditPage = () => {
             borderRadius={5}
             borderColor={"#5F0DBB"}
             value={(advertise.end_date + "").substring(0, 10)}
-            // onChange={(e) =>
-            //   setAdvertise({
-            //     ...advertise,
-            //     endingDate: new Date(e.target.value),
-            //   })
-            // }
             onChange={handleEndDateChange}
           />
         </Box>
@@ -408,14 +347,6 @@ export const AdvertisementIDEditPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            {/* {imagePreview && (
-              <Image src={imagePreview} alt="Preview" width="100%" />
-              )}
-              {!imagePreview && imageDefault && (
-                <Image src={import.meta.env.VITE_BACKEND_URL alt="Default" width="100%" />
-              )}
-
-              <Image src={imagePreview} alt="image" width="100%" /> */}
           </Box>
         </FormControl>
       ) : (
@@ -482,9 +413,6 @@ export const AdvertisementIDEditPage = () => {
           borderColor={"#5F0DBB"}
           name="targetCustomer"
           value={advertise.targetCustomer}
-          // onChange={(e) =>
-          //   setAdvertise({ ...advertise, targetCustomer: e.target.value })
-          // }
           onChange={handleChange}
         >
           <option value="All">All</option>
@@ -511,12 +439,7 @@ export const AdvertisementIDEditPage = () => {
           borderColor={"#5F0DBB"}
           placeholder=""
           onChange={handleChange}
-          // value={
-          //   advertise.targetGroup === "Young adult"
-          //     ? "Young_adult"
           name="targetGroup"
-          //     : advertise.targetGroup
-          // }
           value={advertise.targetGroup}
         >
           <option value="Teen">Teen</option>
@@ -525,33 +448,6 @@ export const AdvertisementIDEditPage = () => {
           <option value="Elder">Elder</option>
         </Select>
       </FormControl>
-
-      {/* Advertisement plan */}
-      {/* <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={6}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Advertisement plan
-        </FormLabel>
-        <RadioGroup
-          value={advertise.advertisementPlan.toString()}
-          name="advertisementPlan"
-          onChange={handleChange}
-        >
-          <Stack spacing={1} direction="column">
-            <Radio value="100">100 Baht/Week</Radio>
-            <Radio value="300">300 Baht/Month</Radio>
-            <Radio value="3600">3600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup>
-      </FormControl> */}
 
       {/* Advertisement plan */}
       <FormControl
@@ -572,12 +468,7 @@ export const AdvertisementIDEditPage = () => {
           borderColor={"#5F0DBB"}
           placeholder=""
           onChange={handleChange}
-          // value={
-          //   advertise.targetGroup === "Young adult"
-          //     ? "Young_adult"
           name="advertisementPlan"
-          //     : advertise.targetGroup
-          // }
           value={advertise.advertisementPlan}
         >
           <option value="100">100 Bath/Week</option>

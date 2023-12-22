@@ -1,14 +1,9 @@
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormLabel,
-  Icon,
-  Select,
-  Stack,
   Image,
-  IconButton,
   useDisclosure,
   Modal,
   ModalCloseButton,
@@ -16,55 +11,26 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  ModalBody,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-
-// import { Axios } from "../../../../AxiosInstance";
-
-interface RedeemProps {
-  title: string;
-  description: string;
-  image_url: string;
-  memberTier: string;
-}
-
-export const fetchRedeem = async (redeemId: string): Promise<RedeemProps> => {
-  try {
-    const redeem = await Axios.get(`/feature5/GetRedeembyId/${redeemId}`);
-    return redeem.data;
-    // return mockArticle;
-  } catch (error) {
-    console.error("Error fetching article:", error);
-    throw new Error("Failed to fetch article");
-  }
-};
+import { fetchRedeem } from "../../../../api/Redeem/GetRedeembyRedeemId";
 
 export const RedeemEditPage = () => {
   const navigate = useNavigate();
   const { redeemId } = useParams();
   const deleteModal = useDisclosure();
-  //   const submitModal = useDisclosure();
-  // const handleClickDelete = () => {};
+
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [memberTier, setMemberTier] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [redeem, setRedeem] = useState<RedeemProps>({
-    title: "",
-    description: "",
-    image_url: "",
-    memberTier: "",
-  });
+
   const RedeemData = useQuery({
     queryKey: ["redeem"],
     queryFn: () => fetchRedeem(redeemId ?? ""),

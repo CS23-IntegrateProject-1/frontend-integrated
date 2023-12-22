@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -94,7 +93,7 @@ export const PromotionCreatePage = () => {
         URL.revokeObjectURL(imagePreview);
       }
     };
-  }, []);
+  });
 
   //gpt
   const handleChange = (
@@ -103,20 +102,6 @@ export const PromotionCreatePage = () => {
     >
   ) => {
     const { name, value } = e.target;
-    // const formattedValue = name.includes("date")
-    // 	? new Date(value).toISOString().replace("T", " ").replace("Z", "")
-    // 	: value;
-
-    // if (
-    // 	name === "start_date" &&
-    // 	!isNaN(new Date(formattedValue).getTime())
-    // ) {
-    // 	setFormattedStartDate(formattedValue);
-    // }
-
-    // if (name === "end_date" && !isNaN(new Date(formattedValue).getTime())) {
-    // 	setFormattedEndDate(formattedValue);
-    // }
 
     if (name === "start_date") {
       setPromotion((prevPromotion) => ({
