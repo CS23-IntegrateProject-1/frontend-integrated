@@ -8,7 +8,7 @@ import {
   Switch,
   Flex,
 } from "@chakra-ui/react";
-import { FC} from "react";
+import { FC } from "react";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,6 @@ const getMenuItem = async (type: string, menuid: string) => {
   return response.data;
 };
 
-
 export const BusinessMenuDetail: FC = () => {
   const { type, menuid } = useParams();
   const toast = useCustomToast();
@@ -43,7 +42,7 @@ export const BusinessMenuDetail: FC = () => {
     if (type !== undefined && menuid !== undefined) {
       return getMenuItem(type, menuid);
     }
-    return Promise.reject(new Error('type or menuid is undefined'));
+    return Promise.reject(new Error("type or menuid is undefined"));
   });
   //console.log(menuItem);
 
@@ -82,12 +81,11 @@ export const BusinessMenuDetail: FC = () => {
   };
 
   const { data: branchAvailabilityData, refetch: branchAvailabilityRefetch } =
-    useQuery(["branchAvailability", menuid], () =>
-    {
+    useQuery(["branchAvailability", menuid], () => {
       if (menuid !== undefined) {
         return getBranchAvailability(menuid);
       }
-      return Promise.reject(new Error('menuid is undefined'));
+      return Promise.reject(new Error("menuid is undefined"));
     });
   //console.log("BranchAva2",branchAvailabilityData);
 
@@ -97,7 +95,7 @@ export const BusinessMenuDetail: FC = () => {
         `/feature7/changeMenuAvailability/${menuid}/${branchId}`
       );
       branchAvailabilityRefetch();
-      console.log("SetBranchAva",response);
+      console.log("SetBranchAva", response);
     } catch (error) {
       console.error("Error setting availability:", error); // Log any errors for debugging
       console.log("Error response:"); // Log the error response for debugging
@@ -124,8 +122,8 @@ export const BusinessMenuDetail: FC = () => {
             // src="/src/features/feature07/assets/test.jpg"
             src={
               type == "Set"
-                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem.image_url}`
-                : `${import.meta.env.VITE_BACKEND_URL}${menuItem.image}`
+                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
+                : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`
             }
             width="350px"
             height="250px"
@@ -155,7 +153,7 @@ export const BusinessMenuDetail: FC = () => {
         {type == "Menu" && branchAvailabilityData?.length > 0 && (
           <>
             <Text {...textStyles.h2}>Branch Availability</Text>
-            {branchAvailabilityData?.map((branch : branchAvailabilityProps) => (
+            {branchAvailabilityData?.map((branch: branchAvailabilityProps) => (
               <Flex
                 key={branch.branchId}
                 justifyContent="space-between"

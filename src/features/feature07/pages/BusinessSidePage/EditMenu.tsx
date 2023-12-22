@@ -1,12 +1,22 @@
-import { useEffect, useRef, useState, ChangeEvent } from 'react';
-import { FormControl, FormLabel, Input, Box, Center, Icon, InputGroup, InputRightElement, HStack } from '@chakra-ui/react';
-import { ButtonComponent } from '../../../../components/buttons/ButtonComponent';
+import { useEffect, useRef, useState, ChangeEvent } from "react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Box,
+  Center,
+  Icon,
+  InputGroup,
+  InputRightElement,
+  HStack,
+} from "@chakra-ui/react";
+import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { Image } from "../../component/ImageUpload/Image";
-import {useNavigate, useParams} from 'react-router-dom';
-import { Axios } from '../../../../AxiosInstance';
-import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useParams } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
 import { useCustomToast } from "../../../../components/useCustomToast";
-import { FullPageLoader } from '../../../../components/Loader/FullPageLoader';
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 
 const getMenuItem = async (menuid: string) => {
   const response = await Axios.get(`/feature7/getMenuById/${menuid}`);
@@ -14,7 +24,6 @@ const getMenuItem = async (menuid: string) => {
 };
 
 export const EditMenu = () => {
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -22,9 +31,9 @@ export const EditMenu = () => {
   const toast = useCustomToast();
   const { menuid } = useParams();
   const [editFormData, setEditFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
+    name: "",
+    description: "",
+    price: "",
   });
 
   const handleInvalid = (e: any) => {
@@ -34,11 +43,16 @@ export const EditMenu = () => {
     toast.error(`Please fill in the ${name} field`);
   };
 
-  const { data: menuData, isLoading, isError } = useQuery(['menuItem', menuid], () =>{
+  const {
+    data: menuData,
+    isLoading,
+    isError,
+  } = useQuery(["menuItem", menuid], () => {
     if (menuid !== undefined) {
       return getMenuItem(menuid);
-    }return Promise.reject(new Error('menuid is undefined'));
-  } );
+    }
+    return Promise.reject(new Error("menuid is undefined"));
+  });
   console.log(menuData);
   useEffect(() => {
     if (menuData) {
@@ -55,9 +69,11 @@ export const EditMenu = () => {
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0] ? event.target.files?.[0] : null;
+    const selectedFile = event.target.files?.[0]
+      ? event.target.files?.[0]
+      : null;
     setSelectedFile(selectedFile);
-    console.log('Selected file:', selectedFile);
+    console.log("Selected file:", selectedFile);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,13 +82,13 @@ export const EditMenu = () => {
       ...prevData,
       [name]: value,
     }));
-    e.target.setCustomValidity(""); 
+    e.target.setCustomValidity("");
   };
 
   const isFormValid = () => {
     return editFormData.name && editFormData.description && editFormData.price;
   };
-  
+
   const handleUpdate = async () => {
     setFormSubmitted(true);
     if (!isFormValid()) {
@@ -80,36 +96,41 @@ export const EditMenu = () => {
       return;
     }
     const formData = new FormData();
-    formData.append('name', editFormData.name);
-    formData.append('description', editFormData.description);
-    formData.append('price', editFormData.price);
+    formData.append("name", editFormData.name);
+    formData.append("description", editFormData.description);
+    formData.append("price", editFormData.price);
     if (selectedFile) {
-      formData.append('menuImage', selectedFile);
+      formData.append("file", selectedFile);
     }
+    console.log(formData.get("file"));
 
     try {
-      const response = await Axios.post(`/feature7/editMenu/${menuid}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('Menu edited:', response.data);
+      const response = await Axios.post(
+        `/feature7/editMenu/${menuid}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Menu edited:", response.data);
       toast.success("Menu Edited");
       const targetPath = `/business/venue/bmenudetail/Menu/${menuid}`;
       navigate(targetPath);
     } catch (error) {
-        console.error('Error editing menu:', error);
-        // Add logic for error handling
-      }
+      console.error("Error editing menu:", error);
+      // Add logic for error handling
+    }
   };
 
   if (isLoading) {
-    return <FullPageLoader />
+    return <FullPageLoader />;
   }
-  if(isError){
-    return <div>Something went wrong</div>
+  if (isError) {
+    return <div>Something went wrong</div>;
   }
-  
+
   return (
     <FormControl>
       <Box display="flex" flexDirection="column">
@@ -123,17 +144,18 @@ export const EditMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor={(formSubmitted && !editFormData.name) ? "red.300" : "brand.300"}
+              borderColor={
+                formSubmitted && !editFormData.name ? "red.300" : "brand.300"
+              }
               bgColor="brand.300"
               marginBottom="10px"
               color="gray.300"
-              name='name'
+              name="name"
               value={editFormData.name}
               onChange={handleInputChange}
               required
               onInvalid={handleInvalid}
               isInvalid={formSubmitted && !editFormData.name}
-
             />
           </Box>
         </Center>
@@ -147,15 +169,18 @@ export const EditMenu = () => {
               height="60px"
               marginBottom="10px"
               padding="0px 12px 0px 12px"
-              borderColor={(formSubmitted && !editFormData.description) ? "red.300" : "brand.300"}
+              borderColor={
+                formSubmitted && !editFormData.description
+                  ? "red.300"
+                  : "brand.300"
+              }
               bgColor="brand.300"
-              name='description'
+              name="description"
               value={editFormData.description}
               onChange={handleInputChange}
               required
               onInvalid={handleInvalid}
               isInvalid={formSubmitted && !editFormData.description}
-
             />
           </Box>
         </Center>
@@ -170,10 +195,12 @@ export const EditMenu = () => {
               height="32px"
               padding="0px 12px 0px 12px"
               borderRadius="4px"
-              borderColor={(formSubmitted && !editFormData.price) ? "red.300" : "brand.300"}
+              borderColor={
+                formSubmitted && !editFormData.price ? "red.300" : "brand.300"
+              }
               bgColor="brand.300"
               marginBottom="10px"
-              name='price'
+              name="price"
               value={editFormData.price}
               onChange={handleInputChange}
               required
@@ -193,14 +220,14 @@ export const EditMenu = () => {
                 accept="image/*"
                 onChange={handleFileChange}
                 style={{
-                  position: 'absolute',
-                  width: '1px',
-                  height: '1px',
-                  padding: '0',
-                  margin: '-1px',
-                  overflow: 'hidden',
-                  clip: 'rect(0,0,0,0)',
-                  border: '0',
+                  position: "absolute",
+                  width: "1px",
+                  height: "1px",
+                  padding: "0",
+                  margin: "-1px",
+                  overflow: "hidden",
+                  clip: "rect(0,0,0,0)",
+                  border: "0",
                 }}
               />
               <Input
@@ -212,10 +239,12 @@ export const EditMenu = () => {
                 borderColor="brand.300"
                 bgColor="brand.300"
                 style={{
-                  backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
+                  backgroundImage: selectedFile
+                    ? (`url(${URL.createObjectURL(selectedFile)})` as string)
+                    : undefined, // backgroundImage: selectedFile ? `url(${URL.createObjectURL(selectedFile)})` : `url(${import.meta.env.VITE_BACKEND_URL}${menuData?.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
                 }}
               />
               <InputRightElement
@@ -226,31 +255,36 @@ export const EditMenu = () => {
                 justifyContent="center"
                 onClick={handleImageClick}
               >
-                <Icon as={Image} color="currentColor" aria-label="Open Cart" boxSize={40} />
+                <Icon
+                  as={Image}
+                  color="currentColor"
+                  aria-label="Open Cart"
+                  boxSize={40}
+                />
               </InputRightElement>
             </InputGroup>
           </Box>
         </Center>
         <Center>
-        <HStack marginTop="2" bottom="4" position="fixed">
-          <Box marginRight="4">
-            <ButtonComponent
-              width={"150px"}
-              text="Cancel"
-              bgColor="white"
-              textColor="brand.200"
-              // onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
-              onClick={() => navigate(`/business/venue/menubusiness`)}
-            />
-          </Box>
-          <Box>
-            <ButtonComponent
-              width={"150px"}
-              text="Update"
-              onClick={handleUpdate}
-            />
-          </Box>
-        </HStack>
+          <HStack marginTop="2" bottom="4" position="fixed">
+            <Box marginRight="4">
+              <ButtonComponent
+                width={"150px"}
+                text="Cancel"
+                bgColor="white"
+                textColor="brand.200"
+                // onClick={() => navigate(`/venue/${venueId}/bmenudetail/Menu/${menuid}`)}
+                onClick={() => navigate(`/business/venue/menubusiness`)}
+              />
+            </Box>
+            <Box>
+              <ButtonComponent
+                width={"150px"}
+                text="Update"
+                onClick={handleUpdate}
+              />
+            </Box>
+          </HStack>
         </Center>
       </Box>
     </FormControl>

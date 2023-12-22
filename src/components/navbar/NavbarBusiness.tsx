@@ -86,7 +86,7 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
             <SettingsIcon alignSelf={"flex-end"} boxSize={6} color={"white"} />
           }
           onClick={() => {
-            navigate("/setting");
+            navigate("/business/busiProfile");
             onClose();
           }}
         />
