@@ -2,15 +2,12 @@ import { QrCodeButton } from "../QrCode/QrCodeButton";
 import { MobileBankingList } from "../MobileBanking/MobileBankingList";
 import { CreditCardList } from "../CreditCard/CreditCardList";
 import { ConfirmButton } from "../Confirm/ConfirmButton";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button,} from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { MdAttachMoney } from "react-icons/md";
 
-// import { loadStripe } from '@stripe/stripe-js';
-
-// const stripePromise = loadStripe('pk_test_51OFf98BCLtNTpQNyKo7pOR2Oyl2N3LxLtvGO549ogZUwpqgAUY0ycFgCYGhJbNXXnnyy1eLxTC2czmCuZqRd5BKy00lHA8sWfw'); // replace 'your_publishable_key' with your actual publishable key
 
 interface ButtonProps {
   bgColor?: string;
@@ -20,56 +17,40 @@ interface ButtonProps {
 }
 
 type creditCardUser = {
-  creditCardId: string;
-  card_no: string;
-  name: string;
-  country: string;
-  bank: string;
-  cvc: string;
-  exp: Date;
-  userId: string;
-};
+  creditCardId:string;
+  card_no:string;
+  name:string;
+  country:string;
+  bank:string;
+  cvc:string;
+  exp:Date;
+  userId:string;
+
+}
 // export const SelectPayment: FC<ButtonProps> = ({
 //   bgColor,
 //   textColor,
 //   borderColor,
 //   bgHover,
 // }) => {
-export const SelectPaymentS: FC<ButtonProps> = ({
+export const SelectPaymentDe: FC<ButtonProps> = ({
   bgColor,
-  textColor,
-  borderColor,
-  bgHover,
+    textColor,
+    borderColor,
+    bgHover,
 }) => {
+  
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
+  const { reservationId } = useParams();
 
-  const redirectToSeat = async (event: React.FormEvent) => {
+  const redirectToDelivery = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // const stripe = await stripePromise;
-
-    // Call your server's endpoint to create a checkout session
-    // const response = await fetch("http://localhost:4000/create-checkout-session", {
-    //   method: "POST",
-    // });
-    // const showId = 1;
-    // const seatId = 115;
-    // await Axios.post(`/feature10/bookMovieSeat`, {
-    //   showId,
-    //   seatId,
-    // });
-    Axios.post("/feature8/create-seat-session", {})
+    
+    Axios.post(`/feature8/create-delivery-session/${reservationId}`)
       .then(async (res) => {
-        // const session = res;
-        // const result = await stripe?.redirectToCheckout({
-        //   sessionId: res.data.id,
-        // });
-
-        // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-        // if (result.error) {
-        //   alert(result.error.message);
-        // }
+      
         console.log(res.data);
         window.location.href = res.data.url;
       })
@@ -78,32 +59,8 @@ export const SelectPaymentS: FC<ButtonProps> = ({
         throw err;
       });
 
-    // const session = await response.json();
-
-    // Redirect to Checkout
-    // const result = await stripe.redirectToCheckout({
-    //   sessionId: session.id,
-    // });
-
-    // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-    // if (result.error) {
-    //   alert(result.error.message);
-    // }
+    
   };
-
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     // Use fetch or another library to make a POST request
-  //     const response = await fetch('https://api.example.com/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       // body: JSON.stringify(formData),
-  //     });
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +103,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
         </Button> */}
       {/* <button type="submit">Check Out</button> */}
       <Button
-        onClick={redirectToSeat}
+        onClick={redirectToDelivery}
         width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
@@ -156,7 +113,7 @@ export const SelectPaymentS: FC<ButtonProps> = ({
         textColor={"#DEBEF6"}
         leftIcon={<MdAttachMoney />}
       >
-        Pay
+        Pay Delivery
       </Button>
 
       {/* </form> */}

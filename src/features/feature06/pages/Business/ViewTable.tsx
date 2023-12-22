@@ -14,7 +14,7 @@ interface IViewTable {
   table_no: number;
   branchId: number;
   status: string;
-  table_type: {
+  Table_type_detail: {
     capacity: number;
     detail: string;
     name: string;
@@ -35,7 +35,7 @@ export const ViewTable = () => {
     table_no: 0,
     branchId: 0,
     status: "",
-    table_type: {
+    Table_type_detail: {
       capacity: 0,
       detail: "",
       name: "",
@@ -84,7 +84,7 @@ export const ViewTable = () => {
           Table no: {data?.table_no}
         </Text>
         <Image
-          src={data?.table_type?.image_url}
+          src={data?.Table_type_detail?.image_url}
           alt="Caffe Latte"
           w={"320px"}
           h={"168px"}
@@ -111,13 +111,13 @@ export const ViewTable = () => {
           Table type
         </Text>
         <Text fontSize={"16px"} fontWeight={"400"} ml={"139px"} mt={"-24px"}>
-          {data?.table_type?.name}
+          {data?.Table_type_detail?.name}
         </Text>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"26px"} mt={"20px"}>
           Capacity
         </Text>
         <Text fontSize={"16px"} fontWeight={"400"} ml={"139px"} mt={"-24px"}>
-          {data?.table_type?.capacity} people
+          {data?.Table_type_detail?.capacity} people
         </Text>
         <Text fontSize={"16px"} fontWeight={"600"} ml={"26px"} mt={"20px"}>
           Information

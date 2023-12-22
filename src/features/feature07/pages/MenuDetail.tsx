@@ -23,7 +23,6 @@ const getMenuItem = async (type: string, menuid: string) => {
   return response.data;
 };
 
-
 export const MenuDetail: FC = () => {
   const { type, menuid } = useParams();
   //console.log(menuid);
@@ -36,7 +35,7 @@ export const MenuDetail: FC = () => {
     if (type !== undefined && menuid !== undefined) {
       return getMenuItem(type, menuid);
     }
-    return Promise.reject(new Error('type or menuid is undefined'));
+    return Promise.reject(new Error("type or menuid is undefined"));
   });
   console.log(menuItem);
   const [amount, setAmount] = useState(0);
@@ -65,18 +64,18 @@ export const MenuDetail: FC = () => {
         toast.success("Successfully Added to Cart");
         // setAmount(0);
         if (type == "Set") {
-            navigate('/venue/menu?section=setmenu');
-          } else {
-            navigate('/venue/menu?section=allmenu');
-          }
+          navigate("/venue/menu?section=setmenu");
+        } else {
+          navigate("/venue/menu?section=allmenu");
+        }
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
       toast.error("Menu not avaliable");
       if (type == "Set") {
-        navigate('/venue/menu?section=setmenu');
+        navigate("/venue/menu?section=setmenu");
       } else {
-        navigate('/venue/menu?section=allmenu');
+        navigate("/venue/menu?section=allmenu");
       }
     }
     // const cart = localStorage.getItem("cart");
@@ -111,9 +110,11 @@ export const MenuDetail: FC = () => {
         <Center>
           <Image
             // src="/src/features/feature07/assets/test.jpg"
-            src={type == "Set"
-            ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
-            : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`}
+            src={
+              type == "Set"
+                ? `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image_url}`
+                : `${import.meta.env.VITE_BACKEND_URL}${menuItem?.image}`
+            }
             width="350px"
             height="250px"
             objectFit="cover"
