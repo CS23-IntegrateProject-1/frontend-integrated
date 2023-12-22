@@ -3,7 +3,6 @@ import { FaIdCard } from "react-icons/fa";
 import index from "../../.././../../theme/foundations/index";
 interface AllInformation {
   mainAddress: string;
-  subAddress: string;
   cardTypeImg: string;
   cardType: string;
   cardNo: number;
@@ -81,7 +80,6 @@ export const YourOrderStatusComp = (props: AllInformation) => {
           </Flex>
           <Flex flexDirection={"column"} m={2}>
             <Text color={index.colors.black}>{props.mainAddress}</Text>
-            <Text color={index.colors.black}>{props.subAddress}</Text>
           </Flex>
         </Box>
       </Flex>

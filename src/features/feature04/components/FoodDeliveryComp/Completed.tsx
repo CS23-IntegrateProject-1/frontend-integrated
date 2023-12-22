@@ -33,7 +33,7 @@ export const Completed=(props: OrderDetail)=> {
             src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
             width="30%"
             height="30%"
-            style={{ borderRadius: "5%", margin: 0 }}
+            style={{ borderRadius: "5%", margin: 15 }}
             alt="Menu Item"
           />
           <Box flexDir={"row"}>
@@ -44,10 +44,16 @@ export const Completed=(props: OrderDetail)=> {
               {props.restaurantName}
             </Text>
             <Text
-              fontSize={index.textStyles.body2.fontSize}
-              fontWeight={index.textStyles.body2.fontWeight}
+              fontSize={index.textStyles.body1.fontSize}
+              fontWeight={index.textStyles.body1.fontWeight}
             >
               {props.OrderDate}
+            </Text>
+            <Text
+              fontSize={index.textStyles.body1.fontSize}
+              fontWeight={index.textStyles.body1.fontWeight}
+            >
+              Driver: {props.Driver}
             </Text>
             <Flex alignItems={"flex-end"} justifyContent={"flex-end"} mt={5}>
             <NavLink to={`/ReviewDelivery/${props.branchId}`}>
