@@ -1,4 +1,4 @@
-import { Box, Text, Flex, IconButton, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -12,12 +12,6 @@ interface OrderDetail {
 }
 function Ongoing(props: OrderDetail) {
   const navigate = useNavigate();
-  const CancelOrder = () => {
-    navigate("/map/food-delivery/canceled");
-  };
-  const CompleteOrder = () => {
-    navigate("/map/food-delivery/completed");
-  };
   const NavigateOngoingDetail = () => {
     navigate(`/map/food-delivery/Ongoing-your-order/${props.onlineOrderId}`);
   };
@@ -73,22 +67,7 @@ function Ongoing(props: OrderDetail) {
               <Text>  {props.licensePlate}</Text>
             </Flex>
 
-            <Box display={"flex"} gap={5}>
-              <Button
-                variant={"unstyle"}
-                backgroundColor={index.colors.brand[200]}
-                onClick={CancelOrder}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant={"unstyle"}
-                backgroundColor={index.colors.brand[200]}
-                onClick={CompleteOrder}
-              >
-                Complete
-              </Button>
-            </Box>
+            
           </Box>
           <IconButton
             size="sm"

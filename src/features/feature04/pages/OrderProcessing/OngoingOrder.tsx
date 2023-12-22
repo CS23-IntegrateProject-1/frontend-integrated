@@ -1,15 +1,23 @@
-    import { Box, Text, Flex } from "@chakra-ui/react";
+    import { Box, Text, Flex, Button } from "@chakra-ui/react";
     import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
     import index from "../../../../theme/foundations/index"
-    import { useParams } from "react-router-dom";
+    import { useNavigate, useParams } from "react-router-dom";
     import { Axios } from "../../../../AxiosInstance";
     import { useEffect} from "react";
     import { useQuery } from "@tanstack/react-query";
+    
 
 
 
     export const OngoingOrder=()=>{
+      const navigate = useNavigate();
         const {onlineOrderId} = useParams();
+        const CancelOrder = () => {
+          navigate("/map/food-delivery/canceled");
+        };
+        const CompleteOrder = () => {
+          navigate("/map/food-delivery/completed");
+        };
         
         // Define a function to fetch data from the backend
 
@@ -54,6 +62,22 @@
             // onlineOrderId={orderData.onlineOrderId}
           />
         )}
+          <Box display={"flex"} gap={5}>
+              <Button
+                variant={"unstyle"}
+                backgroundColor={index.colors.brand[200]}
+                onClick={CancelOrder}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant={"unstyle"}
+                backgroundColor={index.colors.brand[200]}
+                onClick={CompleteOrder}
+              >
+                Complete
+              </Button>
+            </Box>
             <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}>
                 Ongoing
             </Text>
