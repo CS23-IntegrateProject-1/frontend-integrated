@@ -226,7 +226,7 @@ export const RecommendedPlacesPage = () => {
           >
             <CardBody pb={1}>
               <Image
-                src={RP.venue_picture}
+                src={`${import.meta.env.VITE_BACKEND_URL}${RP.venue_picture}`}
                 alt={RP.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
