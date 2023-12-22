@@ -7,13 +7,16 @@ import {
   Image,
   Button,
   Flex,
+  IconButton,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
 // import { FaHeart } from "react-icons/fa";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Axios } from "../../../../../AxiosInstance";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useCustomToast } from "../../../../../components/useCustomToast";
 import { FullPageLoader } from "../../../../../components/Loader/FullPageLoader";
 
 interface RecommendSlide {
@@ -28,9 +31,12 @@ interface RecommendSlide {
   website_url: string;
   rating: string;
   venue_picture: string;
+  isFavourite: boolean;
 }
 
 export const RecommendSlide = () => {
+  const queryClient = useQueryClient();
+
   const {
     isLoading: recommendSlideLoading,
     isError: recommendSlideError,
@@ -44,6 +50,7 @@ export const RecommendSlide = () => {
     keepPreviousData: true,
   });
 
+  const toast = useCustomToast();
   if (recommendSlideLoading) {
     return (
       <span>
@@ -55,6 +62,32 @@ export const RecommendSlide = () => {
   if (recommendSlideError) {
     return <span>An error occurred: </span>;
   }
+  const handleUnFavorite_RPS = (venueId: number) => {
+    Axios.delete(`/feature11/deleteSavedPlace`, { data: { venueId: venueId } })
+      .then((res) => {
+        console.log(res);
+        queryClient.invalidateQueries({
+          queryKey: ["getRPSlideVen"],
+        });
+        toast.success("Removed from Saved Places");
+      })
+      .catch((err) => {
+        console.error("Error adding favorite:", err);
+      })
+  };
+  const handleFavorite_RPS = (venueId: number) => {
+    Axios.post(`/feature11/addSavedPlace`, { venueId })
+      .then((res) => {
+        console.log(res);
+        queryClient.invalidateQueries({
+          queryKey: ["getRPSlideVen"],
+        });
+        toast.success("Added to Saved Places");
+      })
+      .catch((err) => {
+        console.error("Error removing favorite:", err);
+      });
+  };
 
   return (
     <Box
@@ -85,13 +118,43 @@ export const RecommendSlide = () => {
         >
           <CardBody pb={1}>
             <Image
-              src={RPS.venue_picture}
+              src={`${import.meta.env.VITE_BACKEND_URL}${RPS.venue_picture}`}
               alt={RPS.name + "_Pic"}
               borderRadius="lg"
               w="100%"
               h="160px"
               bgColor={"white"}
             />
+            <IconButton
+                variant={"unstyled"}
+                size={"xs"}
+                fontSize={"3xl"}
+                color={"red.300"}
+                // bg={"brand.300"}
+                aria-label="favorite"
+                top={"7%"}
+                left={"84%"}
+                position={"absolute"}
+                icon={
+                  RPS && RPS.isFavourite ? (
+                    <AiFillHeart />
+                  ) : (
+                    <AiOutlineHeart />
+                  )
+                }
+                onClick={
+                  RPS && RPS.isFavourite == true
+                    ? () => handleUnFavorite_RPS(RPS.venueId)
+                    : () => handleFavorite_RPS(RPS.venueId)
+                }
+                // onClick={handleDeleteLike}
+              />
+              {/* {venueD.isFavorite ? (
+                <Box>{}</Box>
+              ) : (
+                <Box>NOT FAVORITE</Box>
+              )} */}
+              {/* <Box>{venueD}</Box> */}
             <Flex mt="4">
               <Heading color="white" size="md">
                 {RPS.name}
