@@ -510,7 +510,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Tue.open}
                   onChange={(e) =>
                     setAvailability({
@@ -532,7 +532,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Tue.close}
                   onChange={(e) =>
                     setAvailability({
@@ -564,7 +564,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Wed.open}
                   onChange={(e) =>
                     setAvailability({
@@ -586,7 +586,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Wed.close}
                   onChange={(e) =>
                     setAvailability({
@@ -618,7 +618,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Thu.open}
                   onChange={(e) =>
                     setAvailability({
@@ -640,7 +640,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Thu.close}
                   onChange={(e) =>
                     setAvailability({
@@ -673,7 +673,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Fri.open}
                   onChange={(e) =>
                     setAvailability({
@@ -695,7 +695,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Fri.close}
                   onChange={(e) =>
                     setAvailability({
@@ -727,7 +727,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Sat.open}
                   onChange={(e) =>
                     setAvailability({
@@ -749,7 +749,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Sat.close}
                   onChange={(e) =>
                     setAvailability({
@@ -781,7 +781,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   value={availability.openingDay.Sun.open}
                   onChange={(e) =>
                     setAvailability({
@@ -803,7 +803,7 @@ export const BusiProfileEdit = () => {
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
                 <Input
                   size="m"
-                  type="datetime"
+                  type="time"
                   
                   value={availability.openingDay.Sun.close}
                   onChange={(e) =>
@@ -833,13 +833,13 @@ export const BusiProfileEdit = () => {
               justifyContent={"space-between"}
             >
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
-                <Input size="m" type="datetime" />
+                <Input size="m" type="time" />
                 <InputRightElement>
                   <TimeIcon />
                 </InputRightElement>
               </InputGroup>
               <InputGroup size="sm" width={{ base: "45%", lg: "25%" }}>
-                <Input size="m" type="datetime" />
+                <Input size="m" type="time" />
                 <InputRightElement>
                   <TimeIcon />
                 </InputRightElement>
