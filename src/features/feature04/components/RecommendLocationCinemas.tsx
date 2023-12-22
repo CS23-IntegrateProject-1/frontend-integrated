@@ -153,7 +153,7 @@ const RecommendLocationCinema = (props: RecommendLocationCinemaCard) => {
                 fontWeight={textStyles.h3.fontWeight}
                 color={colors.white}
               >
-                {props.name}
+                {props.name && props.name.length > 30 ? `${props.name.slice(0, 50)}...` : props.name}
               </Heading>
               <Box
                 display={"flex"}
@@ -192,7 +192,7 @@ const RecommendLocationCinema = (props: RecommendLocationCinemaCard) => {
               fontWeight={textStyles.body3.fontWeight}
               color={colors.grey[200]}
             >
-              {props.address}
+              {props.address && props.address.length > 30 ? `${props.address.slice(0, 50)}...` : props.address}
             </Text>
           </Stack>
         </CardBody>
