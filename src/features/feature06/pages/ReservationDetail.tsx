@@ -28,6 +28,13 @@ interface IData {
     longtitude: string;
     address: string;
   };
+  Deposit: [
+    {
+      deposit_amount: string;
+      depositId: number;
+      venueId: number;
+    }
+  ];
 }
 
 interface IPhotoData {
@@ -79,6 +86,9 @@ export const ReservationDetail = () => {
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
+      }else if (phonenumber.length > 10){
+        toast.warning("Please enter a valid phone number");
+        return;
       }
       if (date == "" || time == "" || name == "" || phonenumber == "") {
         toast.warning("Please fill in all information");
@@ -98,7 +108,7 @@ export const ReservationDetail = () => {
       console.log(response.data.newReservation.venueId);
       console.log(response);
 
-      const originalPath = `/reservation-detail/${response.data.newReservation.userId}/venue/${response.data.newReservation.venueId}/paymentD`;
+      const originalPath = `/reservation-detail/venue/paymentD/${response.data.newReservation.reservationId}}`;
       const newPath = originalPath.replace("/reservation-detail", "");
       navigate(newPath);
     } catch (err: any) {
@@ -198,6 +208,7 @@ export const ReservationDetail = () => {
             <Box mt={"5px"}>
               <Input
                 required
+                type="number"
                 placeholder="enter phone no."
                 htmlSize={4}
                 backgroundColor={"white"}
@@ -206,9 +217,18 @@ export const ReservationDetail = () => {
                 ml={"34px"}
                 width="163px"
                 height={"25px"}
-                onChange={(e) => {
-                  setPhoneNumber(e.target.value);
+                onKeyDown={(e) => {
+                  const allowedKeys = [8, 37, 39, 46]; // Backspace, Left Arrow, Right Arrow, Delete
+                  if (!allowedKeys.includes(e.keyCode)) {
+                    const isNumeric = /^[0-9]*$/;
+                    if (!isNumeric.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }
                 }}
+                onChange={(e) => {
+                    setPhoneNumber(e.target.value);
+                  }}
               />
             </Box>
             <CalendarIcon
@@ -340,7 +360,7 @@ export const ReservationDetail = () => {
             marginLeft="288px"
             marginTop="-24px"
           >
-            200 Baht
+            {data?.Deposit[0].deposit_amount} Baht
           </Text>
           <Box
             width="360px"

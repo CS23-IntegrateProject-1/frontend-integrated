@@ -53,12 +53,12 @@ export const SelectPaymentS: FC<ButtonProps> = ({
     // const response = await fetch("http://localhost:4000/create-checkout-session", {
     //   method: "POST",
     // });
-    const showId = 1;
-    const seatId = 112;
-    await Axios.post(`/feature10/bookMovieSeat`, {
-      showId,
-      seatId,
-    });
+    // const showId = 1;
+    // const seatId = 115;
+    // await Axios.post(`/feature10/bookMovieSeat`, {
+    //   showId,
+    //   seatId,
+    // });
     Axios.post("/feature8/create-seat-session", {})
       .then(async (res) => {
         // const session = res;

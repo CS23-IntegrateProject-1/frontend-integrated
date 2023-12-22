@@ -15,7 +15,6 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(props.User);
   const handleDeleteLike = (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {

@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import { BiRestaurant } from "react-icons/bi";
 import { FaRobot, FaRegNewspaper } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
+import { Axios } from "../../../../../AxiosInstance";
 
 const cardStyle = {
   mt: "15",
@@ -25,6 +26,12 @@ const cardStyle = {
 };
 
 export const ButtonPenta = () => {
+  const handleOnClickForChatbot = () => {
+    Axios.get("/feature12/fetchData").then(() => {
+      // console.log(res.data);
+  });
+  }
+
   return (
     <Flex pb={{ base: 0, lg: 2 }} justifyContent={"center"} width={"100%"}>
       <NavLink to="/Venues">
@@ -86,7 +93,7 @@ export const ButtonPenta = () => {
       </NavLink>
 
       <NavLink to="/Chatbot">
-        <Card sx={cardStyle}>
+        <Card sx={cardStyle} onClick={handleOnClickForChatbot}>
           <CardBody py={{ base: "3", lg: "6" }} px={"0"}>
             <HStack justifyContent={"center"}>
               <Circle size={{ base: "50px", lg: "60px" }} bg="white">

@@ -1,8 +1,9 @@
-import { Box, Text, } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
-import { Html5QrcodeScanner, QrcodeErrorCallback } from "html5-qrcode";
+// import { Html5QrcodeScanner, QrcodeErrorCallback } from "html5-qrcode";
 import checkIn from "../../../../api/Reservation/checkIn";
 import textStyles from "../../../../theme/foundations/textStyles";
+import { QrScanner } from "@yudiel/react-qr-scanner";
 
 export const QrcodeConfirm: React.FC = () => {
     const [scanResult, setScanResult] = useState<{
@@ -11,7 +12,10 @@ export const QrcodeConfirm: React.FC = () => {
     }>();
     const [checkingIn, setCheckingIn] = useState<number | string>(0);
     const [callCnt, setCallCnt] = useState<number>(0);
-
+    const handleScanSuccess = (result: string) => {
+        setScanResult(JSON.parse(result));
+        // console.log(result);
+    };
     const handleCheckIn = async (reservationId: number, authToken: string) => {
         console.log("handleCheckIn");
 
@@ -62,7 +66,8 @@ export const QrcodeConfirm: React.FC = () => {
         return (
             <>
                 {!scanResult ? (
-                    <Box id="reader" />
+                    // <Box id="reader" />
+                    <Box>No Result</Box>
                 ) : (
                     <CheckingInDisplay
                         reservationId={scanResult.reservationId}
@@ -73,47 +78,59 @@ export const QrcodeConfirm: React.FC = () => {
         );
     };
 
-    useEffect(() => {
-        const scanner = new Html5QrcodeScanner(
-            "reader",
-            {
-                qrbox: {
-                    width: 250,
-                    height: 250,
-                },
-                fps: 5,
-            },
-            true
-        );
+    // useEffect(() => {
+    //     const scanner = new Html5QrcodeScanner(
+    //         "reader",
+    //         {
+    //             qrbox: {
+    //                 width: 250,
+    //                 height: 250,
+    //             },
+    //             fps: 10,
+    //         },
+    //         true
+    //     );
 
-        const error: QrcodeErrorCallback = (err) => {
-            console.warn(err); // Access error properties, if applicable
-        };
+    //     const error: QrcodeErrorCallback = (err) => {
+    //         console.warn(err); // Access error properties, if applicable
+    //     };
 
-        scanner.render(success, error);
+    //     scanner.render(success, error);
 
-        function success(result: string) {
-            scanner.clear();
-            setScanResult(JSON.parse(result));
-        }
+    //     function success(result: string) {
+    //         scanner.clear();
+    //         setScanResult(JSON.parse(result));
+    //     }
 
-        // Clean up function
-        return () => {
-            scanner.clear();
-        };
-    }, []);
+    //     // Clean up function
+    //     return () => {
+    //         scanner.clear();
+    //     };
+    // }, []);
 
     return (
-        <Box>
+        <Flex
+            flexDir={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+        >
             <Box
                 justifyContent={"center"}
                 alignItems={"center"}
                 display={"flex"}
-                h={"60vh"}
+                mb={"2em"}
             >
                 <QrCodeComponent />
             </Box>
+
+            <Box w={"400px"}>
+                <QrScanner
+                    onDecode={(result) => handleScanSuccess(result)}
+                    onError={(error) => console.log(error?.message)}
+                />
+            </Box>
+
             <Box backgroundColor={"rgba(95, 13, 187, 0.4)"}></Box>
-        </Box>
+        </Flex>
     );
 };

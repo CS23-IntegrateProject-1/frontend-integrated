@@ -17,7 +17,7 @@ import {
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 type AdvertiseNoti = {
   advertisementId: string;
@@ -106,8 +106,8 @@ export const AdvertiseNoti = () => {
                   {isApprove === "Completed" ? "Total cost: " + cost + " baht" : (isApprove === "In_progress" ? "Total cost: " + cost + " baht" : "")}
                 </Text>
                 <Text marginTop={5} textAlign={"center"}>
-                {isApprove === "In_progress" ? <ButtonComponent text="Pay now" /> : null}
-                  {isApprove === "Completed" ? <ButtonComponent text="Pay now" /> : null}
+                {isApprove === "In_progress" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
+                  {isApprove === "Completed" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
                 </Text>
               </Box>
             </Stack>
