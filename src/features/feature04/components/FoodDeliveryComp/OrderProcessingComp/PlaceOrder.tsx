@@ -33,6 +33,10 @@ export const PlaceOrder = (props: Order) => {
         console.error("VenueId or BranchId is undefined");
         return;
       }
+      if (props.address.trim() === "") {
+        toast.error("Fill in your address");
+        return;
+      }
 
       const response = await Axios.post("feature4/createOnlineOrder", {
         venueId: parseInt(props.venueId),
