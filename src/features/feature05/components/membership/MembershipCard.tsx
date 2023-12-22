@@ -25,7 +25,7 @@ export const MemberShipCard = () => {
       const result = await GetTierNameByTierId();
       const resultPoint = await GetPoint();
       const resultExpire = await GetExpire();
-      console.log("point: ", resultPoint.data);
+      console.log("point: ", resultPoint?.data );
       setData(result?.data);
       setPoints(resultPoint?.data.amount);
       setExpireDate(resultExpire?.data.currentDate);
