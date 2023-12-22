@@ -12,6 +12,9 @@ import DepositCancel from "./pages/Customer/DepositCancel";
 import DepositSuccess from "./pages/Customer/DepositSuccess";
 import SeatCancel from "./pages/Customer/SeatCancel";
 import SeatSuccess from "./pages/Customer/SeatSuccess";
+import OnlineOrderSuccess from "./pages/Customer/onlineOrderSuccess";
+import OnlineOrderCancel from "./pages/Customer/onlineOrderCancel";
+
 
 export const Feature08Routes = () => {
 	return [
@@ -26,7 +29,7 @@ export const Feature08Routes = () => {
 			element: <SelectPaymentS />,
 		},
 		{
-			path: "/venue/paymentDe",
+			path: "/venue/paymentDe/:onlineOrderId",
 			element: <SelectPaymentDe />,
 		},
 		{
@@ -39,6 +42,8 @@ export const Feature08Routes = () => {
 		{ path: "/checkout-success", element: <CheckoutSuccess /> },
 		{ path: "/deposit-cancel", element: <DepositCancel /> },
 		{ path: "/deposit-success", element: <DepositSuccess /> },
+		{ path: "/onlineorder-success", element: <OnlineOrderSuccess />},
+		{ path: "/onlineorder-cancel", element: <OnlineOrderCancel />},
     { path: "/seat-cancel", element: <SeatCancel /> },
     { path: "/seat-success", element: <SeatSuccess /> },
 		//payment to venue by using venueId?
