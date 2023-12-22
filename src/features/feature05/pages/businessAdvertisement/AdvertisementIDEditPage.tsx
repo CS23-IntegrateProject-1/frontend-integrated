@@ -199,7 +199,7 @@ export const AdvertisementIDEditPage = () => {
     // Update state with the formatted datetime string
     setAdvertise({
       ...advertise,
-      start_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
+      start_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
     });
     console.log(setAdvertise);
   };
@@ -210,7 +210,7 @@ export const AdvertisementIDEditPage = () => {
     // Update state with the formatted datetime string
     setAdvertise({
       ...advertise,
-      end_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
+      end_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
     });
     console.log(setAdvertise);
   };
@@ -512,7 +512,7 @@ export const AdvertisementIDEditPage = () => {
         <Select
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          placeholder=" "
+          placeholder=""
           onChange={handleChange}
           // value={
           //   advertise.targetGroup === "Young adult"
@@ -573,7 +573,7 @@ export const AdvertisementIDEditPage = () => {
         <Select
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          placeholder=" "
+          placeholder=""
           onChange={handleChange}
           // value={
           //   advertise.targetGroup === "Young adult"

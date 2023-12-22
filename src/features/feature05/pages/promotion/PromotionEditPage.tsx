@@ -66,6 +66,29 @@ export const PromotionEditPage = () => {
       [name]: value,
     }));
   };
+  const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
+    // Update state with the formatted datetime string
+    setPromotionData({
+      ...promotionData,
+      start_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setPromotionData);
+  };
+  const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
+    // Update state with the formatted datetime string
+    setPromotionData({
+      ...promotionData,
+      end_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setPromotionData);
+  };
+
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -121,6 +144,22 @@ export const PromotionEditPage = () => {
     }
   };
 
+  const fetchBranch = async () => {
+    try {
+      const res = await Axios.get("/feature5/Showbranch");
+      setBranches(
+        res.data.map((branch) => ({
+          branch_name: branch.branch_name,
+          branchId: branch.branchId,
+        }))
+      );
+    } catch (err) {
+      toast.error("Error fetching branches");
+      console.error(err);
+    }
+  };
+
+
   // const handleSubmit = async () => {
   //   try {
 
@@ -145,26 +184,12 @@ export const PromotionEditPage = () => {
       }));
       // setImage(data.image_url || "");
       setImageDefault(data.image_url);
-      setBranches(data.branch_name && data.brandId);
+      setBranches([{ branch_name: data.branch_name, branchId: data.branchId }]);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const fetchBranch = async () => {
-    try {
-      Axios.get("/feature5/Showbranch")
-        .then((res) => {
-          setBranches(res.data);
-        })
-        .catch((err) => {
-          toast.error("Error fetching branches");
-          throw err;
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const fetchMenu = async () => {
     try {
@@ -313,7 +338,7 @@ export const PromotionEditPage = () => {
           </FormLabel>
           <Input
             name="start_date"
-            onChange={handleChange}
+            onChange={handleStartDateChange}
             value={promotionData.start_date.toString().split("T")[0]}
             size={"xs"}
             type="date"
@@ -332,7 +357,7 @@ export const PromotionEditPage = () => {
           </FormLabel>
           <Input
             name="end_date"
-            onChange={handleChange}
+            onChange={handleEndDateChange}
             value={promotionData.end_date.toString().split("T")[0]}
             id="fileInput"
             size={"xs"}
