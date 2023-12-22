@@ -1,9 +1,9 @@
-    import { Box, Text, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
     import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
     import index from "../../../../theme/foundations/index"
     import { useNavigate, useParams } from "react-router-dom";
     import { Axios } from "../../../../AxiosInstance";
-    import { useEffect} from "react";
+    import { useEffect, useState} from "react";
     import { useQuery } from "@tanstack/react-query";
     
 
@@ -12,11 +12,30 @@
     export const OngoingOrder=()=>{
       const navigate = useNavigate();
         const {onlineOrderId} = useParams();
+        const [isCancelModalOpen, setCancelModalOpen] = useState(false);
+
         const CancelOrder = () => {
-          navigate("/map/food-delivery/canceled");
+          setCancelModalOpen(true);
+        };
+        const handleCancel = async () => {
+          setCancelModalOpen(false);
+      
+          try {
+            // Call your backend API to change the order status to "Canceled"
+            await Axios.patch(`/feature4/changeOrderStatusCanceled/${onlineOrderId}`);
+            // Redirect to the canceled page or perform any other action
+            navigate("/map/food-delivery/canceled");
+          } catch (error) {
+            console.error("Error canceling order:", error);
+            // Handle the error, e.g., show an error message to the user
+          }
+        };
+        
+        const handleCloseModal = () => {
+          setCancelModalOpen(false);
         };
         const CompleteOrder = () => {
-          navigate("/map/food-delivery/completed");
+          navigate(`/venue/paymentDe/${onlineOrderId}`);
         };
         
         // Define a function to fetch data from the backend
@@ -78,6 +97,26 @@
                 Complete
               </Button>
             </Box>
+            <Modal isOpen={isCancelModalOpen} onClose={handleCloseModal} size="md">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Confirmation</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody
+                color={"black"}
+              >
+                Are you sure you want to cancel the order?
+              </ModalBody>
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} onClick={handleCloseModal}>
+                  No, Go Back
+                </Button>
+                <Button colorScheme="red" onClick={handleCancel}>
+                  Yes, Cancel
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
             <Text color={"white"} fontSize={index.textStyles.h1.fontSize} fontWeight={index.textStyles.h1.fontWeight}
               marginTop={5}
             >
