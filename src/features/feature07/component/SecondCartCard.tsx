@@ -26,8 +26,8 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 		<Flex
 			borderWidth="1px"
 			borderRadius="md"
-			width="319px"
-			minHeight={"120px"}
+			minWidth={"330px"}
+			minHeight={"150px"}
 			p={1}
 			borderColor={"brand.100"}>
 			<Flex justifyContent="center">
@@ -42,8 +42,8 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 					alt={imageUrl ? foodName : ""}
 					objectFit="cover"
 					mt={0.5}
-					width="140px"
-					height="105px"
+					minWidth={"140px"}
+					minHeight={"105px"}
 					borderRadius="5px"
 					position="relative"
 				/>
