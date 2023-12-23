@@ -74,9 +74,9 @@ export const Maps = () => {
   };
 
   useEffect(() => {
-    console.log("hello")
-    console.log("Updated locations:", locations);
-    console.log("hello1")
+    // console.log("hello")
+    // console.log("Updated locations:", locations);
+    // console.log("hello1")
   }, [locations]); // This effect will run whenever locations change
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export const Maps = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    console.log(searchTerm);
+    // console.log(searchTerm);
 
     // Filter the data based on the search term
     const filtered =

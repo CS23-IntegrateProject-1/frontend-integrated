@@ -29,18 +29,18 @@ export const Checkout = () => {
     const fetchBranchName = async () => {
       try {
         const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`)
-        console.log(response.data);
+        // console.log(response.data);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);
       } catch (error) {
-        console.log("Error fetching branch name: ", error);
+        // console.log("Error fetching branch name: ", error);
       }
     }
     fetchBranchName();
   }, [branchId, venueId]);
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
-  console.log(selectedPaymentMethod)
+  // console.log(selectedPaymentMethod)
 
   const handlePaymentMethodSelect = (paymentMethod: string) => {
     // Set the selected payment method to state or perform any other actions here
@@ -50,8 +50,8 @@ export const Checkout = () => {
   const handleLocationSelect = (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => {
     if (selectedLocation) {
       // Do something with the selected location data
-      console.log("Selected Location:", selectedLocation.province);
-      console.log("Delivery Instruction",deliveryInstruction)
+      // console.log("Selected Location:", selectedLocation.province);
+      // console.log("Delivery Instruction",deliveryInstruction)
       const locally = selectedLocation.name + " " + selectedLocation.address + " " + selectedLocation.district + " " + selectedLocation.sub_district + " "+ selectedLocation.province + " " +selectedLocation.postcode
       setLocation(locally);
       setDeliveryInstruction(deliveryInstruction);

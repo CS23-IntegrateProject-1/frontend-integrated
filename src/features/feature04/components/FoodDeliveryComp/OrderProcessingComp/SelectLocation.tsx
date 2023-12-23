@@ -50,7 +50,7 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [districtSubdistrict, setDistrictSubdistrict] = useState<string>("");
-  const [deliveryInstruction, setDeliveryInstruction] = useState<string>("");
+  const [, setDeliveryInstruction] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { data: dataSaved} = useQuery<SavedLocationInterface>({
     queryKey: ["dataSaved"], 
@@ -73,10 +73,10 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
       </svg>
     );
   };
-  console.log("dataSaved");
-  console.log(dataSaved);
-  console.log("====");
-  console.log(deliveryInstruction)
+  // console.log("dataSaved");
+  // console.log(dataSaved);
+  // console.log("====");
+  // console.log(deliveryInstruction)
 
   const EditIcon: React.FC = () => {
     return (
@@ -103,8 +103,8 @@ export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) 
     const selectedLocation = dataSaved?.location.find(
       (loc) => loc.savedLocId.toString() === value
     );
-    console.log("selectedLocation")
-    console.log(selectedLocation)
+    // console.log("selectedLocation")
+    // console.log(selectedLocation)
     // Update the address and district/subdistrict values
     setName(`${selectedLocation?.name}`);
     setAddress(`${selectedLocation?.address}`);
