@@ -96,8 +96,7 @@ const ScreenPage: React.FC = () => {
 		} else {
 			setSelectedSeats((prev) => [...prev, seatId]);
 			setTotalPrice((prev) => prev + price);
-		}
-		console.log(selectedSeats);
+		}		
 	};
 
 	const setDateFunc = (response: IScreenDatas) => {
@@ -174,7 +173,7 @@ const ScreenPage: React.FC = () => {
 	return (
 		<>
 			{/* Movie Info at top*/}
-			<Box display={"flex"} flexDirection={"row"} paddingBottom={"7"}>
+			<Box display={"flex"} flexDirection={"row"} paddingBottom={"7"} backgroundColor="#FFFFFFD9" borderRadius={5} >
 				<Box>
 					<Image
 						src={data?.Films.poster_img}
@@ -182,42 +181,38 @@ const ScreenPage: React.FC = () => {
 						borderRadius="lg"
 						width={posterWidth}
 						height={posterHeight}
+						mt={5}
+						ml={5}
 					/>
 				</Box>
 				<Box display={"flex"} flexDirection={"column"} padding={"4"}>
-					<Text color={"gold"} style={TextStyle.h1} mb={2}>
+					<Text color={"#200944"} style={TextStyle.h1} mb={2}>
 						{data?.Films.name}
 					</Text>
-					<Text style={TextStyle.body1} mb={2}>
+					<Text color={"#200944"} style={TextStyle.h1} mb={2}>
+						{date} | {startTime + ""}
+					</Text>
+					<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
 						{data?.Films.rate}
 					</Text>
-					<Text style={TextStyle.body1} mb={2}>
-						{data?.Films.duration} minutes
+					<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
+						Duration : {data?.Films.duration} minutes
 					</Text>
-				</Box>
-			</Box>
-			{/* Place + Theater name and time  */}
-			<Box>
-				<Text style={TextStyle.body1} mb={2}>
+					<Box>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"} >
 					{theaterInfo.name}
 				</Text>
 				<Box display="flex" flexDirection="row">
-					<Center style={TextStyle.body1} mb={2} mr={20}>
+					<Center style={TextStyle.body1} mb={2} mr={20} color={"#19191999"}>
 						Screen {data.Screens.screen_no}
-					</Center>
-					<Center style={TextStyle.body1} mb={2} mr={2}>
-						{date}
-					</Center>
-					<Center
-						style={TextStyle.body1}
-						ml={20}
-						backgroundColor={"gold"}
-						padding="0.5%"
-						borderRadius="10%">
-						{startTime + ""}
-					</Center>
+					</Center>				
 				</Box>
 			</Box>
+				</Box>
+				
+			</Box>
+			{/* Place + Theater name and time  */}
+
 			{/* Screen */}
 			<Center
 				style={TextStyle.h2}
