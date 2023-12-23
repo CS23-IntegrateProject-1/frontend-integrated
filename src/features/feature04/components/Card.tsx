@@ -261,7 +261,7 @@ const Cards = (props: CardProps) => {
                 </ModalContent>
               </Modal>
               <Spacer />
-              <Button
+              {/* <Button
                 marginLeft={100}
                 variant="solid"
                 textColor="white"
@@ -271,7 +271,7 @@ const Cards = (props: CardProps) => {
                 mb={2}
               >
                 Reserve Now
-              </Button>
+              </Button> */}
             </ButtonGroup>
           </CardFooter>
         </Stack>

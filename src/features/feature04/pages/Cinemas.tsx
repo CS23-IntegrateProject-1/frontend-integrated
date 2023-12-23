@@ -36,8 +36,9 @@ interface RegisteredData{
   name: string;
   address: string;
   phone_num: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
+  theaterId: number;
   
 }
 
@@ -52,8 +53,19 @@ export const Cinemas = () => {
   const fetchRestaurantData = async () => {
     try {
       const response = await Axios.get("/feature4/cinemas");
-      setRegistered(response.data.cinemas);
-      console.log(response.data);
+      const cinemasData = response.data.cinemas;
+
+      const formattedCinemasData = cinemasData.map((item:any) => ({
+        name: item.name,
+        address: item.address,
+        phone_num: item.phone_num,
+        latitude: parseFloat(item.latitude),
+        longitude: parseFloat(item.longitude),
+        theaterId: item.theaterId,
+      }));
+
+      setRegistered(formattedCinemasData);
+      console.log(formattedCinemasData);
       setLocations(response.data.cinemas.map((item : any) => ({
         locationId: item.theaterId,
         name: item.name,
@@ -67,7 +79,6 @@ export const Cinemas = () => {
     }
   };
   useEffect(() => {
-    console.log("hello from cinema")
     console.log("Updated locations cinemas:", locations);
     // console.log("hello1")
   }, [locations]); // This effect will run whenever locations change
@@ -141,6 +152,7 @@ export const Cinemas = () => {
               phone_num={location.phone_num}
               latitude={location.latitude}
               longitude={location.longitude}
+              theaterId={location.theaterId}
            />
         ))}
         </HStack>

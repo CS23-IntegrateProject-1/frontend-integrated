@@ -8,7 +8,7 @@ function ImageBox(props: Card) {
   return (
     <Box minW="193px" height="129px">
       <img
-        src={`${import.meta.env.VITE_BACKEND_URL}${props.url_image}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}${props.url_image}` || ""}
         alt=""
         style={{
           width: "100%",

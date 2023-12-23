@@ -31,7 +31,7 @@ export const PromotionListCard: React.FC<IPromotionCardListProp> = ({
             w={"400px"}
             h={"130px"}
             objectFit={"cover"}
-            src={`${import.meta.env.VITE_BACKEND_URL}${image_url}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${image_url}` || ""}
           />
         </Box>
       </CardBody>

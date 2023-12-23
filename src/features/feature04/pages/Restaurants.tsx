@@ -34,6 +34,7 @@ interface RegisteredData{
   capacity: number;
   score: number;
   website_url: string;
+  venueId: number
 }
 
 export const Maps = () => {
@@ -47,8 +48,23 @@ export const Maps = () => {
   const fetchRestaurantData = async () => {
     try {
       const response = await Axios.get("/feature4/restaurants");
-      setRegistered(response.data.restaurant);
-      // console.log(response.data.restaurant);
+      const restaurantData: RegisteredData[] = response.data.restaurant;
+
+      // Extract venueId from each item and set it in registered state
+      const formattedRestaurantData: RegisteredData[] = restaurantData.map((item) => {
+        return {
+          name: item.name,
+          description: item.description,
+          category: item.category,
+          capacity: item.capacity,
+          score: item.score, // Assuming you want to convert score to a number
+          website_url: item.website_url,
+          venueId: item.venueId, // Set venueId
+        };
+      });
+
+      setRegistered(formattedRestaurantData);
+      
       // console.log(response.data.restaurant[0].location);
       setLocations(response.data.restaurant.map((item:any) => item.Location));
       
@@ -132,6 +148,7 @@ export const Maps = () => {
                 capacity={location.capacity}
                 score={location.score}
                 website_url={location.website_url}
+                venueId={location.venueId}
               />
             ))}
         </HStack>

@@ -14,6 +14,12 @@ import {
   Box,
   Icon,
   useDisclosure,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 // import { BiImageAdd } from "react-icons/bi";
@@ -36,6 +42,7 @@ interface VoucherType {
   voucherType: string;
   discountVoucher: DiscountVoucherType;
   giftVoucher: GiftVoucherType;
+  point_use?: number;
 }
 
 interface DiscountVoucherType {
@@ -56,6 +63,7 @@ export const VoucherCreatePage = () => {
     //     voucherImage: null,
     startDate: "",
     endDate: "",
+    point_use: 0,
     limitation: 0,
     voucherType: "Discount",
     discountVoucher: {
@@ -70,7 +78,7 @@ export const VoucherCreatePage = () => {
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const { onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useCustomToast();
 
   const handleCloseImage = () => {
@@ -106,10 +114,10 @@ export const VoucherCreatePage = () => {
       voucher.endDate == "" ||
       voucher.limitation == 0 ||
       (voucher.voucherType == "Discount" &&
-        (voucher.discountVoucher.fixDiscount == 0 ||
-          voucher.discountVoucher.minimum == 0 ||
-          voucher.discountVoucher.percentage == 0)) ||
-      (voucher.voucherType == "Gift" && voucher.giftVoucher.minimum == 0) ||
+        (voucher.discountVoucher.fixDiscount < 0 ||
+          voucher.discountVoucher.minimum < 0 ||
+          voucher.discountVoucher.percentage < 0)) ||
+      (voucher.voucherType == "Gift" && voucher.giftVoucher.minimum < 0) ||
       image == null
     ) {
       toast.warning("Please fill all the fields");
@@ -120,16 +128,15 @@ export const VoucherCreatePage = () => {
       const formData = new FormData();
       formData.append("voucherName", voucher.voucherName);
       formData.append("description", voucher.description);
-      //  formData.append("voucherImage", voucher.voucherImage);
       formData.append("start_date", voucher.startDate.toString());
       formData.append("end_date", voucher.endDate.toString());
       formData.append("limitation", voucher.limitation.toString());
       formData.append("voucherType", voucher.voucherType);
-      //  formData.append(
-      //    "discountVoucher",
-      //    JSON.stringify(voucher.discountVoucher)
-      //  );
-      //  formData.append("giftVoucher", JSON.stringify(voucher.giftVoucher));
+      if (voucher.voucherType === "Discount") {
+        formData.append("point_use", voucher.point_use?.toString() || "0");
+      } else {
+        formData.append("point_use", "0");
+      }
 
       formData.append(
         "minimum_spend",
@@ -157,7 +164,7 @@ export const VoucherCreatePage = () => {
         },
       });
       console.log(response.data); // Log the response data
-      navigate("/business/voucher");
+      navigate("/business/voucher/status");
     } catch (err) {
       console.error("Error submitting promotion:", err);
     }
@@ -274,6 +281,17 @@ export const VoucherCreatePage = () => {
             />
           </FormControl>
         </Stack>
+        <FormControl mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Point to collect *</FormLabel>
+          <Input
+            name="point_use"
+            value={voucher.point_use}
+            onChange={handleChange}
+            bg={"#390b74"}
+            border={"none"}
+            isRequired
+          />
+        </FormControl>
         <FormControl mb={"20px"}>
           <FormLabel style={TextStyle.h2}>Limitation *</FormLabel>
           <InputGroup>
@@ -324,17 +342,6 @@ export const VoucherCreatePage = () => {
             paddingBottom={3}
           >
             <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
-            {/* <Center bg={"#390b74"} h={"100px"} borderRadius={"md"}>
-						<Input
-							pos={"absolute"}
-							type={"file"}
-							w={"100%"}
-							h={"100%"}
-							opacity={"0"}
-						/>
-						<Icon as={BiImageAdd} h={"40px"} w={"auto"} />
-					</Center> */}
-
             <Box
               position={"relative"}
               overflow={"hidden"}
@@ -354,12 +361,7 @@ export const VoucherCreatePage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
-              <Image
-                //  src={imagePreview}
-                src={imagePreview}
-                alt={"image"}
-                width={"100%"}
-              ></Image>
+              <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
             </Box>
           </FormControl>
         ) : (
@@ -379,8 +381,8 @@ export const VoucherCreatePage = () => {
             <Stack spacing={2} direction="column">
               {}
               <Center
-                width={"auto"}
-                height={"100"}
+                width={"125%"}
+                height={"100px"}
                 bg={"#5F0DBB"}
                 borderRadius={5}
                 cursor={"pointer"}
@@ -409,19 +411,56 @@ export const VoucherCreatePage = () => {
           handleTypeChange={handleTypeChange}
           voucher={voucher}
         />
-        <Center>
+        <Box
+          width="100%"
+          // minWidth="250px"
+          // maxWidth="400px"
+          display="flex"
+          flexDirection={"row"}
+          paddingBottom={3}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
           <Button
-            w={"100%"}
-            h={"50px"}
-            bg={"brand.200"}
-            color={"white"}
-            borderColor={""}
-            _hover={{ bgColor: "brand.300" }}
-            onClick={handleClickSubmit}
+            h={"40px"}
+            backgroundColor="#A533C8"
+            variant="solid"
+            width="100%"
+            color="white"
+            onClick={() => {
+              onOpen();
+            }}
           >
             Submit
           </Button>
-        </Center>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+              <ModalHeader mt={3}>Submit voucher</ModalHeader>
+              <ModalCloseButton />
+              <ModalFooter>
+                <Button
+                  bgColor={"white"}
+                  color={"#200944"}
+                  mr={5}
+                  width="30%"
+                  onClick={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  bgColor={"#A533C8"}
+                  mr={3}
+                  onClick={handleClickSubmit}
+                  color={"white"}
+                  width="30%"
+                >
+                  Confirm
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Box>
       </form>
     </Container>
   );
