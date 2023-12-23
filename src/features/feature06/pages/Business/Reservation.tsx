@@ -19,6 +19,7 @@ interface ReservationCard {
   guest_amount: number;
   reserved_time: string;
   status: string;
+  isPaymentSuccess: string;
   User: {
     hashed_password: string;
     fname: string;
@@ -90,6 +91,7 @@ export const Reservation = () => {
             type={reservation.User.userId === 0 ? "offline" : "online"}
             status={reservation.status}
             date={reservation.reserved_time}
+            isPaymentSuccess={reservation.isPaymentSuccess}
           />
         </Box>
       ) : null;
