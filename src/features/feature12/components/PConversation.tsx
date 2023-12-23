@@ -82,7 +82,7 @@ export const PConversation :FC<ConversationProps> = ({id, members}) => {
 
  useEffect(() => {
         socket?.on("receive-Pmessage", ({ id, members, text, sender }) => {
-            console.log(id, "id", selectedConversation?.id);
+            // console.log(id, "id", selectedConversation?.id);
 
             const message ={
                 recipients: members,
@@ -93,14 +93,14 @@ export const PConversation :FC<ConversationProps> = ({id, members}) => {
             }
             setMessages(prevMessages => [...prevMessages, message]);
             return () => {
-                console.log("clean up");
+                // console.log("clean up");
                 socket.off("receive-Pmessage");
             };  
     });
  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
- console.log("messages==========", messages);
- console.log("loadMessages==========", loadMessages)
+//  console.log("messages==========", messages);
+//  console.log("loadMessages==========", loadMessages)
   return (
     <Box display="flex" flexDirection="column" flexGrow="1" height="83vh">
       <Box flexGrow="1" overflow="auto">
