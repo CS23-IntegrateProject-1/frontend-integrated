@@ -8,9 +8,6 @@ import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { MdAttachMoney } from "react-icons/md";
 
-// import { loadStripe } from '@stripe/stripe-js';
-
-// const stripePromise = loadStripe('pk_test_51OFf98BCLtNTpQNyKo7pOR2Oyl2N3LxLtvGO549ogZUwpqgAUY0ycFgCYGhJbNXXnnyy1eLxTC2czmCuZqRd5BKy00lHA8sWfw'); // replace 'your_publishable_key' with your actual publishable key
 
 interface ButtonProps {
   bgColor?: string;
@@ -36,7 +33,7 @@ type creditCardUser = {
 //   borderColor,
 //   bgHover,
 // }) => {
-export const SelectPaymentD: FC<ButtonProps> = ({
+export const SelectPaymentAd: FC<ButtonProps> = ({
   bgColor,
     textColor,
     borderColor,
@@ -45,30 +42,15 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
-  const { reservationId } = useParams();
-  
+  const { advertisementId } = useParams();
 
-  const redirectToDeposit = async (event: React.FormEvent) => {
+  const redirectToDelivery = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // const stripe = await stripePromise;
-
-    // Call your server's endpoint to create a checkout session
-    // const response = await fetch("http://localhost:4000/create-checkout-session", {
-    //   method: "POST",
-    // });
-
-    Axios.post(`/feature8/create-deposit-session/${reservationId}`)
+    
+    Axios.post(`/feature8/create-ad-session/${advertisementId}`)
       .then(async (res) => {
-        // const session = res;
-        // const result = await stripe?.redirectToCheckout({
-        //   sessionId: res.data.id,
-        // });
-
-        // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-        // if (result.error) {
-        //   alert(result.error.message);
-        // }
+      
         console.log(res.data);
         window.location.href = res.data.url;
       })
@@ -77,34 +59,8 @@ export const SelectPaymentD: FC<ButtonProps> = ({
         throw err;
       });
 
-    // const session = await response.json();
-
-    // Redirect to Checkout
-    // const result = await stripe.redirectToCheckout({
-    //   sessionId: session.id,
-    // });
-
-    // // If redirectToCheckout fails due to a browser or network error, you should display the localized error message to your customer
-    // if (result.error) {
-    //   alert(result.error.message);
-    // }
+    
   };
-
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     // Use fetch or another library to make a POST request
-  //     const response = await fetch('https://api.example.com/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       // body: JSON.stringify(formData),
-  //     });
-  // };
-
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,7 +103,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
         </Button> */}
       {/* <button type="submit">Check Out</button> */}
       <Button
-        onClick={redirectToDeposit}
+        onClick={redirectToDelivery}
         width={"70%"}
         height={"40px"}
         bg={!bgColor ? "brand.200" : bgColor}
@@ -157,7 +113,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
         textColor={"#DEBEF6"}
         leftIcon={<MdAttachMoney />}
       >
-        Deposit
+        Pay Delivery
       </Button>
 
       {/* </form> */}
