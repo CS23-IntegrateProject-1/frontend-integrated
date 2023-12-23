@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, Image, Text, Flex,useMediaQuery  } from '@chakra-ui/react';
+import {Box, Image, Text, Flex,useMediaQuery  } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 // import map1 from '../assets/img/map1.png';
 import {Axios} from '../../../AxiosInstance';
@@ -10,13 +10,7 @@ interface Movie {
   imageUrl: string;
   id: number;
 }
-const buttonStyles = {
-  borderRadius: '35px',
-  textColor: 'white',
-  mr: 5,
-  mt: 5,
-  mb: 5,
-};
+
 
 
 const containerStyle = {
@@ -25,20 +19,14 @@ const containerStyle = {
 };
 
 const center = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: 13.652054676389412,
+  lng: 100.49688877851413,
 };
 export const CinemaMain = () => {
-  const [activeButton, setActiveButton] = useState(null);
   const [nowShowingMovies, setNowShowingMovies] = useState<Movie[]>([]);
   const [soonMovies, setSoonMovies] = useState<Movie[]>([]);
   const [isDesktop] = useMediaQuery('(min-width: 768px)');
 
-  const handleClick = (index: any) => {
-    setActiveButton(index);
-  };
-
-  const buttons = ['All', 'Dolby', 'IMAX', 'kid'];
 
   const fetchMovies = async (url: string, setState: React.Dispatch<React.SetStateAction<Movie[]>>) => {
     try {
@@ -67,23 +55,10 @@ export const CinemaMain = () => {
     <>
       <Box marginBottom={'5px'} display={'flex'} justifyContent={'center'}>
         <LoadScript googleMapsApiKey="AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY">
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-            {/* Add markers or other map components as needed */}
+          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>          
           </GoogleMap>
         </LoadScript>
       </Box>
-      <Box textAlign="center" fontSize="xl">
-        {buttons.map((button, index) => (
-          <Button
-            {...buttonStyles}
-            bg={activeButton === index ? 'brand.300' : 'rgba(0, 0, 0, 0.3)'}
-            onClick={() => handleClick(index)}
-          >
-            {button}
-          </Button>
-        ))}
-      </Box>
-
       <Box>
         <Text fontSize="20px" fontWeight="bold" mb={4}>
           Now Showing

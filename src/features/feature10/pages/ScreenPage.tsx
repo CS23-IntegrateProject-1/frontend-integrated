@@ -254,9 +254,9 @@ const ScreenPage: React.FC = () => {
 
 			{/* TypeCard */}
 			<Center>
-				<Grid templateColumns="repeat(3, 1fr)" gap={20}>
+				<Grid templateColumns="repeat(3, 1fr)" gap={20} >
 					{seatType.map((type, index: number) => (
-						<Box key={index}>
+						<Box key={index} >
 							<TypeOfSeatCard
 								type={type.type_name}
 								price={type.price_modifier * defaultPrice}

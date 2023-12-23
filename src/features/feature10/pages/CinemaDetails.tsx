@@ -44,33 +44,6 @@ const CinemaDetailPage = () => {
   const year = thisDate.getFullYear();
 
   const [selectedDate] = useState<number>(day);
-  // const [clickedShowtime, setClickedShowtime] = useState<string | null>(null);
-
-  // const handleShowtimeClick = (showtime: string) => {
-  //   setClickedShowtime(showtime);
-
-  // };
-
-  // const [nearestCinemas, setNearestCinemas] = React.useState([
-  //   {
-  //     name: "Cinema A",
-  //     location: "City Center",
-  //     showtimes: ["10:30 AM", "3:00 PM", "8:30 PM"],
-  //     type: "IMAX",
-  //   },
-  //   {
-  //     name: "Cinema B",
-  //     location: "Downtown",
-  //     showtimes: ["11:15 AM", "4:30 PM", "9:00 PM"],
-  //     type: "Standard",
-  //   },
-  //   {
-  //     name: "Cinema C",
-  //     location: "Suburbia",
-  //     showtimes: ["9:00 AM", "1:45 PM", "7:15 PM"],
-  //     type: "Premium",
-  //   },
-  // ]);
 
   const fetchTheaterDetails = async () => {
     const response: { status: number; data: ITheaterDetail | null } =
@@ -86,9 +59,6 @@ const CinemaDetailPage = () => {
   const fetchMovieToday = async () => {
     try {
       if (!theaterId) throw new Error("Theater ID is not defined");
-
-      // console.log("Selected Date:", selectedDate);
-
       const response = await getMovieToday(
         Number(theaterId),
         selectedDate,
@@ -98,7 +68,6 @@ const CinemaDetailPage = () => {
 
       // Update the state to include all movies
       setMovies(response);
-      // console.log(response);
     } catch (error) {
       console.error("Error fetching movie details:", error);
     }
@@ -106,10 +75,6 @@ const CinemaDetailPage = () => {
   useEffect(() => {
     fetchTheaterDetails();
     fetchMovieToday();
-    // console.log(thisDate);
-    // console.log(day);
-    // console.log(month);
-    // console.log(year);
   }, [theaterId]);
 
   const handleDateChange = async (selectedDate: string) => {
@@ -154,6 +119,7 @@ const CinemaDetailPage = () => {
             borderRadius="md"
             backgroundColor="rgba(0, 0, 0, 0.3)"
             backdropBlur="50px"
+            
           >
             <Image
               src={movie.poster_img}
@@ -188,12 +154,13 @@ const CinemaDetailPage = () => {
               </Text>
             </Box>
           </Box>
-          <Box boxShadow="md" backgroundColor={"#D9D9D9"} p={1}>
+          <Box boxShadow="md" backgroundColor={"#D9D9D9"} p={1} mb={5}>
             <Box
               key={index}
               maxWidth="100%"
               maxHeight="256px"
               justifyContent={"center"}
+              
             >
               <Text
                 fontSize="10px"
@@ -242,8 +209,6 @@ const CinemaDetailPage = () => {
         </Box>
       ))}
 
-      {/* Pass showtimes to TimeSelection component */}
-      {/* <TimeSelection cinemas={nearestCinemas} /> */}
     </Box>
   );
 };
