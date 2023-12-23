@@ -3,7 +3,7 @@ import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 // import { formatDatetime1 } from "../../../../functions/formatDatetime";
@@ -47,6 +47,14 @@ type Order = {
   tableNo: number,
 }
 
+interface property {
+	property : property;
+}
+interface property {
+	venueId: number;
+	businessId: number;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatDate = (dateString: string) => {
 	if (!dateString) {
@@ -74,18 +82,39 @@ export const Notification = () => {
 	const [userData, setUserData] = useState("");
 	userData;
 	const [userId, setUserId] = useState("");
+	const [venueId, setVenueId] = useState(0);
 	userId;
 	const [reservation, setReservation] = useState<Reservation[]>([]);
-	const { venueId } = useParams();
 	const [tableNumberMap, setTableNumberMap] = useState<Record<string, any>>(
 		{}
-	);
-	const [advertisementData, setAdvertisementData] = useState<any[]>([]);
-	advertisementData;
-	const [businessId, setBusinessId] = useState();
-	businessId;
-	const [businessAdver, setbusinessAdver] = useState<advernoti[]>([]);
+		);
+		const [advertisementData, setAdvertisementData] = useState<any[]>([]);
+		advertisementData;
+		const [businessId, setBusinessId] = useState(0);
+		businessId;
+		const [businessAdver, setbusinessAdver] = useState<advernoti[]>([]);
 	const [businessAdMain, setBusinessAdMain] = useState();
+	
+	const fetchVenueId = async () => {
+		const venueId = await Axios.get<property>(`/feature8/venue/getVenueIdByBusinessId`);
+		const venueIds = venueId.data;  
+		return { property: venueIds }; // Change property to venueIds
+	};
+	const { data: venueIds } = useQuery<{
+		property: property;
+	}>(['fetchVenueId'], () => fetchVenueId()); 
+	useEffect(() => {
+		if (venueIds?.property?.property) {
+			setVenueId(venueIds?.property?.property.venueId);
+			setBusinessId(venueIds?.property?.property.businessId);
+		}
+	}, [venueIds?.property?.property]);
+	console.log(venueIds?.property?.property.businessId);
+	console.log(venueIds?.property?.property.venueId);
+	console.log(venueId)
+	
+
+
 
 	const fetchData = async () => {
 		try {
@@ -265,7 +294,7 @@ export const Notification = () => {
 	useEffect(() => {
 		fetchAdvertisementData();
 	}, []);
-	//http://localhost:8080/feature8/notifications/advertisementbizId/1
+	// http://localhost:8080/feature8/notifications/advertisementbizId/1
 	const fetchBusinessId = async () => {
 		try {
 			const backendUrl = import.meta.env.VITE_BACKEND_URL;

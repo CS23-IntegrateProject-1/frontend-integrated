@@ -61,7 +61,7 @@ export const FeatureBusiness08Routes = () => {
 			element: <Checkbill />,
 		},
 		{
-			path: "/business/Notification/:venueId",
+			path: "/business/Notification",
 			element: <Notification />,
 		},
 		{

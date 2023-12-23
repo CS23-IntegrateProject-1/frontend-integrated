@@ -57,6 +57,7 @@ export const AdvertiseNoti = () => {
   }
 
   const { isApprove, cost,name,description, } = advertiseNotified;
+  console.log(isApprove,name )
 
   return (
     <Center>
@@ -80,7 +81,8 @@ export const AdvertiseNoti = () => {
                   Title: {name}
                 </Heading>
                 <Text marginBottom={5}>
-                  This email is to notify you that your advertisement is in_progress
+                  This email is to notify you that your advertisement is 
+                  {isApprove === "Completed" ? " Completed" : isApprove === "In_progress" ? " In_progress" : isApprove === "Awaiting_payment" ? " Awaiting_payment" : " Rejected"}
                   
                 </Text>
                 <Heading size="md" marginBottom={2}>
@@ -96,7 +98,7 @@ export const AdvertiseNoti = () => {
                       <Tr>
                         <Td>{description}</Td>
                         <Td textAlign={"right"}>
-                          {isApprove === "Completed" ? cost + " baht" : (isApprove === "In_progress" ? cost + " baht" : "0 baht")}
+                          {isApprove === "Completed" ? cost + " baht" : isApprove === "In_progress" ? cost + " baht" : isApprove === "Awaiting_payment" ? cost : cost + " baht"}
                         </Td>
                       </Tr>
                     </Tbody>
@@ -106,8 +108,7 @@ export const AdvertiseNoti = () => {
                   {isApprove === "Completed" ? "Total cost: " + cost + " baht" : (isApprove === "In_progress" ? "Total cost: " + cost + " baht" : "")}
                 </Text>
                 <Text marginTop={5} textAlign={"center"}>
-                {isApprove === "In_progress" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
-                  {isApprove === "Completed" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
+                  {isApprove === "Awaiting_payment" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
                 </Text>
               </Box>
             </Stack>
