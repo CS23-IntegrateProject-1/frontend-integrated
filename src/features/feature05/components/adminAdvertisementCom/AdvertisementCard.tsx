@@ -1,19 +1,21 @@
 import { Box, Card, CardBody, Text } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
 import { GrView } from "react-icons/gr";
 
-
-export const AdvertisementCard: React.FC<IAdvertisementCardProp> & {
-  
-  isApprove: string;
-  
-} = ({ name, description, advertisementId, isApprove}:
-  {name: string;
+interface AdvertisementCardProps {
+  name: string;
   description: string;
   advertisementId: number;
-  isApprove: string;}) => {
+  isApprove: string;
+}
+
+export const AdvertisementCard: React.FC<AdvertisementCardProps> = ({
+  name,
+  description,
+  advertisementId,
+  isApprove,
+}: AdvertisementCardProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
