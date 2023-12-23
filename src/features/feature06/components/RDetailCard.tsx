@@ -1,20 +1,29 @@
-import {
-  Box,
-  Card,
-  Image,
-  Stack,
-  CardBody,
-  Heading,
-  Text,
-  CardFooter,
-  Button,
-  Flex,
-} from "@chakra-ui/react";
-import { TextStyle } from "../../../theme/TextStyle";
+import { Box, Image, Text, Flex } from "@chakra-ui/react";
+import { FC } from "react";
 
-export const RDetailCard = () => {
-  const images: string[] = ["1", "2", "3", "4", "5", "6"];
+interface IPhotoData {
+  date_added: string;
+  venueId: number;
+  image_url: string;
+}
 
+interface RDetailCardProps {
+  name?: string;
+  star?: string;
+  location?: string;
+  venueId?: number;
+  src?: string;
+  
+  image_url: IPhotoData[] | undefined;
+}
+
+export const RDetailCard: FC<RDetailCardProps> = ({
+  name,
+  star,
+  location,
+  image_url,
+}) => {
+  const isSingleImage = image_url && image_url.length === 1;
   return (
     <Box
       width="320px"
@@ -26,18 +35,20 @@ export const RDetailCard = () => {
       style={{ borderColor: "#DEBEF6" }}
     >
       <Box w={"100vw"} pos={"absolute"} left={0}>
-        <Flex overflow={"scroll"}>
-          {images.map((image) => (
-            <Image
-              key={image}
-              ml={"10px"}
-              minWidth="320px"
-              height="168px"
-              borderRadius="15px"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"
-              alt="Caffe Latte"
-            />
-          ))}
+        <Flex overflow={"scroll"} justifyContent={isSingleImage ? "center" : "flex-start"}>
+          {image_url &&
+            Array.isArray(image_url) &&
+            image_url.map((image: IPhotoData, index: number) => (
+              <Image
+                key={index}
+                ml={"10px"}
+                minWidth="320px"
+                height="168px"
+                borderRadius="15px"
+                src={image.image_url} // src ={src}
+                alt="Caffe Latte"
+              />
+            ))}
         </Flex>
       </Box>
       <Box height="168px" />
@@ -45,28 +56,28 @@ export const RDetailCard = () => {
         color="#FFF"
         /* H1 */
         fontFamily="Roboto"
-        fontSize="20px"
+        fontSize="22px"
         fontStyle="normal"
         fontWeight="700"
         line-height="normal"
         marginTop="20px"
-        
+        marginBottom="6px"
       >
-        Something Something
+        {name}
       </Text>
       <Text
         color="#FFF"
         /* H1 */
         fontFamily="Roboto"
-        fontSize="20px"
+        fontSize="16px"
         fontStyle="normal"
-        fontWeight="700"
+        fontWeight="400"
         line-height="normal"
         marginTop="-5px"
       >
-        Place
+        {location}
       </Text>
-      <Box marginLeft="4px">
+      <Box marginLeft="4px" marginTop="4px">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="17"
@@ -84,14 +95,14 @@ export const RDetailCard = () => {
           color="#F6F6F6"
           /* H5 */
           fontFamily="Roboto"
-          fontSize="10px"
+          fontSize="12px"
           fontStyle="normal"
           fontWeight="700"
           lineHeight="normal"
           marginTop="-13px"
           marginLeft="19px"
         >
-          4.7
+          {star}
         </Text>
       </Box>
     </Box>

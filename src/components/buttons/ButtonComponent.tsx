@@ -17,6 +17,7 @@ interface ButtonProps {
   width?: string;
   height?: string;
   borderRadius?: string;
+  isDisabled?: boolean;
   onClick?: () => void;
 }
 
@@ -37,8 +38,10 @@ export const ButtonComponent: FC<ButtonProps> = ({
   width,
   height,
   borderRadius,
+  isDisabled,
   onClick,
 }) => {
+  const textStyleObject = textStyle ? textStyles[textStyle] : {};
   return (
     <Button
       colorScheme={colorScheme ? colorScheme : ""}
@@ -46,6 +49,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
       textColor={textColor ? textColor : "white"}
       borderColor={borderColor ? borderColor : ""}
       border={border ? border : ""}
+      {...textStyleObject}
       textStyle={textStyle ? textStyle : ""}
       variant={variant ? variant : ""}
       width={width ? width : "140px"}
@@ -56,6 +60,7 @@ export const ButtonComponent: FC<ButtonProps> = ({
         borderColor: borderColorHover || "",
         color: textColorHover || "",
       }}
+      isDisabled={isDisabled}
       onClick={onClick}
     >
       {text}

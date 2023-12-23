@@ -1,16 +1,17 @@
-import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Textarea } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { FC, useState } from "react";
+import { useContext, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 
 export const CommentInput = () => {
   const [content, setContent] = useState("");
   const queryClient = useQueryClient();
   const { articleId } = useParams<{ articleId: string }>();
   const articleIdAsNumber = parseInt(articleId || "0", 10); // or use Number(articleId || "0");
-
+  const user = useContext(UserContext);
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
@@ -29,7 +30,6 @@ export const CommentInput = () => {
       .catch((err) => {
         console.log("error", err);
       });
-      
   };
 
   return (
@@ -45,9 +45,14 @@ export const CommentInput = () => {
     >
       <Box>
         <Flex alignItems={"center"} mb={"0.25em"}>
-          <Box w={"30px"} h={"30px"} mr={"0.5em"} bg={"red"}></Box>
+          <Image
+            w={"30px"}
+            h={"30px"}
+            mr={"0.5em"}
+            src={import.meta.env.VITE_BACKEND_URL + user.profile_picture || ""}
+          ></Image>
           <Heading style={TextStyle.h4} color={"black"}>
-            username
+            {user.username}
           </Heading>
         </Flex>
         {/* <Box my={"1em"}> */}

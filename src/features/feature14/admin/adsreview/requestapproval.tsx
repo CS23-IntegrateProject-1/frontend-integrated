@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   ChakraProvider,
   Center,  // Import Center component
-  Box,
   Input,
   Flex,
   Text,

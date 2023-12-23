@@ -1,4 +1,5 @@
-import { Box, HStack, Button,Text, IconButton, Icon, VStack,Flex} from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, HStack, Text,  Icon, VStack,Flex,Center} from "@chakra-ui/react";
 import { useState,useEffect } from "react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { MenuCard } from "../component/MenuCard";
@@ -10,7 +11,7 @@ import { RButton } from "../component/RButton";
 
 import { Axios } from "../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 interface Menu {
   menuId: number;
@@ -38,10 +39,10 @@ interface SetMenu {
 //   }
 // }
 
-const fetchMenuAndSetData = async (venueId: string) => {
+const fetchMenuAndSetData = async () => {
     const [menuResponse, setResponse] = await Promise.all([
-      Axios.get<Menu[]>(`/feature7/getMenusByVenueId/${venueId}`),
-      Axios.get<SetMenu[]>(`/feature7/getSetsByVenueId/${venueId}`),
+      Axios.get<Menu[]>('/feature7/getMenusByVenueId'),
+      Axios.get<SetMenu[]>('/feature7/getSetsByVenueId'),
     ]);
 
     const menuData = menuResponse.data;
@@ -57,10 +58,10 @@ export const MenuAll = () => {
   const [borderColor, setBorderColor] = useState("brand.200");
   const [subtitle, setSubtitle] = useState<string>("Substitle");
   const navigate= useNavigate();
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
   //console.log(venueId);
 
-  const { data, isLoading, isError } = useQuery(["menuAndSetData", venueId], () => fetchMenuAndSetData(venueId));
+  const { data, isLoading, isError } = useQuery(["menuAndSetData"], () => fetchMenuAndSetData());
 
   const handleAllMenuClick = () => {
     if (subtitle !== "All Menu") {
@@ -80,14 +81,20 @@ export const MenuAll = () => {
     }
   };
   const handleMenuClick = (type: string, menuid: string) => {
-    navigate(`/venue/${venueId}/menudetail/${type}/${menuid}`);
+    navigate(`/venue/menudetail/${type}/${menuid}`);
     console.log("Clicked menu. Menu ID:", menuid);
   }  
   const handleCartClick = () => {
-    navigate(`/venue/${venueId}/cart`); 
+    navigate('/venue/cart'); 
   };
   useEffect(() => {
     handleAllMenuClick();
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get('section');
+
+  if (sectionParam === 'setmenu') {
+    handleSetMenuClick();
+  }
   }, []);
 
   const renderMenuCards = () => {
@@ -104,7 +111,7 @@ export const MenuAll = () => {
     if (subtitle === "All Menu") {
       if (menuData && menuData.length > 0) {
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {menuData.map((menu) => (
               <MenuCard
               key={menu.menuId}
@@ -141,7 +148,7 @@ export const MenuAll = () => {
     } else if (subtitle === "Set Menu") {
       if (setMenuData && setMenuData.length > 0) {
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
             {setMenuData.map((set) => (
               <SetMenuCard
               key={set.setId}
@@ -183,14 +190,17 @@ export const MenuAll = () => {
          />
       </HStack>
       </Flex>
-      <Box mt={4} p={1} marginLeft={0} borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
+      <Center>
+      <Box mt={4} p={1} marginRight="220px" borderColor="brand.200" borderWidth="1px" width='115px' height='30px' rounded="md" textAlign="center" bgColor="brand.200">
        <Text {...textStyles.h3}>{subtitle}</Text>
       </Box>
+      </Center>
       {renderMenuCards()}
+      <Center>
       <Box
         position="fixed"
         bottom="20"
-        right="4"
+        marginLeft="300px"
         borderRadius="5px"
         zIndex="1"
       >
@@ -201,21 +211,20 @@ export const MenuAll = () => {
           onClick={handleCartClick}
         />
       </Box>
-      <Flex align="center" justify="center" >
+      </Center>
+      <Center>
       <Box
         position="fixed"
         bottom="4"
-        left="32%"
         width="109px"
         height="29px"
         textAlign="center"
         borderRadius="5px">
             
         <ButtonComponent text="Order Status"
-        onClick={() => navigate(`/venue/${venueId}/order`)} />
-         
+        onClick={() => navigate('/venue/order')} />
       </Box>
-      </Flex>
+      </Center>
       </Box>
    
   );

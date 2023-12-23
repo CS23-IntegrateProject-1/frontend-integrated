@@ -1,3 +1,4 @@
+6;
 import {
   Box,
   Button,
@@ -19,48 +20,92 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
-  
+
 interface AdvertisementProps {
   name: string;
   description: string;
-  startingDate: Date | null;
-  endingDate: Date | null;
+  start_date: Date | null;
+  end_date: Date | null;
   images: string;
-  targetCustomer: string;
-  targetGroup: string;
-  advertisementPlan: number;
+  customer_type: string;
+  target_group: string;
+  cost: number;
 }
 export const AdvertisementRequestPage = () => {
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
     name: "",
     description: "",
     images: "",
-    startingDate: null,
-    endingDate: null,
-    targetCustomer: "",
-    targetGroup: "",
-    advertisementPlan: 0,
+    start_date: null,
+    end_date: null,
+    customer_type: "All",
+    target_group: "Teen",
+    cost: 300,
   });
-  const handleClick = () => {
-    navigate("/advertisement/status");
+  const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
+    null
+  );
+  console.log(file);
+  const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
+  // const handleChange = (
+  // 	e: React.ChangeEvent<
+  // 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  // 	>
+  // ) => {
+  // 	const { name, value } = e.target;
+  // 	const formattedValue = name.includes("date")
+  // 		? new Date(value).toISOString()
+  // 		: value;
+  // 	setAdvertise((prevAdvertise) => ({
+  // 		...prevAdvertise,
+  // 		[name]: formattedValue,
+  // 	}));
+  // 	console.log(advertise);
+  // };
+
+  //gpt
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    const formattedValue = name.includes("date")
+      ? new Date(value).toISOString().replace("T", " ").replace("Z", "")
+      : value;
+
+    if (name === "start_date" && !isNaN(new Date(formattedValue).getTime())) {
+      setFormattedStartDate(formattedValue);
+    }
+
+    if (name === "end_date" && !isNaN(new Date(formattedValue).getTime())) {
+      setFormattedEndDate(formattedValue);
+    }
+
+    setAdvertise((prevAdvertise) => ({
+      ...prevAdvertise,
+      [name]: formattedValue,
+    }));
   };
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      console.log(e.target.files);
       setFile(e.target.files[0]);
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
     }
   };
+
   const handleCloseImage = () => {
     setImagePreview(null);
   };
@@ -72,13 +117,52 @@ export const AdvertisementRequestPage = () => {
     };
   }, [imagePreview]);
 
+  // const handleSubmit = async () => {
+  //   console.log(advertise);
+
+  //   try {
+  //     // Ensure this ID is valid
+  //     console.log("Formatted Start Date:", formattedStartDate);
+  //     console.log("Formatted End Date:", formattedEndDate);
+  //     console.log(advertise);
+  //     console.log(`Sending request to /AdBSN`);
+  //     const response = await Axios.post(`feature5/AdBSN`, {
+  //       ...advertise,
+  //       //advertisementPlan: Number(advertise.cost),
+  //       Tags: [],
+  //       start_date: formattedStartDate,
+  //       end_date: formattedEndDate,
+  //     });
+  //     console.log(response.data); // Log the response data
+  //     navigate("/business/advertisement/status");
+  //   } catch (err) {
+  //     console.error("Error submitting advertisement:", err);
+  //   }
+  // };
   const handleSubmit = async () => {
     try {
-      await Axios.post;
+      const formData = new FormData();
+      formData.append("name", advertise.name);
+      formData.append("description", advertise.description);
+      formData.append("start_date", formattedStartDate || "");
+      formData.append("end_date", formattedEndDate || "");
+      formData.append("customer_type", advertise.customer_type);
+      formData.append("target_group", advertise.target_group);
+      formData.append("cost", advertise.cost.toString());
+      if (file) {
+        formData.append("file", file);
+      }
+
+      // Make your Axios post request with formData
+      const response = await Axios.post(`feature5/AdBSN`, formData);
+      console.log(response.data);
+      navigate("/business/advertisement/status");
     } catch (err) {
-      console.error(err);
+      console.error("Error submitting advertisement:", err);
     }
   };
+
+  console.log(advertise);
 
   return (
     <Box
@@ -103,6 +187,8 @@ export const AdvertisementRequestPage = () => {
           Name
         </FormLabel>
         <Input
+          name="name"
+          onChange={handleChange}
           variant="name"
           style={{ width: "auto" }}
           color={"white"}
@@ -127,12 +213,14 @@ export const AdvertisementRequestPage = () => {
           Description
         </FormLabel>
         <Input
+          name="description"
+          onChange={handleChange}
           variant="name"
           style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          type="email"
+          type="text"
         />
       </FormControl>
 
@@ -153,12 +241,15 @@ export const AdvertisementRequestPage = () => {
             Starting Date
           </FormLabel>
           <Input
+            name="start_date"
+            onChange={handleChange}
             size={"xs"}
             type="date"
             color="white"
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
+            isRequired
           />
         </Box>
 
@@ -168,6 +259,8 @@ export const AdvertisementRequestPage = () => {
             Ending Date
           </FormLabel>
           <Input
+            name="end_date"
+            onChange={handleChange}
             id="fileInput"
             size={"xs"}
             type="date"
@@ -180,66 +273,88 @@ export const AdvertisementRequestPage = () => {
       </FormControl>
 
       {/* Image */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Images
-        </FormLabel>
-        <Stack spacing={2} direction="column">
-          <Center
-            width={"auto"}
-            height={"100"}
-            bg={"#5F0DBB"}
-            borderRadius={5}
-            cursor={"pointer"}
-          >
-            <Input
-              onChange={handleFileChange}
-              type="file"
-              opacity={0}
-              height={"100%"}
-              w={"100%"}
-              pos={"absolute"}
-            ></Input>
-            <Icon
-              as={BiImageAdd}
-              color={"#FFFFFF"}
-              width={"auto"}
-              height={"8"}
-            ></Icon>
-          </Center>
-        </Stack>
-      </FormControl>
+
       {imagePreview ? (
-        <Box
-          position={"relative"}
-          overflow={"hidden"}
-          minWidth={"50%"}
-          maxWidth={"50%"}
-          height={"auto"}
+        <FormControl
+          // isRequired
+          width="50%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
         >
-          <IconButton
-            aria-label="close"
-            minWidth={"15px"}
-            height={"15px"}
-            position={"absolute"}
-            top={0}
-            right={0}
-            as={AiOutlineClose}
-            onClick={handleCloseImage}
-          ></IconButton>
-          <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
-        </Box>
+          <FormLabel style={TextStyle.h2} color={"white"}>
+            Image
+          </FormLabel>
+
+          <Box
+            position={"relative"}
+            overflow={"hidden"}
+            width={"100%"}
+            minWidth={"250px"}
+            maxWidth={"400px"}
+            height={"auto"}
+            alignSelf={"center"}
+          >
+            <IconButton
+              aria-label="close"
+              minWidth={"15px"}
+              height={"15px"}
+              position={"absolute"}
+              top={0}
+              right={0}
+              as={AiOutlineClose}
+              onClick={handleCloseImage}
+            ></IconButton>
+            <Image
+              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
+              src={imagePreview}
+              alt={"image"}
+              width={"100%"}
+            ></Image>
+          </Box>
+        </FormControl>
       ) : (
-        <></>
+        <FormControl
+          isRequired
+          width="50%"
+          minWidth="250px"
+          maxWidth="400px"
+          display="flex"
+          flexDirection={"column"}
+          paddingBottom={3}
+        >
+          <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+            {" "}
+            Image
+          </FormLabel>
+          <Stack spacing={2} direction="column">
+            {}
+            <Center
+              width={"auto"}
+              height={"100"}
+              bg={"#5F0DBB"}
+              borderRadius={5}
+              cursor={"pointer"}
+            >
+              <Input
+                onChange={handleFileChange}
+                type="file"
+                opacity={0}
+                height={"100%"}
+                w={"100%"}
+                pos={"absolute"}
+              ></Input>
+              <Icon
+                as={BiImageAdd}
+                color={"#FFFFFF"}
+                width={"auto"}
+                height={"8"}
+              ></Icon>
+            </Center>
+          </Stack>
+        </FormControl>
       )}
 
       {/* Target customer */}
@@ -256,9 +371,16 @@ export const AdvertisementRequestPage = () => {
           {" "}
           Target customer
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">All</option>
-          <option value="option2">Member</option>
+        <Select
+          name="customer_type"
+          onChange={handleChange}
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=""
+          defaultValue={"All"}
+        >
+          <option value="All">All</option>
+          <option value="Member">Member</option>
         </Select>
       </FormControl>
 
@@ -276,11 +398,17 @@ export const AdvertisementRequestPage = () => {
           {" "}
           Target group
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">Teen</option>
-          <option value="option2">young Adult</option>
-          <option value="option3">adult</option>
-          <option value="option4">elder</option>
+        <Select
+          name="target_group"
+          onChange={handleChange}
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          defaultValue={"Teen"}
+        >
+          <option value="Teen">Teen</option>
+          <option value="Young_adult">Young Adult</option>
+          <option value="Adult">Adult</option>
+          <option value="Elder">Elder</option>
         </Select>
       </FormControl>
 
@@ -292,20 +420,49 @@ export const AdvertisementRequestPage = () => {
         maxWidth="400px"
         display="flex"
         flexDirection={"column"}
-        paddingBottom={6}
+        paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"}>
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
           Advertisement plan
         </FormLabel>
-        <RadioGroup defaultValue="2">
-          <Stack spacing={1} direction="column">
-            <Radio value="1">100 Baht/Week</Radio>
-            <Radio value="2">300 Baht/Month</Radio>
-            <Radio value="3">3600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup>
+        <Select
+          name="cost"
+          onChange={handleChange}
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          defaultValue={"300"}
+        >
+          <option value="100">100 Baht/Week</option>
+          <option value="300">300 Baht/Month</option>
+          <option value="3600">3600 Baht/Year</option>
+        </Select>
       </FormControl>
+      {/* <FormControl
+				isRequired
+				width="50%"
+				minWidth="250px"
+				maxWidth="400px"
+				display="flex"
+				flexDirection={"column"}
+				paddingBottom={6}
+			>
+				<FormLabel style={TextStyle.h2} color={"white"}>
+					{" "}
+					Advertisement plan
+				</FormLabel>
+				<RadioGroup
+					defaultValue="2"
+					name="advertisementPlan"
+					onChange={(value) => handleChange(value)}
+				>
+					<Stack spacing={1} direction="column">
+						<Radio value="1">100 Baht/Week</Radio>
+						<Radio value="2">300 Baht/Month</Radio>
+						<Radio value="3">3600 Baht/Year</Radio>
+					</Stack>
+				</RadioGroup>
+			</FormControl> */}
 
       {/* Submit */}
       <Box
@@ -323,23 +480,43 @@ export const AdvertisementRequestPage = () => {
           variant="solid"
           width="40%"
           color="white"
-          onClick={onOpen}
+          onClick={() => {
+            if (advertise.start_date == null || advertise.end_date == null) {
+              alert("Please fill the date");
+              return;
+            }
+            onOpen();
+          }}
         >
           Submit
         </Button>
         <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent bgColor={"#DEBEF6"} color={"#200944"} >
-          <ModalHeader mt={3}>Submit advertisement</ModalHeader>
-          <ModalCloseButton />
-          <ModalFooter>
-            <Button bgColor={"white"} color={"#200944"} mr={5} width="30%" onClick={onClose} >Cancel</Button>
-            <Button bgColor={"#A533C8"} mr={3} onClick={handleClick} color={"white"} width="30%">
-              Confirm
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>Submit advertisement</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleSubmit}
+                color={"white"}
+                width="30%"
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </Box>
   );

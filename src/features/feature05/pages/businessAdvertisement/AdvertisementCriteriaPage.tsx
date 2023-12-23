@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AdvertisementCriteriaPage = () => {
   const navigate = useNavigate();
-  const handleClick=()=> { navigate("/advertisement/request");}
+  const handleClick=()=> { navigate("/business/advertisement/request");}
   
   return (
     <Box

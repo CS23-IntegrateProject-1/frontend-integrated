@@ -7,7 +7,6 @@ import { TextStyle } from "../../../../theme/TextStyle";
 import {useState} from "react";
 import '../../Components/TextSlider/TextSlider.css';
 import { NavLink } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
 
 export const Help = () => {
   
@@ -31,8 +30,8 @@ export const Help = () => {
         <div className="main">
           <div className="tips" style={TextStyle.body2}> {wordData} </div>
           <div className='flex_row' style={{}}>
-          {words.map((data,i)=>
-            <Box key={i} onClick={()=>handleClick(i)}
+          {words.map((_data,i)=>
+            <Box  key={i} onClick={()=>handleClick(i)}
             as='button'
             height='17px'
             width='15px'
@@ -118,11 +117,14 @@ export const Help = () => {
       </HStack> 
       </GridItem>
       <GridItem marginTop={"20px"} >
-        <Box border={"1px"}  borderColor={"brand.200"} bg = 'brand.300' >
-          <Text padding={"10px"} style={TextStyle.h4}>
-            Call Center
-          </Text>
-        </Box>
+        <NavLink to={"/setting/helpdesk"}>
+          <Box border={"1px"}  borderColor={"brand.200"} bg = 'brand.300' >
+            <Text padding={"10px"} style={TextStyle.h4}>
+                Help Desk System
+            </Text>
+          </Box>
+        </NavLink>
+        
       </GridItem>
       <GridItem>
         <NavLink to = "/chatbot">

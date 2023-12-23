@@ -15,17 +15,6 @@ export const Feature14Routes = () => {
       path: "/admin/approval/:approvalId/reject",
       element: <RejectPage />,
     },
-    { path: "/admin/survey", element: "ElementPlaceHolder" },
-    { path: "/admin/survey/:surveyId", element: "ElementPlaceHolder" },
-    { path: "/admin/advertisement", element: "ElementPlaceHolder" },
-    {
-      path: "/admin/advertisement/:advertisementId",
-      element: "ElementPlaceHolder",
-    },
-    {
-      path: "/admin/advertisement/:advertisementId/reject",
-      element: "ElementPlaceHolder",
-    },
     {
       path: "/admin/notification/:notificationId",
       element: "ElementPlaceHolder",

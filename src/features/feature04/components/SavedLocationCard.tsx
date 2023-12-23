@@ -1,59 +1,42 @@
 import {
   Box,
   Text,
-  Image,
   Flex,
-  Card,
-  CardBody,
   Stack,
-  Heading,
-  Center,
-  ButtonGroup,
   Button,
   Spacer,
-  CardFooter,
   IconButton,
   useDisclosure,
   Divider,
   Input
 } from "@chakra-ui/react";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { Axios } from "../../../AxiosInstance";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { modalAnatomy as parts } from "@chakra-ui/anatomy";
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
+import {
+  useMutation,
+} from "@tanstack/react-query";
 
 interface SavedCardProps {
+  savedLocId : number;
   address: string;
-  city: string;
+  name: string;
+  province: string;
+  district: string;
+  sub_district: string;
+  postcode: string;
 }
 
-const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
-  return (
-    <svg
-      width="19"
-      height="17"
-      viewBox="0 0 19 17"
-      fill={isLiked ? "red" : "none"}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.49978 16.1111L8.25117 14.9961C3.81645 11.0514 0.888672 8.44981 0.888672 5.25689C0.888672 2.65526 2.97256 0.611115 5.62478 0.611115C7.12312 0.611115 8.56117 1.29531 9.49978 2.37651C10.4384 1.29531 11.8764 0.611115 13.3748 0.611115C16.027 0.611115 18.1109 2.65526 18.1109 5.25689C18.1109 8.44981 15.1831 11.0514 10.7484 15.0046L9.49978 16.1111Z"
-        stroke={isLiked ? "red" : "#A533C8"}
-      />
-    </svg>
-  );
-};
 const PinIcon: React.FC<{ fillColor: string }> = (props) => {
   return (
     <svg
@@ -104,10 +87,110 @@ const DelIcon: React.FC = () => {
 };
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showFullAddress, setShowFullAddress] = useState(false);
+  const [showFullAddress] = useState(false);
+  // const [userId, setUserId] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [district, setDistrict] = useState("");
+  const [subdistrict, setSubdistrict] = useState("");
+  const [postcode, setPostcode] = useState("");
+
+  useEffect(() => {
+    // Set initial state values based on props when the component mounts
+    setName(props.name);
+    setAddress(props.address);
+    setProvince(props.province);
+    setDistrict(props.district);
+    setSubdistrict(props.sub_district);
+    setPostcode(props.postcode);
+  }, [props]);
+
   const AddressToShow = showFullAddress
     ? props.address
     : `${props.address.slice(0, 10)}...`;
+    const mutation = useMutation<void, any, any, any>(
+      async (updatedData) => {
+        // Use the same endpoint for the update
+        const response = await Axios.put(`/feature4/saved-location/`, updatedData);
+        return response.data;
+      },
+      {
+        onSuccess: () => {
+          // Optionally, you can refetch the data or perform any other actions after a successful update
+          // queryClient.invalidateQueries(["savedLocation", savedLocId]);
+          onClose();
+        },
+      }
+    );
+
+    const handleUpdate = async () => {
+      try {
+        const updatedData = {
+          name,
+          savedLocId: props.savedLocId,
+          address,
+          province,
+          district,
+          subdistrict,
+          postcode,
+        };
+    
+        // Add fields to updatedData only if they have changed
+        if (name !== props.name) {
+          updatedData.name = name;
+        }
+        if (address !== props.address) {
+          updatedData.address = address;
+        }
+        if (province !== props.province) {
+          updatedData.province = province;
+        }
+        if (district !== props.district) {
+          updatedData.district = district;
+        }
+        if (subdistrict !== props.sub_district) {
+          updatedData.subdistrict = subdistrict;
+        }
+        if (postcode !== props.postcode) {
+          updatedData.postcode = postcode;
+        }
+        console.log("hello from savedLocCard" + updatedData.address)
+    
+        await mutation.mutateAsync(updatedData);
+        return Promise.resolve();
+      } catch (error) {
+        console.error('Error updating data:', error);
+        return Promise.reject(error);
+      }
+    };
+    
+    
+
+
+    const deleteMutation = useMutation<void, void, void>(
+      async () => {
+        // Use the appropriate endpoint for the delete action
+        const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}`);
+        return response.data;
+      },
+      {
+        onSuccess: () => {
+          // Optionally, you can refetch the data or perform any other actions after a successful delete
+          // queryClient.invalidateQueries(["savedLocation", props.savedLocId]);
+        },
+      }
+    );
+    
+    const handleDelete = async () => {
+      try {
+        await deleteMutation.mutateAsync();
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
+    };
+    
+
   return (
     <Box margin={2}>
       <Box
@@ -133,13 +216,13 @@ const SavedLocationCard = (props: SavedCardProps) => {
             fontSize={textStyles.h3.fontSize}
             fontWeight={textStyles.h3.fontWeight}
           >
-            {AddressToShow}
+            {props.name}
           </Box>
           <Box
             fontSize={textStyles.h4.fontSize}
             fontWeight={textStyles.h4.fontWeight}
           >
-            {props.city}
+            {AddressToShow}
           </Box>
           <Spacer />
         </Box>
@@ -160,7 +243,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
               <ModalBody>
                 <Flex flexDir={"row"}>
                   <PinIcon fillColor={colors.brand[100]} />
-                  Lorem ipsum dolor sit amet.
+                  {props.address}
                 </Flex>
                 <br />
                 <Text
@@ -170,13 +253,49 @@ const SavedLocationCard = (props: SavedCardProps) => {
                 >
                   Address Information
                 </Text>
-                <Stack spacing={3} mt={2}>
-                  <Input variant="outline" placeholder="Address" />
-                  <Input variant="outline" placeholder="Province" />
-                  <Input variant="outline" placeholder="District" />
-                  <Input variant="outline" placeholder="Subdistrict" />
-                  <Input variant="outline" placeholder="Postcode" />
-                </Stack>
+                 <Stack spacing={3} mt={2}>
+                 {/* <Input
+                  variant="outline"
+                  placeholder="userID"
+                  onChange={(e) => setUserId(e.target.value)}
+                /> */}
+                <Input
+                  variant="outline"
+                  placeholder="name"
+                  defaultValue={props.name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Address"
+                  defaultValue={props.address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Province"
+                  defaultValue={props.province}
+                  onChange={(e) => setProvince(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="District"
+                  defaultValue={props.district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                />  
+                <Input
+                  variant="outline"
+                  placeholder="Subdistrict"
+                  defaultValue={props.sub_district}
+                  onChange={(e) => setSubdistrict(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Postcode"
+                  defaultValue={props.postcode}
+                  onChange={(e) => setPostcode(e.target.value)}
+                />
+              </Stack>
               </ModalBody>
               <Divider borderColor={colors.brand[200]} />
               <Flex justifyContent={"center"} m={5}>
@@ -189,7 +308,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
                 pr={10}
                 height={"50px"}
                 width={"300px"}
-            
+                onClick={handleUpdate}
               >
                 Save and Continue
               </Button>
@@ -201,6 +320,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
             aria-label="Call Segun"
             variant={"unstyled"}
             size={"sm"}
+            onClick={handleDelete}
           />
           
         </Flex>

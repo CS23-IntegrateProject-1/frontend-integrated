@@ -6,18 +6,16 @@ import { MdOutlineSend } from "react-icons/md";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArticlesPageProps } from "../ArticleDetailPage/ArticleTypes";
 import { Axios } from "../../../../AxiosInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "../../components/ShareModal";
+import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType";
 
 export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const handleDeleteLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
       data: { articleId: props.articleId },
@@ -32,7 +30,6 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   };
 
   const handleAddLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.post(`/feature11/addLike`, { articleId: props.articleId })
       .then((res) => {
@@ -65,13 +62,16 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
       <Box display="flex" alignItems="center" w={"100%"} height="32px">
         <Box display="flex" alignItems={"center"}>
           <img
-            src="/src/features/feature11/img/Profile.png"
-            alt="Profile"
+            src={
+              import.meta.env.VITE_BACKEND_URL + props.User.profile_picture ||
+              ""
+            }
+            alt="profile picture"
             width="32px"
             height="32px"
           />
           <Text style={TextStyle.h4} ml="10px" color={"#C5C4C7"}>
-            {props.author_name}
+            {props.User.username}
           </Text>
           <Text style={TextStyle.h4} ml="25px" color={"#C5C4C7"}>
             {props.created_date}
@@ -85,30 +85,47 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         alignItems={"center"}
         justifyContent={"space-around"}
       >
-        <Text color={"#C5C4C7"} style={TextStyle.h2}>
+        <Text
+          color={"#C5C4C7"}
+          style={TextStyle.h2}
+          w={"50%"}
+          textAlign={"center"}
+        >
           {props.topic}
         </Text>
         <Image
-          src="/src/features/feature11/img/Rectangle 186.png"
+          src={
+            import.meta.env.VITE_BACKEND_URL +
+              `${props.Images[0] ? props.Images[0].url : ""}` || ""
+          }
           alt="Article"
           w={"200px"}
           h={"100px"}
+          objectFit={"cover"}
         />
       </Box>
-      <Box display={"flex"} alignSelf={"flex-start"} mt={"0.5em"}>
-        <Box className="Like" display="flex" mr={"1em"}>
+      <Box
+        display={"flex"}
+        alignSelf={"flex-start"}
+        mt={"0.5em"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <Box className="Like" display="flex" mr={"1em"} alignItems={"center"}>
           {props.isLike ? (
             <IconButton
-              variant={"link"}
+              variant={"unstyled"}
+              size={"xs"}
               fontSize={"2xl"}
               color={"white"}
-              aria-label="unlike"
+              aria-label="liked"
               icon={<AiFillHeart />}
               onClick={handleDeleteLike}
             />
           ) : (
             <IconButton
-              variant={"link"}
+              variant={"unstyled"}
+              size={"xs"}
               fontSize={"2xl"}
               color={"white"}
               aria-label="unlike"
@@ -123,22 +140,30 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
         </Box>
 
         {/* Comment section */}
-        <Box className="comment" display="flex" mr={"1em"}>
-          <Icon as={BiComment} w={"24px"} h={"24px"}></Icon>
+        <Box
+          className="comment"
+          display="flex"
+          mr={"1em"}
+          alignItems={"center"}
+        >
+          <Icon as={BiComment} fontSize={"2xl"} />
           <Text fontSize="xs" ml="3px" color={"#DEBEF6"}>
             {props.Comment}
           </Text>
         </Box>
 
         {/* Share section */}
-        <Box display="flex" transform="rotate(315deg)">
-          <Icon
-            as={MdOutlineSend}
-            w={"20px"}
-            h={"20px"}
-            onClick={handleShare}
-          ></Icon>
-        </Box>
+        <IconButton
+          variant={"unstyled"}
+          size={"xs"}
+          mt={"-5px"}
+          fontSize={"xl"}
+          color={"white"}
+          aria-label="share"
+          icon={<MdOutlineSend />}
+          onClick={handleShare}
+          transform="rotate(315deg)"
+        />
       </Box>
       <ShareModal
         isOpen={isOpen}

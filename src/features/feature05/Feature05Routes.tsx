@@ -1,71 +1,33 @@
-import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
-import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementListPage";
-import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
 
-import { AdvertisementCriteriaPage } from "./pages/businessAdvertisement/AdvertisementCriteriaPage";
-import { AdvertisementIDEditPage } from "./pages/businessAdvertisement/AdvertisementIDEditPage";
-import { AdvertisementRequestPage } from "./pages/businessAdvertisement/AdvertisementRequestPage";
-import { AdvertisementStatusPage } from "./pages/businessAdvertisement/AdvertisementStatusPage";
+import { MemberShipPage } from "./pages/membership/MembershipPage";
+import { RedeemPage } from "./pages/membership/RedeemPage";
 
-import { VoucherCreatePage } from "./pages/businessVoucher/VoucherCreatePage";
-import { VoucherEditPage } from "./pages/businessVoucher/VoucherEditPage";
-import { VoucherStatusPage } from "./pages/businessVoucher/VoucherStatusPage";
+//import { PromotionPage } from "./pages/promotion/PromotionPage";
+import { PromotionListPage } from "./pages/promotion/PromotionListPage";
+import { PromotionDetail } from "./pages/promotion/PromotionDetail";
 
-import { RecommendationPage } from "./pages/RecommendationPage";
- 
+import { MyprivilegePage } from "./pages/membership/MyprivilegePage";
+import { MyRewardsPage } from "./pages/membership/MyRewardsPage";
+import { VoucherPage } from "./pages/membership/VoucherPage";
+import { RedeemDetailPage } from "./pages/membership/RedeemDetailPage";
+
 export const Feature05Routes = () => {
   return [
+    // Membership & Promotion ( customer )
+    { path: "/my-rewards", element: <MyRewardsPage /> },
 
-    // Admin side
-    {
-      path: "/advertisement",
-      element: <AdvertisementListPage />,
-    },
-    {
-      path: "/advertisement/:id",
-      element: <AdvertisementIDPage />,
-    },
-    {
-      path: "/advertisement/:id/reject",
-      element: <AdvertisementRejectPage />,
-    },
+    { path: "/membership", element: <MemberShipPage /> },
+    { path: "/redeem", element: <RedeemPage /> },
+    { path: "/my-privilege", element: <MyprivilegePage /> },
 
-    // User side
-    {
-      path: "/list/recommendation",
-      element: <RecommendationPage />,
-    },
+    // Promotion ( Customer )
+    { path: "/promotion", element: <PromotionListPage /> },
+    { path: "/promotion/:promotionId", element: <PromotionDetail /> },
 
-    // Business
-    {
-      path: "/advertisement/criteria",
-      element: <AdvertisementCriteriaPage />,
-    },
-    {
-      path: "/advertisement/request",
-      element: <AdvertisementRequestPage />,
-    },
-    {
-      path: "/advertisement/status",
-      element: <AdvertisementStatusPage/>,
-    },
-    {
-      path: "/advertisement/edit/:id",
-      element: <AdvertisementIDEditPage />,
-    },
+    //Voucher ( Customer )
+    { path: "/voucher/:voucherId", element: <VoucherPage /> },
 
-    // Business (voucher)
-    {
-      path: "/voucher/create",
-      element: <VoucherCreatePage />,
-    },
-    {
-      path: "/voucher/edit/:voucherId",
-      element: <VoucherEditPage />,
-    },
-    {
-      path: "/voucher",
-      element: <VoucherStatusPage />,
-    },
+    //Redeem ( Customer )
+    { path: "/redeem/:redeemId", element: <RedeemDetailPage /> },
   ];
 };

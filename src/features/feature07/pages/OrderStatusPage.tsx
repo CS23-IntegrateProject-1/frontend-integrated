@@ -1,75 +1,148 @@
-import React, { useState } from 'react';
-import { Flex, HStack, VStack, Box } from '@chakra-ui/react';
-import { RButton } from '../component/RButton';
-import { PreparedMenuCard } from '../component/PreparedCard';
-import { CompleteCard } from '../component/CompleteCard';
-import { ButtonComponent } from '../../../components/buttons/ButtonComponent';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Flex, HStack, VStack, Box, Center } from "@chakra-ui/react";
+import { RButton } from "../component/RButton";
+import { PreparedMenuCard } from "../component/PreparedCard";
+import { CompleteCard } from "../component/CompleteCard";
+import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
+import { useNavigate } from "react-router-dom";
 
-import { Axios } from '../../../AxiosInstance';
-import { useQuery } from '@tanstack/react-query';
+import { Axios } from "../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
-type OrderStatus = 'Preparing' | 'Completed';
+interface OrderProps {
+  orderDetailId: number;
+  menuId: number | null;
+  setId: number | null;
+  additional_req: string;
+  unit_price: number;
+  imageUrl: string;
+  quantity: number;
+  menu: {
+    name: string;
+    image: string;
+  };
+  set: {
+    name: string;
+    image_url: string;
+  };
+}
+type OrderStatus = "Preparing" | "Completed";
 
 export const OrderStatusPage: React.FC = () => {
-  const [preparingButtonColor, setPreparingButtonColor] = useState<'brand.400' | 'brand.200'>('brand.200');
-  const [completedButtonColor, setCompletedButtonColor] = useState<'brand.400' | 'brand.200'>('brand.400');
-  const [borderColor, setBorderColor] = useState('brand.200');
-  const [status, setStatus] = useState<OrderStatus>('Preparing');
+  const [preparingButtonColor, setPreparingButtonColor] = useState<
+    "brand.400" | "brand.200"
+  >("brand.200");
+  const [completedButtonColor, setCompletedButtonColor] = useState<
+    "brand.400" | "brand.200"
+  >("brand.400");
+  const [borderColor, setBorderColor] = useState("brand.200");
+  const [status, setStatus] = useState<OrderStatus>("Preparing");
   const navigate = useNavigate();
 
-  const { venueId } = useParams();
+  // const { venueId } = useParams();
 
   const handleButtonClick = (newStatus: OrderStatus) => {
     setStatus(newStatus);
-    setPreparingButtonColor(newStatus === 'Preparing' ? 'brand.200' : 'brand.400');
-    setCompletedButtonColor(newStatus === 'Completed' ? 'brand.200' : 'brand.400');
-    setBorderColor(newStatus === 'Preparing' ? 'brand.200' : 'brand.400');
+    setPreparingButtonColor(
+      newStatus === "Preparing" ? "brand.200" : "brand.400"
+    );
+    setCompletedButtonColor(
+      newStatus === "Completed" ? "brand.200" : "brand.400"
+    );
+    setBorderColor(newStatus === "Preparing" ? "brand.200" : "brand.400");
   };
 
-  const { data: ongoingOrderDetails } = useQuery(['ongoingOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/showOngoingOrderDetails/${venueId}`);
-    console.log("Ongoing:" ,response.data);
-    return response.data;
-  });
+  const { data: ongoingOrderDetails } = useQuery(
+    ["ongoingOrderDetails"],
+    async () => {
+      const response = await Axios.get("/feature7/showOngoingOrderDetails");
+      return response.data;
+    },
+    {
+      enabled: status === "Preparing",
+    }
+  );
 
-  const { data: completedOrderDetails } = useQuery(['completedOrderDetails'], async () => {
-    const response = await Axios.get(`/feature7/showCompletedOrderDetails/${venueId}`);
-    return response.data;
-  });
+  const { data: completedOrderDetails } = useQuery(
+    ["completedOrderDetails"],
+    async () => {
+      const response = await Axios.get("/feature7/showCompletedOrderDetails");
+      return response.data;
+    },
+    {
+      enabled: status === "Completed",
+    }
+  );
+
+  const hasOngoingOrders =
+    ongoingOrderDetails && ongoingOrderDetails.length > 0;
+  const hasCompletedOrders =
+    completedOrderDetails && completedOrderDetails.length > 0;
 
   const renderCard = () => {
     switch (status) {
-      case 'Preparing':
+      case "Preparing":
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
-            {ongoingOrderDetails && ongoingOrderDetails.map((order: any) => (
-              <PreparedMenuCard 
-              key={order.orderDetailId} /* Use unique key */ 
-              id={order.menuId !== null ? order.menuId : order.setId}
-              foodName={order.menuId !== null ? order.menu?.name : order.set?.name}
-              description={order.additional_req}
-              price={order.unit_price}
-              imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
-            ))}
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+            {ongoingOrderDetails &&
+              ongoingOrderDetails.map((order: OrderProps) => (
+                <PreparedMenuCard
+                  key={order.orderDetailId} /* Use unique key */
+                  id={order.menuId !== null ? order.menuId : order.setId}
+                  foodName={
+                    order.menuId !== null ? order.menu?.name : order.set?.name
+                  }
+                  description={order.additional_req}
+                  price={order.unit_price}
+                  imageUrl={
+                    order.menuId !== null
+                      ? order.menu?.image
+                      : order.set?.image_url
+                  }
+                  amount={order.quantity}
+                />
+              ))}
+            {status === "Preparing" && (
+              <Box
+                position="fixed"
+                bottom="4"
+                width="109px"
+                height="29px"
+                textAlign="center"
+                borderRadius="5px"
+              >
+                <ButtonComponent
+                  width="160px"
+                  text="Order Again"
+                  onClick={() => {
+                    navigate("/venue/menu");
+                  }}
+                />
+              </Box>
+            )}
           </VStack>
         );
-      case 'Completed':
+      case "Completed":
         return (
-          <VStack mt={4} overflowY="auto" maxHeight="400px">
-            {completedOrderDetails && completedOrderDetails.map((order: any) => (
-              <CompleteCard 
-              key={order.orderDetailId} /* Use unique key */ 
-              id={order.menuId !== null ? order.menuId : order.setId}
-              foodName={order.menuId !== null ? order.menu?.name : order.set?.name}
-              description={order.additional_req}
-              price={order.unit_price}
-              imageUrl={order.imageUrl}
-              amount={order.quantity}
-              order={order} />
-            ))}
+          <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
+            {completedOrderDetails &&
+              completedOrderDetails.map((order: OrderProps) => (
+                <CompleteCard
+                  key={order.orderDetailId} /* Use unique key */
+                  id={order.menuId !== null ? order.menuId : order.setId}
+                  foodName={
+                    order.menuId !== null ? order.menu?.name : order.set?.name
+                  }
+                  description={order.additional_req}
+                  price={order.unit_price}
+                  imageUrl={
+                    order.menuId !== null
+                      ? order.menu?.image
+                      : order.set?.image_url
+                  }
+                  amount={order.quantity}
+                />
+              ))}
           </VStack>
         );
       default:
@@ -81,43 +154,48 @@ export const OrderStatusPage: React.FC = () => {
     <Flex direction="column" align="center" justify="center">
       <HStack spacing={4}>
         <RButton
-          text={'Preparing'}
+          text={"Preparing"}
           borderColor={borderColor}
-          textStyle={'body2'}
-          width={'110px'}
-          height={'32px'}
-          onClick={() => handleButtonClick('Preparing')}
+          textStyle={"body2"}
+          width={"110px"}
+          height={"32px"}
+          onClick={() => handleButtonClick("Preparing")}
           bgColor={preparingButtonColor}
         />
         <RButton
-          text={'Completed'}
+          text={"Completed"}
           borderColor={borderColor}
-          textStyle={'body2'}
-          width={'110px'}
-          height={'32px'}
-          onClick={() => handleButtonClick('Completed')}
+          textStyle={"body2"}
+          width={"110px"}
+          height={"32px"}
+          onClick={() => handleButtonClick("Completed")}
           bgColor={completedButtonColor}
         />
       </HStack>
-      <VStack mt={4} overflowY="auto" maxHeight="400px">
+      <VStack mt={4} overflowY="auto" maxHeight="calc(100vh - 100px)">
         {renderCard()}
       </VStack>
-      {status === 'Completed' && (
-         <Flex align="center" justify="center" >
-         <Box
-           position="fixed"
-           bottom="4"
-           left="32%"
-           width="109px"
-           height="29px"
-           textAlign="center"
-           borderRadius="5px">
-               
-           <ButtonComponent width={"160px"} text="View Receipt"
-           onClick={() => navigate("/venue/:venueId/receipt")} />
-            
-         </Box>
-         </Flex>
+
+      {status === "Completed" && (
+        <Center>
+          <Flex align="center" justify="center">
+            <Box
+              position="fixed"
+              bottom="4"
+              width="109px"
+              height="29px"
+              textAlign="center"
+              borderRadius="5px"
+            >
+              <ButtonComponent
+                width={"160px"}
+                text="View Receipt"
+                onClick={() => navigate("/venue/receipt")}
+                isDisabled={!hasOngoingOrders && !hasCompletedOrders}
+              />
+            </Box>
+          </Flex>
+        </Center>
       )}
     </Flex>
   );

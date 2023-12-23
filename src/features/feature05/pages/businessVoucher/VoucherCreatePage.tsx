@@ -5,28 +5,33 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Icon,
+  Image,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
-  Select,
   Stack,
+  Box,
+  Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { BiImageAdd } from "react-icons/bi";
+// import { BiImageAdd } from "react-icons/bi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { VoucherType } from "../../components/businessVoucherCom/VoucherType";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
+import { AiOutlineClose } from "react-icons/ai";
+import { BiImageAdd } from "react-icons/bi";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 interface VoucherType {
   voucherName: string;
   description: string;
-  target: string;
-  startDate: Date;
-  endDate: Date;
-  voucherImage: string;
+  startDate: string;
+  endDate: string;
+  //   voucherImage: File;
   limitation: number;
   voucherType: string;
   discountVoucher: DiscountVoucherType;
@@ -48,12 +53,11 @@ export const VoucherCreatePage = () => {
   const [voucher, setVoucher] = useState<VoucherType>({
     voucherName: "",
     description: "",
-    voucherImage: "",
-    target: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    //     voucherImage: null,
+    startDate: "",
+    endDate: "",
     limitation: 0,
-    voucherType: "",
+    voucherType: "Discount",
     discountVoucher: {
       fixDiscount: 0,
       percentage: 0,
@@ -64,11 +68,101 @@ export const VoucherCreatePage = () => {
       minimum: 0,
     },
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const { onClose } = useDisclosure();
+  const toast = useCustomToast();
+
+  const handleCloseImage = () => {
+    setImagePreview(null);
+  };
+
+  useEffect(() => {
+    // try {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const navigate = useNavigate();
-  const handleClickSubmit = () => {
-    navigate("/voucher");
+  console.log(voucher.voucherType);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+      setImage(e.target.files[0]);
+    }
   };
+
+  const handleClickSubmit = async () => {
+    if (
+      voucher.voucherName == "" ||
+      voucher.description == "" ||
+      //  voucher.voucherImage == "" ||
+      voucher.startDate == "" ||
+      voucher.endDate == "" ||
+      voucher.limitation == 0 ||
+      (voucher.voucherType == "Discount" &&
+        (voucher.discountVoucher.fixDiscount == 0 ||
+          voucher.discountVoucher.minimum == 0 ||
+          voucher.discountVoucher.percentage == 0)) ||
+      (voucher.voucherType == "Gift" && voucher.giftVoucher.minimum == 0) ||
+      image == null
+    ) {
+      toast.warning("Please fill all the fields");
+      onClose();
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("voucherName", voucher.voucherName);
+      formData.append("description", voucher.description);
+      //  formData.append("voucherImage", voucher.voucherImage);
+      formData.append("start_date", voucher.startDate.toString());
+      formData.append("end_date", voucher.endDate.toString());
+      formData.append("limitation", voucher.limitation.toString());
+      formData.append("voucherType", voucher.voucherType);
+      //  formData.append(
+      //    "discountVoucher",
+      //    JSON.stringify(voucher.discountVoucher)
+      //  );
+      //  formData.append("giftVoucher", JSON.stringify(voucher.giftVoucher));
+
+      formData.append(
+        "minimum_spend",
+        voucher.discountVoucher.minimum.toString()
+      );
+      formData.append(
+        "percent_discount",
+        voucher.discountVoucher.percentage.toString()
+      );
+      formData.append(
+        "fix_discount",
+        voucher.discountVoucher.fixDiscount.toString()
+      );
+      formData.append(
+        "minimum_spend_gift",
+        voucher.giftVoucher.minimum.toString()
+      );
+      //  formData.append("discount_price", voucher..toString());
+      if (image) {
+        formData.append("file", image);
+      }
+      const response = await Axios.post(`feature5/Voucher`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data); // Log the response data
+      navigate("/business/voucher");
+    } catch (err) {
+      console.error("Error submitting promotion:", err);
+    }
+  };
+  console.log(voucher);
 
   const handleTypeChange = (tab: string) => {
     setVoucher((prevVoucher) => ({
@@ -76,15 +170,16 @@ export const VoucherCreatePage = () => {
       voucherType: tab,
     }));
   };
-
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
+
     if (name.startsWith("discountVoucher.")) {
       const typeField = name.split(".")[1];
+
       setVoucher((prevVoucher) => ({
         ...prevVoucher,
         discountVoucher: {
@@ -92,14 +187,22 @@ export const VoucherCreatePage = () => {
           [typeField]: value,
         },
       }));
+      // your existing code for discountVoucher and giftVoucher
     } else if (name.startsWith("giftVoucher.")) {
       const typeField = name.split(".")[1];
+
       setVoucher((prevVoucher) => ({
         ...prevVoucher,
         giftVoucher: {
           ...prevVoucher.giftVoucher,
           [typeField]: value,
         },
+      }));
+    } else if (name === "startDate" || name === "endDate") {
+      const dateValue = new Date(value);
+      setVoucher((prevVoucher) => ({
+        ...prevVoucher,
+        [name]: dateValue.toISOString(),
       }));
     } else {
       setVoucher((prevVoucher) => ({
@@ -148,21 +251,7 @@ export const VoucherCreatePage = () => {
             isRequired
           />
         </FormControl>
-        <FormControl mb={"12px"}>
-          <FormLabel style={TextStyle.h2}>Target customer *</FormLabel>
-          <Select
-            name="target"
-            onChange={handleChange}
-            bg={"#390b74"}
-            border={"none"}
-          >
-            <option value="all">All</option>
-            <option value="regular">Regular customer</option>
-            <option value="silver">Silver customer</option>
-            <option value="gold">Gold customer</option>
-            <option value="diamond">Diamond customer</option>
-          </Select>
-        </FormControl>
+
         <Stack direction={"row"} mb={"10px"}>
           <FormControl overflow={"hidden"}>
             <FormLabel style={TextStyle.h2}>Start Date *</FormLabel>
@@ -224,22 +313,101 @@ export const VoucherCreatePage = () => {
             />
           </InputGroup>
         </FormControl>
-        <FormControl mb={"20px"}>
-          <FormLabel style={TextStyle.h2}>Upload image *</FormLabel>
-          <Center bg={"#390b74"} h={"100px"} borderRadius={"md"}>
-            <Input
-              pos={"absolute"}
-              type={"file"}
-              w={"100%"}
-              h={"100%"}
-              opacity={"0"}
-            />
-            <Icon as={BiImageAdd} h={"40px"} w={"auto"} />
-          </Center>
-        </FormControl>
+
+        {imagePreview ? (
+          <FormControl
+            width="50%"
+            minWidth="250px"
+            maxWidth="400px"
+            display="flex"
+            flexDirection={"column"}
+            paddingBottom={3}
+          >
+            <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
+            {/* <Center bg={"#390b74"} h={"100px"} borderRadius={"md"}>
+						<Input
+							pos={"absolute"}
+							type={"file"}
+							w={"100%"}
+							h={"100%"}
+							opacity={"0"}
+						/>
+						<Icon as={BiImageAdd} h={"40px"} w={"auto"} />
+					</Center> */}
+
+            <Box
+              position={"relative"}
+              overflow={"hidden"}
+              width={"100%"}
+              minWidth={"250px"}
+              maxWidth={"400px"}
+              height={"auto"}
+              alignSelf={"center"}
+            >
+              <IconButton
+                aria-label="close"
+                minWidth={"15px"}
+                height={"15px"}
+                position={"absolute"}
+                top={0}
+                right={0}
+                as={AiOutlineClose}
+                onClick={handleCloseImage}
+              ></IconButton>
+              <Image
+                //  src={imagePreview}
+                src={imagePreview}
+                alt={"image"}
+                width={"100%"}
+              ></Image>
+            </Box>
+          </FormControl>
+        ) : (
+          <FormControl
+            isRequired
+            width="100%"
+            minWidth="250px"
+            maxWidth="400px"
+            display="flex"
+            flexDirection={"column"}
+            paddingBottom={3}
+          >
+            <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+              {" "}
+              Upload image
+            </FormLabel>
+            <Stack spacing={2} direction="column">
+              {}
+              <Center
+                width={"auto"}
+                height={"100"}
+                bg={"#5F0DBB"}
+                borderRadius={5}
+                cursor={"pointer"}
+              >
+                <Input
+                  onChange={handleFileChange}
+                  type="file"
+                  opacity={0}
+                  height={"100%"}
+                  w={"100%"}
+                  pos={"absolute"}
+                ></Input>
+                <Icon
+                  as={BiImageAdd}
+                  color={"#FFFFFF"}
+                  width={"auto"}
+                  height={"8"}
+                ></Icon>
+              </Center>
+            </Stack>
+          </FormControl>
+        )}
+
         <VoucherType
           handleChange={handleChange}
           handleTypeChange={handleTypeChange}
+          voucher={voucher}
         />
         <Center>
           <Button

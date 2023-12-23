@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Box, Image, Text, Flex,useMediaQuery  } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import map1 from '../assets/img/map1.png';
-import axios from 'axios';
+import {Axios} from '../../../AxiosInstance';
 
 interface Movie {
   title: string;
@@ -22,7 +22,7 @@ export const CinemaMain = () => {
   const [soonMovies, setSoonMovies] = useState<Movie[]>([]);
   const [isDesktop] = useMediaQuery('(min-width: 768px)');
 
-  const handleClick = (index) => {
+  const handleClick = (index: any) => {
     setActiveButton(index);
   };
 
@@ -30,9 +30,9 @@ export const CinemaMain = () => {
 
   const fetchMovies = async (url: string, setState: React.Dispatch<React.SetStateAction<Movie[]>>) => {
     try {
-      const response = await axios.get(url);
+      const response = await Axios.get(url);
       setState(
-        response.data.map((film) => ({
+        response.data.map((film: any) => ({
           title: film.name,
           imageUrl: film.poster_img, // Adjust the property name based on your Prisma model
           id: film.filmId, // Adjust the property name based on your Prisma model
@@ -44,11 +44,11 @@ export const CinemaMain = () => {
   };
 
   useEffect(() => {
-    fetchMovies('http://localhost:8080/feature10/getNowshowingFilms', setNowShowingMovies);
+    fetchMovies('/feature10/getNowshowingFilms', setNowShowingMovies);
   }, []);
 
   useEffect(() => {
-    fetchMovies('http://localhost:8080/feature10/getUpcomingFilms', setSoonMovies);
+    fetchMovies('/feature10/getUpcomingFilms', setSoonMovies);
   }, []);
 
   return (

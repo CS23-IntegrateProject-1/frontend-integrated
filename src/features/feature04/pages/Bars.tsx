@@ -1,112 +1,162 @@
-import {
-    Box,
-    Text,
-    SimpleGrid
-  } from "@chakra-ui/react";
-  import PlaceTypes from "../components/PlaceTypes";
-  import React, { useEffect, useState } from "react";
-  import Cards from "../components/Card";
-  import Header from "../components/Header";
-  import index from "../../../theme/foundations/index";
-  import SavedLocationCard from "../components/SavedLocationCard";
-  import RecommendLocation from "../components/RecommendLocation";
-import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+import { useEffect, useState } from "react";
+import { Box, Text, SimpleGrid,HStack } from "@chakra-ui/react";
+import PlaceTypes from "../components/PlaceTypes";
+import Cards from "../components/Card";
 import SearchBar from "../components/Search";
-  
+import GoogleMapComponent from "../components/Maps/GoogleMapComponent";
+import Header from "../components/Header";
+import RecommendLocation from "../components/RecommendLocation";
+import index from "../../../theme/foundations/index";
+import { Axios } from "../../../AxiosInstance";
+
+
 interface LocationData {
   id: string;
   image: string;
   name: string;
-  description: string;
+  address: string;
   distance: number;
   // Add other properties as needed
 }
 
-  export const Bars = () => {
-    const [savedData, setSavedData] = useState<LocationData[] | null>(null);
-    const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
+interface LocMap{
+  address : string;
+  latitude : number; 
+  locationId : number;
+  longtitude : number;
+  name: string;
+}
+
+interface RegisteredData{
+  name: string;
+  description: string;
+  category: string;
+  capacity: number;
+  score: number;
+  website_url: string;
+  venueId: number;
+}
+
+export const Bars = () => {
+  const [savedData, setSavedData] = useState<LocationData[] | null>(null);
+  const [filteredData, setFilteredData] = useState<LocationData[] | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  searchTerm;
+  const [registered1, setRegistered1] = useState<RegisteredData[] | null>(null);
+  const [locations1, setLocations1] = useState<LocMap[] | null>(null);
+
+  const fetchRestaurantData = async () => {
+    try {
+      const response = await Axios.get("/feature4/bars");
+      const barsData: RegisteredData[] = response.data.bars;
+
+      // Extract venueId from each item and set it in registered1
+      const formattedBarsData: RegisteredData[] = barsData.map((item) => {
+        return {
+          name: item.name,
+          description: item.description,
+          category: item.category,
+          capacity: item.capacity,
+          score: item.score, // Assuming you want to convert score to a number
+          website_url: item.website_url,
+          venueId: item.venueId, // Set venueId
+        };
+      });
+
+      setRegistered1(formattedBarsData);
+      console.log("Registered Data Response:", formattedBarsData);
+      setLocations1(response.data.bars.map((item:any) => item.Location));
+      
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("hello")
+    console.log("Updated locations:", locations1);
+    console.log("hello1")
+  }, [locations1]); // This effect will run whenever locations change
+
+  useEffect(() => {
+    fetchRestaurantData();
+  }, []);
   
-    // Retrieve data from localStorage on component mount
-    useEffect(() => {
+  // Retrieve data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("nearbyPositions");
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+    setSavedData(parsedData);
+    setFilteredData(parsedData);
+  }, []);
+
+  // Listen for changes in localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
       const storedData = localStorage.getItem("nearbyPositions");
       const parsedData = storedData ? JSON.parse(storedData) : null;
       setSavedData(parsedData);
       setFilteredData(parsedData);
-    }, []);
-  
-    // Listen for changes in localStorage
-    useEffect(() => {
-      const handleStorageChange = () => {
-        const storedData = localStorage.getItem("nearbyPositions");
-        const parsedData = storedData ? JSON.parse(storedData) : null;
-        setSavedData(parsedData);
-        setFilteredData(parsedData);
-      };
-  
-      window.addEventListener("storage", handleStorageChange);
-  
-      return () => {
-        window.removeEventListener("storage", handleStorageChange);
-      };
-    }, []); // Empty dependency array means this effect will run once on mount and clean up on unmount
-  
-    const handleSearch = (term: string) => {
-      setSearchTerm(term);
-  
-      // Filter the data based on the search term
-      const filtered =
-        savedData?.filter((location) =>
-          location.name.toLowerCase().includes(term.toLowerCase())
-        ) || null;
-      setFilteredData(filtered);
     };
 
-    
-    return (
-      <Box>
-        <Header />
-        <Text
-          fontSize={index.textStyles.h1.fontSize}
-          fontWeight={index.textStyles.h1.fontWeight}
-          color={index.colors.white}
-          m={2}
-        >
-          Recommended Locations
-        </Text>
-        <Box
-    display="flex"
-    overflowX="auto"
-    whiteSpace="nowrap"
-    paddingRight={4}
-    maxWidth="1500px"
-  >
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-          <RecommendLocation
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WVAS29MBwowjBkkTA234c8Wmirp_2Dn0JO0oPhtibBew-6Rq"
-            name="ABCC"
-            description="lorem"
-          />
-        </Box>
-  
-        <br/>
-        <PlaceTypes />
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []); // Empty dependency array means this effect will run once on mount and clean up on unmount
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    console.log(searchTerm);
+
+    // Filter the data based on the search term
+    const filtered =
+      savedData?.filter((location) =>
+        location.name.toLowerCase().includes(term.toLowerCase())
+      ) || null;
+    setFilteredData(filtered);
+  };
+
+  return (
+    <Box >
+      <Header />
+      <Text
+        fontSize={index.textStyles.h1.fontSize}
+        fontWeight={index.textStyles.h1.fontWeight}
+        color={index.colors.white}
+        m={2}
+      >
+        Recommended Locations
+      </Text>
+      <Box
+        display="flex"
+        overflowX="auto"
+        whiteSpace="nowrap"
+        paddingRight={10}
+      >
+        {/* Render RecommendLocation com  onents based on registeredData */}
+        <HStack spacing={2} overflowX="auto">
+          {registered1 &&
+            registered1.map((location) => (
+              <RecommendLocation
+                key={location.name}
+                name={location.name}
+                description={location.description}
+                category={location.category}
+                capacity={location.capacity}
+                score={location.score}
+                website_url={location.website_url}
+                venueId={location.venueId}
+              />
+            ))}
+        </HStack>
+       
+      </Box>
+      <br />
+      <PlaceTypes />
       <Box mt={4}>
-        <GoogleMapComponent type="restaurant" />
+        <GoogleMapComponent type="bar" locMap ={locations1} />
       </Box>
       <Box mt={4}>
         {/* Use the SearchBar component with the onSearch prop */}
@@ -122,13 +172,14 @@ interface LocationData {
                 key={location.id}
                 image={location.image}
                 name={location.name}
-                description={location.description}
+                address={location.address}
                 distance={location.distance}
               />
             ))}
         </SimpleGrid>
       </Box>
-      </Box>
-    );
-  };
-  
+    </Box>
+  );
+};
+
+export default Bars;

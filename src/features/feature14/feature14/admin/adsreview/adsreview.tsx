@@ -4,7 +4,6 @@ import {
   Center,
   ChakraProvider,
   CSSReset,
-  extendTheme,
   Modal,
   ModalOverlay,
   ModalContent,

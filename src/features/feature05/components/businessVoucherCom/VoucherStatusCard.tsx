@@ -1,14 +1,28 @@
+1
 import { Box, Icon, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import IVoucher_Business from "../../../../interfaces/Voucher/IVoucher_Business.interface";
 
-export const VoucherStatusCard: FC = () => {
-  const navigate = useNavigate();
-  const handleClickEdit = () => {
-    navigate("/voucher/edit/:id");
-  };
-  return (
+export const VoucherStatusCard: FC<{
+	data: IVoucher_Business;
+}> = ({ data }) => {
+	const navigate = useNavigate();
+	//const voucherId = data.voucherId;
+
+	const handleClickEdit = () => {
+		navigate(`/business/voucher/edit/${data.voucherId}`);
+	};
+	const status = data.isApprove;
+	const img = data.voucher_image;
+	const color =
+		status === "Rejected"
+			? "red"
+			: status === "In_progress"
+			? "blue"
+			: "green";
+	return (
     <Box
       display={"flex"}
       flexDirection={"column"}
@@ -26,24 +40,26 @@ export const VoucherStatusCard: FC = () => {
       >
         <Image
           objectFit={"cover"}
-          src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-food-voucher-template-design-3f760e8c846b211d1f48bbbdc1364386_screen.jpg?ts=1588142046"
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
         />
         <Box
           pos={"absolute"}
-          bg={"red"}
+          bg={color}
           bottom={2}
           right={2}
           borderRadius={10}
           px={"10px"}
         >
-          Reject
+          {status}
         </Box>
         <Box pos={"absolute"} top={2} right={1} borderRadius={10} px={"10px"}>
-          <Icon
-            as={FaRegEdit}
-            color={"#5F0DBB"}
-            onClick={handleClickEdit}
-          ></Icon>
+          {status === "Rejected" && (
+            <Icon
+              as={FaRegEdit}
+              color={"#5F0DBB"}
+              onClick={handleClickEdit}
+            ></Icon>
+          )}
         </Box>
       </Box>
     </Box>

@@ -1,25 +1,25 @@
-import { BarsPage } from "./pages/homePage/BarsPage";
-import { ClubsPage } from "./pages/homePage/ClubsPage";
 import { HomePage } from "./pages/homePage/HomePage";
-import { PromotionsPage } from "./pages/homePage/PromotionsPage";
 import { RecommendedPlacesPage } from "./pages/homePage/RecommendedPlacesPage";
-import { RestaurantPage } from "./pages/homePage/RestaurantPage";
+import { VenuePage } from "./pages/homePage/VenuePage";
 import { ReviewPage } from "./pages/homePage/ReviewPage";
-import { Temp_ResturantDetail } from "./pages/homePage/Temp_ResturantDetail";
+import { VenueDetail } from "./pages/homePage/VenueDetail";
+import { VenueBranches } from "./pages/homePage/VenueBranches";
+import { ReviewDelivery } from "./pages/homePage/ReviewDelivery"
+import { ReviewReservation } from "./pages/homePage/ReviewReservation"
+import { MyReviews } from "./pages/homePage/MyReviewPage"
 
 export const Feature03Routes = () => {
   return [
     { path: "/", element: <HomePage /> },
-    { path: "/Reviews", element: <ReviewPage /> },
-    { path: "/Restaurants", element: <RestaurantPage /> },
-    { path: "/Clubs", element: <ClubsPage /> },
-    { path: "/Bars", element: <BarsPage /> },
+    { path: "/Venues", element: <VenuePage /> },
     { path: "/RecommendedPlaces", element: <RecommendedPlacesPage /> },
-    { path: "/Promotions", element: <PromotionsPage /> },
 
-    { path: "/Temp_RestaurantDetail", element: <Temp_ResturantDetail /> },
+    { path: "/Branches/:venueId", element: <VenueBranches /> },
+    { path: "/VenueDetail/:branchId", element: <VenueDetail /> },
 
-    { path: "/venue-list", element: "ElementPlaceHolder" },
-    { path: "/venue-list/:venueId", element: "ElementPlaceHolder" },
+    { path: "/Reviews/:branchId", element: <ReviewPage /> },
+    { path: "/ReviewDelivery/:branchId", element: <ReviewDelivery /> },
+    { path: "/ReviewReservation/:branchId", element: <ReviewReservation /> },
+    { path: "/MyReviews", element: <MyReviews /> }
   ];
 };

@@ -1,9 +1,8 @@
+import { useState } from "react";
 import {
   Box,
   Text,
-  InputGroup,
   Input,
-  InputLeftElement,
   Flex,
   Button,
   useDisclosure,
@@ -15,70 +14,103 @@ import {
   ModalCloseButton,
   Divider,
   Stack,
+  Icon,
 } from "@chakra-ui/react";
 import SavedLocationCard from "../components/SavedLocationCard";
 import Header from "../components/Header";
-import { color } from "framer-motion";
 import textStyles from "../../../theme/foundations/textStyles";
 import colors from "../../../theme/foundations/colors";
+import { Axios } from "../../../AxiosInstance";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+
+// Define interface for the saved location item
+interface SavedLocationItem {
+  userId:number;
+  name:string;
+  createdAt:Date;
+  address: string;
+  province: string;
+  district: string;
+  sub_district: string;
+  postcode: string;
+  savedLocId: number;
+}
+
+interface SavedLocationInterface{
+  message: string;
+  location: SavedLocationItem[];
+}
+
+// const queryClient = new QueryClient(); // Create a new instance of QueryClient
+
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const savedLocationData = [
-    {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
+  // const [userId, setUserId] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [district, setDistrict] = useState("");
+  const [subdistrict, setSubdistrict] = useState("");
+  const [postcode, setPostcode] = useState("");
+  const { data: savedData, isLoading, isError } = useQuery<SavedLocationInterface>({
+    queryKey: ["savedData"], 
+    queryFn: async () => {
+      const result = await Axios.get("/feature4/saved-location");
+      return result.data;
     },
-    {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
-    },
-    {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
-    },
-    {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
-    },
-    {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
-    }, {
-      address: "Lorem ipsum dolor sit amet consectetur",
-      city: "Lorem ipsum dolor",
-    },
-  ];
+  });
 
-  const savedLocation = savedLocationData.map((savedplace, index) => (
-    <SavedLocationCard
-      key={index}
-      address={savedplace.address}
-      city={savedplace.city}
-    />
-  ));
-  const PinIcon: React.FC<{ fillColor: string }> = (props) => {
-    return (
-      <svg
-        width="30"
-        height="30"
-        viewBox="0 0 19 17"
-        fill={colors.brand[100]}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6 0C2.68286 0 0 2.504 0 5.6C0 9.8 6 16 6 16C6 16 12 9.8 12 5.6C12 2.504 9.31714 0 6 0ZM6 7.6C5.43168 7.6 4.88663 7.38929 4.48477 7.01421C4.08291 6.63914 3.85714 6.13043 3.85714 5.6C3.85714 5.06957 4.08291 4.56086 4.48477 4.18579C4.88663 3.81071 5.43168 3.6 6 3.6C6.56832 3.6 7.11337 3.81071 7.51523 4.18579C7.91709 4.56086 8.14286 5.06957 8.14286 5.6C8.14286 6.13043 7.91709 6.63914 7.51523 7.01421C7.11337 7.38929 6.56832 7.6 6 7.6Z"
-          fill={props.fillColor}
-        />
-      </svg>
-    );
+  if (isLoading){
+    return <></>
+  }
+  if(isError){
+    return <></>
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        // userId,
+        name,
+        address,
+        province,
+        district,
+        subdistrict,
+        postcode,
+      };
+      const response  = await Axios.post('/feature4/saved-location',payload);
+      console.log(response.data);
+  
+      // After creating a new location, refetch the data to update the UI
+      // queryClient.invalidateQueries('savedData');
+      onClose(); // Close the modal after successfully creating a new address
+    } catch (error) {
+      console.error('Error saving location:', error);
+      onClose(); 
+    }
   };
+
+  console.log(savedData);
+  
   return (
     <Box>
       <Header />
 
       <Flex flexDir={"column"} alignItems="center">
         <Flex flexWrap="wrap" justifyContent="center" maxW="800px">
-          {savedLocation}
+
+          {savedData.location.map((location,index) => (
+            <SavedLocationCard key={index} 
+            savedLocId={location.savedLocId} 
+            name={location.name} 
+            address={location.address}
+            province={location.province}
+            district={location.district}
+            sub_district={location.sub_district}
+            postcode={location.postcode}
+            /> 
+          ))}
         </Flex>
       </Flex>
 
@@ -105,8 +137,8 @@ export const SavedLocation = () => {
             <Divider borderColor={colors.brand[200]} />
             <ModalBody>
               <Flex flexDir={"row"}>
-                <PinIcon fillColor={colors.brand[100]} />
-                ...
+                <Icon as={FaMapMarkerAlt} height={6} width={6}/>
+                Please fill in the information below
               </Flex>
               <br />
               <Text
@@ -117,11 +149,41 @@ export const SavedLocation = () => {
                 Address Information
               </Text>
               <Stack spacing={3} mt={2}>
-                <Input variant="outline" placeholder="Address" />
-                <Input variant="outline" placeholder="Province" />
-                <Input variant="outline" placeholder="District" />
-                <Input variant="outline" placeholder="Subdistrict" />
-                <Input variant="outline" placeholder="Postcode" />
+              {/* <Input
+                  variant="outline"
+                  placeholder="UserID"
+                  onChange={(e) => setUserId(e.target.value)}
+                /> */}
+                <Input
+                  variant="outline"
+                  placeholder="Name (eg. Home, Office)"
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Address"
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Province"
+                  onChange={(e) => setProvince(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="District"
+                  onChange={(e) => setDistrict(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Subdistrict"
+                  onChange={(e) => setSubdistrict(e.target.value)}
+                />
+                <Input
+                  variant="outline"
+                  placeholder="Postcode"
+                  onChange={(e) => setPostcode(e.target.value)}
+                />
               </Stack>
             </ModalBody>
             <Divider borderColor={colors.brand[200]} />
@@ -135,6 +197,7 @@ export const SavedLocation = () => {
                 pr={10}
                 height={"50px"}
                 width={"300px"}
+                onClick={handleSubmit}
               >
                 Save and Continue
               </Button>

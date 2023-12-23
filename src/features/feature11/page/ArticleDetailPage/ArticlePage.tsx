@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Image,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -16,43 +17,30 @@ import { ArticleFooter } from "./ArticleFooter";
 import { CommentModal } from "./CommentModal";
 import { Axios } from "../../../../AxiosInstance";
 import { useParams } from "react-router-dom";
-import { ArticlePageProps } from "./ArticleTypes";
 import { ShareModal } from "../../components/ShareModal";
+import { fetchArticle } from "../../../../api/feature11/fetchArticle";
+import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
+import PhotoDisplayer from "../../components/PhotoDisplayer";
 
 export const ArticlePage = () => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const commentDisclosure = useDisclosure();
   const shareDisclosure = useDisclosure();
-  const { articleId } = useParams();
+  const { articleId } = useParams<{ articleId: string }>();
   const queryClient = useQueryClient();
-
-  const fetchArticle = async (): Promise<ArticlePageProps> => {
-    // const response: AxiosResponse<User[]> = await Axios.get("/users");
-    // return response.data;
-    try {
-      const article = await Axios.get(
-        `/feature11/fetchArticleDetail/${articleId}`
-      );
-      return article.data;
-      // return mockArticle;
-    } catch (error) {
-      console.error("Error fetching article:", error);
-      throw new Error("Failed to fetch article");
-    }
-  };
-
-  // const result = useQuery(fetchArticle);
-  const article = useQuery({ queryKey: ["article"], queryFn: fetchArticle });
-  if (article.status == "loading") {
-    return <span>Loading...</span>;
+  const article = useQuery({
+    queryKey: ["article"],
+    queryFn: () => fetchArticle(articleId ?? ""),
+  });
+  if (article.status === "loading") {
+    return <FullPageLoader />;
   }
 
   if (article.error instanceof Error) {
     return <div>An error occurred: {article.error.message}</div>;
   }
-
+  console.log(article.data);
   const handleDeleteLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
+    event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.delete(`/feature11/deleteLike`, {
       data: { articleId: article.data?.articleId },
@@ -67,7 +55,7 @@ export const ArticlePage = () => {
   };
 
   const handleAddLike = (event: React.MouseEvent) => {
-    // event.preventDefault();
+    event.preventDefault();
     event.stopPropagation(); // Stop the click event from propagating
     Axios.post(`/feature11/addLike`, { articleId: article.data?.articleId })
       .then((res) => {
@@ -83,23 +71,31 @@ export const ArticlePage = () => {
     shareDisclosure.onOpen();
   };
   return (
-    <Box>
+    <Box
+    // display={"flex"} flexDir={"column"} alignItems={"space-between"} h={"calc(100vh - 100px)"}
+    >
       {article.data?.topic}
       <Heading mb={"0.5em"} style={TextStyle.h1}></Heading>
       <Box display={"flex"} mb={"1em"}>
-        <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box>
+        {/* <Box width={"45px"} height={"45px"} mr={"1em"} bg={"red"}></Box> */}
+        <Image
+          width={"45px"}
+          height={"45px"}
+          mr={"1em"}
+          src={
+            import.meta.env.BACKEND_URL + article.data?.User.profile_picture ||
+            ""
+          }
+        />
         <Box>
-          <Text style={TextStyle.h3}>{article.data?.author_name}</Text>
+          <Text style={TextStyle.h3}>{article.data?.User.username}</Text>
           <Text style={TextStyle.body3}>{article.data?.created_date}</Text>
         </Box>
       </Box>
-      <Box
-        display={"flex"}
-        minH={"200px"}
-        minW={"250px"}
-        mb={"1em"}
-        bg={"red"}
-      ></Box>
+      <Box>
+        <PhotoDisplayer images={article.data?.Images || []} />
+      </Box>
+
       <Box minH={"80px"} mb={"2em"}>
         <Text style={TextStyle.body2}>{article.data?.content}</Text>
       </Box>
@@ -159,7 +155,10 @@ export const ArticlePage = () => {
             h={"20px"}
           ></Icon> */}
       </Flex>
-      <ArticleFooter author_name={article.data?.author_name || ""} />
+      <ArticleFooter
+        author_name={article.data?.author_name || ""}
+        Article_tags={article.data?.Article_tags || []}
+      />
       <CommentModal
         isOpen={commentDisclosure.isOpen}
         onClose={commentDisclosure.onClose}

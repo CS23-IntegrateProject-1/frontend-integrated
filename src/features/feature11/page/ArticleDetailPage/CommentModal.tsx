@@ -3,20 +3,20 @@ import {
   CloseButton,
   Flex,
   Heading,
-  IconButton,
   Modal,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { CommentInput } from "./CommentInput";
 import { CommentItem } from "./CommentItem";
-import { ArticleComment } from "./ArticleTypes";
 import { useParams } from "react-router-dom";
 import { Axios } from "../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
+import { formatDate1 } from "../../../../functions/formatDatetime";
+import { CustomLoader } from "../../../../components/Loader/CustomLoader";
+import { ArticleComment } from "../../../../interfaces/feature11/CommentType";
 
 interface ModalComponentProps {
   isOpen: boolean;
@@ -32,12 +32,13 @@ export const CommentModal: FC<ModalComponentProps> = ({
   const { articleId } = useParams();
   const fetchComments = async (): Promise<ArticleComment[]> => {
     try {
-      console.log(articleId);
       const comments = await Axios.get(
         `/feature11/fetchArticleComment/${articleId}`
       );
+      comments.data.forEach((comment: ArticleComment) => {
+        comment.create_date = formatDate1(comment.create_date);
+      });
       return comments.data;
-      // return mockArticle;
     } catch (error) {
       console.error("Error fetching comments:", error);
       throw new Error("Failed to fetch article");
@@ -45,8 +46,9 @@ export const CommentModal: FC<ModalComponentProps> = ({
   };
   const comments = useQuery({ queryKey: ["comments"], queryFn: fetchComments });
   if (comments.status == "loading") {
-    return <span>Loading...</span>;
+    return <CustomLoader />;
   }
+  console.log(comments.data)
 
   if (comments.error instanceof Error) {
     return <div>An error occurred: {comments.error.message}</div>;
