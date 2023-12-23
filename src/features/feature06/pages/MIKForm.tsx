@@ -109,7 +109,6 @@ export const MIKForm = () => {
         venueId: venueIdInt,
         branchId: branchIdInt,
       });
-      console.log("create reservation successfully");
       console.log(response);
       navigate("/my-reservation");
     } catch (err: any) {

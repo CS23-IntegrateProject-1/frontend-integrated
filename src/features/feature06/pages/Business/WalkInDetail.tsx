@@ -81,7 +81,6 @@ export const WalkInDetail = () => {
         name: name
       });
       console.log(response);
-      console.log("create reservation successfully");
       navigate("/business/reservation");
     } catch (err: any) {
       toast.error(err.response.data.error);

@@ -37,12 +37,6 @@ export const CreateTable2 = () => {
       if(filesSelection){
         formData.append('file', filesSelection);
       }
-
-		console.log("venueIdInt", venueIdInt);
-		console.log("capacity", capacity);
-		console.log("detail", detail);
-		console.log("name", name);
-		console.log("image_url", image_url);
 		const capacityNumber = parseInt(capacity, 10);
       // const upload = await Axios.post('/feature6/uploadTableTypeImage')
       const response: create2 = await Axios.post(`/feature6/createTableType`, {
@@ -53,7 +47,6 @@ export const CreateTable2 = () => {
         image_url: `/upload/${filesSelection?.name}`,
       });
       console.log(response);
-      console.log("create table Type success");
       navigate("/business/createTable1");
     } catch (err) {
       console.log(err);
@@ -126,7 +119,3 @@ export const CreateTable2 = () => {
     </Box>
   );
 };
-// function dataURItoBlob(image_url: string) {
-//   throw new Error("Function not implemented.");
-// }
-

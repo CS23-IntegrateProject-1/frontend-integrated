@@ -65,7 +65,6 @@ export const ReservationDetail = () => {
 
   const fetchData = async () => {
     const response: IData = await getVenueById(venueIdInt,branchIdInt);
-    console.log(response);
     setData(response);
   };
 
@@ -102,11 +101,6 @@ export const ReservationDetail = () => {
         name: name,
         phone_num: phonenumber,
       });
-      console.log("create reservation successfully");
-      console.log(response);
-      console.log(response.data.newReservation.userId);
-      console.log(response.data.newReservation.venueId);
-      console.log(response);
 
       const originalPath = `/reservation-detail/venue/paymentD/${response.data.newReservation.reservationId}}`;
       const newPath = originalPath.replace("/reservation-detail", "");
