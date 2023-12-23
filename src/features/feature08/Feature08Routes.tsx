@@ -44,7 +44,7 @@ export const Feature08Routes = () => {
 		
 		
 		{ path: "/deposit-success", element: <DepositSuccess /> },
-		{ path: "/onlineorder-success", element: <OnlineOrderSuccess />},
+		{ path: "/onlineorder-success/:onlineOrderId/:sessionId", element: <OnlineOrderSuccess />},
 		{ path: "/onlineorder-cancel", element: <OnlineOrderCancel />},
 		
     { path: "/seat-cancel", element: <SeatCancel /> },
