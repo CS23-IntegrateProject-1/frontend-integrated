@@ -46,6 +46,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
   const { reservationId } = useParams();
+  
 
   const redirectToDeposit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -102,6 +103,8 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   //       // body: JSON.stringify(formData),
   //     });
   // };
+
+ 
 
   useEffect(() => {
     const fetchData = async () => {

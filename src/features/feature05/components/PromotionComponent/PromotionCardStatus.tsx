@@ -42,7 +42,7 @@ export const PromotionStatusCard: FC<PromotionStatusCardProps> = ({ data }) => {
           w={"320px"}
           h={"129px"}
           objectFit={"cover"}
-          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}` || ""}
         />
         <Box
           pos={"absolute"}

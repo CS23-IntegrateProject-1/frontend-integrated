@@ -27,6 +27,8 @@ import {
 } from "@chakra-ui/react";
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
+import { useNavigate } from "react-router-dom";
+
 
 interface RecommendLocationCard {
     name: string;
@@ -35,6 +37,7 @@ interface RecommendLocationCard {
     capacity: number;
     score: number;
     website_url: string;
+    venueId?: number;
 }
 
 // const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
@@ -89,10 +92,17 @@ const StarIcon: React.FC = () => {
   );
 };
 
+
+
 const RecommendLocation = (props: RecommendLocationCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription] = useState(false);
-  
+  // console.log(props);
+  const navigate = useNavigate();
+
+  const handleLocationClick = () => {
+    navigate(`/Branches/${props.venueId}`);
+  };
   // const [liked, setLiked] = useState(false);
 
   // const descriptionToShow = showFullDescription
@@ -274,8 +284,9 @@ const RecommendLocation = (props: RecommendLocationCard) => {
               _hover={{ bgColor: "brand.100", textColor: "black" }}
               width="100%" // Full width on all screens
               mb={2}
+              onClick={handleLocationClick}
             >
-                Reserve Now
+                Find Branch
               </Button>
             </ButtonGroup>
           </CardFooter>

@@ -1,14 +1,9 @@
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormLabel,
-  Icon,
-  Select,
-  Stack,
   Image,
-  IconButton,
   useDisclosure,
   Modal,
   ModalCloseButton,
@@ -16,60 +11,52 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  ModalBody,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
-// import { Axios } from "../../../../AxiosInstance";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Axios } from "../../../../AxiosInstance";
+import { useQuery } from "@tanstack/react-query";
+import { fetchRedeem } from "../../../../api/Redeem/GetRedeembyRedeemId";
 
-// interface AdvertisementProps {
-//   name: string;
-//   description: string;
-//   startingDate: Date | null;
-//   endingDate: Date | null;
-//   images: string;
-//   targetCustomer: string;
-//   targetGroup: string;
-//   advertisementPlan: number;
-// }
 export const RedeemEditPage = () => {
   const navigate = useNavigate();
+  const { redeemId } = useParams();
   const deleteModal = useDisclosure();
-  //   const submitModal = useDisclosure();
-  const handleClickDelete = () => {};
 
-  const [file, setFile] = useState<File | null>(null);
+
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [memberTier, setMemberTier] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  //   const [advertise, setAdvertise] = useState<AdvertisementProps>({
-  //     name: "",
-  //     description: "",
-  //     images: "",
-  //     startingDate: null,
-  //     endingDate: null,
-  //     targetCustomer: "",
-  //     targetGroup: "",
-  //     advertisementPlan: 0,
-  //   });
-  const handleClick = () => {
-    navigate("/business/redeem/status");
-  };
 
-  console.log(file);
+  const RedeemData = useQuery({
+    queryKey: ["redeem"],
+    queryFn: () => fetchRedeem(redeemId ?? ""),
+    onSuccess: (data) => {
+      // Set default values once the data is successfully fetched
+      setTitle(data.title);
+      console.log(title);
+      setDescription(data.description);
+      console.log(description);
+      setMemberTier(data.memberTier.toString());
+      console.log(memberTier);
+      setImagePreview(data.image_url);
+    },
+  });
+  console.log(RedeemData.data);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
+  const deleteRedeem = async () => {
+    try {
+      const result = await Axios.delete(`/feature5/DeleteRedeem/${redeemId}`);
+      console.log(result.data);
+      navigate("/business/redeem/status");
+    } catch (error) {
+      console.error("Error deleting advertisement:", error);
     }
   };
-  const handleCloseImage = () => {
-    setImagePreview(null);
-  };
+  
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -78,13 +65,19 @@ export const RedeemEditPage = () => {
     };
   }, [imagePreview]);
 
-  //   const handleSubmit = async () => {
-  //     try {
-  //       await Axios.post;
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  const getMemberTierText = () => {
+    if (memberTier == "1") {
+      return 'Regular';
+    } else if (memberTier == "2") {
+      return 'Silver';
+    } else if (memberTier == "3") {
+      return 'Gold';
+    }else if (memberTier == "4") {
+      return 'Platinum';
+
+    }
+  };
+
 
   return (
     <Box
@@ -115,6 +108,7 @@ export const RedeemEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
+          value={title}
         />
       </FormControl>
 
@@ -139,53 +133,8 @@ export const RedeemEditPage = () => {
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
+          value={description}
         />
-      </FormControl>
-
-      {/* Points * */}
-      <FormControl
-        isRequired
-        paddingBottom={3}
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Points
-        </FormLabel>
-        <Input
-          variant="name"
-          style={{ width: "auto" }}
-          color={"white"}
-          bgColor={"#5F0DBB"}
-          borderColor={"#5F0DBB"}
-          type="text"
-        />
-      </FormControl>
-
-      {/* Voucher */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Voucher
-        </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">10%</option>
-          <option value="option2">50%</option>
-          <option value="option2">100 bath</option>
-          <option value="option2">Free drink</option>
-        </Select>
       </FormControl>
 
       {/* Tier */}
@@ -202,166 +151,76 @@ export const RedeemEditPage = () => {
           {" "}
           Member tier
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="regular">Regular</option>
-          <option value="silver">Silver</option>
-          <option value="gold">Gold</option>
-          <option value="platinum">Platinum</option>
-        </Select>
+        <Input
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=" "
+          value={getMemberTierText()}
+        >
+        </Input>
       </FormControl>
 
       {/* Image */}
-      {imagePreview ? (
-        <FormControl
-          isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"column"}
-          paddingBottom={3}
-        >
-          <FormLabel style={TextStyle.h2} color={"white"}>
-            Image
-          </FormLabel>
-
-          <Box
-            position={"relative"}
-            overflow={"hidden"}
-            width={"100%"}
-            minWidth={"250px"}
-            maxWidth={"400px"}
-            height={"auto"}
-            alignSelf={"center"}
-          >
-            <IconButton
-              aria-label="close"
-              minWidth={"15px"}
-              height={"15px"}
-              position={"absolute"}
-              top={0}
-              right={0}
-              as={AiOutlineClose}
-              onClick={handleCloseImage}
-            ></IconButton>
-            <Image
-              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
-              alt={"image"}
-              width={"100%"}
-            ></Image>
-          </Box>
-        </FormControl>
-      ) : (
-        <FormControl
-          isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"column"}
-          paddingBottom={3}
-        >
-          <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-            {" "}
-            Upload Image
-          </FormLabel>
-          <Stack spacing={2} direction="column">
-            {}
-            <Center
-              width={"auto"}
-              height={"100"}
-              bg={"#5F0DBB"}
-              borderRadius={5}
-              cursor={"pointer"}
-            >
-              <Input
-                onChange={handleFileChange}
-                type="file"
-                opacity={0}
-                height={"100%"}
-                w={"100%"}
-                pos={"absolute"}
-              ></Input>
-              <Icon
-                as={BiImageAdd}
-                color={"#FFFFFF"}
-                width={"auto"}
-                height={"8"}
-              ></Icon>
-            </Center>
-          </Stack>
-        </FormControl>
-      )}
-
-      {/* Delete */}
-      <Box
+      <FormControl
+        isRequired
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
         display="flex"
-        flexDirection="column"
-        justifyContent="flex-end" // Align to the bottom
-        //minHeight="50vh" // Ensure the container takes at least the full height of the viewport
+        flexDirection={"column"}
+        paddingBottom={3}
       >
-        <Box
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"row"}
-          paddingBottom={3}
-        >
-          <Button
-            h={"40px"}
-            colorScheme="gray"
-            variant="solid"
-            width="50%"
-            color="#A533C8"
-            onClick={deleteModal.onOpen}
-            marginRight={3}
-          >
-            Delete
-          </Button>
-          <Modal isOpen={deleteModal.isOpen} onClose={deleteModal.onClose}>
-            <ModalOverlay />
-            <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-              <ModalHeader mt={3}>Delete redeem</ModalHeader>
-              <ModalBody mt={-3}>
-                Are you sure? You want to delete redeem?
-              </ModalBody>
-              <ModalCloseButton />
-              <ModalFooter>
-                <Button
-                  bgColor={"white"}
-                  color={"#200944"}
-                  mr={5}
-                  width="30%"
-                  onClick={deleteModal.onClose}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  bgColor={"#A533C8"}
-                  mr={3}
-                  onClick={handleClickDelete}
-                  color={"white"}
-                  width="30%"
-                >
-                  Delete
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+        <FormLabel style={TextStyle.h2} color={"white"}>
+          Image
+        </FormLabel>
 
-          <Button
-            h={"40px"}
-            backgroundColor="#A533C8"
-            variant="solid"
-            width="50%"
-            color="white"
-            onClick={handleClick}
-          >
-            Update
-          </Button>
+        <Box
+          position={"relative"}
+          overflow={"hidden"}
+          width={"100%"}
+          minWidth={"250px"}
+          maxWidth={"400px"}
+          height={"auto"}
+          alignSelf={"center"}
+        >
+       
+          <Image
+            src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}` || ""}
+            alt={"image"}
+            width={"100%"}
+          ></Image>
         </Box>
-      </Box>
+      </FormControl>
+      <Button
+          h={"40px"}
+          colorScheme="gray"
+          variant="solid"
+          width="50%"
+          color="#A533C8"
+          onClick={deleteModal.onOpen}
+          marginRight={3}
+        >
+          Delete
+        </Button>
+        <Modal isOpen={deleteModal.isOpen} onClose={deleteModal.onClose}>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>Delete redeem</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={deleteRedeem}
+                color={"white"}
+                width="30%"
+              >
+                Delete
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
     </Box>
   );
 };

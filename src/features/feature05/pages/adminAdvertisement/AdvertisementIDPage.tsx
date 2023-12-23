@@ -2,17 +2,12 @@
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormLabel,
-  Icon,
-  IconButton,
-  Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { Input } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import {
   Modal,
@@ -24,9 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
@@ -34,6 +27,7 @@ import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisemen
 
 export const AdvertisementIDPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const deleteDisclosure = useDisclosure();
   const [data, setData] = useState<IAd_business>();
   const id = Number(useParams<{ id: string }>().id);
   const fetchDatas = async () => {
@@ -45,8 +39,8 @@ export const AdvertisementIDPage = () => {
   });
   const navigate = useNavigate();
   const handleClickReject = () => {
-    RejectAds(id)
-    navigate(`/admin/advertisement/${id}/reject`);
+    RejectAds(id);
+    navigate(`/admin/advertisement`);
     location.reload();
   };
   const handleClickConfirm = () => {
@@ -55,26 +49,8 @@ export const AdvertisementIDPage = () => {
     location.reload();
   };
 
-  const [files, setFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
-    }
-  };
-  const handleCloseImage = () => {
-    setImagePreview(null);
-  };
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
-  }, [imagePreview]);
-  console.log(files);
+  console.log(data);
+
   return (
     <Box
       display={"flex"}
@@ -173,59 +149,11 @@ export const AdvertisementIDPage = () => {
           {" "}
           Images
         </FormLabel>
-        <Stack spacing={2} direction="column">
-          <Center
-            width={"auto"}
-            height={"100"}
-            bg={"#FFFFFF"}
-            borderRadius={5}
-            cursor={"pointer"}
-          >
-            <Input
-              onChange={handleFileChange}
-              type="file"
-              opacity={0}
-              height={"100%"}
-              w={"100%"}
-              pos={"absolute"}
-            ></Input>
-            <Icon
-              as={BiImageAdd}
-              color={"#000000"}
-              width={"auto"}
-              height={"8"}
-            ></Icon>
-          </Center>
-        </Stack>
+        <Image
+          src={import.meta.env.VITE_BACKEND_URL + data?.image_url}
+          alt="image"
+        />
       </FormControl>
-      {imagePreview ? (
-        <Box
-          position={"relative"}
-          overflow={"hidden"}
-          minWidth={"50%"}
-          maxWidth={"50%"}
-          height={"auto"}
-        >
-          <IconButton
-            aria-label="close"
-            minWidth={"15px"}
-            height={"15px"}
-            position={"absolute"}
-            top={0}
-            right={0}
-            as={AiOutlineClose}
-            onClick={handleCloseImage}
-          ></IconButton>
-          <Image
-            src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
-            alt={"image"}
-            width={"100%"}
-          ></Image>
-        </Box>
-      ) : (
-        <></>
-      )}
-
       {/* Target customer */}
       <FormControl
         isRequired
@@ -301,7 +229,7 @@ export const AdvertisementIDPage = () => {
           variant="solid"
           width="40%"
           color="#A533C8"
-          onClick={handleClickReject}
+          onClick={deleteDisclosure.onOpen}
         >
           Reject
         </Button>
@@ -342,6 +270,35 @@ export const AdvertisementIDPage = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
+        <Modal isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose}>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>This request want to reject information</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={deleteDisclosure.onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickReject}
+                color={"white"}
+                width="30%"
+              >
+                Reject
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
       </Box>
     </Box>
   );

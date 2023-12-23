@@ -1,5 +1,3 @@
-
-/* eslint-disable react-hooks/exhaustive-deps */
 import { HStack } from "@chakra-ui/react";
 import IMyprivilege from "../../../../interfaces/Redeem/IMyprivilege";
 import { Axios } from "../../../../AxiosInstance";
@@ -22,17 +20,9 @@ const MembershipMyprivilegeList = () => {
 
   useEffect(() => {
     fetchMyprivilegeList();
-  }, []);
+  });
 
   return (
-    // <HStack mt="-15px" padding="10px">
-    //   {redeemList?.map((myprivilege: IMyprivilege) => (
-    //     <ShortMembershipMyPrivilegeCard
-    //       key={myprivilege.redeemId}
-    //       image_url={myprivilege.image_url}
-    //     />
-    //   ))}
-    // </HStack>
     <HStack
       mt="-15px"
       padding="10px"

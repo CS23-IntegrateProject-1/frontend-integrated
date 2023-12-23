@@ -26,8 +26,8 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 		<Flex
 			borderWidth="1px"
 			borderRadius="md"
-			width="319px"
-			height="120px"
+			width="330px"
+			minHeight={"150px"}
 			p={1}
 			borderColor={"brand.100"}>
 			<Flex justifyContent="center">
@@ -42,15 +42,15 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 					alt={imageUrl ? foodName : ""}
 					objectFit="cover"
 					mt={0.5}
-					width="140px"
-					height="105px"
+					width={"140px"}
+					height={"105px"}
 					borderRadius="5px"
 					position="relative"
 				/>
 			</Flex>
 
-			<VStack alignItems="left" mt={2} ml={2}>
-				<Box>
+			<VStack alignItems="left" mt={2} ml={2} flex={1}>
+			<Box height="100%">
 					<Text {...textStyles.h2} color="white" lineHeight="1.5">
 						{/* Prepare food Name  */}
 						{foodName}
@@ -66,8 +66,8 @@ export const SecondCartCard: FC<SecondCardProps>= ({id,foodName,price,imageUrl,a
 						mt={5}>
 						<ButtonComponent
 							text="Edit"
-							width={"100px"}
-							height={"30px"}
+							width={"90px"}
+							height={"25px"}
 							onClick={() => handleMenuEdit(type, `${id}`)}
 						/>
 						<Text

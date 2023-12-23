@@ -34,6 +34,7 @@ interface RegisteredData{
   capacity: number;
   score: number;
   website_url: string;
+  venueId: number;
 }
 
 export const Bars = () => {
@@ -47,9 +48,24 @@ export const Bars = () => {
   const fetchRestaurantData = async () => {
     try {
       const response = await Axios.get("/feature4/bars");
-      setRegistered1(response.data.bars);
-      console.log("Registered Data Response:", response.data.bars);
-      setLocations1(response.data.bars.map((item:any) => item.location));
+      const barsData: RegisteredData[] = response.data.bars;
+
+      // Extract venueId from each item and set it in registered1
+      const formattedBarsData: RegisteredData[] = barsData.map((item) => {
+        return {
+          name: item.name,
+          description: item.description,
+          category: item.category,
+          capacity: item.capacity,
+          score: item.score, // Assuming you want to convert score to a number
+          website_url: item.website_url,
+          venueId: item.venueId, // Set venueId
+        };
+      });
+
+      setRegistered1(formattedBarsData);
+      // console.log("Registered Data Response:", formattedBarsData);
+      setLocations1(response.data.bars.map((item:any) => item.Location));
       
     } catch (error) {
       console.error("Error fetching restaurant data:", error);
@@ -57,9 +73,9 @@ export const Bars = () => {
   };
 
   useEffect(() => {
-    console.log("hello")
-    console.log("Updated locations:", locations1);
-    console.log("hello1")
+    // console.log("hello")
+    // console.log("Updated locations:", locations1);
+    // console.log("hello1")
   }, [locations1]); // This effect will run whenever locations change
 
   useEffect(() => {
@@ -92,7 +108,7 @@ export const Bars = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    console.log(searchTerm);
+    // console.log(searchTerm);
 
     // Filter the data based on the search term
     const filtered =
@@ -131,6 +147,7 @@ export const Bars = () => {
                 capacity={location.capacity}
                 score={location.score}
                 website_url={location.website_url}
+                venueId={location.venueId}
               />
             ))}
         </HStack>
