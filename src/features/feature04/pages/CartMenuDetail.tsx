@@ -32,11 +32,11 @@ export const CartMenuDetail: FC = () => {
 
   useEffect(() => {
     const fetchMenuDetail = async () => {
-      console.log("Fetching menu detail...");
+      // console.log("Fetching menu detail...");
       try {
         const response = await Axios.get(`/feature4/menu/${id}}`);
-        console.log("Response:", response);
-        console.log("Response data:", response.data);
+        // console.log("Response:", response);
+        // console.log("Response data:", response.data);
         setMenuData(response.data);
 
         // Ensure that id is not undefined before calling fetchCartItemQuantity
@@ -84,18 +84,18 @@ export const CartMenuDetail: FC = () => {
 
   const buttonBgColor = AmountInCart > 0 ? "brand.200" : "gray.300";
 
-  console.log("menuData:", menuData);
+  // console.log("menuData:", menuData);
 
   const handleAddToCart = async () => {
     try {
       if (AmountInCart > 0) {
-        const response = await Axios.post(`/feature4/addItemToCookie/${id}`, {
+         await Axios.post(`/feature4/addItemToCookie/${id}`, {
           name: menuData?.name,
           price: menuData?.price,
           quantity: AmountInCart,
         });
         toast.success("Added to cart!");
-        console.log(response.data);
+        // console.log(response.data);
 
       }
     } catch (error) {
