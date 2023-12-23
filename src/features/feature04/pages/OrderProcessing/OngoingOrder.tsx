@@ -1,4 +1,4 @@
-import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Wrap, WrapItem } from "@chakra-ui/react";
     import { YourOrderStatusComp } from "../../components/FoodDeliveryComp/YourOrderStatus/YourOrderStatusComp";
     import index from "../../../../theme/foundations/index"
     import { useNavigate, useParams } from "react-router-dom";
@@ -34,8 +34,15 @@ import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader
         const handleCloseModal = () => {
           setCancelModalOpen(false);
         };
-        const CompleteOrder = () => {
+        const CompleteOrder = async() => {
+          if(orderData.payment_method === "Cash"){
+            await Axios.patch(`/feature4/changeOrderStatusCompleted/${onlineOrderId}`);
+            // Redirect to the canceled page or perform any other action
+            navigate("/map/food-delivery/completed");
+            
+          }else{
           navigate(`/venue/paymentDe/${onlineOrderId}`);
+          }
         };
         
         // Define a function to fetch data from the backend
@@ -61,25 +68,30 @@ import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader
             return <p>Error fetching data or data is undefined</p>;
           }
     
-        console.log(orderData);
+        console.log("this is from ongoin" + orderData.payment_method);
+        
     return(
         <Box>
             <Flex flexDirection={"column"} alignItems={"center"}>
             {orderData && ( // Render YourOrderStatusComp only if orderData is available
-          <YourOrderStatusComp
-            amount={orderData.total_amount}
-            cardNo={1234567890987123}
-            cardType="Visa"
-            cardTypeImg="="
-            mainAddress={orderData.address}
-            price={210}
-            restaurant="MK Roasted Duck"
-            size="small"
-            DriverName={orderData.Driver_list.driver_first_name}
-            DriverLicensePlate={orderData.Driver_list.driver_license_plate}
-            orderData={orderData.Online_orders_detail }
-            // onlineOrderId={orderData.onlineOrderId}
-          />
+             <Wrap spacing="20px" justify="center">
+              <WrapItem key={orderData.onlineOrderId}>
+                <YourOrderStatusComp
+                  amount={orderData.total_amount}
+                  cardNo={1234567890987123}
+                  cardType={orderData.payment_method}
+                  cardTypeImg="="
+                  mainAddress={orderData.address}
+                  price={210}
+                  restaurant="MK Roasted Duck"
+                  size="small"
+                  DriverName={orderData.Driver_list.driver_first_name}
+                  DriverLicensePlate={orderData.Driver_list.driver_license_plate}
+                  orderData={orderData.Online_orders_detail }
+                  // onlineOrderId={orderData.onlineOrderId}
+                />
+            </WrapItem>
+          </Wrap>
         )}
           <Box display={"flex"} gap={5} marginBottom={2}>
               <Button

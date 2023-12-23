@@ -61,6 +61,7 @@ export const Checkout = () => {
       console.error("No location selected");
     }
   };
+
   return (
     
     <Box>
@@ -83,7 +84,7 @@ export const Checkout = () => {
       <br />
 
       <br/>
-      <PlaceOrder venueId={venueId} branchId={branchId} address= {location} driverNote={deliveryInstruction}/>
+      <PlaceOrder venueId={venueId} branchId={branchId} address= {location} driverNote={deliveryInstruction} paymentMethod={selectedPaymentMethod}/>
     </Box>
   );
 };
