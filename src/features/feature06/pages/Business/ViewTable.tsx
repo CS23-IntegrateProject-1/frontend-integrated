@@ -46,7 +46,6 @@ export const ViewTable = () => {
   });
 
   useEffect(() => {
-    console.log("tableId: ", tableId);
     fetchData();
   }, []);
 
@@ -61,7 +60,6 @@ export const ViewTable = () => {
     navigate("/business/tablelist");
   };
 
-  console.log(JSON.stringify(data) + "----------- This is data");
   return (
     <Box
       display={"flex"}

@@ -17,8 +17,6 @@ export const QrcodeConfirm: React.FC = () => {
         // console.log(result);
     };
     const handleCheckIn = async (reservationId: number, authToken: string) => {
-        console.log("handleCheckIn");
-
         try {
             if (callCnt > 1) return;
             const result = await checkIn(reservationId, authToken);
@@ -77,36 +75,6 @@ export const QrcodeConfirm: React.FC = () => {
             </>
         );
     };
-
-    // useEffect(() => {
-    //     const scanner = new Html5QrcodeScanner(
-    //         "reader",
-    //         {
-    //             qrbox: {
-    //                 width: 250,
-    //                 height: 250,
-    //             },
-    //             fps: 10,
-    //         },
-    //         true
-    //     );
-
-    //     const error: QrcodeErrorCallback = (err) => {
-    //         console.warn(err); // Access error properties, if applicable
-    //     };
-
-    //     scanner.render(success, error);
-
-    //     function success(result: string) {
-    //         scanner.clear();
-    //         setScanResult(JSON.parse(result));
-    //     }
-
-    //     // Clean up function
-    //     return () => {
-    //         scanner.clear();
-    //     };
-    // }, []);
 
     return (
         <Flex

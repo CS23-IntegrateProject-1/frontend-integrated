@@ -24,14 +24,15 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
 
   const CheckoutActivate = async () => {
     try {
-      if (isPaymentSuccess === "Completed") {
+      if (isPaymentSuccess === "Pending") {
         toast.warning("Please pay deposit first");
+        return;
       }
       const response = Axios.post(`feature6/checkout/${reservationIdInt}`, {
         reservationId: reservationIdInt,
       });
       console.log(response);
-      console.log("checkout reservation success");
+      toast.success("checkout reservation success");
       window.location.reload();
     } catch (err) {
       console.log(err);
