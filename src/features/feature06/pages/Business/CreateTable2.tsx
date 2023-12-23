@@ -28,6 +28,7 @@ export const CreateTable2 = () => {
       const files = taget.files[0]
       setFiles(files)
       setImage_url(URL.createObjectURL(files));
+      console.log(image_url)
     }
   }
   
