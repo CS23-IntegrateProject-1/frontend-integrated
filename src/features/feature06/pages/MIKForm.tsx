@@ -85,7 +85,7 @@ export const MIKForm = () => {
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
-      } else if (phonenumber.length > 10 || phonenumber.length < 10) {
+      } else if (phonenumber.length > 10 || phonenumber.length < 9) {
         toast.warning("Please enter a valid phone number");
         return;
       }
