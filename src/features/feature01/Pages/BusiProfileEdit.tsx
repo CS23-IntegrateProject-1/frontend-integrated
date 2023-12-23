@@ -60,32 +60,32 @@ interface AvailabilityTime {
 const defaultAvailability: Availability = {
   openingDay: {
     Mon: {
-      open: "00:00",
-      close: "11:00",
+      open: "08:00",
+      close: "22:00",
     },
     Tue: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
     Wed: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
     Thu: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
     Fri: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
     Sat: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
     Sun: {
-      open: "00:00",
-      close: "00:00",
+      open: "08:00",
+      close: "22:00",
     },
   },
 };
