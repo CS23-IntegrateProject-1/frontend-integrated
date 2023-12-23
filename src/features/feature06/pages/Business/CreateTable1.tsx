@@ -83,7 +83,7 @@ export const CreateTable1 = () => {
               borderWidth="0" // Remove border from Select component
               focusBorderColor="none"
             >
-              {tabletype.map((tabletype) => (
+              {tabletype?.map((tabletype) => (
                 <option
                   key={tabletype.tableTypeDetailId}
                   value={tabletype.tableTypeDetailId}
