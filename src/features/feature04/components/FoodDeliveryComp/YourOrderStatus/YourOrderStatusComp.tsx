@@ -1,17 +1,59 @@
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
+import { FaIdCard } from "react-icons/fa";
 import index from "../../.././../../theme/foundations/index";
+// import { Axios } from "../../../../../AxiosInstance";
+// import { useQuery } from "@tanstack/react-query";
+// import { useEffect } from "react";
+interface OrderDetail {
+  menuId: number;
+  menuName: string;
+  onlineOrderDetailId: number;
+  onlineOrderId: number;
+  order_time:string;
+  quantity: number;
+  status:string;
+  unit_price: string;
+}
 interface AllInformation {
+  // onlineOrderId?: number;
   mainAddress: string;
-  subAddress: string;
-  cardTypeImg: string;
+  cardTypeImg?: string;
   cardType: string;
-  cardNo: number;
+  cardNo?: number;
   amount: number;
   restaurant: string;
   size: string;
-  price: number;
+  price?: number;
+  orderData?: OrderDetail[];
+  DriverName?:string;
+  DriverLicensePlate?:string;
 }
+
 export const YourOrderStatusComp = (props: AllInformation) => {
+  
+  console.log("Order Data:", props.cardType);
+//   const fetchOrderData = async () => {
+//     const response = await Axios.get(`/feature4/showOnGoingOrderDetail/${props.onlineOrderId}`);
+//     return response.data;
+//   };
+
+//   // Use useQuery to fetch and manage the data
+//   const { data: orderData,isLoading,isError } = useQuery(["ongoingOrder", props.onlineOrderId], fetchOrderData);
+
+//   // Use useEffect to log the data
+//   useEffect(() => {
+//     console.log(orderData);
+//   }, [orderData]);
+
+//   if (isLoading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   if (isError || !orderData) {
+//     return <p>Error fetching data or data is undefined</p>;
+//   }
+
+console.log("Order Data:",  );
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -42,8 +84,6 @@ export const YourOrderStatusComp = (props: AllInformation) => {
       </svg>
     );
   };
-  const HideCardNumber = `• • • •${String(props.cardNo).slice(11, 15)}`;
-
   const SummaryIcon: React.FC = () => {
     return (
       <svg
@@ -77,10 +117,8 @@ export const YourOrderStatusComp = (props: AllInformation) => {
             <Text color={index.colors.black}>Delivery address</Text>
           </Flex>
           <Flex flexDirection={"column"} m={2}>
-          <Text color={index.colors.black}>{props.mainAddress}</Text>
-          <Text color={index.colors.black}>{props.subAddress}</Text>
+            <Text color={index.colors.black}>{props.mainAddress}</Text>
           </Flex>
-
         </Box>
       </Flex>
 
@@ -102,24 +140,51 @@ export const YourOrderStatusComp = (props: AllInformation) => {
               </Box>
             </Flex>
             <Flex flexDirection={"row"} gap={2} color={index.colors.black}>
-              <img
+              {/* <img
                 src={props.cardTypeImg}
                 width="10%"
                 height="10%"
                 style={{ borderRadius: "20px" }}
                 alt="CardType"
-              />
+              /> */}
               <Flex flexDirection={"column"}>
                 <Text>
                   {/* Card Type */}
                   {props.cardType}
                 </Text>
-
-                <Text>
-                  {/* Card No, passes from payment feature */}
-                  {HideCardNumber}
-                </Text>
               </Flex>
+            </Flex>
+          </Flex>
+        </Box>
+      </Flex>
+
+      <br />
+
+      <Flex display={"flex"} justifyContent={"center"}>
+        <Box
+          borderRadius={10}
+          backgroundColor={index.colors.grey[100]}
+          width={600}
+          minWidth={300}
+          height={"auto"}
+          p={5}
+        >
+          <Flex flexDirection={"row"}>
+            <Box display={"flex"} flexDirection={"row"} gap={2}>
+              <FaIdCard color={"#A533C8"} size={28} />
+              <Text color={index.colors.black}>Driver's Information</Text>
+            </Box>
+          </Flex>
+          <Flex flexDirection={"column"} m={2}>
+            <Flex flexDirection={"row"} gap={2}>
+            <Text color={index.colors.black}>Driver name: </Text>
+
+            <Text color={index.colors.black}>{props.DriverName}</Text>
+            </Flex>
+            <Flex flexDirection={"row"} gap={2}>
+            <Text color={index.colors.black}>License plate: </Text>
+
+            <Text color={index.colors.black}>{props.DriverLicensePlate}</Text>
             </Flex>
           </Flex>
         </Box>
@@ -145,34 +210,20 @@ export const YourOrderStatusComp = (props: AllInformation) => {
               <Text color={index.colors.black}>Order Summary</Text>
             </Box>
 
-            <Flex flexDir={"row"} justifyContent={"space-between"}>
-              {/* {orders.map((order, index) => (
-                <div key={index}>
-                  <Text>
-                    {order.amount}X {order.restaurant}
-                  </Text>
-                  <Text>{order.size}</Text>
-                </div>
-              ))} */}
-              <Flex flexDir={"column"}>
+            {props.orderData?.map((order, index) => (
+              <Flex key={index} flexDir={"row"} justifyContent={"space-between"}>
                 <Text>
-                  {props.amount}X {props.restaurant}
+                  {order.quantity}x {order.menuName}
                 </Text>
-                <Text>{props.size}</Text>
+                <Text>
+                ฿{order.quantity * parseFloat(order.unit_price)}
+                </Text>
               </Flex>
-              <Box>
-                {/* {orders.map((order, index) => (
-                  <div key={index}>
-                    <Text>${order.price}</Text>
-                  </div>
-                ))} */}
-                ${props.price}
-              </Box>
-            </Flex>
+            ))}
             <Divider borderColor={index.colors.black} />
             <Flex flexDir={"row"} justifyContent={"space-between"}>
               <Text>Subtotal</Text>
-              <Text>$210</Text>
+              <Text>฿{props.amount}</Text>
             </Flex>
             <Flex flexDir={"row"} justifyContent={"space-between"}>
               <Text>Delivery</Text>

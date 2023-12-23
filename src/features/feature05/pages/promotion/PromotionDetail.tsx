@@ -27,20 +27,16 @@ export const PromotionDetail = () => {
 
   useEffect(() => {
     fetchPromotionBranch();
-  });
+  }, );
 
   return (
-    <Box>
-      <Center
-        height={"150px"}
-        mb={"15px"}
-        overflow={"hidden"}
-        borderRadius={"5px"}
-      >
+    <Box marginRight={"150px"} marginLeft={"150px"}>
+      <Center mb={"15px"} overflow={"hidden"} borderRadius={"5px"}>
         <Image
           w={"100%"}
+          height={"auto"}
           objectFit={"cover"}
-          src={`${import.meta.env.VITE_BACKEND_URL}${image}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${image}` || ""}
         ></Image>
       </Center>
       <Tags tag_text={"Branches"}></Tags>
@@ -52,4 +48,3 @@ export const PromotionDetail = () => {
     </Box>
   );
 };
-

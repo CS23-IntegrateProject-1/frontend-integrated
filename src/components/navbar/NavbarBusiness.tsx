@@ -19,19 +19,18 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
   };
   const navigate = useNavigate();
   const links = [
-    
     { title: "Dashboard", to: "/" },
     {
       title: "Orders",
-      to: "/orders",
+      to: "/business/venue/orderstat",
     },
     {
       title: "Reservation",
       to: "/business/Reservation",
     },
     {
-      title: "Marketing",
-      to: "/marketing",
+      title: "Advertisement",
+      to: "/business/advertisement/status",
     },
     {
       title: "Finance",

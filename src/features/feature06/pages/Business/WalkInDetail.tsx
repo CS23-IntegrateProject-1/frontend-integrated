@@ -70,7 +70,10 @@ export const WalkInDetail = () => {
     try {
       if (name == "" || phonenumber == "") {
         toast.warning("Please fill in all information");
-      }
+      } else if (phonenumber.length > 10 || phonenumber.length < 10) {
+        toast.warning("Please enter a valid phone number");
+        return;
+      } 
       const response = await Axios.post(`/feature6/createOfflineReservation`, {
         guest_amount: seatsInt,
         branchId: branchIdInt,

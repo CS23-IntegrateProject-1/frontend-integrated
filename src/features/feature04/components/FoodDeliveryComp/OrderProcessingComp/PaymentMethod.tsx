@@ -1,11 +1,15 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton, useDisclosure, RadioGroup, Radio, Button } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+} from '@chakra-ui/react'
 import index from "../../../../../theme/foundations/index";
-interface PaymentCard {
-  cardTypeImg: string;
-  cardType: string;
-  cardNo: number;
-}
-export const PaymentMethod = (props: PaymentCard) => {
+import { useState } from "react";
+
+export const PaymentMethod = ({ onPaymentMethodSelect }: { onPaymentMethodSelect: (value: string) => void }) => {
   const PaymentIcon: React.FC = () => {
     return (
       <svg
@@ -39,8 +43,15 @@ export const PaymentMethod = (props: PaymentCard) => {
     );
   };
 
-  const HideCardNumber = `• • • •${String(props.cardNo).slice(11, 15)}`;
+  // const HideCardNumber = `• • • •${String(props.cardNo).slice(11, 15)}`;
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [selectedCardType, setSelectedCardType] = useState<string>("");
+  const handlePaymentApply = (value: string) => {
+    setSelectedCardType(value);
+    // Call the callback function with the selected payment method
+    onPaymentMethodSelect(value);
+  }
   return (
     <Box>
       <Flex display={"flex"} justifyContent={"center"}>
@@ -58,26 +69,50 @@ export const PaymentMethod = (props: PaymentCard) => {
                 <PaymentIcon />
                 <Text color={index.colors.black}>Payment method</Text>
               </Box>
+              <IconButton aria-label="editIcon" onClick={onOpen} variant={"unstyle"}>
               <EditIcon />
+              </IconButton>
+              <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay/>
+                <ModalContent color={"black"}>
+                  <ModalHeader>Payment Methods</ModalHeader>
+                  <ModalBody gap={5}>
+                    <RadioGroup>
+                      <Flex flexDirection={"column"} gap={5} >
+                      <Radio value="1" onChange={() => handlePaymentApply("Visa")}>
+                        <Flex flexDirection={"column"}>
+                          <Text>Visa</Text>
+                          {/* <Text>{HideCardNumber}</Text> */}
+                        </Flex>
+                        </Radio>
+
+                        <Radio value="3" onChange={() => handlePaymentApply("Cash")}>
+                        <Flex flexDirection={"column"}>
+                         <Text>Cash</Text>
+                        </Flex>
+                        </Radio>
+                        </Flex>
+                    </RadioGroup>
+                    <Flex flexDirection={"row"} justifyContent={"center"}>
+                    <Button variant={"unstyle"} backgroundColor={index.colors.brand[200]} color={"white"} mt={5} onClick={onClose}>
+                      Confirm
+                    </Button>
+                    </Flex>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
             </Flex>
             <Flex flexDirection={"row"} gap={2} color={index.colors.black}>
-              <img
-                src={props.cardTypeImg}
-                width="10%"
-                height="10%"
-                style={{ borderRadius: "20px" }}
-                alt="CardType"
-              />
               <Flex flexDirection={"column"}>
                 <Text>
                   {/* Card Type */}
-                  {props.cardType}
+                  {selectedCardType}
                 </Text>
 
-                <Text>
+                {/* <Text> */}
                   {/* Card No, passes from payment feature */}
-                  {HideCardNumber}
-                </Text>
+                  {/* {HideCardNumber}
+                </Text> */}
               </Flex>
             </Flex>
           </Flex>
