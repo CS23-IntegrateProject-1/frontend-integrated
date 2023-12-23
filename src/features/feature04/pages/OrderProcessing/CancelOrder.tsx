@@ -47,6 +47,7 @@ export const CancelOrder = () => {
   //     price: 20,
   //   },
   // ];
+  console.log(orderData.payment_type)
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Flex flexDirection={"column"} alignItems={"center"}>
@@ -54,7 +55,7 @@ export const CancelOrder = () => {
           <YourOrderStatusComp
             amount={orderData.total_amount}
             cardNo={1234567890987123}
-            cardType="Visa"
+            cardType={orderData.payment_method}
             cardTypeImg="="
             mainAddress={orderData.address}
             price={210}
