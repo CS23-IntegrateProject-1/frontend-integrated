@@ -44,6 +44,7 @@ export const Feature08Routes = () => {
 		{ path: "/deposit-success", element: <DepositSuccess /> },
 		{ path: "/onlineorder-success", element: <OnlineOrderSuccess />},
 		{ path: "/onlineorder-cancel", element: <OnlineOrderCancel />},
+		
     { path: "/seat-cancel", element: <SeatCancel /> },
     { path: "/seat-success", element: <SeatSuccess /> },
 		//payment to venue by using venueId?

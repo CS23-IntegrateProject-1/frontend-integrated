@@ -108,7 +108,7 @@ export const AdvertiseNoti = () => {
                   {isApprove === "Completed" ? "Total cost: " + cost + " baht" : (isApprove === "In_progress" ? "Total cost: " + cost + " baht" : "")}
                 </Text>
                 <Text marginTop={5} textAlign={"center"}>
-                  {isApprove === "Awaiting_payment" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
+                  {isApprove === "Awaiting_payment" ? <Link to={`/venue/paymentAd/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
                 </Text>
               </Box>
             </Stack>
