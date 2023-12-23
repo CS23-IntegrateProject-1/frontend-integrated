@@ -48,7 +48,7 @@ export const SelectPaymentAd: FC<ButtonProps> = ({
     event.preventDefault();
 
     
-    Axios.post(`/feature8/create-delivery-session/${advertisementId}`)
+    Axios.post(`/feature8/create-ad-session/${advertisementId}`)
       .then(async (res) => {
       
         console.log(res.data);
