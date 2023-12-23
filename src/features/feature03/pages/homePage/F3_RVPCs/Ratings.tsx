@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 
 interface ReviewsBranchOverAll {
   name: string;
+  branch_name: string;
   branchId: number;
   venueReviewId: number;
   rating: number;
@@ -49,7 +50,7 @@ export const Ratings: FC = () => {
   return (
     <Box width={"100%"} pb="30px">
       <Text fontSize={"30px"} fontWeight="bold">
-        {reviewsBranchOverAllData[0].name}
+        {reviewsBranchOverAllData[0].name} | {reviewsBranchOverAllData[0].branch_name}
       </Text>
       <Text fontSize={"20px"} fontWeight="bold">
         Ratings
