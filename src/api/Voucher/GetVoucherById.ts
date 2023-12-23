@@ -2,7 +2,7 @@ import { Axios } from "../../AxiosInstance";
 
 export const GetVoucherById = async (voucherId: number) => {
   try {
-    const response = await Axios.get(`/feature5/AllVoucher/`, {
+    const response = await Axios.get(`/feature14/getInProgressVoucher`, {
       params: {
         voucherId: voucherId,
       },

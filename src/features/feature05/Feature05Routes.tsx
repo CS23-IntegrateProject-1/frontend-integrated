@@ -10,6 +10,9 @@ import { MyprivilegePage } from "./pages/membership/MyprivilegePage";
 import { MyRewardsPage } from "./pages/membership/MyRewardsPage";
 import { VoucherPage } from "./pages/membership/VoucherPage";
 import { RedeemDetailPage } from "./pages/membership/RedeemDetailPage";
+import { AdvertisementListPage } from "./pages/adminAdvertisement/AdvertisementListPage";
+import { AdvertisementIDPage } from "./pages/adminAdvertisement/AdvertisementIDPage";
+import { AdvertisementRejectPage } from "./pages/adminAdvertisement/AdvertisementRejectPage";
 
 export const Feature05Routes = () => {
   return [
@@ -29,5 +32,11 @@ export const Feature05Routes = () => {
 
     //Redeem ( Customer )
     { path: "/redeem/:redeemId", element: <RedeemDetailPage /> },
+    { path: "/admin/advertisement", element: <AdvertisementListPage /> },
+    { path: "/admin/advertisement/:id", element: <AdvertisementIDPage /> },
+    {
+      path: "/admin/advertisement/:id/reject",
+      element: <AdvertisementRejectPage />,
+    },
   ];
 };
