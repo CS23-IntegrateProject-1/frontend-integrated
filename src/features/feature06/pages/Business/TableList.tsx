@@ -50,7 +50,7 @@ export const TableList = () => {
   };
 
   const renderCards = () => {
-    return data.map((table, index: number) => {
+    return data?.map((table, index: number) => {
       const shouldRender =
         (filterOptions.unavailable && table.status === "Unavailable") ||
         (filterOptions.available && table.status === "Available");

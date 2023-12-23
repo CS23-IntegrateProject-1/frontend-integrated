@@ -50,7 +50,7 @@ export const Maps = () => {
       setRegistered(response.data.restaurant);
       // console.log(response.data.restaurant);
       // console.log(response.data.restaurant[0].location);
-      setLocations(response.data.restaurant.map((item:any) => item.location));
+      setLocations(response.data.restaurant.map((item:any) => item.Location));
       
     } catch (error) {
       console.error("Error fetching restaurant data:", error);

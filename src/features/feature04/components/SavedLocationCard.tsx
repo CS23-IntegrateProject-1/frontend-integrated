@@ -11,7 +11,7 @@ import {
   Input
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
 import {
   Modal,
@@ -88,13 +88,23 @@ const DelIcon: React.FC = () => {
 const SavedLocationCard = (props: SavedCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullAddress] = useState(false);
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
   const [subdistrict, setSubdistrict] = useState("");
   const [postcode, setPostcode] = useState("");
+
+  useEffect(() => {
+    // Set initial state values based on props when the component mounts
+    setName(props.name);
+    setAddress(props.address);
+    setProvince(props.province);
+    setDistrict(props.district);
+    setSubdistrict(props.sub_district);
+    setPostcode(props.postcode);
+  }, [props]);
 
   const AddressToShow = showFullAddress
     ? props.address
@@ -117,7 +127,6 @@ const SavedLocationCard = (props: SavedCardProps) => {
     const handleUpdate = async () => {
       try {
         const updatedData = {
-          userId,
           name,
           savedLocId: props.savedLocId,
           address,
@@ -127,6 +136,27 @@ const SavedLocationCard = (props: SavedCardProps) => {
           postcode,
         };
     
+        // Add fields to updatedData only if they have changed
+        if (name !== props.name) {
+          updatedData.name = name;
+        }
+        if (address !== props.address) {
+          updatedData.address = address;
+        }
+        if (province !== props.province) {
+          updatedData.province = province;
+        }
+        if (district !== props.district) {
+          updatedData.district = district;
+        }
+        if (subdistrict !== props.sub_district) {
+          updatedData.subdistrict = subdistrict;
+        }
+        if (postcode !== props.postcode) {
+          updatedData.postcode = postcode;
+        }
+        console.log("hello from savedLocCard" + updatedData.address)
+    
         await mutation.mutateAsync(updatedData);
         return Promise.resolve();
       } catch (error) {
@@ -135,12 +165,13 @@ const SavedLocationCard = (props: SavedCardProps) => {
       }
     };
     
+    
 
 
     const deleteMutation = useMutation<void, void, void>(
       async () => {
         // Use the appropriate endpoint for the delete action
-        const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}/1`);
+        const response = await Axios.delete(`/feature4/saved-location/${props.savedLocId}`);
         return response.data;
       },
       {
@@ -223,11 +254,11 @@ const SavedLocationCard = (props: SavedCardProps) => {
                   Address Information
                 </Text>
                  <Stack spacing={3} mt={2}>
-                 <Input
+                 {/* <Input
                   variant="outline"
                   placeholder="userID"
                   onChange={(e) => setUserId(e.target.value)}
-                />
+                /> */}
                 <Input
                   variant="outline"
                   placeholder="name"

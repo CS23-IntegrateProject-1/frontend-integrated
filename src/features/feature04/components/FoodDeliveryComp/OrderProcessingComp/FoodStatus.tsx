@@ -2,14 +2,19 @@ import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
-export const FoodStatus = () => {
+
+interface FoodStatusProps {
+  venueId: string | undefined;
+  branchId: string | undefined;
+}
+export const FoodStatus = (props:FoodStatusProps) => {
   const location = useLocation();
-  const CheckoutIsActive = location.pathname === "/map/food-delivery/checkout";
+  const CheckoutIsActive = location.pathname === `/map/food-delivery/checkout/${props.venueId}/${props.branchId}`
   const YourOrderIsActive = location.pathname === "/map/food-delivery/your-order"
 const navigate = useNavigate();
-const navigateInCartDetail =()=>{ navigate('/map/food-delivery/cart-detail')};
-const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
-
+const navigateInCartDetail =()=>{ navigate(`/map/food-delivery/cart-detail/${props.venueId}/${props.branchId}`)};
+const navigateCheckout = ()=>{navigate(`/map/food-delivery/checkout/${props.venueId}/${props.branchId}`)};
+const navigateMenu = ()=>{navigate(`/map/food-delivery/${props.venueId}/${props.branchId}`)}
   const linkIsCompleted = {
     backgroundColor: index.colors.brand[200],
     color: index.colors.white,
@@ -20,7 +25,7 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
   };
 
   
-  const StepContainer = styled.div<{ activeStep: string }>`
+  const StepContainer = styled.div<{ activestep: string }>`
   display: flex;
   justify-content: space-between;
   margin-top: 70px;
@@ -42,11 +47,11 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
     height: 4px;
     transition: 0.4s ease;
     transform: translateY(200%);
-    width: ${({ activeStep }) =>
-      activeStep === '/map/food-delivery/cart-detail'
-        ? '46%'
-        : activeStep === '/map/food-delivery/checkout'
-        ? '82%'
+    width: ${({ activestep }) =>
+      activestep === `/map/food-delivery/cart-detail/${props.venueId}/${props.branchId}`
+        ? `calc(100vw - ${'55vw'})`
+        : activestep === `/map/food-delivery/checkout/${props.venueId}/${props.branchId}`
+        ? `calc(100vw - ${'23vw'})`
         : '100%'};
     left: 20px;
   }
@@ -56,13 +61,14 @@ const navigateCheckout = ()=>{navigate('/map/food-delivery/checkout')};
 
 return (
   <Box m={5}>
-    <StepContainer activeStep={location.pathname} />
+    <StepContainer activestep={location.pathname} />
     <Flex flexDir={"row"} justifyContent={"space-around"}>
       <IconButton
         aria-label="none"
         borderColor={"none"}
         variant={"none"}
         // isDisabled={!location.pathname.includes("menu")}
+        onClick={navigateMenu}
       >
         <Flex flexDir={"column"} alignItems={"center"}>
           <Text
