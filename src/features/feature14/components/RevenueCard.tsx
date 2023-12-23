@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { getStatistic } from "../../../api/admin/getStatistic";
-import { IStatistic } from "../../../interfaces/Dashboard/IStatistic.interface";
+import { IStatistic } from "../../../interfaces/AdminDashboard/IStatistic.interface";
 
 export const RevenueCard: FC = () => {
 	const [statistics, setStatistics] = useState<IStatistic | undefined>(
@@ -11,7 +11,6 @@ export const RevenueCard: FC = () => {
 	const fetchStatistics = async () => {
 		const response = await getStatistic();
 		setStatistics(response);
-		console.log(response);
 	};
 
 	useEffect(() => {
@@ -34,6 +33,7 @@ export const RevenueCard: FC = () => {
 	}
 	return (
 		<Box
+			my={"20px"}
 			backgroundColor="#763FAF"
 			color="white"
 			padding="20px"

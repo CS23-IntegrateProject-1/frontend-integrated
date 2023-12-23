@@ -1,69 +1,78 @@
 import { useState, useEffect, FC } from "react";
-import { Text, Box, Input, Button, useMediaQuery } from "@chakra-ui/react";
+import { Text, Box, Input, Button } from "@chakra-ui/react";
 import SortingModal from "../components/SortingModal";
 import FilteringModal from "../components/FilteringModal";
-import { IChartData } from "../../../interfaces/Dashboard/IChartData.interface";
+import { IChartData } from "../../../interfaces/AdminDashboard/IChartData.interface";
 import { Axios } from "../../../AxiosInstance";
 import { TextStyle } from "../../../theme/TextStyle";
 import RestaurantCard from "../components/RestaurantCard";
 import { Charts } from "../components/Charts";
 import { RevenueCard } from "../components/RevenueCard";
-
-const buttonWidthPercentage = "90%";
+import { getAllVenue } from "../../../api/admin/getAllVenue";
+import { IVenue } from "../../../interfaces/AdminDashboard/IVenue.interface";
+import textStyles from "../../../theme/foundations/textStyles";
 
 const Dashboard: FC = () => {
-	const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [chartData, setChartData] = useState<IChartData | undefined>(
 		undefined
 	);
+	const [venueData, setVenueData] = useState<IVenue[]>([]);
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [showSortingModal, setShowSortingModal] = useState<boolean>(false);
+	const [showFilteringModal, setShowFilteringModal] =
+		useState<boolean>(false);
+	const [options, setOptions] = useState<{
+		Restaurant: boolean;
+		Club: boolean;
+		Bar: boolean;
+	}>({
+		Restaurant: true,
+		Club: true,
+		Bar: true,
+	});
+
+	const handleOptionChange = (option: string) => {
+		setOptions((prevOptions) => ({
+			...prevOptions,
+			[option]: !prevOptions[option as keyof typeof options],
+		}));
+	};
+
+	const handleApplyFilter = () => {
+		setShowFilteringModal(false);
+	};
 
 	const fetchChartData = async () => {
 		const response = await Axios.get("/feature14/getDashboard");
 		const { data } = response;
 		setChartData(data);
-		console.log(data);
+	};
+
+	const fetchVenue = async () => {
+		const response = await getAllVenue();
+		setVenueData(response);
+	};
+
+	const RenderVenue: FC = () => {
+		return venueData.map((venue: IVenue, index: number) => (
+			<RestaurantCard
+				filterOptions={options}
+				key={index}
+				searchTerm={searchTerm}
+				businessType={venue.category}
+				commission={venue.commission}
+				monthlyRevenue={venue.revenue}
+				name={venue.name}
+				img={venue.venue_picture}
+				id={venue.venueId}
+			/>
+		));
 	};
 
 	useEffect(() => {
 		fetchChartData();
+		fetchVenue();
 	}, []);
-
-	// Dummy restaurant data
-	const restaurants = [
-		{
-			name: "Restaurant1",
-			businessType: "Type1",
-			monthlyRevenue: 10000,
-			commission: 1000,
-		},
-		{
-			name: "Restaurant2",
-			businessType: "Type2",
-			monthlyRevenue: 8000,
-			commission: 800,
-		},
-		// Add more restaurant data as needed
-	];
-
-	const openModal = (restaurant) => {
-		setSelectedRestaurant(restaurant);
-		setIsModalOpen(true);
-	};
-
-	const closeModal = () => {
-		setSelectedRestaurant(null);
-		setIsModalOpen(false);
-	};
-
-	const [isSmallerScreen] = useMediaQuery("(max-width: 767px)");
-	const [searchTerm, setSearchTerm] = useState<string>("");
-	const [showSortingModal, setShowSortingModal] = useState<boolean>(false);
-	const [showFilteringModal, setShowFilteringModal] =
-		useState<boolean>(false);
-
-	const baseFontSize = isSmallerScreen ? 16 : 10;
-	const fontSize = `calc(${buttonWidthPercentage} / ${baseFontSize})`;
 
 	return (
 		<Box
@@ -90,7 +99,6 @@ const Dashboard: FC = () => {
 			<RevenueCard />
 
 			<Box
-				width={buttonWidthPercentage}
 				mb="20px"
 				display="flex"
 				justifyContent="space-between"
@@ -108,53 +116,43 @@ const Dashboard: FC = () => {
 				<Button
 					variant="link"
 					colorScheme="white"
-					fontSize={fontSize}
 					onClick={() => {
 						setShowSortingModal(!showSortingModal);
 					}}
 					marginBottom="10px">
-					Sort
+					<Text style={textStyles.h3}>Sort</Text>
 				</Button>
 
 				<Button
 					variant="link"
 					colorScheme="white"
-					fontSize={fontSize}
 					onClick={() => {
 						setShowFilteringModal(!showFilteringModal);
 					}}
 					marginBottom="10px">
-					Filter
+					<Text style={textStyles.h3}>Filter</Text>
 				</Button>
 
 				<SortingModal
 					isOpen={showSortingModal}
+					venueData={venueData}
+					setVenueData={setVenueData}
 					onClose={() => {
 						setShowSortingModal(false);
 					}}
 				/>
 
 				<FilteringModal
+					handleApplyFilter={handleApplyFilter}
+					handleOptionChange={handleOptionChange}
+					options={options}
 					isOpen={showFilteringModal}
 					onClose={() => {
 						setShowFilteringModal(false);
 					}}
 				/>
 			</Box>
-
-			<RestaurantCard
-				name="Restaurant Name 1"
-				businessType="Restaurant"
-				monthlyRevenue={50000}
-				commission={5000}
-			/>
-
-			<RestaurantCard
-				name="Restaurant Name 2"
-				businessType="Bar"
-				monthlyRevenue={30000}
-				commission={3000}
-			/>
+			<RenderVenue />
 		</Box>
 	);
 };

@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { IChartData } from "../../../interfaces/Dashboard/IChartData.interface";
+import { IChartData } from "../../../interfaces/AdminDashboard/IChartData.interface";
 import { Chart, ChartType } from "chart.js";
 import { Box, Text } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
@@ -79,9 +79,19 @@ export const Charts: FC<{ chartData: IChartData | undefined }> = ({
 	return (
 		<Box display="flex" justifyContent="space-around" width={"100%"}>
 			{/* Main Box */}
-			<Box textAlign="left" width={"40%"}>
+			<Box
+				textAlign="left"
+				width={"40%"}
+				display={"flex"}
+				flexDir={"column"}
+				justifyContent={"start"}
+				alignItems={"center"}>
 				<canvas id="customersChart" />
-				<Box display={"flex"} flexDir={"row"} alignItems={"center"}>
+				<Box
+					display={"flex"}
+					flexDir={"row"}
+					alignItems={"center"}
+					mt={"10px"}>
 					<Box
 						border={"1px"}
 						borderRadius={"10px"}
@@ -113,9 +123,18 @@ export const Charts: FC<{ chartData: IChartData | undefined }> = ({
 					</Text>
 				</Box>
 			</Box>
-			<Box textAlign="left" width={"40%"}>
+			<Box
+				textAlign="left"
+				width={"40%"}
+				display={"flex"}
+				flexDir={"column"}
+				justifyContent={"start"}>
 				<canvas id="businessesChart" />
-				<Box display={"flex"} flexDir={"row"} alignItems={"center"}>
+				<Box
+					display={"flex"}
+					flexDir={"row"}
+					alignItems={"center"}
+					mt={"10px"}>
 					<Box
 						border={"1px"}
 						borderRadius={"10px"}
