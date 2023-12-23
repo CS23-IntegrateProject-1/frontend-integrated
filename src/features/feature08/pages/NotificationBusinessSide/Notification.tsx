@@ -542,7 +542,7 @@ console.log(orderData?.orderData)
           return (
             <Link
               key={index}
-              to={`/business/Notification/order/${notification.orderId}`}>
+              to={`/business/Notification/OrderUpdate/${notification.orderId}`}>
               <Flex
                 bg="blackAlpha.300"
                 h="75px"
