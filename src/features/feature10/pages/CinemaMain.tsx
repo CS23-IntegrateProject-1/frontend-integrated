@@ -114,10 +114,10 @@ export const CinemaMain = () => {
           ))}
           
         </Flex>
-        <Text fontSize="20px" fontWeight="bold" mb={4}>
+        <Text  fontSize="20px" fontWeight="bold" mb={4}>
           Coming Soon
         </Text>
-        <Flex>
+        <Flex overflowX="auto" pb={8} align="center">
           {soonMovies.map((movie, index) => (
             <Box
               key={index}
