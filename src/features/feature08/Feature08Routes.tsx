@@ -39,11 +39,11 @@ export const Feature08Routes = () => {
 		{ path: "/customer/history", element: <PaymentHistory /> },
 		{ path: "/customer/:userId/addcard", element: <AddCard /> },
 		{ path: "/checkout-cancel", element: <CheckoutCancel /> },
-		{ path: "/checkout-success", element: <CheckoutSuccess /> },
+		{ path: "/checkout-success/:reservationId/:sessionId", element: <CheckoutSuccess /> },
 		{ path: "/deposit-cancel", element: <DepositCancel /> },
 		
 		
-		{ path: "/deposit-success", element: <DepositSuccess /> },
+		{ path: "/deposit-success/:reservationId/:sessionId", element: <DepositSuccess /> },
 		{ path: "/onlineorder-success/:onlineOrderId/:sessionId", element: <OnlineOrderSuccess />},
 		{ path: "/onlineorder-cancel", element: <OnlineOrderCancel />},
 		

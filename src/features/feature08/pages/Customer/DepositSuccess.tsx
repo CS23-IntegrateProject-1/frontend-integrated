@@ -15,7 +15,7 @@ const DepositSuccess: React.FC = () => {
     
         navigate("/my-reservation");
       } catch (error) {
-        console.error('Error in AdvertiseNoti component:', error);
+        console.error('Error in Deposit component:', error);
     
         if ((error as any).response) {
           // The request was made and the server responded with a status code
