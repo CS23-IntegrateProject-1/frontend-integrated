@@ -40,7 +40,7 @@ export const VoucherStatusCard: FC<{
       >
         <Image
           objectFit={"cover"}
-          src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${img}` || ""}
         />
         <Box
           pos={"absolute"}

@@ -36,7 +36,7 @@ interface AdvertisementProps {
   target_group: string;
   cost: number;
 }
-export const AdvertisementRequestPage = () => {
+export const AdvertisementCreatePage = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [file, setFile] = useState<File | null>(null);
@@ -56,23 +56,7 @@ export const AdvertisementRequestPage = () => {
   );
   console.log(file);
   const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
-  // const handleChange = (
-  // 	e: React.ChangeEvent<
-  // 		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-  // 	>
-  // ) => {
-  // 	const { name, value } = e.target;
-  // 	const formattedValue = name.includes("date")
-  // 		? new Date(value).toISOString()
-  // 		: value;
-  // 	setAdvertise((prevAdvertise) => ({
-  // 		...prevAdvertise,
-  // 		[name]: formattedValue,
-  // 	}));
-  // 	console.log(advertise);
-  // };
 
-  //gpt
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -117,28 +101,6 @@ export const AdvertisementRequestPage = () => {
     };
   }, [imagePreview]);
 
-  // const handleSubmit = async () => {
-  //   console.log(advertise);
-
-  //   try {
-  //     // Ensure this ID is valid
-  //     console.log("Formatted Start Date:", formattedStartDate);
-  //     console.log("Formatted End Date:", formattedEndDate);
-  //     console.log(advertise);
-  //     console.log(`Sending request to /AdBSN`);
-  //     const response = await Axios.post(`feature5/AdBSN`, {
-  //       ...advertise,
-  //       //advertisementPlan: Number(advertise.cost),
-  //       Tags: [],
-  //       start_date: formattedStartDate,
-  //       end_date: formattedEndDate,
-  //     });
-  //     console.log(response.data); // Log the response data
-  //     navigate("/business/advertisement/status");
-  //   } catch (err) {
-  //     console.error("Error submitting advertisement:", err);
-  //   }
-  // };
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
@@ -308,7 +270,6 @@ export const AdvertisementRequestPage = () => {
               onClick={handleCloseImage}
             ></IconButton>
             <Image
-              // src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
               src={imagePreview}
               alt={"image"}
               width={"100%"}
@@ -438,31 +399,6 @@ export const AdvertisementRequestPage = () => {
           <option value="3600">3600 Baht/Year</option>
         </Select>
       </FormControl>
-      {/* <FormControl
-				isRequired
-				width="50%"
-				minWidth="250px"
-				maxWidth="400px"
-				display="flex"
-				flexDirection={"column"}
-				paddingBottom={6}
-			>
-				<FormLabel style={TextStyle.h2} color={"white"}>
-					{" "}
-					Advertisement plan
-				</FormLabel>
-				<RadioGroup
-					defaultValue="2"
-					name="advertisementPlan"
-					onChange={(value) => handleChange(value)}
-				>
-					<Stack spacing={1} direction="column">
-						<Radio value="1">100 Baht/Week</Radio>
-						<Radio value="2">300 Baht/Month</Radio>
-						<Radio value="3">3600 Baht/Year</Radio>
-					</Stack>
-				</RadioGroup>
-			</FormControl> */}
 
       {/* Submit */}
       <Box

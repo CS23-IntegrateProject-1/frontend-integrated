@@ -1,27 +1,36 @@
 import {
   Box,
-  Input,
-  InputGroup,
-  InputLeftElement,
+  Tab,
+  Tabs,
+  TabList,
+  Stack,
 } from "@chakra-ui/react";
 import { AdvertisementCard } from "../../components/adminAdvertisementCom/AdvertisementCard";
-import { Search2Icon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
-import { GetInProgressBusinessAds } from "../../../../api/Advertisement/GetInProgressBusinessAds";
+import { useEffect, useState, FC } from "react";
 import IAdvertisementCardProp from "../../../../interfaces/Advertisement/IAdvertisementCardProp.interface";
+import { GetAllAds } from "../../../../api/Advertisement/GetAllAdvertisement";
 
-export const AdvertisementListPage = () => {
-  const [datas, setDatas] = useState([]);
-
+export const AdvertisementListPage: FC = () => {
+  const [datas, setDatas] = useState<IAdvertisementCardProp[]>([]);
+  const [selector, setSelector] = useState<
+    "In_progress" | "Awaiting_payment" | "Completed" | "Rejected"
+  >("In_progress");
+  const [currentTab, setCurrentTab] = useState(0);
 
   const fetchBusinessAds = async () => {
-    const res = await GetInProgressBusinessAds();
+    const res = await GetAllAds();
     setDatas(res);
+    console.log(res);
   };
 
   useEffect(() => {
     fetchBusinessAds();
   }, []);
+
+  const handleTabChange = (index: number) => {
+    setCurrentTab(index);
+    console.log(currentTab);
+  };
 
   return (
     <Box
@@ -29,46 +38,128 @@ export const AdvertisementListPage = () => {
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      width={"100%"}
     >
-      {/* Search */}
-      <Box
-        width="90%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={5}
+      <Tabs
+        variant={"soft-rounded"}
+        colorScheme={"brand"}
+        index={currentTab}
+        onChange={handleTabChange}
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"center"}
+        mb="1em"
       >
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<Search2Icon color="gray.600" />}
-            bgColor={"white"}
-            borderRadius={10}
-          />
-          <Input
-            type="text"
-            placeholder="Search..."
-            border="1px solid white"
-            bgColor={"white"}
-            color={"black"}
-            borderRadius={10}
-          />
-          {/* <InputRightElement p={0} borderRadius={10}></InputRightElement> */}
+        <TabList>
+          <Stack spacing={10} flexDirection={"row"}>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("In_progress")}
+            >
+              In Progress
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("Awaiting_payment")}
+            >
+              Awaiting Payment
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("Completed")}
+            >
+              Completed
+            </Tab>
 
-        </InputGroup>
-      </Box>
-
-
-      {datas?.map((data: IAdvertisementCardProp) => (
-        <AdvertisementCard
-          key={data?.advertisementId}
-          name={data?.name}
-          description={data?.description}
-          advertisementId={data?.advertisementId}
-        />
-      ))}
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("Rejected")}
+            >
+              Rejected
+            </Tab>
+          </Stack>
+        </TabList>
+      </Tabs>
+      {datas
+        ?.filter((data) => data.isApprove === selector)
+        .map((data: IAdvertisementCardProp) => {
+          if (selector === "In_progress") {
+            return (
+              data.isApprove === "In_progress" && (
+                <AdvertisementCard
+                  name={data.name}
+                  description={data.description}
+                  advertisementId={data.advertisementId}
+                  isApprove={data.isApprove}
+                  key={data.advertisementId}
+                />
+              )
+            );
+          } else if (selector === "Awaiting_payment") {
+            return (
+              data.isApprove === "Awaiting_payment" && (
+                <AdvertisementCard
+                  name={data.name}
+                  description={data.description}
+                  advertisementId={data.advertisementId}
+                  isApprove={data.isApprove}
+                  key={data.advertisementId}
+                />
+              )
+            );
+          } else if (selector === "Completed") {
+            return (
+              data.isApprove === "Completed" && (
+                <AdvertisementCard
+                  name={data.name}
+                  description={data.description}
+                  advertisementId={data.advertisementId}
+                  isApprove={data.isApprove}
+                  key={data.advertisementId}
+                />
+              )
+            );
+          } else if (selector === "Rejected") {
+            return (
+              data.isApprove === "Rejected" && (
+                <AdvertisementCard
+                  name={data.name}
+                  description={data.description}
+                  advertisementId={data.advertisementId}
+                  isApprove={data.isApprove}
+                  key={data.advertisementId}
+                />
+              )
+            );
+          }
+        })}
     </Box>
   );
 };

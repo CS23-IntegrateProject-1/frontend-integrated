@@ -32,7 +32,7 @@ export const ShortMembershipMyPrivilegeCard: FC<IRedeemCard> = ({
     >
       <Image
         h={"100%"}
-        src={`${import.meta.env.VITE_BACKEND_URL}${image_url}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}${image_url}` || ""}
         objectFit={"cover"}
       />
     </Card>

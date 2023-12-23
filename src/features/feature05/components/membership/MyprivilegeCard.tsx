@@ -1,18 +1,17 @@
 import { Box, Heading } from '@chakra-ui/react'
 import { Card, CardBody } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
-import IMember_tier from '../../../../interfaces/Redeem/IMember_tier';
 import { GetTierNameByTierId } from '../../../../api/Membership/GetTierNameByTierId';
 // import { BsBookmarkStarFill } from "react-icons/bs";
 
 export const MyprivilegeCard = () => {
-  const [data, setData] = useState<IMember_tier>();
+  const [data, setData] = useState<string>();
 
   const fetchDatas = async () => {
     try {
       // Call the function to get the data
       const result = await GetTierNameByTierId();
-
+      
       // Access the data property from the AxiosResponse
       setData(result?.data);
     } catch (error) {
@@ -31,7 +30,7 @@ export const MyprivilegeCard = () => {
         direction={{ base: "column", sm: "row" }}
         variant="filled"
         h="216px"
-        borderRadius="0px"
+        borderRadius="10px"
         rowGap="0px"
         display="flex"
         flexDirection="column"
@@ -46,7 +45,7 @@ export const MyprivilegeCard = () => {
           <CardBody>
             {/* <Heading size='3xl' textShadow="-2px 0px 3px grey">Regular</Heading> */}
             <Heading size="3xl" textShadow="-2px 0px 3px grey">
-              {data?.tier_name}
+              {data || ""}
             </Heading>
             {/* <Text py='2' fontWeight="bold">
                           500/1000 points
