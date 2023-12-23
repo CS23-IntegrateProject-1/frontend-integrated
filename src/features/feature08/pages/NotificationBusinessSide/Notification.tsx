@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
-// import axios from "axios";
+import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -89,9 +89,9 @@ export const Notification = () => {
 
 	const fetchData = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
 			// Use the fetch function instead of axios
-			const response = await fetch("/feature8/user", {
+			const response = await fetch(backendUrl + "/feature8/user", {
 				credentials: "include",
 			});
 			// Check if the request was successful (status code in the range 200-299)
@@ -118,9 +118,9 @@ export const Notification = () => {
 	};
 	const fetchReservationData = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const reservationResponse = await Axios.get(
-				`/feature8/reservation/${venueId}`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const reservationResponse = await axios.get(
+				`${backendUrl}/feature8/reservation/${venueId}`
 			);
 			const reservationData = reservationResponse.data; // Assuming the data is in the 'data' property
 			setReservation(reservationData);
@@ -147,9 +147,9 @@ export const Notification = () => {
 
 	const notiData = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const reservationResponse = await Axios.get(
-				`/feature8/notifications/reservation`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const reservationResponse = await axios.get(
+				`${backendUrl}/feature8/notifications/reservation`
 			);
 			const notiReserveData = reservationResponse.data;
 
@@ -200,7 +200,7 @@ export const Notification = () => {
 	useEffect(() => {
 		const fetchTableNumbers = async () => {
 			try {
-				// const backendUrl = import.meta.env.VITE_BACKEND_URL;
+				const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 				// Extracting reserveIds from reserveIdMap
 				const reserveIds = Object.keys(reserveIdMap) as string[];
@@ -208,8 +208,8 @@ export const Notification = () => {
 				// Use Promise.all to make parallel requests for table numbers
 				const tableNumberResponses = await Promise.all(
 					reserveIds.map(async (reserveId) => {
-						const tableNumberResponse = await Axios.get(
-							`/feature8/reservation/${venueId}/${reserveId}`
+						const tableNumberResponse = await axios.get(
+							`${backendUrl}/feature8/reservation/${venueId}/${reserveId}`
 						);
 						return {
 							reserveId,
@@ -251,9 +251,9 @@ export const Notification = () => {
 
 	const fetchAdvertisementData = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await Axios.get(
-				`/feature8/notifications/advertisementbizId`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const advertisementResponse = await axios.get(
+				`${backendUrl}/feature8/notifications/advertisementbizId`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setAdvertisementData(advertisementData);
@@ -268,9 +268,9 @@ export const Notification = () => {
 	//http://localhost:8080/feature8/notifications/advertisementbizId/1
 	const fetchBusinessId = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const FetchbusinessId = await Axios.get(
-				`/feature8/notifications/advertisementbizId/${venueId}`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const FetchbusinessId = await axios.get(
+				`${backendUrl}/feature8/notifications/advertisementbizId/${venueId}`
 			);
 			const businessId = FetchbusinessId.data.businessId; // Assuming the data is in the 'data' property
 			setBusinessId(businessId);
@@ -285,9 +285,9 @@ export const Notification = () => {
 
 	const bizAdverAd = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await Axios.get(
-				`/feature8/notifications/advertisement`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const advertisementResponse = await axios.get(
+				`${backendUrl}/feature8/notifications/advertisement`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setbusinessAdver(advertisementData);
@@ -307,9 +307,9 @@ export const Notification = () => {
 
 	const bizAllAdvertiseMain = async () => {
 		try {
-			// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await Axios.get(
-				`/feature8/business/adall`
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const advertisementResponse = await axios.get(
+				`${backendUrl}/feature8/business/adall`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setBusinessAdMain(advertisementData);
