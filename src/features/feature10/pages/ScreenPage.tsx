@@ -79,7 +79,7 @@ const ScreenPage: React.FC = () => {
 					showId,
 					seatId: sortedSeatId,
 				});
-				navigate(`/`);
+				navigate(`/venue/paymentS`);
 			} catch (error: AxiosError | any) {
 				if (error instanceof AxiosError) {
 					console.log(error.response?.data);
