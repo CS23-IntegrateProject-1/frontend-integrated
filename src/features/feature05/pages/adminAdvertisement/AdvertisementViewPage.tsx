@@ -1,33 +1,19 @@
 3;
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Image } from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
-import { ApproveAds } from "../../../../api/Advertisement/AdminApproveAdvertisement";
-import { RejectAds } from "../../../../api/Advertisement/AdminRejectAdvertisement";
 
-export const AdvertisementIDPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const deleteDisclosure = useDisclosure();
+export const AdvertisementViewPage = () => {
   const [data, setData] = useState<IAd_business>();
   const id = Number(useParams<{ id: string }>().id);
   const fetchDatas = async () => {
@@ -37,19 +23,6 @@ export const AdvertisementIDPage = () => {
   useEffect(() => {
     fetchDatas();
   });
-  const navigate = useNavigate();
-  const handleClickReject = () => {
-    RejectAds(id);
-    navigate(`/admin/advertisement`);
-    location.reload();
-  };
-  const handleClickConfirm = () => {
-    ApproveAds(id);
-    navigate("/admin/advertisement");
-    location.reload();
-  };
-
-  console.log(data);
 
   return (
     <Box
@@ -215,91 +188,6 @@ export const AdvertisementIDPage = () => {
         </Box>
       </Box>
 
-      <Box
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"row"}
-        paddingBottom={3}
-        justifyContent={"space-evenly"}
-      >
-        <Button
-          colorScheme="gray"
-          variant="solid"
-          width="40%"
-          color="#A533C8"
-          onClick={deleteDisclosure.onOpen}
-        >
-          Reject
-        </Button>
-
-        <Button
-          backgroundColor="#A533C8"
-          variant="solid"
-          width="40%"
-          color="white"
-          onClick={onOpen}
-        >
-          Accept
-        </Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-            <ModalHeader mt={3}>The request has been approved</ModalHeader>
-            <ModalCloseButton />
-            <ModalFooter>
-              <Button
-                bgColor={"white"}
-                color={"#200944"}
-                mr={5}
-                width="30%"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                bgColor={"#A533C8"}
-                mr={3}
-                onClick={handleClickConfirm}
-                color={"white"}
-                width="30%"
-              >
-                Confirm
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-
-        <Modal isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose}>
-          <ModalOverlay />
-          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-            <ModalHeader mt={3}>This request want to reject information</ModalHeader>
-            <ModalCloseButton />
-            <ModalFooter>
-              <Button
-                bgColor={"white"}
-                color={"#200944"}
-                mr={5}
-                width="30%"
-                onClick={deleteDisclosure.onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                bgColor={"#A533C8"}
-                mr={3}
-                onClick={handleClickReject}
-                color={"white"}
-                width="30%"
-              >
-                Reject
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-
-      </Box>
     </Box>
   );
 };

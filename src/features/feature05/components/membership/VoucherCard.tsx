@@ -1,18 +1,17 @@
-import { Box, Button, Heading, Text } from '@chakra-ui/react'
-import { Card, CardBody } from '@chakra-ui/react'
-import { useEffect, useState } from 'react';
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Card, CardBody } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { BsBookmarkStarFill } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
-import IMember_tier from '../../../../interfaces/Redeem/IMember_tier';
-import { GetTierNameByTierId } from '../../../../api/Membership/GetTierNameByTierId';
-import { GetPoint } from '../../../../api/Membership/GetPoint';
+import { useNavigate } from "react-router-dom";
+import { GetTierNameByTierId } from "../../../../api/Membership/GetTierNameByTierId";
+import { GetPoint } from "../../../../api/Membership/GetPoint";
 
-export const RedeemCard = () => {
+export const VoucherCard = () => {
   const navigate = useNavigate();
 
-  const [data, setData] = useState<IMember_tier>();
+  const [data, setData] = useState<string>();
   const [points, setPoints] = useState<number>();
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const fetchDatas = async () => {
     try {
       // Call the function to get the data
@@ -21,7 +20,7 @@ export const RedeemCard = () => {
 
       // Access the data property from the AxiosResponse
       setData(result?.data);
-      setPoints(resultPoint?.data);
+      setPoints(resultPoint?.data.amount);
       // console.log(data?.points);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -30,9 +29,12 @@ export const RedeemCard = () => {
 
   useEffect(() => {
     fetchDatas();
-  }, []); // Add an empty dependency array to run the effect only once
+    setIsLoading(false);
+  }, [data]); // Add an empty dependency array to run the effect only once
 
-
+  if (isLoading == true) {
+    return "...Loading";
+  }
   const handleClick = (path: string) => {
     navigate(path);
   };
@@ -43,7 +45,7 @@ export const RedeemCard = () => {
         direction={{ base: "column", sm: "row" }}
         variant="filled"
         h="216px"
-        borderRadius="0px"
+        borderRadius="10px"
         rowGap="0px"
         display="flex"
         flexDirection="column"
@@ -60,14 +62,14 @@ export const RedeemCard = () => {
 							Regular
 						</Heading> */}
             <Heading size="3xl" textShadow="-2px 0px 3px grey">
-              {data?.tier_name}
+              {data || ""}
             </Heading>
 
             {/* <Text py="2" fontWeight="bold">
               500/1000 points
             </Text> */}
             <Text py="2" fontWeight="bold">
-              Remaining "{points}" points 
+              Remaining "{points}" points
             </Text>
           </CardBody>
 
@@ -105,4 +107,4 @@ export const RedeemCard = () => {
       </Card>
     </Box>
   );
-}
+};
