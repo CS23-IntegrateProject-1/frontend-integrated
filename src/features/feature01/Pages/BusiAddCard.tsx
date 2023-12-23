@@ -1,4 +1,4 @@
-import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input} from "@chakra-ui/react"
+import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input, useToast} from "@chakra-ui/react"
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -23,6 +23,7 @@ export const BusinessAddCard = () => {
      const [isValid, setIsValid] = useState(false);
      const [is16, setIs16] = useState(false);
       const [is3, setIs3] = useState(false);
+      const toast = useToast();
      console.log(cardInfo);
      const handleCardNumberChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -83,19 +84,19 @@ export const BusinessAddCard = () => {
         const parts = expiryDate.split("-");
         console.log(parts);
         const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
-    const day = parseInt(parts[2], 10);
-    const expiryDateObj = new Date(year, month - 1, day || 1);
-    const returnVal = expiryDateObj >= new Date();
-    console.log(returnVal, 'return val');
-    if(!returnVal){
-      console.log("not valid");
-      setIsValid(false);
-    }
-    else{
-      console.log("valid");
-      setIsValid(true);
-    }
+        const month = parseInt(parts[1], 10);
+        const day = parseInt(parts[2], 10);
+        const expiryDateObj = new Date(year, month - 1, day || 1);
+        const returnVal = expiryDateObj >= new Date();
+        console.log(returnVal, 'return val');
+        if(!returnVal){
+          console.log("not valid");
+          setIsValid(false);
+        }
+        else{
+          console.log("valid");
+          setIsValid(true);
+        }
        
         
   };
@@ -131,10 +132,31 @@ export const BusinessAddCard = () => {
             if(res.status === 200){
                 console.log(res.data);
                 console.log(cardName);
+                toast({
+                  render: () => (
+                    <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+                      Card Added Successfully
+                    </Box>
+                  ),
+                  duration: 1500,
+                  isClosable: true,
+                }); 
             }
         }).catch((err) => {
             console.log(err);
         });
+        onClose();
+      }
+      else{
+        toast({
+          render: () => (
+            <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+              Please enter valid card information
+            </Box>
+          ),
+          duration: 1500,
+          isClosable: true,
+        }); 
       }
      
     }

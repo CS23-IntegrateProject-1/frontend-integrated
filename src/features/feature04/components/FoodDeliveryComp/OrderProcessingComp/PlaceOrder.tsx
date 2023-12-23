@@ -11,6 +11,7 @@ interface Order {
   branchId: string | undefined;
   address: string;
   driverNote: string;
+  paymentMethod: string;
 }
 
 export const PlaceOrder = (props: Order) => {
@@ -43,6 +44,7 @@ export const PlaceOrder = (props: Order) => {
         branchId: parseInt(props.branchId),
         address: props.address,
         driverNote: props.driverNote,
+        payment: props.paymentMethod,
       });
 
       if (response.status === 200 || response.status === 201) {

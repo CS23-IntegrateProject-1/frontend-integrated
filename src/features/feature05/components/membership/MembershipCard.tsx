@@ -1,57 +1,43 @@
 import {
-	Card,
-	CardBody,
-	Stack,
-	Heading,
-	Text,
-	ButtonGroup,
-	Button,
-	Box,
+  Card,
+  CardBody,
+  Stack,
+  Heading,
+  Text,
+  Box,
 } from "@chakra-ui/react";
 
 import { Progress } from "@chakra-ui/react";
-import { RepeatClockIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import IMember_tier from "../../../../interfaces/Redeem/IMember_tier";
 import { GetTierNameByTierId } from "../../../../api/Membership/GetTierNameByTierId";
 import { GetPoint } from "../../../../api/Membership/GetPoint";
 import { GetExpire } from "../../../../api/Membership/GetExpire";
 import { formatDate1 } from "../../../../functions/formatDatetime";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 
-export const MemberShipCard =() =>{
-  const navigate = useNavigate();
-
-  const handleClick = (path: string) => {
-    navigate(path);
-  };
-
-  const [data, setData] = useState<IMember_tier>();
-  const [points, setPoints] = useState<number>();
-  // const [expireDate, setExpireDate] = useState<Date>();
+export const MemberShipCard = () => {
+  const [data, setData] = useState<string>();
+  const [points, setPoints] = useState<number>(0);
   const [expireDate, setExpireDate] = useState("");
 
   const fetchDatas = async () => {
     try {
-      // Call the function to get the data
       const result = await GetTierNameByTierId();
-       const resultPoint = await GetPoint();
-       const resultExpire = await GetExpire();
-
-      // Access the data property from the AxiosResponse
+      const resultPoint = await GetPoint();
+      const resultExpire = await GetExpire();
+      console.log("point: ", resultPoint?.data );
       setData(result?.data);
-      setPoints(resultPoint?.data);
+      setPoints(resultPoint?.data.amount);
       setExpireDate(resultExpire?.data.currentDate);
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
 
   useEffect(() => {
     fetchDatas();
-  }, []); // Add an empty dependency array to run the effect only once
+    // console.log("point: ", points)
+  }, []); 
 
   return (
     <>
@@ -75,21 +61,10 @@ export const MemberShipCard =() =>{
           borderRadius="15px"
         >
           <CardBody padding="0px 30px" h="10px">
-            <Stack mt="6" spacing="3">
-              <Box
-                padding="10px"
-                position="absolute"
-                right="0"
-                top="0 "
-                color="white"
-              >
-                <button onClick={() => handleClick("/my-privilege")}>
-                  <RepeatClockIcon />
-                </button>
-              </Box>
+            <Stack mt="9" spacing="3">
               <Box display="flex" flexDirection="row" columnGap="5px">
                 <Heading size="md" fontFamily="heading">
-                  {data?.tier_name}
+                  {data || ""}
                 </Heading>
                 <button>
                   <InfoOutlineIcon w="9px" h="9px" />
@@ -116,32 +91,10 @@ export const MemberShipCard =() =>{
                   <Text fontSize="12px">Expiration date not available</Text>
                 )}
               </Box>
-              <ButtonGroup
-                spacing="2"
-                display="flex"
-                flexDirection="row"
-                justifyContent="end"
-              >
-                <Button
-                  variant="solid"
-                  backgroundColor="#5F0DBB"
-                  colorScheme="red"
-                  boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
-                  w="92px"
-                  h="30px"
-                  fontSize="12px"
-                  fontWeight="regular"
-                  onClick={() => handleClick("/redeem")}
-                >
-                  Redeem
-                </Button>
-              </ButtonGroup>
             </Stack>
           </CardBody>
         </Card>
       </Card>
     </>
   );
-}
-
-
+};

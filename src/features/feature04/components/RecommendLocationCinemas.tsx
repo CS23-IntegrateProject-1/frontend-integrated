@@ -27,15 +27,16 @@ import {
 } from "@chakra-ui/react";
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
+import { useNavigate } from "react-router-dom";
 
 
 interface RecommendLocationCinemaCard{
     name: string;
     address: string;
     phone_num: string;
-    latitude: number;
-    longitude: number;
-    
+    latitude: string;
+    longitude: string;
+    theaterId: number;
   }
 
 // const HeartIcon: React.FC<{ isLiked: boolean }> = ({ isLiked }) => {
@@ -91,8 +92,13 @@ const StarIcon: React.FC = () => {
 };
 
 const RecommendLocationCinema = (props: RecommendLocationCinemaCard) => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription] = useState(false);
+  
+  const onHandleReserve = () => {
+    navigate(`/cinemaDetails/${props.theaterId}`);
+  };
   // const [liked, setLiked] = useState(false);
 
   // const descriptionToShow = showFullDescription
@@ -268,6 +274,7 @@ const RecommendLocationCinema = (props: RecommendLocationCinemaCard) => {
               _hover={{ bgColor: "brand.100", textColor: "black" }}
               width="100%" // Full width on all screens
               mb={2}
+              onClick={onHandleReserve}
             >
                 Reserve Now
               </Button>

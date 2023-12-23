@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   IconButton,
+  Image,
   Input,
   Modal,
   ModalCloseButton,
@@ -49,6 +50,7 @@ interface DiscountVoucherType {
   percent_discount: number;
   minimum_spend: number;
   limitation: number;
+  point_use: number;
 }
 interface GiftVoucherType {
   giftName: string;
@@ -71,6 +73,7 @@ export const VoucherEditPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const id = Number(useParams<{ voucherId: string }>().voucherId);
+  // const [isChange, setIsChange] = useState<boolean>(false);
   const voucherData = useQuery({
     queryKey: ["voucher"],
     queryFn: () => GetEachVoucher(id),
@@ -88,15 +91,17 @@ export const VoucherEditPage = () => {
         voucherType: data.voucherType,
         Discount_voucher: {
           fix_discount: data.Discount_voucher.fix_discount,
+          point_use: data.Discount_voucher.point_use,
           percent_discount: data.Discount_voucher.percent_discount,
           minimum_spend: data.Discount_voucher.minimum_spend,
           limitation: data.Discount_voucher.limitation,
         },
       }));
+      setImageDefault(data.voucher_image);
     },
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const [imageDefault, setImageDefault] = useState<string | null>(null);
   useEffect(() => {
     // try {
     return () => {
@@ -122,6 +127,7 @@ export const VoucherEditPage = () => {
     return <span>Loading...</span>;
   }
   const handleCloseImage = () => {
+    // setIsChange(true);
     setImagePreview(null);
   };
 
@@ -134,7 +140,6 @@ export const VoucherEditPage = () => {
       voucher.description == "" ||
       voucher.start_date == "" ||
       voucher.end_date == "" ||
-      // voucher.point_use == "" ||
       voucher.venueId == 0 ||
       voucher.isApprove == ""
       // voucher.voucherType == "" ||
@@ -145,7 +150,7 @@ export const VoucherEditPage = () => {
     }
     try {
       const formData = new FormData();
-      formData.append("voucherName", voucher.voucher_name);
+      formData.append("voucher_name", voucher.voucher_name);
       formData.append("description", voucher.description);
       formData.append("start_date", voucher.start_date);
       formData.append("end_date", voucher.end_date);
@@ -161,6 +166,10 @@ export const VoucherEditPage = () => {
         formData.append(
           "percent_discount",
           voucherData?.data.Discount_voucher?.percent_discount?.toString() ?? ""
+        );
+        formData.append(
+          "point",
+          voucherData?.data.Discount_voucher?.point_use?.toString() ?? ""
         );
         formData.append(
           "minimum_spend",
@@ -192,7 +201,7 @@ export const VoucherEditPage = () => {
         }
       );
       console.log(response.data); // Log the response data}
-      navigate("/business/voucher");
+      navigate("/business/voucher/status");
     } catch (err) {
       console.error("Error submitting promotion:", err);
     }
@@ -211,25 +220,35 @@ export const VoucherEditPage = () => {
     try {
       await deleteVoucher();
       // Optionally, perform any additional actions after successful deletion
-      navigate("/business/voucher"); // Redirect to a different page, for instance
+      navigate("/business/voucher/status"); // Redirect to a different page, for instance
     } catch (error) {
       console.error(error);
       // Handle errors, if any, during the deletion process
     }
   };
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+  
+    // Update state with the formatted datetime string
     setVoucher({
       ...voucher,
-      start_date: event.target.value,
+      start_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
+    console.log(setVoucher)
   };
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+  
+    // Update state with the formatted datetime string
     setVoucher({
       ...voucher,
-      end_date: event.target.value,
+      end_date: `${formattedDate} 00:00:00.000`, // Assuming the time is set as 00:00:00
     });
+    console.log(setVoucher)
   };
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -245,6 +264,8 @@ export const VoucherEditPage = () => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      // setIsChange(true);
+
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
       setVoucher((prevVoucher) => ({
@@ -257,8 +278,8 @@ export const VoucherEditPage = () => {
   return (
     <Container>
       <form>
-        <FormControl mb={"12px"}>
-          <FormLabel style={TextStyle.h2}>Vocher name *</FormLabel>
+        <FormControl isRequired mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Vocher name</FormLabel>
           <Input
             name="voucher_name"
             value={voucher.voucher_name}
@@ -268,8 +289,8 @@ export const VoucherEditPage = () => {
             isRequired
           />
         </FormControl>
-        <FormControl mb={"12px"}>
-          <FormLabel style={TextStyle.h2}>Vocher description *</FormLabel>
+        <FormControl isRequired mb={"12px"}>
+          <FormLabel style={TextStyle.h2}>Vocher description</FormLabel>
           <Input
             name="description"
             value={voucher.description}
@@ -281,23 +302,18 @@ export const VoucherEditPage = () => {
         </FormControl>
 
         <Stack direction={"row"} mb={"10px"}>
-          <FormControl overflow={"hidden"}>
-            <FormLabel style={TextStyle.h2}>Start Date *</FormLabel>
+          <FormControl isRequired overflow={"hidden"}>
+            <FormLabel style={TextStyle.h2}>Start Date</FormLabel>
             <Input
               name="startDate"
               onChange={handleStartDateChange}
               type={"date"}
               bg={"#390b74"}
               border={"none"}
-              value={voucher.start_date}
-              //     value={
-              //       voucher.start_date
-              //         ? voucher.start_date.toISOString().split("T")[0]
-              //         : ""
-              //     }
+              value={(voucher.start_date + "").substring(0, 10)}
             />
           </FormControl>
-          <FormControl overflow={"hidden"}>
+          <FormControl isRequired overflow={"hidden"}>
             <FormLabel style={TextStyle.h2}>End Date *</FormLabel>
             <Input
               name="endDate"
@@ -305,13 +321,19 @@ export const VoucherEditPage = () => {
               type={"date"}
               bg={"#390b74"}
               border={"none"}
-              value={voucher.end_date}
+              value={(voucher.end_date + "").substring(0, 10)}
             />
           </FormControl>
         </Stack>
+        <Text marginBottom={"5px"}>Voucher image</Text>
+        <Image
+          src={import.meta.env.VITE_BACKEND_URL + imageDefault}
+          alt="image"
+          width="100%"
+        />
         {imagePreview ? (
           <FormControl
-            width="50%"
+            width="100%"
             minWidth="250px"
             maxWidth="400px"
             display="flex"
@@ -328,6 +350,7 @@ export const VoucherEditPage = () => {
               maxWidth={"400px"}
               height={"auto"}
               alignSelf={"center"}
+              justifyContent={"center"}
             >
               <IconButton
                 aria-label="close"
@@ -339,20 +362,23 @@ export const VoucherEditPage = () => {
                 as={AiOutlineClose}
                 onClick={handleCloseImage}
               ></IconButton>
-              <img src={imagePreview} alt="image" width="100%" />
+              <Image src={imagePreview} alt="image" width="100%" />
             </Box>
           </FormControl>
         ) : (
           <FormControl
             isRequired
             width="100%"
-            minWidth="250px"
-            maxWidth="400px"
             display="flex"
             flexDirection={"column"}
             paddingBottom={3}
           >
-            <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+            <FormLabel
+              marginTop={"10px"}
+              style={TextStyle.h2}
+              color={"white"}
+              paddingBottom={1}
+            >
               {" "}
               Upload image
             </FormLabel>
@@ -360,7 +386,7 @@ export const VoucherEditPage = () => {
               {}
               <Center
                 width={"auto"}
-                height={"100"}
+                height={"150px"}
                 bg={"#5F0DBB"}
                 borderRadius={5}
                 cursor={"pointer"}
@@ -386,22 +412,70 @@ export const VoucherEditPage = () => {
 
         {voucherData.data?.voucherType === "Discount" ? (
           <Box>
-            <Heading style={TextStyle.h2}>Fix discount: </Heading>
-            <Text>{voucherData.data?.Discount_voucher.fix_discount}</Text>
-            <Heading style={TextStyle.h2}>Limitation: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Point{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.point_use}
+            </Text>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Fix discount{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.fix_discount}
+            </Text>
 
-            <Text>{voucherData.data?.Discount_voucher.limitation}</Text>
-            <Heading style={TextStyle.h2}>Minimum Spend: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Limitation{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.limitation}
+            </Text>
+            
+            
 
-            <Text>{voucherData.data?.Discount_voucher.minimum_spend}</Text>
-            <Heading style={TextStyle.h2}>Percent Discount: </Heading>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Minimum Spend{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"10px"}
+            >
+              {voucherData.data?.Discount_voucher.minimum_spend}
+            </Text>
 
-            <Text>{voucherData.data?.Discount_voucher.percent_discount}</Text>
+            <Heading style={TextStyle.h2} marginBottom={"5px"}>
+              Percent Discount{" "}
+            </Heading>
+            <Text
+              padding={"10px"}
+              bg={"#390b74"}
+              borderRadius={"10px"}
+              marginBottom={"20px"}
+            >
+              {voucherData.data?.Discount_voucher.percent_discount}
+            </Text>
           </Box>
         ) : (
           <Box>
             <Heading>Minimum Spend: </Heading>
-
             <Text>{voucherData.data?.Food_voucher.minimum}</Text>
           </Box>
         )}
