@@ -18,7 +18,6 @@ interface PromotionStatusPageProps {}
 export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
   const handleClickCreate = () => {
@@ -45,13 +44,7 @@ export const PromotionStatusPage: React.FC<PromotionStatusPageProps> = () => {
   if (promotionStatus.error instanceof Error) {
     return <div>An error occurred: {promotionStatus.error.message}</div>;
   }
-  // useEffect(() => {
-  //   fetchBusinessPromotion();
-  //   // setIsLoading(false);
-
-  //   // console.log(data);
-  // }, []);
-
+  
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
   };

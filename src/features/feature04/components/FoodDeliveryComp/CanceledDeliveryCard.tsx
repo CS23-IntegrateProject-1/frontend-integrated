@@ -1,7 +1,9 @@
 import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
+
 export const CanceledDeliveryCard = () => {
+  
   return (
     <Flex justifyContent={"center"}>
       <Box

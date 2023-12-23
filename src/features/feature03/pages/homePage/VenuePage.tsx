@@ -226,7 +226,7 @@ export const VenuePage = () => {
             >
               <CardBody pb={1}>
                 <Image
-                  src={venueD.venue_picture}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${venueD.venue_picture}`}
                   alt={venueD.name + "_Pic"}
                   borderRadius="lg"
                   w="100%"
