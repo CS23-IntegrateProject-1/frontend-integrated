@@ -31,7 +31,7 @@ export const BusinessReservationCard: FC<ReservationCardsProps> = ({
         reservationId: reservationIdInt,
       });
       console.log(response);
-      console.log("checkout reservation success");
+      toast.success("checkout reservation success");
       window.location.reload();
     } catch (err) {
       console.log(err);
