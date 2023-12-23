@@ -38,7 +38,7 @@ useEffect(() => {
   
 
   fetchData();
-}, [onlineOrderId, sessionId]);
+}, [navigate, onlineOrderId, sessionId]);
 
 
 
