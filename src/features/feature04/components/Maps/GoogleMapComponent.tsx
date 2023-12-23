@@ -49,9 +49,9 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     googleMapsApiKey: "AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY", // replace with your API key
   });
 
-  console.log("hello from google")
-    console.log("Updated locations:", locMap);  
-    console.log("hello1")
+  // console.log("hello from google")
+  //   console.log("Updated locations:", locMap);  
+  //   console.log("hello1")
 
   const mapRef = React.useRef<google.maps.Map | null>(null);
   const [clickedPos, setClickedPos] = React.useState<google.maps.LatLngLiteral>(
@@ -62,7 +62,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
   );
 
   const [selectedMarkerInfo, setSelectedMarkerInfo] = React.useState<MarkerType | null>(null);
-  console.log(selectedMarkerInfo)
+  // console.log(selectedMarkerInfo)
 
   // const [savedData, setSavedData] = useState<string | null>(null);
 
@@ -89,7 +89,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     window.dispatchEvent(new Event("storage"));
   }, [nearbyPositions]);
 
-  console.log(nearbyPositions);
+  // console.log(nearbyPositions);
 
   const moveTo = (position: google.maps.LatLngLiteral) => {
     if (mapRef.current) {
@@ -116,7 +116,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
 
   useEffect(() => {
     const handleStorageChange = () => {
-      console.log("Storage changed");
+      // console.log("Storage changed");
       // window.location.reload();
     };
 
@@ -134,7 +134,7 @@ const GoogleMapComponent: React.FC<{ type: string; locMap: LocMap[] | null }> = 
     setSelectedMarkerInfo(marker);
   };
 
-  console.log("Star icon URL:", star);
+  // console.log("Star icon URL:", star);
 
 
   if (!isLoaded) return <LoadingView>Loading...</LoadingView>;
