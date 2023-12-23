@@ -22,7 +22,7 @@ export const CompleteOrder=()=>{
         
           // Use useEffect to log the data
           useEffect(() => {
-            console.log(orderData);
+            // console.log(orderData);
           }, [orderData]);
 
           if (isLoading) {
@@ -33,7 +33,7 @@ export const CompleteOrder=()=>{
             return <p>Error fetching data or data is undefined</p>;
           }
     
-        console.log(orderData);
+        // console.log(orderData);
     return(
         <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Flex flexDirection={"column"} alignItems={"center"}>

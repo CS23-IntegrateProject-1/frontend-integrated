@@ -79,8 +79,8 @@ export const SavedLocation = () => {
         subdistrict,
         postcode,
       };
-      const response  = await Axios.post('/feature4/saved-location',payload);
-      console.log(response.data);
+       await Axios.post('/feature4/saved-location',payload);
+      // console.log(response.data);
   
       // After creating a new location, refetch the data to update the UI
       // queryClient.invalidateQueries('savedData');
@@ -91,7 +91,7 @@ export const SavedLocation = () => {
     }
   };
 
-  console.log(savedData);
+  // console.log(savedData);
   
   return (
     <Box>

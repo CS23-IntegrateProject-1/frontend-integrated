@@ -56,10 +56,10 @@ export const InCartMenu = (props:Venue) => {
   const handleAddItem = async (itemId: string) => {
     try {
       // Increase the quantity locally
-      console.log(itemId);
+      // console.log(itemId);
       const itemIdToUpdate = itemId;
       const response = await Axios.get("/feature4/showOrderCart");
-      console.log(response);
+      // console.log(response);
       const cartItems: CartItem[] = response.data; // Assuming it's an array of cart items
       const itemIndex = cartItems.findIndex(
         (item) => item.itemId === itemIdToUpdate
@@ -68,16 +68,16 @@ export const InCartMenu = (props:Venue) => {
       if (itemIndex !== -1) {
         // Increase the quantity by one
         const updatedQuantity = cartItems[itemIndex].quantity + 1;
-        console.log("OLD:", cartItems[itemIndex].quantity);
-        console.log("UPDATED:", updatedQuantity);
+        // console.log("OLD:", cartItems[itemIndex].quantity);
+        // console.log("UPDATED:", updatedQuantity);
 
         // Update the quantity locally
-        const updatedCartItems: CartItem[] = [
-          ...cartItems.slice(0, itemIndex),
-          { ...cartItems[itemIndex], quantity: updatedQuantity },
-          ...cartItems.slice(itemIndex + 1),
-        ];
-        console.log(updatedCartItems)
+        // const updatedCartItems: CartItem[] = [
+        //   ...cartItems.slice(0, itemIndex),
+        //   { ...cartItems[itemIndex], quantity: updatedQuantity },
+        //   ...cartItems.slice(itemIndex + 1),
+        // ];
+        // console.log(updatedCartItems)
         // Make a request to update the server-side cart
         await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {
           quantity: updatedQuantity,
@@ -108,10 +108,10 @@ export const InCartMenu = (props:Venue) => {
   const handleDecreaseItem = async (itemId: string) => {
     try {
       // Increase the quantity locally
-      console.log(itemId);
+      // console.log(itemId);
       const itemIdToUpdate = itemId;
       const response = await Axios.get("/feature4/showOrderCart");
-      console.log(response);
+      // console.log(response);
       const cartItems: CartItem[] = response.data; // Assuming it's an array of cart items
       const itemIndex = cartItems.findIndex(
         (item) => item.itemId === itemIdToUpdate
@@ -122,12 +122,12 @@ export const InCartMenu = (props:Venue) => {
         const updatedQuantity = cartItems[itemIndex].quantity - 1;
 
         // Update the quantity locally
-        const updatedCartItems: CartItem[] = [
-          ...cartItems.slice(0, itemIndex),
-          { ...cartItems[itemIndex], quantity: updatedQuantity },
-          ...cartItems.slice(itemIndex - 1),
-        ];
-        console.log(updatedCartItems)
+        // const updatedCartItems: CartItem[] = [
+        //   ...cartItems.slice(0, itemIndex),
+        //   { ...cartItems[itemIndex], quantity: updatedQuantity },
+        //   ...cartItems.slice(itemIndex - 1),
+        // ];
+        // console.log(updatedCartItems)
 
         // Make a request to update the server-side cart
         await Axios.post(`/feature4/updateCartItemQuantity/${itemIdToUpdate}`, {
@@ -177,7 +177,7 @@ export const InCartMenu = (props:Venue) => {
       return response.data;
     } catch (error) {
       console.error("Error fetching cart items:", error);
-      console.log("Error response:");
+      // console.log("Error response:");
     }
   };
 
@@ -217,9 +217,9 @@ export const InCartMenu = (props:Venue) => {
 
   const handleRemoveItem = async (itemId: string) => {
     try {
-      const response = await Axios.delete(`/feature4/removeCartItem/${itemId}`);
-      console.log("REMOVED");
-      console.log(response);
+      await Axios.delete(`/feature4/removeCartItem/${itemId}`);
+      // console.log("REMOVED");
+      // console.log(response);
       queryClient.invalidateQueries(["cartItem"]);
     } catch (error) {
       console.error("Error removing cart item:", error);
@@ -310,7 +310,7 @@ export const InCartMenu = (props:Venue) => {
               justifyContent={"space-around"}
             >
               <Text>Subtotal</Text>
-              <Text>฿{subtotal}</Text>
+              <Text>฿{subtotal.toFixed(2)}</Text>
             </Box>
             <Box
               display={"flex"}
