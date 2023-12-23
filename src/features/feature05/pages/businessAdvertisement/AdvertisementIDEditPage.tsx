@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -20,49 +19,40 @@ import {
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Axios } from "../../../../AxiosInstance";
+import { GetBusinessAdsById } from "../../../../api/Advertisement/GetBusinessAdsById";
 
 interface AdvertisementProps {
   name: string;
   description: string;
-  startingDate: Date | null;
-  endingDate: Date | null;
-  images: string;
+  start_date: string;
+  end_date: string;
+  image_url: File | null;
   targetCustomer: string;
   targetGroup: string;
   advertisementPlan: number;
 }
 export const AdvertisementIDEditPage = () => {
-  const { id } = useParams();
+  const id = Number(useParams<{ id: string }>().id);
   const navigate = useNavigate();
   const deleteModal = useDisclosure();
   const submitModal = useDisclosure();
-  const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageDefault, setImageDefault] = useState<string | null>(null);
   const [advertise, setAdvertise] = useState<AdvertisementProps>({
     name: "",
     description: "",
-    images: "",
-    startingDate: null,
-    endingDate: null,
+    image_url: null,
+    start_date: "",
+    end_date: "",
     targetCustomer: "",
     targetGroup: "",
     advertisementPlan: 0,
   });
-
-  console.log(file);
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
-    }
-  };
 
   const handleCloseImage = () => {
     setImagePreview(null);
@@ -75,26 +65,40 @@ export const AdvertisementIDEditPage = () => {
         URL.revokeObjectURL(imagePreview);
       }
     };
-  }, []);
+  });
 
   const fetchPlaceHolder = async () => {
     try {
-      const { data } = await Axios.get(`/feature5/AdBSN/${id}`);
-      setAdvertise((prevAdvertise) => ({
-        ...prevAdvertise,
-        name: data.name,
-        description: data.description,
-        images: data.image_url,
-        startingDate: data.start_date,
-        endingDate: data.end_date,
-        targetCustomer: data.costumer_type,
-        targetGroup: data.target_group,
-        advertisementPlan: parseInt(data.cost),
-      }));
+      const response  = await GetBusinessAdsById(id);
+      const data = response?.data
+
+      if(data){
+        setAdvertise((prevAdvertise) => ({
+          ...prevAdvertise,
+          name: data.name,
+          description: data.description,
+          start_date: data.start_date,
+          end_date: data.end_date,
+          targetCustomer: data.costumer_type,
+          targetGroup: data.target_group,
+          advertisementPlan: parseInt(data.cost),
+        }));
+        setImageDefault(data.image_url || "");
+      }
+      
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
+
+  useEffect(() => {
+    // try {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const deleteAdvertisement = async () => {
     try {
@@ -105,12 +109,97 @@ export const AdvertisementIDEditPage = () => {
     }
   };
 
-  const handleClickSubmit = async () => {
+  const handleClickDelete = async () => {
     try {
       await deleteAdvertisement();
       navigate("/business/advertisement/status");
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleClickSubmit = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("voucher_name", advertise.name);
+      formData.append("description", advertise.description);
+      formData.append("start_date", advertise.start_date);
+      formData.append("end_date", advertise.end_date);
+      formData.append("venueId", advertise.targetCustomer);
+      formData.append("targetCustomer", advertise.targetCustomer);
+      formData.append("targetGroup", advertise.targetGroup);
+      formData.append(
+        "advertisementPlan",
+        advertise.advertisementPlan.toString()
+      );
+      if (advertise.image_url) {
+        formData.append("file", advertise.image_url);
+      }
+      formData.append("advertisementId", id.toString());
+
+      const response = await Axios.post(
+        `feature5/UpdateAdvertisementEditId`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data);
+      navigate("/business/advertisement/status");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
+    // Update state with the formatted datetime string
+    setAdvertise({
+      ...advertise,
+      start_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setAdvertise);
+  };
+  const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value); // Convert input value to a Date object
+    const formattedDate = selectedDate.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+
+    // Update state with the formatted datetime string
+    setAdvertise({
+      ...advertise,
+      end_date: `${formattedDate}T00:00:00.000Z`, // Assuming the time is set as 00:00:00
+    });
+    console.log(setAdvertise);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    console.log(`Changing ${name} to ${value}`);
+    setAdvertise((prevAdvertise) => ({
+      ...prevAdvertise,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      // setIsChange(true);
+
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+      setAdvertise((prevAdvertise) => ({
+        ...prevAdvertise,
+        image_url: file,
+      }));
     }
   };
 
@@ -137,13 +226,14 @@ export const AdvertisementIDEditPage = () => {
         </FormLabel>
         <Input
           variant="name"
+          name="name"
           value={advertise.name}
+          onChange={handleChange}
           style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
-          onChange={(e) => setAdvertise({ ...advertise, name: e.target.value })}
         />
       </FormControl>
       <FormControl
@@ -161,15 +251,17 @@ export const AdvertisementIDEditPage = () => {
         </FormLabel>
         <Input
           variant="name"
+          name="description"
           value={advertise.description}
           style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
+          onChange={handleChange}
           borderColor={"#5F0DBB"}
           type="text"
-          onChange={(e) =>
-            setAdvertise({ ...advertise, description: e.target.value })
-          }
+          // onChange={(e) =>
+          //   setAdvertise({ ...advertise, description: e.target.value })
+          // }
         />
       </FormControl>
       <FormControl
@@ -194,13 +286,8 @@ export const AdvertisementIDEditPage = () => {
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
-            value={(advertise.startingDate + "").substring(0, 10)}
-            onChange={(e) =>
-              setAdvertise({
-                ...advertise,
-                startingDate: new Date(e.target.value),
-              })
-            }
+            value={(advertise.start_date + "").substring(0, 10)}
+            onChange={handleStartDateChange}
           />
         </Box>
 
@@ -217,29 +304,28 @@ export const AdvertisementIDEditPage = () => {
             bgColor={"#5F0DBB"}
             borderRadius={5}
             borderColor={"#5F0DBB"}
-            value={(advertise.endingDate + "").substring(0, 10)}
-            onChange={(e) =>
-              setAdvertise({
-                ...advertise,
-                endingDate: new Date(e.target.value),
-              })
-            }
+            value={(advertise.end_date + "").substring(0, 10)}
+            onChange={handleEndDateChange}
           />
         </Box>
       </FormControl>
+      <FormControl width={"50%"} minWidth={"250px"} maxWidth={"400px"}>
+        <Image
+          src={import.meta.env.VITE_BACKEND_URL + imageDefault}
+          alt="image"
+        />
+      </FormControl>
+
       {imagePreview ? (
         <FormControl
-          isRequired
-          width="50%"
+          width="100%"
           minWidth="250px"
           maxWidth="400px"
           display="flex"
           flexDirection={"column"}
           paddingBottom={3}
         >
-          <FormLabel style={TextStyle.h2} color={"white"}>
-            Image
-          </FormLabel>
+          <FormLabel style={TextStyle.h2}>Upload image</FormLabel>
 
           <Box
             position={"relative"}
@@ -249,6 +335,7 @@ export const AdvertisementIDEditPage = () => {
             maxWidth={"400px"}
             height={"auto"}
             alignSelf={"center"}
+            justifyContent={"center"}
           >
             <IconButton
               aria-label="close"
@@ -260,28 +347,32 @@ export const AdvertisementIDEditPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
           </Box>
         </FormControl>
       ) : (
         <FormControl
           isRequired
-          width="50%"
-          minWidth="250px"
-          maxWidth="400px"
+          width={"50%"}
+          minWidth={"250px"}
+          maxWidth={"400px"}
           display="flex"
           flexDirection={"column"}
           paddingBottom={3}
         >
-          <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
+          <FormLabel
+            marginTop={"10px"}
+            style={TextStyle.h2}
+            color={"white"}
+            paddingBottom={1}
+          >
             {" "}
-            Image
+            Upload image
           </FormLabel>
           <Stack spacing={2} direction="column">
             {}
             <Center
               width={"auto"}
-              height={"100"}
+              height={"150px"}
               bg={"#5F0DBB"}
               borderRadius={5}
               cursor={"pointer"}
@@ -293,7 +384,7 @@ export const AdvertisementIDEditPage = () => {
                 height={"100%"}
                 w={"100%"}
                 pos={"absolute"}
-              />
+              ></Input>
               <Icon
                 as={BiImageAdd}
                 color={"#FFFFFF"}
@@ -320,10 +411,9 @@ export const AdvertisementIDEditPage = () => {
         <Select
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
+          name="targetCustomer"
           value={advertise.targetCustomer}
-          onChange={(e) =>
-            setAdvertise({ ...advertise, targetCustomer: e.target.value })
-          }
+          onChange={handleChange}
         >
           <option value="All">All</option>
           <option value="Member">Member</option>
@@ -347,15 +437,10 @@ export const AdvertisementIDEditPage = () => {
         <Select
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
-          placeholder=" "
-          onChange={(e) =>
-            setAdvertise({ ...advertise, targetGroup: e.target.value })
-          }
-          value={
-            advertise.targetGroup === "Young adult"
-              ? "Young_adult"
-              : advertise.targetGroup
-          }
+          placeholder=""
+          onChange={handleChange}
+          name="targetGroup"
+          value={advertise.targetGroup}
         >
           <option value="Teen">Teen</option>
           <option value="Young_adult">Young Adult</option>
@@ -372,24 +457,24 @@ export const AdvertisementIDEditPage = () => {
         maxWidth="400px"
         display="flex"
         flexDirection={"column"}
-        paddingBottom={6}
+        paddingBottom={3}
       >
-        <FormLabel style={TextStyle.h2} color={"white"}>
+        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
           {" "}
           Advertisement plan
         </FormLabel>
-        <RadioGroup
-          value={advertise.advertisementPlan.toString()}
-          onChange={(value) =>
-            setAdvertise({ ...advertise, advertisementPlan: parseInt(value) })
-          }
+        <Select
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=""
+          onChange={handleChange}
+          name="advertisementPlan"
+          value={advertise.advertisementPlan}
         >
-          <Stack spacing={1} direction="column">
-            <Radio value="100">100 Baht/Week</Radio>
-            <Radio value="300">300 Baht/Month</Radio>
-            <Radio value="3600">3600 Baht/Year</Radio>
-          </Stack>
-        </RadioGroup>
+          <option value="100">100 Bath/Week</option>
+          <option value="300">300 Bath/Month</option>
+          <option value="3600">3600 Bath/Year</option>
+        </Select>
       </FormControl>
 
       {/* Delete */}
@@ -432,7 +517,7 @@ export const AdvertisementIDEditPage = () => {
               <Button
                 bgColor={"#A533C8"}
                 mr={3}
-                onClick={handleClickSubmit}
+                onClick={handleClickDelete}
                 color={"white"}
                 width="30%"
               >

@@ -1,11 +1,8 @@
 import { Box } from "@chakra-ui/react";
-
 import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
-// import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PromotionListCard } from "../../components/PromotionComponent/PromotionListCard";
 import IPromotionCardListProp from "../../../../interfaces/Promotion/IPromotionCardListProp.interface";
-// import DashboardTopStatus from "../../../feature13/components/DashboardComponents/DashboardTopStatus";
 
 export const PromotionListPage = () => {
 
