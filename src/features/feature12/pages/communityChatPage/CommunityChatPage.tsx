@@ -59,7 +59,7 @@ export const CommunityChatPage = () => {
   // Replace this with your actual type check
   return obj && obj.group_name !== undefined;
   }
-  console.log(selectedConversation, "selectedConversation")
+  // console.log(selectedConversation, "selectedConversation")
   return (
     <Box display="flex" height={"83vh"}>
       <Box width="30%" mr="4px" overflowY={"scroll"} overflowX={"hidden"} borderRight={"1px dotted"}> 
@@ -73,8 +73,8 @@ export const CommunityChatPage = () => {
               <Stack>
                 {Pconversations.map((conversation : PConversation, index : number) => {
                   pUsers =conversation.group_name.split(",");
-                  console.log(pUsers);
-                  console.log(user.username);
+                  // console.log(pUsers);
+                  // console.log(user.username);
                   return(
                     <Card
                       key={index}
