@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams , useNavigate} from "react-router-dom";
 import { useEffect } from 'react';
-// import { Axios } from "../../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance";
 
 const CheckoutSuccess: React.FC = () => {
   const { reservationId } = useParams();
@@ -10,7 +10,7 @@ const CheckoutSuccess: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const paymentResponse = await Axios.post(`/feature8/complete-paymentC/${sessionId}/${reservationId}`);
+        await Axios.post(`/feature8/complete-paymentC/${sessionId}/${reservationId}`);
         navigate("/");
       } catch (error) {
         console.error('Error in Checkout component:', error);

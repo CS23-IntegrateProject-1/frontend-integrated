@@ -22,7 +22,7 @@ export const AdvertisementStatusPage: React.FC = () => {
 
 	useEffect(() => {
 		fetchBusinessAds();
-	});
+	},[]);
 
 	const handleTabChange = (index: number) => {
 		setCurrentTab(index);
