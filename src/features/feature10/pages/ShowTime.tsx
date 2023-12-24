@@ -107,6 +107,7 @@ export const ShowTime = () => {
       );      
       setTheatres(response);
 
+    
       // Update the state to include movies for the selected date
       // setMovies(response);
     } catch (error) {
@@ -114,7 +115,8 @@ export const ShowTime = () => {
     }
   };
 
- 
+
+
 
   return (
     <>    
@@ -149,45 +151,59 @@ export const ShowTime = () => {
 
     
       {theatres
-        .filter(theatre => theatre.Screens.some(screen => screen.Shows.length > 0)) // Filter theaters based on shows
-        .map((theatre, index) => (
-          <Box key={index} mt={4} boxShadow="md" backgroundColor="#A533C8" borderRadius={5} >          
-            <Text fontSize="20px" fontWeight="bold" mb={4} ml={3}>
-              {theatre.name}
-            </Text>
-            <Box backgroundColor="#D9D9D9" color="#200944" w="100%" p={3} borderBottomLeftRadius={5} borderBottomRightRadius={5}>
-              {theatre.Screens
-                .filter(screen => screen.Shows.length > 0) // Filter screens based on shows
-                .map((screen, screenIndex) => (
-                  <Box key={screenIndex} mb={4}>
-                    <Text fontSize="12px" fontWeight="bold">
-                      Type: {screen.screen_type} | ENG | SUB TH
-                    </Text>
-                    {/* Button for each show's start_time */}
-                    <Flex overflowX="auto">
-                      {screen.Shows.map((show, showIndex) => (
-                        <Button
-                          key={showIndex}
-                          mt={2}
-                          mr={2}
-                          fontSize={10}
-                          borderRadius="2px"
-                          width="81px"
-                          height="22px"
-                          flexShrink="0"
-                          borderColor="#200944"
-                          borderWidth={1}
-                          onClick={() => navigate(`/screen/${theatre.theaterId}/${movie.id}/${show.showId}`)}
-                        >
-                          {new Date(show.start_time).toLocaleString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC'})}
-                        </Button>
-                      ))}
-                    </Flex>
-                  </Box>
+  .filter(theatre => theatre.Screens.some(screen => screen.Shows.length > 0 && screen.Shows.some(show => {
+    const showStartTime = new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
+    const currentTime = new Date().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, });
+    return showStartTime >= currentTime;
+  }))) // Filter theaters based on shows with ongoing or future shows
+  .map((theatre, index) => (
+    <Box key={index} mt={4} boxShadow="md" backgroundColor="#A533C8" borderRadius={5}>
+      <Text fontSize="20px" fontWeight="bold" mb={4} ml={3}>
+        {theatre.name}
+      </Text>
+      <Box backgroundColor="#D9D9D9" color="#200944" w="100%" p={3} borderBottomLeftRadius={5} borderBottomRightRadius={5}>
+        {theatre.Screens
+          .filter(screen => screen.Shows.length > 0 && screen.Shows.some(show => {
+            const showStartTime = new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
+            const currentTime = new Date().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, });
+            return showStartTime >= currentTime;
+          })) // Filter screens based on shows with ongoing or future shows
+          .map((screen, screenIndex) => (
+            <Box key={screenIndex} mb={4}>
+              <Text fontSize="12px" fontWeight="bold">
+                Type: {screen.screen_type} | ENG | SUB TH
+              </Text>
+              {/* Button for each show's start_time */}
+              <Flex overflowX="auto">
+                {screen.Shows.filter(show => {
+                  const showStartTime = new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
+                  const currentTime = new Date().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, });
+
+                  return showStartTime >= currentTime;
+                }).map((show, showIndex) => (
+                  <Button
+                    key={showIndex}
+                    mt={2}
+                    mr={2}
+                    fontSize={10}
+                    borderRadius="2px"
+                    width="81px"
+                    height="22px"
+                    flexShrink="0"
+                    borderColor="#200944"
+                    borderWidth={1}
+                    onClick={() => navigate(`/screen/${theatre.theaterId}/${movie.id}/${show.showId}`)}
+                  >
+                    {new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })}
+                  </Button>
                 ))}
+              </Flex>
             </Box>
-          </Box>
-        ))}
+          ))}
+      </Box>
+    </Box>
+  ))}
+
 
 
     </>

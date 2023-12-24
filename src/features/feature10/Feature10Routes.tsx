@@ -38,7 +38,7 @@ export const Feature10Routes = () => {
       element: <ScreenPage />,
     },
     {
-      path: "/history",
+      path: "/ticketHistory",
       element: <HistoryPage />,
     },
     {
