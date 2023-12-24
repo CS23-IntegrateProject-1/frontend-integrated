@@ -1,4 +1,4 @@
-import AdminLoginPage from "./feature14/pages/AdminLoginPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 
 export const AdminPublicRoutes = () => {
 	return [
