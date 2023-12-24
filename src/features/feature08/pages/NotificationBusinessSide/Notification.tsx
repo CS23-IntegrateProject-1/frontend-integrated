@@ -353,18 +353,18 @@ const { data: orderData } = useQuery<{
 
 // /feature8/venue/:venueId/getBusinessId
 // Rename the function to avoid redeclaration
-const fetchBusinessIdFromVenue = async () => {
-  const bizIdRes = await Axios.get<{ businessId: number }>(`/feature8/venue/${venueId}/getBusinessId`);
+// const fetchBusinessIdFromVenue = async () => {
+//   const bizIdRes = await Axios.get<{ businessId: number }>(`/feature8/venue/${venueId}/getBusinessId`);
 
-  // Extract the businessId from the response data
-  const bizId = bizIdRes.data.businessId;
+//   // Extract the businessId from the response data
+//   const bizId = bizIdRes.data.businessId;
   
-  // Return the businessId, not an object
-  return bizId;
-};
+//   // Return the businessId, not an object
+//   return bizId;
+// };
 
 // Use the renamed function in useQuery
-const { data: dataBusinessId } = useQuery<number>(['fetchBusinessId', venueId], fetchBusinessIdFromVenue);
+// const { data: dataBusinessId } = useQuery<number>(['fetchBusinessId', venueId], fetchBusinessIdFromVenue);
   
 
 

@@ -40,10 +40,10 @@ export const AdvertiseNoti = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const adSessionResponse = await Axios.post(`/feature8/create-ad-session/${advertisementId}`);
-        const sessionId = adSessionResponse.data.sessionId;
+        // const adSessionResponse = await Axios.post(`/feature8/create-ad-session/${advertisementId}`);
+        // const sessionId = adSessionResponse.data.sessionId;
     
-        const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
+        // const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
 
     
         

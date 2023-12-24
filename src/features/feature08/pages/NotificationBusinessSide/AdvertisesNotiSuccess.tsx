@@ -41,7 +41,7 @@ export const AdvertiseNotiSuccess = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
+        // const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
     
         
       } catch (error) {

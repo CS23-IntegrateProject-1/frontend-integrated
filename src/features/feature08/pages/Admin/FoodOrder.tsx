@@ -179,13 +179,13 @@ const getRevenueFiltered = (groupedTransactionDetails: Record<string, transactio
   );
 };
 
-const getfilteredCommision = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
-  return Object.values(groupedTransactionDetails).map(details => {
-    const totalRevenue = details.reduce((total, detail) => total + parseFloat(detail.total_amount.toString()), 0);
-    const netProfit = (totalRevenue / 100) * 10;
-    return parseFloat(netProfit.toFixed(3));
-  });
-};
+// const getfilteredCommision = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
+//   return Object.values(groupedTransactionDetails).map(details => {
+//     const totalRevenue = details.reduce((total, detail) => total + parseFloat(detail.total_amount.toString()), 0);
+//     const netProfit = (totalRevenue / 100) * 10;
+//     return parseFloat(netProfit.toFixed(3));
+//   });
+// };
 
 const getfilteredNetProfit = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
   return Object.values(groupedTransactionDetails).map(details => {
@@ -199,7 +199,7 @@ const getfilteredNetProfit = (groupedTransactionDetails: Record<string, transact
 let dates: string[] = [];
 
 let revenueNormal: number[] = [];
-let comissionNormal: number[] = [];
+// let comissionNormal: number[] = [];
 let netProfitNormal: number[] = [];
 let orderNormal: number[] = [];
 
@@ -207,7 +207,7 @@ if(data){
   const groupedTDetailData = groupByDate(data.tDetailData.flat());
   dates = getDates(data.tDetailData.flat());
   revenueNormal = getRevenueFiltered(groupedTDetailData);
-  comissionNormal = getfilteredCommision(groupedTDetailData);
+  // comissionNormal = getfilteredCommision(groupedTDetailData);
   netProfitNormal = getfilteredNetProfit(groupedTDetailData);
   orderNormal = getNumberOfOrder(groupedTDetailData).map(({ count }) => count);
 }
@@ -215,7 +215,7 @@ if(data){
 const groupedFilteredTDetailData = groupByDate(dataFilted);
 const filteredDates = getDates(dataFilted);
 const filteredRevenue = getRevenueFiltered(groupedFilteredTDetailData);
-const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
+// const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
 const filteredNetProfit = getfilteredNetProfit(groupedFilteredTDetailData);
 const filteredOrder = getNumberOfOrder(groupedFilteredTDetailData).map(({ count }) => count);
 
