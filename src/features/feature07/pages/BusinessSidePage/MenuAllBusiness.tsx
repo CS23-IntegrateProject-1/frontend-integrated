@@ -36,7 +36,7 @@ const fetchMenuAndSetData = async () => {
 
     const menuData = menuResponse.data;
     const setMenuData = setResponse.data;
-    console.log(menuData);
+    // console.log(menuData);
 
     return { menuData, setMenuData };
 };
@@ -74,7 +74,7 @@ export const MenuAllBusiness = () => {
 
   const handleMenuClick = (type: string, menuid: string) => {
     navigate(`/business/venue/bmenudetail/${type}/${menuid}`);
-    console.log("Clicked menu. Menu ID:", menuid);
+    // console.log("Clicked menu. Menu ID:", menuid);
   }  
 
   const handleAddMenuClick = () => {

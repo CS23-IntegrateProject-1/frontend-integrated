@@ -34,7 +34,7 @@ export const AddMenu = () => {
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setSelectedFile(selectedFile);
-    console.log('Selected file:', selectedFile);
+    // console.log('Selected file:', selectedFile);
   };
 
   const handleInputChange = (e: any) => {
