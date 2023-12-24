@@ -43,7 +43,8 @@ const QrcodeGen: FC = () => {
 
   useEffect(() => {
     fetchQrImg();
-  }),[];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!qr) {
     return <div>Payment required</div>;

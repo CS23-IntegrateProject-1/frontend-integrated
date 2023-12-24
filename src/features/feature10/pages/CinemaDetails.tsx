@@ -110,104 +110,117 @@ const CinemaDetailPage = () => {
 
       <DateSelection onDateSelect={handleDateChange} />
 
-      {movies.map((movie, index) => (
-        <Box key={movie.filmId} display="flex" flexDirection={"column"}>
-          <Box
-            display={"flex"}
-            p={2}
-            boxShadow="md"
-            borderRadius="md"
-            backgroundColor="rgba(0, 0, 0, 0.3)"
-            backdropBlur="50px"
-            
+{movies
+  .filter((movie) =>
+    movie.Shows.some((show) => {
+      const showStartTime = new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
+      const currentTime = new Date().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, });
+      return showStartTime >= currentTime;
+    })
+  )
+  .map((movie, index) => (
+    <Box key={movie.filmId} display="flex" flexDirection={"column"}>
+      <Box
+        display={"flex"}
+        p={2}
+        boxShadow="md"
+        borderRadius="md"
+        backgroundColor="rgba(0, 0, 0, 0.3)"
+        backdropBlur="50px"
+      >
+        <Image
+          src={movie.poster_img}
+          alt={movie.name}
+          h={isDesktop ? "270px" : "80px"}
+          w={isDesktop ? "180px" : "54px"}
+        />
+        <Box ml={{ md: 4 }}>
+          <Text
+            fontSize={isDesktop ? "40px" : "10px"}
+            fontWeight="bold"
+            mb={2}
+            m="5px"
           >
-            <Image
-              src={movie.poster_img}
-              alt={movie.name}
-              h={isDesktop ? "270px" : "80px"}
-              w={isDesktop ? "180px" : "54px"}
-            />
-            <Box ml={{ md: 4 }}>
-              <Text
-                fontSize={isDesktop ? "40px" : "10px"}
-                fontWeight="bold"
-                mb={2}
-                m="5px"
-              >
-                {movie.name}
-              </Text>
-              <Text
-                fontSize={isDesktop ? "20px" : "6px"}
-                fontWeight="light"
-                mb={2}
-                m="5px"
-              >
-                Genre : {movie.genre}
-              </Text>
-              <Text
-                fontSize={isDesktop ? "20px" : "6px"}
-                fontWeight="light"
-                mb={2}
-                m="5px"
-              >
-                Rated : {movie.rate} | {movie.duration} min
-              </Text>
-            </Box>
-          </Box>
-          <Box boxShadow="md" backgroundColor={"#D9D9D9"} p={1} mb={5}>
-            <Box
-              key={index}
-              maxWidth="100%"
-              maxHeight="256px"
-              justifyContent={"center"}
-              
-            >
-              <Text
-                fontSize="10px"
-                fontWeight="bold"
-                ml={"5px"}
-                color={"#000000"}
-                mt={"15px"}
-              >
-                {movie.Shows &&
-                  movie.Shows[0] &&
-                  movie.Shows[0].screen &&
-                  movie.Shows[0].screen.screen_type}{" "}
-                | ENG | SUB
-              </Text>
-              <Flex overflowX="auto">
-                {movie.Shows.map((show, showIndex) => (
-                  <Button
-                    key={showIndex}
-                    borderColor="#200944"
-                    borderWidth={1}
-                    borderRadius="2px"
-                    fontSize="10px"
-                    fontWeight="bold"
-                    mt={2}
-                    ml={1}
-                    mr={2}
-                    mb={4}
-                    p="1"
-                    width="81px"
-                    height="22px"
-                    boxShadow="md"
-                    onClick={() => {
-                      navigate(
-                        `/screen/${theaterId}/${movie.filmId}/${movie.Shows[0].showId}`
-                      );
-                    }}
-                  >
-                    {`${new Date(show.start_time).getUTCHours()}:${String(
-                      new Date(show.start_time).getUTCMinutes()
-                    ).padStart(2, "0")}`}
-                  </Button>
-                ))}
-              </Flex>
-            </Box>
-          </Box>
+            {movie.name}
+          </Text>
+          <Text
+            fontSize={isDesktop ? "20px" : "6px"}
+            fontWeight="light"
+            mb={2}
+            m="5px"
+          >
+            Genre : {movie.genre}
+          </Text>
+          <Text
+            fontSize={isDesktop ? "20px" : "6px"}
+            fontWeight="light"
+            mb={2}
+            m="5px"
+          >
+            Rated : {movie.rate} | {movie.duration} min
+          </Text>
         </Box>
-      ))}
+      </Box>
+      <Box boxShadow="md" backgroundColor={"#D9D9D9"} p={1} mb={5}>
+        <Box
+          key={index}
+          maxWidth="100%"
+          maxHeight="256px"
+          justifyContent={"center"}
+        >
+          <Text
+            fontSize="10px"
+            fontWeight="bold"
+            ml={"5px"}
+            color={"#000000"}
+            mt={"15px"}
+          >
+            {movie.Shows &&
+              movie.Shows[0] &&
+              movie.Shows[0].screen &&
+              movie.Shows[0].screen.screen_type}{" "}
+            | ENG | SUB
+          </Text>
+          <Flex overflowX="auto">
+            {movie.Shows
+              .filter((show) => {
+                const showStartTime = new Date(show.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
+                const currentTime = new Date().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, });
+                return showStartTime >= currentTime;
+              })
+              .map((show, showIndex) => (
+                <Button
+                  key={showIndex}
+                  borderColor="#200944"
+                  borderWidth={1}
+                  borderRadius="2px"
+                  fontSize="10px"
+                  fontWeight="bold"
+                  mt={2}
+                  ml={1}
+                  mr={2}
+                  mb={4}
+                  p="1"
+                  width="81px"
+                  height="22px"
+                  boxShadow="md"
+                  onClick={() => {
+                    navigate(
+                      `/screen/${theaterId}/${movie.filmId}/${movie.Shows[0].showId}`
+                    );
+                  }}
+                >
+                  {`${new Date(show.start_time).getUTCHours()}:${String(
+                    new Date(show.start_time).getUTCMinutes()
+                  ).padStart(2, "0")}`}
+                </Button>
+              ))}
+          </Flex>
+        </Box>
+      </Box>
+    </Box>
+  ))}
+
 
     </Box>
   );
