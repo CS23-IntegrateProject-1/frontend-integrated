@@ -9,6 +9,13 @@ import {
   Stack,
   Image,
   IconButton,
+  useDisclosure,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import { Input } from "@chakra-ui/react";
@@ -16,50 +23,29 @@ import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
-// import { Axios } from "../../../../AxiosInstance";
+import { Axios } from "../../../../AxiosInstance";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
-// interface AdvertisementProps {
-//   name: string;
-//   description: string;
-//   startingDate: Date | null;
-//   endingDate: Date | null;
-//   images: string;
-//   targetCustomer: string;
-//   targetGroup: string;
-//   advertisementPlan: number;
-// }
+interface RedeemType {
+  title: string;
+  description: string;
+  memberTier: string;
+}
 export const CreateNewRedeemPage = () => {
-  const navigate = useNavigate();
-  //  const { isOpen, onOpen, onClose } = useDisclosure()
-  // const deleteModal = useDisclosure();
-  // const submitModal = useDisclosure();
-  const handleClickSubmit = () => {
-    navigate("/business/redeem/status");
-  };
-
-  const [file, setFile] = useState<File | null>(null);
+  const [redeem, setRedeem] = useState<RedeemType>({
+    title: "",
+    description: "",
+    memberTier: "1",
+  });
+  const [image_url, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  // const [advertise, setAdvertise] = useState<AdvertisementProps>({
-  // 	name: "",
-  // 	description: "",
-  // 	images: "",
-  // 	startingDate: null,
-  // 	endingDate: null,
-  // 	targetCustomer: "",
-  // 	targetGroup: "",
-  // 	advertisementPlan: 0,
-  // });
-  console.log(file);
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      const previewURL = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(previewURL);
-    }
-  };
+  const { onOpen, isOpen, onClose } = useDisclosure();
+  const toast = useCustomToast();
+  
   const handleCloseImage = () => {
     setImagePreview(null);
   };
+
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -68,13 +54,61 @@ export const CreateNewRedeemPage = () => {
     };
   }, [imagePreview]);
 
-  //   const handleSubmit = async () => {
-  //     try {
-  //       await Axios.post;
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  const navigate = useNavigate();
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const previewURL = URL.createObjectURL(e.target.files[0]);
+      setImagePreview(previewURL);
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleClickSubmit = async () => {
+    if (
+      redeem.title == "" ||
+      redeem.description == "" ||
+      redeem.memberTier == "" ||
+      image_url == null
+    ) {
+      toast.warning("Please fill all the fields");
+      onClose();
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("title", redeem.title);
+      formData.append("description", redeem.description);
+      formData.append("memberTier", redeem.memberTier);
+      if (image_url) {
+        formData.append("file", image_url);
+      }
+      const response = await Axios.post(`feature5/createRedeem`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
+      navigate("/business/redeem/status");
+    } catch (err) {
+      console.error("Error submitting redeem:", err);
+    }
+  };
+  console.log(redeem);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    console.log(`Changing ${name} to ${value}`);
+    setRedeem((prevRedeem) => ({
+      ...prevRedeem,
+      [name]: value,
+    }));
+  };
+  console.log(image_url);
 
   return (
     <Box
@@ -99,7 +133,9 @@ export const CreateNewRedeemPage = () => {
           Titile
         </FormLabel>
         <Input
-          variant="name"
+          name="title"
+          value={redeem.title}
+          onChange={handleChange}
           style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
@@ -123,59 +159,15 @@ export const CreateNewRedeemPage = () => {
           Description
         </FormLabel>
         <Input
-          variant="name"
+          name="description"
+          value={redeem.description}
+          onChange={handleChange}
           style={{ width: "auto" }}
           color={"white"}
           bgColor={"#5F0DBB"}
           borderColor={"#5F0DBB"}
           type="text"
         />
-      </FormControl>
-
-      {/* Points * */}
-      <FormControl
-        isRequired
-        paddingBottom={3}
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"}>
-          {" "}
-          Points
-        </FormLabel>
-        <Input
-          variant="name"
-          style={{ width: "auto" }}
-          color={"white"}
-          bgColor={"#5F0DBB"}
-          borderColor={"#5F0DBB"}
-          type="text"
-        />
-      </FormControl>
-
-      {/* Voucher */}
-      <FormControl
-        isRequired
-        width="50%"
-        minWidth="250px"
-        maxWidth="400px"
-        display="flex"
-        flexDirection={"column"}
-        paddingBottom={3}
-      >
-        <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
-          {" "}
-          Voucher
-        </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="option1">10%</option>
-          <option value="option2">50%</option>
-          <option value="option2">100 bath</option>
-          <option value="option2">Free drink</option>
-        </Select>
       </FormControl>
 
       {/* Tier */}
@@ -192,11 +184,18 @@ export const CreateNewRedeemPage = () => {
           {" "}
           Member tier
         </FormLabel>
-        <Select bgColor={"#5F0DBB"} borderColor={"#5F0DBB"} placeholder=" ">
-          <option value="regular">Regular</option>
-          <option value="silver">Silver</option>
-          <option value="gold">Gold</option>
-          <option value="platinum">Platinum</option>
+        <Select
+          name="memberTier"
+          onChange={handleChange}
+          bgColor={"#5F0DBB"}
+          borderColor={"#5F0DBB"}
+          placeholder=""
+          defaultValue={"regular"}
+        >
+          <option value="1">Regular</option>
+          <option value="2">Silver</option>
+          <option value="3">Gold</option>
+          <option value="4">Platinum</option>
         </Select>
       </FormControl>
 
@@ -234,11 +233,7 @@ export const CreateNewRedeemPage = () => {
               as={AiOutlineClose}
               onClick={handleCloseImage}
             ></IconButton>
-            <Image
-              src={`${import.meta.env.VITE_BACKEND_URL}${imagePreview}`}
-              alt={"image"}
-              width={"100%"}
-            ></Image>
+            <Image src={imagePreview} alt={"image"} width={"100%"}></Image>
           </Box>
         </FormControl>
       ) : (
@@ -253,7 +248,7 @@ export const CreateNewRedeemPage = () => {
         >
           <FormLabel style={TextStyle.h2} color={"white"} paddingBottom={1}>
             {" "}
-            Upload Image
+            Image
           </FormLabel>
           <Stack spacing={2} direction="column">
             {}
@@ -282,33 +277,56 @@ export const CreateNewRedeemPage = () => {
           </Stack>
         </FormControl>
       )}
+      {/* Submit */}
       <Box
-      // display="flex"
-      // flexDirection="row"
-      // justifyContent="flex-end" // Align to the bottom
-      //minHeight="100vh" // Ensure the container takes at least the full height of the viewport
+        width="50%"
+        minWidth="250px"
+        maxWidth="400px"
+        display="flex"
+        flexDirection={"row"}
+        paddingBottom={3}
+        justifyContent={"center"}
+        alignItems={"center"}
       >
-        <Box
+        <Button
+          h={"40px"}
+          backgroundColor="#A533C8"
+          variant="solid"
           width="100%"
-          minWidth="250px"
-          maxWidth="400px"
-          display="flex"
-          flexDirection={"row"}
-          //paddingBottom={3}
-          justifyContent={"center"}
-          alignItems={"center"}
+          color="white"
+          onClick={() => {
+            onOpen();
+          }}
         >
-          <Button
-            h={"40px"}
-            backgroundColor="#A533C8"
-            variant="solid"
-            width="100%"
-            color="white"
-            onClick={handleClickSubmit}
-          >
-            Submit
-          </Button>
-        </Box>
+          Submit
+        </Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
+            <ModalHeader mt={3}>Submit redeem</ModalHeader>
+            <ModalCloseButton />
+            <ModalFooter>
+              <Button
+                bgColor={"white"}
+                color={"#200944"}
+                mr={5}
+                width="30%"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                bgColor={"#A533C8"}
+                mr={3}
+                onClick={handleClickSubmit}
+                color={"white"}
+                width="30%"
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </Box>
   );

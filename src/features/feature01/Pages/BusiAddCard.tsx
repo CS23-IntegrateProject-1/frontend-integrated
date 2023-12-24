@@ -1,4 +1,4 @@
-import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input} from "@chakra-ui/react"
+import { Box , Divider, ButtonGroup,Drawer, DrawerContent, AbsoluteCenter, Stack, Center, Button, Input, useToast} from "@chakra-ui/react"
 import { useLocation } from "react-router-dom"
 import { TextStyle } from "../../../theme/TextStyle";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -23,18 +23,17 @@ export const BusinessAddCard = () => {
      const [isValid, setIsValid] = useState(false);
      const [is16, setIs16] = useState(false);
       const [is3, setIs3] = useState(false);
-     console.log(cardInfo);
+      const toast = useToast();
      const handleCardNumberChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
         const inputCardNumber = event.target.value;
-        console.log(inputCardNumber);
         
         // Remove non-digit characters
         const nonDigitRegex = new RegExp(/[^\d]/g);
         if (nonDigitRegex.test(inputCardNumber)) {
           // Input contains non-digits, handle accordingly
-          console.log("Input includes non-digit characters.");
+          //console.log("Input includes non-digit characters.");
           alert("Input includes non-digit characters.");
         }
         if(inputCardNumber.length > 16){
@@ -42,7 +41,7 @@ export const BusinessAddCard = () => {
           alert("Input is not 16 digits");
         }
         if(inputCardNumber.length === 16){
-          console.log("16");
+          //console.log("16");
           setIs16(true);
           setCardNumber(inputCardNumber);
         }    
@@ -76,26 +75,26 @@ export const BusinessAddCard = () => {
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
         const inputExpiryDate = event.target.value;
-        console.log(inputExpiryDate, 'expri');
+        //console.log(inputExpiryDate, 'expri');
         setCardExpDate(inputExpiryDate);
         const expiryDate = inputExpiryDate ;
-        console.log(expiryDate);
+        //console.log(expiryDate);
         const parts = expiryDate.split("-");
-        console.log(parts);
+        //console.log(parts);
         const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
-    const day = parseInt(parts[2], 10);
-    const expiryDateObj = new Date(year, month - 1, day || 1);
-    const returnVal = expiryDateObj >= new Date();
-    console.log(returnVal, 'return val');
-    if(!returnVal){
-      console.log("not valid");
-      setIsValid(false);
-    }
-    else{
-      console.log("valid");
-      setIsValid(true);
-    }
+        const month = parseInt(parts[1], 10);
+        const day = parseInt(parts[2], 10);
+        const expiryDateObj = new Date(year, month - 1, day || 1);
+        const returnVal = expiryDateObj >= new Date();
+        console.log(returnVal, 'return val');
+        if(!returnVal){
+          console.log("not valid");
+          setIsValid(false);
+        }
+        else{
+          console.log("valid");
+          setIsValid(true);
+        }
        
         
   };
@@ -129,12 +128,31 @@ export const BusinessAddCard = () => {
         } ,{withCredentials: true})
         .then((res) => {
             if(res.status === 200){
-                console.log(res.data);
-                console.log(cardName);
+                toast({
+                  render: () => (
+                    <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+                      Card Added Successfully
+                    </Box>
+                  ),
+                  duration: 1500,
+                  isClosable: true,
+                }); 
             }
         }).catch((err) => {
             console.log(err);
         });
+        onClose();
+      }
+      else{
+        toast({
+          render: () => (
+            <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
+              Please enter valid card information
+            </Box>
+          ),
+          duration: 1500,
+          isClosable: true,
+        }); 
       }
      
     }

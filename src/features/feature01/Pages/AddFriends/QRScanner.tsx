@@ -151,9 +151,7 @@ export const QRScanner = () => {
             birthday,
             phone,
           });
-          //const qrCodeData = `${userId},${username}, ${data.gender}, ${data.birthday}, ${data.phone}, ${data.email}`;
           setQrCodeData(qrCodeData);
-          console.log(qrCodeData, "JSON Data from me");
         }
       })
       .catch((error) => {
@@ -172,15 +170,11 @@ export const QRScanner = () => {
         if (response.status == 200) {
           const data = response.data;
           setFriList(data);
-          console.log(data, "hello world");
-          console.log(sName, "hello world scsa");
           //already in the fir list situation
           const usernameRegex = /"username":"(.*?)"/; //get username from json data
           const match = usernameRegex.exec(sName);
           const scanName = match?.[1];
           friList.map((item) => {
-            console.log(item.username);
-            console.log(scanName);
             if (item.username == scanName) {
               console.log("found"); //done here show toast laready fir
               toast({
@@ -206,7 +200,6 @@ export const QRScanner = () => {
               setShowAddfri(true);
               //start add fri logic here
             }
-            //console.log(item.username, scanName, "from smae map");
           });
           if (found) {
             console.log("found from already fri");
@@ -214,7 +207,6 @@ export const QRScanner = () => {
           if (notfound) {
             console.log("not found from already fri");
           }
-          //console.log(data, "from already fri");
         }
       })
       .catch((error) => {
@@ -235,7 +227,6 @@ export const QRScanner = () => {
       "from destructure"
     );
     setSName(scanName);
-    console.log(sName, "from sname");
     alredayFri(scanName as string);
     if (found) {
       console.log("found from scanning");
@@ -256,29 +247,15 @@ export const QRScanner = () => {
     Axios.get(url, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data);
-          console.log(response.data.name);
-          console.log(response.data.avatar); //give null no data
-          console.log(response.data.user_id);
           setUserId(response.data.user_id);
           setUsername(response.data.name);
           setUserImg(response.data.avatar);
-          console.log(username, userImg, "from username and userimg");
           //give null no data
           //change the state of the box to visible
           setOpenCam(false);
           setHidebox(false);
           const box = document.getElementById("box");
           if (box) box.style.visibility = "visible";
-          // toast({
-          //   render: () => (
-          //     <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
-          //       Found your friend! {response.data.name}
-          //     </Box>
-          //   ),
-          //   duration: 1500,
-          //   isClosable: true,
-          // });
         }
       })
       .catch((error) => {
@@ -310,7 +287,6 @@ export const QRScanner = () => {
             duration: 1500,
             isClosable: true,
           });
-          console.log(response.data);
           console.log("successfully added");
           setShouldShowChatButton(true);
         }
@@ -350,7 +326,6 @@ export const QRScanner = () => {
   const createChatHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const allData = new FormData();
-    console.log("inFunc CreateChatHandler");
     const groupName =
       username + "," + loggedInUser.fname + " " + loggedInUser.lname;
     allData.append("group_name", groupName);
@@ -364,7 +339,6 @@ export const QRScanner = () => {
     })
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data);
           console.log("successfully added private chat");
         }
       })
@@ -386,7 +360,6 @@ export const QRScanner = () => {
         {openCam == true && hidebox == true ? (
           <QrScanner
             onDecode={(result: string) => {
-              console.log(result, "result");
               setScannedData(result);
               setFunstart(true);
             }}
