@@ -30,10 +30,7 @@ const RestaurantCard: FC<RestaurantCardProps> = ({
 }) => {
 	const navigate = useNavigate();
 	const handleClickSetup = () => {
-		navigate(`/admin/restaurant/${id}/setup`);
-	};
-	const handleClickView = () => {
-		navigate(`/admin/restaurant/${id}/view`);
+		navigate(`/admin/account/${id}`);
 	};
 	console.log(filterOptions);
 	console.log(businessType);
@@ -67,7 +64,7 @@ const RestaurantCard: FC<RestaurantCardProps> = ({
 			w={"90%"}
 			justifyContent={"space-between"}
 			alignItems="center">
-			<Box onClick={handleClickView}>
+			<Box onClick={handleClickSetup}>
 				<Box display={"flex"}>
 					<Image
 						src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
