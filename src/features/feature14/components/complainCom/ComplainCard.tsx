@@ -1,22 +1,15 @@
 import { Box, Button, Card, CardBody, Modal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import IVoucherApprove from "../../../../interfaces/Voucher/IVoucherApprove";
+import IReportApprove  from "../../../../interfaces/ComplainTicket/IReportApprove"
 import { useNavigate } from "react-router-dom";
-import { RejectVou } from "../../../../api/Voucher/GetVoucherReject";
-import { ApproveVou } from "../../../../api/Voucher/GetVoucherApprove";
+import { ApproveCom } from "../../../../api/ComplainTicket/GetComplainFix";
 
-export const VoucherCard: React.FC<IVoucherApprove & { isApprove: string }> = ({ voucher_name, voucherId, description }) => {
+export const ComplainCard: React.FC<IReportApprove & { status: string }> = ({ ComplainTicketId, topic, complaint }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const handleClickReject = () => {
-    RejectVou(voucherId);
-    navigate("/admin/voucher");
-    // navigate(`/admin/voucher/${voucherId}/reject`);
-    location.reload();
-  };
   const handleClickConfirm = () => {
-    ApproveVou(voucherId);
-    navigate("/admin/voucher");
+    ApproveCom(ComplainTicketId);
+    navigate("/admin/ticket");
     location.reload();
   };
   return (
@@ -35,11 +28,11 @@ export const VoucherCard: React.FC<IVoucherApprove & { isApprove: string }> = ({
       <CardBody>
         <Box>
           <Text pt="2" fontSize="md">
-            ID: {voucherId}
+            ID: {ComplainTicketId}
             <br/>
-            Name: {voucher_name}
+            Topic: {topic}
             <br/>
-            Description: {description}
+            Detail: {complaint}
           </Text>
         </Box>
         <Box
@@ -52,28 +45,18 @@ export const VoucherCard: React.FC<IVoucherApprove & { isApprove: string }> = ({
           justifyContent={"space-evenly"}
         >
           <Button
-            colorScheme="gray"
-            variant="solid"
-            width="40%"
-            color="#A533C8"
-            onClick={handleClickReject}
-          >
-            Reject
-          </Button>
-  
-          <Button
             backgroundColor="#A533C8"
             variant="solid"
             width="40%"
             color="white"
             onClick={onOpen}
           >
-            Accept
+            Fixed
           </Button>
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent bgColor={"#DEBEF6"} color={"#200944"}>
-              <ModalHeader mt={3}>The request has been approved</ModalHeader>
+              <ModalHeader mt={3}>The request has been fixed</ModalHeader>
               <ModalCloseButton />
               <ModalFooter>
                 <Button

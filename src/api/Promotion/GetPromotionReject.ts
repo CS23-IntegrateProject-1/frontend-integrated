@@ -1,8 +1,8 @@
 import { Axios } from "../../AxiosInstance";
 
-export const RejectVou = async (voucherId: number) => {
+export const RejectPro = async (promotionId: number) => {
 	try {
-		const response = await Axios.patch(`/feature14/rejectVoucher/${voucherId}`, {
+		const response = await Axios.patch(`/feature14/rejectPromotion/${promotionId}`, {
 			isApprove: "Rejected",
 		});
 		return response;

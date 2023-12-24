@@ -1,8 +1,8 @@
 import { Axios } from "../../AxiosInstance";
 
-export const ApproveVou = async (voucherId: number) => {
+export const ApprovePro = async (promotionId: number) => {
 	try {
-		const response = await Axios.patch(`/feature14/approveVoucher/${voucherId}`, {
+		const response = await Axios.patch(`/feature14/approvePromotion/${promotionId}`, {
 			isApprove: "Completed",
 		});
 		return response;

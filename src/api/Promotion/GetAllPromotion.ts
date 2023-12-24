@@ -3,7 +3,7 @@ import { Axios } from "../../AxiosInstance";
 
 export const GetAllPromotion = async () => {
   try {
-    const response = await Axios.get("/feature5/AllPromotion/");
+    const response = await Axios.get("/feature14/getInProgressPromotion");
 
     return response.data;
   } catch (error) {

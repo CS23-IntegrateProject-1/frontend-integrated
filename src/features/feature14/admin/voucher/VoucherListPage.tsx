@@ -5,18 +5,18 @@ import {
   TabList,
   Stack,
 } from "@chakra-ui/react";
+import { VoucherDetailCard } from "../../components/VoucherCom/VoucherDetailCard";
 import { VoucherCard } from "../../components/VoucherCom/VoucherCard";
 import { useEffect, useState, FC } from "react";
-import IVoucherCardProp from "../../../../interfaces/Voucher/IVoucherCardProp";
+import IVoucherApprove from "../../../../interfaces/Voucher/IVoucherApprove";
 import { GetVoucherByBusinessId } from "../../../../api/Voucher/GetVoucherByBusinessId";
 
 export const VoucherListPage: FC = () => {
-  const [datas, setDatas] = useState<IVoucherCardProp[]>([]);
+  const [datas, setDatas] = useState<IVoucherApprove[]>([]);
   const [selector, setSelector] = useState<
     "In_progress" | "Completed" | "Rejected"
   >("In_progress");
   const [currentTab, setCurrentTab] = useState(0);
-
   const fetchVoucher = async () => {
     const res = await GetVoucherByBusinessId();
     setDatas(res);
@@ -96,7 +96,7 @@ export const VoucherListPage: FC = () => {
       </Tabs>
       {datas
         ?.filter((data) => data.isApprove === selector)
-        .map((data: IVoucherCardProp) => {
+        .map((data: IVoucherApprove) => {
           if (selector === "In_progress") {
             return (
               data.isApprove === "In_progress" && (
@@ -104,17 +104,20 @@ export const VoucherListPage: FC = () => {
                   voucher_name={data.voucher_name}
                   voucherId={data.voucherId}
                   isApprove={data.isApprove}
-                  key={data.voucherId}
+                  description={data.description}
+                  key={data.voucherId}  
+                    
                 />
               )
             );
           } else if (selector === "Completed") {
             return (
               data.isApprove === "Completed" && (
-                <VoucherCard
+                <VoucherDetailCard
                   voucher_name={data.voucher_name}
                   voucherId={data.voucherId}
                   isApprove={data.isApprove}
+                  description={data.description}
                   key={data.voucherId}
                 />
               )
@@ -122,10 +125,11 @@ export const VoucherListPage: FC = () => {
           } else if (selector === "Rejected") {
             return (
               data.isApprove === "Rejected" && (
-                <VoucherCard
+                <VoucherDetailCard
                   voucher_name={data.voucher_name}
                   voucherId={data.voucherId}
                   isApprove={data.isApprove}
+                  description={data.description}
                   key={data.voucherId}
                 />
               )

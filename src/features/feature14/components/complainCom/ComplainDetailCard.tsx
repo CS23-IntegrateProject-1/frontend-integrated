@@ -1,8 +1,8 @@
 import { Box, Card, CardBody, Text } from "@chakra-ui/react";
 import React from "react";
-import IVoucherApprove from "../../../../interfaces/Voucher/IVoucherApprove";
+import IReportApprove from "../../../../interfaces/ComplainTicket/IReportApprove"
 
-export const VoucherDetailCard: React.FC<IVoucherApprove & { isApprove: string }> = ({ voucher_name, voucherId, description }) => {
+export const ComplainDetailCard: React.FC<IReportApprove & { status: string }> = ({ topic, complaint, ComplainTicketId }) => {
   return (
     <Card
       width="90%"
@@ -19,11 +19,11 @@ export const VoucherDetailCard: React.FC<IVoucherApprove & { isApprove: string }
       <CardBody>
         <Box>
           <Text pt="2" fontSize="md">
-            ID: {voucherId}
+            ID: {ComplainTicketId}
             <br/>
-            Name: {voucher_name}
+            Topic: {topic}
             <br/>
-            Description: {description}
+            Detail: {complaint}
           </Text>
         </Box>
       </CardBody>
