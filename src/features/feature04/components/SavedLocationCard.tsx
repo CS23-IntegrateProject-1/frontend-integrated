@@ -24,7 +24,7 @@ import {
 import colors from "../../../theme/foundations/colors";
 import textStyles from "../../../theme/foundations/textStyles";
 import {
-  useMutation,
+  useMutation, useQueryClient,
 } from "@tanstack/react-query";
 
 interface SavedCardProps {
@@ -86,6 +86,7 @@ const DelIcon: React.FC = () => {
   );
 };
 const SavedLocationCard = (props: SavedCardProps) => {
+  const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullAddress] = useState(false);
   // const [userId, setUserId] = useState("");
@@ -158,6 +159,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
         // console.log("hello from savedLocCard" + updatedData.address)
     
         await mutation.mutateAsync(updatedData);
+        queryClient.invalidateQueries(["savedData"]);
         return Promise.resolve();
       } catch (error) {
         console.error('Error updating data:', error);
@@ -177,7 +179,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
       {
         onSuccess: () => {
           // Optionally, you can refetch the data or perform any other actions after a successful delete
-          // queryClient.invalidateQueries(["savedLocation", props.savedLocId]);
+          
         },
       }
     );
@@ -185,6 +187,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
     const handleDelete = async () => {
       try {
         await deleteMutation.mutateAsync();
+        queryClient.invalidateQueries(["savedData"]);
       } catch (error) {
         console.error('Error deleting data:', error);
       }
