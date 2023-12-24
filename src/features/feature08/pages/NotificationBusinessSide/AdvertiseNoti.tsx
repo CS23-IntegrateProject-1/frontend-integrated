@@ -16,8 +16,8 @@ import {
 
 import { ButtonComponent } from "../../../../components/buttons/ButtonComponent";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
 
 type AdvertiseNoti = {
   advertisementId: string;
@@ -36,11 +36,46 @@ export const AdvertiseNoti = () => {
   const [advertiseNotified, setAdvertiseNotified] = useState<AdvertiseNoti | null>(null);
   const { advertisementId } = useParams();
 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const adSessionResponse = await Axios.post(`/feature8/create-ad-session/${advertisementId}`);
+        const sessionId = adSessionResponse.data.sessionId;
+        console.log(sessionId);
+    
+        const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
+        console.log(paymentResponse.data);
+    
+        
+      } catch (error) {
+        console.error('Error in AdvertiseNoti component:', error);
+    
+        if ((error as any).response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error('Response data:', (error as any).response.data);
+          console.error('Status code:', (error as any).response.status);
+          console.error('Headers:', (error as any).response.headers);
+        } else if ((error as any).request) {
+          // The request was made but no response was received
+          console.error('No response received. Request details:', (error as any).request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error setting up the request:', (error as any).message);
+        }
+      }
+    };
+    
+
+    fetchData();
+  }, [advertisementId]);
+
   useEffect(() => {
     const fetchAdvertiseInfo = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/advertisements/${advertisementId}`);
+        
+        const response = await Axios.get(`/feature8/advertisements/${advertisementId}`);
         const tableData = response.data;
         setAdvertiseNotified(tableData);
       } catch (error) {
@@ -51,12 +86,14 @@ export const AdvertiseNoti = () => {
     fetchAdvertiseInfo();
   }, [advertisementId]);
 
+console.log(advertiseNotified)
   if (!advertiseNotified) {
     // Render loading state or return null
     return <div>Loading...</div>;
   }
 
   const { isApprove, cost,name,description, } = advertiseNotified;
+  console.log(isApprove,name )
 
   return (
     <Center>
@@ -80,7 +117,8 @@ export const AdvertiseNoti = () => {
                   Title: {name}
                 </Heading>
                 <Text marginBottom={5}>
-                  This email is to notify you that your advertisement is in_progress
+                  This email is to notify you that your advertisement is 
+                  {isApprove === "Completed" ? " Completed" : isApprove === "In_progress" ? " In_progress" : isApprove === "Awaiting_payment" ? " Awaiting_payment" : " Rejected"}
                   
                 </Text>
                 <Heading size="md" marginBottom={2}>
@@ -96,7 +134,7 @@ export const AdvertiseNoti = () => {
                       <Tr>
                         <Td>{description}</Td>
                         <Td textAlign={"right"}>
-                          {isApprove === "Completed" ? cost + " baht" : (isApprove === "In_progress" ? cost + " baht" : "0 baht")}
+                          {isApprove === "Completed" ? cost + " baht" : isApprove === "In_progress" ? cost + " baht" : isApprove === "Awaiting_payment" ? cost : cost + " baht"}
                         </Td>
                       </Tr>
                     </Tbody>
@@ -106,8 +144,7 @@ export const AdvertiseNoti = () => {
                   {isApprove === "Completed" ? "Total cost: " + cost + " baht" : (isApprove === "In_progress" ? "Total cost: " + cost + " baht" : "")}
                 </Text>
                 <Text marginTop={5} textAlign={"center"}>
-                {isApprove === "In_progress" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
-                  {isApprove === "Completed" ? <Link to={`/business/promotionadvertisement/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
+                  {isApprove === "Awaiting_payment" ? <Link to={`/venue/paymentAd/${advertisementId}`}><ButtonComponent text="Pay now" /></Link> : null}
                 </Text>
               </Box>
             </Stack>

@@ -17,9 +17,9 @@ interface OrderDetail {
 interface AllInformation {
   // onlineOrderId?: number;
   mainAddress: string;
-  cardTypeImg: string;
+  cardTypeImg?: string;
   cardType: string;
-  cardNo: number;
+  cardNo?: number;
   amount: number;
   restaurant: string;
   size: string;
@@ -31,6 +31,7 @@ interface AllInformation {
 
 export const YourOrderStatusComp = (props: AllInformation) => {
   
+  // console.log("Order Data:", props.cardType);
 //   const fetchOrderData = async () => {
 //     const response = await Axios.get(`/feature4/showOnGoingOrderDetail/${props.onlineOrderId}`);
 //     return response.data;
@@ -52,7 +53,7 @@ export const YourOrderStatusComp = (props: AllInformation) => {
 //     return <p>Error fetching data or data is undefined</p>;
 //   }
 
-console.log("Order Data:",  );
+// console.log("Order Data:",  );
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -83,8 +84,6 @@ console.log("Order Data:",  );
       </svg>
     );
   };
-  const HideCardNumber = `• • • •${String(props.cardNo).slice(11, 15)}`;
-
   const SummaryIcon: React.FC = () => {
     return (
       <svg
@@ -141,22 +140,17 @@ console.log("Order Data:",  );
               </Box>
             </Flex>
             <Flex flexDirection={"row"} gap={2} color={index.colors.black}>
-              <img
+              {/* <img
                 src={props.cardTypeImg}
                 width="10%"
                 height="10%"
                 style={{ borderRadius: "20px" }}
                 alt="CardType"
-              />
+              /> */}
               <Flex flexDirection={"column"}>
                 <Text>
                   {/* Card Type */}
                   {props.cardType}
-                </Text>
-
-                <Text>
-                  {/* Card No, passes from payment feature */}
-                  {HideCardNumber}
                 </Text>
               </Flex>
             </Flex>

@@ -18,11 +18,11 @@ export const CartDetail = () => {
     const fetchBranchName = async () => {
       try {
         const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`);
-        console.log("hello from cart detail" + response.data.venue);
+        // console.log("hello from cart detail" + response.data.venue);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);
       } catch (error) {
-        console.log("Error fetching branch name: ", error);
+        // console.log("Error fetching branch name: ", error);
       }
     }
     fetchBranchName();

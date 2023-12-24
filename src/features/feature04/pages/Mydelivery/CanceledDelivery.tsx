@@ -1,4 +1,4 @@
-import { Box,Flex,Text,IconButton } from "@chakra-ui/react";
+import { Box,Flex,Text,IconButton, Wrap, WrapItem } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index"
 import { MdKeyboardArrowRight } from "react-icons/md";
 import FoodStatus from "../../components/FoodDeliveryComp/FoodStatusNavbar";
@@ -17,7 +17,7 @@ export const CanceledMyDelivery=()=>{
       try {
         const response = await Axios.get('feature4/showCanceledOrder');
         setCanceledOrders(response.data);
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching ongoing orders:', error);
       }
@@ -26,10 +26,12 @@ export const CanceledMyDelivery=()=>{
     fetchOngoingOrders(); 
   }, []);
     return(
+     
       <Box>
       <FoodStatus />
-      <Flex justifyContent={"center"}>
+      <Wrap spacing="20px" justify="center">
         {canceledOrders.map((order) => (
+          <WrapItem key={order.onlineOrderId}>
           <Box
             key={order.onlineOrderId} // Use a unique key for each mapped component
             border={"solid 1.5px"}
@@ -38,7 +40,7 @@ export const CanceledMyDelivery=()=>{
             borderRadius={5}
             m={10}
             width={"auto"}
-            maxWidth={500}
+            maxWidth={600}
             minHeight={200}
             display="flex"
             alignItems="center"
@@ -54,19 +56,21 @@ export const CanceledMyDelivery=()=>{
             <Box flexDir={"row"}>
               <Text
                 fontSize={index.textStyles.h1.fontSize}
-                fontWeight={index.textStyles.h1.fontWeight}
+                fontWeight={index.textStyles.h2.fontWeight}
               >
-                {order.Venue_branch.branch_name}
+                {order.Venue_branch.branch_name.length > 15
+                  ? `${order.Venue_branch.branch_name.substring(0, 12)}...`
+                  : order.Venue_branch.branch_name}
               </Text>
               <Text
-                fontSize={index.textStyles.body1.fontSize}
-                fontWeight={index.textStyles.body1.fontWeight}
+                fontSize={index.textStyles.body2.fontSize}
+                fontWeight={index.textStyles.body2.fontWeight}
               >
                 Date: {new Date(order.order_date).toLocaleDateString()}
               </Text>
               <Text
-                fontSize={index.textStyles.body1.fontSize}
-                fontWeight={index.textStyles.body1.fontWeight}
+                fontSize={index.textStyles.body2.fontSize}
+                fontWeight={index.textStyles.body2.fontWeight}
                 >
                   Driver : {order.Driver_list.driver_first_name}
                 </Text>
@@ -90,9 +94,11 @@ export const CanceledMyDelivery=()=>{
               <MdKeyboardArrowRight />
             </IconButton>
           </Box>
+          </WrapItem>
         ))}
-      </Flex>
+      </Wrap>
     </Box>
+    
     
     )
 }

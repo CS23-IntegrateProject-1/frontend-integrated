@@ -85,6 +85,9 @@ export const MIKForm = () => {
       if (selectedDateTime < currentDate) {
         toast.warning("Please select a future date and time");
         return;
+      } else if (phonenumber.length > 10 || phonenumber.length < 9) {
+        toast.warning("Please enter a valid phone number");
+        return;
       }
       if (
         date == "" ||
@@ -106,7 +109,6 @@ export const MIKForm = () => {
         venueId: venueIdInt,
         branchId: branchIdInt,
       });
-      console.log("create reservation successfully");
       console.log(response);
       navigate("/my-reservation");
     } catch (err: any) {

@@ -46,7 +46,7 @@ const QrcodeGen: FC = () => {
   });
 
   if (!qr) {
-    return <div>Loading...</div>;
+    return <div>Payment required</div>;
   }
   return (
     <Box

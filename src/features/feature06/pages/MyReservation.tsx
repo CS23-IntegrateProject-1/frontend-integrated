@@ -54,8 +54,6 @@ export const MyReservation = () => {
       );
     });
   };
-  // console.log("DATA: ", data);
-  console.log("RENDER PAGES ----------------------------");
   return (
     <Box
       display={"flex"}

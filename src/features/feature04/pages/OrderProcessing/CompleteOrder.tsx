@@ -22,7 +22,7 @@ export const CompleteOrder=()=>{
         
           // Use useEffect to log the data
           useEffect(() => {
-            console.log(orderData);
+            // console.log(orderData);
           }, [orderData]);
 
           if (isLoading) {
@@ -33,7 +33,7 @@ export const CompleteOrder=()=>{
             return <p>Error fetching data or data is undefined</p>;
           }
     
-        console.log(orderData);
+        // console.log(orderData);
     return(
         <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Flex flexDirection={"column"} alignItems={"center"}>
@@ -41,7 +41,7 @@ export const CompleteOrder=()=>{
           <YourOrderStatusComp
             amount={orderData.total_amount}
             cardNo={1234567890987123}
-            cardType="Visa"
+            cardType={orderData.payment_method}
             cardTypeImg="="
             mainAddress={orderData.address}
             price={210}
