@@ -4,12 +4,14 @@ import { FC, useEffect, useState } from "react";
 import checkIn from "../../../../api/Reservation/checkIn";
 import textStyles from "../../../../theme/foundations/textStyles";
 import { QrScanner } from "@yudiel/react-qr-scanner";
+import { useCustomToast } from "../../../../components/useCustomToast";
 
 export const QrcodeConfirm: React.FC = () => {
     const [scanResult, setScanResult] = useState<{
         reservationId: number;
         authToken: string;
     }>();
+    const toast = useCustomToast();
     const [checkingIn, setCheckingIn] = useState<number | string>(0);
     const [callCnt, setCallCnt] = useState<number>(0);
     const handleScanSuccess = (result: string) => {
@@ -18,12 +20,13 @@ export const QrcodeConfirm: React.FC = () => {
     };
     const handleCheckIn = async (reservationId: number, authToken: string) => {
         try {
+            // if()
             if (callCnt > 1) return;
             const result = await checkIn(reservationId, authToken);
             setCheckingIn(result);
-        } catch (error) {
-            console.error("Error checking in:", error);
-            setCheckingIn(500); // Set a generic error status
+        } catch (err: any) {
+            toast.error(err.response.data.error);
+            throw err; // Set a generic error status
         }
     };
 
