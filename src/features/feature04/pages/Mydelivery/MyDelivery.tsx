@@ -20,7 +20,7 @@ function OngoingPage() {
       try {
         const response = await Axios.get('feature4/showOnGoingOrder');
         setOngoingOrders(response.data);
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
       } catch (error) {
         console.error('Error fetching ongoing orders:', error);
       }

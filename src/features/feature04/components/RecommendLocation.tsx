@@ -97,7 +97,7 @@ const StarIcon: React.FC = () => {
 const RecommendLocation = (props: RecommendLocationCard) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showFullDescription] = useState(false);
-  console.log(props);
+  // console.log(props);
   const navigate = useNavigate();
 
   const handleLocationClick = () => {

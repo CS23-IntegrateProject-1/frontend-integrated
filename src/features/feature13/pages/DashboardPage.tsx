@@ -8,10 +8,11 @@ import { getCountPerDay } from "../../../api/Reservation/getCountPerDay";
 import { MdRestaurantMenu } from "react-icons/md";
 
 interface IData {
+response:{
   sumRevenue?: number;
   ReservationCount?: number;
   CustomerCount?: number;
-}
+}}
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export const DashboardPage = () => {
     const path = "/business/tablelist";
     navigate(path);
   };
-  const [data, setData] = useState<IData>({});
+  const [data, setData] = useState<IData>();
 
   useEffect(() => {
     fetchData();
@@ -70,7 +71,7 @@ export const DashboardPage = () => {
             Revenue
           </Text>
           <Text fontSize={"20px"} fontWeight={"700"} mt={"5px"}>
-            {data.sumRevenue}
+            {data?.response.sumRevenue}
           </Text>
         </Box>
         <Box
@@ -89,7 +90,7 @@ export const DashboardPage = () => {
             Customers
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            {data.CustomerCount}
+            {data?.response.CustomerCount}
           </Text>
         </Box>
         <Box
@@ -108,7 +109,7 @@ export const DashboardPage = () => {
             Reservation
           </Text>
           <Text fontSize={"36px"} fontWeight={"700"} mt={"-5px"}>
-            {data.ReservationCount}
+            {data?.response.ReservationCount}
           </Text>
         </Box>
       </Box>

@@ -70,7 +70,7 @@ export const WalkInDetail = () => {
     try {
       if (name == "" || phonenumber == "") {
         toast.warning("Please fill in all information");
-      } else if (phonenumber.length > 10 || phonenumber.length < 10) {
+      } else if (phonenumber.length > 10 || phonenumber.length < 9) {
         toast.warning("Please enter a valid phone number");
         return;
       } 
@@ -81,7 +81,6 @@ export const WalkInDetail = () => {
         name: name
       });
       console.log(response);
-      console.log("create reservation successfully");
       navigate("/business/reservation");
     } catch (err: any) {
       toast.error(err.response.data.error);

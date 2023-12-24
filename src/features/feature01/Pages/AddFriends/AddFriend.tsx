@@ -34,7 +34,6 @@ export const AddFriend = () => {
                             duration: 1500,
                             isClosable: true,
                           }); 
-                        console.log(response.data);
                         console.log('successfully added')
                         setShouldShowChatButton(true);
                     }
@@ -78,15 +77,10 @@ export const AddFriend = () => {
             }
 
         const handleSearch = () => {
-        console.log(username);
         const url = `/feature1/search/friends?username=${username}`;
         Axios.get(url, { withCredentials: true })
             .then((response) => {
                 if (response.status == 200) {
-                    console.log(response.data);
-                    console.log(response.data.name);
-                    console.log(response.data.avatar); //give null no data
-                    console.log(response.data.user_id);
                     setUserId(response.data.user_id);
                     setUsername(response.data.name);
                     setUserImg(response.data.avatar);
@@ -104,15 +98,10 @@ export const AddFriend = () => {
             });
     }
     const handleSearchphNo = () => {
-        console.log(phNoSearch);
         const url = `/feature1/search/friends?phone=${phNoSearch}`;
         Axios.get(url, { withCredentials: true })
             .then((response) => {
                 if (response.status == 200) {
-                    console.log(response.data);
-                    console.log(response.data.name);
-                    console.log(response.data.avatar); //give null no data
-                    console.log(response.data.user_id);
                     setUserId(response.data.user_id);
                     setUsername(response.data.name);
                     setUserImg(response.data.avatar);
@@ -131,7 +120,6 @@ export const AddFriend = () => {
     const createChatHandler = (e: {preventDefault: () => void;}) => {
         e.preventDefault();
         const allData = new FormData();
-        console.log('inFunc CreateChatHandler');
         const groupName = username+","+loggedInUser.fname+" "+loggedInUser.lname;
         allData.append("group_name", groupName);
         allData.append("members[]", userId);
@@ -148,7 +136,6 @@ export const AddFriend = () => {
         )
           .then((response) => {
             if (response.status == 200) {
-              console.log(response.data);
               console.log("successfully added private chat");
             }
           })
