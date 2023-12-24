@@ -81,7 +81,6 @@ export const Checkbill: React.FC = () => {
   };
 
   const { data } = useQuery(["fetchOrderData", newOrderId || ""], () => fetchOrderData());
-  console.log(data);
 
   return (
     <Center>

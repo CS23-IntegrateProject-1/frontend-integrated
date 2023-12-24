@@ -29,7 +29,7 @@ const FoodDelivery = () => {
     const fetchMenuData = async () => {
       try {
         const response = await Axios.get<Menu[]>(`/feature4/menus/${venueId}`);
-        console.log("Menu Data Response:", response.data);
+        // console.log("Menu Data Response:", response.data);
         setMenuData(response.data);
       } catch (error) {
         console.error("Error fetching menu data:", error);
@@ -39,11 +39,11 @@ const FoodDelivery = () => {
     const fetchBranchName = async () => {
       try {
         const response = await Axios.get(`/feature4/branch/${venueId}/${branchId}`)
-        console.log(response.data);
+        // console.log(response.data);
         setBranchName(response.data.branch.branch_name);
         setVenue(response.data.venue.name);
       } catch (error) {
-        console.log("Error fetching branch name: ", error);
+        // console.log("Error fetching branch name: ", error);
       }
     }
 
@@ -52,18 +52,18 @@ const FoodDelivery = () => {
     const getTotalCost = async () => {
       try {
         const response = await Axios.get("/feature4/getTotal");
-        console.log(response.data);
+        // console.log(response.data);
         const total = response.data;
         setTotal(total); // Update total state
       } catch (error) {
-        console.log("Error fetching total cost: ", error);
+        // console.log("Error fetching total cost: ", error);
       }
     };
 
     const getItemCount = async () => {
       try {
         const response = await Axios.get("/feature4/showOrderCart");
-        console.log(response);
+        // console.log(response);
         if (response && response.data && Array.isArray(response.data)) {
           const totalQuantity = response.data.reduce(
             (acc, item) => acc + (item.quantity || 0),
@@ -73,10 +73,10 @@ const FoodDelivery = () => {
         } else {
           console.error("Invalid response format");
         }
-        console.log("Item count :");
-        console.log(itemCount);
+        // console.log("Item count :");
+        // console.log(itemCount);
       } catch (error) {
-        console.log("Error getting item count: ", error);
+        // console.log("Error getting item count: ", error);
       }
     };
     getItemCount();

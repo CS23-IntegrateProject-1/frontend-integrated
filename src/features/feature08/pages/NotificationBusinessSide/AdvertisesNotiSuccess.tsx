@@ -32,19 +32,16 @@ type AdvertiseNoti = {
   businessId: string;
 };
 
-export const AdvertiseNoti = () => {
+export const AdvertiseNotiSuccess = () => {
   const [advertiseNotified, setAdvertiseNotified] = useState<AdvertiseNoti | null>(null);
   const { advertisementId } = useParams();
+  const { sessionId } = useParams();
 
   
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const adSessionResponse = await Axios.post(`/feature8/create-ad-session/${advertisementId}`);
-        // const sessionId = adSessionResponse.data.sessionId;
-    
         // const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
-
     
         
       } catch (error) {
@@ -68,7 +65,7 @@ export const AdvertiseNoti = () => {
     
 
     fetchData();
-  }, [advertisementId]);
+  }, [advertisementId, sessionId]);
 
   useEffect(() => {
     const fetchAdvertiseInfo = async () => {

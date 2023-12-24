@@ -117,7 +117,6 @@ const fetchBusinessInsightTimeFilterData = async () => {
 
 
 const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
-console.log(data)
 
 
 
@@ -139,10 +138,6 @@ if (selectedFromDate !== undefined && selectedToDate !== undefined) {
 // Add dependencies to the dependency array if needed
 }, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
-
-if(selectedFromDate !== undefined){
-  console.log(dataFilted)
-}
 
 // Step 1: Convert the timestamp to a date string
 const convertToDateString = (timestamp: Date) => {
@@ -184,13 +179,13 @@ const getRevenueFiltered = (groupedTransactionDetails: Record<string, transactio
   );
 };
 
-const getfilteredCommision = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
-  return Object.values(groupedTransactionDetails).map(details => {
-    const totalRevenue = details.reduce((total, detail) => total + parseFloat(detail.total_amount.toString()), 0);
-    const netProfit = (totalRevenue / 100) * 10;
-    return parseFloat(netProfit.toFixed(3));
-  });
-};
+// const getfilteredCommision = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
+//   return Object.values(groupedTransactionDetails).map(details => {
+//     const totalRevenue = details.reduce((total, detail) => total + parseFloat(detail.total_amount.toString()), 0);
+//     const netProfit = (totalRevenue / 100) * 10;
+//     return parseFloat(netProfit.toFixed(3));
+//   });
+// };
 
 const getfilteredNetProfit = (groupedTransactionDetails: Record<string, transaction_detail[]>) => {
   return Object.values(groupedTransactionDetails).map(details => {
@@ -204,7 +199,7 @@ const getfilteredNetProfit = (groupedTransactionDetails: Record<string, transact
 let dates: string[] = [];
 
 let revenueNormal: number[] = [];
-let comissionNormal: number[] = [];
+// let comissionNormal: number[] = [];
 let netProfitNormal: number[] = [];
 let orderNormal: number[] = [];
 
@@ -212,7 +207,7 @@ if(data){
   const groupedTDetailData = groupByDate(data.tDetailData.flat());
   dates = getDates(data.tDetailData.flat());
   revenueNormal = getRevenueFiltered(groupedTDetailData);
-  comissionNormal = getfilteredCommision(groupedTDetailData);
+  // comissionNormal = getfilteredCommision(groupedTDetailData);
   netProfitNormal = getfilteredNetProfit(groupedTDetailData);
   orderNormal = getNumberOfOrder(groupedTDetailData).map(({ count }) => count);
 }
@@ -220,22 +215,10 @@ if(data){
 const groupedFilteredTDetailData = groupByDate(dataFilted);
 const filteredDates = getDates(dataFilted);
 const filteredRevenue = getRevenueFiltered(groupedFilteredTDetailData);
-const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
+// const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
 const filteredNetProfit = getfilteredNetProfit(groupedFilteredTDetailData);
 const filteredOrder = getNumberOfOrder(groupedFilteredTDetailData).map(({ count }) => count);
 
-
-console.log('Dates:', dates);
-console.log('Revenue:', revenueNormal);
-console.log('Net Profit:', comissionNormal);
-console.log('Filtered Dates:', filteredDates);
-console.log('Filtered Revenue:', filteredRevenue);
-console.log('Filtered Net Profit:', filteredCommision);
-console.log('Filtered Reservation:', filteredOrder);
-console.log('reservationNormal:', orderNormal);
-
-console.log(selectedFromDate)
-console.log(selectedToDate)
 
 
 

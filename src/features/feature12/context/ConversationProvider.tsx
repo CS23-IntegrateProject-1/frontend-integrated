@@ -82,7 +82,7 @@ export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
       query: { id: user.username },
     });
     setSocket(newSocket);
-    console.log("newSocket", newSocket);
+    // console.log("newSocket", newSocket);
     return () => {
       newSocket.close();
     };
@@ -108,7 +108,7 @@ export const ConversationsProvider: React.FC<ProviderProps> = ({children}) => {
   //To get all the communityConversationLog
   useEffect(() => {
     Axios.get("/feature12/displayCommunityDetail").then((res) => {
-      console.log(">>>>>COMMUNITY>>>", res.data )
+      // console.log(">>>>>COMMUNITY>>>", res.data )
       const newConversations = res.data.map((room: CConversation) => ({
         roomname: room.roomname,
         community_group_profile: room.community_group_profile,

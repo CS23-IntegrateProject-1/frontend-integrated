@@ -17,6 +17,8 @@ import { OrderUpdateNoti } from "./pages/NotificationBusinessSide/OrderUpdateNot
 import { UpdateNoti } from "./pages/NotificationBusinessSide/UpdateNoti";
 import { AddCardNoti } from "./pages/NotificationBusinessSide/AddCardNoti";
 import { EnterCode } from "./pages/NotificationBusinessSide/EnterCode";
+import { SelectPaymentAd } from "./pages/Business/SelectPaymentAd";
+import { AdvertiseNotiSuccess } from "./pages/NotificationBusinessSide/AdvertisesNotiSuccess";
 
 export const FeatureBusiness08Routes = () => {
 	return [
@@ -61,7 +63,7 @@ export const FeatureBusiness08Routes = () => {
 			element: <Checkbill />,
 		},
 		{
-			path: "/business/Notification/:venueId",
+			path: "/business/Notification",
 			element: <Notification />,
 		},
 		{
@@ -80,6 +82,14 @@ export const FeatureBusiness08Routes = () => {
 		{
 			path: "/business/Notification/NewReservation/:venueId/:reservationId",
 			element: <NewReserveNoti />,
+		},
+		{
+			path: "/business/Notification/advertisement/:advertisementId/:sessionId",
+			element: <AdvertiseNotiSuccess />,
+		},
+		{
+			path: "/venue/paymentAd/:advertisementId",
+			element: <SelectPaymentAd />,
 		},
 		{
 			path: "/business/Notification/OrderUpdate/:orderId",
