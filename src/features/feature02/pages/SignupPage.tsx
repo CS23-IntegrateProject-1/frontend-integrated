@@ -1,6 +1,6 @@
-import { Box, Image, Button, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 import textStyles from "../../../theme/foundations/textStyles";
-import google from "../img/google.png";
+// import google from "../img/google.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { signup } from "../../../api/Auth/Signup";
@@ -222,7 +222,7 @@ export const SignupPage = () => {
 						Sign up
 					</Button>
 					<br />
-					<Text textAlign="center" style={textStyles.h4}>
+					{/* <Text textAlign="center" style={textStyles.h4}>
 						Sign up with
 					</Text>
 					<Image
@@ -232,10 +232,10 @@ export const SignupPage = () => {
 						margin="auto"
 						marginBottom="3vh"
 						marginTop="3vh"
-					/>
+					/> */}
 					<Box>
 						<Text textAlign="center" style={textStyles.h4}>
-							Don't have an account?{" "}
+							Already have an account?{" "}
 							<Text
 								as={"u"}
 								style={textStyles.h4}
