@@ -5,6 +5,7 @@ import { ShowTime } from "./pages/ShowTime";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import ScreenPage from "./pages/ScreenPage";
 import HistoryPage from "./pages/HistoryPage";
+import ReservationFail from "./pages/ReservationFail";
 
 export const Feature10Routes = () => {
   return [
@@ -39,6 +40,10 @@ export const Feature10Routes = () => {
     {
       path: "/history",
       element: <HistoryPage />,
-    }
+    },
+    {
+      path: "/reservationFail",
+      element: <ReservationFail />,
+    },
   ];
 };

@@ -173,43 +173,42 @@ const ScreenPage: React.FC = () => {
 	return (
 		<>
 			{/* Movie Info at top*/}
-			<Box display={"flex"} flexDirection={"row"} paddingBottom={"7"} backgroundColor="#FFFFFFD9" borderRadius={5} >
+			<Box display={"flex"} flexDirection={["column", "column", "row"]} paddingBottom={"7"} backgroundColor="#FFFFFFD9" borderRadius={5} >
+			<Box display="flex"   width={["100%", "100%", "auto"]}>
+				<Image
+				src={data?.Films.poster_img}
+				alt={data?.Films.name}
+				borderRadius="lg"
+				width={["50%", "50%", posterWidth]}
+				height={["auto", "auto", posterHeight]}
+				mt={5}
+				ml={5}
+				/>
+			</Box>
+			<Box display={"flex"} flexDirection={"column"} padding={"4"} width={["100%", "100%", "auto"]}>
+				<Text color={"#200944"} style={TextStyle.h1} mb={2}>
+				{data?.Films.name}
+				</Text>
+				<Text color={"#200944"} style={TextStyle.h1} mb={2}>
+				{date} | {startTime + ""}
+				</Text>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
+				{data?.Films.rate}
+				</Text>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
+				Duration : {data?.Films.duration} minutes
+				</Text>
 				<Box>
-					<Image
-						src={data?.Films.poster_img}
-						alt={data?.Films.name}
-						borderRadius="lg"
-						width={posterWidth}
-						height={posterHeight}
-						mt={5}
-						ml={5}
-					/>
-				</Box>
-				<Box display={"flex"} flexDirection={"column"} padding={"4"}>
-					<Text color={"#200944"} style={TextStyle.h1} mb={2}>
-						{data?.Films.name}
-					</Text>
-					<Text color={"#200944"} style={TextStyle.h1} mb={2}>
-						{date} | {startTime + ""}
-					</Text>
-					<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
-						{data?.Films.rate}
-					</Text>
-					<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
-						Duration : {data?.Films.duration} minutes
-					</Text>
-					<Box>
 				<Text style={TextStyle.body1} mb={2} color={"#19191999"} >
 					{theaterInfo.name}
 				</Text>
 				<Box display="flex" flexDirection="row">
 					<Center style={TextStyle.body1} mb={2} mr={20} color={"#19191999"}>
-						Screen {data.Screens.screen_no}
+					Screen {data.Screens.screen_no}
 					</Center>				
 				</Box>
-			</Box>
 				</Box>
-				
+			</Box>
 			</Box>
 			{/* Place + Theater name and time  */}
 
@@ -254,7 +253,7 @@ const ScreenPage: React.FC = () => {
 
 			{/* TypeCard */}
 			<Center>
-				<Grid templateColumns="repeat(3, 1fr)" gap={20} >
+				<Grid templateColumns="repeat(3, 1fr)" gap={20} overflowX="auto">
 					{seatType.map((type, index: number) => (
 						<Box key={index} >
 							<TypeOfSeatCard
