@@ -137,7 +137,6 @@ export const BusiProfile = () => {
     Axios.get(openingHour, { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.Mon.open, "get open");
           setAvailability({ ...availability, openingDay: response.data });
         }
       })
@@ -151,10 +150,8 @@ export const BusiProfile = () => {
      Axios.get(priceRange, { withCredentials: true })
        .then((response) => {
          if (response.status === 200) {
-           console.log(response.data);
            setMaxPrice(response.data.max);
            setMinPrice(response.data.min);
-           console.log(maxPrice, minPrice, 'price');
          }
        })
        .catch((error) => {

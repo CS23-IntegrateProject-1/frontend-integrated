@@ -43,15 +43,11 @@ export const SetUpGroup = () => {
     );
     allData.append("avatar", groupImg as Blob);
 
-    console.log(`Group Name: ${allData.get("group_name")}`);
-    console.log(`Group Image: ${allData.get("avatar")}`); // This might show file details
-    console.log(allData.get("avatar"), 'below form')
 
     const memberIds = [];
     for (const memberId of allData.getAll("members")) {
       memberIds.push(memberId);
     }
-    console.log(`Member IDs: ${memberIds.join(", ")}`);
     const url = `/feature1/group/add`;
     Axios.postForm(
       url,
@@ -62,7 +58,6 @@ export const SetUpGroup = () => {
     )
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data);
           console.log("successfully added");
           navigate("/communitychat");
           // const newGroup = response.data;
@@ -73,33 +68,6 @@ export const SetUpGroup = () => {
       .catch((error) => {
         console.error("Error fetching fir list data:", error);
       });
-    //navigate to comuunity chat
-   // console.log(groupName, groupImg);
-    // const url = `/feature1/group/add`;
-    // Axios.post(
-    //   url,
-    //   {
-    //     group_name: groupName,
-    //     // group_img: groupImg, later
-    //     members: selectedFriends.map((friend: any) => {
-    //       return friend.user_id;
-    //     }),
-    //   },
-    //   { withCredentials: true }
-    // )
-    //   .then((response) => {
-    //     if (response.status == 200) {
-    //       console.log(response.data);
-    //       console.log("successfully added");
-    //       const newGroup = response.data;
-    //       const navigate = useNavigate();
-    //       navigate("/Friends", { state: { newGroup } });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching fir list data:", error);
-    //   });
-      
   };
   
   return (
