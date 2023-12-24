@@ -1,310 +1,349 @@
-import React, {useState} from "react";
-import { extendTheme, Box, FormControl, FormLabel, Input,
-  Textarea,Select, Button,Checkbox,CheckboxGroup, Stack,
-ChakraProvider,Container,MenuButton, MenuItem, MenuList, Menu  } from "@chakra-ui/react";
- import { ChevronDownIcon } from "@chakra-ui/icons"
+import React, { useState, useEffect, useRef } from 'react'
+import { useParams } from 'react-router-dom'
+import { Axios } from '../../../../AxiosInstance'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Button,
+  Radio,
+  Stack,
+  Image
+} from '@chakra-ui/react'
 
+const AccountEditPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>()
 
-// const paymentMethodOptions = [
-//   'Credit Card',
-//   'Debit Card',
-//   'PayPal',
-//   'Bank Transfer',
-//   // Add more payment method options here
-// ];
+  const profilePhotoInputRef = useRef<HTMLInputElement | null>(null) // Define the ref
 
-// const customTheme = extendTheme({
-//   styles: {
-//     global: {
-//       'html, body': {
-//         height: '100%',
-//       },
-//     },
-//   },
-// });
-// const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//   if (event.target.files && event.target.files.length > 0) {
-//     setProfilePhoto(event.target.files[0]);
-//   }
-// };
-// const handleImageChange = (event) => {
-//     const file = event.target.files[0];
-//     // Do something with the selected file, like uploading it to a server
-//     // For now, just set it to state to display a preview
-//     setSelectedImage(URL.createObjectURL(file));
-//   };
-const paymentMethodOptions = [
-    'Credit Card',
-    'Debit Card',
-    'PayPal',
-    'Bank Transfer',
-    // Add more payment method options here
-  ];
+  const [formData, setFormData] = useState({
+    businessName: '',
+    description: '',
+    phoneNo: '',
+    email: '',
+    fromTime: new Date(),
+    toTime: new Date(),
+    category: '',
+    restaurantSubcategory: '',
+    state: '',
+    district: '',
+    address: '',
+    acceptPeople: '',
+    paymentmethod: '',
+    photo: '',
+    profilePhoto: null as File | null
+  })
 
-const customTheme = extendTheme({
-    styles: {
-      global: {
-        'html, body': {
-          height: '100%',
-        },
-      },
-    },
-  }); 
+  const initialFormData = { ...formData } // Save initial state for reset
 
-export const AccountEditPage: React.FC = () => {
-  const [businessName, setBusinessName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [phoneNo, setPhoneNo] = useState<string>("");
-  const [email, setemailName] = useState<string>("");
-  const [fromTime, setFromTime] = useState<string>("");
-  const [toTime, setToTime] = useState<string>("");
-  const [category, setCategory] = useState<string[]>([]);
-  const [state, setState] = useState<string>("");
-  const [district, setDistrict] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [acceptPeople, setAcceptPeople] = useState<string>("");
-  const [paymentmethod, setPaymentMethod] = useState<string>("");
-  setPaymentMethod("");
-  // const [photo, setPhoto] = useState<string>("");
+  const setDescription = (newDescription: string): void => {
+    setFormData((prevData) => ({
+      ...prevData,
+      description: newDescription
+    }))
+  }
 
-  const handleBusinessNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBusinessName(event.target.value);
-  };
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      try {
+        const response = await Axios.get(`/feature14/accountUpdate/${id}`)
+        setFormData((prevData) => ({ ...prevData, ...response.data }))
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(event.target.value);
-  };
+    void fetchData()
+  }, [id])
 
-  const handlePhoneNoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNo(event.target.value);
-  };
-  const handleemailNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setemailName(event.target.value);
-  };
+  const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.files != null && event.target.files.length > 0) {
+      const file: File = event.target.files[0]
+      setFormData((prevData) => ({ ...prevData, profilePhoto: file }))
+    }
+  }
 
-  const handleFromTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFromTime(event.target.value);
-  };
+  const handleProfileClick = (): void => {
+    // Trigger input file click when profile picture is clicked
+    if (profilePhotoInputRef.current != null) {
+      profilePhotoInputRef.current.click()
+    }
+  }
 
-  const handleToTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setToTime(event.target.value);
-  };
+  const handleBusinessNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, businessName: event.target.value })
+  }
 
-  const handleCategoryChange = (newCategories: string[]) => {
-    setCategory(newCategories);
-  };
-  const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState(event.target.value);
-  };
-  const handleDistrictChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDistrict(event.target.value);
-  };
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
-  };
+  const handlePhoneNoChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, phoneNo: event.target.value })
+  }
 
-  const handleAcceptPeopleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAcceptPeople(event.target.value);
-  };
+  const handleemailNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, email: event.target.value })
+  }
 
-  // const handlepaymentmethodChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPaymentMethod(event.target.value);
-  // };
+  const handlefromTimeChange = (newDate: Date | null): void => {
+    setFormData({ ...formData, fromTime: newDate ?? new Date() })
+  }
 
-  // const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPhoto(event.target.value);
-  // };
+  const handletoTimeChange = (newDate: Date | null): void => {
+    setFormData({ ...formData, toTime: newDate ?? new Date() })
+  }
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    
-  };
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files?.[0]
+    if (file != null) {
+      setFormData({ ...formData, photo: URL.createObjectURL(file) })
+    }
+  }
+
+  const handleRestaurantSubcategoryChange = (value: string): void => {
+    setFormData({ ...formData, restaurantSubcategory: value })
+  }
+
+  const handleCategoryChange = (value: string): void => {
+    setFormData({ ...formData, category: value })
+  }
+
+  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, address: event.target.value })
+  }
+
+  const handleAcceptPeopleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, acceptPeople: event.target.value })
+  }
+
+  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, paymentmethod: event.target.value })
+  }
+
+  const handleFormSubmit = async (event: React.FormEvent): Promise<void> => {
+    event.preventDefault()
+
+    try {
+      // Implement the logic to update the data on the server using Axios
+      const response = await Axios.put(`/feature14/account/${id}`, formData)
+      console.log('Data updated successfully', response.data)
+    } catch (error) {
+      console.error('Error updating data:', error)
+    }
+  }
+
+  const handleReset = (): void => {
+    setFormData(initialFormData)
+  }
+
+  const customDatePickerStyles = {
+    input: {
+      backgroundColor: 'white',
+      color: 'black',
+      border: '1px solid #cbd5e0',
+      borderRadius: '0.375rem',
+      padding: '0.375rem 0.75rem'
+    }
+  }
 
   return (
-    <Box p={4} color="white">
-      <form onSubmit={handleSubmit}>
-        <FormControl>
-          <FormLabel>Business Name*</FormLabel>
-          <Input
-            type="text" bg={"white"} textColor={"black"}
-            value={businessName}
-            onChange={handleBusinessNameChange}
-            placeholder=" Business name" text-color={"black"}
-          />
-        </FormControl>
-
-        <FormControl mt={4}>
-          <FormLabel>Description*</FormLabel>
-          <Textarea
-          bg={"white"} textColor={"black"}
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder=""
-          />
-        </FormControl>
-
-        <FormControl mt={4}>
-          <FormLabel>Phone No.*</FormLabel>
-          <Input
-            type="tel" bg={"white"} textColor={"black"}
-            value={phoneNo}
-            onChange={handlePhoneNoChange}
-            placeholder="xxx-xxx-xxxx"
-          />
-        </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Email*</FormLabel>
-          <Input
-            type="text"bg={"white"} textColor={"black"}
-            value={email}
-            onChange={handleemailNameChange}
-            placeholder="Business Name"
-          />
-        </FormControl>
-
-        {/* New form fields for editing account information */}
-        <FormControl mt={4}>
-          <FormLabel>From Time*</FormLabel>
-          <Select value={fromTime} onChange={handleFromTimeChange}>
-            <option value=""></option>
-            {/* Add time options for "From" */}
-          </Select>
-        </FormControl>
-
-        <FormControl mt={4}>
-          <FormLabel>To Time*</FormLabel>
-          <Select value={toTime} onChange={handleToTimeChange}>
-            <option value=""></option>
-            {/* Add time options for "To" */}
-          </Select>
-        </FormControl>
-        <Box >
-        <FormControl mt={4}>
-          <FormLabel>Category</FormLabel>
-          <CheckboxGroup value={category} onChange={handleCategoryChange}>
-            <Stack direction="row" spacing={4}>
-              <Checkbox value="club">Club</Checkbox>
-              <Checkbox value="bar">Bar</Checkbox>
-              <Checkbox value="restaurant">Restaurant</Checkbox>
-            </Stack>
-          </CheckboxGroup>
-        </FormControl>
-        </Box>
-
-        <FormControl mt={4}>
-          <FormLabel>State/Province*</FormLabel>
-          <Input
-            type="text"
-            bg={"white"}
-            textColor={"black"}
-            value={state}
-            onChange={handleStateChange}
-            placeholder=""
-          />
-        </FormControl>
-
-        <FormControl mt={4}>
-          <FormLabel>District*</FormLabel>
-          <Input
-            type="text"
-            bg={"white"}
-            textColor={"black"}
-            value={district}
-            onChange={handleDistrictChange}
-            placeholder=""
-          />
-        </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Address*</FormLabel>
-          <Input
-            type="text"
-            bg={"white"}
-            textColor={"black"}
-            value={address}
-            onChange={handleAddressChange}
-            placeholder=""
-          />
-        </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Number of people that can accept</FormLabel>
-          <Input
-            type="text"bg={"white"} textColor={"black"}
-            value={acceptPeople}
-            onChange={handleAcceptPeopleChange}
-            placeholder=""
-          />
-        {/* </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Payment Method*</FormLabel>
-          <Input
-            type="text"bg={"white"} textColor={"black"}
-            value={paymentmethod}
-            onChange={handlePaymentMethodChange}
-            placeholder=""
-          /> */}
-           <ChakraProvider theme={customTheme}>
-      <Container centerContent>
-        <FormControl mt={4}>
-          <FormLabel htmlFor="paymentmethod">Payment Method*</FormLabel>
-          <Select
-          id="paymentmethod"
-                value={paymentmethod}
-                // onChange={handlepaymentmethodChange}
-                placeholder="Select a payment method"
-            
+    <Box p={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          void handleFormSubmit(event) // Use the `void` operator to handle the Promise
+        }}
           >
-            {paymentMethodOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-        <Box>
-          <p>Selected Payment Method: {paymentmethod}</p>
-        </Box>
-      </Container>
-      <Menu>
-  {({ isOpen }) => (
-    <>
-      <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon />}>
-        {isOpen ? 'Close' : 'Open'}
-      </MenuButton>
-      <MenuList>
-        <MenuItem>Download</MenuItem>
-        <MenuItem onClick={() => alert('Kagebunshin')}>Create a Copy</MenuItem>
-      </MenuList>
-    </>
-  )}
-</Menu>
-    </ChakraProvider>
-
-
-
-
-        </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Photo of Business</FormLabel>
-          <Input
+            <FormControl mt={4}>
+              <FormLabel>Profile Photo</FormLabel>
+              <Input
                 type="file"
                 accept="image/*"
-                // onChange={handleImageChange}
+                onChange={handleProfilePhotoChange}
+                ref={profilePhotoInputRef}
+                style={{ display: 'none' }}
+              />
+              <Box
+                position="relative"
+                onClick={handleProfileClick}
+                cursor="pointer"
+                borderRadius="full"
+                overflow="hidden"
+                boxSize="250px"
+              >
+                <Image
+                  borderRadius="full"
+                  boxSize="100%"
+                  src={(formData.profilePhoto != null) ? URL.createObjectURL(formData.profilePhoto) : 'https://bit.ly/dan-abramov'}
+                  alt="Selected Photo"
+                />
+              </Box>
+            </FormControl>
+            <FormLabel>Business Name*</FormLabel>
+            <Input
+              type="text"
+              bg={'white'}
+              textColor={'black'}
+              value={formData.businessName}
+              onChange={handleBusinessNameChange}
+              placeholder=" Business name"
             />
-        </FormControl>
-         <Button mt={4} color="white"textColor={"purple"} marginRight={100} borderRadius="lg" type="submit">
-          Cancel
-        </Button>
-        <Button mt={4} bg={"brand.200"} textColor={"white"}type="submit">
-        Submit
-        </Button>
-      </form>
-    </Box>
-  );
-};
+            <FormControl mt={4}>
+                <FormLabel>Description*</FormLabel>
+                    <Textarea
+                        bg={'white'}
+                        textColor={'black'}
+                        value={formData.description}
+                        onChange={(e) => { setDescription(e.target.value) }}
+                    />
+            </FormControl>
+            <FormControl mt={4}>
+            <FormLabel>Phone No.*</FormLabel>
+            <Input
+                type="tel" bg={'white'} textColor={'black'}
+                value={formData.phoneNo}
+                onChange={handlePhoneNoChange}
+                placeholder="xxx-xxx-xxxx"
+            />
+            </FormControl>
+            <FormControl mt={4}>
+            <FormLabel>Email*</FormLabel>
+            <Input
+                type="text"bg={'white'} textColor={'black'}
+                value={formData.email}
+                onChange={handleemailNameChange}
+                placeholder="Business Name"
+            />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Open Hour*</FormLabel>
+              <FormLabel>From</FormLabel>
+              <DatePicker
+                selected={formData.fromTime}
+                onChange={(date) => { handlefromTimeChange(date) }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                customInput={<Input style={customDatePickerStyles.input} />}
+              />
+              <FormLabel>To</FormLabel>
+              <DatePicker
+                selected={formData.toTime}
+                onChange={(date) => { handletoTimeChange(date) }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                customInput={<Input style={customDatePickerStyles.input} />}
+              />
+            </FormControl>
+            <Box >
+            <FormControl mt={4}>
+              <FormLabel>Category</FormLabel>
+              <Stack direction="row" spacing={4}>
+                <Radio
+                  value="club"
+                  isChecked={formData.category === 'club'}
+                  onChange={() => { handleCategoryChange('club') }}
+                >
+                  Club
+                </Radio>
+                <Radio
+                  value="bar"
+                  isChecked={formData.category === 'bar'}
+                  onChange={() => { handleCategoryChange('bar') }}
+                >
+                  Bar
+                </Radio>
+                <Radio
+                  value="restaurant"
+                  isChecked={formData.category === 'restaurant'}
+                  onChange={() => { handleCategoryChange('restaurant') }}
+                >
+                  Restaurant
+                </Radio>
+              </Stack>
+            </FormControl>
 
-export default AccountEditPage;
+            {formData.category === 'restaurant' && formData.restaurantSubcategory != null && (
+                <FormControl mt={4}>
+                  <FormLabel>Restaurant Subcategory</FormLabel>
+                  <Stack direction="row" spacing={4}>
+                    <Radio
+                      value="ala-carte"
+                      isChecked={formData.restaurantSubcategory === 'ala-carte'}
+                      onChange={() => { handleRestaurantSubcategoryChange('ala-carte') }}
+                    >
+                      A La Carte
+                    </Radio>
+                    <Radio
+                      value="buffet"
+                      isChecked={formData.restaurantSubcategory === 'buffet'}
+                      onChange={() => { handleRestaurantSubcategoryChange('buffet') }}
+                    >
+                      Buffet
+                    </Radio>
+                  </Stack>
+                </FormControl>
+            )}
+            </Box>
+        <FormControl mt={4}>
+            <FormControl mt={4}>
+            <FormLabel>Address</FormLabel>
+            <Input
+                type="text"bg={'white'} textColor={'black'}
+                value={formData.address}
+                onChange={ handleAddressChange}
+                placeholder=""
+            />
+            </FormControl>
+            <FormControl mt={4}>
+            <FormLabel>Number of people that can accept</FormLabel>
+            <Input
+                type="text"bg={'white'} textColor={'black'}
+                value={formData.acceptPeople}
+                onChange={handleAcceptPeopleChange}
+                placeholder=""
+            />
+            </FormControl>
+            <FormControl mt={4}>
+            <FormLabel>Payment Method*</FormLabel>
+            <Input
+                type="text"bg={'white'} textColor={'black'}
+                value={formData.paymentmethod}
+                onChange={handlePaymentMethodChange}
+                placeholder=""
+            />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Photo of Business</FormLabel>
+              <Input type="file" accept="image/*" onChange={handleImageChange} />
+            </FormControl>
+
+            {(formData.photo != null) && (
+              <Box mt={4} position="relative">
+                <Image
+                  borderRadius="md"
+                  boxSize="250px"
+                  src={formData.photo}
+                  alt="Selected Photo"
+                />
+              </Box>
+            )}
+            <Button mt={4} color="white" textColor={'purple'} marginRight={100} borderRadius="lg" type="button" onClick={handleReset}>
+              Cancel
+            </Button>
+            <Button mt={4} bg={'brand.200'} textColor={'white'} type="submit">
+              Update
+            </Button>
+            </FormControl>
+        </form>
+    </Box>
+  )
+}
+
+export default AccountEditPage
