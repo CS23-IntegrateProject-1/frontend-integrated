@@ -95,6 +95,9 @@ export const OrderUpdateNoti = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  if(!orderData?.orderData.orderdetail[0]) {
+    return <div>Order has been completed</div>
+  }
   return (
     <Box
       display={'flex'}
