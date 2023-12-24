@@ -1,18 +1,10 @@
-import { Box, Avatar, Stack, Flex, Text } from "@chakra-ui/react";
+import { Box, Avatar, Stack, Flex, Text, Center, ButtonGroup, Button, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../AxiosInstance";
-// interface CreditCard {
-//   creditCardId: number;
-//   card_no: string;
-//   name: string;
-//   country: string;
-//   bank: string;
-//   cvc: number;
-//   exp: string;
-//   userId: number;
-// }
+import { ButtonComponent } from "../../../components/buttons/ButtonComponent";
+
 
 interface Availability {
   venueId: number;
@@ -68,8 +60,11 @@ const defaultAvailability: Availability = {
   },
 };
 export const BusiProfile = () => {
-  //img upload
-  //const [selectedFile, setSelectedFile] = useState("");
+  //For Drawer Sign out
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleOpen = () => {
+      onOpen();
+  }
   //index for tabs open days
   //0 - Sun , 1 - Mon , 2 - Tue , 3 - Wed , 4 - Thu , 5 - Fri , 6 - Sat
   const [tabIndex, setTabIndex] = useState(0);
@@ -159,6 +154,22 @@ export const BusiProfile = () => {
        });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  //destory cookie when sign out
+  const handleSignOut = () => {
+    const url = `/auth/logout`;
+    Axios.post(url, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log("Sign out success");
+          window.location.href = "/business/login";
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.error("Error fetching profile  data:", error);
+      });
+  }
 
   return (
     <Box>
@@ -316,7 +327,57 @@ export const BusiProfile = () => {
             </Flex>
           </Box>
         </Stack>
+        <Center mt={5}>
+      <ButtonComponent
+          text="Sign Out"
+          textColor="red"
+          bgColor="#200944"
+          border={"1px solid red"}
+          bgColorHover="white"
+          onClick={handleOpen}
+        />
+      </Center>
       </Box>
+      {/* Drawer for sign out*/}
+      <Drawer placement={"bottom"} onClose={onClose} isOpen={isOpen}>
+        <DrawerContent
+          bg={"brand.100"}
+          px={4}
+          pt={4}
+          pb={5}
+          transition="all 0.1s ease"
+        >
+          <Center
+            color={"black"}
+            fontWeight={TextStyle.h1.fontWeight}
+            fontSize={TextStyle.h1.fontSize}
+          >
+            Sign Out
+          </Center>
+          <Center pt={1} color={"black"} fontSize={TextStyle.body2.fontSize}>
+            Are you sure you want to sign out?
+          </Center>
+          <Center>
+            <ButtonGroup pt={2} spacing="6">
+                {/* <NavLink to={"/login"}> */}
+                <Button px={12} onClick={handleSignOut}>
+                Continue
+              </Button>
+                {/* </NavLink> */}
+              <Button
+                width={"140px"}
+                height={"40px"}
+                onClick={onClose}
+                bg={"brand.200"}
+                color={"white"}
+                _hover={{ bg: "brand.300" }}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Center>
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 };
