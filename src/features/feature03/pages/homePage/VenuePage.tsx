@@ -297,7 +297,7 @@ export const VenuePage = () => {
                     textColor="white"
                     bgColor="brand.300"
                     _hover={{ bgColor: "brand.100", textColor: "black" }}
-                    w={"100%"}
+                    w="350px"
                   >
                     Branches
                   </Button>
