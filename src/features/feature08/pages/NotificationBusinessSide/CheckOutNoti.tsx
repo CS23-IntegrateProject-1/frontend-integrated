@@ -7,9 +7,9 @@ import {
     Box,
     Text
   } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Axios } from "../../../../AxiosInstance";
 
 export const CheckOutNoti = () => {
   const { venueId } = useParams();
@@ -19,8 +19,8 @@ export const CheckOutNoti = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/reservation/${venueId}/${reservationId}`);
+        
+        const response = await Axios.get(`/feature8/reservation/${venueId}/${reservationId}`);
         const tableNumberData = response.data;
         setTableNo(tableNumberData);
       } catch (error) {

@@ -15,8 +15,8 @@ import {
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import { formatDate1, formatDatetime1 } from "../../../../functions/formatDatetime";
+import { Axios } from "../../../../AxiosInstance";
 
 export const Timestamp = () => {
   const [appTrans, setAppTrans] = useState<any[] | undefined>(undefined);
@@ -28,8 +28,8 @@ export const Timestamp = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/apptransactions/${venueId}`);
+        
+        const response = await Axios.get(`/feature8/apptransactions/${venueId}`);
         const tableData = response.data;
         setAppTrans(tableData);
       } catch (error) {
@@ -46,9 +46,9 @@ export const Timestamp = () => {
 
     const fetchData = async (transactionId: any) => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(
-          `${backendUrl}/feature8/apptransaction_details/bytransactionId/${transactionId}`
+        
+        const response = await Axios.get(
+          `/feature8/apptransaction_details/bytransactionId/${transactionId}`
         );
         const appTransactionDetails = response.data;
 
