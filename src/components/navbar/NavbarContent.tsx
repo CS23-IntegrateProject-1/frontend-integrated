@@ -80,6 +80,10 @@ export const NavbarContent: FC<NavbarContentProps> = ({
             aria-label="Notification Page"
             variant={"unstyled"}
             icon={<BellIcon boxSize={8} color={"white"} />}
+            onClick={() => {
+              navigate("/Notification");
+              onClose();
+            }}
           />
         </Stack>
         <IconButton
