@@ -1,6 +1,6 @@
 import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
 import { FC } from "react";
-import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
+import { CloseIcon, SettingsIcon } from "@chakra-ui/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 
 interface NavbarContentProps {
