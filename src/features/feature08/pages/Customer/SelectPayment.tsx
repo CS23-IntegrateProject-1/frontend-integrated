@@ -86,6 +86,7 @@ export const SelectPayment: FC<ButtonProps> = ({
         // if (result.error) {
         //   alert(result.error.message);
         // }
+        console.log(res.data.url)
         window.location.href = res.data.url;
       })
       .catch((err) => {
