@@ -149,11 +149,6 @@ export const AddCardVenue: FC<ButtonProps> = ({
     setIsValid(isValidExpiryDate);
   };
     const handleSubmit = () => {
-      if (isValid) {
-        console.log("card is valid");
-      } else {
-        console.log("card is not valid");
-      }
       // window.location.href = `/:userId/venue/:venueId/payment`;
     };
     // creditCardId : string,
@@ -168,8 +163,6 @@ export const AddCardVenue: FC<ButtonProps> = ({
 
     // Assuming expiryDate is in the format "MM/YY"
     const [month, year] = expiryDate.split('/');
-
-    console.log("Parsed month and year:", month, year);
     
     // Creating a new Date object with the parsed month and year
     const expirationDate = new Date(parseInt(`20${year}`, 10), parseInt(month, 10) - 1);
@@ -208,10 +201,8 @@ export const AddCardVenue: FC<ButtonProps> = ({
             venueId: parseInt(venueId!),
           }
         );
-    
-        // Handle the response data as needed
-        console.log("POST response:", response.data);
-    
+
+  
         // Assuming the response data is an array of AddCard items
         setAddCardData(response.data);
         window.location.href = `http://localhost:4000/venue/${venueId}/business/checkout`;

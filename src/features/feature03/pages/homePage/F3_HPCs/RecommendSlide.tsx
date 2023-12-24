@@ -118,7 +118,7 @@ export const RecommendSlide = () => {
         >
           <CardBody pb={1}>
             <Image
-              src={RPS.venue_picture}
+              src={`${import.meta.env.VITE_BACKEND_URL}${RPS.venue_picture}`}
               alt={RPS.name + "_Pic"}
               borderRadius="lg"
               w="100%"
@@ -189,7 +189,7 @@ export const RecommendSlide = () => {
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="350px"
+                w={"100%"}
               >
                 Branches
               </Button>

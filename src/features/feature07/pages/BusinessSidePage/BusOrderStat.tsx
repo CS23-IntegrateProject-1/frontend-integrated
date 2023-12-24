@@ -66,7 +66,7 @@
       isError: ongoingError,
   } = useQuery(["ongoingOrderDetails"], async () => {
       const response = await Axios.get("/feature7/onGoingOrderDetailsInBusiness");
-     console.log("Ongoing:", response.data);
+    //  console.log("Ongoing:", response.data);
       return response.data;
     });
 
@@ -78,7 +78,7 @@
      const response = await Axios.get(
        "/feature7/completedOrderDetailsInBusiness"
      );
-     console.log("Completed:", response.data);
+    //  console.log("Completed:", response.data);
      return response.data;
    });
 
@@ -94,10 +94,10 @@
   const invalidateCompletedOrderDetails = () => {
     queryClient.invalidateQueries(["completedOrderDetails"]);
   };
-  console.log(
-    "hello",
-    formatDatetime1(completedOrderDetails[0].table.orderDate)
-  );
+  // console.log(
+  //   "hello",
+  //   formatDatetime1(completedOrderDetails[0].table.orderDate)
+  // );
   const renderCard = () => {
     switch (status) {
       case "Preparing":

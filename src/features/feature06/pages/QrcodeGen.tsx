@@ -43,10 +43,10 @@ const QrcodeGen: FC = () => {
 
   useEffect(() => {
     fetchQrImg();
-  });
+  }),[];
 
   if (!qr) {
-    return <div>Loading...</div>;
+    return <div>Payment required</div>;
   }
   return (
     <Box

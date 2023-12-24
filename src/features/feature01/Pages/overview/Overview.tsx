@@ -45,10 +45,6 @@ export const Overview = () => {
         member_tier:"",
     });
 
-    // const [memberData, setMemberData] = useState({
-    //     member_point:"",
-    //     member_tier:"",
-    // });
     
     //Get Profile Data
     useEffect(() => {
@@ -162,12 +158,12 @@ export const Overview = () => {
               {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
             </Badge>
           </Box>
-          <Box width={"100%"}>              
+          {/* <Box width={"100%"}>              
           <NavLink to="/customer/history">
-          <Box  display={"flex"}>
+          <Box  display={"flex"}> */}
             {/* to link with group 8 history payment */}
            
-            <Text 
+            {/* <Text 
             fontWeight={TextStyle.body1.fontWeight}
             fontSize={TextStyle.body1.fontSize}> Payment History</Text> 
             <Spacer />
@@ -175,7 +171,7 @@ export const Overview = () => {
             
           </Box>
           </NavLink>
-          </Box>
+          </Box> */}
 
           <Box width={"100%"}>              
           <NavLink to="/ticketHistory">
@@ -264,7 +260,7 @@ export const Overview = () => {
                   borderBottomEndRadius={"25px"}
                   borderBottomLeftRadius={"25px"}
                 >
-                  <NavLink to="/map/food-delivery/my-delivery/completed">
+                  <NavLink to="/map/food-delivery/completed">
                     <Flex
                       px={2}
                       bg={"#DEBEF6"}

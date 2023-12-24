@@ -3,15 +3,19 @@ import {
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogOverlay,
+  Avatar,
   Box,
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
+  Flex,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { TextStyle } from "../../../../theme/TextStyle";
 import QRCode from "react-qr-code";
@@ -20,10 +24,11 @@ import {
   AttachmentIcon,
   CheckIcon,
   DownloadIcon,
-  ExternalLinkIcon,
 } from "@chakra-ui/icons";
-import {  useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Axios } from "../../../../AxiosInstance";
+import { NavLink } from "react-router-dom";
+import { UserContext } from "../../../../contexts/userContext/UserContext";
 export const QRScanner = () => {
   //drawer for qr code
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,36 +44,51 @@ export const QRScanner = () => {
     onOpen: onOpen3,
     onClose: onClose3,
   } = useDisclosure();
-  
+
   const cancelRef = useRef();
   const [qrCodeData, setQrCodeData] = useState("");
   const [newData, setNewData] = useState("");
   const [openCam, setOpenCam] = useState(false);
-  const [scannedData, setScannedData] = useState("")
+  const [scannedData, setScannedData] = useState("");
   const [friList, setFriList] = useState<any[]>([]);
   const [userName, setUserName] = useState("");
-  //const [checkFri, setCheckFri] = useState(false);
   const [funstart, setFunstart] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const [sName, setSName] = useState("");
-  const handleCopyLink = async() => {
+  const [found, setFound] = useState(false);
+  const [notfound, setNotfound] = useState(false);
+  const [showAddfri, setShowAddfri] = useState(false);
+  const [username, setUsername] = useState("");
+  const [userImg, setUserImg] = useState("");
+  const [userId, setUserId] = useState("");
+  const [shouldShowChatButton, setShouldShowChatButton] = useState(false);
+  const [hidebox, setHidebox] = useState(false);
+  const toast = useToast();
+  //integration with chat gorup
+  const loggedInUser = useContext(UserContext);
+
+  const handleCopyLink = async () => {
     setLinkCopied(true);
     console.log(userName);
     const copyLink = `${
       import.meta.env.VITE_BACKEND_URL
     }/feature1/qr/${userName}`;
     console.log(copyLink);
-   // console.log(checkFri);
+    // console.log(checkFri);
 
     // if (linkCopied) {
-      onOpen2();
-      await navigator.clipboard.writeText(copyLink);
-      console.log("URL copied to clipboard!");
-      console.log(linkCopied);
+    onOpen2();
+    await navigator.clipboard.writeText(copyLink);
+    console.log("URL copied to clipboard!");
+    console.log(linkCopied);
     // }
   };
   const openCamera = () => {
     setOpenCam(true);
+    setHidebox(true);
+    //hide the box
+    // const box = document.getElementById("box");
+    // if (box) box.style.visibility = "hidden";
   };
   const handleOpen = () => {
     onOpen();
@@ -76,14 +96,14 @@ export const QRScanner = () => {
   };
   const downloadQR = () => {
     onOpen3();
-    window.open(`${
-      import.meta.env.VITE_BACKEND_URL
-    }/feature1/qr/${userName}`);
+    window.open(`${import.meta.env.VITE_BACKEND_URL}/feature1/qr/${userName}`);
   };
-  const stop = () => {
-    setOpenCam(false);
-  };
-
+  // const stop = () => {
+  //   setOpenCam(false);
+  // };
+  useEffect(() => {
+    openCamera();
+  }, []);
   useEffect(() => {
     const url = `/feature1/profile`;
     Axios.get(url, { withCredentials: true })
@@ -131,9 +151,7 @@ export const QRScanner = () => {
             birthday,
             phone,
           });
-          //const qrCodeData = `${userId},${username}, ${data.gender}, ${data.birthday}, ${data.phone}, ${data.email}`;
           setQrCodeData(qrCodeData);
-          console.log(qrCodeData, "JSON Data from me");
         }
       })
       .catch((error) => {
@@ -144,56 +162,57 @@ export const QRScanner = () => {
   const generateQR = () => {
     setNewData("1");
   };
-  // useEffect(() => {
-  //if user found from scanning qr code}
-  // if(funstart){
-  //   console.log('fund');
-  //   console.log(scannedData, "  scann data");
-  //   const url = `/feature1/friend`;
-  //   Axios.get(url, { withCredentials: true })
-  //     .then((response) => {
-  //       if (response.status == 200) {
-  //           const data = response.data;
-  //           setFriList(data);
-  //           friList.map((item) => {
-  //               if (item.name.includes(scannedData)) {
-  //                   console.log("found");
-  //               }
-  //           });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching profile  data:", error);
-  //     });
-  //     setFunstart(false);
-  // }
-  const alredayFri = () => {
+  const alredayFri = (sName: string) => {
     console.log("already fri");
-     const url = `/feature1/friend`;
+    const url = `/feature1/friend`;
     Axios.get(url, { withCredentials: true })
       .then((response) => {
         if (response.status == 200) {
           const data = response.data;
           setFriList(data);
           //already in the fir list situation
-          const usernameRegex = /"username":"(.*?)"/;
-const match = usernameRegex.exec(sName);
-const scanName = match?.[1]
+          const usernameRegex = /"username":"(.*?)"/; //get username from json data
+          const match = usernameRegex.exec(sName);
+          const scanName = match?.[1];
           friList.map((item) => {
-            console.log(item.username);
-            console.log(scanName);
-            if(item.username == scanName ){
-              console.log("found");//done here show toast laready fir
+            if (item.username == scanName) {
+              console.log("found"); //done here show toast laready fir
+              toast({
+                render: () => (
+                  <Box
+                    color="white"
+                    textAlign={"center"}
+                    p={3}
+                    bg="brand.200"
+                    borderRadius={"20"}
+                  >
+                    Already in the friend list
+                  </Box>
+                ),
+                duration: 1500,
+                isClosable: true,
+              });
+              setFound(true);
+              setOpenCam(false);
+            } else {
+              console.log("not found");
+              setNotfound(true);
+              setShowAddfri(true);
+              //start add fri logic here
             }
-            //console.log(item.username, scanName, "from smae map");
           });
-          console.log(data, "from already fri");
+          if (found) {
+            console.log("found from already fri");
+          }
+          if (notfound) {
+            console.log("not found from already fri");
+          }
         }
       })
       .catch((error) => {
         console.error("Error fetching profile  data:", error);
       });
-    }
+  };
 
   if (funstart) {
     console.log("fund starat");
@@ -208,47 +227,127 @@ const scanName = match?.[1]
       "from destructure"
     );
     setSName(scanName);
-    const v = alredayFri();
-    setFunstart(false);
-      console.log("stop");
-      console.log(v);
-    //const url = `/feature1/friend`;
-    // Axios.get(url, { withCredentials: true })
-    //   .then((response) => {
-    //     if (response.status == 200) {
-    //       const data = response.data;
-    //       setFriList(data);
-    //       //already in the fir list situation
-    //       friList.map((item) => {
-    //         if(item.name == scanName )
-    //         console.log(item.name, scanName, "from map");
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching profile  data:", error);
-    //   });
-    // //if they are not fri to each other
-    // //add to fri list
-    // if(checkFri){
-    //   const urlfri = `/feature1/search/friends?username=${scanName}`;
-    //   Axios.get(urlfri, { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.status == 200) {
-    //         console.log(response.data, "fund from username fri add");
-    //         setCheckFri(false);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching username fri data:", error);
-    //     });
-      
-    // }
+    alredayFri(scanName as string);
+    if (found) {
+      console.log("found from scanning");
     }
-    
+    if (notfound) {
+      console.log("not found from scanning");
+    }
+    setFunstart(false);
+    console.log("stop");
+  }
+  //to show add fri box
+  if (showAddfri) {
+    console.log("show add fri", sName);
+    const usernameRegex = /"username":"(.*?)"/; //get username from json data
+    const match = usernameRegex.exec(sName);
+    const scanName = match?.[1];
+    const url = `/feature1/search/friends?username=${scanName}`;
+    Axios.get(url, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          setUserId(response.data.user_id);
+          setUsername(response.data.name);
+          setUserImg(response.data.avatar);
+          //give null no data
+          //change the state of the box to visible
+          setOpenCam(false);
+          setHidebox(false);
+          const box = document.getElementById("box");
+          if (box) box.style.visibility = "visible";
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching username data:", error);
+      });
+  }
+  const onClickHandler = () => {
+    Axios.post(
+      `/feature1/friend/add`,
+      {
+        friend_id: userId,
+      },
+      { withCredentials: true }
+    )
+      .then((response) => {
+        if (response.status == 200) {
+          toast({
+            render: () => (
+              <Box
+                color="white"
+                textAlign={"center"}
+                p={3}
+                bg="brand.200"
+                borderRadius={"20"}
+              >
+                Added!
+              </Box>
+            ),
+            duration: 1500,
+            isClosable: true,
+          });
+          console.log("successfully added");
+          setShouldShowChatButton(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching username data:", error);
+        if (error.response.status == 409) {
+          toast({
+            render: () => (
+              <Box
+                color="white"
+                textAlign={"center"}
+                p={3}
+                bg="brand.200"
+                borderRadius={"20"}
+              >
+                Already in the friend List!
+              </Box>
+            ),
+            duration: 1500,
+            isClosable: true,
+          });
+        }
+      });
+    //setShouldShowChatButton(true);
+    if (shouldShowChatButton) {
+      setTimeout(() => {
+        const text = document.getElementById("text");
+        if (text) {
+          text.style.visibility = "visible";
+        }
+      }, 800);
+    }
+  };
 
-  // }, [scannedData, friList]);
-  
+  // =====>Chat goup Code Integration starts here
+  const createChatHandler = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const allData = new FormData();
+    const groupName =
+      username + "," + loggedInUser.fname + " " + loggedInUser.lname;
+    allData.append("group_name", groupName);
+    allData.append("members[]", userId);
+    allData.append("avatar", userImg);
+    allData.append("secret", true.toString());
+
+    const url = `/feature1/group/add`;
+    Axios.postForm(url, allData, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log("successfully added private chat");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding private chat data:", error);
+      });
+  };
+  //  end here ======>
+
   return (
     <Box height={"100%"}>
       {/* upper part */}
@@ -258,18 +357,78 @@ const scanName = match?.[1]
         ml={{ lg: "39%", base: "50" }}
         mt={{ lg: "", base: "10" }}
       >
-        {openCam && (
+        {openCam == true && hidebox == true ? (
           <QrScanner
             onDecode={(result: string) => {
-              console.log(result, "result");
               setScannedData(result);
               setFunstart(true);
             }}
             onError={(error: { message: any }) => console.log(error?.message)}
           />
+        ) : (
+          <Box
+          position={"absolute"}
+          top={40}
+          left={{ lg: "40%", base: "12%" }}
+          mt={4}
+          id="box"
+          style={{ visibility: "hidden" }}
+        >
+          <Center py={2} flexDirection={"column"}>
+            {/* {userImg} */}
+            {userImg !== null ? (
+              <Avatar
+                src={`${import.meta.env.VITE_BACKEND_URL}${userImg}`}
+                size={"md"}
+              />
+            ) : (
+              <Avatar src="https://bit.ly/broken-link" size={"md"} />
+            )}
+            <Text
+              py={2}
+              color={"brand.200"}
+              fontSize={TextStyle.h2.fontSize}
+              fontWeight={TextStyle.h2.fontWeight}
+            >
+              {username}
+            </Text>
+          </Center>
+          <Text ml={4} id="text" color={"brand.100"} visibility={"hidden"}>
+            <Center>Start chatting with your new friend now!</Center>
+          </Text>
+          <Flex py={2} justifyContent={"space-evenly"}>
+            {/* Chat */}
+            {shouldShowChatButton ? (
+              <NavLink to="/communitychat">
+                <Button
+                  bg={"brand.100"}
+                  color={"brand.200"}
+                  colorScheme="brand.200"
+                  variant="outline"
+                >
+                  Chat
+                </Button>
+              </NavLink>
+            ) : (
+              <Button
+                bg={"brand.100"}
+                color={"brand.200"}
+                colorScheme="brand.200"
+                variant="solid"
+                onClick={(event) => {
+                  onClickHandler();
+                  createChatHandler(event);
+                }}
+              >
+                Add Friend
+              </Button>
+            )}
+          </Flex>
+        </Box>
+        
         )}
-        {funstart}
-        {scannedData}
+        {/* {funstart}
+        {scannedData} */}
         {/* {JSON.parse(scannedData)} */}
       </Box>
       {/* lower part */}
@@ -331,7 +490,7 @@ const scanName = match?.[1]
           </Text>
         </Box>
       </Box>
-      <button onClick={stop}>stop</button>
+      {/* <button onClick={stop}>stop</button> */}
       {/* Drawer for QR code*/}
       <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
         <DrawerOverlay />
@@ -358,12 +517,12 @@ const scanName = match?.[1]
                 <Box color={"black"}>Copy link</Box>
               </Box>
 
-              <Box color={"black"}>
+              {/* <Box color={"black"}>
                 <Box ml={10}>
                   <ExternalLinkIcon />
                 </Box>
                 <Box ml={8}> Share</Box>
-              </Box>
+              </Box> */}
               <Box color={"black"} cursor={"pointer"} onClick={downloadQR}>
                 <Box ml={5}>
                   <DownloadIcon />
@@ -425,7 +584,6 @@ const scanName = match?.[1]
         </AlertDialogContent>
       </AlertDialog>
 
-
       {/* Drawe for QR Link Copy */}
       <AlertDialog
         motionPreset="slideInBottom"
@@ -463,6 +621,10 @@ const scanName = match?.[1]
           </AlertDialogBody>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* add fri box */}
+       
+      
     </Box>
   );
 };

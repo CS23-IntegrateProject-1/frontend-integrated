@@ -226,7 +226,7 @@ export const RecommendedPlacesPage = () => {
           >
             <CardBody pb={1}>
               <Image
-                src={RP.venue_picture}
+                src={`${import.meta.env.VITE_BACKEND_URL}${RP.venue_picture}`}
                 alt={RP.name + "_Pic"}
                 borderRadius="lg"
                 w="100%"
@@ -297,7 +297,7 @@ export const RecommendedPlacesPage = () => {
                   textColor="white"
                   bgColor="brand.300"
                   _hover={{ bgColor: "brand.100", textColor: "black" }}
-                  w="350px"
+                  w={"100%"}
                 >
                   Branches
                 </Button>

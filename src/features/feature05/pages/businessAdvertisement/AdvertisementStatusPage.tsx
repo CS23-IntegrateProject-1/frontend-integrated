@@ -6,22 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { GetAllAdsBusiness } from "../../../../api/Advertisement/GetAllAdsBusiness";
 import IAd_business from "../../../../interfaces/Advertisement/IAd_business.interface";
 
-// const fetchData = async (status: string): Promise<string[]> => {
-//   // Assume this is your backend API endpoint to fetch data based on the status
-//   const response = await fetch(/api/data?status=${status});
-//   const data = await response.json();
-//   return data;
-// };
-
 export const AdvertisementStatusPage: React.FC = () => {
 	const [currentTab, setCurrentTab] = useState(0);
 	const [data, setData] = useState<IAd_business[]>([]);
 	const [selector, setSelector] = useState<"ongoing" | "complete">("ongoing");
 	const navigate = useNavigate();
 	const handleClickCreate = () => {
-		navigate("/business/advertisement/request");
+		navigate("/business/advertisement/create");
 	};
-	// const businessId = 2;
 
 	const fetchBusinessAds = async () => {
 		const res = await GetAllAdsBusiness();
@@ -30,8 +22,7 @@ export const AdvertisementStatusPage: React.FC = () => {
 
 	useEffect(() => {
 		fetchBusinessAds();
-		// console.log(data);
-	});
+	},[]);
 
 	const handleTabChange = (index: number) => {
 		setCurrentTab(index);
@@ -79,18 +70,10 @@ export const AdvertisementStatusPage: React.FC = () => {
 							}}
 							onClick={() => setSelector("complete")}
 						>
-							Complete
+							Completed
 						</Tab>
 					</Stack>
 				</TabList>
-
-				{/* <TabPanels>
-          {data.map((item, index) => (
-            <TabPanel key={index}>
-              <p>{item}</p>
-            </TabPanel>
-          ))}
-        </TabPanels> */}
 			</Tabs>
 
 			{data?.map((data, index: number) => {

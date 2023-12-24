@@ -16,12 +16,12 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import index from "../../../../../theme/foundations/index";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../../../AxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-interface SavedLocationItem {
+export interface SavedLocationItem {
   userId:number;
   name:string;
   createdAt:Date;
@@ -39,8 +39,10 @@ interface SavedLocationInterface{
 }
 
 // const queryClient = new QueryClient()
-
-export const SelectLocation = () => {
+interface SelectLocationProps {
+  onLocationSelect: (selectedLocation: SavedLocationItem | undefined,deliveryInstruction: string) => void;
+}
+export const SelectLocation: React.FC<SelectLocationProps>=({onLocationSelect}) => {
   const [value, setValue] = useState("1");
   // const [selectedValue, setSelectedValue] = useState("1");
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -48,6 +50,8 @@ export const SelectLocation = () => {
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [districtSubdistrict, setDistrictSubdistrict] = useState<string>("");
+  const [, setDeliveryInstruction] = useState<string>("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { data: dataSaved} = useQuery<SavedLocationInterface>({
     queryKey: ["dataSaved"], 
     queryFn: async () => {
@@ -55,6 +59,7 @@ export const SelectLocation = () => {
       return result.data;
     },
   });
+  
   const PinIcon: React.FC = () => {
     return (
       <svg
@@ -68,9 +73,10 @@ export const SelectLocation = () => {
       </svg>
     );
   };
-  console.log("dataSaved");
-  console.log(dataSaved);
-  console.log("====");
+  // console.log("dataSaved");
+  // console.log(dataSaved);
+  // console.log("====");
+  // console.log(deliveryInstruction)
 
   const EditIcon: React.FC = () => {
     return (
@@ -90,15 +96,22 @@ export const SelectLocation = () => {
   };
 
   const handleApply = () => {
+
+   
+    
     // Find the selected location based on the value
-    const selectedLocation = dataSaved?.location.find(loc => loc.savedLocId.toString() === value);
-    console.log("selectedLocation")
-    console.log(selectedLocation)
+    const selectedLocation = dataSaved?.location.find(
+      (loc) => loc.savedLocId.toString() === value
+    );
+    // console.log("selectedLocation")
+    // console.log(selectedLocation)
     // Update the address and district/subdistrict values
     setName(`${selectedLocation?.name}`);
     setAddress(`${selectedLocation?.address}`);
     setDistrictSubdistrict(`${selectedLocation?.district}, ${selectedLocation?.sub_district}, ${selectedLocation?.province}, ${selectedLocation?.postcode}`);
-
+    const textareaValue = textareaRef.current?.value || "";
+    setDeliveryInstruction(textareaValue);
+  onLocationSelect(selectedLocation, textareaValue);
     // Close the modal
     onClose();
   };
@@ -146,11 +159,7 @@ export const SelectLocation = () => {
                             display={"flex"}
                             flexDirection={"column"}
                             color={index.colors.black}
-                            border="1px solid #A533C8" // Add border style here
-                            borderRadius={5} // Optional: Add border radius
-                            paddingLeft={3} // Optional: Add padding
-                            paddingTop={1}
-                            paddingBottom={1}
+                            
                           >
                             <Box
                               display={"flex"}
@@ -204,6 +213,7 @@ export const SelectLocation = () => {
 
           <br />
           <Textarea
+            ref={textareaRef}
             placeholder="Delivery Instruction"
             size="md"
             variant={"unstyle"}

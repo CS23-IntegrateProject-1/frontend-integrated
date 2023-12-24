@@ -1,12 +1,21 @@
-import { Box, Text, Flex, IconButton, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
 import index from "../../../../theme/foundations/index";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-function Ongoing() {
+interface OrderDetail {
+  restaurantName: string;
+  onlineOrderId: number;
+  OrderDate: string;
+  price: number;
+  Driver: string;
+  licensePlate: string;
+}
+function Ongoing(props: OrderDetail) {
   const navigate = useNavigate();
-  const CancelOrder = () => {
-    navigate("/map/food-delivery/canceled");
+  const NavigateOngoingDetail = () => {
+    navigate(`/map/food-delivery/Ongoing-your-order/${props.onlineOrderId}`);
   };
+
   return (
     <Box>
       <Flex justifyContent={"center"}>
@@ -27,7 +36,7 @@ function Ongoing() {
             src="https://www.mkrestaurant.com/public/uploads/mk_menu/images/33e10dd680609fd2de8cc182fd51f644.jpg"
             width="30%"
             height="30%"
-            style={{ borderRadius: "5%", margin: 0 }}
+            style={{ borderRadius: "5%", marginLeft: 25 }}
             alt="Menu Item"
           />
           <Box flexDir={"row"}>
@@ -35,33 +44,37 @@ function Ongoing() {
               fontSize={index.textStyles.h1.fontSize}
               fontWeight={index.textStyles.h1.fontWeight}
             >
-              MK Roast Duck
+              {props.restaurantName}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              Date: 05/11/23
+              {props.OrderDate}
             </Text>
             <Text
               fontSize={index.textStyles.body2.fontSize}
               fontWeight={index.textStyles.body2.fontWeight}
             >
-              $210
+              {props.price}
             </Text>
-            <Button
-              variant={"unstyle"}
-              backgroundColor={index.colors.brand[200]}
-              onClick={CancelOrder}
-            >
-              Cancel
-            </Button>
+            <Flex flexDirection={"row"}>
+              <Text>Driver  :</Text>
+              <Text>{props.Driver}</Text>
+            </Flex>
+            <Flex flexDirection={"row"}>
+              <Text>License Plate :  </Text>
+              <Text>  {props.licensePlate}</Text>
+            </Flex>
+
+            
           </Box>
           <IconButton
             size="sm"
             aria-label="Next"
             fontSize="1.5rem"
             variant={"unstyle"}
+            onClick={NavigateOngoingDetail}
           >
             <MdKeyboardArrowRight />
           </IconButton>

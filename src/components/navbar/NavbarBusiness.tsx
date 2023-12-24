@@ -19,23 +19,30 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
   };
   const navigate = useNavigate();
   const links = [
-    
     { title: "Dashboard", to: "/" },
     {
       title: "Orders",
-      to: "/orders",
+      to: "/business/venue/orderstat",
     },
     {
       title: "Reservation",
       to: "/business/Reservation",
     },
     {
-      title: "Marketing",
-      to: "/marketing",
+      title: "Advertisement",
+      to: "/business/advertisement/status",
     },
     {
-      title: "Finance",
-      to: "/finance",
+      title: "Voucher",
+      to: "/business/voucher/status",
+    },
+    {
+      title: "Promotion",
+      to: "/business/promotion/status",
+    },
+    {
+      title: "Redeem",
+      to: "/business/redeem/status",
     },
   ];
   return (
@@ -77,6 +84,10 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
             aria-label="Notification Page"
             variant={"unstyled"}
             icon={<BellIcon boxSize={8} color={"white"} />}
+            onClick={() => {
+              navigate("/business/Notification");
+              onClose();
+            }}
           />
         </Stack>
         <IconButton
@@ -86,7 +97,7 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
             <SettingsIcon alignSelf={"flex-end"} boxSize={6} color={"white"} />
           }
           onClick={() => {
-            navigate("/setting");
+            navigate("/business/busiProfile");
             onClose();
           }}
         />

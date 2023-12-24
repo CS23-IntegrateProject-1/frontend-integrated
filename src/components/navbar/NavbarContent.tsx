@@ -1,6 +1,6 @@
 import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
 import { FC } from "react";
-import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
+import { CloseIcon, SettingsIcon } from "@chakra-ui/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 
 interface NavbarContentProps {
@@ -75,12 +75,6 @@ export const NavbarContent: FC<NavbarContentProps> = ({
               </Flex>
             </NavLink>
           ))}
-
-          <IconButton
-            aria-label="Notification Page"
-            variant={"unstyled"}
-            icon={<BellIcon boxSize={8} color={"white"} />}
-          />
         </Stack>
         <IconButton
           aria-label="Setting Page"

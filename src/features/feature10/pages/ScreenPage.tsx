@@ -1,319 +1,217 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
-import { Box, Center, Image, Text, Grid, Flex } from "@chakra-ui/react";
+import {
+	Box,
+	Center,
+	Image,
+	Text,
+	Grid,
+	Flex,
+	Button,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	useDisclosure,
+} from "@chakra-ui/react";
 import { TextStyle } from "../../../theme/TextStyle";
-import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { MovieSeat } from "../components/movieSeat/MovieSeat";
+import { TypeOfSeatCard } from "../components/movieSeat/TypeOfSeat";
+import { useNavigate, useParams } from "react-router-dom";
+import { getSeatByShowId } from "../../../api/movie/getSeatByShowId";
+import {
+	IScreenDatas,
+	ISeat,
+	ISeatType,
+	initialStateScreenDatas,
+} from "../../../interfaces/Movie/IScreenDatas.interface";
+import getTheaterDetail from "../../../api/movie/getTheaterDetail";
+import {
+	ITheaterDetail,
+	initialStateTheaterDetail,
+} from "../../../interfaces/Movie/ITheaterDetail.interface";
+import { getReservedSeat } from "../../../api/movie/getReservedSeat";
 import { Axios } from "../../../AxiosInstance";
-import { MovieSeat } from "../components/MovieSeat/MovieSeat";
-import { TypeOfSeatCard } from "../components/MovieSeat/TypeOfSeat";
-
-interface ShowDetails {
-	show: Show;
-	startTime: string;
-}
-
-interface Show {
-	date: string;
-	endTime: string;
-	filmId: number;
-	price: string;
-	screenId: number;
-	showId: number;
-	startTime: string;
-	Screens: Screen;
-	Films: Film;
-}
-
-interface Screen {
-	capacity: number;
-	screenId: number;
-	screenType: string;
-	screen_number: number;
-	theaterId: number;
-}
-
-interface Film {
-	duration: number;
-	filmId: number;
-	genre: string;
-	language: string;
-	name: string;
-	imageUrl: string;
-	rate: number;
-	releaseDate: string;
-	synopsis: string;
-}
-
-interface Seat {
-	seatId: number;
-	Seat_Types: SeatType;
-	screenId: number;
-	id: number;
-	seatRow: string;
-	seatNo: number;
-}
-
-interface SeatType {
-	seatTypeId: number;
-	typeName: string;
-	price: number;
-	finalPrice: number;
-}
+import { AxiosError } from "axios";
 
 const ScreenPage: React.FC = () => {
 	const posterWidth = "25vh"; // Replace with your desired movie poster width
 	const posterHeight = "40vh"; // Replace with your desired movie poster height
-	const filmId = useParams<{ filmId: string }>().filmId;
-	// const date = useParams<{ date: string }>().date;
-	const filmid = parseInt(filmId || "0");
-	const theaterId = useParams<{ theaterId: string }>().theaterId;
-	const theaterid = parseInt(theaterId || "0");
-	const id = useParams<{ id: string }>().id;
-	const showid = parseInt(id || "0");
+	const theaterId = parseInt(
+		useParams<{ theaterId: string }>().theaterId || "0"
+	);
+	const showId = parseInt(useParams<{ showId: string }>().showId || "0");
 
-	console.log(showid);
-
-	interface film {
-		filmId: number;
-		name: string;
-		imageUrl: string;
-		synopsis: string;
-		releaseDate: string;
-		duration: string;
-		genre: string;
-		language: string;
-	}
-	const [allShowDetails, setAllShowDetails] = useState<ShowDetails>();
-	useEffect(() => {
-		if (showid) {
-			Axios.get(`/show/getShowByShowId/${showid}`)
-				.then((response) => {
-					setAllShowDetails(response.data);
-				})
-				.catch((error) => {
-					console.error("Error fetching show details:", error);
-				});
-		}
-	}, [showid]);
-	useEffect(() => {
-		if (
-			allShowDetails &&
-			allShowDetails.show &&
-			allShowDetails.show.Screens &&
-			allShowDetails.show.Screens.screenId &&
-			showid
-		) {
-			const screenId = allShowDetails.show.Screens.screenId;
-			console.log("Screen ID:", screenId); // Log screenId
-			Axios.get(`/seat/getUniqueSeatTypeByScreenId/${screenId}/${showid}`)
-				.then((response) => {
-					setSeatType(response.data);
-				})
-				.catch((error) => {
-					console.error("Error fetching seat types:", error);
-				});
-		}
-	}, [allShowDetails, showid]);
-
-	const [movieInfo, setMovieInfo] = useState<film>({} as film);
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		const options: Intl.DateTimeFormatOptions = {
-			day: "numeric",
-			month: "long",
-			year: "numeric",
-		};
-		const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
-			date
-		);
-		return formattedDate.replace(/,/, "");
-	};
-	// console.log(formatDate(date));
-
-	useEffect(() => {
-		try {
-			Axios.get(`/feature10/getFilmsById/${filmid}`).then((response) => {
-				setMovieInfo(response.data);
-				console.log(response.data);
-			});
-		} catch (error) {
-			console.error("Error fetching now showing movies:", error);
-		}
-	}, [filmid]);
-
-	interface theater {
-		theaterId: number;
-		name: string;
-		address: string;
-		phoneNum: string;
-		promptPayNum: string;
-		latitude: string;
-		longitude: string;
-	}
-
-	const [theaterInfo, setTheaterInfo] = useState<theater>({} as theater);
-
-	useEffect(() => {
-		try {
-			Axios.get(`/feature10/getTheaterById/${theaterid}`).then(
-				(response) => {
-					setTheaterInfo(response.data);
-				}
-			);
-		} catch (error) {
-			console.error("Error fetching now showing theatre:", error);
-		}
-	}, [theaterid]);
-
-	const [seatType, setSeatType] = useState<SeatType[]>([]);
-
-	//seat
-	const [seats, setSeats] = useState<Seat[]>([]);
-	const [selectedSeats, setSelectedSeats] = useState<Array<string>>([]);
-	const [availableSeats, setAvailableSeats] = useState<Array<number>>([]);
+	const [data, setData] = useState<IScreenDatas>(initialStateScreenDatas);
+	const [theaterInfo, setTheaterInfo] = useState<ITheaterDetail>(
+		initialStateTheaterDetail
+	);
+	const navigate = useNavigate();
+	const [date, setDate] = useState<string>("");
+	const [startTime, setStartTime] = useState<string>("");
+	const [reservedSeats, setReservationSeats] = useState<number[]>([]);
+	const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+	const [seatType, setSeatType] = useState<ISeatType[]>([]);
+	const [defaultPrice, setDefaultPrice] = useState<number>(0);
 	const [totalPrice, setTotalPrice] = useState<number>(0);
+	const {
+		isOpen: isOpenNoSeatSelectBuy,
+		onOpen: onOpenNoSeatSelectBuy,
+		onClose: onCloseNoSeatSelectBuy,
+	} = useDisclosure();
 
-	const [error, setError] = useState(null);
-	console.log(error);
+	const {
+		isOpen: isOpenErrorBuyingSeats,
+		onOpen: onOpenErrorBuyingSeats,
+		onClose: onCloseErrorBuyingSeats,
+	} = useDisclosure();
 
-	useEffect(() => {
-		if (
-			allShowDetails &&
-			allShowDetails.show &&
-			allShowDetails.show.screenId &&
-			id
-		) {
-			Axios.get(`/feature10/getSeatByScreenId/${id}`)
-				.then((response) => {
-					setSeats(response.data);
-					fetchAvailableSeats();
-				})
-				.catch((error) => setError(error.message));
-		}
-	}, [allShowDetails, id]);
-
-	const fetchAvailableSeats = () => {
-		if (
-			allShowDetails &&
-			allShowDetails.show &&
-			allShowDetails.show.screenId &&
-			id
-		) {
-			Axios.get(
-				`/seat/getAvailableSeatIdByShowIdAndScreenId/${id}/${allShowDetails.show.screenId}`
-			)
-				.then((response) => {
-					setAvailableSeats(response.data);
-				})
-				.catch((error) => setError(error.message));
-		}
-	};
-
-	const handleSeatClick = (seatId: number) => {
-		const seatRow = seats.find((seat) => seat.seatId === seatId)?.seatRow;
-		const seatNo = seats.find((seat) => seat.seatId === seatId)?.seatNo;
-		const row = String.fromCharCode(64 + parseInt(seatRow || "0", 10));
-		const seatIdentifier = `${row}${seatNo}`;
-		if (availableSeats.includes(seatId)) {
-			setSelectedSeats((prevSelectedSeats) => {
-				if (prevSelectedSeats.includes(seatIdentifier)) {
-					return prevSelectedSeats.filter(
-						(id) => id !== seatIdentifier
-					);
-				} else {
-					return [...prevSelectedSeats, seatIdentifier];
-				}
-			});
-		}
-	};
-
-	const getSeatIdFromIdentifier = (seatIdentifier: string) => {
-		return seats.find(
-			(s) =>
-				`${String.fromCharCode(64 + parseInt(s.seatRow, 10))}${
-					s.seatNo
-				}` === seatIdentifier
-		)?.seatId;
-	};
-	useEffect(() => {
-		const calculateTotalPrice = () => {
-			let total = 0;
-			for (const seatIdentifier of selectedSeats) {
-				const seatId = getSeatIdFromIdentifier(seatIdentifier); // Convert back to seatId
-				const seat = seats.find((s) => s.seatId === seatId);
-				const seatTypeObj = seatType.find(
-					(type) => type.seatTypeId === seat?.Seat_Types.seatTypeId
-				);
-				total += seatTypeObj ? seatTypeObj.finalPrice : 0;
+	const handleBuy = async () => {
+		if (selectedSeats.length === 0) {
+			onOpenNoSeatSelectBuy();
+		} else {
+			try {
+				const sortedSeatId = selectedSeats.sort();
+				console.log(sortedSeatId);
+				await Axios.post("/feature10/bookMovieSeat", {
+					showId,
+					seatId: sortedSeatId,
+				});
+				navigate(`/venue/paymentS`);
+			} catch (error: AxiosError | any) {
+				if (error instanceof AxiosError) {
+					console.log(error.response?.data);
+				} else console.error("Error buying movie : ", error);
+				onOpenErrorBuyingSeats();
 			}
-			return total;
-		};
+		}
+	};
 
-		setTotalPrice(calculateTotalPrice());
-	}, [selectedSeats, seatType, seats]);
+	const handleOnSeatClick = (seatId: number, price: number) => {
+		if (selectedSeats.includes(seatId)) {
+			setSelectedSeats((prev) => prev.filter((id) => id !== seatId));
+			setTotalPrice((prev) => prev - price);
+		} else {
+			setSelectedSeats((prev) => [...prev, seatId]);
+			setTotalPrice((prev) => prev + price);
+		}		
+	};
 
-	const seatsByRow: { [key: string]: Seat[] } = seats.reduce((acc, seat) => {
-		acc[seat.seatRow] = acc[seat.seatRow] || [];
-		acc[seat.seatRow].push(seat);
-		return acc;
-	}, {} as { [key: string]: Seat[] });
-	console.log(seats);
-	console.log(seatsByRow);
+	const setDateFunc = (response: IScreenDatas) => {
+		let date = response.date.slice(8, 10);
+		date += " ";
+		date += response.date.slice(5, 7);
+		date += " ";
+		date += response.date.slice(0, 4);
+		setDate(date);
+		setStartTime(response.start_time.slice(11, 16));
+	};
+	const fetchMovieToday = async () => {
+		try {
+			const response = await getSeatByShowId(showId);
+			setData(response);
+			setDateFunc(response);
+			const seatTypes = getSeatTypeFromData(response);
+			setSeatType(seatTypes);
+			setDefaultPrice(response.price);
+		} catch (error) {
+			console.error("Error fetching movie details:", error);
+		}
+	};
 
-	console.log("Selected Seats:", selectedSeats);
-	console.log("Seat Types:", seatType);
-	console.log("Seats:", seats);
+	const getSeatTypeFromData = (data: IScreenDatas): ISeatType[] => {
+		// Use Set to store unique seat type IDs
+		const uniqueSeatTypeIds = new Set<number>();
+
+		// Use an array to store the resulting seat types
+		const seatTypesArray: ISeatType[] = [];
+
+		data.Screens.Seats.forEach((seat) => {
+			// Check if the seatTypeId is not already in the set
+			if (!uniqueSeatTypeIds.has(seat.Seat_types.seatTypeId)) {
+				// Add the seat type to the result array
+				seatTypesArray.push(seat.Seat_types);
+
+				// Add the seatTypeId to the set
+				uniqueSeatTypeIds.add(seat.Seat_types.seatTypeId);
+			}
+		});
+
+		return seatTypesArray;
+	};
+
+	// Example usage
+
+	const fetchTheaterDetail = async () => {
+		try {
+			const response = await getTheaterDetail(theaterId);
+			setTheaterInfo(response.data);
+		} catch (e) {
+			console.error("Error fetching theater details:", e);
+		}
+	};
+
+	const fetchReservedSeat = async () => {
+		try {
+			const response = await getReservedSeat(showId);
+			for (const reservationlog of response) {
+				setReservationSeats((prev) => [...prev, reservationlog.seatId]);
+			}
+		} catch (error) {
+			console.error("Error fetching movie details:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchMovieToday();
+		fetchTheaterDetail();
+		fetchReservedSeat();
+	}, []);
 
 	return (
 		<>
 			{/* Movie Info at top*/}
-			<Box display={"flex"} flexDirection={"row"} paddingBottom={"7"}>
-				<Box>
-					<Image
-						src={movieInfo.imageUrl}
-						alt={movieInfo.name}
-						borderRadius="lg"
-						width={posterWidth}
-						height={posterHeight}
-					/>
-				</Box>
-				<Box display={"flex"} flexDirection={"column"} padding={"4"}>
-					<Text color={"gold"} style={TextStyle.h1} mb={2}>
-						{movieInfo.name}
-					</Text>
-					<Text style={TextStyle.body1} mb={2}>
-						{movieInfo.language}
-					</Text>
-					<Text style={TextStyle.body1} mb={2}>
-						{movieInfo.duration} minutes
-					</Text>
-				</Box>
+			<Box display={"flex"} flexDirection={["column", "column", "row"]} paddingBottom={"7"} backgroundColor="#FFFFFFD9" borderRadius={5} >
+			<Box display="flex"   width={["100%", "100%", "auto"]}>
+				<Image
+				src={data?.Films.poster_img}
+				alt={data?.Films.name}
+				borderRadius="lg"
+				width={["50%", "50%", posterWidth]}
+				height={["auto", "auto", posterHeight]}
+				mt={5}
+				ml={5}
+				/>
 			</Box>
-			{/* Place + Theater name and time  */}
-			<Box>
-				<Text style={TextStyle.body1} mb={2}>
+			<Box display={"flex"} flexDirection={"column"} padding={"4"} width={["100%", "100%", "auto"]}>
+				<Text color={"#200944"} style={TextStyle.h1} mb={2}>
+				{data?.Films.name}
+				</Text>
+				<Text color={"#200944"} style={TextStyle.h1} mb={2}>
+				{date} | {startTime + ""}
+				</Text>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
+				{data?.Films.rate}
+				</Text>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"}>
+				Duration : {data?.Films.duration} minutes
+				</Text>
+				<Box>
+				<Text style={TextStyle.body1} mb={2} color={"#19191999"} >
 					{theaterInfo.name}
 				</Text>
 				<Box display="flex" flexDirection="row">
-					<Center style={TextStyle.body1} mb={2} mr={20}>
-						Screen {allShowDetails?.show.Screens.screen_number}
-					</Center>
-					<Center style={TextStyle.body1} mb={2} mr={2}>
-						{allShowDetails?.show.date
-							? formatDate(allShowDetails?.show.date)
-							: ""}
-					</Center>
-					<Center
-						style={TextStyle.body1}
-						ml={20}
-						backgroundColor={"gold"}
-						padding="0.5%"
-						borderRadius="10%">
-						{allShowDetails?.startTime.slice(0, 5)}
-					</Center>
+					<Center style={TextStyle.body1} mb={2} mr={20} color={"#19191999"}>
+					Screen {data.Screens.screen_no}
+					</Center>				
+				</Box>
 				</Box>
 			</Box>
+			</Box>
+			{/* Place + Theater name and time  */}
+
 			{/* Screen */}
 			<Center
 				style={TextStyle.h2}
@@ -328,54 +226,39 @@ const ScreenPage: React.FC = () => {
 
 			{/* seat */}
 			<Center flexDir="column">
-				{Object.entries(seatsByRow)
-					.sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10))
-					.map(([row, seatsInRow]) => {
-						const rowLetter = String.fromCharCode(
-							64 + parseInt(row, 10)
-						);
-
-						return (
-							<Flex key={row} align="center" mb={4}>
-								<Text
-									minWidth="50px"
-									textAlign="right"
-									fontWeight="bold"
-									mr={4}>
-									{rowLetter}
-								</Text>
-								{seatsInRow.map((seat) => {
-									const seatIdentifier = `${rowLetter}${seat.seatNo}`;
-									return (
-										<MovieSeat
-											key={seat.seatId}
-											seatId={seat.seatId}
-											isSelected={selectedSeats.includes(
-												seatIdentifier
-											)}
-											onSeatClick={(seatId: number) =>
-												handleSeatClick(seatId)
-											}
-											type={seat.Seat_Types.typeName}
-										/>
-									);
-								})}
-							</Flex>
-						);
-					})}
+				{data.Screens.Seats.reduce((acc: ISeat[][], seat) => {
+					const row = seat.seat_row; // Assuming there's a property 'row' in your seat object
+					if (!acc[row]) {
+						acc[row] = [];
+					}
+					acc[row].push(seat);
+					return acc;
+				}, [])
+					.reverse() // Reverse the array of seat rows
+					.map((seatRow, index: number) => (
+						<Flex key={index}>
+							{seatRow.map((seat, index: number) => (
+								<MovieSeat
+									isNotAvailable={reservedSeats}
+									seat={seat}
+									defaultPrice={defaultPrice}
+									key={index}
+									isSelected={selectedSeats}
+									onSeatClick={handleOnSeatClick}
+								/>
+							))}
+						</Flex>
+					))}
 			</Center>
+
 			{/* TypeCard */}
 			<Center>
-				<Grid
-					templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-					gap={4}
-					maxWidth="800px" // Adjust the maximum width as needed
-					width="100%">
-					{seatType.map((type) => (
-						<Box key={String(type)}>
+				<Grid templateColumns="repeat(3, 1fr)" gap={20} overflowX="auto">
+					{seatType.map((type, index: number) => (
+						<Box key={index} >
 							<TypeOfSeatCard
-								type={type}
-								key={String(type.seatTypeId)}
+								type={type.type_name}
+								price={type.price_modifier * defaultPrice}
 							/>
 						</Box>
 					))}
@@ -390,6 +273,65 @@ const ScreenPage: React.FC = () => {
 				</Text>
 				<Text marginLeft="20px">Total Price: {totalPrice} THB</Text>
 			</Flex>
+
+			{/* Buy buton */}
+			<Center marginTop={6}>
+				<Button
+					bg="gold"
+					_hover={{ bg: "gold" }}
+					size="md"
+					width="15rem"
+					onClick={handleBuy} // Trigger function on button click
+				>
+					BUY
+				</Button>
+			</Center>
+
+			{/* Modal for displaying the message */}
+			<Modal
+				isOpen={isOpenNoSeatSelectBuy}
+				onClose={onCloseNoSeatSelectBuy}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader color="black">
+						Please select a seat
+					</ModalHeader>
+					<ModalBody color="black">
+						You haven't selected a seat yet. Please select a seat
+						before proceeding.
+					</ModalBody>
+					<ModalFooter>
+						<Button
+							bg="gold"
+							_hover={{ bg: "gold" }}
+							mr={3}
+							onClick={onCloseNoSeatSelectBuy}>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Modal
+				isOpen={isOpenErrorBuyingSeats}
+				onClose={onCloseErrorBuyingSeats}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader color="black">Error buying seats</ModalHeader>
+					<ModalBody color="black">
+						There are some errors while buying seats. Please try
+						again
+					</ModalBody>
+					<ModalFooter>
+						<Button
+							bg="gold"
+							_hover={{ bg: "gold" }}
+							mr={3}
+							onClick={onCloseErrorBuyingSeats}>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</>
 	);
 };

@@ -126,7 +126,7 @@ export const AddSetMenu: React.FC = () => {
     formDataWithFile.append("name", formData.name);
     formDataWithFile.append("description", formData.description);
     formDataWithFile.append("price", formData.price);
-    formDataWithFile.append("menuImage", selectedFile!);
+    formDataWithFile.append("file", selectedFile!);
     //console.log('Form data with file entries:', Array.from(formDataWithFile.entries()));
 
     Axios.post(`/feature7/addSetWithMenuItems`, formDataWithFile, {
@@ -136,10 +136,10 @@ export const AddSetMenu: React.FC = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log("SetMenu added:", response.data);
+          // console.log("SetMenu added:", response.data);
           toast.success("Set Menu Added");
           const targetPath = `/business/venue/menubusiness?section=setmenu`;
-          console.log("Navigating to:", targetPath);
+          // console.log("Navigating to:", targetPath);
           navigate(targetPath);
         }
       })
@@ -158,7 +158,7 @@ export const AddSetMenu: React.FC = () => {
       if (addResponse.status === 200) {
         const response = await Axios.get("/feature7/showMenuItemsInCookies/");
         const selectedItems = response.data;
-        console.log("Selected items:", selectedItems);
+        // console.log("Selected items:", selectedItems);
         setSelectedMenus(selectedItems);
       }
     } catch (error) {

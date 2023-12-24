@@ -46,7 +46,7 @@ interface SavedLocationInterface{
 
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
@@ -71,7 +71,7 @@ export const SavedLocation = () => {
   const handleSubmit = async () => {
     try {
       const payload = {
-        userId,
+        // userId,
         name,
         address,
         province,
@@ -79,8 +79,8 @@ export const SavedLocation = () => {
         subdistrict,
         postcode,
       };
-      const response  = await Axios.post('/feature4/saved-location',payload);
-      console.log(response.data);
+       await Axios.post('/feature4/saved-location',payload);
+      // console.log(response.data);
   
       // After creating a new location, refetch the data to update the UI
       // queryClient.invalidateQueries('savedData');
@@ -91,7 +91,7 @@ export const SavedLocation = () => {
     }
   };
 
-  console.log(savedData);
+  // console.log(savedData);
   
   return (
     <Box>
@@ -149,11 +149,11 @@ export const SavedLocation = () => {
                 Address Information
               </Text>
               <Stack spacing={3} mt={2}>
-              <Input
+              {/* <Input
                   variant="outline"
                   placeholder="UserID"
                   onChange={(e) => setUserId(e.target.value)}
-                />
+                /> */}
                 <Input
                   variant="outline"
                   placeholder="Name (eg. Home, Office)"

@@ -46,6 +46,7 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   const [creditCardUser, setCreditCardUser] = useState<creditCardUser[]>([]);
   const { userId } = useParams();
   const { reservationId } = useParams();
+  
 
   const redirectToDeposit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -68,11 +69,9 @@ export const SelectPaymentD: FC<ButtonProps> = ({
         // if (result.error) {
         //   alert(result.error.message);
         // }
-        console.log(res.data);
         window.location.href = res.data.url;
       })
       .catch((err) => {
-        console.log(err);
         throw err;
       });
 
@@ -103,12 +102,13 @@ export const SelectPaymentD: FC<ButtonProps> = ({
   //     });
   // };
 
+ 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await Axios.get(`/feature8/creditcardU/${userId}`);
         setCreditCardUser(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching credit card data:", error);
       }

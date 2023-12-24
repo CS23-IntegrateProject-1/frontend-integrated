@@ -64,7 +64,6 @@ export const OrderUpdateNoti = () => {
   }
 
   const { data: orderData } = useQuery(['orderUpdate', orderId], () => fetchOrderUpdate());
-  console.log('orderData', orderData?.orderData.orderdetail.map((item) => item.tableNo));
   
   // Idea on fetching userId by credential cookies
   // const fetchData = async () => {
@@ -77,7 +76,6 @@ export const OrderUpdateNoti = () => {
   //     if (response.ok) {
   //       const userData = await response.json();
   //       if (userData) {
-  //         console.log('API Response:', userData);
   //         setUserData(userData);
   //         setUserId(userData.userId);
   //       } else { 
@@ -93,14 +91,12 @@ export const OrderUpdateNoti = () => {
 
  
 
-  
-
-  // console.log('Order Data: ', order);
-  // console.log('Order Detail Data: ', orderDetail);
-  
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+  if(!orderData?.orderData.orderdetail[0]) {
+    return <div>Order has been completed</div>
   }
   return (
     <Box

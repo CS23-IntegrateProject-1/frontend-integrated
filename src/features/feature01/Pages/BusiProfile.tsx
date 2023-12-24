@@ -30,40 +30,40 @@ interface OpeningDay {
 }
 
 interface AvailabilityTime {
-  openingTime: string;
-  closingTime: string;
+  open: string;
+  close: string;
 }
 
 const defaultAvailability: Availability = {
   venueId: 0,
   openingDay: {
     Mon: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Tue: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Wed: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Thu: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Fri: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Sat: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
     Sun: {
-      openingTime: "00:00",
-      closingTime: "00:00",
+      open: "00:00",
+      close: "00:00",
     },
   },
 };
@@ -83,11 +83,7 @@ export const BusiProfile = () => {
   aboutUs;
   //address
   const [address, setAddress] = useState("");
-  //ph no
-  //const [phNo, setphNo] = useState("");
-  //phNo;
-  //prompt pay no
-  //const [promptNo, setpromptNo] = useState("");
+  
   //promptNo;
   //category
   const [category, setCategory] = useState("");
@@ -98,6 +94,10 @@ export const BusiProfile = () => {
   //website url
   const [website, setWebsite] = useState("");
   website;
+  //max price
+  const [maxPrice, setMaxPrice] = useState("");
+  //min price
+  const [minPrice, setMinPrice] = useState("");
   //card id
   const [cardInfo, setcardInfo] = useState<string>("");
   cardInfo;
@@ -131,6 +131,33 @@ export const BusiProfile = () => {
       .catch((error) => {
         console.error("Error fetching venue data:", error);
       });
+
+      //get opening hour
+    const openingHour = `/feature1/venue/opening_hours`;
+    Axios.get(openingHour, { withCredentials: true })
+      .then((response) => {
+        if (response.status === 200) {
+          setAvailability({ ...availability, openingDay: response.data });
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting opening data:", error);
+      });
+
+      
+       //priceRange
+     const priceRange = `/feature1/venue/price_range`;
+     Axios.get(priceRange, { withCredentials: true })
+       .then((response) => {
+         if (response.status === 200) {
+           setMaxPrice(response.data.max);
+           setMinPrice(response.data.min);
+         }
+       })
+       .catch((error) => {
+         console.error("Error getting price", error);
+       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -211,9 +238,9 @@ export const BusiProfile = () => {
               </Text>
               <Text fontSize={TextStyle.h3.fontSize}>Open</Text>
               <Text fontSize={TextStyle.h3.fontSize}>From</Text>
-              <Text fontSize={TextStyle.h3.fontSize}>00 : 00</Text>
+              <Text fontSize={TextStyle.h3.fontSize}>{availability.openingDay.Mon.open}</Text>
               <Text fontSize={TextStyle.h3.fontSize}>To</Text>
-              <Text fontSize={TextStyle.h3.fontSize}>00 : 00</Text>
+              <Text fontSize={TextStyle.h3.fontSize}>{availability.openingDay.Mon.close}</Text>
             </Flex>
           </Box>
           <Box width={{ lg: "50%", sm: "100%" }}>
@@ -248,7 +275,7 @@ export const BusiProfile = () => {
               </Box>
               <Box pt={0.5} fontSize={TextStyle.h3.fontSize}>
                 {" "}
-                50 - 500 Baht
+                {minPrice} - {maxPrice} Baht
               </Box>
             </Flex>
             <Flex gap={3} my={2}>
