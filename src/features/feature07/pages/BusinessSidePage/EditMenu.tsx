@@ -73,7 +73,7 @@ export const EditMenu = () => {
       ? event.target.files?.[0]
       : null;
     setSelectedFile(selectedFile);
-    console.log("Selected file:", selectedFile);
+    // console.log("Selected file:", selectedFile);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +102,7 @@ export const EditMenu = () => {
     if (selectedFile) {
       formData.append("file", selectedFile);
     }
-    console.log(formData.get("file"));
+    // console.log(formData.get("file"));
 
     try {
       const response = await Axios.post(

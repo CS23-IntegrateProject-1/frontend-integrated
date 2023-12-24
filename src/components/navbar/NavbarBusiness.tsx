@@ -33,8 +33,16 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
       to: "/business/advertisement/status",
     },
     {
-      title: "Finance",
-      to: "/finance",
+      title: "Voucher",
+      to: "/business/voucher/status",
+    },
+    {
+      title: "Promotion",
+      to: "/business/promotion/status",
+    },
+    {
+      title: "Redeem",
+      to: "/business/redeem/status",
     },
   ];
   return (
@@ -76,6 +84,10 @@ export const NavbarBusiness: FC<NavbarContentProps> = ({
             aria-label="Notification Page"
             variant={"unstyled"}
             icon={<BellIcon boxSize={8} color={"white"} />}
+            onClick={() => {
+              navigate("/business/Notification");
+              onClose();
+            }}
           />
         </Stack>
         <IconButton
