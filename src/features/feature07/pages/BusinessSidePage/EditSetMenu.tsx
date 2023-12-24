@@ -48,7 +48,7 @@ export const EditSetMenu: React.FC = () => {
   const { data: menuData } = useQuery(["menuItem", menuid], () =>
     getMenuItem(menuid!)
   );
-  console.log(menuData);
+  // console.log(menuData);
   useEffect(() => {
     if (menuData) {
       setEditFormData({
@@ -99,14 +99,14 @@ export const EditSetMenu: React.FC = () => {
         `/feature7/addMenuItemsToSetsInCookies/${menuid}`,
         { menuId: selectedMenuId }
       );
-      console.log("menuId:", selectedMenuId);
+      // console.log("menuId:", selectedMenuId);
       if (addResponse.status === 200) {
         const response = await Axios.get(
           `/feature7/showMenuItemsInCookies/${menuid}`
         );
         const selectedItems = response.data;
-        console.log("Selected items:", selectedItems);
-        console.log("Selected menus before update:", selectedMenus);
+        // console.log("Selected items:", selectedItems);
+        // console.log("Selected menus before update:", selectedMenus);
         // setSelectedMenus((prevSelectedMenus) => {
         //   // Combine the previous state with the new selected items
         //   return [...prevSelectedMenus, ...selectedItems];
@@ -116,9 +116,9 @@ export const EditSetMenu: React.FC = () => {
         const selectedItem = selectedItems.find(
           (item: any) => item.menuId == selectedMenuId
         );
-        console.log("Selected item:", selectedItem);
+        // console.log("Selected item:", selectedItem);
         if (selectedItem) {
-          console.log("Selected item:", selectedItem);
+          // console.log("Selected item:", selectedItem);
           // Update selectedMenus using the selectedItem directly
           setSelectedMenus((prevSelectedMenus) => [
             ...prevSelectedMenus,
