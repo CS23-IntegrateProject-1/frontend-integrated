@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 export const VoucherPage = () => {
   const { data: vouchers, isLoading, isError, error } = useQuery(["vouchers"], async () => {
     const response = await Axios.get("/feature7/getAllUserVouchers");
-    console.log("Voucher data:", response.data);
+    // console.log("Voucher data:", response.data);
     return response.data;
   });
   if (isLoading) {

@@ -115,7 +115,6 @@ export const AllData = () => {
 
   
   const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
-  console.log(data)
   
 
 
@@ -143,9 +142,6 @@ useEffect(() => {
 
 
 
-if(selectedFromDate !== undefined){
-  console.log(dataFilted)
-}
 
 
 
@@ -229,16 +225,6 @@ const filteredReceiptCounts = getReceiptCounts(groupedFilteredTDetailData);
 const filteredRevenue = getRevenueFiltered(groupedFilteredTDetailData);
 const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
 const filteredNetProfit = getfilteredNetProfit(groupedFilteredTDetailData);
-
-console.log('Dates:', dates);
-console.log('Receipt Counts:', receiptCounts);
-console.log('Revenue:', revenueNormal);
-console.log('Net Profit:', comissionNormal);
-console.log('Filtered Dates:', filteredDates);
-console.log('Filtered Receipt Counts:', filteredReceiptCounts);
-console.log('Filtered Revenue:', filteredRevenue);
-console.log('Filtered Net Profit:', filteredCommision);
-
 
   
   

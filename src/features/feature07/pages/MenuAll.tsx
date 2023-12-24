@@ -82,7 +82,7 @@ export const MenuAll = () => {
   };
   const handleMenuClick = (type: string, menuid: string) => {
     navigate(`/venue/menudetail/${type}/${menuid}`);
-    console.log("Clicked menu. Menu ID:", menuid);
+    // console.log("Clicked menu. Menu ID:", menuid);
   }  
   const handleCartClick = () => {
     navigate('/venue/cart'); 

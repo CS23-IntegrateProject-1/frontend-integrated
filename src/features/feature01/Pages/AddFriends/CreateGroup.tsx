@@ -63,10 +63,6 @@ export const CreateGroup = () => {
             .then((response) => {
                 if (response.status == 200) {
                     setFriData(response.data);
-                    console.log("list of fri" + friData);
-                    // friData.map((item) => {
-                    //     console.log(item.name);
-                    // })
                 }
             })
             .catch((error) => {
@@ -78,7 +74,6 @@ export const CreateGroup = () => {
             .then((response) => {
                 if (response.status == 200) {
                     setProfileData(response.data);
-                    console.log(profileData + "profile");
                 }
             })
             .catch((error) => {
@@ -87,16 +82,11 @@ export const CreateGroup = () => {
     }, [friData, profileData]);
 
     const handleSearch = () => {
-        console.log("search");
         friData.map((item) => {
             if (item.name.includes(username)) {
                 console.log("found");
-                //onOpen();
-                console.log(item.name);
-                console.log(item.avatar);
                 setFriendname(item.name);
                 setFriendImg(item.avatar);
-                //setIsFriend(true);
             }
         });
     };

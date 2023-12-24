@@ -27,7 +27,6 @@ const defaultTicketDetails: TicketDetails = {
 
 export const HelpDesk = () => {
     const[listData, setListData] = useState([]);
-    const [ticketData] = useState("");
     const [ticketDetails, setTicketDetails] = useState<TicketDetails>(defaultTicketDetails);
     const [topicData, setTopicData] = useState("");
     const [complaintData, setComplaintData] = useState("");
@@ -38,7 +37,6 @@ export const HelpDesk = () => {
       setTicketDetails(matchingTickets[0]);
       onOpen();
     }
-    console.log(ticketData);
 
     //Handle Ticket Submit
     const handleTicket = (e : React.MouseEvent<HTMLElement>) => {
@@ -50,7 +48,6 @@ export const HelpDesk = () => {
       Axios.post ('/feature1/help_desk/ticket', complaintDetails, {withCredentials: true})
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data);
           console.log("Topic Submitted");
         }
         return response;
@@ -65,7 +62,6 @@ export const HelpDesk = () => {
         Axios.get(url1, {withCredentials: true})
         .then((response) => {
           if (response.status == 200) {
-            console.log(response.data);
             setListData(response.data);
           }
           return response;

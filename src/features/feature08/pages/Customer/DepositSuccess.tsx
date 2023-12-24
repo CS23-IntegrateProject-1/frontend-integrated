@@ -10,9 +10,7 @@ const DepositSuccess: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const paymentResponse = await Axios.post(`/feature8/complete-paymentD/${sessionId}/${reservationId}`);
-        console.log(paymentResponse.data);
-    
+        await Axios.post(`/feature8/complete-paymentD/${sessionId}/${reservationId}`);
         navigate("/my-reservation");
       } catch (error) {
         console.error('Error in Deposit component:', error);

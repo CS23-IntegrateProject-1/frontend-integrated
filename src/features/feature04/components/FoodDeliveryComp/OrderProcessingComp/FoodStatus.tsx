@@ -10,7 +10,7 @@ interface FoodStatusProps {
 export const FoodStatus = (props:FoodStatusProps) => {
   const location = useLocation();
   const CheckoutIsActive = location.pathname === `/map/food-delivery/checkout/${props.venueId}/${props.branchId}`
-  const YourOrderIsActive = location.pathname === "/map/food-delivery/your-order"
+  const YourOrderIsActive = location.pathname === `/map/food-delivery/your-order/${props.venueId}/${props.branchId}`
 const navigate = useNavigate();
 const navigateInCartDetail =()=>{ navigate(`/map/food-delivery/cart-detail/${props.venueId}/${props.branchId}`)};
 const navigateCheckout = ()=>{navigate(`/map/food-delivery/checkout/${props.venueId}/${props.branchId}`)};
@@ -49,9 +49,9 @@ const navigateMenu = ()=>{navigate(`/map/food-delivery/${props.venueId}/${props.
     transform: translateY(200%);
     width: ${({ activestep }) =>
       activestep === `/map/food-delivery/cart-detail/${props.venueId}/${props.branchId}`
-        ? `calc(100vw - ${'55vw'})`
+        ? `calc(100vw - ${'57vw'})`
         : activestep === `/map/food-delivery/checkout/${props.venueId}/${props.branchId}`
-        ? `calc(100vw - ${'23vw'})`
+        ? `calc(100vw - ${'27vw'})`
         : '100%'};
     left: 20px;
   }

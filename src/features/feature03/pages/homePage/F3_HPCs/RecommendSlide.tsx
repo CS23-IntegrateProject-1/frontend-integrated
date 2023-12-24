@@ -189,7 +189,7 @@ export const RecommendSlide = () => {
                 textColor="white"
                 bgColor="brand.300"
                 _hover={{ bgColor: "brand.100", textColor: "black" }}
-                w="350px"
+                w={"100%"}
               >
                 Branches
               </Button>

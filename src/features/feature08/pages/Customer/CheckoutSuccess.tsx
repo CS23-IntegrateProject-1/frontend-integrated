@@ -10,9 +10,7 @@ const CheckoutSuccess: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const paymentResponse = await Axios.post(`/feature8/complete-paymentC/${sessionId}/${reservationId}`);
-        console.log(paymentResponse.data);
-    
+        await Axios.post(`/feature8/complete-paymentC/${sessionId}/${reservationId}`);
         navigate("/");
       } catch (error) {
         console.error('Error in Checkout component:', error);
