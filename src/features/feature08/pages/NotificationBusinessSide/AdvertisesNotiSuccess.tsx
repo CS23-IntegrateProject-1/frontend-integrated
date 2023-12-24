@@ -42,7 +42,6 @@ export const AdvertiseNotiSuccess = () => {
     const fetchData = async () => {
       try {
         const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
-        console.log(paymentResponse.data);
     
         
       } catch (error) {
@@ -83,14 +82,12 @@ export const AdvertiseNotiSuccess = () => {
     fetchAdvertiseInfo();
   }, [advertisementId]);
 
-console.log(advertiseNotified)
   if (!advertiseNotified) {
     // Render loading state or return null
     return <div>Loading...</div>;
   }
 
   const { isApprove, cost,name,description, } = advertiseNotified;
-  console.log(isApprove,name )
 
   return (
     <Center>

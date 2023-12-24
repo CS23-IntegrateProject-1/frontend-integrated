@@ -14,8 +14,6 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       const paymentResponse = await Axios.post(`/feature8/complete-payment-delivery/${sessionId}/${onlineOrderId}`);
-      console.log(paymentResponse.data);
-  
       navigate('/map/food-delivery/completed');
     } catch (error) {
       console.error('Error in payment component:', error);

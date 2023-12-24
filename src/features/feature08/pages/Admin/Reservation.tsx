@@ -121,7 +121,6 @@ const fetchBusinessInsightTimeFilterData = async () => {
 
 
 const { data } = useQuery(["transactionAndtransactionDetail", venueId || ""], () => fetchBusinessInsightData());
-console.log(data)
 
 
 
@@ -143,10 +142,6 @@ if (selectedFromDate !== undefined && selectedToDate !== undefined) {
 // Add dependencies to the dependency array if needed
 }, [fetchBusinessInsightTimeFilterData, selectedFromDate, selectedToDate]);
 
-
-if(selectedFromDate !== undefined){
-  console.log(dataFilted)
-}
 
 // Step 1: Convert the timestamp to a date string
 const convertToDateString = (timestamp: Date) => {
@@ -225,20 +220,6 @@ const filteredRevenue = getRevenueFiltered(groupedFilteredTDetailData);
 const filteredCommision = getfilteredCommision(groupedFilteredTDetailData);
 const filteredNetProfit = getfilteredNetProfit(groupedFilteredTDetailData);
 const filteredReservation = getNumberOfReservation(groupedFilteredTDetailData).map(({ count }) => count);
-
-
-console.log('Dates:', dates);
-console.log('Revenue:', revenueNormal);
-console.log('Net Profit:', comissionNormal);
-console.log('Filtered Dates:', filteredDates);
-console.log('Filtered Revenue:', filteredRevenue);
-console.log('Filtered Net Profit:', filteredCommision);
-console.log('Filtered Reservation:', filteredReservation);
-console.log('reservationNormal:', reservationNormal);
-
-console.log(selectedFromDate)
-console.log(selectedToDate)
-
 
 
 

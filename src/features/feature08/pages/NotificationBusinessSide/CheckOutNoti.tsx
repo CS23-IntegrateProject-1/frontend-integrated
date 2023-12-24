@@ -31,7 +31,6 @@ export const CheckOutNoti = () => {
     fetchTableNumber();
   }, [reservationId, venueId]);
 
-    console.log(tableno)
 
 
     return (

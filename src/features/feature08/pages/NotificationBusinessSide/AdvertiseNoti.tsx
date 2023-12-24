@@ -42,10 +42,9 @@ export const AdvertiseNoti = () => {
       try {
         const adSessionResponse = await Axios.post(`/feature8/create-ad-session/${advertisementId}`);
         const sessionId = adSessionResponse.data.sessionId;
-        console.log(sessionId);
     
         const paymentResponse = await Axios.post(`/feature8/complete-payment/${sessionId}/${advertisementId}`);
-        console.log(paymentResponse.data);
+
     
         
       } catch (error) {
@@ -86,14 +85,12 @@ export const AdvertiseNoti = () => {
     fetchAdvertiseInfo();
   }, [advertisementId]);
 
-console.log(advertiseNotified)
   if (!advertiseNotified) {
     // Render loading state or return null
     return <div>Loading...</div>;
   }
 
   const { isApprove, cost,name,description, } = advertiseNotified;
-  console.log(isApprove,name )
 
   return (
     <Center>

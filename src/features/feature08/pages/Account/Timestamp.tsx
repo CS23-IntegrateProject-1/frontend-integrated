@@ -75,8 +75,6 @@ export const Timestamp = () => {
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds, selectedDate]);
   
-  console.log(appTransactionByDate)
-
   return (
     <Center>
       <Box
@@ -117,12 +115,10 @@ export const Timestamp = () => {
           //   'dd MMMM yyyy',
           // );
           const formattedDate = new Date(details.monthly).toISOString();
-          
-          // console.log(formatDate1(formattedDate))
+
           const formattedAmount = `${details.total_amount} Baht`;
           const appTransactionDetailId = `${details.appTransactionDetailId}`;
           // const appTransactionId = details.appTransactionId;
-          console.log(details)
           return (
             <Card key={index} width="100%" height={"100px"} backgroundColor={"#D9D9D9"} color="black">
               <CardBody textAlign="center">

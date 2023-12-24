@@ -26,9 +26,6 @@ export const QrCodeScan = () => {
           tokenBody,
           { headers: tokenHeaders }
         );
-
-        console.log("Token response:", response.data);
-
         // Access the accessToken and expiresAt from the data property of the response
         const receivedAccessToken = response.data.data.accessToken;
         const receivedExpireAt = response.data.data.expiresAt;
@@ -39,7 +36,6 @@ export const QrCodeScan = () => {
         // Handle errors
       }
     };
-    console.log(isTokenExpired(expireAt))
     // Check if accessToken is not present or if it's expired
     if (!accessToken || isTokenExpired(expireAt)) {
       fetchDataAndQrGen();
@@ -72,7 +68,6 @@ export const QrCodeScan = () => {
           { headers: qrGenHeaders }
         );
 
-        console.log("QR code creation response:", qrGenResponse.data);
         // Handle the response data as needed
       } catch (error) {
         console.error("QR code creation error:", error);
@@ -82,8 +77,6 @@ export const QrCodeScan = () => {
 
     // Check if accessToken is present and not expired
     if (accessToken && !isTokenExpired(expireAt)) {
-        console.log(accessToken)
-        console.log(expireAt)
         qrGen();
     }
   }, [accessToken, expireAt]); // Dependency on accessToken and expireAt to run the effect when they change
