@@ -1,22 +1,22 @@
 import { Box, Button, Card, CardBody, Modal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import IVoucherApprove from "../../../../interfaces/Voucher/IVoucherApprove";
+import IPromotionApprove from "../../../../interfaces/Promotion/IPromotionApprove";
 import { useNavigate } from "react-router-dom";
-import { RejectVou } from "../../../../api/Voucher/GetVoucherReject";
-import { ApproveVou } from "../../../../api/Voucher/GetVoucherApprove";
+import { RejectPro } from "../../../../api/Promotion/GetPromotionReject";
+import { ApprovePro } from "../../../../api/Promotion/GetPromotionApprove";
 
-export const VoucherCard: React.FC<IVoucherApprove & { isApprove: string }> = ({ voucher_name, voucherId, description }) => {
+export const PromotionCard: React.FC<IPromotionApprove & { isApprove: string }> = ({ name, promotionId, description }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const handleClickReject = () => {
-    RejectVou(voucherId);
-    navigate("/admin/voucher");
+    RejectPro(promotionId);
+    navigate("/admin/promotion");
     // navigate(`/admin/voucher/${voucherId}/reject`);
     location.reload();
   };
   const handleClickConfirm = () => {
-    ApproveVou(voucherId);
-    navigate("/admin/voucher");
+    ApprovePro(promotionId);
+    navigate("/admin/promotion");
     location.reload();
   };
   return (
@@ -35,9 +35,9 @@ export const VoucherCard: React.FC<IVoucherApprove & { isApprove: string }> = ({
       <CardBody>
         <Box>
           <Text pt="2" fontSize="md">
-            ID: {voucherId}
+            ID: {promotionId}
             <br/>
-            Name: {voucher_name}
+            Name: {name}
             <br/>
             Description: {description}
           </Text>

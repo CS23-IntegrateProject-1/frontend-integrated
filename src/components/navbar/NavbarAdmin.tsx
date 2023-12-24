@@ -1,6 +1,7 @@
 import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
 import { FC } from "react";
-import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
+//import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
+import { CloseIcon, SettingsIcon } from "@chakra-ui/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 
 interface NavbarContentProps {
@@ -20,29 +21,37 @@ export const NavbarAdmin: FC<NavbarContentProps> = ({
   const navigate = useNavigate();
   const links = [
     { title: "Dashboard", to: "/" },
+    //{
+    //  title: "Request Approval",
+    //  to: "/request-approval",
+    //},
     {
       title: "Request Approval",
-      to: "/request-approval",
+      to: "/admin/voucher",
     },
     {
       title: "Account Setup",
       to: "/account-setup",
     },
-    {
-      title: "Survey",
-      to: "/survey",
-    },
+    //{
+    //  title: "Survey",
+    //  to: "/survey",
+    //},
     {
       title: "Advertisement",
       to: "/advertisement",
     },
     {
       title: "Promotion",
-      to: "/promotion",
+      to: "/admin/promotion",
     },
+    //{
+    //  title: "Report to Admin",
+    //  to: "/report-to-admin",
+    //},
     {
       title: "Report to Admin",
-      to: "/report-to-admin",
+      to: "/admin/notification",
     },
   ];
   return (
@@ -80,11 +89,11 @@ export const NavbarAdmin: FC<NavbarContentProps> = ({
             </NavLink>
           ))}
 
-          <IconButton
+          {/*<IconButton
             aria-label="Notification Page"
             variant={"unstyled"}
             icon={<BellIcon boxSize={8} color={"white"} />}
-          />
+          />*/}
         </Stack>
         <IconButton
           aria-label="Setting Page"
