@@ -86,7 +86,7 @@ export const ReceiptPage = () => {
 
   } = useQuery(["orderReceipt"], async () => {
     const response = await Axios.get("/feature7/getReceipt");
-    console.log("Receipt data:", response.data);
+    // console.log("Receipt data:", response.data);
     return response.data;
   });
 
