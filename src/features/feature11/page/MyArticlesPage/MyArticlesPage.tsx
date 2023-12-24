@@ -5,8 +5,10 @@ import { ArticlesPageProps } from "../../../../interfaces/feature11/ArticleType"
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
 import { MyArticlesBox } from "./MyArticleBox";
 import { CommentBox } from "./CommentBox";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, IconButton, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { fetchMyComments } from "../../../../api/feature11/fetchMyComments";
+import { MdAddCircle } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const fetchMyArticles = async (): Promise<ArticlesPageProps[]> => {
   const res = await Axios.get("/feature11/fetchArticleHistory");
@@ -26,6 +28,7 @@ export const MyArticlesPage = () => {
     queryFn: fetchMyArticles,
   });
 
+  const navigate = useNavigate();
   if (myArticles.status == "loading") {
     return <FullPageLoader />;
   }
@@ -98,6 +101,19 @@ export const MyArticlesPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
+
+      <IconButton
+        borderRadius={"50%"}
+        position={"fixed"}
+        bottom={"40px"}
+        right={"10px"}
+        variant="unstyled"
+        aria-label="add"
+        icon={<MdAddCircle size={"72px"} color={"#A533C8"} />}
+        onClick={() => {
+          navigate("/article/create");
+        }}
+      />
     </Box>
   );
 };

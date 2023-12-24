@@ -75,16 +75,6 @@ export const NavbarContent: FC<NavbarContentProps> = ({
               </Flex>
             </NavLink>
           ))}
-
-          <IconButton
-            aria-label="Notification Page"
-            variant={"unstyled"}
-            icon={<BellIcon boxSize={8} color={"white"} />}
-            onClick={() => {
-              navigate("/Notification");
-              onClose();
-            }}
-          />
         </Stack>
         <IconButton
           aria-label="Setting Page"
