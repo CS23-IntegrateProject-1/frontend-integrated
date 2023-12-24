@@ -24,18 +24,16 @@ export const BusinessAddCard = () => {
      const [is16, setIs16] = useState(false);
       const [is3, setIs3] = useState(false);
       const toast = useToast();
-     console.log(cardInfo);
      const handleCardNumberChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
         const inputCardNumber = event.target.value;
-        console.log(inputCardNumber);
         
         // Remove non-digit characters
         const nonDigitRegex = new RegExp(/[^\d]/g);
         if (nonDigitRegex.test(inputCardNumber)) {
           // Input contains non-digits, handle accordingly
-          console.log("Input includes non-digit characters.");
+          //console.log("Input includes non-digit characters.");
           alert("Input includes non-digit characters.");
         }
         if(inputCardNumber.length > 16){
@@ -43,7 +41,7 @@ export const BusinessAddCard = () => {
           alert("Input is not 16 digits");
         }
         if(inputCardNumber.length === 16){
-          console.log("16");
+          //console.log("16");
           setIs16(true);
           setCardNumber(inputCardNumber);
         }    
@@ -77,12 +75,12 @@ export const BusinessAddCard = () => {
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
         const inputExpiryDate = event.target.value;
-        console.log(inputExpiryDate, 'expri');
+        //console.log(inputExpiryDate, 'expri');
         setCardExpDate(inputExpiryDate);
         const expiryDate = inputExpiryDate ;
-        console.log(expiryDate);
+        //console.log(expiryDate);
         const parts = expiryDate.split("-");
-        console.log(parts);
+        //console.log(parts);
         const year = parseInt(parts[0], 10);
         const month = parseInt(parts[1], 10);
         const day = parseInt(parts[2], 10);
@@ -130,8 +128,6 @@ export const BusinessAddCard = () => {
         } ,{withCredentials: true})
         .then((res) => {
             if(res.status === 200){
-                console.log(res.data);
-                console.log(cardName);
                 toast({
                   render: () => (
                     <Box color='white' textAlign={'center'} p={3} bg='brand.200' borderRadius={'20'}>
