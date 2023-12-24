@@ -152,10 +152,7 @@ export const FriendMain = () => {
       if (item.user_id == id) {
         console.log("same");
         onOpen();
-        console.log(item.name);
-        console.log(item.user_id);
         setFriendId(item.user_id);
-        console.log(item.user_id), "testing id article";
         setFriendname(item.name);
         setFriendImg(item.avatar);
       }
@@ -169,8 +166,6 @@ export const FriendMain = () => {
       if (item.group_id == id ) {
         console.log("same");
         //pass to chat group by to show each group chat
-        console.log(item.group_name);
-        console.log(item.group_id);
       }
     });
   };
@@ -180,10 +175,6 @@ export const FriendMain = () => {
     onClose();
     setisShowAddFri(true);
   };
-//   const handleCofirmAddFri = () => {
-//     onCloseAddFri();
-//     setisShowAddFri(false);
-//   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
   const [username, setUsername] = useState("");
@@ -192,42 +183,18 @@ export const FriendMain = () => {
   const [friendId, setFriendId] = useState<number>();
   const filteredGroups = groupData.filter((item) => item.is_secret_group === false);
   const filteredGroupsLength = filteredGroups.length;
-  console.log(filteredGroupsLength);
-
-  console.log(username);
   //navigate to community chat
   const handleNavigateChat = () => {
     //navigate to comuunity chat
     navigate("/communitychat");
   };
   const handleSearch = () => {
-    console.log("search");
-    //check is there any username at the backend --Add fri
-    // const url = `/feature1/search/friends?username=${username}`;
-    // Axios.get(url, { withCredentials: true })
-    //     .then((response) => {
-    //         if (response.status == 200) {
-    //             console.log(response.data);
-    //             onOpen();
-    //             console.log(response.data.name);
-    //             console.log(response.data.avatar);
-    //             setFriendname(response.data.name);
-    //             setFriendImg(response.data.avatar);
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error("Error fetching username data:", error);
-    //     });
-    //check fri list from search box
     friData.map((item) => {
       if (item.name.includes(username)) {
         console.log("found");
         onOpen();
-        console.log(item.name);
-        console.log(item.avatar, "fri avatar");
         setFriendname(item.name);
         setFriendImg(item.avatar);
-        //setIsFriend(true);
       }
     });
   };
