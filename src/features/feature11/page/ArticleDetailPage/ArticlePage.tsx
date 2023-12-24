@@ -83,7 +83,7 @@ export const ArticlePage = () => {
           height={"45px"}
           mr={"1em"}
           src={
-            import.meta.env.BACKEND_URL + article.data?.User.profile_picture ||
+            import.meta.env.VITE_BACKEND_URL + article.data?.User.profile_picture ||
             ""
           }
         />

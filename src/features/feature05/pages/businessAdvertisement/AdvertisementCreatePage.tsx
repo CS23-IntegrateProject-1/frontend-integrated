@@ -54,7 +54,6 @@ export const AdvertisementCreatePage = () => {
   const [formattedStartDate, setFormattedStartDate] = useState<string | null>(
     null
   );
-  console.log(file);
   const [formattedEndDate, setFormattedEndDate] = useState<string | null>(null);
 
   const handleChange = (
@@ -83,7 +82,7 @@ export const AdvertisementCreatePage = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      console.log(e.target.files);
+      // console.log(e.target.files);
       setFile(e.target.files[0]);
       const previewURL = URL.createObjectURL(e.target.files[0]);
       setImagePreview(previewURL);
@@ -124,7 +123,7 @@ export const AdvertisementCreatePage = () => {
     }
   };
 
-  console.log(advertise);
+  // console.log(advertise);
 
   return (
     <Box
