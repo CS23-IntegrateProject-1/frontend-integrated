@@ -65,10 +65,6 @@ export const Receipt: React.FC = () => {
   const orderData = (data?.orders as orders[]) || [];
 
   const [dataFiltered, setDataFiltered] = useState<orders[]>([]);
-  console.log(isFiltered);
-  console.log(data)
-  console.log(orderData);
-  console.log(orderData.length)
 
         
 
@@ -100,9 +96,6 @@ export const Receipt: React.FC = () => {
         }
       }, [ fromDate, toDate, venueId]);
       
-      console.log(dataFiltered)
-
-
 
 
   

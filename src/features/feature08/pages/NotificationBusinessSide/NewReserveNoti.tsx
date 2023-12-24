@@ -8,8 +8,8 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Axios } from '../../../../AxiosInstance';
 
 export const NewReserveNoti = () => {
   const [tableno, setTableNo] = useState<{ tableNo: string }>({ tableNo: '' });
@@ -19,8 +19,8 @@ export const NewReserveNoti = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/reservation/${venueId}/${reservationId}`);
+        
+        const response = await Axios.get(`/feature8/reservation/${venueId}/${reservationId}`);
         const tableNumberData = response.data;
         setTableNo(tableNumberData);
       } catch (error) {

@@ -42,7 +42,6 @@ import { Axios } from "../../../../AxiosInstance";
       try {
         const response = await Axios.get(`/feature8/venuecreditcard/${venueId}`);
         setCreditCardVenue(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error('Error fetching credit card data:', error);
       }

@@ -15,8 +15,8 @@ import {
 import { TextStyle } from "../../../../theme/TextStyle";
 import { useEffect, useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import { formatDate1, formatDatetime1 } from "../../../../functions/formatDatetime";
+import { Axios } from "../../../../AxiosInstance";
 
 export const Timestamp = () => {
   const [appTrans, setAppTrans] = useState<any[] | undefined>(undefined);
@@ -28,8 +28,8 @@ export const Timestamp = () => {
   useEffect(() => {
     const fetchTableNumber = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(`${backendUrl}/feature8/apptransactions/${venueId}`);
+        
+        const response = await Axios.get(`/feature8/apptransactions/${venueId}`);
         const tableData = response.data;
         setAppTrans(tableData);
       } catch (error) {
@@ -46,9 +46,9 @@ export const Timestamp = () => {
 
     const fetchData = async (transactionId: any) => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const response = await axios.get(
-          `${backendUrl}/feature8/apptransaction_details/bytransactionId/${transactionId}`
+        
+        const response = await Axios.get(
+          `/feature8/apptransaction_details/bytransactionId/${transactionId}`
         );
         const appTransactionDetails = response.data;
 
@@ -75,8 +75,6 @@ export const Timestamp = () => {
     allTransactionIds.forEach(fetchData);
   }, [allTransactionIds, selectedDate]);
   
-  console.log(appTransactionByDate)
-
   return (
     <Center>
       <Box
@@ -117,12 +115,10 @@ export const Timestamp = () => {
           //   'dd MMMM yyyy',
           // );
           const formattedDate = new Date(details.monthly).toISOString();
-          
-          // console.log(formatDate1(formattedDate))
+
           const formattedAmount = `${details.total_amount} Baht`;
           const appTransactionDetailId = `${details.appTransactionDetailId}`;
           // const appTransactionId = details.appTransactionId;
-          console.log(details)
           return (
             <Card key={index} width="100%" height={"100px"} backgroundColor={"#D9D9D9"} color="black">
               <CardBody textAlign="center">
