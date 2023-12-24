@@ -22,7 +22,7 @@ import textStyles from "../../../theme/foundations/textStyles";
 import colors from "../../../theme/foundations/colors";
 import { Axios } from "../../../AxiosInstance";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Define interface for the saved location item
 interface SavedLocationItem {
@@ -46,6 +46,7 @@ interface SavedLocationInterface{
 
 export const SavedLocation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const queryClient = useQueryClient();
   // const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -62,10 +63,10 @@ export const SavedLocation = () => {
   });
 
   if (isLoading){
-    return <></>
+    return <>Fetching data..</>
   }
   if(isError){
-    return <></>
+    return <>Error here </>
   }
 
   const handleSubmit = async () => {
@@ -83,7 +84,7 @@ export const SavedLocation = () => {
       // console.log(response.data);
   
       // After creating a new location, refetch the data to update the UI
-      // queryClient.invalidateQueries('savedData');
+      queryClient.invalidateQueries(['savedData']);
       onClose(); // Close the modal after successfully creating a new address
     } catch (error) {
       console.error('Error saving location:', error);

@@ -81,6 +81,22 @@ export const Overview = () => {
             console.error("Error fetching member data:", error);
         });
         }, []);
+        //destory cookie when sign out
+        const handleSignOut = () => {
+          const url = `/auth/logout`;
+          Axios.post(url, { withCredentials: true })
+            .then((response) => {
+              if (response.status == 200) {
+                console.log("Sign out success");
+                window.location.href = "/login";
+              }
+              return response;
+            })
+            .catch((error) => {
+              console.error("Error fetching profile  data:", error);
+            });
+        }
+
   return (
     <FormControl>
         <Box>
@@ -158,12 +174,12 @@ export const Overview = () => {
               {parseInt(profileData.member_point) - parseInt(profileData.member_point_used) }
             </Badge>
           </Box>
-          <Box width={"100%"}>              
+          {/* <Box width={"100%"}>              
           <NavLink to="/customer/history">
-          <Box  display={"flex"}>
+          <Box  display={"flex"}> */}
             {/* to link with group 8 history payment */}
            
-            <Text 
+            {/* <Text 
             fontWeight={TextStyle.body1.fontWeight}
             fontSize={TextStyle.body1.fontSize}> Payment History</Text> 
             <Spacer />
@@ -171,7 +187,7 @@ export const Overview = () => {
             
           </Box>
           </NavLink>
-          </Box>
+          </Box> */}
 
           <Box width={"100%"}>              
           <NavLink to="/ticketHistory">
@@ -326,11 +342,11 @@ export const Overview = () => {
           </Center>
           <Center>
             <ButtonGroup pt={2} spacing="6">
-                <NavLink to={"/login"}>
-                <Button px={12}>
+                {/* <NavLink to={"/login"}> */}
+                <Button px={12} onClick={handleSignOut}>
                 Continue
               </Button>
-                </NavLink>
+                {/* </NavLink> */}
               <Button
                 width={"140px"}
                 height={"40px"}

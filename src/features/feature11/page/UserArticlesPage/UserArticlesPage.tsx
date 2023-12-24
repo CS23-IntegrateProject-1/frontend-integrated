@@ -23,12 +23,17 @@ export const UserArticlesPage = () => {
     queryKey: ["myArticles"],
     queryFn: fetchUserArticles,
   });
+
   if (UserArticles.status == "loading") {
     return <FullPageLoader />;
   }
 
   if (UserArticles.error instanceof Error) {
-    return <div>An error occurred: {UserArticles.error.message}</div>;
+    if (UserArticles.error.message === "Request failed with status code 404") {
+      return <Text textAlign={"center"}>This user has no articles.</Text>;
+    } else {
+      return <div>An error occurred: {UserArticles.error.message}</div>;
+    }
   }
 
   return (
@@ -52,7 +57,10 @@ export const UserArticlesPage = () => {
       >
         <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
           <img
-            src={import.meta.env.VITE_IMAGE_URL + UserArticles.data?.[0].User.profile_picture || ""}
+            src={
+              import.meta.env.VITE_IMAGE_URL +
+                UserArticles.data?.[0].User.profile_picture || ""
+            }
             alt="Profile"
             width="91px"
             height="91px"
