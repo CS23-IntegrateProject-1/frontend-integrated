@@ -1,141 +1,150 @@
+import React, { useState } from 'react'
 import {
-  Box,
-  Tab,
-  Tabs,
-  TabList,
-  Stack,
-} from "@chakra-ui/react";
-import { PromotionDetailCard } from "../../components/PromotionCom/PromotionDetailCard";
-import { PromotionCard } from "../../components/PromotionCom/PromotionCard";
-import { useEffect, useState, FC } from "react";
-import IPromotionApprove  from "../../../../interfaces/Promotion/IPromotionApprove"
-import { GetAllPromotion } from "../../../../api/Promotion/GetAllPromotion";
+  ChakraProvider,
+  Input,
+  VStack,
+  InputGroup,
+  InputLeftElement,
+  Flex,
+  Text,
+  List,
+  ListItem,
+  Radio
+} from '@chakra-ui/react'
+import { SearchIcon } from '@chakra-ui/icons'
 
-export const PromotionListPage: FC = () => {
-  const [datas, setDatas] = useState<IPromotionApprove[]>([]);
-  const [selector, setSelector] = useState<
-    "In_progress" | "Completed" | "Rejected"
-  >("In_progress");
-  const [currentTab, setCurrentTab] = useState(0);
-  const fetchPromotion = async () => {
-    const res = await GetAllPromotion();
-    setDatas(res);
-    console.log(res);
-  };
+interface Promotion {
+  name: string
+  description: string
+}
 
-  useEffect(() => {
-    fetchPromotion();
-  }, []);
+const promotionData: Promotion[] = [
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  },
+  {
+    name: 'Product z launch',
+    description: 'Lorem ipsum dolor sit amet, consecture adipiscing elit'
+  }
 
-  const handleTabChange = (index: number) => {
-    setCurrentTab(index);
-    console.log(currentTab);
-  };
+]
+
+const PromotionBox: React.FC<Promotion> = ({ name, description }) => {
+  return (
+<Flex
+    borderWidth="1px"
+    borderRadius="lg"
+    p={4}
+    mb={4}
+    width="300px"
+    textColor="white"
+    justify="space-between"
+    align="center"
+
+>
+    <VStack align="start">
+        <Text>Name:
+        {name}
+    </Text>
+    <Text>Description:{description}</Text>
+    </VStack>
+</Flex>
+  )
+}
+
+const PromotionPage: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isFilterActive, setIsFilterActive] = useState(false)
+  const [sortByName, setSortByName] = useState(false)
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchQuery(event.target.value)
+    setIsFilterActive(event.target.value !== '')
+  }
+
+  const handleSortChange = (): void => {
+    setSortByName(!sortByName)
+  }
+
+  const filteredPromotions = promotionData
+    .filter((promo) =>
+      promo.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => (sortByName ? a.name.localeCompare(b.name) : 0))
 
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-    >
-      <Tabs
-        variant={"soft-rounded"}
-        colorScheme={"brand"}
-        index={currentTab}
-        onChange={handleTabChange}
-        display={"flex"}
-        justifyContent={"center"}
-        alignContent={"center"}
-        mb="1em"
-      >
-        <TabList>
-          <Stack spacing={10} flexDirection={"row"}>
-            <Tab
-              border="1px solid white"
-              color="#FFFFFF"
-              whiteSpace={"nowrap"}
-              _selected={{
-                color: "#FFFFFF",
-                borderColor: "#A533C8",
-                bgColor: "#A533C8",
-              }}
-              onClick={() => setSelector("In_progress")}
+    <ChakraProvider>
+        <VStack align="start" spacing={4} p={4}>
+        <InputGroup>
+        <InputLeftElement pointerEvents="none">
+    <SearchIcon color="gray.300" />
+    </InputLeftElement>
+            <Input
+            placeholder="Search "
+            bg="white"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            size="sm"
+            width="300px"
+            borderRadius="full"
+            />
+        </InputGroup>
+        <Flex mb={4} flexDirection="column" gap={4}>
+            <List styleType="none" pl={0} textColor="white">
+            <ListItem display="inline" mr={4}>
+                <Radio
+                as="span"
+                style={{ textDecoration: isFilterActive ? 'underline' : 'none' }}
+                >
+                Filter
+                </Radio>
+            </ListItem>
+            <ListItem
+                display="inline"
+                mr={4}
+                _hover={{ cursor: 'pointer' }}
+                onClick={handleSortChange}
             >
-              In Progress
-            </Tab>
-            <Tab
-              border="1px solid white"
-              color="#FFFFFF"
-              whiteSpace={"nowrap"}
-              _selected={{
-                color: "#FFFFFF",
-                borderColor: "#A533C8",
-                bgColor: "#A533C8",
-              }}
-              onClick={() => setSelector("Completed")}
-            >
-              Completed
-            </Tab>
+                <Radio
+                as="span"
+                style={{ textDecoration: sortByName ? 'underline' : 'none' }}
+                >
+                Sort
+                </Radio>
+            </ListItem>
+            </List>
+            {filteredPromotions.map((promo, index) => (
+            <PromotionBox key={index} {...promo} />
+            ))}
+        </Flex>
+        </VStack>
+    </ChakraProvider>
+  )
+}
 
-            <Tab
-              border="1px solid white"
-              color="#FFFFFF"
-              whiteSpace={"nowrap"}
-              _selected={{
-                color: "#FFFFFF",
-                borderColor: "#A533C8",
-                bgColor: "#A533C8",
-              }}
-              onClick={() => setSelector("Rejected")}
-            >
-              Rejected
-            </Tab>
-          </Stack>
-        </TabList>
-      </Tabs>
-      {datas
-        ?.filter((data) => data.isApprove === selector)
-        .map((data: IPromotionApprove) => {
-          if (selector === "In_progress") {
-            return (
-              data.isApprove === "In_progress" && (
-                <PromotionCard
-                  name={data.name}
-                  promotionId={data.promotionId}
-                  isApprove={data.isApprove}
-                  description={data.description}
-                  key={data.promotionId}  
-                    
-                />
-              )
-            );
-          } else if (selector === "Completed") {
-            return (
-              data.isApprove === "Completed" && (
-                <PromotionDetailCard
-                  name={data.name}
-                  promotionId={data.promotionId}
-                  isApprove={data.isApprove}
-                  description={data.description}
-                  key={data.promotionId}
-                />
-              )
-            );
-          } else if (selector === "Rejected") {
-            return (
-              data.isApprove === "Rejected" && (
-                <PromotionDetailCard
-                  name={data.name}
-                  promotionId={data.promotionId}
-                  isApprove={data.isApprove}
-                  description={data.description}
-                  key={data.promotionId}
-                />
-              )
-            );
-          }
-        })}
-    </Box>
-  );
-};
+export default PromotionPage
