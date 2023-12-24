@@ -97,6 +97,7 @@ export const BusiProfileEdit = () => {
   //index for tabs open days
   //0 - Sun , 1 - Mon , 2 - Tue , 3 - Wed , 4 - Thu , 5 - Fri , 6 - Sat
   const [tabIndex, setTabIndex] = useState(0);
+  if(tabIndex) console.log(tabIndex);
   //name
   const [name, setName] = useState("");
   //about us
@@ -130,13 +131,6 @@ export const BusiProfileEdit = () => {
     //go back to the previous page
     window.history.back();
   };
-  console.log(tabIndex + " index no from tab");
-  console.log(name + " name");
-  console.log(aboutUs + " about us");
-  console.log(address + " address");
-  console.log(phNo + " ph no");
-  console.log(promptNo + " prompt no");
-  console.log(category + " category");
   
   //load the data when the page is loaded
   useEffect(() => {
@@ -146,7 +140,6 @@ export const BusiProfileEdit = () => {
     Axios.get(url, { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data, "venue data");
           setName(response.data.name);
           setAboutUs(response.data.description);
           setAddress(response.data.address);
@@ -164,7 +157,6 @@ export const BusiProfileEdit = () => {
     Axios.get(openingHour, { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.Mon.open, "get open");
           setAvailability({ ...availability, openingDay: response.data });
         }
       })
@@ -177,7 +169,6 @@ export const BusiProfileEdit = () => {
      Axios.get(url1, { withCredentials: true })
        .then((response) => {
          if (response.status === 200) {
-           console.log(response.data);
            setpromptNo(response.data.prompt_pay_number);
            setphNo(response.data.business_phone_number);
          }
@@ -197,10 +188,8 @@ export const BusiProfileEdit = () => {
       return;
     }
     const file = e.target.files[0];
-    console.log("selected file: ", file);
     //create url
     const objectUrl = URL.createObjectURL(file);
-    console.log(objectUrl);
     setSelectedFile(file);
     setVenueImg(objectUrl);
   };
@@ -270,7 +259,6 @@ export const BusiProfileEdit = () => {
     )
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           //setAvailability(response.data);
         }
       })

@@ -50,12 +50,9 @@ export const SelectPaymentDe: FC<ButtonProps> = ({
     
     Axios.post(`/feature8/create-delivery-session/${onlineOrderId}`)
       .then(async (res) => {
-      
-        console.log(res.data);
         window.location.href = res.data.url;
       })
       .catch((err) => {
-        console.log(err);
         throw err;
       });
 
@@ -67,7 +64,6 @@ export const SelectPaymentDe: FC<ButtonProps> = ({
       try {
         const response = await Axios.get(`/feature8/creditcardU/${userId}`);
         setCreditCardUser(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching credit card data:", error);
       }

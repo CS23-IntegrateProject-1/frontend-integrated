@@ -26,9 +26,6 @@ export const QrCodeScan = () => {
           tokenBody,
           { headers: tokenHeaders }
         );
-
-        console.log("Token response:", response.data);
-
         // Access the accessToken and expiresAt from the data property of the response
         const receivedAccessToken = response.data.data.accessToken;
         const receivedExpireAt = response.data.data.expiresAt;
@@ -39,7 +36,6 @@ export const QrCodeScan = () => {
         // Handle errors
       }
     };
-    console.log(isTokenExpired(expireAt))
     // Check if accessToken is not present or if it's expired
     if (!accessToken || isTokenExpired(expireAt)) {
       fetchDataAndQrGen();
@@ -48,42 +44,39 @@ export const QrCodeScan = () => {
 
   useEffect(() => {
     const qrGen = async () => {
-      try {
-        const qrGenHeaders = {
-          "Content-Type": "application/json",
-          "authorization": "Bearer "+accessToken,
-          "resourceOwnerId": "l7197996523b07499dbc0ad067c9933636",
-          "requestUId": "{{$guid}}",
-          "accept-language": "EN"
-        };
+      // try {
+      //   const qrGenHeaders = {
+      //     "Content-Type": "application/json",
+      //     "authorization": "Bearer "+accessToken,
+      //     "resourceOwnerId": "l7197996523b07499dbc0ad067c9933636",
+      //     "requestUId": "{{$guid}}",
+      //     "accept-language": "EN"
+      //   };
 
-        const qrGenBody = {
-          "qrType": "PP",
-          "ppType": "BILLERID",
-          "ppId": "359644351204206",
-          "amount": "344",
-          "ref1": "REFERENCE1",
-          "ref3": "SCB1234"
-        };
+      //   const qrGenBody = {
+      //     "qrType": "PP",
+      //     "ppType": "BILLERID",
+      //     "ppId": "359644351204206",
+      //     "amount": "344",
+      //     "ref1": "REFERENCE1",
+      //     "ref3": "SCB1234"
+      //   };
 
-        const qrGenResponse = await axios.post(
-          "https://api-sandbox.partners.scb/partners/sandbox/v1/payment/qrcode/create",
-          qrGenBody,
-          { headers: qrGenHeaders }
-        );
+      //   // const qrGenResponse = await axios.post(
+      //   //   "https://api-sandbox.partners.scb/partners/sandbox/v1/payment/qrcode/create",
+      //   //   qrGenBody,
+      //   //   { headers: qrGenHeaders }
+      //   // );
 
-        console.log("QR code creation response:", qrGenResponse.data);
-        // Handle the response data as needed
-      } catch (error) {
-        console.error("QR code creation error:", error);
-        // Handle errors
-      }
+      //   // Handle the response data as needed
+      // } catch (error) {
+      //   console.error("QR code creation error:", error);
+      //   // Handle errors
+      // }
     };
 
     // Check if accessToken is present and not expired
     if (accessToken && !isTokenExpired(expireAt)) {
-        console.log(accessToken)
-        console.log(expireAt)
         qrGen();
     }
   }, [accessToken, expireAt]); // Dependency on accessToken and expireAt to run the effect when they change

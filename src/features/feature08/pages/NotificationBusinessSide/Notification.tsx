@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
-import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -109,9 +108,6 @@ export const Notification = () => {
 			setBusinessId(venueIds?.property?.property.businessId);
 		}
 	}, [venueIds?.property?.property]);
-	console.log(venueIds?.property?.property.businessId);
-	console.log(venueIds?.property?.property.venueId);
-	console.log(venueId)
 	
 
 
@@ -128,7 +124,6 @@ export const Notification = () => {
 				const userData = await response.json(); // Extract userData from response
 				// Check if userData exists before calling setUserData
 				if (userData) {
-					console.log("API Response:", userData);
 					setUserData(userData); // Call setUserData with valid userData
 					setUserId(userData.userId);
 				} else {
@@ -147,9 +142,9 @@ export const Notification = () => {
 	};
 	const fetchReservationData = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const reservationResponse = await axios.get(
-				`${backendUrl}/feature8/reservation/${venueId}`
+			
+			const reservationResponse = await Axios.get(
+				`/feature8/reservation/${venueId}`
 			);
 			const reservationData = reservationResponse.data; // Assuming the data is in the 'data' property
 			setReservation(reservationData);
@@ -162,28 +157,23 @@ export const Notification = () => {
 		fetchReservationData();
 	}, []);
 
-	// console.log(reservation)
 
 	useEffect(() => {
 		fetchData();
 	}, []); // Run once when the component mounts
 
-	reservation.map((res) => console.log(res.status));
+	// reservation.map((res) => console.log(res.status));
 	const reservationIds = useMemo(() => {
 		return reservation.map((res) => res.reservationId);
 	}, [reservation]);
-	console.log(reservationIds);
 
 	const notiData = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const reservationResponse = await axios.get(
-				`${backendUrl}/feature8/notifications/reservation`
+			
+			const reservationResponse = await Axios.get(
+				`/feature8/notifications/reservation`
 			);
 			const notiReserveData = reservationResponse.data;
-
-			console.log("All Notifications:", notiReserveData);
-			console.log("Reservation IDs:", reservationIds);
 
 			// Filter notifications based on matching reserveId and reservationIds
 			const filteredNotifications = notiReserveData.filter(
@@ -191,7 +181,6 @@ export const Notification = () => {
 					reservationIds.includes(notification.reserveId)
 			);
 
-			console.log("Filtered Notifications:", filteredNotifications);
 
 			setNotificationData(filteredNotifications);
 		} catch (error) {
@@ -229,7 +218,7 @@ export const Notification = () => {
 	useEffect(() => {
 		const fetchTableNumbers = async () => {
 			try {
-				const backendUrl = import.meta.env.VITE_BACKEND_URL;
+				
 
 				// Extracting reserveIds from reserveIdMap
 				const reserveIds = Object.keys(reserveIdMap) as string[];
@@ -237,8 +226,8 @@ export const Notification = () => {
 				// Use Promise.all to make parallel requests for table numbers
 				const tableNumberResponses = await Promise.all(
 					reserveIds.map(async (reserveId) => {
-						const tableNumberResponse = await axios.get(
-							`${backendUrl}/feature8/reservation/${venueId}/${reserveId}`
+						const tableNumberResponse = await Axios.get(
+							`/feature8/reservation/${venueId}/${reserveId}`
 						);
 						return {
 							reserveId,
@@ -258,7 +247,7 @@ export const Notification = () => {
 				);
 
 				// Now you can use tableNumberMap in your component
-				console.log("Table Number Map:", tableNumberMap);
+			
 			} catch (error) {
 				console.error("Error fetching table number data:", error);
 			}
@@ -269,8 +258,6 @@ export const Notification = () => {
 	}, [reserveIdMap, venueId]);
 // }, [reserveIdMap, tableNumberMap, venueId]);
 
-	// console.log(tableNumberMap)
-	// console.log(notificationData)
 	const pendingReservations = notificationData.filter(
 		(res) => res.status === "Pending"
 	);
@@ -280,9 +267,9 @@ export const Notification = () => {
 
 	const fetchAdvertisementData = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await axios.get(
-				`${backendUrl}/feature8/notifications/advertisementbizId`
+			
+			const advertisementResponse = await Axios.get(
+				`/feature8/notifications/advertisementbizId`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setAdvertisementData(advertisementData);
@@ -297,9 +284,9 @@ export const Notification = () => {
 	// http://localhost:8080/feature8/notifications/advertisementbizId/1
 	const fetchBusinessId = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const FetchbusinessId = await axios.get(
-				`${backendUrl}/feature8/notifications/advertisementbizId/${venueId}`
+			
+			const FetchbusinessId = await Axios.get(
+				`/feature8/notifications/advertisementbizId/${venueId}`
 			);
 			const businessId = FetchbusinessId.data.businessId; // Assuming the data is in the 'data' property
 			setBusinessId(businessId);
@@ -314,9 +301,9 @@ export const Notification = () => {
 
 	const bizAdverAd = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await axios.get(
-				`${backendUrl}/feature8/notifications/advertisement`
+			
+			const advertisementResponse = await Axios.get(
+				`/feature8/notifications/advertisement`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setbusinessAdver(advertisementData);
@@ -332,13 +319,12 @@ export const Notification = () => {
 	const advertisementId = useMemo(() => {
 		return businessAdver.map((res: any) => res.advertisementId);
 	}, [businessAdver]);
-	console.log(advertisementId);
 
 	const bizAllAdvertiseMain = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const advertisementResponse = await axios.get(
-				`${backendUrl}/feature8/business/adall`
+			
+			const advertisementResponse = await Axios.get(
+				`/feature8/business/adall`
 			);
 			const advertisementData = advertisementResponse.data; // Assuming the data is in the 'data' property
 			setBusinessAdMain(advertisementData);
@@ -364,25 +350,20 @@ const { data: orderData } = useQuery<{
   orderData: Order[];
 }>(['orderUpdate', venueId], () => fetchOrderUpdate());
 
-console.log(orderData?.orderData)
-
 // /feature8/venue/:venueId/getBusinessId
 // Rename the function to avoid redeclaration
-const fetchBusinessIdFromVenue = async () => {
-  const bizIdRes = await Axios.get<{ businessId: number }>(`/feature8/venue/${venueId}/getBusinessId`);
+// const fetchBusinessIdFromVenue = async () => {
+//   const bizIdRes = await Axios.get<{ businessId: number }>(`/feature8/venue/${venueId}/getBusinessId`);
 
-  // Extract the businessId from the response data
-  const bizId = bizIdRes.data.businessId;
+//   // Extract the businessId from the response data
+//   const bizId = bizIdRes.data.businessId;
   
-  // Return the businessId, not an object
-  return bizId;
-};
+//   // Return the businessId, not an object
+//   return bizId;
+// };
 
 // Use the renamed function in useQuery
-const { data: dataBusinessId } = useQuery<number>(['fetchBusinessId', venueId], fetchBusinessIdFromVenue);
-
-console.log(dataBusinessId);
-console.log(orderData?.orderData)
+// const { data: dataBusinessId } = useQuery<number>(['fetchBusinessId', venueId], fetchBusinessIdFromVenue);
   
 
 
@@ -398,14 +379,6 @@ console.log(orderData?.orderData)
 		);
 	}, [businessAdMain, advertisementId]);
 
-	// console.log(reservation)
-	// console.log(pendingReservations);
-	// console.log(businessId);
-	// console.log(businessAdver);
-	// console.log(businessAdMain);
-	// console.log(advertisementId);
-	console.log(filteredAds);
-	// console.log(checkOutReservations)
 
 	const allNotifications = useMemo(() => {
 		const pendingResNotifications = pendingReservations.map(
@@ -479,7 +452,6 @@ console.log(orderData?.orderData)
 	return (
 		<div>
 			{sortedNotifications.map((notification, index) => {
-        console.log(notification)
 				const timeDifference = formatDistanceToNow(
 					new Date(notification.time),
 					{ addSuffix: true }

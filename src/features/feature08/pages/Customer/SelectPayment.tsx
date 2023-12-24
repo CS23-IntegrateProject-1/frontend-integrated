@@ -86,11 +86,9 @@ export const SelectPayment: FC<ButtonProps> = ({
         // if (result.error) {
         //   alert(result.error.message);
         // }
-        console.log(res.data);
         window.location.href = res.data.url;
       })
       .catch((err) => {
-        console.log(err);
         throw err;
       });
 
@@ -126,7 +124,6 @@ export const SelectPayment: FC<ButtonProps> = ({
       try {
         const response = await Axios.get(`/feature8/creditcardU/${userId}`);
         setCreditCardUser(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching credit card data:", error);
       }
