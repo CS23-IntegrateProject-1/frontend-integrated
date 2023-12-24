@@ -59,7 +59,7 @@ export const RevenueCard: FC = () => {
 				display={"flex"}
 				justifyContent={"space-between"}
 				alignItems={"center"}>
-				<Text style={TextStyle.h2}>Harmony to Partners</Text>
+				<Text style={TextStyle.h2}>Harmoni to Partners</Text>
 				<Text style={TextStyle.h3}>{statistics.toPartners}</Text>
 			</Box>
 			<Box
