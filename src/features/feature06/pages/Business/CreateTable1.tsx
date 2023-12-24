@@ -43,16 +43,12 @@ export const CreateTable1 = () => {
 
   const handleCreate = async () => {
     try {
-      console.log("tabletypeDetailId: ", tabletypeId);
-      console.log("tablenumber: ", tablenumber);
-      console.log("information: ", information);
       const response: create1 = await Axios.post(`/feature6/createTable`, {
         tableTypeDetailId: tabletypeId,
         tablenumber: tablenumber,
         information: information,
       });
       console.log(response);
-      console.log("create table success");
       navigate("/business/tablelist");
     } catch (err) {
       console.log(err);

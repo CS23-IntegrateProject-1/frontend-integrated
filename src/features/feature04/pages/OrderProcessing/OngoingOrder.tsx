@@ -57,7 +57,7 @@ import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader
         
           // Use useEffect to log the data
           useEffect(() => {
-            console.log(orderData);
+            // console.log(orderData);
           }, [orderData]);
 
           if (isLoading) {
@@ -68,7 +68,7 @@ import { Box, Text, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader
             return <p>Error fetching data or data is undefined</p>;
           }
     
-        console.log("this is from ongoin" + orderData.payment_method);
+        // console.log("this is from ongoin" + orderData.payment_method);
         
     return(
         <Box>

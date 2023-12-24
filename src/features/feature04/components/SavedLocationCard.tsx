@@ -155,7 +155,7 @@ const SavedLocationCard = (props: SavedCardProps) => {
         if (postcode !== props.postcode) {
           updatedData.postcode = postcode;
         }
-        console.log("hello from savedLocCard" + updatedData.address)
+        // console.log("hello from savedLocCard" + updatedData.address)
     
         await mutation.mutateAsync(updatedData);
         return Promise.resolve();

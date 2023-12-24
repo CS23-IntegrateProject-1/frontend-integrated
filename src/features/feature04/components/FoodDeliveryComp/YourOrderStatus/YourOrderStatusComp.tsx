@@ -31,7 +31,7 @@ interface AllInformation {
 
 export const YourOrderStatusComp = (props: AllInformation) => {
   
-  console.log("Order Data:", props.cardType);
+  // console.log("Order Data:", props.cardType);
 //   const fetchOrderData = async () => {
 //     const response = await Axios.get(`/feature4/showOnGoingOrderDetail/${props.onlineOrderId}`);
 //     return response.data;
@@ -53,7 +53,7 @@ export const YourOrderStatusComp = (props: AllInformation) => {
 //     return <p>Error fetching data or data is undefined</p>;
 //   }
 
-console.log("Order Data:",  );
+// console.log("Order Data:",  );
   const PinIcon: React.FC = () => {
     return (
       <svg

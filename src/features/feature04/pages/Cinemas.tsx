@@ -65,7 +65,7 @@ export const Cinemas = () => {
       }));
 
       setRegistered(formattedCinemasData);
-      console.log(formattedCinemasData);
+      // console.log(formattedCinemasData);
       setLocations(response.data.cinemas.map((item : any) => ({
         locationId: item.theaterId,
         name: item.name,
@@ -79,13 +79,13 @@ export const Cinemas = () => {
     }
   };
   useEffect(() => {
-    console.log("Updated locations cinemas:", locations);
+    // console.log("Updated locations cinemas:", locations);
     // console.log("hello1")
   }, [locations]); // This effect will run whenever locations change
 
   useEffect(() => {
     fetchRestaurantData();
-    console.log("hello")
+    // console.log("hello")
   }, []);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ export const Cinemas = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    console.log("Searching for:", searchTerm);
+    // console.log("Searching for:", searchTerm);
 
     // Filter the data based on the search term
     const filtered =

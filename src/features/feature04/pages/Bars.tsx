@@ -64,7 +64,7 @@ export const Bars = () => {
       });
 
       setRegistered1(formattedBarsData);
-      console.log("Registered Data Response:", formattedBarsData);
+      // console.log("Registered Data Response:", formattedBarsData);
       setLocations1(response.data.bars.map((item:any) => item.Location));
       
     } catch (error) {
@@ -73,9 +73,9 @@ export const Bars = () => {
   };
 
   useEffect(() => {
-    console.log("hello")
-    console.log("Updated locations:", locations1);
-    console.log("hello1")
+    // console.log("hello")
+    // console.log("Updated locations:", locations1);
+    // console.log("hello1")
   }, [locations1]); // This effect will run whenever locations change
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export const Bars = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    console.log(searchTerm);
+    // console.log(searchTerm);
 
     // Filter the data based on the search term
     const filtered =

@@ -26,7 +26,7 @@ export const CancelOrder = () => {
         
           // Use useEffect to log the data
           useEffect(() => {
-            console.log(orderData);
+            // console.log(orderData);
           }, [orderData]);
 
           if (isLoading) {
@@ -37,7 +37,7 @@ export const CancelOrder = () => {
             return <p>Error fetching data or data is undefined</p>;
           }
     
-        console.log(orderData);
+        // console.log(orderData);
   
   // const orders: Order[] = [
   //   {
@@ -47,7 +47,7 @@ export const CancelOrder = () => {
   //     price: 20,
   //   },
   // ];
-  console.log(orderData.payment_type)
+  // console.log(orderData.payment_type)
   return (
     <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
       <Flex flexDirection={"column"} alignItems={"center"}>
