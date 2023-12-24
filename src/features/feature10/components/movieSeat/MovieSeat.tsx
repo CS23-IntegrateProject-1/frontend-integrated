@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { Box, Image } from "@chakra-ui/react";
 import Chair from "../../images/chair.png";
