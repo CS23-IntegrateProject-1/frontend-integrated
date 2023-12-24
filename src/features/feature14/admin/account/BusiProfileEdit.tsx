@@ -134,7 +134,7 @@ export const BusiProfileEdit = () => {
 				setphNo(response.data.business_phone_number);
 			}
 		});
-	}, []);
+	}, [venueId]);
 	const handleProfileImageChange = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
