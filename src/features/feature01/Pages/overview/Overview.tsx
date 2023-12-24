@@ -81,6 +81,22 @@ export const Overview = () => {
             console.error("Error fetching member data:", error);
         });
         }, []);
+        //destory cookie when sign out
+        const handleSignOut = () => {
+          const url = `/auth/logout`;
+          Axios.post(url, { withCredentials: true })
+            .then((response) => {
+              if (response.status == 200) {
+                console.log("Sign out success");
+                window.location.href = "/login";
+              }
+              return response;
+            })
+            .catch((error) => {
+              console.error("Error fetching profile  data:", error);
+            });
+        }
+
   return (
     <FormControl>
         <Box>
@@ -326,11 +342,11 @@ export const Overview = () => {
           </Center>
           <Center>
             <ButtonGroup pt={2} spacing="6">
-                <NavLink to={"/login"}>
-                <Button px={12}>
+                {/* <NavLink to={"/login"}> */}
+                <Button px={12} onClick={handleSignOut}>
                 Continue
               </Button>
-                </NavLink>
+                {/* </NavLink> */}
               <Button
                 width={"140px"}
                 height={"40px"}
