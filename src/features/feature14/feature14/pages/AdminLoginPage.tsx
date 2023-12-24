@@ -1,9 +1,9 @@
 import { Box, Heading, Input, Image, Text, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextStyle } from "../../../theme/TextStyle";
+import { TextStyle } from "../../../../theme/TextStyle";
 import LogoLoginPage from "../Images/LogoLoginPage.png";
-import { Adminlogin } from "../../../api/Auth/AdminLogin";
+import { Adminlogin } from "../../../../api/Auth/AdminLogin";
 
 const AdminLoginPage = () => {
 	const navigate = useNavigate();

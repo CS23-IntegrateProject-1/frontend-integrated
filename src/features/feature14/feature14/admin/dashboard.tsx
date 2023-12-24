@@ -11,22 +11,14 @@ const chartWidthPercentage = "30%";
 const chartMarginPercentage = "15%";
 
 const Dashboard: React.FC = () => {
+	// const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+	// const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// Dummy restaurant data
 	// const restaurants = [
-	// 	{
-	// 		name: "Restaurant1",
-	// 		businessType: "Type1",
-	// 		monthlyRevenue: 10000,
-	// 		commission: 1000,
-	// 	},
-	// 	{
-	// 		name: "Restaurant2",
-	// 		businessType: "Type2",
-	// 		monthlyRevenue: 8000,
-	// 		commission: 800,
-	// 	},
-	// 	// Add more restaurant data as needed
+	//   { name: 'Restaurant1', businessType: 'Type1', monthlyRevenue: 10000, commission: 1000 },
+	//   { name: 'Restaurant2', businessType: 'Type2', monthlyRevenue: 8000, commission: 800 },
+	//   // Add more restaurant data as needed
 	// ];
 
 	// const openModal = (restaurant) => {
@@ -47,7 +39,7 @@ const Dashboard: React.FC = () => {
 	const [date1, setDate1] = useState("2023-01-01"); // Replace with your start date
 	const [date2, setDate2] = useState("2023-01-31"); // Replace with your end date
 	setDate1("");
-	setDate2("");
+	setDate2(""); // Place holder for avoiding error
 	const [showSortingModal, setShowSortingModal] = useState<boolean>(false);
 	const [showFilteringModal, setShowFilteringModal] =
 		useState<boolean>(false);
@@ -106,8 +98,6 @@ const Dashboard: React.FC = () => {
 
 		if (customersChartCanvas && businessesChartCanvas) {
 			// const buttonWidth = businessesChartCanvas.offsetWidth;
-
-      // !!! IMPORTANT !!! Make the interface for these charts
 			// customersChart = new Chart(customersChartCanvas, {
 			// 	type: "doughnut",
 			// 	data: {
@@ -128,7 +118,6 @@ const Dashboard: React.FC = () => {
 			// 		},
 			// 	},
 			// });
-
 			// businessesChart = new Chart(businessesChartCanvas, {
 			// 	type: "doughnut",
 			// 	data: {
