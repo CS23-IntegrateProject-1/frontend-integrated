@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, Image, Text, Flex,useMediaQuery  } from '@chakra-ui/react';
+import {Box, Image, Text, Flex,useMediaQuery  } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import map1 from '../assets/img/map1.png';
+// import map1 from '../assets/img/map1.png';
 import {Axios} from '../../../AxiosInstance';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
 interface Movie {
   title: string;
   imageUrl: string;
   id: number;
 }
-const buttonStyles = {
-  borderRadius: '35px',
-  textColor: 'white',
-  mr: 5,
-  mt: 5,
-  mb: 5,
+
+
+
+const containerStyle = {
+  width: '60vw',
+  height: '40vw',
+};
+
+const center = {
+  lat: 13.652054676389412,
+  lng: 100.49688877851413,
 };
 export const CinemaMain = () => {
-  const [activeButton, setActiveButton] = useState(null);
   const [nowShowingMovies, setNowShowingMovies] = useState<Movie[]>([]);
   const [soonMovies, setSoonMovies] = useState<Movie[]>([]);
   const [isDesktop] = useMediaQuery('(min-width: 768px)');
 
-  const handleClick = (index: any) => {
-    setActiveButton(index);
-  };
-
-  const buttons = ['All', 'Dolby', 'IMAX', 'kid'];
 
   const fetchMovies = async (url: string, setState: React.Dispatch<React.SetStateAction<Movie[]>>) => {
     try {
@@ -53,21 +53,12 @@ export const CinemaMain = () => {
 
   return (
     <>
-      <Box marginBottom={'5px'} display={"flex"}  justifyContent={"center"} >
-        <Image w={['100%', null, '50%']} h="auto" src={map1} borderRadius={"5px"}></Image>
+      <Box marginBottom={'5px'} display={'flex'} justifyContent={'center'}>
+        <LoadScript googleMapsApiKey="AIzaSyCsa_leZkTisoRvdzf3qJub4iyzQxrmeHY">
+          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>          
+          </GoogleMap>
+        </LoadScript>
       </Box>
-      <Box textAlign="center" fontSize="xl">
-        {buttons.map((button, index) => (
-          <Button
-            {...buttonStyles}
-            bg={activeButton === index ? 'brand.300' : 'rgba(0, 0, 0, 0.3)'}
-            onClick={() => handleClick(index)}
-          >
-            {button}
-          </Button>
-        ))}
-      </Box>
-
       <Box>
         <Text fontSize="20px" fontWeight="bold" mb={4}>
           Now Showing
@@ -98,10 +89,10 @@ export const CinemaMain = () => {
           ))}
           
         </Flex>
-        <Text fontSize="20px" fontWeight="bold" mb={4}>
+        <Text  fontSize="20px" fontWeight="bold" mb={4}>
           Coming Soon
         </Text>
-        <Flex>
+        <Flex overflowX="auto" pb={8} align="center">
           {soonMovies.map((movie, index) => (
             <Box
               key={index}
