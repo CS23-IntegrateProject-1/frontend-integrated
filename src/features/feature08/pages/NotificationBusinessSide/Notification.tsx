@@ -109,6 +109,7 @@ export const Notification = () => {
 		}
 	}, [venueIds?.property?.property]);
 	
+	
 
 
 
@@ -154,8 +155,10 @@ export const Notification = () => {
 	};
 
 	useEffect(() => {
-		fetchReservationData();
-	}, []);
+		if(venueId!==0){
+			fetchReservationData();
+		}
+	}, [venueId]);
 
 
 	useEffect(() => {
@@ -282,22 +285,22 @@ export const Notification = () => {
 		fetchAdvertisementData();
 	}, []);
 	// http://localhost:8080/feature8/notifications/advertisementbizId/1
-	const fetchBusinessId = async () => {
-		try {
+	// const fetchBusinessId = async () => {
+	// 	try {
 			
-			const FetchbusinessId = await Axios.get(
-				`/feature8/notifications/advertisementbizId/${venueId}`
-			);
-			const businessId = FetchbusinessId.data.businessId; // Assuming the data is in the 'data' property
-			setBusinessId(businessId);
-		} catch (error) {
-			console.error("Error fetching advertisement data:", error);
-		}
-	};
+	// 		const FetchbusinessId = await Axios.get(
+	// 			`/feature8/notifications/advertisementbizId/${venueId}`
+	// 		);
+	// 		const businessId = FetchbusinessId.data.businessId; // Assuming the data is in the 'data' property
+	// 		setBusinessId(businessId);
+	// 	} catch (error) {
+	// 		console.error("Error fetching advertisement data:", error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		fetchBusinessId();
-	}, []);
+	// useEffect(() => {
+	// 	fetchBusinessId();
+	// }, [venueId]);
 
 	const bizAdverAd = async () => {
 		try {
@@ -420,6 +423,7 @@ const { data: orderData } = useQuery<{
     //   0
     // );
     const adOrderUpdate = orderData?.orderData.map((ou) => {
+		console.log(orderData)
       return {...ou, time: new Date(ou.order_date)}
     })
 
@@ -539,6 +543,7 @@ const { data: orderData } = useQuery<{
 				}
 
         else if (notification.orderId) {
+			console.log(notification)
           // Handle order notifications
           return (
             <Link
