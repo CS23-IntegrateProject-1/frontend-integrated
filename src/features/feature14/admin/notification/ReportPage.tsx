@@ -1,74 +1,120 @@
-import React, { useState, useEffect } from 'react'
-import { Box, ChakraProvider, extendTheme, Text, Link } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
-import axios from 'axios'
+import {
+  Box,
+  Tab,
+  Tabs,
+  TabList,
+  Stack,
+} from "@chakra-ui/react";
+import { ComplainDetailCard } from "../../components/complainCom/ComplainDetailCard";
+import { ComplainCard } from "../../components/complainCom/ComplainCard";
+import { useEffect, useState, FC } from "react";
+import IReportApprove  from "../../../../interfaces/ComplainTicket/IReportApprove"
+import { GetAllComplain } from "../../../../api/ComplainTicket/GetAllComplain"
 
-interface Report {
-  foodName: string
-  problem: string
-}
-
-// Create a custom theme if needed
-const theme = extendTheme(/* Your custom theme here */)
-
-// Function to get the current time
-const getCurrentTime = (): string => {
-  const currentTime = new Date()
-  return currentTime.toLocaleTimeString()
-}
-
-const Reportbox: React.FC<Report> = ({ foodName, problem }) => {
-  return (
-    <Link as={RouterLink} to={`/admin/notification/${foodName}`}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        marginBottom="2"
-        fontSize="lg"
-        borderBottom="1px solid white"
-        paddingY="2"
-      >
-        <Box display="flex" flexDirection="row">
-          <Text color="white" fontSize="xl" marginRight="4">
-            {foodName}
-          </Text>
-          <Text color="white" fontSize="sm">
-            {problem}
-          </Text>
-        </Box>
-        <Box display="flex" flexDirection="column">
-          <Text color="white">{getCurrentTime()}</Text>
-        </Box>
-      </Box>
-    </Link>
-  )
-}
-
-// Main component
-const ReportPage: React.FC = () => {
-  const [reports, setReports] = useState<Report[]>([])
+export const ReportListPage: FC = () => {
+  const [datas, setDatas] = useState<IReportApprove[]>([]);
+  const [selector, setSelector] = useState<
+    "Pending" | "Completed"
+  >("Pending");
+  const [currentTab, setCurrentTab] = useState(0);
+  const fetchReport = async () => {
+    try {
+      const res = await GetAllComplain();
+      // Assuming GetAllComplain returns an array
+      setDatas(res.report_ticket);
+      console.log(res.report_ticket);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    axios.get('/api/reports')
-      .then(response => {
-        setReports(response.data)
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error)
-      })
-  }, []) // Empty dependency array ensures that the effect runs only once
+    fetchReport();
+  }, []);
 
+  const handleTabChange = (index: number) => {
+    setCurrentTab(index);
+    console.log(currentTab);
+  };
+
+  console.log(datas)
   return (
-    <ChakraProvider theme={theme}>
-      <Box>
-        {/* Display food name, problem, and time in separate boxes with no left and right borders */}
-        {reports.map((report, index) => (
-          <Reportbox key={index} {...report} />
-        ))}
-      </Box>
-    </ChakraProvider>
-  )
-}
-
-export default ReportPage
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
+      <Tabs
+        variant={"soft-rounded"}
+        colorScheme={"brand"}
+        index={currentTab}
+        onChange={handleTabChange}
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"center"}
+        mb="1em"
+      >
+        <TabList>
+          <Stack spacing={10} flexDirection={"row"}>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("Pending")}
+            >
+              Pending
+            </Tab>
+            <Tab
+              border="1px solid white"
+              color="#FFFFFF"
+              whiteSpace={"nowrap"}
+              _selected={{
+                color: "#FFFFFF",
+                borderColor: "#A533C8",
+                bgColor: "#A533C8",
+              }}
+              onClick={() => setSelector("Completed")}
+            >
+              Fixed
+            </Tab>
+          </Stack>
+        </TabList>
+      </Tabs>
+      {Array.isArray(datas) && datas
+      .filter((data) => data.status === selector)
+        .map((data: IReportApprove) => {
+          if (selector === "Pending") {
+            return (
+              data.status === "Pending" && (
+                  <ComplainCard
+                      ComplainTicketId={data.ComplainTicketId}
+                      topic={data.topic}
+                      status={data.status}
+                      complaint={data.complaint}
+                      key={data.ComplainTicketId}
+                  />
+              )
+            );
+          } else if (selector === "Completed") {
+            return (
+              data.status === "Completed" && (
+                  <ComplainDetailCard
+                      ComplainTicketId={data.ComplainTicketId}
+                      topic={data.topic}
+                      status={data.status}
+                      complaint={data.complaint}
+                      key={data.ComplainTicketId}
+                  />
+              )
+            );
+          } 
+        })}
+    </Box>
+  );
+};

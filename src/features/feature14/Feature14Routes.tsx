@@ -5,7 +5,7 @@ import RejectPage from "./admin/voucher/reviewrejected";
 // import { VoucherDetailPage } from './admin/voucher/VoucherDetailPage'
 import { PromotionListPage } from "./admin/promotion/PromotionPage";
 import FilterPage from "./admin/promotion/FilterPage";
-import ReportPage from "./admin/notification/ReportPage";
+import { ReportListPage } from "./admin/notification/ReportPage";
 import FixReportPage from "./admin/notification/FixReport";
 import ReviewPromotPage from "./admin/promotion/ReviewPromotPage";
 export const Feature14Routes = () => {
@@ -36,7 +36,7 @@ export const Feature14Routes = () => {
 		//	path: "/admin/advertisement/:advertisementId/reject",
 		//	element: "ElementPlaceHolder",
 		//},
-		{ path: "/admin/notification", element: <ReportPage /> },
+		{ path: "/admin/notification", element: <ReportListPage /> },
 		{
 			path: "/admin/notification/:notificationId",
 			element: <FixReportPage />,
