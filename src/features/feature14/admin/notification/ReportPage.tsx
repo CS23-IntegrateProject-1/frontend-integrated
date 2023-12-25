@@ -37,7 +37,6 @@ export const ReportListPage: FC = () => {
     console.log(currentTab);
   };
 
-  console.log(datas)
   return (
     <Box
       display={"flex"}
