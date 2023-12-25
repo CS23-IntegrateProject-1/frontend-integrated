@@ -2,7 +2,6 @@ import {
 	Box,
 	Image,
 	Button,
-	Checkbox,
 	Heading,
 	Input,
 	Text,
@@ -10,15 +9,15 @@ import {
 import { TextStyle } from "../../../theme/TextStyle";
 import LogoBusinessLoginPage from "../images/BusinessLoginLogo.png";
 import textStyles from "../../../theme/foundations/textStyles";
-import google from "../images/google.png";
+// import google from "../images/google.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { BusinessLogin as login } from "../../../api/Auth/BusinessLogin";
 
 export const BusinessLoginPage = () => {
 	const navigate = useNavigate();
-	const [rememberMe, setRememberMe] = useState(false);
-	rememberMe;
+	// const [rememberMe, setRememberMe] = useState(false);
+	// rememberMe;
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isValid, setIsValid] = useState(true);
@@ -108,12 +107,12 @@ export const BusinessLoginPage = () => {
 						)}
 
 						<Box textStyle={"h4"}>
-							<Checkbox
+							{/* <Checkbox
 								onChange={(e) => {
 									setRememberMe(e.target.checked);
 								}}>
 								Remember me Not working rn
-							</Checkbox>
+							</Checkbox> */}
 						</Box>
 						{/* Button*/}
 						<Button
@@ -129,7 +128,7 @@ export const BusinessLoginPage = () => {
 							Login
 						</Button>
 						<br />
-						<Text textAlign="center" style={textStyles.h4}>
+						{/* <Text textAlign="center" style={textStyles.h4}>
 							Sign up with
 						</Text>
 						<Image
@@ -139,7 +138,7 @@ export const BusinessLoginPage = () => {
 							margin="auto"
 							marginBottom="3vh"
 							marginTop="3vh"
-						/>
+						/> */}
 						<Box>
 							<Text textAlign="center" style={textStyles.h4}>
 								Don't have an account?{" "}

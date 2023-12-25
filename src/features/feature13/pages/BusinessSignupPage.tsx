@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Image, Input, Text } from "@chakra-ui/react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { BusinessSignup } from "../../../api/Auth/BusinessSignup";
-import google from "../images/google.png";
+// import google from "../images/google.png";
 
 const BusinessSignupPage: FC = () => {
 	const navigate = useNavigate();
@@ -204,7 +204,7 @@ const BusinessSignupPage: FC = () => {
 						Sign up
 					</Button>
 					<br />
-					<Text textAlign="center" style={textStyles.h4}>
+					{/* <Text textAlign="center" style={textStyles.h4}>
 						Sign up with
 					</Text>
 					<Image
@@ -214,7 +214,7 @@ const BusinessSignupPage: FC = () => {
 						margin="auto"
 						marginBottom="3vh"
 						marginTop="3vh"
-					/>
+					/> */}
 					<Box>
 						<Text textAlign="center" style={textStyles.h4}>
 							Don't have an account?{" "}
