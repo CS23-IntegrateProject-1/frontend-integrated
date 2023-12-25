@@ -31,7 +31,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       .catch((err) => {
         console.error("Error deleting like:", err);
       });
-    queryClient.invalidateQueries({ queryKey: ["articles"] });
+    queryClient.invalidateQueries({ queryKey: ["myArticles"] });
   };
 
   const handleAddLike = async (event: React.MouseEvent) => {
@@ -43,7 +43,7 @@ export const MyArticlesBox: FC<ArticlesPageProps> = (props) => {
       .catch((err) => {
         console.error("Error adding like:", err);
       });
-    queryClient.invalidateQueries({ queryKey: ["articles"] });
+    queryClient.invalidateQueries({ queryKey: ["myArticles"] });
   };
 
   const handleShare = (event: React.MouseEvent) => {
