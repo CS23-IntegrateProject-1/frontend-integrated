@@ -30,7 +30,7 @@ export const PromotionDetail = () => {
   }, );
 
   return (
-    <Box marginRight={"150px"} marginLeft={"150px"}>
+    <Box marginRight={"50px"} marginLeft={"50px"}>
       <Center mb={"15px"} overflow={"hidden"} borderRadius={"5px"}>
         <Image
           w={"100%"}
