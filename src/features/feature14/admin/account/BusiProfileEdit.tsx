@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { TextStyle } from "../../../../theme/TextStyle";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 // import { AddCard } from "./AddCard";
 import { Axios } from "../../../../AxiosInstance";
@@ -100,8 +100,9 @@ export const BusiProfileEdit = () => {
 	const [availability, setAvailability] =
 		useState<Availability>(defaultAvailability);
 
+	const navigate = useNavigate();
 	const handleCancel = () => {
-		window.history.back();
+		navigate("/admin/dashboard");
 	};
 	//check the data of Opening Day date and time
 
@@ -1004,7 +1005,7 @@ export const BusiProfileEdit = () => {
 						display="block"
 						margin="auto"
 						marginTop="5vh"
-						onClick={() => handleCancel}>
+						onClick={handleCancel}>
 						Cancel
 					</Button>
 					<Button
