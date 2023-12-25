@@ -22,7 +22,7 @@ export const CommentItem: FC<CommentItemProps> = ({ comment }) => {
         ></Image>
         <Box>
           <Text color={"black"} style={TextStyle.h5}>
-            {comment.userId}
+            {comment.User.username}
           </Text>
           <Text color={"black"} style={TextStyle.body3}>
             {comment.create_date}
