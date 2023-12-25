@@ -1,7 +1,17 @@
 import { Box, Flex, IconButton, Stack, Slide } from "@chakra-ui/react";
+import { Center, ButtonGroup, Button, Drawer, DrawerContent } from "@chakra-ui/react";
+import { TextStyle } from "../../theme/TextStyle";
 import { FC } from "react";
-import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
-import { NavLink, useNavigate } from "react-router-dom";
+//import { CloseIcon, BellIcon, SettingsIcon } from "@chakra-ui/icons";
+//import { CloseIcon, SettingsIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
+//import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
+
+import { ButtonComponent } from "../buttons/ButtonComponent";
+
+import { Axios } from "../../AxiosInstance";
 
 interface NavbarContentProps {
   isOpen: boolean;
@@ -11,40 +21,74 @@ interface NavbarContentProps {
 
 export const NavbarAdmin: FC<NavbarContentProps> = ({
   isOpen,
-  // onOpen,
+   onOpen,
   onClose,
 }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+  
+  const handleOpen = () => {
+    onOpen();
+    setIsDrawerOpen(true);
+  }
   const handleLinkClick = () => {
     onClose();
   };
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const links = [
     { title: "Dashboard", to: "/" },
+    //{
+    //  title: "Request Approval",
+    //  to: "/request-approval",
+    //},
     {
       title: "Request Approval",
-      to: "/request-approval",
+      to: "/admin/voucher",
     },
-    {
-      title: "Account Setup",
-      to: "/account-setup",
-    },
-    {
-      title: "Survey",
-      to: "/survey",
-    },
+    //{
+    //  title: "Account Setup",
+    //  to: "/account-setup",
+    //},
+    //{
+    //  title: "Survey",
+    //  to: "/survey",
+    //},
     {
       title: "Advertisement",
-      to: "/advertisement",
+      to: "/admin/advertisement",
     },
     {
       title: "Promotion",
-      to: "/promotion",
+      to: "/admin/promotion",
     },
+    //{
+    //  title: "Report to Admin",
+    //  to: "/report-to-admin",
+    //},
     {
       title: "Report to Admin",
-      to: "/report-to-admin",
+      to: "/admin/notification",
     },
   ];
+
+  const handleSignOut = () => {
+    const url = `/auth/logout`;
+    Axios.post(url, { withCredentials: true })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log("Sign out success");
+          window.location.href = "/admin/login";
+        }
+        return response;
+      })
+      .catch((error) => {
+        console.error("Error fetching profile  data:", error);
+      });
+  }
+  
   return (
     <Slide direction="top" in={isOpen} unmountOnExit style={{ zIndex: 10 }}>
       <Box
@@ -80,13 +124,21 @@ export const NavbarAdmin: FC<NavbarContentProps> = ({
             </NavLink>
           ))}
 
-          <IconButton
+          {/*<IconButton
             aria-label="Notification Page"
             variant={"unstyled"}
             icon={<BellIcon boxSize={8} color={"white"} />}
-          />
+          />*/}
+          <ButtonComponent
+            text="Sign Out"
+            textColor="red"
+            bgColor="#191919"
+            border={"1px solid red"}
+            bgColorHover="white"
+            onClick={handleOpen}
+        />
         </Stack>
-        <IconButton
+        {/*<IconButton
           aria-label="Setting Page"
           variant={"unstyled"}
           icon={
@@ -96,8 +148,55 @@ export const NavbarAdmin: FC<NavbarContentProps> = ({
             navigate("/setting");
             onClose();
           }}
-        />
+        />*/}
       </Box>
+
+      <Drawer
+        placement={"bottom"}
+        onClose={() => {
+          //onClose();
+          setIsDrawerOpen(false); // Close the drawer when it's explicitly closed
+        }}
+        isOpen={isDrawerOpen} // Use isDrawerOpen state to control drawer visibility
+      >
+        <DrawerContent
+          bg={"brand.100"}
+          px={4}
+          pt={4}
+          pb={5}
+          transition="all 0.1s ease"
+        >
+          <Center
+            color={"black"}
+            fontWeight={TextStyle.h1.fontWeight}
+            fontSize={TextStyle.h1.fontSize}
+          >
+            Sign Out
+          </Center>
+          <Center pt={1} color={"black"} fontSize={TextStyle.body2.fontSize}>
+            Are you sure you want to sign out?
+          </Center>
+          <Center>
+            <ButtonGroup pt={2} spacing="6">
+                {/* <NavLink to={"/login"}> */}
+                <Button px={12} onClick={handleSignOut}>
+                Continue
+              </Button>
+                {/* </NavLink> */}
+              <Button
+                width={"140px"}
+                height={"40px"}
+                onClick={handleDrawerClose}
+                bg={"brand.200"}
+                color={"white"}
+                _hover={{ bg: "brand.300" }}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Center>
+        </DrawerContent>
+      </Drawer>
     </Slide>
   );
 };

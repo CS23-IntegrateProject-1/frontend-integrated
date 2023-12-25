@@ -9,7 +9,7 @@ export const ComplainCard: React.FC<IReportApprove & { status: string }> = ({ Co
   const navigate = useNavigate();
   const handleClickConfirm = () => {
     ApproveCom(ComplainTicketId);
-    navigate("/admin/ticket");
+    navigate("/admin/notification");
     location.reload();
   };
   return (
