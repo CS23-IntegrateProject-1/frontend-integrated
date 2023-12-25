@@ -42,17 +42,17 @@ export const NavbarAdmin: FC<NavbarContentProps> = ({
       title: "Request Approval",
       to: "/admin/voucher",
     },
-    {
-      title: "Account Setup",
-      to: "/account-setup",
-    },
+    //{
+    //  title: "Account Setup",
+    //  to: "/account-setup",
+    //},
     //{
     //  title: "Survey",
     //  to: "/survey",
     //},
     {
       title: "Advertisement",
-      to: "/advertisement",
+      to: "/admin/advertisement",
     },
     {
       title: "Promotion",

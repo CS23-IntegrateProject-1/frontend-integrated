@@ -27,15 +27,15 @@ export const Feature14Routes = () => {
 		},
 		{ path: "/admin/survey", element: "ElementPlaceHolder" },
 		{ path: "/admin/survey/:surveyId", element: "ElementPlaceHolder" },
-		{ path: "/admin/advertisement", element: "ElementPlaceHolder" },
-		{
-			path: "/admin/advertisement/:advertisementId",
-			element: "ElementPlaceHolder",
-		},
-		{
-			path: "/admin/advertisement/:advertisementId/reject",
-			element: "ElementPlaceHolder",
-		},
+		//{ path: "/admin/advertisement", element: "ElementPlaceHolder" },
+		//{
+		//	path: "/admin/advertisement/:advertisementId",
+		//	element: "ElementPlaceHolder",
+		//},
+		//{
+		//	path: "/admin/advertisement/:advertisementId/reject",
+		//	element: "ElementPlaceHolder",
+		//},
 		{ path: "/admin/notification", element: <ReportPage /> },
 		{
 			path: "/admin/notification/:notificationId",
