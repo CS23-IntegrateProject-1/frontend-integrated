@@ -30,7 +30,7 @@ export const TableCard: FC<TableCardProps> = ({
         width="100px" // Set the width to 100px
         height="100px" // Set the height to 100px
         borderRadius="10px"
-        src={import.meta.env.VITE_FRONTEND_URL + image}
+        src={import.meta.env.VITE_BACKEND_URL + image}
         alt="Caffe Latte"
         margin={"15px"}
       />
