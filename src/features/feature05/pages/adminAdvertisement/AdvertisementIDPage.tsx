@@ -36,7 +36,8 @@ export const AdvertisementIDPage = () => {
   };
   useEffect(() => {
     fetchDatas();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   const navigate = useNavigate();
   const handleClickReject = () => {
     RejectAds(id);
