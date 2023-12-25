@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Image, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 import textStyles from "../../../theme/foundations/textStyles";
 import { BusinessSignup } from "../../../api/Auth/BusinessSignup";
 // import google from "../images/google.png";
