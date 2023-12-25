@@ -22,10 +22,11 @@ export const DeleteArticleModal: FC<ModalDeleteArticle> = ({
 }) => {
   const toast = useCustomToast();
   const queryClient = useQueryClient();
-  const handleDeleteComment = () => {
+  const handleDeleteComment = async () => {
     try {
-      deleteArticle(articleId);
+      await deleteArticle(articleId);
       queryClient.invalidateQueries(["myArticles"]);
+      queryClient.invalidateQueries(["myComments"]);
       toast.success("Delete article successfully");
       onClose();
     } catch (err) {
