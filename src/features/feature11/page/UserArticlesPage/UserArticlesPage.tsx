@@ -58,7 +58,7 @@ export const UserArticlesPage = () => {
         <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
           <img
             src={
-              import.meta.env.VITE_IMAGE_URL +
+              import.meta.env.VITE_BACKEND_URL +
                 UserArticles.data?.[0].User.profile_picture || ""
             }
             alt="Profile"
