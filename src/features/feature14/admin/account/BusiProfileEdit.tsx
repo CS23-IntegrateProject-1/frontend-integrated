@@ -254,6 +254,7 @@ export const BusiProfileEdit = () => {
 			.catch((error) => {
 				console.error("Error saving data :", error);
 			});
+		navigate("/admin/dashboard");
 	};
 
 	// function setButtonClick(arg0: boolean): void {
