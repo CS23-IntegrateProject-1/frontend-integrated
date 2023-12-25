@@ -82,7 +82,9 @@ export const ViewTable = () => {
           Table no: {data?.table_no}
         </Text>
         <Image
-          src={data?.Table_type_detail?.image_url}
+          src={
+            import.meta.env.VITE_FRONTEND_URL + data?.Table_type_detail?.image_url
+          }
           alt="Caffe Latte"
           w={"320px"}
           h={"168px"}
