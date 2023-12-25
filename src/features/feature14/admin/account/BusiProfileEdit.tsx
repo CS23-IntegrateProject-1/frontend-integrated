@@ -83,6 +83,7 @@ const defaultAvailability: Availability = {
 export const BusiProfileEdit = () => {
 	const [selectedFile, setSelectedFile] = useState("");
 	const [tabIndex, setTabIndex] = useState(0);
+	tabIndex;
 	const [name, setName] = useState("");
 	const [aboutUs, setAboutUs] = useState("");
 	const [address, setAddress] = useState("");
@@ -93,43 +94,41 @@ export const BusiProfileEdit = () => {
 	const [website, setWebsite] = useState("");
 	const [cardInfo] = useState<string>("");
 	const [cardData] = useState<CreditCard[]>([]);
+	const [locationId, setLocationId] = useState<number>(0);
+	cardData;
 	const venueId = Number(useParams<{ id: string }>().id);
-	if (cardData) console.log(cardData);
 	const [availability, setAvailability] =
 		useState<Availability>(defaultAvailability);
 
 	const handleCancel = () => {
 		window.history.back();
 	};
-	console.log(tabIndex + " index no from tab");
-	console.log(name + " name");
-	console.log(aboutUs + " about us");
-	console.log(address + " address");
-	console.log(phNo + " ph no");
-	console.log(promptNo + " prompt no");
-	console.log(category + " category");
 	//check the data of Opening Day date and time
 
 	//load the data when the page is loaded
 	useEffect(() => {
+		Axios.get(`/feature14/getVenueName/${venueId}`)
+			.then((response) => {
+				if (response.status === 200) {
+					console.log(response.data);
+					setName(response.data.name);
+					setAboutUs(response.data.description);
+					setAddress(response.data.Location.address);
+					setLocationId(response.data.Location.locationId);
+					setCategory(response.data.category);
+					setCapacity(response.data.capacity);
+					setWebsite(response.data.website_url);
+				}
+			})
+			.catch((error) => {
+				console.error("Error saving data :", error);
+			});
 		//venue data
-		const url = `/feature1/admin/venue/${venueId}`;
-		Axios.get(url, { withCredentials: true }).then((response) => {
-			if (response.status === 200) {
-				console.log(response.data);
-				setName(response.data.name);
-				setAboutUs(response.data.description);
-				setAddress(response.data.address);
-				setCategory(response.data.category);
-				setCapacity(response.data.capacity);
-				setWebsite(response.data.website);
-			}
-		});
+
 		//prompt pay and phno
 		const url1 = `/feature1/admin/venue/promptpay/${venueId}`;
 		Axios.get(url1, { withCredentials: true }).then((response) => {
 			if (response.status === 200) {
-				console.log(response.data);
 				setpromptNo(response.data.prompt_pay_number);
 				setphNo(response.data.business_phone_number);
 			}
@@ -142,10 +141,8 @@ export const BusiProfileEdit = () => {
 			return;
 		}
 		const selectedFile = e.target.files[0];
-		console.log("selected file: ", selectedFile);
 		//create url
 		const objectUrl = URL.createObjectURL(selectedFile);
-		console.log(objectUrl);
 		setSelectedFile(objectUrl);
 	};
 
@@ -155,29 +152,45 @@ export const BusiProfileEdit = () => {
 		const venueImage = new FormData();
 		venueImage.append("image_url", selectedFile);
 
-		//Venue Data
-		const venueDataUrl = `/feature1/admin/venue/info/${venueId}`;
-		//send a put request to the backend to update a new payment method
-		Axios.put(
-			venueDataUrl,
-			{
-				name: name,
-				description: aboutUs,
-				address: address,
-				category: category,
-				capacity: capacity,
-				website: website,
-			},
-			{ withCredentials: true }
-		)
+		Axios.post(`/feature14/setVenueName/${venueId}/${locationId}`, {
+			name: name,
+			aboutUs: aboutUs,
+			address: address,
+			category: category,
+			capacity: capacity,
+			website_url: website,
+		})
 			.then((response) => {
 				if (response.status === 200) {
-					console.log(" venue data updated");
+					console.log("name updated");
 				}
 			})
 			.catch((error) => {
 				console.error("Error saving data :", error);
 			});
+		//Venue Data
+		// const venueDataUrl = `/feature1/admin/venue/info/${venueId}`;
+		//send a put request to the backend to update a new payment method
+		// Axios.put(
+		// 	venueDataUrl,
+		// 	{
+		// 		name: name,
+		// 		description: aboutUs,
+		// 		address: address,
+		// 		category: category,
+		// 		capacity: capacity,
+		// 		website: website,
+		// 	},
+		// 	{ withCredentials: true }
+		// )
+		// 	.then((response) => {
+		// 		if (response.status === 200) {
+		// 			console.log(" venue data updated");
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error("Error saving data :", error);
+		// 	});
 
 		//venue opening time
 		const venueTime = `/feature1admin/venue/opening_hours/${venueId}`;
@@ -218,7 +231,6 @@ export const BusiProfileEdit = () => {
 			.then((response) => {
 				if (response.status === 200) {
 					console.log(response.data);
-					//setAvailability(response.data);
 				}
 			})
 			.catch((error) => {
@@ -235,7 +247,6 @@ export const BusiProfileEdit = () => {
 		)
 			.then((response) => {
 				if (response.status === 200) {
-					console.log(response.data);
 					setpromptNo(response.data);
 				}
 			})
@@ -855,9 +866,9 @@ export const BusiProfileEdit = () => {
 				placeholder="Select option"
 				bg={"brand.300"}
 				borderColor={"brand.300"}>
-				<option value="restaurant">Restaurant</option>
-				<option value="club">Club</option>
-				<option value="bar">Bar</option>
+				<option value="Restaurant">Restaurant</option>
+				<option value="Club">Club</option>
+				<option value="Bar">Bar</option>
 			</Select>
 			{/* Input Name */}
 			<Box mt={5}>
