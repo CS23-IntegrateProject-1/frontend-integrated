@@ -192,7 +192,7 @@ export const CreateArticlePage = () => {
         <Input
           variant={"flushed"}
           type="text"
-          placeholder="author name, if empty will be username"
+          placeholder="Author name"
           maxW={"500px"}
           borderColor={"whiteAlpha.600"}
           value={authorName}

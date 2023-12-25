@@ -5,8 +5,8 @@ import { Axios } from "../../../../AxiosInstance";
 import { formatDate1 } from "../../../../functions/formatDatetime";
 import { useQuery } from "@tanstack/react-query";
 import { FullPageLoader } from "../../../../components/Loader/FullPageLoader";
-import { MyArticlesBox } from "../MyArticlesPage/MyArticleBox";
 import { useParams } from "react-router-dom";
+import { ArticlesBox } from "../ArticlesPage/ArticlesBox";
 
 export const UserArticlesPage = () => {
   const { userId } = useParams();
@@ -70,28 +70,30 @@ export const UserArticlesPage = () => {
           </Text>
         </Box>
       </Box>
-      {UserArticles.data?.map((article, index: number) => {
-        return (
-          <MyArticlesBox
-            key={index}
-            articleId={article.articleId}
-            topic={article.topic}
-            author_name={article.author_name}
-            Images={article.Images}
-            Like={article.Like}
-            Comment={article.Comment}
-            created_date={article.created_date}
-            // key={article.articleId}
-            content={""}
-            category={""}
-            userId={0}
-            User={article.User}
-            isLike={article.isLike}
-            Article_tags={article.Article_tags}
-            Article_venue={article.Article_venue}
-          />
-        );
-      })}
+      <Box w={"100%"}>
+        {UserArticles.data?.map((article, index: number) => {
+          return (
+            <ArticlesBox
+              key={index}
+              articleId={article.articleId}
+              topic={article.topic}
+              author_name={article.author_name}
+              Images={article.Images}
+              Like={article.Like}
+              Comment={article.Comment}
+              created_date={article.created_date}
+              // key={article.articleId}
+              content={""}
+              category={""}
+              userId={0}
+              User={article.User}
+              isLike={article.isLike}
+              Article_tags={article.Article_tags}
+              Article_venue={article.Article_venue}
+            />
+          );
+        })}
+      </Box>
     </Flex>
   );
 };
