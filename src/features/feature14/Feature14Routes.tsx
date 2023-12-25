@@ -3,7 +3,7 @@ import { BusiProfileEdit } from "./admin/account/BusiProfileEdit";
 import { VoucherListPage } from "./admin/voucher/VoucherListPage";
 import RejectPage from "./admin/voucher/reviewrejected";
 // import { VoucherDetailPage } from './admin/voucher/VoucherDetailPage'
-import PromotionPage from "./admin/promotion/PromotionPage";
+import { PromotionListPage } from "./admin/promotion/PromotionPage";
 import FilterPage from "./admin/promotion/FilterPage";
 import ReportPage from "./admin/notification/ReportPage";
 import FixReportPage from "./admin/notification/FixReport";
@@ -19,7 +19,7 @@ export const Feature14Routes = () => {
 			element: <ReviewPromotPage />,
 		},
 		// { path: '/admin/promotion/:promotionId/reject', element: <ReviewPromotPage /> },
-		{ path: "/admin/promotion", element: <PromotionPage /> },
+		{ path: "/admin/promotion", element: <PromotionListPage /> },
 		{ path: "/admin/promotion/filter", element: <FilterPage /> },
 		{
 			path: "/admin/approval/:approvalId/reject",
