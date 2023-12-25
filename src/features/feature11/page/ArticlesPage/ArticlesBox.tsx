@@ -15,9 +15,9 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleDeleteLike = (event: React.MouseEvent) => {
+  const handleDeleteLike = async (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop the click event from propagating
-    Axios.delete(`/feature11/deleteLike`, {
+    await Axios.delete(`/feature11/deleteLike`, {
       data: { articleId: props.articleId },
     })
       .then((res) => {
@@ -29,9 +29,9 @@ export const ArticlesBox: FC<ArticlesPageProps> = (props) => {
     queryClient.invalidateQueries({ queryKey: ["articles"] });
   };
 
-  const handleAddLike = (event: React.MouseEvent) => {
+  const handleAddLike = async (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop the click event from propagating
-    Axios.post(`/feature11/addLike`, { articleId: props.articleId })
+    await Axios.post(`/feature11/addLike`, { articleId: props.articleId })
       .then((res) => {
         console.log(res);
       })
